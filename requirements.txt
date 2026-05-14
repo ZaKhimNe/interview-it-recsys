@@ -1,0 +1,27 @@
+# ============================================
+# 📦 Core Dependencies - AI Tech Interview Prep
+# ============================================
+# ⚠️ Team PHẢI thống nhất version từ tuần đầu tiên!
+# ============================================
+
+# --- 🖥️ App Lead: Giao diện & Visualization ---
+streamlit==1.45.1
+plotly==6.1.2
+streamlit-option-menu==0.4.0
+
+# --- 📊 Data Lead: Xử lý dữ liệu ---
+pandas>=2.0.0
+numpy>=1.24.0
+jsonschema==4.24.0
+pydantic==2.11.3
+
+# --- 🤖 AI Lead: LLM & AI Engine ---
+google-generativeai==0.8.5
+langchain==0.3.25
+chromadb==1.0.7
+scikit-learn==1.6.1
+
+# --- 🔧 Shared: Utilities ---
+python-dotenv==1.1.0
+loguru==0.7.3
+pytest==8.4.0

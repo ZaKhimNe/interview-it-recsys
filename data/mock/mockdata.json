@@ -1,0 +1,1754 @@
+[
+  {
+    "question_id": "DA_006",
+    "question_text": "Hàm COALESCE và NULLIF trong SQL hoạt động như thế nào?",
+    "roles": {
+      "primary": "DA",
+      "secondary": ["DE"]
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "SQL_FUNDAMENTALS",
+      "SQL_CTE"
+    ],
+    "answers": {
+      "detailed": "COALESCE trả về giá trị không NULL đầu tiên trong danh sách các đối số. NULLIF so sánh hai biểu thức, trả về NULL nếu chúng bằng nhau, ngược lại trả về biểu thức đầu tiên.",
+      "evaluation_points": [
+        "COALESCE trả về giá trị non-NULL đầu tiên",
+        "NULLIF trả về NULL khi hai biểu thức bằng nhau",
+        "Ứng dụng xử lý dữ liệu thiếu trong SQL"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DA_007",
+    "question_text": "Khi nào bạn sẽ sử dụng Self Join? Nêu một ví dụ thực tế.",
+    "roles": {
+      "primary": "DA",
+      "secondary": ["DE"]
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "SQL_JOIN",
+      "SQL_FUNDAMENTALS"
+    ],
+    "answers": {
+      "detailed": "Self Join dùng để kết nối một bảng với chính nó. Ví dụ điển hình: Trong bảng Employees có cột employee_id và manager_id (trỏ về employee_id), dùng Self Join để lấy tên nhân viên và tên quản lý tương ứng.",
+      "evaluation_points": [
+        "Self Join kết nối bảng với chính nó",
+        "Ứng dụng mô hình quản lý - nhân viên (hierarchical data)",
+        "Cú pháp sử dụng alias cho cùng một bảng"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DA_008",
+    "question_text": "Toán tử EXISTS và IN khác nhau như thế nào về mặt hiệu năng?",
+    "roles": {
+      "primary": "DA",
+      "secondary": ["DE"]
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "SQL_FUNDAMENTALS",
+      "SQL_PERFORMANCE"
+    ],
+    "answers": {
+      "detailed": "EXISTS dừng quét ngay khi tìm thấy bản ghi khớp đầu tiên (Short-circuit), rất tối ưu khi bảng subquery lớn. IN sẽ lấy toàn bộ kết quả của subquery rồi mới so sánh, dễ gây chậm nếu danh sách IN quá dài.",
+      "evaluation_points": [
+        "EXISTS: Short-circuit evaluation",
+        "IN: Phải load toàn bộ kết quả subquery",
+        "Chiến lược chọn EXISTS vs IN dựa trên kích thước dataset"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DA_009",
+    "question_text": "Phân biệt hàm loc và iloc trong thư viện Pandas.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "CODING",
+    "skill_tags": [
+      "PYTHON_PANDAS",
+      "DATA_PREPROCESSING"
+    ],
+    "answers": {
+      "detailed": "loc dùng để truy xuất dữ liệu dựa trên nhãn (label/index name) của dòng và cột. iloc dùng để truy xuất dữ liệu dựa trên vị trí số nguyên (integer position) từ 0 đến n.",
+      "evaluation_points": [
+        "loc: label-based indexing",
+        "iloc: integer position-based indexing",
+        "Hiểu sự khác biệt khi index không phải số nguyên liên tục"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "kaggle_curated",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DA_010",
+    "question_text": "Sự khác biệt giữa hàm groupby() và pivot_table() trong Pandas?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "CODING",
+    "skill_tags": [
+      "PYTHON_PANDAS",
+      "SQL_AGGREGATION"
+    ],
+    "answers": {
+      "detailed": "groupby() gom nhóm dữ liệu theo chiều dọc (trả về MultiIndex Series/DataFrame). pivot_table() có thể gom theo cả dòng và cột (index và columns), tạo ra bảng dạng ma trận 2 chiều trực quan hơn.",
+      "evaluation_points": [
+        "groupby(): gom nhóm theo chiều dọc (MultiIndex)",
+        "pivot_table(): ma trận 2 chiều (index × columns)",
+        "Khi nào chọn pivot_table thay vì groupby"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "kaggle_curated",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DA_011",
+    "question_text": "Nêu các mức độ chuẩn hóa cơ sở dữ liệu (Normalization: 1NF, 2NF, 3NF).",
+    "roles": {
+      "primary": "DA",
+      "secondary": ["DE"]
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "DATABASE_DESIGN",
+      "DB_ACID"
+    ],
+    "answers": {
+      "detailed": "1NF: Không có cột đa trị. 2NF: Đạt 1NF và các thuộc tính không khóa phải phụ thuộc hoàn toàn vào khóa chính. 3NF: Đạt 2NF và không có sự phụ thuộc bắc cầu giữa các thuộc tính không khóa.",
+      "evaluation_points": [
+        "1NF: Loại bỏ cột đa trị (Atomic values)",
+        "2NF: Phụ thuộc hoàn toàn vào khóa chính (No partial dependency)",
+        "3NF: Không có phụ thuộc bắc cầu (No transitive dependency)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DA_012",
+    "question_text": "Nghịch lý Simpson (Simpson's Paradox) là gì?",
+    "roles": {
+      "primary": "DA",
+      "secondary": ["DS"]
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "STAT_FUNDAMENTALS",
+      "STAT_DESCRIPTIVE"
+    ],
+    "answers": {
+      "detailed": "Là hiện tượng một xu hướng xuất hiện rõ ràng trong các nhóm dữ liệu nhỏ lẻ, nhưng lại biến mất hoặc đảo ngược hoàn toàn khi các nhóm này được gộp chung lại với nhau.",
+      "evaluation_points": [
+        "Xu hướng đảo ngược khi gộp nhóm (Reversal effect)",
+        "Nguyên nhân: Confounding variable ẩn",
+        "Cách phòng tránh: Phân tầng dữ liệu trước khi kết luận"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DA_013",
+    "question_text": "Sự khác biệt giữa Z-test và T-test trong thống kê là gì?",
+    "roles": {
+      "primary": "DA",
+      "secondary": ["DS"]
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "STAT_AB_TESTING",
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "answers": {
+      "detailed": "Cả hai đều dùng để kiểm định giả thuyết về giá trị trung bình. Z-test dùng khi cỡ mẫu lớn (n > 30) và ĐÃ BIẾT phương sai tổng thể. T-test dùng khi cỡ mẫu nhỏ và CHƯA BIẾT phương sai tổng thể.",
+      "evaluation_points": [
+        "Z-test: cỡ mẫu lớn, phương sai tổng thể đã biết",
+        "T-test: cỡ mẫu nhỏ, phương sai tổng thể chưa biết",
+        "Khi n → ∞, phân phối t tiến gần đến phân phối z"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DA_014",
+    "question_text": "Khoảng tin cậy (Confidence Interval) 95% có ý nghĩa gì?",
+    "roles": {
+      "primary": "DA",
+      "secondary": ["DS"]
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "STAT_FUNDAMENTALS",
+      "STAT_CONFIDENCE_INTERVAL"
+    ],
+    "answers": {
+      "detailed": "Nghĩa là nếu ta thực hiện lấy mẫu và tính toán khoảng tin cậy 100 lần, thì sẽ có khoảng 95 lần giá trị thực sự (true parameter) của tổng thể nằm trong các khoảng tin cậy vừa tính được.",
+      "evaluation_points": [
+        "Định nghĩa: Tỷ lệ bao phủ parameter thực (Coverage probability)",
+        "Sai lầm phổ biến: CI 95% KHÔNG phải là xác suất 1 tham số nằm trong khoảng",
+        "Mối liên hệ với Point Estimate và Margin of Error"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DA_015",
+    "question_text": "Cohort Analysis (Phân tích thuần tập) là gì và ứng dụng để làm gì?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "ANALYTICS_COHORT",
+      "STAT_DESCRIPTIVE"
+    ],
+    "answers": {
+      "detailed": "Là việc chia người dùng thành các nhóm có chung một đặc điểm trong một khoảng thời gian (VD: User đăng ký vào tháng 1). Ứng dụng để theo dõi tỷ lệ giữ chân (Retention Rate) thay đổi thế nào qua thời gian.",
+      "evaluation_points": [
+        "Cohort: Nhóm người dùng có chung đặc điểm trong khung thời gian",
+        "Ứng dụng chính: Theo dõi Retention Rate",
+        "Phân biệt Cohort Analysis và Segmentation"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DA_016",
+    "question_text": "Mô hình RFM trong phân tích khách hàng là viết tắt của gì?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 3,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "ANALYTICS_RFM",
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "Recency (Lần mua hàng gần nhất), Frequency (Tần suất mua hàng), và Monetary (Tổng tiền chi tiêu). Dùng để phân khúc khách hàng (VIP, Dễ rời bỏ, Khách hàng mới).",
+      "evaluation_points": [
+        "R: Recency - Khoảng cách thời gian từ lần mua cuối",
+        "F: Frequency - Số lần mua hàng",
+        "M: Monetary - Tổng giá trị mua hàng"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DA_017",
+    "question_text": "Funnel Analysis (Phân tích phễu) giải quyết bài toán gì?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 3,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "ANALYTICS_FUNNEL",
+      "STAT_AB_TESTING"
+    ],
+    "answers": {
+      "detailed": "Giúp theo dõi hành trình chuyển đổi của người dùng qua từng bước (VD: Xem trang -> Thêm giỏ hàng -> Thanh toán). Từ đó phát hiện bước nào có tỷ lệ rớt (Drop-off rate) cao nhất để tối ưu.",
+      "evaluation_points": [
+        "Funnel: Hành trình chuyển đổi theo từng bước",
+        "Drop-off rate: Tỷ lệ rớt ở mỗi bước",
+        "Ứng dụng: Tối ưu Conversion Rate"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DA_018",
+    "question_text": "Trong Power BI, sự khác biệt giữa Active và Inactive Relationship là gì?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "TOOL_POWER_BI",
+      "DATA_MODELING"
+    ],
+    "answers": {
+      "detailed": "Giữa 2 bảng chỉ có thể có 1 Active relationship (đường nét liền, mặc định được dùng trong query). Inactive relationship (đường nét đứt) phải được kích hoạt thủ công qua hàm DAX USERELATIONSHIP() khi cần.",
+      "evaluation_points": [
+        "Active: Mặc định được dùng trong filter context",
+        "Inactive: Cần USERELATIONSHIP() để kích hoạt",
+        "Giới hạn: Chỉ 1 Active relationship giữa 2 bảng"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DA_019",
+    "question_text": "Hàm CALCULATE trong DAX (Power BI) có vai trò gì?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "TOOL_POWER_BI",
+      "DAX_FUNDAMENTALS"
+    ],
+    "answers": {
+      "detailed": "CALCULATE là hàm quan trọng nhất trong DAX, dùng để đánh giá một biểu thức trong một ngữ cảnh bộ lọc (Filter Context) đã được sửa đổi (thêm, bớt, hoặc ghi đè bộ lọc hiện tại).",
+      "evaluation_points": [
+        "CALCULATE modifies Filter Context",
+        "Thứ tự đánh giá: Filter trước, Expression sau",
+        "Cú pháp: CALCULATE(Expression, Filter1, Filter2, ...)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DA_020",
+    "question_text": "Level of Detail (LOD) Expressions trong Tableau dùng để làm gì?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "TOOL_TABLEAU",
+      "DATA_VISUALIZATION"
+    ],
+    "answers": {
+      "detailed": "LOD cho phép tính toán các giá trị ở một mức độ chi tiết (granularity) khác với mức độ chi tiết đang được hiển thị trên biểu đồ, bao gồm FIXED, INCLUDE và EXCLUDE.",
+      "evaluation_points": [
+        "FIXED LOD: Tính toán độc lập với filter context",
+        "INCLUDE LOD: Bổ sung thêm dimension vào ngữ cảnh hiện tại",
+        "EXCLUDE LOD: Bỏ dimension ra khỏi ngữ cảnh hiện tại"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DA_021",
+    "question_text": "Case Study: Để đo lường sức khỏe của một sản phẩm dạng Subscription (Thuê bao SaaS), bạn dùng các chỉ số nào?",
+    "roles": {
+      "primary": "DA",
+      "secondary": ["DS"]
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 6,
+    "question_type": "CASE_STUDY",
+    "skill_tags": [
+      "ANALYTICS_BUSINESS",
+      "STAT_DESCRIPTIVE"
+    ],
+    "answers": {
+      "detailed": "1. MRR/ARR (Doanh thu định kỳ hàng tháng/năm). 2. Churn Rate (Tỷ lệ hủy gói). 3. CAC (Chi phí thu hút khách hàng). 4. CLV/LTV (Giá trị vòng đời khách hàng).",
+      "evaluation_points": [
+        "MRR/ARR: Doanh thu định kỳ (Monthly/Annual Recurring Revenue)",
+        "Churn Rate: Tỷ lệ khách hàng rời bỏ",
+        "CAC vs CLV: Chi phí thu hút so với Giá trị vòng đời"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DA_022",
+    "question_text": "Case Study: Chỉ số DAU (Daily Active Users) đột nhiên tăng vọt 300% trong 1 ngày rồi tụt. Bạn kiểm tra những gì?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "CASE_STUDY",
+    "skill_tags": [
+      "ANALYTICS_BUSINESS",
+      "DATA_PREPROCESSING"
+    ],
+    "answers": {
+      "detailed": "1. Phân loại theo thiết bị/vùng địa lý để xem có phải bot tấn công. 2. Kiểm tra log hệ thống xem có lỗi tracking bắn lặp sự kiện không. 3. Xem xét các chiến dịch Marketing hoặc bài đăng Viral bất ngờ.",
+      "evaluation_points": [
+        "Phân loại theo Dimension (device, geo) để phát hiện bot",
+        "Kiểm tra data quality (tracking error, duplicate events)",
+        "Kiểm tra yếu tố bên ngoài (marketing campaign, viral content)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DA_023",
+    "question_text": "Hiệu ứng ăn thịt (Cannibalization Effect) trong A/B Testing là gì?",
+    "roles": {
+      "primary": "DA",
+      "secondary": ["DS"]
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 8,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "STAT_AB_TESTING",
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "Là hiện tượng khi một tính năng mới làm tăng trưởng cho một metric/sản phẩm cụ thể, nhưng lại vô tình làm giảm doanh thu/tương tác của các metric/sản phẩm cốt lõi khác trong cùng hệ thống.",
+      "evaluation_points": [
+        "Tăng ở metric A nhưng giảm ở metric B trong cùng hệ thống",
+        "Khai phá: Phải đo lường nhiều metric liên quan, không chỉ metric mục tiêu",
+        "Phân biệt với Network Effect (hiệu ứng mạng)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DA_024",
+    "question_text": "Khác biệt giữa Bullet Graph và Gauge Chart trong Dashboard?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "DATA_VISUALIZATION",
+      "BI_CONCEPTS"
+    ],
+    "answers": {
+      "detailed": "Cả hai đều dùng để so sánh số liệu thực tế với mục tiêu (Target). Tuy nhiên Bullet Graph thiết kế dạng thanh tuyến tính giúp tiết kiệm không gian và dễ so sánh nhiều mục hơn so với Gauge Chart (dạng đồng hồ tròn).",
+      "evaluation_points": [
+        "Bullet Graph: Thanh tuyến tính, tiết kiệm không gian",
+        "Gauge Chart: Đồng hồ tròn, trực quan nhưng tốn diện tích",
+        "Khuyến nghị: Ưu tiên Bullet Graph cho Dashboard nhiều KPI"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DA_025",
+    "question_text": "Làm sao để lấy dòng dữ liệu thứ N trong một bảng SQL mà không dùng Window Function?",
+    "roles": {
+      "primary": "DA",
+      "secondary": ["DE"]
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "CODING",
+    "skill_tags": [
+      "SQL_FUNDAMENTALS",
+      "SQL_PERFORMANCE"
+    ],
+    "answers": {
+      "detailed": "Có thể dùng mệnh đề LIMIT N-1, 1 (trong MySQL) hoặc OFFSET N-1 FETCH NEXT 1 ROWS ONLY (trong SQL Server) kết hợp với ORDER BY.",
+      "evaluation_points": [
+        "LIMIT + OFFSET syntax (MySQL/PostgreSQL)",
+        "OFFSET ... FETCH NEXT syntax (SQL Server)",
+        "Cần kết hợp ORDER BY để đảm bảo thứ tự"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "leetcode_adapted",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_006",
+    "question_text": "B-Tree Index và Hash Index trong Database khác nhau ở điểm nào?",
+    "roles": {
+      "primary": "DE",
+      "secondary": ["DA"]
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "DATABASE_INDEXING",
+      "SQL_PERFORMANCE"
+    ],
+    "answers": {
+      "detailed": "B-Tree Index sắp xếp dữ liệu theo dạng cây, hỗ trợ tốt các truy vấn khoảng (Range queries như >, <, BETWEEN). Hash Index băm giá trị thành khóa, cực nhanh cho truy vấn tìm kiếm chính xác (Exact match) nhưng không hỗ trợ truy vấn khoảng.",
+      "evaluation_points": [
+        "B-Tree: Hỗ trợ Range queries (>, <, BETWEEN)",
+        "Hash Index: Chỉ hỗ trợ Exact match (O(1))",
+        "Chọn B-Tree cho OLAP, Hash cho OLTP lookup"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_007",
+    "question_text": "Clustered Index và Non-Clustered Index có gì khác biệt?",
+    "roles": {
+      "primary": "DE",
+      "secondary": ["DA"]
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "DATABASE_INDEXING",
+      "SQL_PERFORMANCE"
+    ],
+    "answers": {
+      "detailed": "Clustered Index quyết định thứ tự lưu trữ vật lý của dữ liệu trên ổ đĩa (mỗi bảng chỉ có 1). Non-Clustered Index tạo ra một cấu trúc riêng biệt chứa con trỏ trỏ đến vị trí dữ liệu vật lý (mỗi bảng có thể có nhiều).",
+      "evaluation_points": [
+        "Clustered: Sắp xếp vật lý dữ liệu, chỉ 1/bảng",
+        "Non-Clustered: Tạo cấu trúc riêng với con trỏ, có nhiều/bảng",
+        "Clustered phù hợp cho Range scan, Non-Clustered cho Point lookup"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_008",
+    "question_text": "Định lý CAP trong hệ thống phân tán là gì?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "ARCH_SYSTEM_DESIGN",
+      "ARCH_DATA_ARCHITECTURE"
+    ],
+    "answers": {
+      "detailed": "Hệ thống phân tán chỉ có thể đảm bảo 2 trong 3 tính chất: Consistency (Nhất quán), Availability (Khả dụng), và Partition Tolerance (Chịu lỗi chia cắt mạng). VD: NoSQL thường chọn AP, RDBMS thường chọn CA.",
+      "evaluation_points": [
+        "C: Consistency - Mọi node đọc được dữ liệu mới nhất",
+        "A: Availability - Mọi request đều nhận được response",
+        "P: Partition Tolerance - Hệ thống vẫn hoạt động khi mạng bị chia cắt"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_009",
+    "question_text": "Sharding và Partitioning trong Relational Database khác nhau ra sao?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "DATABASE_SCALING",
+      "ARCH_DATA_ARCHITECTURE"
+    ],
+    "answers": {
+      "detailed": "Partitioning thường là chia nhỏ bảng vật lý trên CÙNG một máy chủ database. Sharding là phân tán dữ liệu của một bảng lên NHIỀU máy chủ khác nhau (Horizontal scaling) để chia sẻ tải.",
+      "evaluation_points": [
+        "Partitioning: Chia bảng trên cùng 1 server",
+        "Sharding: Phân tán dữ liệu lên nhiều server (Horizontal scaling)",
+        "Sharding phức tạp hơn nhưng mở rộng được tải tốt hơn"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_010",
+    "question_text": "Trong Spark, hàm repartition() và coalesce() dùng khi nào?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 6,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "TOOL_SPARK",
+      "BIG_DATA_OPTIMIZATION"
+    ],
+    "answers": {
+      "detailed": "Cả hai đều dùng để thay đổi số lượng phân vùng (partitions). repartition() gây ra full shuffle dữ liệu qua mạng, dùng khi muốn tăng số vùng. coalesce() chỉ gộp các vùng trên cùng node, tránh shuffle, dùng khi giảm số vùng.",
+      "evaluation_points": [
+        "repartition(): Full shuffle, dùng để tăng hoặc giảm partitions",
+        "coalesce(): Tránh shuffle, chỉ gộp partitions trên cùng node",
+        "Quy tắc: Tăng vùng → repartition(), Giảm vùng → coalesce()"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_011",
+    "question_text": "Narrow Transformation và Wide Transformation trong Spark khác nhau thế nào?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "TOOL_SPARK",
+      "BIG_DATA_OPTIMIZATION"
+    ],
+    "answers": {
+      "detailed": "Narrow (VD: map, filter) chỉ xử lý dữ liệu trong cùng một partition, không cần truyền dữ liệu qua mạng. Wide (VD: groupByKey, join) đòi hỏi phải trộn dữ liệu (Shuffle) giữa các nodes, tốn rất nhiều tài nguyên.",
+      "evaluation_points": [
+        "Narrow: Không Shuffle, dữ liệu nằm trong cùng partition",
+        "Wide: Cần Shuffle, dữ liệu trộn giữa các nodes",
+        "Shuffle là điểm nghẽn hiệu suất chính trong Spark"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_012",
+    "question_text": "Làm thế nào để xử lý lỗi OOM (Out of Memory) trong Spark?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "TOOL_SPARK",
+      "BIG_DATA_OPTIMIZATION",
+      "DATA_PIPELINE_DESIGN"
+    ],
+    "answers": {
+      "detailed": "1. Tăng executor memory. 2. Xử lý Data Skew bằng salting. 3. Dùng repartition() để giảm kích thước dữ liệu mỗi task. 4. Tránh dùng collect() trên dataset quá lớn. 5. Tối ưu Broadcast join nếu có bảng nhỏ.",
+      "evaluation_points": [
+        "Tăng executor memory và điều chỉnh spark.executor.memory",
+        "Data Skew: Salting hoặc Broadcast Join",
+        "Tránh collect() và tối ưu partition count"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_013",
+    "question_text": "Spark Checkpointing khác với Caching/Persist ở điểm nào?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "TOOL_SPARK",
+      "SPARK_DAG",
+      "DATA_PIPELINE_DESIGN"
+    ],
+    "answers": {
+      "detailed": "Caching lưu RDD trong bộ nhớ tạm (RAM/Disk) nhưng vẫn giữ lại DAG (lineage). Checkpointing cắt đứt hoàn toàn DAG, lưu thẳng RDD xuống hệ thống lưu trữ bền vững (HDFS/S3), dùng để phục hồi dữ liệu trong pipeline rất dài.",
+      "evaluation_points": [
+        "Caching: Lưu RAM/Disk, giữ lineage (DAG)",
+        "Checkpointing: Cắt lineage, lưu xuống HDFS/S3 (bền vững)",
+        "Khi nào dùng: Checkpoint cho pipeline dài, Cache cho pipeline ngắn"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_014",
+    "question_text": "Tham số catchup=True trong Apache Airflow có ý nghĩa gì?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 3,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "TOOL_AIRFLOW",
+      "PIPE_ORCHESTRATION"
+    ],
+    "answers": {
+      "detailed": "Nếu một DAG bị dừng trong một khoảng thời gian, khi bật lại, catchup=True sẽ tự động lên lịch chạy bù tất cả các DAG runs bị lỡ trong quá khứ kể từ lần chạy cuối. catchup=False sẽ bỏ qua quá khứ và chỉ chạy lịch hiện tại.",
+      "evaluation_points": [
+        "catchup=True: Chạy bù tất cả DAG runs bị lỡ trong quá khứ",
+        "catchup=False: Bỏ qua quá khứ, chỉ chạy lịch hiện tại",
+        "Rủi ro: catchup=True có thể gây quá tải nếu lỡ nhiều runs"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_015",
+    "question_text": "Sự khác biệt giữa Operator và Sensor trong Airflow?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "TOOL_AIRFLOW",
+      "PIPE_ORCHESTRATION"
+    ],
+    "answers": {
+      "detailed": "Operator thực thi một tác vụ cụ thể (VD: chạy Bash, chạy Python). Sensor là một loại Operator đặc biệt, chuyên dùng để chờ đợi (polling) một điều kiện xảy ra (VD: chờ một file xuất hiện trên S3) trước khi đi tiếp.",
+      "evaluation_points": [
+        "Operator: Thực thi một tác vụ (BashOperator, PythonOperator)",
+        "Sensor: Chờ đợi điều kiện (S3KeySensor, SqlSensor)",
+        "Sensor là subclass của OperatorBase"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_016",
+    "question_text": "Kiến trúc Event Sourcing là gì?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 8,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "PIPE_CDC",
+      "DATA_PIPELINE_DESIGN"
+    ],
+    "answers": {
+      "detailed": "Thay vì chỉ lưu trạng thái hiện tại của dữ liệu (CRUD truyền thống), Event Sourcing lưu lại toàn bộ chuỗi các sự kiện thay đổi trạng thái theo thời gian dưới dạng một Log bất biến (Append-only). Có thể tái tạo lại trạng thái bất cứ lúc nào.",
+      "evaluation_points": [
+        "Append-only Event Log thay vì CRUD state",
+        "Khả năng tái tạo trạng thái từ chuỗi events",
+        "Phù hợp cho hệ thống cần Audit Trail và Time Travel"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_017",
+    "question_text": "Sự khác biệt giữa Data Mesh và Data Fabric?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "DATA_WAREHOUSE",
+      "DATA_LAKE"
+    ],
+    "answers": {
+      "detailed": "Data Fabric là cách tiếp cận tập trung hóa công nghệ để kết nối mọi nguồn dữ liệu. Data Mesh là cách tiếp cận phân tán về mặt tổ chức, nơi các team Product tự quản lý (Decentralized ownership) và cung cấp Data như một Product.",
+      "evaluation_points": [
+        "Data Fabric: Tập trung hóa công nghệ (Technology-first)",
+        "Data Mesh: Phân tán về tổ chức (Organization-first, Data as Product)",
+        "Data Mesh nhấn mạnh Domain ownership và Self-serve"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_018",
+    "question_text": "Consumer Group trong Apache Kafka là gì?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "TOOL_KAFKA",
+      "PIPE_ORCHESTRATION"
+    ],
+    "answers": {
+      "detailed": "Là một nhóm các Consumer cùng chia nhau đọc dữ liệu từ một Topic. Mỗi Partition trong Topic chỉ được đọc bởi một Consumer duy nhất trong cùng một Consumer Group, giúp hệ thống mở rộng khả năng xử lý song song.",
+      "evaluation_points": [
+        "1 Partition chỉ được gán cho 1 Consumer trong cùng Group",
+        "Scale-out: Thêm Consumer để tăng throughput",
+        "Rebalance: Tái phân bổ Partition khi Consumer tham gia/rời bỏ"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_019",
+    "question_text": "Làm thế nào Kafka đạt được Exactly-Once Semantics (EOS)?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "TOOL_KAFKA",
+      "PIPE_CDC",
+      "DATA_PIPELINE_DESIGN"
+    ],
+    "answers": {
+      "detailed": "Sử dụng Transactional API kết hợp với Idempotent Producers. Kafka gán cho mỗi Producer một ID và Sequence Number để loại bỏ các tin nhắn bị gửi trùng do network retry, đồng thời commit offset cùng lúc với ghi dữ liệu.",
+      "evaluation_points": [
+        "Idempotent Producer: Loại bỏ duplicate do retry",
+        "Transactional API: Atomic commit offset + ghi dữ liệu",
+        "EOS = At-most-once delivery + Exactly-once processing"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_020",
+    "question_text": "Định dạng Avro khác ORC ở điểm cốt lõi nào?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "FORMAT_AVRO",
+      "FORMAT_ORC",
+      "BIG_DATA_OPTIMIZATION"
+    ],
+    "answers": {
+      "detailed": "Avro là Row-based format, thiên về xử lý ghi (write-heavy) và tích hợp schema trực tiếp vào file, rất phổ biến trong Streaming (Kafka). ORC là Columnar format, tối ưu cực mạnh cho tác vụ phân tích đọc (read-heavy) trong Hadoop/Hive.",
+      "evaluation_points": [
+        "Avro: Row-based, schema inline, phổ biến trong Streaming",
+        "ORC: Columnar, Predicate Pushdown, tối ưu OLAP/BI",
+        "Avro cho write-heavy, ORC cho read-heavy"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_021",
+    "question_text": "Distribution Styles trong AWS Redshift (ALL, EVEN, KEY) hoạt động thế nào?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "CLOUD_AWS",
+      "DATA_WAREHOUSE",
+      "SQL_PERFORMANCE"
+    ],
+    "answers": {
+      "detailed": "ALL: Copy toàn bộ bảng lên mọi node (dùng cho bảng cực nhỏ). EVEN: Chia đều dữ liệu ngẫu nhiên (dùng khi bảng không có key JOIN rõ ràng). KEY: Phân bổ dữ liệu dựa trên giá trị của một cột, giúp tối ưu khi các bảng được JOIN theo cột này.",
+      "evaluation_points": [
+        "ALL: Copy toàn bộ lên mọi node (bảng nhỏ, dimension table)",
+        "EVEN: Chia đều ngẫu nhiên (không có JOIN key rõ ràng)",
+        "KEY: Hash partition theo cột (tối ưu JOIN collocated)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_022",
+    "question_text": "GCP BigQuery khác Cloud SQL ở điểm kiến trúc nào?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "CLOUD_GCP",
+      "DATA_WAREHOUSE",
+      "ARCH_SYSTEM_DESIGN"
+    ],
+    "answers": {
+      "detailed": "Cloud SQL là RDBMS truyền thống (Row-based) dành cho OLTP. BigQuery là Serverless Data Warehouse (Columnar-based), tách biệt hoàn toàn bộ phận Compute (Dremel) và Storage (Colossus) phục vụ phân tích Petabyte.",
+      "evaluation_points": [
+        "Cloud SQL: Row-based, OLTP, truyền thống",
+        "BigQuery: Columnar, Serverless, tách Compute/Storage",
+        "BigQuery tối ưu cho OLAP (Petabyte-scale analytics)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_023",
+    "question_text": "Case Study: Thiết kế pipeline cập nhật Leaderboard theo thời gian thực (Real-time).",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 8,
+    "question_type": "CASE_STUDY",
+    "skill_tags": [
+      "TOOL_KAFKA",
+      "PIPE_CDC",
+      "ARCH_STREAMING"
+    ],
+    "answers": {
+      "detailed": "Sử dụng hệ thống kiến trúc Event-driven: Kafka để nhận event ghi điểm -> Flink hoặc Spark Streaming để tính toán cửa sổ thời gian (Window aggregation) -> Ghi kết quả vào Redis (In-memory DB) để API phía Backend đọc với độ trễ <10ms.",
+      "evaluation_points": [
+        "Event-driven: Kafka nhận event ghi điểm",
+        "Stream Processing: Flink/Spark Streaming với Window aggregation",
+        "Serving Layer: Redis In-memory DB cho API đọc (<10ms)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_024",
+    "question_text": "Case Study: Chuyển đổi từ Batch On-premise sang Streaming trên Cloud cần lưu ý gì?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 8,
+    "question_type": "CASE_STUDY",
+    "skill_tags": [
+      "PIPE_CDC",
+      "PIPE_ETL",
+      "DATA_PIPELINE_DESIGN"
+    ],
+    "answers": {
+      "detailed": "1. Thay đổi tư duy từ 'Chạy định kỳ' sang 'Xử lý liên tục' (Micro-batches/Events). 2. Đảm bảo Idempotency. 3. Xử lý Late-arriving data bằng Watermarking. 4. Đánh giá lại chi phí vì hạ tầng Streaming chạy 24/7.",
+      "evaluation_points": [
+        "Mindset shift: Batch → Continuous (Micro-batches/Events)",
+        "Idempotency & Watermarking cho Late-arriving data",
+        "Chi phí Streaming 24/7 khác với Batch định kỳ"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DE_025",
+    "question_text": "Docker Container khác Virtual Machine (VM) trong quy trình Data Engineering thế nào?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 3,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "DEVOPS_DOCKER",
+      "PIPE_ORCHESTRATION"
+    ],
+    "answers": {
+      "detailed": "VM ảo hóa phần cứng, cần cài nguyên một hệ điều hành khách (Guest OS) nên rất nặng. Docker ảo hóa ở tầng OS, dùng chung Kernel với máy host, nên cực kỳ nhẹ, khởi động trong vài giây, giúp team DE đảm bảo môi trường dev và prod giống hệt nhau.",
+      "evaluation_points": [
+        "VM: Hardware virtualization, cần Guest OS, nặng",
+        "Docker: OS-level virtualization, dùng chung Kernel, nhẹ",
+        "Docker đảm bảo môi trường dev/prod nhất quán (Reproducibility)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_006",
+    "question_text": "Lời nguyền đa chiều (Curse of Dimensionality) trong Machine Learning là gì?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "FEATURE_ENGINEERING",
+      "ML_MODEL_SELECTION"
+    ],
+    "answers": {
+      "detailed": "Khi số lượng đặc trưng (features) tăng lên, không gian dữ liệu trở nên cực kỳ thưa thớt. Điều này làm khoảng cách giữa các điểm dữ liệu xấp xỉ bằng nhau, khiến các thuật toán phân cụm hoặc dựa trên khoảng cách (như KNN) mất tác dụng.",
+      "evaluation_points": [
+        "Không gian thưa thớt khi số chiều tăng (Sparsity)",
+        "Khoảng cách giữa các điểm trở nên xấp xỉ bằng nhau",
+        "Giải pháp: Dimensionality Reduction (PCA, Feature Selection)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_007",
+    "question_text": "Phân tích thành phần chính (PCA) hoạt động dựa trên nguyên lý toán học nào?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "ML_UNSUPERVISED",
+      "ML_DIMENSIONALITY_REDUCTION",
+      "FEATURE_ENGINEERING"
+    ],
+    "answers": {
+      "detailed": "PCA tìm các vector riêng (Eigenvectors) có trị riêng (Eigenvalues) lớn nhất từ ma trận hiệp phương sai. Từ đó chiếu dữ liệu từ không gian nhiều chiều xuống không gian ít chiều hơn sao cho giữ lại được nhiều phương sai (thông tin) nhất.",
+      "evaluation_points": [
+        "Ma trận hiệp phương sai (Covariance Matrix)",
+        "Eigenvectors & Eigenvalues: Trục giữ nhiều phương sai nhất",
+        "Tổng phương sai giữ lại quyết định số chiều mới"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_008",
+    "question_text": "Trong NLP, Stemming và Lemmatization khác nhau thế nào?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 3,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "NLP_PREPROCESSING",
+      "NLP_FUNDAMENTALS"
+    ],
+    "answers": {
+      "detailed": "Stemming cắt bỏ hậu tố/tiền tố một cách thô bạo bằng luật (rule-based), thường tạo ra các từ không có nghĩa (VD: 'running' -> 'run', 'better' -> 'bet'). Lemmatization sử dụng từ điển để đưa từ về dạng gốc có ý nghĩa ngữ pháp (VD: 'better' -> 'good').",
+      "evaluation_points": [
+        "Stemming: Rule-based, nhanh nhưng không chính xác",
+        "Lemmatization: Dictionary-based, chậm hơn nhưng ngữ pháp đúng",
+        "Chọn Lemmatization khi cần độ chính xác cao (QA, Chatbot)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_009",
+    "question_text": "Chỉ số BLEU và ROUGE dùng để làm gì trong NLP?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "NLP_EVALUATION",
+      "METRIC_F1_SCORE"
+    ],
+    "answers": {
+      "detailed": "Cả hai đều dùng để đánh giá mô hình sinh văn bản (Dịch máy, Tóm tắt). BLEU tập trung vào độ chính xác (Precision - Máy sinh ra từ có trong câu mẫu không). ROUGE tập trung vào độ bao phủ (Recall - Máy có sinh đủ từ của câu mẫu không).",
+      "evaluation_points": [
+        "BLEU: Đánh giá Precision (số từ sinh ra có trong reference)",
+        "ROUGE: Đánh giá Recall (số từ reference có trong output)",
+        "BLEU cho Machine Translation, ROUGE cho Text Summarization"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_010",
+    "question_text": "Tính dừng (Stationarity) trong Time Series là gì? Bài test nào dùng để kiểm tra?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "ML_TIME_SERIES",
+      "STAT_DESCRIPTIVE"
+    ],
+    "answers": {
+      "detailed": "Là chuỗi thời gian có các thuộc tính thống kê (Mean, Variance) không thay đổi theo thời gian. Augmented Dickey-Fuller (ADF) Test là kiểm định phổ biến nhất, nếu p-value < 0.05 ta kết luận chuỗi có tính dừng.",
+      "evaluation_points": [
+        "Stationarity: Mean và Variance không đổi theo thời gian",
+        "ADF Test: Null hypothesis là chuỗi KHÔNG dừng",
+        "Nếu p-value < 0.05: Bác bỏ H0 → chuỗi có tính dừng"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "kaggle_curated",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_011",
+    "question_text": "Các tham số (p, d, q) trong mô hình ARIMA đại diện cho điều gì?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "ML_TIME_SERIES",
+      "ML_MODEL_SELECTION"
+    ],
+    "answers": {
+      "detailed": "p là bậc của phần Tự hồi quy (Auto-Regressive - nhìn lại quá khứ), d là bậc Sai phân (Differencing - làm cho chuỗi dừng), q là bậc của phần Trung bình trượt (Moving Average - nhìn vào sai số quá khứ).",
+      "evaluation_points": [
+        "p: Auto-Regressive (AR) - Phụ thuộc vào giá trị quá khứ",
+        "d: Differencing (I) - Làm cho chuỗi có tính dừng (Stationary)",
+        "q: Moving Average (MA) - Phụ thuộc vào sai số quá khứ"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_012",
+    "question_text": "Hiện tượng Exploding Gradient trong Deep Learning là gì? Cách khắc phục?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "ML_REGULARIZATION",
+      "DL_TRAINING",
+      "ML_MODEL_SELECTION"
+    ],
+    "answers": {
+      "detailed": "Khi mạng quá sâu, đạo hàm nhân dồn qua các lớp lớn hơn 1, khiến trọng số cập nhật thành NaN/Infinity, mô hình sụp đổ. Khắc phục bằng Gradient Clipping (giới hạn giá trị gradient), dùng kỹ thuật ResNet, hoặc chọn hàm khởi tạo trọng số tốt (He/Glorot).",
+      "evaluation_points": [
+        "Nguyên nhân: Gradient nhân dồn qua nhiều lớp → NaN/Infinity",
+        "Gradient Clipping: Giới hạn giá trị gradient",
+        "Khởi tạo trọng số tốt (He/Glorot) và ResNet connection"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_013",
+    "question_text": "Batch Normalization hoạt động như thế nào và tại sao nó hiệu quả?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "DL_TRAINING",
+      "ML_REGULARIZATION"
+    ],
+    "answers": {
+      "detailed": "Nó chuẩn hóa đầu ra của một lớp ẩn (đưa Mean về 0, Variance về 1) theo từng mini-batch. Giúp giảm thiểu Internal Covariate Shift, cho phép mô hình học nhanh hơn với Learning Rate lớn hơn mà không bị hội chuyển sai.",
+      "evaluation_points": [
+        "Chuẩn hóa output: Mean=0, Variance=1 theo mini-batch",
+        "Giảm Internal Covariate Shift",
+        "Cho phép dùng Learning Rate lớn hơn, hội chuyển nhanh hơn"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_014",
+    "question_text": "Kỹ thuật Dropout trong Neural Network có ý nghĩa gì?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "DL_TRAINING",
+      "ML_REGULARIZATION"
+    ],
+    "answers": {
+      "detailed": "Trong quá trình Train, Dropout ngẫu nhiên vô hiệu hóa một tỷ lệ % các nơ-ron (ép giá trị về 0). Điều này buộc mạng không được phụ thuộc quá nhiều vào một cụm nơ-ron cụ thể, hoạt động như một dạng Ensemble Learning giúp chống Overfitting.",
+      "evaluation_points": [
+        "Ngẫu nhiên vô hiệu hóa % nơ-ron trong lúc Train",
+        "Buộc mạng học đặc trưng phân tán (Robust features)",
+        "Train: Dropout ON, Inference: Dropout OFF (scale lại weights)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "kaggle_curated",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_015",
+    "question_text": "Trong CNN, Max Pooling và Average Pooling khác biệt về ý nghĩa trích xuất đặc trưng ra sao?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "DL_CNN",
+      "DL_FUNDAMENTALS"
+    ],
+    "answers": {
+      "detailed": "Max Pooling lấy giá trị lớn nhất trong vùng, giúp trích xuất các đặc trưng nổi bật nhất (như cạnh, góc) và bỏ qua nền. Average Pooling lấy trung bình, giúp làm mịn (smooth) dữ liệu, giữ lại thông tin bối cảnh tổng thể.",
+      "evaluation_points": [
+        "Max Pooling: Lấy giá trị lớn nhất → Trích đặc trưng nổi bật",
+        "Average Pooling: Lấy trung bình → Làm mịn, giữ bối cảnh tổng thể",
+        "Max Pooling phổ biến hơn trong Classification tasks"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_016",
+    "question_text": "Kernel Trick trong Support Vector Machines (SVM) dùng để giải quyết vấn đề gì?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 6,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "ML_SUPERVISED",
+      "ML_MODEL_SELECTION"
+    ],
+    "answers": {
+      "detailed": "Khi dữ liệu không thể phân chia tuyến tính trong không gian hiện tại, Kernel Trick dùng một hàm toán học (như RBF, Polynomial) để ánh xạ dữ liệu lên không gian nhiều chiều hơn, giúp tìm ra siêu phẳng phân chia mà không cần thực sự tính toán ở không gian phức tạp đó.",
+      "evaluation_points": [
+        "Vấn đề: Dữ liệu không phân chia tuyến tính (Non-linearly separable)",
+        "Kernel ánh xạ dữ liệu lên không gian chiều cao hơn",
+        "Tính toán chỉ cần Inner Product (Dot Product) trong không gian gốc"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_017",
+    "question_text": "Thuật toán Naive Bayes được gọi là 'Ngây thơ' (Naive) vì lý do gì?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "ML_SUPERVISED",
+      "ML_MODEL_SELECTION"
+    ],
+    "answers": {
+      "detailed": "Vì nó đặt giả định (assumption) cốt lõi là tất cả các đặc trưng (features) đầu vào đều hoàn toàn độc lập với nhau với một nhãn cho trước, mặc dù trong thực tế các đặc trưng thường có mối tương quan nhất định.",
+      "evaluation_points": [
+        "Giả định: Tất cả features độc lập có điều kiện (Conditional Independence)",
+        "Thực tế: Các features thường có tương quan",
+        "Ưu điểm: Nhanh, hiệu quả trên high-dimensional sparse data (Spam filter)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_018",
+    "question_text": "Sự khác biệt cốt lõi giữa thuật toán gom cụm DBSCAN và K-Means?",
+    "roles": {
+      "primary": "DS",
+      "secondary": ["DA"]
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "ML_UNSUPERVISED",
+      "ML_CLUSTERING"
+    ],
+    "answers": {
+      "detailed": "K-Means yêu cầu người dùng xác định số cụm (K) trước, gom cụm theo hình cầu và rất nhạy cảm với nhiễu. DBSCAN gom cụm dựa trên mật độ (Density-based), tự động tìm số cụm, xử lý tốt dữ liệu hình dạng dị biệt và tự động tách nhiễu (outliers).",
+      "evaluation_points": [
+        "K-Means: Cần biết K trước, hình cầu, nhạy cảm với outlier",
+        "DBSCAN: Density-based, tự động tìm K, phát hiện outlier",
+        "DBSCAN không tốt nếu mật độ các cụm chênh lệch lớn"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_019",
+    "question_text": "Isolation Forest phát hiện điểm bất thường (Anomaly Detection) bằng logic nào?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "ML_UNSUPERVISED",
+      "ML_ANOMALY_DETECTION"
+    ],
+    "answers": {
+      "detailed": "Nó xây dựng các Random Trees bằng cách chia cắt (split) dữ liệu ngẫu nhiên. Vì Outliers nằm tách biệt và ít mật độ, chúng sẽ bị cô lập rất nhanh (ở gần gốc cây, số lần split ít). Dữ liệu bình thường nằm sâu bên trong cụm sẽ cần rất nhiều lần split để tách ra.",
+      "evaluation_points": [
+        "Outlier bị cô lập nhanh: Ít lần split, gần gốc cây",
+        "Điểm bình thường: Nhiều lần split, sâu trong cây",
+        "Anomaly Score dựa trên đường dẫn (Path Length) trung bình"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "kaggle_curated",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_020",
+    "question_text": "Trong Hệ thống gợi ý, User-based và Item-based Collaborative Filtering khác nhau chỗ nào?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "ML_RECOMMENDER_SYSTEM",
+      "ML_MODEL_SELECTION"
+    ],
+    "answers": {
+      "detailed": "User-based tìm những người dùng có sở thích giống người A, rồi gợi ý những thứ họ thích cho A (Tính toán phức tạp nếu lượng user cực lớn). Item-based tìm những sản phẩm thường được mua cùng nhau, rồi xem A vừa mua gì để gợi ý đồ tương tự (Ổn định hơn với E-commerce).",
+      "evaluation_points": [
+        "User-based: Tìm user tương tự → Gợi ý item họ thích",
+        "Item-based: Tìm item tương tự → Gợi ý item mua cùng",
+        "Item-based ổn định hơn vì item similarity ít thay đổi hơn user"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_021",
+    "question_text": "Matrix Factorization (Phân rã ma trận) trong Recommendation System hoạt động ra sao?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "ML_RECOMMENDER_SYSTEM",
+      "ML_UNSUPERVISED"
+    ],
+    "answers": {
+      "detailed": "Nó phân tách một ma trận lớn (User-Item rating) thành hai ma trận nhỏ hơn (User-Latent features và Item-Latent features). Tích vô hướng của 2 vector latent này sẽ dự đoán được mức điểm mà User sẽ đánh giá cho một Item mà họ chưa từng tương tác.",
+      "evaluation_points": [
+        "Phân tách User-Item matrix → 2 ma trận Latent features",
+        "Dot product 2 vector latent → Dự đoán rating",
+        "Giải quyết Cold Start một phần và Data Sparsity"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_022",
+    "question_text": "Giá trị SHAP (SHapley Additive exPlanations) giải quyết bài toán gì trong MLOps?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 6,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "ML_EXPLAINABILITY",
+      "ML_MLOPS"
+    ],
+    "answers": {
+      "detailed": "Giải quyết tính diễn giải (Explainability) của các mô hình hộp đen (Black-box như XGBoost, Neural Net). Nó phân bổ 'đóng góp' của từng feature vào giá trị dự đoán cuối cùng dựa trên lý thuyết trò chơi (Game theory), cho biết feature nào làm tăng/giảm dự đoán.",
+      "evaluation_points": [
+        "Explainability: Giải thích dự đoán của Black-box model",
+        "Game Theory: Shapley value phân bổ đóng góp công bằng",
+        "SHAP summary plot: Hiển thị feature importance toàn cục + cục bộ"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_023",
+    "question_text": "Concept Drift và Data Drift khi triển khai mô hình (Deployment) khác nhau thế nào?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "THEORY",
+    "skill_tags": [
+      "ML_MLOPS",
+      "ML_MONITORING"
+    ],
+    "answers": {
+      "detailed": "Data Drift: Phân phối của dữ liệu đầu vào (X) bị thay đổi so với lúc train (VD: User trẻ chuyển sang User già). Concept Drift: Mối quan hệ giữa Input (X) và Target (Y) bị thay đổi (VD: Cùng độ tuổi đó, nhưng hành vi mua sắm đã đổi do lạm phát kinh tế).",
+      "evaluation_points": [
+        "Data Drift: Phân phối X thay đổi (Covariate Shift)",
+        "Concept Drift: Mối quan hệ X→Y thay đổi (Prior Probability Shift)",
+        "Data Drift dễ phát hiện (thống kê), Concept Drift khó phát hiện hơn"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_024",
+    "question_text": "Case Study: Xây dựng hệ thống ML chấm điểm tín dụng (Credit Scoring). Metric nào là quan trọng nhất?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 8,
+    "question_type": "CASE_STUDY",
+    "skill_tags": [
+      "ML_MODEL_SELECTION",
+      "EVAL_CLASSIFICATION_REPORT",
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "answers": {
+      "detailed": "Vì đây là rủi ro tài chính, phải tối đa hóa khả năng phát hiện nợ xấu. Do dữ liệu nợ xấu rất mất cân bằng, mục tiêu là tối ưu hóa Recall (để không lọt KH nợ xấu) nhưng phải giữ FPR (False Positive Rate) ở mức chấp nhận được. Do đó, ROC-AUC và KS Statistic là các metric hàng đầu.",
+      "evaluation_points": [
+        "Tối ưu Recall: Không bỏ sót khách hàng nợ xấu (False Negative cost rất cao)",
+        "Kiểm soát FPR: Không từ chối quá nhiều khách tốt",
+        "Metric chính: ROC-AUC và KS Statistic cho bài toán Imbalanced"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  },
+  {
+    "question_id": "DS_025",
+    "question_text": "Case Study: Tối ưu hóa mô hình dự đoán ETA (Estimated Time of Arrival) cho ứng dụng giao đồ ăn.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 8,
+    "question_type": "CASE_STUDY",
+    "skill_tags": [
+      "ML_MODEL_SELECTION",
+      "FEATURE_ENGINEERING",
+      "EVAL_REGRESSION"
+    ],
+    "answers": {
+      "detailed": "1. Thu thập features: Khoảng cách, loại xe, thời tiết, giao thông (API map), thời gian chuẩn bị của quán. 2. Thuật toán: XGBoost hoặc LightGBM cho dữ liệu tabular. 3. Loss function: Dùng RMSLE (Root Mean Squared Log Error) thay vì RMSE vì ta quan tâm đến tỷ lệ sai lệch thay vì số phút tuyệt đối (sai 5p ở đơn 10p tệ hơn sai 5p ở đơn 60p).",
+      "evaluation_points": [
+        "Feature Engineering: Distance, weather, traffic, prep time",
+        "Model: XGBoost/LightGBM cho tabular data",
+        "Loss function: RMSLE quan tâm tỷ lệ sai lệch thay vì tuyệt đối"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v2.0",
+      "created_at": "2025-05-09"
+    }
+  }
+]

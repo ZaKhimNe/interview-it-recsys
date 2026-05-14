@@ -1,0 +1,80 @@
+# ========================
+# 🔒 BẢO MẬT - QUAN TRỌNG NHẤT
+# ========================
+.env
+.env.*
+*.env
+
+# ========================
+# 🐍 Python
+# ========================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+eggs/
+*.egg
+.Python
+
+# ========================
+# 📦 Virtual Environment
+# ========================
+venv/
+.venv/
+env/
+ENV/
+
+# ========================
+# 🧪 Testing & Coverage
+# ========================
+.pytest_cache/
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# ========================
+# 💻 IDE & Editor
+# ========================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.project
+.settings/
+
+# ========================
+# 🖥️ OS Generated
+# ========================
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.bak
+
+# ========================
+# 📊 Data (large files)
+# ========================
+data/raw/*.csv
+data/raw/*.json
+!data/raw/.gitkeep
+data/exports/
+*.sqlite
+*.db
+
+# ========================
+# 📝 Logs
+# ========================
+logs/
+*.log
+
+# ========================
+# 📦 Distribution
+# ========================
+*.tar.gz
+*.whl

@@ -1,0 +1,40 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "QuestionBank",
+    "description": "Data Contract: Cấu trúc dữ liệu ngân hàng câu hỏi mới",
+    "type": "object",
+    "properties": {
+        "question_id": { "type": "string" },
+        "question_text": { "type": "string" },
+        "roles": {
+            "type": "object",
+            "properties": {
+                "primary": { "type": "string", "enum": ["DA", "DE", "DS", "MLE", "BE", "FE"] },
+                "secondary": { "type": "array", "items": { "type": "string" } }
+            },
+            "required": ["primary"]
+        },
+        "difficulty_label": { "type": "string", "enum": ["EASY", "MEDIUM", "HARD", "EXPERT"] },
+        "difficulty_score": { "type": "integer", "minimum": 1, "maximum": 10 },
+        "question_type": { "type": "string", "enum": ["THEORY", "PRACTICE", "CODING"] },
+        "skill_tags": { "type": "array", "items": { "type": "string" } },
+        "answers": {
+            "type": "object",
+            "properties": {
+                "detailed": { "type": "string" },
+                "evaluation_points": { "type": "array", "items": { "type": "string" } }
+            },
+            "required": ["detailed"]
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "language": { "type": "string" },
+                "source": { "type": "string" },
+                "version": { "type": "string" },
+                "created_at": { "type": "string" }
+            }
+        }
+    },
+    "required": ["question_id", "question_text", "roles", "difficulty_label", "answers"]
+}

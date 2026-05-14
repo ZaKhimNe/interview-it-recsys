@@ -1,0 +1,48 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "UserProfile",
+    "description": "Data Contract: Cấu trúc dữ liệu hồ sơ người dùng",
+    "type": "object",
+    "properties": {
+        "user_id": {
+            "type": "string",
+            "description": "Mã định danh duy nhất của người dùng"
+        },
+        "name": {
+            "type": "string",
+            "description": "Tên hiển thị"
+        },
+        "email": {
+            "type": "string",
+            "format": "email"
+        },
+        "target_role": {
+            "type": "string",
+            "description": "Vị trí ứng tuyển mục tiêu",
+            "enum": ["Backend Developer", "Frontend Developer", "Data Engineer", "ML Engineer", "DevOps Engineer", "Full-stack Developer"]
+        },
+        "experience_years": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 30
+        },
+        "competency_vector": {
+            "type": "object",
+            "description": "Vector năng lực trên các domain",
+            "properties": {
+                "dsa": { "type": "number", "minimum": 0, "maximum": 10 },
+                "system_design": { "type": "number", "minimum": 0, "maximum": 10 },
+                "database": { "type": "number", "minimum": 0, "maximum": 10 },
+                "oop": { "type": "number", "minimum": 0, "maximum": 10 },
+                "networking": { "type": "number", "minimum": 0, "maximum": 10 },
+                "devops": { "type": "number", "minimum": 0, "maximum": 10 }
+            },
+            "required": ["dsa", "system_design", "database", "oop", "networking", "devops"]
+        },
+        "created_at": {
+            "type": "string",
+            "format": "date-time"
+        }
+    },
+    "required": ["user_id", "name", "target_role", "competency_vector"]
+}
