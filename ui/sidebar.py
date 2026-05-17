@@ -6,7 +6,7 @@ def reset_to_onboarding():
     Reset app về màn hình chọn role ban đầu.
     """
     st.session_state.user_role = None
-    st.session_state.demo_step = "ONBOARDING"
+    st.session_state.demo_step = "START"
     st.session_state.current_question = None
     st.session_state.user_answer = ""
 

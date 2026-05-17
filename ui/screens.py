@@ -5,6 +5,7 @@ import streamlit as st
 
 from core.data_loader import load_question_bank
 from ui.components.charts import create_radar_chart
+from ui.sidebar import reset_to_onboarding
 
 def show_start_screen(role):
     """
@@ -142,7 +143,7 @@ def show_result_screen(role):
 
     with col_b:
         if st.button("🔄 Chọn lại role", key="result_reset_role"):
-            reset_app()
+            reset_to_onboarding()
 
 
 def show_main_app():
