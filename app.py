@@ -13,6 +13,7 @@ from ui.components.charts import create_radar_chart
 from ui.session_manager import init_session_state
 from ui.styles import inject_custom_css
 from ui.onboarding import show_onboarding
+from ui.sidebar import show_sidebar
 
 def init_task_1_state():
     """
@@ -55,34 +56,6 @@ def reset_app():
     st.session_state.user_answer = ""
     st.session_state.answer_history = []
     st.rerun()
-
-
-def show_sidebar():
-    """
-    Sidebar sau khi người dùng đã chọn role.
-    Lưu ý: Không cho chọn role bằng selectbox nữa.
-    Role phải lấy từ st.session_state.user_role.
-    """
-
-    with st.sidebar:
-        st.header("⚙️ Cấu hình")
-
-        role = st.session_state.user_role
-
-        role_name = {
-            "DA": "📊 Data Analyst",
-            "DE": "🛠️ Data Engineer",
-            "DS": "🧪 Data Scientist"
-        }.get(role, role)
-
-        st.write("Role hiện tại:")
-        st.success(role_name)
-
-        st.divider()
-
-        if st.button("🔄 Chọn lại role", key="sidebar_reset_role"):
-            reset_app()
-
 
 def show_start_screen(role):
     """
@@ -233,8 +206,6 @@ def show_main_app():
 
     st.title("🎯 AI Tech Interview Prep - Mini Demo")
 
-    show_sidebar()
-
     # Logic điều hướng demo
     if st.session_state.demo_step == "START":
         show_start_screen(role)
@@ -271,6 +242,8 @@ def main():
     if st.session_state.user_role is None:
         show_onboarding()
         return
+
+    show_sidebar()
 
     # Nếu đã chọn role thì vào app chính
     show_main_app()
