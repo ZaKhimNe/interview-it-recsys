@@ -4,7 +4,9 @@
     "question_text": "Hàm COALESCE và NULLIF trong SQL hoạt động như thế nào?",
     "roles": {
       "primary": "DA",
-      "secondary": ["DE"]
+      "secondary": [
+        "DE"
+      ]
     },
     "difficulty_label": "EASY",
     "difficulty_score": 2,
@@ -26,14 +28,19 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "SQL_DATABASE"
+    ]
   },
   {
     "question_id": "DA_007",
     "question_text": "Khi nào bạn sẽ sử dụng Self Join? Nêu một ví dụ thực tế.",
     "roles": {
       "primary": "DA",
-      "secondary": ["DE"]
+      "secondary": [
+        "DE"
+      ]
     },
     "difficulty_label": "MEDIUM",
     "difficulty_score": 4,
@@ -55,14 +62,19 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "SQL_DATABASE"
+    ]
   },
   {
     "question_id": "DA_008",
     "question_text": "Toán tử EXISTS và IN khác nhau như thế nào về mặt hiệu năng?",
     "roles": {
       "primary": "DA",
-      "secondary": ["DE"]
+      "secondary": [
+        "DE"
+      ]
     },
     "difficulty_label": "MEDIUM",
     "difficulty_score": 5,
@@ -84,7 +96,10 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "SQL_DATABASE"
+    ]
   },
   {
     "question_id": "DA_009",
@@ -113,7 +128,10 @@
       "source": "kaggle_curated",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "PYTHON_ANALYTICS"
+    ]
   },
   {
     "question_id": "DA_010",
@@ -142,14 +160,20 @@
       "source": "kaggle_curated",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "SQL_DATABASE"
+    ]
   },
   {
     "question_id": "DA_011",
     "question_text": "Nêu các mức độ chuẩn hóa cơ sở dữ liệu (Normalization: 1NF, 2NF, 3NF).",
     "roles": {
       "primary": "DA",
-      "secondary": ["DE"]
+      "secondary": [
+        "DE"
+      ]
     },
     "difficulty_label": "MEDIUM",
     "difficulty_score": 5,
@@ -171,14 +195,20 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "SQL_DATABASE",
+      "DATABASE_INTERNALS"
+    ]
   },
   {
     "question_id": "DA_012",
     "question_text": "Nghịch lý Simpson (Simpson's Paradox) là gì?",
     "roles": {
       "primary": "DA",
-      "secondary": ["DS"]
+      "secondary": [
+        "DS"
+      ]
     },
     "difficulty_label": "HARD",
     "difficulty_score": 7,
@@ -200,14 +230,19 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION"
+    ]
   },
   {
     "question_id": "DA_013",
     "question_text": "Sự khác biệt giữa Z-test và T-test trong thống kê là gì?",
     "roles": {
       "primary": "DA",
-      "secondary": ["DS"]
+      "secondary": [
+        "DS"
+      ]
     },
     "difficulty_label": "MEDIUM",
     "difficulty_score": 5,
@@ -229,14 +264,19 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION"
+    ]
   },
   {
     "question_id": "DA_014",
     "question_text": "Khoảng tin cậy (Confidence Interval) 95% có ý nghĩa gì?",
     "roles": {
       "primary": "DA",
-      "secondary": ["DS"]
+      "secondary": [
+        "DS"
+      ]
     },
     "difficulty_label": "MEDIUM",
     "difficulty_score": 5,
@@ -258,7 +298,10 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION"
+    ]
   },
   {
     "question_id": "DA_015",
@@ -287,7 +330,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "STATISTICS_EXPERIMENTATION"
+    ]
   },
   {
     "question_id": "DA_016",
@@ -316,7 +363,10 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ]
   },
   {
     "question_id": "DA_017",
@@ -345,7 +395,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "STATISTICS_EXPERIMENTATION"
+    ]
   },
   {
     "question_id": "DA_018",
@@ -374,7 +428,10 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "BI_VISUALIZATION"
+    ]
   },
   {
     "question_id": "DA_019",
@@ -403,7 +460,10 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "BI_VISUALIZATION"
+    ]
   },
   {
     "question_id": "DA_020",
@@ -432,18 +492,23 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "BI_VISUALIZATION"
+    ]
   },
   {
     "question_id": "DA_021",
     "question_text": "Case Study: Để đo lường sức khỏe của một sản phẩm dạng Subscription (Thuê bao SaaS), bạn dùng các chỉ số nào?",
     "roles": {
       "primary": "DA",
-      "secondary": ["DS"]
+      "secondary": [
+        "DS"
+      ]
     },
     "difficulty_label": "MEDIUM",
     "difficulty_score": 6,
-    "question_type": "CASE_STUDY",
+    "question_type": "PRACTICE",
     "skill_tags": [
       "ANALYTICS_BUSINESS",
       "STAT_DESCRIPTIVE"
@@ -461,7 +526,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "STATISTICS_EXPERIMENTATION"
+    ]
   },
   {
     "question_id": "DA_022",
@@ -472,7 +541,7 @@
     },
     "difficulty_label": "HARD",
     "difficulty_score": 7,
-    "question_type": "CASE_STUDY",
+    "question_type": "PRACTICE",
     "skill_tags": [
       "ANALYTICS_BUSINESS",
       "DATA_PREPROCESSING"
@@ -490,14 +559,20 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "PYTHON_ANALYTICS"
+    ]
   },
   {
     "question_id": "DA_023",
     "question_text": "Hiệu ứng ăn thịt (Cannibalization Effect) trong A/B Testing là gì?",
     "roles": {
       "primary": "DA",
-      "secondary": ["DS"]
+      "secondary": [
+        "DS"
+      ]
     },
     "difficulty_label": "HARD",
     "difficulty_score": 8,
@@ -519,7 +594,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "ANALYTICS_BUSINESS"
+    ]
   },
   {
     "question_id": "DA_024",
@@ -548,14 +627,19 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "BI_VISUALIZATION"
+    ]
   },
   {
     "question_id": "DA_025",
     "question_text": "Làm sao để lấy dòng dữ liệu thứ N trong một bảng SQL mà không dùng Window Function?",
     "roles": {
       "primary": "DA",
-      "secondary": ["DE"]
+      "secondary": [
+        "DE"
+      ]
     },
     "difficulty_label": "MEDIUM",
     "difficulty_score": 5,
@@ -577,14 +661,19 @@
       "source": "leetcode_adapted",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "SQL_DATABASE"
+    ]
   },
   {
     "question_id": "DE_006",
     "question_text": "B-Tree Index và Hash Index trong Database khác nhau ở điểm nào?",
     "roles": {
       "primary": "DE",
-      "secondary": ["DA"]
+      "secondary": [
+        "DA"
+      ]
     },
     "difficulty_label": "MEDIUM",
     "difficulty_score": 5,
@@ -606,14 +695,20 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "SQL_DATABASE"
+    ]
   },
   {
     "question_id": "DE_007",
     "question_text": "Clustered Index và Non-Clustered Index có gì khác biệt?",
     "roles": {
       "primary": "DE",
-      "secondary": ["DA"]
+      "secondary": [
+        "DA"
+      ]
     },
     "difficulty_label": "MEDIUM",
     "difficulty_score": 5,
@@ -635,7 +730,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "SQL_DATABASE"
+    ]
   },
   {
     "question_id": "DE_008",
@@ -664,7 +763,10 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "SYSTEM_ARCHITECTURE"
+    ]
   },
   {
     "question_id": "DE_009",
@@ -693,7 +795,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "SYSTEM_ARCHITECTURE"
+    ]
   },
   {
     "question_id": "DE_010",
@@ -722,7 +828,10 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS"
+    ]
   },
   {
     "question_id": "DE_011",
@@ -751,7 +860,10 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS"
+    ]
   },
   {
     "question_id": "DE_012",
@@ -781,7 +893,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "DATA_PIPELINE"
+    ]
   },
   {
     "question_id": "DE_013",
@@ -811,7 +927,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "DATA_PIPELINE"
+    ]
   },
   {
     "question_id": "DE_014",
@@ -840,7 +960,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "DATA_PIPELINE"
+    ]
   },
   {
     "question_id": "DE_015",
@@ -869,7 +993,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "DATA_PIPELINE"
+    ]
   },
   {
     "question_id": "DE_016",
@@ -898,7 +1026,10 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "DATA_PIPELINE"
+    ]
   },
   {
     "question_id": "DE_017",
@@ -927,7 +1058,10 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING"
+    ]
   },
   {
     "question_id": "DE_018",
@@ -956,7 +1090,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "DATA_PIPELINE"
+    ]
   },
   {
     "question_id": "DE_019",
@@ -986,7 +1124,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "DATA_PIPELINE"
+    ]
   },
   {
     "question_id": "DE_020",
@@ -1016,7 +1158,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING",
+      "BIG_DATA_CLOUD_TOOLS"
+    ]
   },
   {
     "question_id": "DE_021",
@@ -1046,7 +1192,12 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "DATA_ARCHITECTURE_MODELING",
+      "SQL_DATABASE"
+    ]
   },
   {
     "question_id": "DE_022",
@@ -1076,7 +1227,12 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "DATA_ARCHITECTURE_MODELING",
+      "SYSTEM_ARCHITECTURE"
+    ]
   },
   {
     "question_id": "DE_023",
@@ -1087,7 +1243,7 @@
     },
     "difficulty_label": "HARD",
     "difficulty_score": 8,
-    "question_type": "CASE_STUDY",
+    "question_type": "PRACTICE",
     "skill_tags": [
       "TOOL_KAFKA",
       "PIPE_CDC",
@@ -1106,7 +1262,12 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "DATA_PIPELINE",
+      "SYSTEM_ARCHITECTURE"
+    ]
   },
   {
     "question_id": "DE_024",
@@ -1117,7 +1278,7 @@
     },
     "difficulty_label": "HARD",
     "difficulty_score": 8,
-    "question_type": "CASE_STUDY",
+    "question_type": "PRACTICE",
     "skill_tags": [
       "PIPE_CDC",
       "PIPE_ETL",
@@ -1136,7 +1297,10 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "DATA_PIPELINE"
+    ]
   },
   {
     "question_id": "DE_025",
@@ -1165,7 +1329,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "DATA_PIPELINE"
+    ]
   },
   {
     "question_id": "DS_006",
@@ -1194,7 +1362,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "ALGORITHM_THEORY"
+    ]
   },
   {
     "question_id": "DS_007",
@@ -1224,7 +1396,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "ALGORITHM_THEORY",
+      "DATA_PREPROCESSING"
+    ]
   },
   {
     "question_id": "DS_008",
@@ -1253,7 +1429,10 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "NLP"
+    ]
   },
   {
     "question_id": "DS_009",
@@ -1282,7 +1461,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "NLP",
+      "EVALUATION_METRICS"
+    ]
   },
   {
     "question_id": "DS_010",
@@ -1311,7 +1494,11 @@
       "source": "kaggle_curated",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "TIME_SERIES",
+      "STATISTICS_EXPERIMENTATION"
+    ]
   },
   {
     "question_id": "DS_011",
@@ -1340,7 +1527,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "TIME_SERIES",
+      "ALGORITHM_THEORY"
+    ]
   },
   {
     "question_id": "DS_012",
@@ -1370,7 +1561,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "ALGORITHM_THEORY",
+      "DEEP_LEARNING"
+    ]
   },
   {
     "question_id": "DS_013",
@@ -1399,7 +1594,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "DEEP_LEARNING",
+      "ALGORITHM_THEORY"
+    ]
   },
   {
     "question_id": "DS_014",
@@ -1428,7 +1627,11 @@
       "source": "kaggle_curated",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "DEEP_LEARNING",
+      "ALGORITHM_THEORY"
+    ]
   },
   {
     "question_id": "DS_015",
@@ -1457,7 +1660,10 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "DEEP_LEARNING"
+    ]
   },
   {
     "question_id": "DS_016",
@@ -1486,7 +1692,10 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "ALGORITHM_THEORY"
+    ]
   },
   {
     "question_id": "DS_017",
@@ -1515,14 +1724,19 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "ALGORITHM_THEORY"
+    ]
   },
   {
     "question_id": "DS_018",
     "question_text": "Sự khác biệt cốt lõi giữa thuật toán gom cụm DBSCAN và K-Means?",
     "roles": {
       "primary": "DS",
-      "secondary": ["DA"]
+      "secondary": [
+        "DA"
+      ]
     },
     "difficulty_label": "HARD",
     "difficulty_score": 7,
@@ -1544,7 +1758,10 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "ALGORITHM_THEORY"
+    ]
   },
   {
     "question_id": "DS_019",
@@ -1573,7 +1790,10 @@
       "source": "kaggle_curated",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "ALGORITHM_THEORY"
+    ]
   },
   {
     "question_id": "DS_020",
@@ -1602,7 +1822,10 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "ALGORITHM_THEORY"
+    ]
   },
   {
     "question_id": "DS_021",
@@ -1631,7 +1854,10 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "ALGORITHM_THEORY"
+    ]
   },
   {
     "question_id": "DS_022",
@@ -1660,7 +1886,10 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "MLOPS"
+    ]
   },
   {
     "question_id": "DS_023",
@@ -1689,7 +1918,10 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "MLOPS"
+    ]
   },
   {
     "question_id": "DS_024",
@@ -1700,7 +1932,7 @@
     },
     "difficulty_label": "HARD",
     "difficulty_score": 8,
-    "question_type": "CASE_STUDY",
+    "question_type": "PRACTICE",
     "skill_tags": [
       "ML_MODEL_SELECTION",
       "EVAL_CLASSIFICATION_REPORT",
@@ -1719,7 +1951,12 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "ALGORITHM_THEORY",
+      "EVALUATION_METRICS",
+      "DATA_PREPROCESSING"
+    ]
   },
   {
     "question_id": "DS_025",
@@ -1730,7 +1967,7 @@
     },
     "difficulty_label": "HARD",
     "difficulty_score": 8,
-    "question_type": "CASE_STUDY",
+    "question_type": "PRACTICE",
     "skill_tags": [
       "ML_MODEL_SELECTION",
       "FEATURE_ENGINEERING",
@@ -1749,6 +1986,11 @@
       "source": "manual_expert",
       "version": "v2.0",
       "created_at": "2025-05-09"
-    }
+    },
+    "skill_groups": [
+      "ALGORITHM_THEORY",
+      "DATA_PREPROCESSING",
+      "EVALUATION_METRICS"
+    ]
   }
 ]

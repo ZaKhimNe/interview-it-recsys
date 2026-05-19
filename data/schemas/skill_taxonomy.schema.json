@@ -1,0 +1,221 @@
+{
+  "SQL_DATABASE": {
+    "display_name": "SQL & Database",
+    "description": "Core SQL querying, joins, window functions, aggregation, query performance, and database design.",
+    "role_scope": ["DA"],
+    "tags": [
+      "SQL_FUNDAMENTALS",
+      "SQL_JOIN",
+      "SQL_WINDOW_FUNCTION",
+      "SQL_CTE",
+      "SQL_AGGREGATION",
+      "SQL_PERFORMANCE",
+      "DATABASE_DESIGN"
+    ]
+  },
+
+  "BI_VISUALIZATION": {
+    "display_name": "BI & Data Visualization",
+    "description": "Business intelligence concepts, dashboarding tools, visualization, Power BI, Tableau, DAX, and data modeling.",
+    "role_scope": ["DA"],
+    "tags": [
+      "BI_CONCEPTS",
+      "TOOL_TABLEAU",
+      "DAX_FUNDAMENTALS",
+      "TOOL_POWER_BI",
+      "DATA_VISUALIZATION",
+      "DATA_MODELING"
+    ]
+  },
+
+  "STATISTICS_EXPERIMENTATION": {
+    "display_name": "Statistics & A/B Testing",
+    "description": "Statistics fundamentals, descriptive statistics, hypothesis testing, confidence intervals, and A/B testing.",
+    "role_scope": ["DA"],
+    "tags": [
+      "STAT_FUNDAMENTALS",
+      "STAT_AB_TESTING",
+      "STAT_DESCRIPTIVE",
+      "STAT_HYPOTHESIS_TESTING",
+      "STAT_CONFIDENCE_INTERVAL"
+    ]
+  },
+
+  "ANALYTICS_BUSINESS": {
+    "display_name": "Analytics Frameworks & Product Metrics",
+    "description": "Business analytics frameworks such as cohort analysis, funnel analysis, RFM analysis, and business/product metrics.",
+    "role_scope": ["DA"],
+    "tags": [
+      "ANALYTICS_COHORT",
+      "ANALYTICS_FUNNEL",
+      "ANALYTICS_RFM",
+      "ANALYTICS_BUSINESS"
+    ]
+  },
+
+  "PYTHON_ANALYTICS": {
+    "display_name": "Python for Analytics",
+    "description": "Python and Pandas for analytics, including preprocessing and basic data manipulation.",
+    "role_scope": ["DA"],
+    "tags": [
+      "PYTHON_PANDAS",
+      "DATA_PREPROCESSING"
+    ]
+  },
+
+  "DATA_PIPELINE": {
+    "display_name": "ETL & Orchestration",
+    "description": "ETL, ELT, CDC, orchestration, pipeline design, pipeline performance, and reliability.",
+    "role_scope": ["DE"],
+    "tags": [
+      "PIPE_ETL",
+      "PIPE_ELT",
+      "PIPE_CDC",
+      "PIPE_ORCHESTRATION",
+      "DATA_PIPELINE_DESIGN",
+      "PIPE_PERFORMANCE",
+      "PIPE_RELIABILITY"
+    ]
+  },
+
+  "DATA_ARCHITECTURE_MODELING": {
+    "display_name": "Data Architecture & Modeling",
+    "description": "Data warehouse, data lake, star schema, slowly changing dimensions, and storage file formats.",
+    "role_scope": ["DE"],
+    "tags": [
+      "DATA_WAREHOUSE",
+      "DATA_LAKE",
+      "MODELING_STAR_SCHEMA",
+      "MODELING_SCD",
+      "FORMAT_PARQUET",
+      "FORMAT_AVRO",
+      "FORMAT_ORC"
+    ]
+  },
+
+  "BIG_DATA_CLOUD_TOOLS": {
+    "display_name": "Cloud & Big Data Tools",
+    "description": "Spark, Airflow, Kafka, cloud platforms, object storage, big data optimization, and Docker.",
+    "role_scope": ["DE"],
+    "tags": [
+      "TOOL_SPARK",
+      "SPARK_DAG",
+      "TOOL_AIRFLOW",
+      "TOOL_KAFKA",
+      "CLOUD_AWS",
+      "CLOUD_S3",
+      "CLOUD_GCP",
+      "BIG_DATA_OPTIMIZATION",
+      "DEVOPS_DOCKER"
+    ]
+  },
+
+  "DATABASE_INTERNALS": {
+    "display_name": "Database Internals & Performance",
+    "description": "Database indexing, performance tuning, scaling, sharding, and ACID concepts.",
+    "role_scope": ["DE"],
+    "tags": [
+      "DATABASE_INDEXING",
+      "DATABASE_PERFORMANCE",
+      "DATABASE_SCALING",
+      "DB_ACID"
+    ]
+  },
+
+  "SYSTEM_ARCHITECTURE": {
+    "display_name": "Architecture Patterns",
+    "description": "System design, streaming architecture, data architecture, and architecture-level thinking.",
+    "role_scope": ["DE"],
+    "tags": [
+      "ARCH_SYSTEM_DESIGN",
+      "ARCH_STREAMING",
+      "ARCH_DATA_ARCHITECTURE"
+    ]
+  },
+
+  "ALGORITHM_THEORY": {
+    "display_name": "Algorithms & Theory",
+    "description": "Machine learning algorithm families, model selection, clustering, anomaly detection, recommender systems, and dimensionality reduction.",
+    "role_scope": ["DS"],
+    "tags": [
+      "ML_SUPERVISED",
+      "ML_UNSUPERVISED",
+      "ML_ENSEMBLE",
+      "ML_REGULARIZATION",
+      "ML_CLUSTERING",
+      "ML_MODEL_SELECTION",
+      "ML_ANOMALY_DETECTION",
+      "ML_RECOMMENDER_SYSTEM",
+      "ML_DIMENSIONALITY_REDUCTION"
+    ]
+  },
+
+  "EVALUATION_METRICS": {
+    "display_name": "Evaluation Metrics",
+    "description": "Classification and regression evaluation metrics, ROC-AUC, F1-score, cross-validation, and classification reports.",
+    "role_scope": ["DS"],
+    "tags": [
+      "METRIC_ROC_AUC",
+      "METRIC_F1_SCORE",
+      "EVAL_CROSS_VALIDATION",
+      "EVAL_CLASSIFICATION_REPORT",
+      "EVAL_REGRESSION"
+    ]
+  },
+
+  "DATA_PREPROCESSING": {
+    "display_name": "Data Preprocessing & Imbalanced Data",
+    "description": "Data cleaning, preprocessing, feature engineering, encoding techniques, and imbalanced data handling.",
+    "role_scope": ["DS"],
+    "tags": [
+      "DATA_PREPROCESSING",
+      "FEATURE_ENGINEERING",
+      "IMBALANCED_DATA_HANDLING",
+      "ENCODING_TECHNIQUES",
+      "DATA_CLEANING"
+    ]
+  },
+
+  "DEEP_LEARNING": {
+    "display_name": "Deep Learning",
+    "description": "Neural networks, deep learning training, optimization, CNNs, dropout, batch normalization, and gradient-related techniques.",
+    "role_scope": ["DS"],
+    "tags": [
+      "DL_FUNDAMENTALS",
+      "DL_TRAINING",
+      "DL_OPTIMIZATION",
+      "DL_CNN"
+    ]
+  },
+
+  "NLP": {
+    "display_name": "Natural Language Processing",
+    "description": "NLP fundamentals, text preprocessing, and NLP evaluation.",
+    "role_scope": ["DS"],
+    "tags": [
+      "NLP_FUNDAMENTALS",
+      "NLP_PREPROCESSING",
+      "NLP_EVALUATION"
+    ]
+  },
+
+  "TIME_SERIES": {
+    "display_name": "Time Series",
+    "description": "Forecasting and time series modeling.",
+    "role_scope": ["DS"],
+    "tags": [
+      "ML_TIME_SERIES"
+    ]
+  },
+
+  "MLOPS": {
+    "display_name": "Explainability & Production",
+    "description": "Model explainability, MLOps, drift monitoring, production ML, and model monitoring.",
+    "role_scope": ["DS"],
+    "tags": [
+      "ML_EXPLAINABILITY",
+      "ML_MLOPS",
+      "ML_MONITORING"
+    ]
+  }
+}

@@ -1,48 +1,129 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "UserProfile",
-    "description": "Data Contract: Cấu trúc dữ liệu hồ sơ người dùng",
-    "type": "object",
-    "properties": {
-        "user_id": {
-            "type": "string",
-            "description": "Mã định danh duy nhất của người dùng"
-        },
-        "name": {
-            "type": "string",
-            "description": "Tên hiển thị"
-        },
-        "email": {
-            "type": "string",
-            "format": "email"
-        },
-        "target_role": {
-            "type": "string",
-            "description": "Vị trí ứng tuyển mục tiêu",
-            "enum": ["Backend Developer", "Frontend Developer", "Data Engineer", "ML Engineer", "DevOps Engineer", "Full-stack Developer"]
-        },
-        "experience_years": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 30
-        },
-        "competency_vector": {
-            "type": "object",
-            "description": "Vector năng lực trên các domain",
-            "properties": {
-                "dsa": { "type": "number", "minimum": 0, "maximum": 10 },
-                "system_design": { "type": "number", "minimum": 0, "maximum": 10 },
-                "database": { "type": "number", "minimum": 0, "maximum": 10 },
-                "oop": { "type": "number", "minimum": 0, "maximum": 10 },
-                "networking": { "type": "number", "minimum": 0, "maximum": 10 },
-                "devops": { "type": "number", "minimum": 0, "maximum": 10 }
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UserProfile",
+  "description": "Data Contract: Cấu trúc dữ liệu hồ sơ người dùng cho Interview Recommendation app",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "Mã định danh duy nhất của người dùng"
+    },
+    "name": {
+      "type": "string",
+      "description": "Tên hiển thị của người dùng"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "Email người dùng"
+    },
+    "target_role": {
+      "type": "string",
+      "description": "Role mục tiêu của người dùng. Phải khớp với role key ở jd_requirements.",
+      "enum": ["DA", "DE", "DS", "MLE", "BE", "FE"]
+    },
+    "current_level": {
+      "type": "string",
+      "description": "Mức hiện tại của người dùng",
+      "enum": ["Fresher", "Junior", "Middle", "Senior"]
+    },
+    "experience_years": {
+      "type": "number",
+      "description": "Số năm kinh nghiệm",
+      "minimum": 0,
+      "maximum": 30
+    },
+    "skill_vector": {
+      "type": "object",
+      "description": "Vector năng lực theo skill group của role mục tiêu. Key động được sinh từ jd_requirements[target_role].skill_groups.",
+      "patternProperties": {
+        "^[A-Z][A-Z0-9_]*$": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5
+        }
+      },
+      "additionalProperties": false
+    },
+    "tag_stats": {
+      "type": "object",
+      "description": "Thống kê chi tiết theo skill_tags để giải thích điểm số và recommendation.",
+      "patternProperties": {
+        "^[A-Z][A-Z0-9_]*$": {
+          "type": "object",
+          "properties": {
+            "attempted": {
+              "type": "integer",
+              "minimum": 0
             },
-            "required": ["dsa", "system_design", "database", "oop", "networking", "devops"]
+            "correct": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "avg_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            },
+            "last_updated": {
+              "type": ["string", "null"],
+              "format": "date-time"
+            }
+          },
+          "required": ["attempted", "correct", "avg_score"]
+        }
+      },
+      "additionalProperties": false
+    },
+    "history": {
+      "type": "object",
+      "description": "Lịch sử học và làm bài tổng quan",
+      "properties": {
+        "total_attempts": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "unique_questions_answered": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "accuracy_rate": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "last_test_at": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        }
+      },
+      "required": ["total_attempts", "unique_questions_answered", "accuracy_rate"]
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "profile_version": {
+          "type": "string"
         },
         "created_at": {
-            "type": "string",
-            "format": "date-time"
+          "type": "string",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date-time"
         }
-    },
-    "required": ["user_id", "name", "target_role", "competency_vector"]
+      },
+      "required": ["profile_version", "created_at", "updated_at"]
+    }
+  },
+  "required": [
+    "user_id",
+    "name",
+    "target_role",
+    "current_level",
+    "skill_vector",
+    "history",
+    "metadata"
+  ]
 }

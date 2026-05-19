@@ -1,0 +1,517 @@
+[
+  {
+    "user_id": "USR_DA_001",
+    "name": "Nguyen Thi Mai",
+    "email": "mai.nguyen@example.com",
+    "target_role": "DA",
+    "current_level": "Middle",
+    "experience_years": 3.5,
+    "skill_vector": {
+      "SQL_DATABASE": 3.63,
+      "BI_VISUALIZATION": 3.76,
+      "STATISTICS_EXPERIMENTATION": 3.35,
+      "ANALYTICS_BUSINESS": 3.35,
+      "PYTHON_ANALYTICS": 3.35
+    },
+    "tag_stats": {
+      "ANALYTICS_BUSINESS": {
+        "attempted": 4,
+        "correct": 4,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:25:00Z"
+      },
+      "ANALYTICS_COHORT": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T09:45:00Z"
+      },
+      "ANALYTICS_FUNNEL": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T09:55:00Z"
+      },
+      "ANALYTICS_RFM": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T09:50:00Z"
+      },
+      "BI_CONCEPTS": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 1.0,
+        "last_updated": "2026-05-10T10:30:00Z"
+      },
+      "DATABASE_DESIGN": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T09:25:00Z"
+      },
+      "DATA_MODELING": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:00:00Z"
+      },
+      "DATA_PREPROCESSING": {
+        "attempted": 2,
+        "correct": 2,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:20:00Z"
+      },
+      "DATA_VISUALIZATION": {
+        "attempted": 2,
+        "correct": 2,
+        "avg_score": 0.835,
+        "last_updated": "2026-05-10T10:30:00Z"
+      },
+      "DAX_FUNDAMENTALS": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:05:00Z"
+      },
+      "DB_ACID": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T09:25:00Z"
+      },
+      "PYTHON_PANDAS": {
+        "attempted": 2,
+        "correct": 2,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T09:20:00Z"
+      },
+      "SQL_AGGREGATION": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T09:20:00Z"
+      },
+      "SQL_CTE": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 1.0,
+        "last_updated": "2026-05-10T09:00:00Z"
+      },
+      "SQL_FUNDAMENTALS": {
+        "attempted": 4,
+        "correct": 4,
+        "avg_score": 0.753,
+        "last_updated": "2026-05-10T10:35:00Z"
+      },
+      "SQL_JOIN": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T09:05:00Z"
+      },
+      "SQL_PERFORMANCE": {
+        "attempted": 2,
+        "correct": 2,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:35:00Z"
+      },
+      "STAT_AB_TESTING": {
+        "attempted": 3,
+        "correct": 3,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:25:00Z"
+      },
+      "STAT_CONFIDENCE_INTERVAL": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T09:40:00Z"
+      },
+      "STAT_DESCRIPTIVE": {
+        "attempted": 3,
+        "correct": 3,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:15:00Z"
+      },
+      "STAT_FUNDAMENTALS": {
+        "attempted": 2,
+        "correct": 2,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T09:40:00Z"
+      },
+      "STAT_HYPOTHESIS_TESTING": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T09:35:00Z"
+      },
+      "TOOL_POWER_BI": {
+        "attempted": 2,
+        "correct": 2,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:05:00Z"
+      },
+      "TOOL_TABLEAU": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:10:00Z"
+      }
+    },
+    "history": {
+      "total_attempts": 20,
+      "unique_questions_answered": 20,
+      "total_tests_taken": 1,
+      "avg_score": 0.703,
+      "accuracy_rate": 1.0,
+      "last_test_at": "2026-05-10T10:35:00Z",
+      "total_questions_answered": 20
+    },
+    "metadata": {
+      "profile_version": "v2.0",
+      "created_at": "2026-05-10T09:00:00Z",
+      "updated_at": "2026-05-10T10:35:00Z"
+    }
+  },
+  {
+    "user_id": "USR_DE_001",
+    "name": "Tran Van Long",
+    "email": "long.tran@example.com",
+    "target_role": "DE",
+    "current_level": "Junior",
+    "experience_years": 1.5,
+    "skill_vector": {
+      "DATA_PIPELINE": 3.01,
+      "DATA_ARCHITECTURE_MODELING": 3.35,
+      "BIG_DATA_CLOUD_TOOLS": 3.09,
+      "DATABASE_INTERNALS": 3.35,
+      "SYSTEM_ARCHITECTURE": 3.35
+    },
+    "tag_stats": {
+      "ARCH_DATA_ARCHITECTURE": {
+        "attempted": 2,
+        "correct": 2,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T09:15:00Z"
+      },
+      "ARCH_STREAMING": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:25:00Z"
+      },
+      "ARCH_SYSTEM_DESIGN": {
+        "attempted": 2,
+        "correct": 2,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:20:00Z"
+      },
+      "BIG_DATA_OPTIMIZATION": {
+        "attempted": 4,
+        "correct": 3,
+        "avg_score": 0.585,
+        "last_updated": "2026-05-10T10:10:00Z"
+      },
+      "CLOUD_AWS": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:15:00Z"
+      },
+      "CLOUD_GCP": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:20:00Z"
+      },
+      "DATABASE_INDEXING": {
+        "attempted": 2,
+        "correct": 2,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T09:05:00Z"
+      },
+      "DATABASE_SCALING": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T09:15:00Z"
+      },
+      "DATA_LAKE": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T09:55:00Z"
+      },
+      "DATA_PIPELINE_DESIGN": {
+        "attempted": 5,
+        "correct": 3,
+        "avg_score": 0.534,
+        "last_updated": "2026-05-10T10:30:00Z"
+      },
+      "DATA_WAREHOUSE": {
+        "attempted": 3,
+        "correct": 3,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:20:00Z"
+      },
+      "DEVOPS_DOCKER": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:35:00Z"
+      },
+      "FORMAT_AVRO": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:10:00Z"
+      },
+      "FORMAT_ORC": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:10:00Z"
+      },
+      "PIPE_CDC": {
+        "attempted": 4,
+        "correct": 4,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:30:00Z"
+      },
+      "PIPE_ETL": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:30:00Z"
+      },
+      "PIPE_ORCHESTRATION": {
+        "attempted": 4,
+        "correct": 4,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:35:00Z"
+      },
+      "SPARK_DAG": {
+        "attempted": 1,
+        "correct": 0,
+        "avg_score": 0.33,
+        "last_updated": "2026-05-10T09:35:00Z"
+      },
+      "SQL_PERFORMANCE": {
+        "attempted": 3,
+        "correct": 3,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:15:00Z"
+      },
+      "TOOL_AIRFLOW": {
+        "attempted": 2,
+        "correct": 2,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T09:45:00Z"
+      },
+      "TOOL_KAFKA": {
+        "attempted": 3,
+        "correct": 3,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:25:00Z"
+      },
+      "TOOL_SPARK": {
+        "attempted": 4,
+        "correct": 2,
+        "avg_score": 0.5,
+        "last_updated": "2026-05-10T09:35:00Z"
+      }
+    },
+    "history": {
+      "total_attempts": 20,
+      "unique_questions_answered": 20,
+      "total_tests_taken": 1,
+      "avg_score": 0.636,
+      "accuracy_rate": 0.9,
+      "last_test_at": "2026-05-10T10:35:00Z",
+      "total_questions_answered": 20
+    },
+    "metadata": {
+      "profile_version": "v2.0",
+      "created_at": "2026-05-10T09:00:00Z",
+      "updated_at": "2026-05-10T10:35:00Z"
+    }
+  },
+  {
+    "user_id": "USR_DS_001",
+    "name": "Le Minh Anh",
+    "email": "anh.le@example.com",
+    "target_role": "DS",
+    "current_level": "Fresher",
+    "experience_years": 0.5,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 2.26,
+      "EVALUATION_METRICS": 1.65,
+      "DATA_PREPROCESSING": 2.08,
+      "DEEP_LEARNING": 2.08,
+      "NLP": 2.5,
+      "TIME_SERIES": 1.65,
+      "MLOPS": 2.5
+    },
+    "tag_stats": {
+      "DL_CNN": {
+        "attempted": 1,
+        "correct": 0,
+        "avg_score": 0.33,
+        "last_updated": "2026-05-10T09:45:00Z"
+      },
+      "DL_FUNDAMENTALS": {
+        "attempted": 1,
+        "correct": 0,
+        "avg_score": 0.33,
+        "last_updated": "2026-05-10T09:45:00Z"
+      },
+      "DL_TRAINING": {
+        "attempted": 3,
+        "correct": 1,
+        "avg_score": 0.443,
+        "last_updated": "2026-05-10T09:40:00Z"
+      },
+      "EVAL_CLASSIFICATION_REPORT": {
+        "attempted": 1,
+        "correct": 0,
+        "avg_score": 0.33,
+        "last_updated": "2026-05-10T10:30:00Z"
+      },
+      "EVAL_REGRESSION": {
+        "attempted": 1,
+        "correct": 0,
+        "avg_score": 0.33,
+        "last_updated": "2026-05-10T10:35:00Z"
+      },
+      "FEATURE_ENGINEERING": {
+        "attempted": 3,
+        "correct": 1,
+        "avg_score": 0.443,
+        "last_updated": "2026-05-10T10:35:00Z"
+      },
+      "IMBALANCED_DATA_HANDLING": {
+        "attempted": 1,
+        "correct": 0,
+        "avg_score": 0.33,
+        "last_updated": "2026-05-10T10:30:00Z"
+      },
+      "METRIC_F1_SCORE": {
+        "attempted": 1,
+        "correct": 0,
+        "avg_score": 0.33,
+        "last_updated": "2026-05-10T09:15:00Z"
+      },
+      "ML_ANOMALY_DETECTION": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:05:00Z"
+      },
+      "ML_CLUSTERING": {
+        "attempted": 1,
+        "correct": 0,
+        "avg_score": 0.33,
+        "last_updated": "2026-05-10T10:00:00Z"
+      },
+      "ML_DIMENSIONALITY_REDUCTION": {
+        "attempted": 1,
+        "correct": 0,
+        "avg_score": 0.33,
+        "last_updated": "2026-05-10T09:05:00Z"
+      },
+      "ML_EXPLAINABILITY": {
+        "attempted": 1,
+        "correct": 0,
+        "avg_score": 0.33,
+        "last_updated": "2026-05-10T10:20:00Z"
+      },
+      "ML_MLOPS": {
+        "attempted": 2,
+        "correct": 1,
+        "avg_score": 0.5,
+        "last_updated": "2026-05-10T10:25:00Z"
+      },
+      "ML_MODEL_SELECTION": {
+        "attempted": 8,
+        "correct": 3,
+        "avg_score": 0.458,
+        "last_updated": "2026-05-10T10:35:00Z"
+      },
+      "ML_MONITORING": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T10:25:00Z"
+      },
+      "ML_RECOMMENDER_SYSTEM": {
+        "attempted": 2,
+        "correct": 1,
+        "avg_score": 0.5,
+        "last_updated": "2026-05-10T10:15:00Z"
+      },
+      "ML_REGULARIZATION": {
+        "attempted": 3,
+        "correct": 1,
+        "avg_score": 0.443,
+        "last_updated": "2026-05-10T09:40:00Z"
+      },
+      "ML_SUPERVISED": {
+        "attempted": 2,
+        "correct": 1,
+        "avg_score": 0.5,
+        "last_updated": "2026-05-10T09:55:00Z"
+      },
+      "ML_TIME_SERIES": {
+        "attempted": 2,
+        "correct": 0,
+        "avg_score": 0.33,
+        "last_updated": "2026-05-10T09:25:00Z"
+      },
+      "ML_UNSUPERVISED": {
+        "attempted": 4,
+        "correct": 1,
+        "avg_score": 0.415,
+        "last_updated": "2026-05-10T10:15:00Z"
+      },
+      "NLP_EVALUATION": {
+        "attempted": 1,
+        "correct": 0,
+        "avg_score": 0.33,
+        "last_updated": "2026-05-10T09:15:00Z"
+      },
+      "NLP_FUNDAMENTALS": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T09:10:00Z"
+      },
+      "NLP_PREPROCESSING": {
+        "attempted": 1,
+        "correct": 1,
+        "avg_score": 0.67,
+        "last_updated": "2026-05-10T09:10:00Z"
+      },
+      "STAT_DESCRIPTIVE": {
+        "attempted": 1,
+        "correct": 0,
+        "avg_score": 0.33,
+        "last_updated": "2026-05-10T09:20:00Z"
+      }
+    },
+    "history": {
+      "total_attempts": 20,
+      "unique_questions_answered": 20,
+      "total_tests_taken": 1,
+      "avg_score": 0.449,
+      "accuracy_rate": 0.35,
+      "last_test_at": "2026-05-10T10:35:00Z",
+      "total_questions_answered": 20
+    },
+    "metadata": {
+      "profile_version": "v2.0",
+      "created_at": "2026-05-10T09:00:00Z",
+      "updated_at": "2026-05-10T10:35:00Z"
+    }
+  }
+]

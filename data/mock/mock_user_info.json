@@ -1,0 +1,26 @@
+[
+  {
+    "user_id": "USR_DA_001",
+    "name": "Nguyen Thi Mai",
+    "email": "mai.nguyen@example.com",
+    "target_role": "DA",
+    "current_level": "Middle",
+    "experience_years": 3.5
+  },
+  {
+    "user_id": "USR_DE_001",
+    "name": "Tran Van Long",
+    "email": "long.tran@example.com",
+    "target_role": "DE",
+    "current_level": "Junior",
+    "experience_years": 1.5
+  },
+  {
+    "user_id": "USR_DS_001",
+    "name": "Le Minh Anh",
+    "email": "anh.le@example.com",
+    "target_role": "DS",
+    "current_level": "Fresher",
+    "experience_years": 0.5
+  }
+]

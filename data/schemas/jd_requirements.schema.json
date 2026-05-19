@@ -1,0 +1,57 @@
+{
+  "DE": {
+    "role_name": "Data Engineer",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "DATA_ARCHITECTURE_MODELING",
+      "BIG_DATA_CLOUD_TOOLS",
+      "DATABASE_INTERNALS",
+      "SYSTEM_ARCHITECTURE"
+    ],
+    "required_vector": {
+      "DATA_PIPELINE": 4.0,
+      "DATA_ARCHITECTURE_MODELING": 4.0,
+      "BIG_DATA_CLOUD_TOOLS": 3.5,
+      "DATABASE_INTERNALS": 3.0,
+      "SYSTEM_ARCHITECTURE": 3.0
+    }
+  },
+  "DA": {
+    "role_name": "Data Analyst",
+    "skill_groups": [
+      "SQL_DATABASE",
+      "BI_VISUALIZATION",
+      "STATISTICS_EXPERIMENTATION",
+      "ANALYTICS_BUSINESS",
+      "PYTHON_ANALYTICS"
+    ],
+    "required_vector": {
+      "SQL_DATABASE": 4.0,
+      "BI_VISUALIZATION": 3.5,
+      "STATISTICS_EXPERIMENTATION": 3.0,
+      "ANALYTICS_BUSINESS": 3.0,
+      "PYTHON_ANALYTICS": 2.5
+    }
+  },
+    "DS": {
+    "role_name": "Data Scientist",
+    "skill_groups": [
+      "ALGORITHM_THEORY",
+      "EVALUATION_METRICS",
+      "DATA_PREPROCESSING",
+      "DEEP_LEARNING",
+      "NLP",
+      "TIME_SERIES",
+      "MLOPS"
+    ],
+    "required_vector": {
+      "ALGORITHM_THEORY": 4.0,
+      "EVALUATION_METRICS": 4.0,
+      "DATA_PREPROCESSING": 3.5,
+      "DEEP_LEARNING": 3.0,
+      "NLP": 3.0,
+      "TIME_SERIES": 3.0,
+      "MLOPS": 2.5
+    }
+  }
+}

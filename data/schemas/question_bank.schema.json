@@ -17,6 +17,7 @@
         "difficulty_label": { "type": "string", "enum": ["EASY", "MEDIUM", "HARD", "EXPERT"] },
         "difficulty_score": { "type": "integer", "minimum": 1, "maximum": 10 },
         "question_type": { "type": "string", "enum": ["THEORY", "PRACTICE", "CODING"] },
+        "skill_groups": {"type": "array","items": { "type": "string" }},
         "skill_tags": { "type": "array", "items": { "type": "string" } },
         "answers": {
             "type": "object",
@@ -36,5 +37,5 @@
             }
         }
     },
-    "required": ["question_id", "question_text", "roles", "difficulty_label", "answers"]
+        "required": ["question_id","question_text","roles","difficulty_label","difficulty_score","question_type","skill_groups","skill_tags","answers"]
 }

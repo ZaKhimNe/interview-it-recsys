@@ -1,0 +1,602 @@
+[
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_006",
+    "matched_points": 3,
+    "total_points": 3,
+    "score": 1.0,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:00:00Z"
+  },
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_007",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:05:00Z"
+  },
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_008",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:10:00Z"
+  },
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_009",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:15:00Z"
+  },
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_010",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:20:00Z"
+  },
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_011",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:25:00Z"
+  },
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_012",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:30:00Z"
+  },
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_013",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:35:00Z"
+  },
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_014",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:40:00Z"
+  },
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_015",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:45:00Z"
+  },
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_016",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:50:00Z"
+  },
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_017",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:55:00Z"
+  },
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_018",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T10:00:00Z"
+  },
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_019",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T10:05:00Z"
+  },
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_020",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T10:10:00Z"
+  },
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_021",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T10:15:00Z"
+  },
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_022",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T10:20:00Z"
+  },
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_023",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T10:25:00Z"
+  },
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_024",
+    "matched_points": 3,
+    "total_points": 3,
+    "score": 1.0,
+    "is_correct": true,
+    "answered_at": "2026-05-10T10:30:00Z"
+  },
+  {
+    "session_id": "SES_DA_001",
+    "user_id": "USR_DA_001",
+    "question_id": "DA_025",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T10:35:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_006",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:00:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_007",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:05:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_008",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:10:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_009",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:15:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_010",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:20:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_011",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:25:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_012",
+    "matched_points": 1,
+    "total_points": 3,
+    "score": 0.33,
+    "is_correct": false,
+    "answered_at": "2026-05-10T09:30:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_013",
+    "matched_points": 1,
+    "total_points": 3,
+    "score": 0.33,
+    "is_correct": false,
+    "answered_at": "2026-05-10T09:35:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_014",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:40:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_015",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:45:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_016",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:50:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_017",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:55:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_018",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T10:00:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_019",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T10:05:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_020",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T10:10:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_021",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T10:15:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_022",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T10:20:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_023",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T10:25:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_024",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T10:30:00Z"
+  },
+  {
+    "session_id": "SES_DE_001",
+    "user_id": "USR_DE_001",
+    "question_id": "DE_025",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T10:35:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_006",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:00:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_007",
+    "matched_points": 1,
+    "total_points": 3,
+    "score": 0.33,
+    "is_correct": false,
+    "answered_at": "2026-05-10T09:05:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_008",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:10:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_009",
+    "matched_points": 1,
+    "total_points": 3,
+    "score": 0.33,
+    "is_correct": false,
+    "answered_at": "2026-05-10T09:15:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_010",
+    "matched_points": 1,
+    "total_points": 3,
+    "score": 0.33,
+    "is_correct": false,
+    "answered_at": "2026-05-10T09:20:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_011",
+    "matched_points": 1,
+    "total_points": 3,
+    "score": 0.33,
+    "is_correct": false,
+    "answered_at": "2026-05-10T09:25:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_012",
+    "matched_points": 1,
+    "total_points": 3,
+    "score": 0.33,
+    "is_correct": false,
+    "answered_at": "2026-05-10T09:30:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_013",
+    "matched_points": 1,
+    "total_points": 3,
+    "score": 0.33,
+    "is_correct": false,
+    "answered_at": "2026-05-10T09:35:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_014",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:40:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_015",
+    "matched_points": 1,
+    "total_points": 3,
+    "score": 0.33,
+    "is_correct": false,
+    "answered_at": "2026-05-10T09:45:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_016",
+    "matched_points": 1,
+    "total_points": 3,
+    "score": 0.33,
+    "is_correct": false,
+    "answered_at": "2026-05-10T09:50:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_017",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T09:55:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_018",
+    "matched_points": 1,
+    "total_points": 3,
+    "score": 0.33,
+    "is_correct": false,
+    "answered_at": "2026-05-10T10:00:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_019",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T10:05:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_020",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T10:10:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_021",
+    "matched_points": 1,
+    "total_points": 3,
+    "score": 0.33,
+    "is_correct": false,
+    "answered_at": "2026-05-10T10:15:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_022",
+    "matched_points": 1,
+    "total_points": 3,
+    "score": 0.33,
+    "is_correct": false,
+    "answered_at": "2026-05-10T10:20:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_023",
+    "matched_points": 2,
+    "total_points": 3,
+    "score": 0.67,
+    "is_correct": true,
+    "answered_at": "2026-05-10T10:25:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_024",
+    "matched_points": 1,
+    "total_points": 3,
+    "score": 0.33,
+    "is_correct": false,
+    "answered_at": "2026-05-10T10:30:00Z"
+  },
+  {
+    "session_id": "SES_DS_001",
+    "user_id": "USR_DS_001",
+    "question_id": "DS_025",
+    "matched_points": 1,
+    "total_points": 3,
+    "score": 0.33,
+    "is_correct": false,
+    "answered_at": "2026-05-10T10:35:00Z"
+  }
+]
