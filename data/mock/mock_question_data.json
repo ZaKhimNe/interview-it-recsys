@@ -1992,5 +1992,4233 @@
       "DATA_PREPROCESSING",
       "EVALUATION_METRICS"
     ]
+  },
+  {
+    "question_id": "DA_026",
+    "question_text": "Trong SQL, mệnh đề nào dùng để lọc kết quả sau khi GROUP BY?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "SQL_DATABASE"
+    ],
+    "skill_tags": [
+      "SQL_FUNDAMENTALS"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "WHERE"
+      },
+      {
+        "id": "B",
+        "text": "HAVING"
+      },
+      {
+        "id": "C",
+        "text": "FILTER"
+      },
+      {
+        "id": "D",
+        "text": "ORDER BY"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "B",
+      "explanation": "WHERE lọc trước khi GROUP BY, HAVING lọc sau khi GROUP BY. Mệnh đề HAVING hoạt động tương tự WHERE nhưng áp dụng cho các nhóm đã được tổng hợp."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v3.0",
+      "created_at": "2026-05-20"
+    }
+  },
+  {
+    "question_id": "DA_028",
+    "question_text": "Normalization trong database có mục đích chính là giảm dư thừa dữ liệu.",
+    "roles": {
+      "primary": "DA",
+      "secondary": [
+        "DE"
+      ]
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 1,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "SQL_DATABASE"
+    ],
+    "skill_tags": [
+      "SQL_FUNDAMENTALS"
+    ],
+    "answers": {
+      "correct_answer": true,
+      "explanation": "Normalization (chuẩn hóa) là quá trình tổ chức dữ liệu trong database nhằm giảm dư thừa (redundancy) và cải thiện tính toàn vẹn dữ liệu (data integrity)."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v3.0",
+      "created_at": "2026-05-20"
+    }
+  },
+  {
+    "question_id": "DA_029",
+    "question_text": "Hoàn thành câu sau: 'Trong Python, thư viện ___ được dùng để thao tác dữ liệu dạng bảng, còn thư viện ___ để tính toán số học.'",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "template": "Trong Python, thư viện [___] được dùng để thao tác dữ liệu dạng bảng, còn thư viện [___] để tính toán số học.",
+    "answers": {
+      "accepted_answers": [
+        [
+          "Pandas",
+          "pandas"
+        ],
+        [
+          "NumPy",
+          "numpy"
+        ]
+      ],
+      "explanation": "Pandas cung cấp DataFrame để thao tác dữ liệu dạng bảng. NumPy cung cấp mảng đa chiều và các phép tính vector hóa."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v3.0",
+      "created_at": "2026-05-20"
+    }
+  },
+  {
+    "question_id": "DE_026",
+    "question_text": "Trong kiến trúc Microservices, pattern nào dùng để tập trung quản lý cấu hình của tất cả các service?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "SYSTEM_ARCHITECTURE"
+    ],
+    "skill_tags": [
+      "ARCH_SYSTEM_DESIGN"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "Service Discovery"
+      },
+      {
+        "id": "B",
+        "text": "Config Server"
+      },
+      {
+        "id": "C",
+        "text": "API Gateway"
+      },
+      {
+        "id": "D",
+        "text": "Circuit Breaker"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "B",
+      "explanation": "Config Server (ví dụ Spring Cloud Config) là pattern tập trung quản lý cấu hình cho tất cả microservices. Service Discovery giúp tìm service, API Gateway làm cổng vào, Circuit Breaker xử lý lỗi."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v3.0",
+      "created_at": "2026-05-20"
+    }
+  },
+  {
+    "question_id": "DE_027",
+    "question_text": "Hệ thống phân tán nhất quán cuối cùng (eventually consistent) đảm bảo mọi node luôn có cùng dữ liệu tại mọi thời điểm.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "SYSTEM_ARCHITECTURE"
+    ],
+    "skill_tags": [
+      "ARCH_SYSTEM_DESIGN"
+    ],
+    "answers": {
+      "correct_answer": false,
+      "explanation": "Eventually consistent có nghĩa là dữ liệu SẼ được đồng bộ sau một thời gian, không phải NGAY LẬP TỨC tại mọi thời điểm. Strong consistency mới đảm bảo đồng bộ tức thời."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v3.0",
+      "created_at": "2026-05-20"
+    }
+  },
+  {
+    "question_id": "DE_028",
+    "question_text": "Viết hàm Python kiểm tra một chuỗi có phải là palindrome không (đọc xuôi ngược giống nhau).",
+    "roles": {
+      "primary": "DE",
+      "secondary": [
+        "DA"
+      ]
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "DATA_PIPELINE"
+    ],
+    "skill_tags": [
+      "LANG_PYTHON"
+    ],
+    "starter_code": "def is_palindrome(s: str) -> bool:\n    # Xóa khoảng trắng và chuyển về chữ thường\n    s = ''.join(c.lower() for c in s if c.isalnum())\n    # TODO: Viết logic kiểm tra palindrome\n    pass",
+    "test_cases": [
+      {
+        "input": "racecar",
+        "expected_output": "True"
+      },
+      {
+        "input": "hello",
+        "expected_output": "False"
+      },
+      {
+        "input": "A man a plan a canal Panama",
+        "expected_output": "True"
+      }
+    ],
+    "constraints": "Độ dài chuỗi tối đa 10^5 ký tự. Chỉ dùng ký tự chữ và số để so sánh.",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "Hàm kiểm tra palindrome bằng cách so sánh chuỗi đã xử lý với chuỗi đảo ngược của nó: `return s == s[::-1]`",
+      "evaluation_points": [
+        "Xóa ký tự không phải chữ/số và chuyển về chữ thường",
+        "So sánh chuỗi với phiên bản đảo ngược",
+        "Big-O: O(n) time, O(n) space"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "leetcode_adapted",
+      "version": "v3.0",
+      "created_at": "2026-05-20"
+    }
+  },
+  {
+    "question_id": "DS_026",
+    "question_text": "Kỹ thuật nào sau đây KHÔNG phải là phương pháp regularization trong Machine Learning?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "ALGORITHM_THEORY"
+    ],
+    "skill_tags": [
+      "ML_SUPERVISED"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "L1 Regularization (Lasso)"
+      },
+      {
+        "id": "B",
+        "text": "L2 Regularization (Ridge)"
+      },
+      {
+        "id": "C",
+        "text": "Dropout"
+      },
+      {
+        "id": "D",
+        "text": "Gradient Boosting"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "D",
+      "explanation": "Gradient Boosting là một thuật toán ensemble, không phải kỹ thuật regularization. L1/L2 thêm penalty vào loss function, Dropout ngẫu nhiên tắt neuron trong quá trình training."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v3.0",
+      "created_at": "2026-05-20"
+    }
+  },
+  {
+    "question_id": "DS_028",
+    "question_text": "Viết hàm Python tính Mean Squared Error (MSE) giữa hai list số thực y_true và y_pred.",
+    "roles": {
+      "primary": "DS",
+      "secondary": [
+        "DE"
+      ]
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "EVALUATION_METRICS",
+      "ALGORITHM_THEORY"
+    ],
+    "skill_tags": [
+      "LANG_PYTHON",
+      "EVAL_CLASSIFICATION"
+    ],
+    "starter_code": "def mse(y_true: list[float], y_pred: list[float]) -> float:\n    # TODO: Tính Mean Squared Error\n    pass",
+    "test_cases": [
+      {
+        "input": "[1, 2, 3] [1, 2, 3]",
+        "expected_output": "0.0"
+      },
+      {
+        "input": "[1, 2, 3] [2, 3, 4]",
+        "expected_output": "1.0"
+      },
+      {
+        "input": "[0, 0, 0] [3, 4, 5]",
+        "expected_output": "16.666666666666668"
+      }
+    ],
+    "constraints": "Hai list có cùng độ dài. Kết quả làm tròn đến 6 chữ số thập phân.",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "Công thức MSE = (1/n) * Σ(y_true_i - y_pred_i)². Có thể dùng list comprehension hoặc numpy.",
+      "evaluation_points": [
+        "Kiểm tra độ dài hai list bằng nhau",
+        "Tính bình phương hiệu cho từng cặp",
+        "Chia tổng cho số lượng phần tử"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "leetcode_adapted",
+      "version": "v3.0",
+      "created_at": "2026-05-20"
+    }
+  },
+  {
+    "question_id": "DS_029",
+    "question_text": "Overfitting xảy ra khi mô hình học quá khớp với dữ liệu huấn luyện và không tổng quát hóa tốt trên dữ liệu mới.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 1,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "ALGORITHM_THEORY"
+    ],
+    "skill_tags": [
+      "ML_SUPERVISED"
+    ],
+    "answers": {
+      "correct_answer": true,
+      "explanation": "Overfitting (quá khớp) xảy ra khi mô hình có độ phức tạp cao, học cả nhiễu trong dữ liệu huấn luyện, dẫn đến hiệu suất kém trên tập test/validation. Dấu hiệu: train loss thấp, test loss cao."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v3.0",
+      "created_at": "2026-05-20"
+    }
+  },
+  {
+    "question_id": "DS_030",
+    "question_text": "Kỹ thuật ___ được dùng để giảm số chiều dữ liệu, còn ___ được dùng để phát hiện anomaly bằng cách tạo ra lỗi tái tạo.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "DEEP_LEARNING",
+      "DATA_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "DL_UNSUPERVISED",
+      "FEATURE_ENGINEERING"
+    ],
+    "template": "Kỹ thuật [___] được dùng để giảm số chiều dữ liệu, còn [___] được dùng để phát hiện anomaly bằng cách tạo ra lỗi tái tạo.",
+    "answers": {
+      "accepted_answers": [
+        [
+          "PCA",
+          "Principal Component Analysis",
+          "pca"
+        ],
+        [
+          "Autoencoder",
+          "autoencoder",
+          "AutoEncoder"
+        ]
+      ],
+      "explanation": "PCA (Principal Component Analysis) biến đổi dữ liệu sang hệ tọa độ mới với ít chiều hơn. Autoencoder là mạng neural học cách tái tạo đầu vào; dữ liệu bất thường sẽ có reconstruction error cao."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v3.0",
+      "created_at": "2026-05-20"
+    }
+  },
+  {
+    "question_id": "DA_030",
+    "question_text": "Viết hàm Python nhận vào một list các dict (mỗi dict là một dòng dữ liệu, giả lập bảng SQL) và trả về kết quả sau khi GROUP BY một cột cho trước kèm COUNT.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "SQL_DATABASE",
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "SQL_AGGREGATION",
+      "PYTHON_PANDAS"
+    ],
+    "starter_code": "def group_count(records: list[dict], group_col: str) -> list[dict]:\n    # TODO: GROUP BY group_col va dem so dong\n    pass",
+    "test_cases": [
+      {
+        "input": "records=[{'dept':'IT','name':'A'},{'dept':'IT','name':'B'},{'dept':'HR','name':'C'}] group_col='dept'",
+        "expected_output": "[{'dept': 'IT', 'count': 2}, {'dept': 'HR', 'count': 1}]"
+      },
+      {
+        "input": "records=[] group_col='x'",
+        "expected_output": "[]"
+      },
+      {
+        "input": "records=[{'city':'HN','val':1},{'city':'SG','val':2},{'city':'HN','val':3}] group_col='city'",
+        "expected_output": "[{'city': 'HN', 'count': 2}, {'city': 'SG', 'count': 1}]"
+      }
+    ],
+    "constraints": "Không dùng thư viện ngoài (chỉ dùng Python built-in). Kết quả có thể sắp xếp theo bất kỳ thứ tự nào.",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "Duyệt qua list, dùng dictionary để đếm số lần xuất hiện của mỗi giá trị trong cột group_col, sau đó chuyển về list dict với key là group_col và count.",
+      "evaluation_points": [
+        "Duyệt qua từng record và lấy giá trị cột group_col",
+        "Đếm số lần xuất hiện bằng dict",
+        "Trả về list các dict với key group_col và count"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_031",
+    "question_text": "Viết hàm Python tính trung bình động (moving average) với cửa sổ k cho một list số thực.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 3,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "starter_code": "def moving_average(data: list[float], k: int) -> list[float]:\n    # TODO: Tinh trung binh dong voi cua so k\n    pass",
+    "test_cases": [
+      {
+        "input": "data=[1,2,3,4,5] k=3",
+        "expected_output": "[2.0, 3.0, 4.0]"
+      },
+      {
+        "input": "data=[10,20,30] k=1",
+        "expected_output": "[10.0, 20.0, 30.0]"
+      },
+      {
+        "input": "data=[5,5,5] k=3",
+        "expected_output": "[5.0]"
+      }
+    ],
+    "constraints": "k >= 1. Nếu len(data) < k, trả về list rỗng. Kết quả làm tròn 1 chữ số thập phân.",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "Dùng sliding window: với mỗi vị trí i từ 0 đến len(data)-k, tính trung bình của k phần tử bắt đầu từ i. Có thể tối ưu bằng cumulative sum.",
+      "evaluation_points": [
+        "Xử lý biên: len(data) < k → trả về []",
+        "Tính trung bình cho mỗi cửa sổ trượt",
+        "Kết quả có độ dài len(data) - k + 1"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_032",
+    "question_text": "Trong SQL, mệnh đề nào dùng để lọc kết quả sau khi GROUP BY?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "SQL_DATABASE"
+    ],
+    "skill_tags": [
+      "SQL_FUNDAMENTALS",
+      "SQL_AGGREGATION"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "WHERE"
+      },
+      {
+        "id": "B",
+        "text": "HAVING"
+      },
+      {
+        "id": "C",
+        "text": "FILTER"
+      },
+      {
+        "id": "D",
+        "text": "LIMIT"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "B",
+      "explanation": "WHERE lọc dữ liệu TRƯỚC khi GROUP BY, còn HAVING lọc dữ liệu SAU khi GROUP BY. Mệnh đề HAVING hoạt động tương tự WHERE nhưng áp dụng cho các nhóm đã được tổng hợp."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_033",
+    "question_text": "Hàm COUNT(*) và COUNT(1) trong SQL luôn trả về kết quả khác nhau.",
+    "roles": {
+      "primary": "DA",
+      "secondary": [
+        "DE"
+      ]
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "SQL_DATABASE"
+    ],
+    "skill_tags": [
+      "SQL_FUNDAMENTALS",
+      "SQL_AGGREGATION"
+    ],
+    "answers": {
+      "correct_answer": false,
+      "explanation": "Trong hầu hết các hệ quản trị cơ sở dữ liệu hiện đại, COUNT(*) và COUNT(1) trả về kết quả GIỐNG NHAU (đều đếm số dòng). Sự khác biệt duy nhất là ở phiên bản SQL rất cũ hoặc một số hệ thống đặc thù, nhưng về mặt logic và hiệu năng thì tương đương."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_034",
+    "question_text": "Hoàn thành câu sau: 'Trong SQL, ___ JOIN trả về tất cả các dòng từ bảng bên trái và các dòng khớp từ bảng bên phải. Các dòng bên phải không khớp sẽ hiển thị giá trị NULL.'",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "SQL_DATABASE"
+    ],
+    "skill_tags": [
+      "SQL_JOIN",
+      "SQL_FUNDAMENTALS"
+    ],
+    "template": "Trong SQL, [___] JOIN trả về tất cả các dòng từ bảng bên trái và các dòng khớp từ bảng bên phải. Các dòng bên phải không khớp sẽ hiển thị giá trị NULL.",
+    "answers": {
+      "accepted_answers": [
+        [
+          "LEFT",
+          "left",
+          "Left"
+        ]
+      ],
+      "explanation": "LEFT JOIN (hay LEFT OUTER JOIN) giữ lại toàn bộ dữ liệu từ bảng bên trái, chỉ ghép nối với các dòng khớp từ bảng bên phải. Những dòng bên phải không có bản ghi khớp sẽ được điền giá trị NULL."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_035",
+    "question_text": "Trong DAX (Power BI), hàm nào sau đây dùng để thay đổi ngữ cảnh bộ lọc (Filter Context) khi tính toán?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "BI_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "DAX_FUNDAMENTALS",
+      "TOOL_POWER_BI"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "SUM"
+      },
+      {
+        "id": "B",
+        "text": "CALCULATE"
+      },
+      {
+        "id": "C",
+        "text": "TOTALYTD"
+      },
+      {
+        "id": "D",
+        "text": "RELATED"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "B",
+      "explanation": "CALCULATE là hàm quan trọng nhất trong DAX, cho phép đánh giá một biểu thức trong một ngữ cảnh bộ lọc đã được sửa đổi. Cú pháp: CALCULATE(Expression, Filter1, Filter2, ...). Thứ tự đánh giá: Filter trước, Expression sau."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_036",
+    "question_text": "Hoàn thành câu sau: 'Trong Power BI, giữa hai bảng chỉ có thể có một mối quan hệ Active. Các mối quan hệ còn lại là ___ và phải được kích hoạt thủ công qua hàm USERELATIONSHIP().'",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "BI_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI",
+      "DATA_MODELING"
+    ],
+    "template": "Trong Power BI, giữa hai bảng chỉ có thể có một mối quan hệ Active. Các mối quan hệ còn lại là [___] và phải được kích hoạt thủ công qua hàm USERELATIONSHIP().",
+    "answers": {
+      "accepted_answers": [
+        [
+          "Inactive",
+          "inactive",
+          "Inactive relationship",
+          "inactive relationship"
+        ]
+      ],
+      "explanation": "Trong Power BI, mối quan hệ Active (đường nét liền) được dùng mặc định trong filter context. Mối quan hệ Inactive (đường nét đứt) chỉ được kích hoạt khi dùng hàm USERELATIONSHIP() trong DAX."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_037",
+    "question_text": "Biểu đồ Gauge Chart tiết kiệm không gian hiển thị hơn Bullet Graph trên Dashboard.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "BI_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "DATA_VISUALIZATION",
+      "BI_CONCEPTS"
+    ],
+    "answers": {
+      "correct_answer": false,
+      "explanation": "Ngược lại, Bullet Graph tiết kiệm không gian hơn Gauge Chart. Bullet Graph thiết kế dạng thanh tuyến tính giúp so sánh nhiều KPI trên cùng một diện tích nhỏ. Gauge Chart (dạng đồng hồ tròn) trực quan nhưng tốn nhiều diện tích hiển thị. Khuyến nghị: ưu tiên Bullet Graph cho Dashboard nhiều KPI."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_038",
+    "question_text": "Trong A/B Testing, khi p-value < 0.05, điều này có ý nghĩa gì?",
+    "roles": {
+      "primary": "DA",
+      "secondary": [
+        "DS"
+      ]
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION"
+    ],
+    "skill_tags": [
+      "STAT_AB_TESTING",
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "Phiên bản B chắc chắn tốt hơn phiên bản A"
+      },
+      {
+        "id": "B",
+        "text": "Xác suất H0 đúng nhỏ hơn 5%, ta bác bỏ H0"
+      },
+      {
+        "id": "C",
+        "text": "Xác suất phiên bản B thắng là 95%"
+      },
+      {
+        "id": "D",
+        "text": "Cỡ mẫu đã đủ lớn để kết luận"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "B",
+      "explanation": "p-value < 0.05 có nghĩa: nếu giả thuyết không (H0: không có sự khác biệt) là đúng, thì xác suất quan sát được kết quả cực đoan như hiện tại (hoặc hơn) là nhỏ hơn 5%. Vì xác suất này quá thấp, ta bác bỏ H0 và kết luận có sự khác biệt có ý nghĩa thống kê. Lưu ý: p-value KHÔNG phải là xác suất H0 đúng, cũng KHÔNG phải là xác suất phiên bản B thắng."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_039",
+    "question_text": "Hoàn thành câu sau: 'Khi cỡ mẫu nhỏ (n < 30) và chưa biết phương sai tổng thể, ta dùng ___ test thay vì Z-test để kiểm định giả thuyết về giá trị trung bình.'",
+    "roles": {
+      "primary": "DA",
+      "secondary": [
+        "DS"
+      ]
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION"
+    ],
+    "skill_tags": [
+      "STAT_HYPOTHESIS_TESTING",
+      "STAT_FUNDAMENTALS"
+    ],
+    "template": "Khi cỡ mẫu nhỏ (n < 30) và chưa biết phương sai tổng thể, ta dùng [___] test thay vì Z-test để kiểm định giả thuyết về giá trị trung bình.",
+    "answers": {
+      "accepted_answers": [
+        [
+          "T",
+          "t",
+          "Student's t",
+          "Students t",
+          "T-test",
+          "t-test"
+        ]
+      ],
+      "explanation": "T-test (hay Student's t-test) sử dụng phân phối t (đuôi dày hơn phân phối chuẩn) để bù đắp cho việc không biết phương sai tổng thể. Khi cỡ mẫu tăng (n → ∞), phân phối t tiến gần đến phân phối z."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_040",
+    "question_text": "Khoảng tin cậy 95% (Confidence Interval 95%) có nghĩa là xác suất để tham số tổng thể nằm trong khoảng đó là 95%.",
+    "roles": {
+      "primary": "DA",
+      "secondary": [
+        "DS"
+      ]
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION"
+    ],
+    "skill_tags": [
+      "STAT_CONFIDENCE_INTERVAL",
+      "STAT_FUNDAMENTALS"
+    ],
+    "answers": {
+      "correct_answer": false,
+      "explanation": "Đây là một hiểu lầm phổ biến. Khoảng tin cậy 95% có nghĩa: nếu ta lặp lại quá trình lấy mẫu và tính khoảng tin cậy 100 lần, thì khoảng 95 lần khoảng đó sẽ chứa tham số tổng thể thực sự. Nói cách khác, 95% là tỷ lệ bao phủ (coverage probability) của phương pháp, KHÔNG phải xác suất của một tham số cố định."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_041",
+    "question_text": "Trong mô hình phân tích khách hàng RFM, chữ 'R' là viết tắt của từ nào?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_RFM",
+      "ANALYTICS_BUSINESS"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "Revenue (Doanh thu)"
+      },
+      {
+        "id": "B",
+        "text": "Recency (Lần mua gần nhất)"
+      },
+      {
+        "id": "C",
+        "text": "Retention (Giữ chân)"
+      },
+      {
+        "id": "D",
+        "text": "Rating (Đánh giá)"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "B",
+      "explanation": "RFM là viết tắt của: Recency (Khoảng thời gian từ lần mua hàng gần nhất), Frequency (Tần suất mua hàng), và Monetary (Tổng giá trị chi tiêu). Đây là mô hình phân khúc khách hàng phổ biến trong phân tích kinh doanh."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_042",
+    "question_text": "Tỷ lệ rời bỏ khách hàng (Churn Rate) được tính bằng số khách hàng rời đi trong kỳ chia cho tổng số khách hàng đầu kỳ.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS",
+      "STAT_DESCRIPTIVE"
+    ],
+    "answers": {
+      "correct_answer": true,
+      "explanation": "Công thức Churn Rate = (Số khách hàng rời đi trong kỳ) / (Tổng số khách hàng đầu kỳ). Đây là chỉ số quan trọng đo lường sức khỏe của sản phẩm, đặc biệt với mô hình kinh doanh Subscription (SaaS). Churn Rate cao cho thấy sản phẩm không giữ chân được người dùng."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_043",
+    "question_text": "Trong thư viện Pandas, phương thức nào dùng để truy xuất dữ liệu theo vị trí số nguyên (integer position)?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "loc"
+      },
+      {
+        "id": "B",
+        "text": "iloc"
+      },
+      {
+        "id": "C",
+        "text": "at"
+      },
+      {
+        "id": "D",
+        "text": "ix"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "B",
+      "explanation": "iloc (integer location) truy xuất dữ liệu dựa trên vị trí số nguyên từ 0. loc truy xuất theo nhãn (label/index name). at/iat là phiên bản truy xuất đơn lẻ nhanh hơn. ix đã bị deprecated từ lâu."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_044",
+    "question_text": "Mô tả cách bạn thiết kế một báo cáo phân tích tỷ lệ giữ chân khách hàng (Retention Rate) theo phương pháp Cohort Analysis.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 6,
+    "question_type": "CODING",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "STATISTICS_EXPERIMENTATION"
+    ],
+    "skill_tags": [
+      "ANALYTICS_COHORT",
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "1. Xác định Cohort theo thời gian đăng ký (VD: tháng đăng ký). 2. Với mỗi cohort, theo dõi hoạt động của user qua các tháng tiếp theo (Month 0, Month 1, ...). 3. Tính Retention Rate cho từng cohort ở mỗi tháng = (Số user còn hoạt động ở tháng N) / (Tổng số user trong cohort). 4. Trực quan hóa bằng Cohort Table dạng ma trận (hàng = cohort, cột = tháng) với màu sắc thể hiện mức độ retention. 5. Phân tích xu hướng: cohort nào giữ chân tốt nhất, tháng nào tỷ lệ rời bỏ cao nhất.",
+      "evaluation_points": [
+        "Xác định cohort theo thời gian (tháng/quý đăng ký)",
+        "Tính Retention Rate cho từng cohort qua từng tháng",
+        "Trực quan hóa dạng ma trận Cohort Table với màu sắc",
+        "Phân tích xu hướng và tìm điểm rơi retention"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_045",
+    "question_text": "Bạn chạy một A/B test cho nút 'Đăng ký ngay' với hai màu: Xanh lá (A) và Cam (B). Sau 2 tuần, p-value = 0.03 với α = 0.05. Phân tích kết quả và giải thích các loại lỗi thống kê Type I và Type II trong ngữ cảnh này.",
+    "roles": {
+      "primary": "DA",
+      "secondary": [
+        "DS"
+      ]
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICE",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "STAT_AB_TESTING",
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "answers": {
+      "detailed": "1. Với p-value = 0.03 < α = 0.05, ta bác bỏ H0 (không có khác biệt) và kết luận có sự khác biệt có ý nghĩa thống kê giữa hai màu nút. 2. Type I Error (False Positive): Bác bỏ H0 khi H0 thực sự đúng. Trong ngữ cảnh này: kết luận màu Cam khác màu Xanh lá, nhưng thực tế không có khác biệt. Hậu quả: triển khai thay đổi không cần thiết, lãng phí nguồn lực. 3. Type II Error (False Negative): Không bác bỏ H0 khi H0 sai. Trong ngữ cảnh này: kết luận không có khác biệt giữa hai màu, nhưng thực tế có khác biệt. Hậu quả: bỏ lỡ cơ hội cải thiện tỷ lệ chuyển đổi. 4. α = 0.05 nghĩa là ta chấp nhận 5% rủi ro mắc lỗi Type I.",
+      "evaluation_points": [
+        "Bác bỏ H0 vì p-value < α",
+        "Type I Error: kết luận sai là có khác biệt khi thực tế không có",
+        "Type II Error: bỏ lỡ khác biệt thực sự",
+        "Áp dụng đúng ngữ cảnh A/B test vào hai loại lỗi"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_029",
+    "question_text": "Loại index nào trong Database hỗ trợ tốt nhất cho truy vấn khoảng (Range queries như >, <, BETWEEN)?",
+    "roles": {
+      "primary": "DE",
+      "secondary": [
+        "DA"
+      ]
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING",
+      "SQL_PERFORMANCE"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "Hash Index"
+      },
+      {
+        "id": "B",
+        "text": "B-Tree Index"
+      },
+      {
+        "id": "C",
+        "text": "Bitmap Index"
+      },
+      {
+        "id": "D",
+        "text": "GiST Index"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "B",
+      "explanation": "B-Tree Index sắp xếp dữ liệu theo dạng cây cân bằng, các node lá được liên kết với nhau nên duyệt Range queries rất hiệu quả. Hash Index chỉ hỗ trợ Exact match (O(1)), không hỗ trợ Range queries. Bitmap Index phù hợp với cột ít giá trị phân biệt (low cardinality)."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_030",
+    "question_text": "Clustered Index quyết định thứ tự lưu trữ vật lý của dữ liệu trên ổ đĩa, và mỗi bảng chỉ có thể có duy nhất một Clustered Index.",
+    "roles": {
+      "primary": "DE",
+      "secondary": [
+        "DA"
+      ]
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING",
+      "SQL_PERFORMANCE"
+    ],
+    "answers": {
+      "correct_answer": true,
+      "explanation": "Clustered Index sắp xếp và lưu trữ các dòng dữ liệu theo thứ tự của khóa index. Vì dữ liệu chỉ có thể được sắp xếp theo một thứ tự vật lý duy nhất, mỗi bảng chỉ có tối đa một Clustered Index. Non-Clustered Index tạo cấu trúc riêng với con trỏ trỏ đến dữ liệu gốc, mỗi bảng có thể có nhiều Non-Clustered Index."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_031",
+    "question_text": "Hoàn thành câu sau: 'Kỹ thuật ___ chia nhỏ bảng dữ liệu trên cùng một máy chủ, còn ___ phân tán dữ liệu của một bảng lên nhiều máy chủ khác nhau để chia sẻ tải.'",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_SCALING"
+    ],
+    "template": "Kỹ thuật [___] chia nhỏ bảng dữ liệu trên cùng một máy chủ, còn [___] phân tán dữ liệu của một bảng lên nhiều máy chủ khác nhau để chia sẻ tải.",
+    "answers": {
+      "accepted_answers": [
+        [
+          "Partitioning",
+          "partitioning",
+          "Partition"
+        ],
+        [
+          "Sharding",
+          "sharding",
+          "Shard"
+        ]
+      ],
+      "explanation": "Partitioning (phân vùng) chia bảng trên cùng một server để tối ưu quản lý và truy vấn. Sharding (phân mảnh) phân tán dữ liệu lên nhiều server (horizontal scaling) để mở rộng tải. Sharding phức tạp hơn nhưng giúp scale-out tốt hơn."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_032",
+    "question_text": "Định dạng file nào sau đây là row-based, tích hợp schema trực tiếp vào file, và rất phổ biến trong hệ thống Streaming (Kafka)?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "skill_tags": [
+      "FORMAT_AVRO",
+      "FORMAT_ORC"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "ORC"
+      },
+      {
+        "id": "B",
+        "text": "Parquet"
+      },
+      {
+        "id": "C",
+        "text": "Avro"
+      },
+      {
+        "id": "D",
+        "text": "Delta"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "C",
+      "explanation": "Avro là định dạng row-based, schema được nhúng trực tiếp vào file header, rất phù hợp cho write-heavy workloads và streaming (Kafka thường dùng Avro với Schema Registry). ORC và Parquet là columnar formats, tối ưu cho OLAP/BI đọc nhiều. Delta là định dạng lakehouse (dựa trên Parquet)."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_033",
+    "question_text": "Định dạng Avro tối ưu hơn ORC cho các tác vụ đọc phân tích (read-heavy analytics) vì nó hỗ trợ Predicate Pushdown.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "skill_tags": [
+      "FORMAT_AVRO",
+      "FORMAT_ORC"
+    ],
+    "answers": {
+      "correct_answer": false,
+      "explanation": "Ngược lại, ORC (Optimized Row Columnar) là columnar format, tối ưu cho read-heavy analytics với các tính năng như Predicate Pushdown, Column Pruning, và Bloom Filter. Avro là row-based, phù hợp cho write-heavy workloads và streaming. Đối với tác vụ phân tích (OLAP), ORC và Parquet luôn vượt trội hơn Avro."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_034",
+    "question_text": "Hoàn thành câu sau: 'Mô hình ___ có một bảng sự kiện (Fact table) ở trung tâm, được bao quanh bởi các bảng chiều (Dimension table), được dùng phổ biến trong Data Warehouse.'",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 3,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "skill_tags": [
+      "MODELING_STAR_SCHEMA",
+      "DATA_WAREHOUSE"
+    ],
+    "template": "Mô hình [___] có một bảng sự kiện (Fact table) ở trung tâm, được bao quanh bởi các bảng chiều (Dimension table), được dùng phổ biến trong Data Warehouse.",
+    "answers": {
+      "accepted_answers": [
+        [
+          "Star Schema",
+          "star schema",
+          "Star",
+          "star"
+        ]
+      ],
+      "explanation": "Star Schema (mô hình sao) là mô hình dữ liệu phổ biến nhất trong Data Warehouse. Fact table chứa các số đo (measures) và khóa ngoại đến các Dimension table. Dimension table chứa các thuộc tính mô tả (như thời gian, sản phẩm, khách hàng). Biến thể phức tạp hơn là Snowflake Schema (Dimension được chuẩn hóa thành nhiều bảng con)."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_035",
+    "question_text": "Trong Apache Spark, Transformation nào sau đây gây ra Full Shuffle dữ liệu qua mạng?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS"
+    ],
+    "skill_tags": [
+      "TOOL_SPARK",
+      "SPARK_DAG"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "map"
+      },
+      {
+        "id": "B",
+        "text": "filter"
+      },
+      {
+        "id": "C",
+        "text": "groupByKey"
+      },
+      {
+        "id": "D",
+        "text": "flatMap"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "C",
+      "explanation": "groupByKey là Wide Transformation, yêu cầu dữ liệu phải được trộn (shuffle) giữa các partition và node để nhóm các key giống nhau về cùng một chỗ. map, filter, flatMap là Narrow Transformations, chỉ xử lý dữ liệu trong cùng một partition, không cần shuffle. Shuffle là điểm nghẽn hiệu suất chính trong Spark."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_036",
+    "question_text": "Hàm coalesce() trong Spark gây ra full shuffle dữ liệu giữa các node, tương tự như repartition().",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS"
+    ],
+    "skill_tags": [
+      "TOOL_SPARK",
+      "BIG_DATA_OPTIMIZATION"
+    ],
+    "answers": {
+      "correct_answer": false,
+      "explanation": "Khác biệt cốt lõi: coalesce() chỉ gộp các partition trên cùng một node, KHÔNG gây shuffle. repartition() gây full shuffle khi tăng hoặc giảm số partition. Quy tắc: muốn giảm partition → dùng coalesce() để tránh shuffle; muốn tăng partition → bắt buộc dùng repartition()."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_037",
+    "question_text": "Hoàn thành câu sau: 'Trong Apache Airflow, ___ là một loại Operator đặc biệt dùng để chờ đợi (polling) một điều kiện bên ngoài xảy ra trước khi tiếp tục pipeline.'",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS"
+    ],
+    "skill_tags": [
+      "TOOL_AIRFLOW",
+      "PIPE_ORCHESTRATION"
+    ],
+    "template": "Trong Apache Airflow, [___] là một loại Operator đặc biệt dùng để chờ đợi (polling) một điều kiện bên ngoài xảy ra trước khi tiếp tục pipeline.",
+    "answers": {
+      "accepted_answers": [
+        [
+          "Sensor",
+          "sensor",
+          "Sensor Operator",
+          "sensor operator"
+        ]
+      ],
+      "explanation": "Sensor là subclass của Operator dùng để chờ một điều kiện (ví dụ: S3KeySensor chờ file xuất hiện trên S3, SqlSensor chờ một bản ghi xuất hiện trong database). Sensor định kỳ kiểm tra (poke) điều kiện cho đến khi thoả mãn hoặc timeout."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_038",
+    "question_text": "Theo định lý CAP trong hệ thống phân tán, cơ sở dữ liệu quan hệ truyền thống (RDBMS) thường ưu tiên tổ hợp nào?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "SYSTEM_ARCHITECTURE"
+    ],
+    "skill_tags": [
+      "ARCH_SYSTEM_DESIGN"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "AP (Availability + Partition Tolerance)"
+      },
+      {
+        "id": "B",
+        "text": "CP (Consistency + Partition Tolerance)"
+      },
+      {
+        "id": "C",
+        "text": "CA (Consistency + Availability)"
+      },
+      {
+        "id": "D",
+        "text": "PA (Partition Tolerance + Availability)"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "C",
+      "explanation": "RDBMS truyền thống (MySQL, PostgreSQL) ưu tiên Consistency (ACID) và Availability, nhưng KHÔNG chịu được Partition Tolerance (mạng bị chia cắt thì hệ thống ngừng hoạt động). NoSQL thường chọn AP (Cassandra, DynamoDB) hoặc CP (MongoDB, HBase). Định lý CAP khẳng định: một hệ thống phân tán chỉ có thể đảm bảo 2 trong 3 tính chất."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_039",
+    "question_text": "Trong kiến trúc Event Sourcing, hệ thống chỉ lưu trạng thái hiện tại của dữ liệu, giúp tiết kiệm không gian lưu trữ.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "SYSTEM_ARCHITECTURE"
+    ],
+    "skill_tags": [
+      "ARCH_SYSTEM_DESIGN",
+      "ARCH_DATA_ARCHITECTURE"
+    ],
+    "answers": {
+      "correct_answer": false,
+      "explanation": "Ngược lại, Event Sourcing lưu TOÀN BỘ chuỗi sự kiện thay đổi trạng thái (event log) dưới dạng Append-only, chứ không chỉ lưu trạng thái hiện tại. Điều này tốn nhiều không gian lưu trữ hơn, nhưng đổi lại có thể tái tạo trạng thái tại bất kỳ thời điểm nào (Time Travel), Audit Trail đầy đủ, và hỗ trợ CQRS."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_040",
+    "question_text": "Hoàn thành câu sau: 'Trong kiến trúc ___, mỗi domain team sở hữu và cung cấp dữ liệu của họ như một Product, thay vì tập trung dữ liệu vào một Data Lake/Data Warehouse duy nhất.'",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "SYSTEM_ARCHITECTURE"
+    ],
+    "skill_tags": [
+      "ARCH_DATA_ARCHITECTURE",
+      "ARCH_SYSTEM_DESIGN"
+    ],
+    "template": "Trong kiến trúc [___], mỗi domain team sở hữu và cung cấp dữ liệu của họ như một Product, thay vì tập trung dữ liệu vào một Data Lake/Data Warehouse duy nhất.",
+    "answers": {
+      "accepted_answers": [
+        [
+          "Data Mesh",
+          "data mesh",
+          "DataMesh",
+          "datamesh"
+        ]
+      ],
+      "explanation": "Data Mesh là kiến trúc phân tán về mặt tổ chức do Zhamak Dehghani đề xuất. 4 nguyên tắc cốt lõi: Domain Ownership, Data as a Product, Self-serve Data Platform, và Federated Computational Governance. Khác với Data Fabric tập trung về công nghệ, Data Mesh tập trung về tổ chức."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_041",
+    "question_text": "Trong Apache Kafka, cơ chế delivery nào đảm bảo không mất tin nhắn, nhưng có thể gây trùng lặp (duplicate) nếu Producer retry?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "DATA_PIPELINE"
+    ],
+    "skill_tags": [
+      "TOOL_KAFKA",
+      "PIPE_RELIABILITY"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "At-most-once"
+      },
+      {
+        "id": "B",
+        "text": "At-least-once"
+      },
+      {
+        "id": "C",
+        "text": "Exactly-once"
+      },
+      {
+        "id": "D",
+        "text": "Fire-and-forget"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "B",
+      "explanation": "At-least-once: Producer gửi tin nhắn và chờ ACK từ broker. Nếu không nhận được ACK (do network), Producer sẽ retry, đảm bảo tin nhắn được gửi ít nhất 1 lần. At-most-once có thể mất tin nhắn (không retry). Exactly-once cần thêm Idempotent Producer và Transactional API."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_042",
+    "question_text": "Hoàn thành câu sau: 'Trong Stream Processing, kỹ thuật ___ được dùng để xử lý dữ liệu đến muộn (late-arriving data) bằng cách chờ thêm một khoảng thời gian sau event time trước khi đóng cửa sổ tính toán.'",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "DATA_PIPELINE"
+    ],
+    "skill_tags": [
+      "PIPE_CDC",
+      "DATA_PIPELINE_DESIGN"
+    ],
+    "template": "Trong Stream Processing, kỹ thuật [___] được dùng để xử lý dữ liệu đến muộn (late-arriving data) bằng cách chờ thêm một khoảng thời gian sau event time trước khi đóng cửa sổ tính toán.",
+    "answers": {
+      "accepted_answers": [
+        [
+          "Watermarking",
+          "watermarking",
+          "Watermark",
+          "watermark"
+        ]
+      ],
+      "explanation": "Watermarking là kỹ thuật trong Stream Processing (Flink, Spark Streaming, Beam) cho phép hệ thống chờ thêm một khoảng thời gian sau event time trước khi kết quả cửa sổ được coi là hoàn chỉnh. Dữ liệu đến sau watermark sẽ bị coi là late data và có thể bị loại bỏ hoặc chuyển sang side output."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_043",
+    "question_text": "Viết hàm Python nhận vào một list các timestamp ISO 8601 và trả về số lượng bản ghi theo từng giờ (group by hour).",
+    "roles": {
+      "primary": "DE",
+      "secondary": [
+        "DA"
+      ]
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 3,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "DATA_PIPELINE"
+    ],
+    "skill_tags": [
+      "PIPE_ETL",
+      "DATA_PIPELINE_DESIGN"
+    ],
+    "starter_code": "from collections import Counter\nfrom datetime import datetime\n\ndef count_by_hour(timestamps: list[str]) -> dict[str, int]:\n    # TODO: Nhom theo gio (YYYY-MM-DD HH:00) va dem so ban ghi\n    pass",
+    "test_cases": [
+      {
+        "input": "timestamps=['2025-01-01T08:30:00','2025-01-01T08:45:00','2025-01-01T09:00:00']",
+        "expected_output": "{'2025-01-01 08:00': 2, '2025-01-01 09:00': 1}"
+      },
+      {
+        "input": "timestamps=[]",
+        "expected_output": "{}"
+      },
+      {
+        "input": "timestamps=['2025-06-15T23:59:59','2025-06-16T00:00:01']",
+        "expected_output": "{'2025-06-15 23:00': 1, '2025-06-16 00:00': 1}"
+      }
+    ],
+    "constraints": "Chỉ dùng Python standard library. Định dạng key đầu ra: 'YYYY-MM-DD HH:00'.",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "Duyệt qua list timestamp, parse từng chuỗi ISO 8601 bằng datetime.fromisoformat(), tạo key = f'{dt.year}-{dt.month:02d}-{dt.day:02d} {dt.hour:02d}:00', dùng Counter hoặc dict để đếm.",
+      "evaluation_points": [
+        "Parse ISO 8601 timestamp đúng cách",
+        "Trích xuất year, month, day, hour để tạo key",
+        "Đếm số bản ghi cho mỗi key giờ"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_044",
+    "question_text": "Viết hàm Python parse một JSON object lồng nhau (nested) và trả về dạng flat dictionary với key dạng 'parent_child'.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "DATA_PIPELINE"
+    ],
+    "skill_tags": [
+      "PIPE_ETL"
+    ],
+    "starter_code": "import json\n\ndef flatten_json(obj: dict, parent_key: str = '', sep: str = '_') -> dict[str, any]:\n    # TODO: De quy flatten nested dict\n    pass",
+    "test_cases": [
+      {
+        "input": "obj={'a': 1, 'b': {'c': 2, 'd': 3}}",
+        "expected_output": "{'a': 1, 'b_c': 2, 'b_d': 3}"
+      },
+      {
+        "input": "obj={'x': {'y': {'z': 10}}}",
+        "expected_output": "{'x_y_z': 10}"
+      },
+      {
+        "input": "obj={'key': 'value'}",
+        "expected_output": "{'key': 'value'}"
+      }
+    ],
+    "constraints": "Không dùng thư viện ngoài. Hỗ trợ độ sâu lồng tùy ý. Key nối bằng dấu '_'.",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "Dùng đệ quy: duyệt từng key-value của dict. Nếu value là dict, gọi đệ quy với parent_key = f'{parent_key}_{key}' (hoặc key nếu parent_key rỗng). Nếu không phải dict, thêm vào kết quả với key đầy đủ.",
+      "evaluation_points": [
+        "Đệ quy duyệt nested dict đến tận leaf node",
+        "Nối key parent_child đúng định dạng",
+        "Xử lý đúng dict phẳng (không lồng)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_045",
+    "question_text": "Mô tả cách bạn tối ưu một Spark job đang bị lỗi Out of Memory (OOM). Nêu ít nhất 3 chiến lược cụ thể.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "CODING",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "DATA_PIPELINE"
+    ],
+    "skill_tags": [
+      "TOOL_SPARK",
+      "BIG_DATA_OPTIMIZATION",
+      "DATA_PIPELINE_DESIGN"
+    ],
+    "answers": {
+      "detailed": "1. Tăng spark.executor.memory và spark.executor.memoryOverhead. 2. Xử lý Data Skew: thêm salt key hoặc dùng Broadcast Join nếu một bảng nhỏ hơn nhiều. 3. Tăng số partition (repartition) để giảm kích thước dữ liệu mỗi task. 4. Tránh collect() và take() trên dataset lớn. 5. Dùng Checkpointing để cắt lineage quá dài thay vì cache. 6. Giảm spark.sql.shuffle.partitions cho shuffle operations.",
+      "evaluation_points": [
+        "Tăng executor memory/memoryOverhead",
+        "Data Skew: Salting hoặc Broadcast Join",
+        "Tối ưu partition count và tránh collect()"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_031",
+    "question_text": "Thuật toán Ensemble nào xây dựng các cây quyết định một cách tuần tự: cây sau học từ lỗi (residual) của cây trước?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "ALGORITHM_THEORY"
+    ],
+    "skill_tags": [
+      "ML_ENSEMBLE",
+      "ML_SUPERVISED"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "Random Forest"
+      },
+      {
+        "id": "B",
+        "text": "Gradient Boosting"
+      },
+      {
+        "id": "C",
+        "text": "Bagging"
+      },
+      {
+        "id": "D",
+        "text": "Stacking"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "B",
+      "explanation": "Gradient Boosting (XGBoost, LightGBM, CatBoost) xây dựng cây tuần tự: mỗi cây mới cố gắng sửa lỗi của tổ hợp các cây trước đó bằng cách fit vào residual (gradient descent trong không gian hàm). Random Forest thuộc họ Bagging, xây dựng các cây độc lập song song rồi lấy trung bình/bình chọn."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_032",
+    "question_text": "Hoàn thành câu sau: 'Giả định cốt lõi của thuật toán Naive Bayes là các đặc trưng (features) ___ với nhau khi biết nhãn (Conditional Independence).'",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "ALGORITHM_THEORY"
+    ],
+    "skill_tags": [
+      "ML_SUPERVISED",
+      "ML_MODEL_SELECTION"
+    ],
+    "template": "Giả định cốt lõi của thuật toán Naive Bayes là các đặc trưng (features) [___] với nhau khi biết nhãn (Conditional Independence).",
+    "answers": {
+      "accepted_answers": [
+        [
+          "độc lập",
+          "độc lập có điều kiện",
+          "doc lap",
+          "conditional independent",
+          "independent"
+        ]
+      ],
+      "explanation": "Naive Bayes giả định tất cả features độc lập có điều kiện với nhau khi biết class label. Đây là giả định 'ngây thơ' vì trong thực tế các features thường có tương quan. Dù vậy, Naive Bayes vẫn hoạt động tốt trên nhiều bài toán, đặc biệt là phân loại văn bản (spam filter)."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_033",
+    "question_text": "Kernel Trick trong SVM được dùng để biến đổi dữ liệu thành phân phối chuẩn trước khi phân loại.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "ALGORITHM_THEORY"
+    ],
+    "skill_tags": [
+      "ML_SUPERVISED",
+      "ML_MODEL_SELECTION"
+    ],
+    "answers": {
+      "correct_answer": false,
+      "explanation": "Kernel Trick KHÔNG biến đổi dữ liệu thành phân phối chuẩn. Nó ánh xạ dữ liệu lên không gian có số chiều cao hơn (thậm chí vô hạn chiều với RBF kernel) để tìm ra siêu phẳng phân chia tuyến tính trong không gian đó, mà không cần thực sự tính toán tọa độ trong không gian mới. Điều này giúp SVM phân loại được dữ liệu phi tuyến tính."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_034",
+    "question_text": "Viết hàm Python triển khai thuật toán K-Means clustering từ đầu, chỉ sử dụng thư viện numpy.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 8,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "ALGORITHM_THEORY"
+    ],
+    "skill_tags": [
+      "ML_UNSUPERVISED",
+      "ML_CLUSTERING"
+    ],
+    "starter_code": "import numpy as np\n\ndef kmeans(X: np.ndarray, K: int, max_iters: int = 100) -> tuple[np.ndarray, np.ndarray]:\n    # X shape: (n_samples, n_features)\n    # TODO: Khoi tao centroids, lap assign-update den hoi tu\n    pass",
+    "test_cases": [
+      {
+        "input": "X=np.array([[1.,2.],[1.,4.],[1.,0.],[10.,2.],[10.,4.],[10.,0.]]), K=2",
+        "expected_output": "centroids gom 2 diem, labels gom 6 phan tu chi chua 0 va 1"
+      },
+      {
+        "input": "X=np.array([[0.,0.],[1.,1.],[2.,2.]]), K=1",
+        "expected_output": "1 centroid tai (1.0, 1.0), labels [0, 0, 0]"
+      }
+    ],
+    "constraints": "Dùng numpy, không dùng sklearn. Trả về (centroids, labels). Centroids shape (K, n_features), labels shape (n_samples,).",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "1. Khởi tạo K centroids ngẫu nhiên từ dữ liệu. 2. Lặp: (a) Gán mỗi điểm vào centroid gần nhất (Euclidean distance). (b) Cập nhật mỗi centroid = trung bình các điểm được gán vào nó. 3. Dừng khi centroids không thay đổi hoặc đạt max_iters.",
+      "evaluation_points": [
+        "Khởi tạo centroids ngẫu nhiên đúng cách",
+        "Bước Assignment: tính distance và gán nhãn",
+        "Bước Update: tính centroid mới bằng mean",
+        "Kiểm tra điều kiện hội tụ"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_035",
+    "question_text": "Viết hàm Python triển khai hàm softmax cho một vector số thực, đảm bảo ổn định số học (numerical stability).",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "ALGORITHM_THEORY"
+    ],
+    "skill_tags": [
+      "ML_SUPERVISED"
+    ],
+    "starter_code": "import math\n\ndef softmax(x: list[float]) -> list[float]:\n    # TODO: Tinh softmax, dam bao numerical stability\n    pass",
+    "test_cases": [
+      {
+        "input": "x=[1.0,2.0,3.0]",
+        "expected_output": "[0.09003057, 0.24472847, 0.66524096]"
+      },
+      {
+        "input": "x=[1000.0,1000.0,1000.0]",
+        "expected_output": "[0.33333333, 0.33333333, 0.33333333]"
+      },
+      {
+        "input": "x=[-1000.0,-1000.0,0.0]",
+        "expected_output": "[0.0, 0.0, 1.0]"
+      }
+    ],
+    "constraints": "Không dùng numpy. Trả về list float, tổng xấp xỉ 1.0. Làm tròn 8 chữ số thập phân.",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "Để tránh overflow khi exp(x) quá lớn: trừ đi max(x) trước khi tính exp. Công thức: softmax(x_i) = exp(x_i - max(x)) / sum(exp(x_j - max(x))). Sau khi trừ max, mọi giá trị ≤ 0, exp ≤ 1, an toàn số học.",
+      "evaluation_points": [
+        "Trừ max(x) để tránh overflow (numerical stability)",
+        "Tính exp cho từng phần tử",
+        "Chia cho tổng để chuẩn hóa về [0, 1]"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_036",
+    "question_text": "Với bài toán phân loại nhị phân có tỷ lệ mất cân bằng nghiêm trọng (99% class 0, 1% class 1), metric nào sau đây là phù hợp nhất để đánh giá mô hình?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "EVALUATION_METRICS"
+    ],
+    "skill_tags": [
+      "EVAL_CLASSIFICATION_REPORT",
+      "METRIC_ROC_AUC"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "Accuracy"
+      },
+      {
+        "id": "B",
+        "text": "ROC-AUC"
+      },
+      {
+        "id": "C",
+        "text": "Precision"
+      },
+      {
+        "id": "D",
+        "text": "F1-Score"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "B",
+      "explanation": "ROC-AUC ít bị ảnh hưởng bởi mất cân bằng vì nó đo khả năng xếp hạng (ranking) của mô hình trên cả hai class. Accuracy hoàn toàn vô dụng (mô hình đoán toàn 0 đã đạt 99%). Precision và F1-Score phụ thuộc vào threshold và có thể gây hiểu nhầm. Trong thực tế, thường dùng PR-AUC (Precision-Recall AUC) cho bài toán cực kỳ mất cân bằng."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_037",
+    "question_text": "Viết hàm Python tính chỉ số F1-Score từ hai list y_true và y_pred (nhãn nhị phân 0/1).",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 3,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "EVALUATION_METRICS"
+    ],
+    "skill_tags": [
+      "METRIC_F1_SCORE",
+      "EVAL_CLASSIFICATION_REPORT"
+    ],
+    "starter_code": "def f1_score(y_true: list[int], y_pred: list[int]) -> float:\n    # TODO: Tinh Precision, Recall, roi F1\n    pass",
+    "test_cases": [
+      {
+        "input": "y_true=[1,1,0,0] y_pred=[1,1,0,0]",
+        "expected_output": "1.0"
+      },
+      {
+        "input": "y_true=[1,1,0,0] y_pred=[0,0,0,0]",
+        "expected_output": "0.0"
+      },
+      {
+        "input": "y_true=[1,1,0,0,1] y_pred=[1,1,1,0,0]",
+        "expected_output": "0.6666666666666666"
+      }
+    ],
+    "constraints": "Không dùng sklearn. Hai list cùng độ dài. Xử lý trường hợp chia cho 0 (precision hoặc recall = 0 thì F1 = 0).",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "TP = sum(1 for t,p in zip(y_true, y_pred) if t==1 and p==1). FP = sum(1 for t,p in zip(y_true, y_pred) if t==0 and p==1). FN = sum(1 for t,p in zip(y_true, y_pred) if t==1 and p==0). Precision = TP/(TP+FP). Recall = TP/(TP+FN). F1 = 2*P*R/(P+R).",
+      "evaluation_points": [
+        "Tính TP, FP, FN đúng cách",
+        "Tính Precision = TP/(TP+FP)",
+        "Tính Recall = TP/(TP+FN)",
+        "F1 = 2 * P * R / (P + R), xử lý chia 0"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_038",
+    "question_text": "Kỹ thuật nào phù hợp nhất để mã hóa (encode) một đặc trưng categorical có số lượng giá trị duy nhất rất lớn (high cardinality, ví dụ: mã bưu điện ZIP code)?",
+    "roles": {
+      "primary": "DS",
+      "secondary": [
+        "DA"
+      ]
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "DATA_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "ENCODING_TECHNIQUES",
+      "FEATURE_ENGINEERING"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "One-Hot Encoding"
+      },
+      {
+        "id": "B",
+        "text": "Label Encoding"
+      },
+      {
+        "id": "C",
+        "text": "Target Encoding (Mean Encoding)"
+      },
+      {
+        "id": "D",
+        "text": "Ordinal Encoding"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "C",
+      "explanation": "Target Encoding (hay Mean Encoding) thay thế mỗi giá trị categorical bằng trung bình của target variable cho giá trị đó, không làm tăng số chiều. One-Hot Encoding sẽ tạo ra hàng nghìn cột mới với high cardinality feature, gây Curse of Dimensionality. Label/Ordinal Encoding áp đặt thứ tự giả tạo không có thật."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_039",
+    "question_text": "Kỹ thuật SMOTE (Synthetic Minority Oversampling Technique) tạo ra các mẫu tổng hợp mới bằng cách lấy trung bình cộng của tất cả các nearest neighbors.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "DATA_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "IMBALANCED_DATA_HANDLING",
+      "DATA_PREPROCESSING"
+    ],
+    "answers": {
+      "correct_answer": false,
+      "explanation": "SMOTE KHÔNG lấy trung bình của TẤT CẢ các nearest neighbors. Với mỗi mẫu minority class, SMOTE chọn NGẪU NHIÊN MỘT trong K nearest neighbors, rồi tạo mẫu tổng hợp = mẫu gốc + λ × (neighbor - mẫu gốc), với λ là số ngẫu nhiên trong [0,1]. Kết quả là điểm nằm trên đoạn thẳng nối mẫu gốc và neighbor."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_040",
+    "question_text": "Viết hàm Python triển khai chuẩn hóa Min-Max Scaling cho một list số thực, đưa giá trị về khoảng [0, 1].",
+    "roles": {
+      "primary": "DS",
+      "secondary": [
+        "DA"
+      ]
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "DATA_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "DATA_PREPROCESSING",
+      "FEATURE_ENGINEERING"
+    ],
+    "starter_code": "def min_max_scale(data: list[float]) -> list[float]:\n    # TODO: Scale ve [0, 1]\n    pass",
+    "test_cases": [
+      {
+        "input": "data=[0.0,5.0,10.0]",
+        "expected_output": "[0.0, 0.5, 1.0]"
+      },
+      {
+        "input": "data=[5.0,5.0,5.0]",
+        "expected_output": "[0.0, 0.0, 0.0]"
+      },
+      {
+        "input": "data=[-10.0,0.0,10.0]",
+        "expected_output": "[0.0, 0.5, 1.0]"
+      }
+    ],
+    "constraints": "Không dùng numpy/scikit-learn. Nếu tất cả giá trị bằng nhau, trả về list toàn 0. Kết quả làm tròn 4 chữ số thập phân.",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "Công thức: x_scaled = (x - min) / (max - min). Nếu max == min, tất cả giá trị trả về 0.0 để tránh chia cho 0. Duyệt qua list, áp dụng công thức cho từng phần tử.",
+      "evaluation_points": [
+        "Tìm min và max của data",
+        "Xử lý trường hợp max == min (tránh chia 0)",
+        "Áp dụng công thức (x - min) / (max - min)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_041",
+    "question_text": "Batch Normalization giúp giảm thiểu hiện tượng gì trong quá trình huấn luyện mạng neural sâu?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "DEEP_LEARNING"
+    ],
+    "skill_tags": [
+      "DL_TRAINING",
+      "DL_FUNDAMENTALS"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "Overfitting"
+      },
+      {
+        "id": "B",
+        "text": "Internal Covariate Shift"
+      },
+      {
+        "id": "C",
+        "text": "Exploding Gradient"
+      },
+      {
+        "id": "D",
+        "text": "Underfitting"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "B",
+      "explanation": "Internal Covariate Shift là hiện tượng phân phối đầu vào của mỗi layer thay đổi liên tục trong quá trình huấn luyện (do weight của các layer trước thay đổi). Batch Normalization chuẩn hóa đầu ra của mỗi layer (mean=0, variance=1) theo mini-batch, giúp giảm hiện tượng này, cho phép dùng learning rate lớn hơn và hội tụ nhanh hơn."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_042",
+    "question_text": "Hoàn thành câu sau: 'Trong mạng CNN, ___ Pooling lấy giá trị lớn nhất trong vùng trượt để trích xuất đặc trưng nổi bật, còn ___ Pooling lấy giá trị trung bình để làm mịn và giữ bối cảnh tổng thể.'",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 3,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "DEEP_LEARNING"
+    ],
+    "skill_tags": [
+      "DL_CNN",
+      "DL_FUNDAMENTALS"
+    ],
+    "template": "Trong mạng CNN, [___] Pooling lấy giá trị lớn nhất trong vùng trượt để trích xuất đặc trưng nổi bật, còn [___] Pooling lấy giá trị trung bình để làm mịn và giữ bối cảnh tổng thể.",
+    "answers": {
+      "accepted_answers": [
+        [
+          "Max",
+          "max",
+          "MAX"
+        ],
+        [
+          "Average",
+          "average",
+          "AVERAGE",
+          "Avg",
+          "avg"
+        ]
+      ],
+      "explanation": "Max Pooling trích xuất đặc trưng nổi bật nhất (cạnh, góc), loại bỏ thông tin nền không quan trọng. Average Pooling lấy trung bình, giữ lại thông tin bối cảnh tổng thể nhưng có thể làm mờ đặc trưng. Max Pooling phổ biến hơn trong các bài toán Classification."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_043",
+    "question_text": "Viết hàm Python triển khai thuật toán Gradient Descent cho bài toán Linear Regression một biến (y = w*x + b).",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 6,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "DEEP_LEARNING"
+    ],
+    "skill_tags": [
+      "DL_TRAINING",
+      "DL_OPTIMIZATION"
+    ],
+    "starter_code": "def gradient_descent_linear(X: list[float], y: list[float], lr: float = 0.01, epochs: int = 1000) -> tuple[float, float, list[float]]:\n    # TODO: GD cho y = w*x + b, tra ve (w, b, loss_history)\n    pass",
+    "test_cases": [
+      {
+        "input": "X=[1,2,3,4,5] y=[2,4,6,8,10] lr=0.01 epochs=1000",
+        "expected_output": "w ≈ 2.0, b ≈ 0.0, loss cuoi < 0.01"
+      },
+      {
+        "input": "X=[0,1,2] y=[0,1,2] lr=0.01 epochs=500",
+        "expected_output": "w ≈ 1.0, b ≈ 0.0"
+      }
+    ],
+    "constraints": "Khởi tạo w=0, b=0. Dùng MSE loss. Không dùng numpy.",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "1. Khởi tạo w=0, b=0. 2. Lặp epochs lần: (a) Tính y_pred = w*x_i + b cho mọi i. (b) Tính gradient: dw = -(2/n)*sum(x_i*(y_i-y_pred_i)), db = -(2/n)*sum(y_i-y_pred_i). (c) Cập nhật: w -= lr*dw, b -= lr*db. (d) Lưu MSE loss.",
+      "evaluation_points": [
+        "Tính y_pred = w*x + b cho toàn bộ dữ liệu",
+        "Tính gradient của w và b từ MSE loss",
+        "Cập nhật w, b theo gradient descent",
+        "Lưu loss history để kiểm tra hội tụ"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_044",
+    "question_text": "Trong mô hình ARIMA(p, d, q), tham số 'd' đại diện cho điều gì?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "TIME_SERIES"
+    ],
+    "skill_tags": [
+      "ML_TIME_SERIES"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "Bậc của phần Tự hồi quy (Auto-Regressive)"
+      },
+      {
+        "id": "B",
+        "text": "Bậc sai phân (Differencing)"
+      },
+      {
+        "id": "C",
+        "text": "Bậc của phần Trung bình trượt (Moving Average)"
+      },
+      {
+        "id": "D",
+        "text": "Chu kỳ mùa vụ (Seasonal Period)"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "B",
+      "explanation": "p là bậc của phần Auto-Regressive (AR) - mô hình dựa vào p giá trị quá khứ. d là bậc sai phân (Differencing) - số lần lấy sai phân để chuỗi trở nên dừng (stationary). q là bậc của phần Moving Average (MA) - mô hình dựa vào q sai số quá khứ. SARIMA mở rộng thêm các tham số mùa vụ P, D, Q, s."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_045",
+    "question_text": "Giả thuyết không (Null hypothesis H0) của kiểm định Augmented Dickey-Fuller (ADF) là: 'Chuỗi thời gian CÓ tính dừng (stationary)'.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "TIME_SERIES"
+    ],
+    "skill_tags": [
+      "ML_TIME_SERIES"
+    ],
+    "answers": {
+      "correct_answer": false,
+      "explanation": "Ngược lại, H0 của ADF test là: 'Chuỗi thời gian CÓ nghiệm đơn vị (unit root), tức KHÔNG có tính dừng'. Nếu p-value < 0.05, ta bác bỏ H0 và kết luận chuỗi có tính dừng. Nếu p-value > 0.05, ta không đủ bằng chứng để bác bỏ H0, tức chuỗi có thể không dừng và cần lấy sai phân (differencing)."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_046",
+    "question_text": "Hoàn thành câu sau: 'Trong NLP, ___ đưa từ về dạng gốc có ý nghĩa ngữ pháp bằng từ điển (ví dụ: better → good), còn ___ chỉ cắt bỏ hậu tố một cách thô bạo bằng luật (ví dụ: running → run, studies → studi).'",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "NLP"
+    ],
+    "skill_tags": [
+      "NLP_PREPROCESSING",
+      "NLP_FUNDAMENTALS"
+    ],
+    "template": "Trong NLP, [___] đưa từ về dạng gốc có ý nghĩa ngữ pháp bằng từ điển (ví dụ: better → good), còn [___] chỉ cắt bỏ hậu tố một cách thô bạo bằng luật (ví dụ: running → run, studies → studi).",
+    "answers": {
+      "accepted_answers": [
+        [
+          "Lemmatization",
+          "lemmatization"
+        ],
+        [
+          "Stemming",
+          "stemming"
+        ]
+      ],
+      "explanation": "Lemmatization dùng từ điển và phân tích ngữ pháp để đưa từ về lemma (dạng gốc có nghĩa). Ví dụ: better → good, ran → run. Stemming dùng rule-based cắt hậu tố/tiền tố, nhanh nhưng có thể tạo ra từ không có nghĩa (studies → studi). Chọn Lemmatization cho các tác vụ cần độ chính xác cao (QA, Chatbot)."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_047",
+    "question_text": "Chỉ số BLEU (Bilingual Evaluation Understudy) được dùng để đánh giá độ bao phủ (Recall) của văn bản được sinh ra bởi mô hình.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 3,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "NLP"
+    ],
+    "skill_tags": [
+      "NLP_EVALUATION"
+    ],
+    "answers": {
+      "correct_answer": false,
+      "explanation": "BLEU tập trung vào Precision (độ chính xác): trong số các từ/n-gram mà mô hình sinh ra, có bao nhiêu từ xuất hiện trong câu tham chiếu (reference). BLEU đo lường mức độ 'trùng khớp' của output so với reference. Ngược lại, ROUGE (Recall-Oriented Understudy for Gisting Evaluation) tập trung vào Recall: trong số các từ/n-gram của reference, mô hình đã sinh được bao nhiêu."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_048",
+    "question_text": "Khi phân phối của dữ liệu đầu vào P(X) thay đổi theo thời gian, nhưng mối quan hệ giữa input và target P(Y|X) vẫn giữ nguyên, hiện tượng này được gọi là gì?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "MLOPS"
+    ],
+    "skill_tags": [
+      "ML_MONITORING",
+      "ML_MLOPS"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "Concept Drift"
+      },
+      {
+        "id": "B",
+        "text": "Data Drift"
+      },
+      {
+        "id": "C",
+        "text": "Model Decay"
+      },
+      {
+        "id": "D",
+        "text": "Feature Shift"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "B",
+      "explanation": "Data Drift (hay Covariate Shift) là khi P(X) thay đổi nhưng P(Y|X) không đổi. Ví dụ: user trẻ chuyển sang user già, nhưng hành vi mua hàng của user già vẫn giống như trước. Concept Drift là khi P(Y|X) thay đổi: cùng một loại user nhưng hành vi mua hàng đã khác (do kinh tế, xu hướng...). Data Drift dễ phát hiện bằng thống kê, Concept Drift cần theo dõi performance metric."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_046",
+    "question_text": "Viết câu SQL dùng ROW_NUMBER() OVER(PARTITION BY ... ORDER BY ...) để đánh số thứ tự cho đơn hàng theo từng khách hàng, rồi lấy đơn hàng gần nhất của mỗi khách hàng. Giải thích cách hoạt động của Window Function.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "CODING",
+    "skill_groups": [
+      "SQL_DATABASE",
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "SQL_WINDOW_FUNCTION",
+      "SQL_FUNDAMENTALS"
+    ],
+    "answers": {
+      "detailed": "SELECT customer_id, order_id, order_date FROM (SELECT *, ROW_NUMBER() OVER(PARTITION BY customer_id ORDER BY order_date DESC) AS rn FROM orders) sub WHERE rn = 1. ROW_NUMBER() gán số thứ tự 1,2,3... cho mỗi dòng trong partition. PARTITION BY chia dữ liệu thành các nhóm theo customer_id. ORDER BY xác định thứ tự gán số trong mỗi nhóm.",
+      "evaluation_points": [
+        "ROW_NUMBER() OVER(PARTITION BY ... ORDER BY ...) đúng cú pháp",
+        "Lọc WHERE rn = 1 để lấy đơn gần nhất",
+        "Giải thích PARTITION BY chia nhóm, ORDER BY xếp thứ tự"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_047",
+    "question_text": "Mô tả cách bạn thiết kế một dashboard cho C-level executives với 3 KPI quan trọng nhất (ví dụ: Doanh thu, Lợi nhuận, Tỷ lệ chuyển đổi). Trình bày nguyên tắc chọn loại biểu đồ, layout, và màu sắc.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "CODING",
+    "skill_groups": [
+      "BI_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "BI_CONCEPTS",
+      "DATA_VISUALIZATION"
+    ],
+    "answers": {
+      "detailed": "1. Top-level: 3 KPI cards (số to, trend arrow) cho Doanh thu, Lợi nhuận, Conversion Rate. 2. Layout: Z-pattern - KPI cards trên cùng, biểu đồ trend line bên trái (doanh thu theo thời gian), bảng chi tiết bên phải. 3. Màu sắc: xanh lá cho tăng trưởng, đỏ cho giảm, xám cho nền. 4. Tương tác: drill-down từ tổng quan vào chi tiết theo region/sản phẩm. Nguyên tắc: đơn giản, nhất quán, có ngữ cảnh (so sánh với period trước).",
+      "evaluation_points": [
+        "Chọn đúng 3 KPI với KPI cards (số lớn, trend indicator)",
+        "Layout Z-pattern: tổng quan trên, chi tiết dưới",
+        "Có drill-down và context comparison (vs period trước)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_048",
+    "question_text": "Viết pseudo-code LOD Expression trong Tableau để tính doanh thu trung bình theo quý, bất chấp bộ lọc (filter) theo tháng đang được áp dụng trên dashboard.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "CODING",
+    "skill_groups": [
+      "BI_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU",
+      "DATA_VISUALIZATION"
+    ],
+    "answers": {
+      "detailed": "Sử dụng FIXED LOD: { FIXED QUARTER(order_date): AVG(daily_revenue) }. FIXED LOD tính toán độc lập với filter context trên dashboard. Nếu muốn tính từ dữ liệu nguồn: tính doanh thu theo ngày, gom nhóm theo quý, rồi lấy trung bình. FIXED giữ nguyên kết quả bất kể user filter tháng nào. So sánh với INCLUDE/EXCLUDE: INCLUDE bổ sung dimension, EXCLUDE bỏ dimension khỏi ngữ cảnh hiện tại.",
+      "evaluation_points": [
+        "Dùng FIXED LOD để tính toán độc lập filter context",
+        "Xác định đúng granularity: quý (QUARTER)",
+        "Phân biệt FIXED với INCLUDE và EXCLUDE"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_049",
+    "question_text": "Mô tả cách tính và visualize Funnel Analysis cho một trang e-commerce từ lúc user vào trang đến khi thanh toán. Viết pseudo-code SQL hoặc Python để tính drop-off rate ở mỗi bước.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 6,
+    "question_type": "CODING",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_FUNNEL",
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "Các bước funnel: View Page → Add to Cart → Checkout → Purchase. Code SQL: SELECT step, COUNT(DISTINCT user_id) AS users FROM funnel_events GROUP BY step. Tính drop-off rate = 1 - users_step_n / users_step_n-1. Visualize bằng Bar Chart hoặc Funnel Chart: mỗi thanh thu hẹp dần, hiển thị % drop-off giữa các bước. Phân tích: bước nào drop-off cao nhất → ưu tiên tối ưu.",
+      "evaluation_points": [
+        "Xác định đúng các bước funnel và thứ tự",
+        "Tính drop-off rate = 1 - (users hiện tại / users trước đó)",
+        "Visualize dạng Funnel Chart, hiển thị % mỗi bước"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_050",
+    "question_text": "Viết pseudo-code Python mô phỏng A/B test tính p-value bằng phương pháp Bootstrap (hoán vị - permutation test). Giải thích ý nghĩa của p-value tính được.",
+    "roles": {
+      "primary": "DA",
+      "secondary": [
+        "DS"
+      ]
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 8,
+    "question_type": "CODING",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION"
+    ],
+    "skill_tags": [
+      "STAT_AB_TESTING",
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "answers": {
+      "detailed": "1. Tính observed difference = mean(B) - mean(A). 2. Gộp dữ liệu 2 nhóm thành 1 pool. 3. Lặp N=10000 lần: (a) Xáo trộn ngẫu nhiên và chia lại thành 2 nhóm với kích thước ban đầu. (b) Tính difference mới. (c) Nếu |difference| >= |observed|, tăng biến đếm. 4. p-value = count / N. Ý nghĩa: xác suất quan sát được sự khác biệt lớn như vậy (hoặc hơn) nếu H0 đúng.",
+      "evaluation_points": [
+        "Tính observed difference giữa 2 nhóm",
+        "Permutation: xáo trộn và chia lại ngẫu nhiên N lần",
+        "p-value = số lần |diff| >= |observed| / tổng số lần lặp"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_046",
+    "question_text": "So sánh cách viết data pipeline theo mô hình ETL (transform trước khi load) và ELT (load trước rồi transform). Mô tả pseudo-code Spark/Python cho mỗi cách và phân tích ưu nhược điểm.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "CODING",
+    "skill_groups": [
+      "DATA_PIPELINE"
+    ],
+    "skill_tags": [
+      "PIPE_ELT",
+      "DATA_PIPELINE_DESIGN"
+    ],
+    "answers": {
+      "detailed": "ETL: (1) Extract from source → CSV/API. (2) Transform: Spark/Pandas làm sạch, join, aggregate. (3) Load kết quả vào warehouse. ELT: (1) Extract → Load raw data vào Data Lake (S3). (2) Transform bằng SQL/dbt trên warehouse (Snowflake/BigQuery). ETL phù hợp khi transform phức tạp, dữ liệu nhỏ. ELT phù hợp Big Data, tận dụng sức mạnh compute của warehouse, linh hoạt tái transform từ raw data.",
+      "evaluation_points": [
+        "ETL: Extract → Transform (Spark/Pandas) → Load",
+        "ELT: Extract → Load raw → Transform (SQL/dbt) trên warehouse",
+        "So sánh ưu nhược: ETL transform chủ động, ELT linh hoạt tái sử dụng raw"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_047",
+    "question_text": "Viết pseudo-code Python đọc file Parquet, chạy aggregation (GROUP BY), và so sánh hiệu năng với cùng thao tác trên file CSV. Giải thích vì sao Parquet nhanh hơn.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "CODING",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "skill_tags": [
+      "FORMAT_PARQUET",
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "answers": {
+      "detailed": "Python: df = pd.read_parquet('data.parquet'); result = df.groupby('col').agg({'val': 'sum'}). Parquet nhanh hơn CSV vì: (1) Columnar storage: chỉ đọc cột cần thiết (Column Pruning). (2) Predicate Pushdown: lọc dữ liệu trước khi đọc. (3) Nén hiệu quả theo cột (cùng kiểu dữ liệu). (4) Lưu statistics (min/max) cho mỗi row group. CSV phải đọc toàn bộ file, parse text, tốn CPU hơn nhiều.",
+      "evaluation_points": [
+        "Đọc Parquet và CSV với pandas/pyarrow",
+        "Parquet: Column Pruning + Predicate Pushdown",
+        "Nén cột + metadata statistics giúp skip row groups"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_048",
+    "question_text": "Viết pseudo-code Python dùng thư viện boto3 để: (1) list tất cả objects trong S3 bucket với prefix, (2) lọc object mới nhất theo last_modified, (3) download object đó về local.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "CODING",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS"
+    ],
+    "skill_tags": [
+      "CLOUD_S3",
+      "BIG_DATA_OPTIMIZATION"
+    ],
+    "answers": {
+      "detailed": "s3 = boto3.client('s3'); objects = s3.list_objects_v2(Bucket=bucket, Prefix=prefix)['Contents']; latest = max(objects, key=lambda o: o['LastModified']); s3.download_file(bucket, latest['Key'], local_path). Lưu ý: list_objects_v2 trả về tối đa 1000 objects/lần, dùng PaginationToken nếu có nhiều hơn. Nên thêm error handling cho trường hợp bucket rỗng hoặc không có object khớp prefix.",
+      "evaluation_points": [
+        "Dùng boto3.client('s3') và list_objects_v2",
+        "Tìm object mới nhất bằng max() trên LastModified",
+        "Dùng download_file để tải object"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_049",
+    "question_text": "Mô tả cách implement Slowly Changing Dimension (SCD) Type 2 trong SQL để lưu lịch sử thay đổi giá sản phẩm. Viết MERGE statement hoặc Python logic thay thế.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "CODING",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "skill_tags": [
+      "MODELING_SCD",
+      "DATA_WAREHOUSE"
+    ],
+    "answers": {
+      "detailed": "SCD Type 2: Mỗi lần thay đổi, tạo dòng mới với surrogate key mới, cập nhật end_date của dòng cũ. Bảng dim_product: product_sk, product_id, price, effective_date, end_date, is_current. SQL MERGE: (1) Đóng dòng hiện tại: UPDATE SET end_date = today, is_current = false WHERE is_current = true AND price thay đổi. (2) INSERT dòng mới với effective_date = today, end_date = null, is_current = true. Python: so sánh DataFrame staging vs dimension, detect changes, update + insert.",
+      "evaluation_points": [
+        "Thiết kế bảng SCD Type 2 với effective_date, end_date, is_current",
+        "UPDATE đóng dòng cũ + INSERT dòng mới trong cùng transaction",
+        "Xử lý đúng khi không có thay đổi (skip)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_050",
+    "question_text": "Mô tả kiến trúc streaming để tính toán MAU (Monthly Active Users) từ event click stream với độ trễ dưới 1 phút. Chọn công nghệ và viết pseudo-code xử lý.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 8,
+    "question_type": "CODING",
+    "skill_groups": [
+      "SYSTEM_ARCHITECTURE"
+    ],
+    "skill_tags": [
+      "ARCH_STREAMING",
+      "ARCH_DATA_ARCHITECTURE"
+    ],
+    "answers": {
+      "detailed": "Kiến trúc: Kafka (event ingestion) → Flink/Kafka Streams (distinct user_id per day) → Redis (HyperLogLog để đếm approximate unique) → API đọc real-time. Pseudo-code Flink: stream.keyBy(user_id).window(Tumbling 1 day).aggregate(HyperLogLog). Voí 30 ngày rolling: dùng Sliding window 30 day hoặc lưu HLL daily vào Redis, query HLL của 30 ngày gần nhất, merge bằng PFMERGE. Latency <1 phút vì Flink xử lý incremental, không đợi cuối ngày.",
+      "evaluation_points": [
+        "Kafka → Flink/Kafka Streams → Redis pipeline",
+        "HyperLogLog để đếm unique users approximate",
+        "Window aggregation: Tumbling hàng ngày, merge 30 ngày gần nhất"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_049",
+    "question_text": "Mô tả cách implement Item-based Collaborative Filtering bằng numpy: từ ma trận rating User-Item, tính ma trận similarity giữa các item bằng cosine similarity, và dự đoán rating.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "CODING",
+    "skill_groups": [
+      "ALGORITHM_THEORY"
+    ],
+    "skill_tags": [
+      "ML_RECOMMENDER_SYSTEM",
+      "ML_UNSUPERVISED"
+    ],
+    "answers": {
+      "detailed": "1. Rating matrix R (n_users x m_items), normalize bằng cách trừ mean mỗi user. 2. Tính item similarity: S = cosine_similarity(R.T) → ma trận m_items x m_items. Cosine = dot product / (norm_i * norm_j). 3. Dự đoán rating của user u cho item i: r̂_ui = Σ(S_ij * R_uj) / Σ(|S_ij|) với j là các item user u đã rate. Chỉ dùng các item lân cận (top-k similarity). 4. Undo normalization bằng cộng lại user mean.",
+      "evaluation_points": [
+        "Tính ma trận rating User-Item, normalize bằng mean-centering",
+        "Cosine similarity giữa các item: dot product / norms",
+        "Dự đoán bằng weighted sum của top-k items tương tự nhất"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_050",
+    "question_text": "Giải thích cách implement Isolation Forest cho bài toán phát hiện bất thường (anomaly detection). Mô tả cách xây dựng một cây isolation, cách tính anomaly score từ path length.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "CODING",
+    "skill_groups": [
+      "ALGORITHM_THEORY"
+    ],
+    "skill_tags": [
+      "ML_ANOMALY_DETECTION",
+      "ML_UNSUPERVISED"
+    ],
+    "answers": {
+      "detailed": "1. Xây cây: chọn ngẫu nhiên 1 feature và 1 split value trong [min, max] của feature đó. Chia dữ liệu thành 2 nhánh trái/phải. Lặp đến khi mỗi node chỉ có 1 điểm hoặc đạt max depth. 2. Cây càng nông (path length ngắn) → điểm càng dễ bị cô lập → khả năng cao là outlier. 3. Anomaly score: s(x, n) = 2^(-E(h(x))/c(n)), với h(x) là path length trung bình qua nhiều cây, c(n) là expected path length cho n điểm. Score > 0.5 → anomaly.",
+      "evaluation_points": [
+        "Xây cây ngẫu nhiên: chọn feature + split value ngẫu nhiên",
+        "Path length ngắn = dễ cô lập = khả năng outlier cao",
+        "Anomaly score = 2^(-E(h)/c(n)), > 0.5 là anomaly"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_051",
+    "question_text": "Mô tả sự khác biệt giữa PCA và t-SNE trong giảm chiều dữ liệu. Giải thích cách t-SNE tính ma trận similarity trong không gian gốc và không gian thấp, và tối ưu hóa KL divergence.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 8,
+    "question_type": "CODING",
+    "skill_groups": [
+      "ALGORITHM_THEORY"
+    ],
+    "skill_tags": [
+      "ML_DIMENSIONALITY_REDUCTION",
+      "ML_UNSUPERVISED"
+    ],
+    "answers": {
+      "detailed": "PCA: tìm trục giữ nhiều phương sai nhất (eigenvectors của covariance matrix). Kết quả: linear projection, giữ global structure. t-SNE: phi tuyến, giữ local structure. (1) Tính similarity P_ij trong không gian gốc (Gaussian kernel). (2) Khởi tạo điểm ngẫu nhiên trong không gian thấp (2D/3D). (3) Tính similarity Q_ij bằng t-distribution (đuôi dày để tránh crowding problem). (4) Tối ưu KL divergence giữa P và Q bằng gradient descent. Khác biệt chính: PCA linear, giữ global; t-SNE non-linear, giữ local.",
+      "evaluation_points": [
+        "PCA: linear, eigenvectors của covariance matrix, giữ global structure",
+        "t-SNE: similarity P bằng Gaussian, Q bằng Student-t (đuôi dày)",
+        "t-SNE tối ưu KL(P||Q) bằng gradient descent"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_052",
+    "question_text": "Viết pseudo-code Python tính BLEU score từ một câu candidate và một câu reference, sử dụng n-gram matching (unigram và bigram) và brevity penalty.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 6,
+    "question_type": "CODING",
+    "skill_groups": [
+      "NLP"
+    ],
+    "skill_tags": [
+      "NLP_EVALUATION",
+      "NLP_FUNDAMENTALS"
+    ],
+    "answers": {
+      "detailed": "1. Tokenize candidate và reference thành từ. 2. Tính precision cho n-gram (n=1,2,3,4): count số n-gram xuất hiện trong cả candidate và reference, chia cho tổng số n-gram trong candidate. Clip count của mỗi n-gram bằng max count trong reference. 3. Brevity Penalty: nếu len(candidate) < len(reference), BP = exp(1 - len_ref/len_cand), ngược lại BP = 1. 4. BLEU = BP * exp(mean(log(precision_n))). BLEU tập trung vào precision của bản dịch.",
+      "evaluation_points": [
+        "Tính n-gram precision với clipping (max count trong reference)",
+        "Brevity Penalty: phạt câu candidate quá ngắn",
+        "BLEU = BP * exp(trung bình log precision của các n-gram)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_053",
+    "question_text": "Viết pseudo-code Python để monitor Data Drift trong production: dùng Kolmogorov-Smirnov test so sánh phân phối của một feature giữa training data và production data. Giải thích ngưỡng cảnh báo.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 6,
+    "question_type": "CODING",
+    "skill_groups": [
+      "MLOPS"
+    ],
+    "skill_tags": [
+      "ML_MLOPS",
+      "ML_MONITORING"
+    ],
+    "answers": {
+      "detailed": "from scipy.stats import ks_2samp. Với mỗi feature: statistic, p_value = ks_2samp(training_feature, production_feature). KS statistic đo khoảng cách lớn nhất giữa 2 CDF. Ngưỡng: p_value < 0.01 → báo động đỏ (drift nghiêm trọng). statistic > 0.1 → báo động vàng (phân phối lệch đáng kể). Cần monitor định kỳ (hàng ngày/tuần) cho tất cả feature quan trọng. Kết hợp PSI (Population Stability Index) để cross-validate.",
+      "evaluation_points": [
+        "Dùng ks_2samp so sánh training vs production distribution",
+        "KS statistic = max distance giữa 2 CDF",
+        "Ngưỡng: p_value < 0.01 (đỏ), statistic > 0.1 (vàng)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_051",
+    "question_text": "Case Study: Bạn được giao tối ưu một báo cáo SQL đang chạy 30 phút mỗi lần. Mô tả quy trình debug và tối ưu: từ phân tích Execution Plan, xác định bottleneck, đến đánh index, partition, và rewrite query.",
+    "roles": {
+      "primary": "DA",
+      "secondary": [
+        "DE"
+      ]
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICE",
+    "skill_groups": [
+      "SQL_DATABASE"
+    ],
+    "skill_tags": [
+      "SQL_PERFORMANCE",
+      "DATABASE_DESIGN"
+    ],
+    "answers": {
+      "detailed": "1. Phân tích Execution Plan: EXPLAIN ANALYZE để xem time breakdown, loại scan (Seq Scan vs Index Scan), join algorithm (Nested Loop vs Hash Join vs Merge Join). 2. Xác định bottleneck: node nào chiếm >80% thời gian? Có Seq Scan trên bảng lớn không? Có Nested Loop trên bảng triệu dòng không? 3. Tối ưu: (a) Tạo index phù hợp trên cột WHERE/JOIN/ORDER BY. (b) Partition bảng lớn theo thời gian. (c) Rewrite query: thay IN bằng EXISTS, thay subquery bằng CTE/join. (d) Update statistics (ANALYZE table). 4. Test lại và so sánh thời gian.",
+      "evaluation_points": [
+        "Phân tích EXPLAIN ANALYZE: xác định Seq Scan, Nested Loop",
+        "Tối ưu index cho cột WHERE, JOIN, ORDER BY",
+        "Rewrite query: EXISTS thay IN, CTE thay subquery"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_052",
+    "question_text": "Case Study: Stakeholder yêu cầu dashboard theo dõi KPI theo thời gian thực (real-time). Bạn chọn công nghệ nào (Power BI/Tableau hay custom), pipeline dữ liệu ra sao, và xử lý vấn đề bảo mật dữ liệu nhạy cảm?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICE",
+    "skill_groups": [
+      "BI_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "BI_CONCEPTS",
+      "DATA_VISUALIZATION"
+    ],
+    "answers": {
+      "detailed": "1. Công nghệ: Power BI với DirectQuery hoặc Streaming Dataset cho real-time (độ trễ <5 phút). Tableau: Tableau Pulse hoặc kết nối trực tiếp database. Nếu yêu cầu độ trễ <1s: custom web dashboard với WebSocket + Redis. 2. Pipeline: Application events → Kafka → Stream Processing (Flink) → Redis/Aggregated DB → Dashboard API. 3. Bảo mật: Row-Level Security (RLS) trong Power BI/Tableau. Masking dữ liệu nhạy cảm (email, số điện thoại) trước khi vào dashboard. Audit log ai đã xem dashboard.",
+      "evaluation_points": [
+        "Chọn công nghệ phù hợp với yêu cầu latency (DirectQuery vs Streaming vs custom)",
+        "Pipeline: Kafka → Stream Processing → Caching layer → Dashboard",
+        "Bảo mật: RLS + Data Masking + Audit log"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_053",
+    "question_text": "Case Study: Retention rate của sản phẩm SaaS giảm 20% trong 3 tháng liên tiếp. Phân tích nguyên nhân theo phương pháp Cohort Analysis và đề xuất giải pháp cải thiện.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICE",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "STATISTICS_EXPERIMENTATION"
+    ],
+    "skill_tags": [
+      "ANALYTICS_COHORT",
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "1. Tạo Cohort Table: chia user theo tháng đăng ký, theo dõi retention qua 6 tháng. 2. So sánh retention curve của các cohort gần đây vs cohort cũ. Xác định cohort nào và tháng nào (Month 1, Month 2...) bị drop. 3. Phân tích nguyên nhân: (a) Thay đổi onboarding flow? (b) Thay đổi sản phẩm/tính năng? (c) Đối thủ tung ra sản phẩm tương tự? (d) Tăng giá? 4. Giải pháp: cải thiện onboarding (email drip campaign), push notification re-engagement, phân tích feedback user rời bỏ.",
+      "evaluation_points": [
+        "Tạo Cohort Table theo tháng đăng ký và theo dõi retention",
+        "So sánh retention curve giữa cohort mới và cũ",
+        "Phân tích nguyên nhân và đề xuất giải pháp onboarding/re-engagement"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_054",
+    "question_text": "Case Study: Bạn chạy A/B test nhưng traffic phân bổ không đều giữa 2 nhóm (ví dụ: nhóm A có gấp đôi traffic nhóm B do lỗi cấu hình). Làm thế nào để vẫn kiểm định được? Phân tích Statistical Power trong trường hợp này.",
+    "roles": {
+      "primary": "DA",
+      "secondary": [
+        "DS"
+      ]
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 8,
+    "question_type": "PRACTICE",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION"
+    ],
+    "skill_tags": [
+      "STAT_AB_TESTING",
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "answers": {
+      "detailed": "1. A/B test vẫn có thể kiểm định dù sample size không đều, nhưng Statistical Power bị giảm so với thiết kế cân bằng 50-50. 2. Sử dụng Welch's t-test (không giả định equal variance, phù hợp với unequal sample size). 3. Tính Power post-hoc: với n1 và n2 không đều, effective sample size = harmonic mean. Power thấp hơn so với balanced design. 4. Giải pháp: (a) Nếu mới bắt đầu, cân bằng lại traffic. (b) Nếu đã chạy lâu, tính practical significance thay vì chỉ dựa vào p-value. (c) Xem xét Sequential Testing nếu muốn dừng sớm.",
+      "evaluation_points": [
+        "Dùng Welch's t-test cho unequal sample size",
+        "Effective sample size = harmonic mean, Power giảm khi imbalance",
+        "Xem xét practical significance, Sequential Testing nếu cần"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_051",
+    "question_text": "Case Study: Thiết kế pipeline dữ liệu cho hệ thống giao đồ ăn: từ order event đến real-time dashboard cho đội vận hành. Yêu cầu: latency < 5 giây, fault-tolerant, xử lý được 10K orders/giây vào giờ cao điểm.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 8,
+    "question_type": "PRACTICE",
+    "skill_groups": [
+      "DATA_PIPELINE"
+    ],
+    "skill_tags": [
+      "PIPE_ELT",
+      "DATA_PIPELINE_DESIGN"
+    ],
+    "answers": {
+      "detailed": "1. Ingestion: App gửi event qua Kafka (topic: orders, partitions = 32 cho parallelism). 2. Stream Processing: Kafka Streams hoặc Flink xử lý: (a) Validate + enrich order (thêm thông tin nhà hàng từ Redis cache). (b) Window aggregation 1-phút: đếm orders, tính avg delivery time. (c) Ghi kết quả vào Redis (sorted set cho leaderboard). 3. Serving: WebSocket server đọc Redis, push lên dashboard. 4. Fault-tolerant: Kafka replication factor = 3, Flink checkpointing, Redis AOF persistence. 5. Backpressure: Kafka consumer group với max.poll.records giới hạn.",
+      "evaluation_points": [
+        "Kafka 32 partitions + Flink/Kafka Streams cho parallelism",
+        "Window aggregation 1-phút + Redis sorted set cho real-time query",
+        "Fault-tolerant: replication 3, checkpointing, AOF persistence"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_052",
+    "question_text": "Case Study: Công ty chuyển từ MySQL OLTP sang Data Warehouse OLAP cho mục đích phân tích. Thiết kế Star Schema cho dữ liệu bán hàng (Sales) và áp dụng Slowly Changing Dimension Type 2 cho bảng sản phẩm.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICE",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "skill_tags": [
+      "DATA_WAREHOUSE",
+      "MODELING_SCD"
+    ],
+    "answers": {
+      "detailed": "1. Fact Table (fact_sales): columns = product_sk, customer_sk, date_sk, store_sk, quantity, unit_price, total_amount, discount. Granularity: mỗi dòng là 1 line item trong hóa đơn. 2. Dimension Tables: dim_product (SCD Type 2: product_sk, product_id, name, category, price, effective_date, end_date, is_current), dim_customer, dim_date, dim_store. 3. SCD Type 2 cho dim_product: mỗi lần giá hoặc tên sản phẩm thay đổi, tạo dòng mới với product_sk mới, cập nhật end_date dòng cũ. 4. ETL: dbt model incremental load, snapshot strategy cho SCD.",
+      "evaluation_points": [
+        "Thiết kế Star Schema: 1 Fact table + 4 Dimension tables",
+        "Fact table granularity: line item level",
+        "SCD Type 2: product_sk mới, effective_date/end_date/is_current"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_053",
+    "question_text": "Case Study: Database PostgreSQL bị deadlock liên tục vào giờ cao điểm (12h-13h). Mô tả quy trình debug và fix dựa trên Transaction Isolation Levels.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICE",
+    "skill_groups": [
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_PERFORMANCE",
+      "DB_ACID"
+    ],
+    "answers": {
+      "detailed": "1. Debug: (a) Kiểm tra pg_stat_activity để tìm blocked queries. (b) Bật log_lock_waits và deadlock_timeout để log deadlock detail. (c) Phân tích query nào tham gia deadlock: thường là 2 transaction lock cùng 2 bảng nhưng khác thứ tự. 2. Fix: (a) Chuẩn hóa thứ tự lock: luôn lock bảng A trước B. (b) Giảm isolation level từ SERIALIZABLE xuống READ COMMITTED nếu business logic cho phép. (c) Tối ưu query giảm thời gian giữ lock. (d) Dùng SELECT FOR UPDATE SKIP LOCKED cho queue processing.",
+      "evaluation_points": [
+        "Debug: pg_stat_activity, log_lock_waits, phân tích thứ tự lock",
+        "Fix: chuẩn hóa thứ tự lock bảng, giảm isolation level",
+        "SELECT FOR UPDATE SKIP LOCKED cho queue/worker pattern"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_054",
+    "question_text": "Case Study: Spark job đọc 1TB dữ liệu từ S3, xử lý join và lọc, rồi ghi kết quả vào AWS Redshift. Mô tả chiến lược tối ưu: S3 partitioning, Spark config, và Redshift COPY command.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 8,
+    "question_type": "PRACTICE",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS"
+    ],
+    "skill_tags": [
+      "PIPE_PERFORMANCE",
+      "CLOUD_AWS"
+    ],
+    "answers": {
+      "detailed": "1. S3 Partitioning: tổ chức dữ liệu theo date/region (prefix = s3://bucket/data/year=2025/month=06/day=01/). Dùng partition pruning để Spark chỉ đọc partition cần thiết. 2. Spark Config: (a) spark.sql.adaptive.enabled = true cho Adaptive Query Execution. (b) Tăng spark.sql.shuffle.partitions lên 400-800 cho 1TB data. (c) Dùng broadcast join nếu 1 bảng < 10GB. (d) Cache DataFrame trung gian nếu reuse. 3. Redshift: ghi kết quả ra S3 dạng Parquet, dùng COPY command với manifest file cho parallel load. Chọn DISTKEY và SORTKEY phù hợp.",
+      "evaluation_points": [
+        "S3 partition theo date/region, partition pruning",
+        "Spark AQE, shuffle partitions, broadcast join",
+        "Parquet output → Redshift COPY với DISTKEY/SORTKEY"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_054",
+    "question_text": "Case Study: Mô hình ResNet-50 đang overfitting nghiêm trọng trên tập CIFAR-100 (train accuracy 99%, test accuracy 65%) dù đã dùng Dropout 0.5. Đề xuất 5 kỹ thuật regularization khác và giải thích khi nào dùng.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICE",
+    "skill_groups": [
+      "DEEP_LEARNING",
+      "ALGORITHM_THEORY"
+    ],
+    "skill_tags": [
+      "DL_TRAINING",
+      "ML_REGULARIZATION"
+    ],
+    "answers": {
+      "detailed": "1. Data Augmentation: RandomCrop, RandomHorizontalFlip, Cutout, Mixup → tăng diversity tập train. 2. Weight Decay (L2 Regularization): thêm penalty λ||w||² vào loss, ngăn weight quá lớn. 3. Label Smoothing: thay vì one-hot [0,1,0], dùng [0.05, 0.9, 0.05] → giảm overconfidence. 4. Early Stopping: dừng train khi val loss không giảm sau N epochs. 5. Stochastic Depth: ngẫu nhiên bỏ qua các residual block trong quá trình train (giống Dropout cho layer). Kết hợp: Data Augmentation + Weight Decay luôn là baseline, Label Smoothing nếu model quá tự tin.",
+      "evaluation_points": [
+        "Data Augmentation: Cutout, Mixup để tăng diversity",
+        "Weight Decay + Label Smoothing: giảm overconfidence",
+        "Early Stopping + Stochastic Depth cho regularization ở layer level"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_055",
+    "question_text": "Case Study: Xây dựng pipeline phân tích sentiment trên Twitter data tiếng Việt theo thời gian thực. Trình bày từ bước preprocessing đến model selection và deployment.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 8,
+    "question_type": "PRACTICE",
+    "skill_groups": [
+      "NLP",
+      "TIME_SERIES"
+    ],
+    "skill_tags": [
+      "NLP_PREPROCESSING",
+      "ML_TIME_SERIES"
+    ],
+    "answers": {
+      "detailed": "1. Preprocessing tiếng Việt: (a) Tokenize bằng underthesea/pyvi. (b) Loại bỏ emoji, hashtag, mention, URL. (c) Chuẩn hóa teencode (ko → không, dc → được). 2. Model: PhoBERT (BERT for Vietnamese) fine-tune trên tập sentiment 3 lớp (positive/neutral/negative). Hoặc lightweight: TF-IDF + Logistic Regression nếu latency quan trọng. 3. Deployment: Kafka nhận tweet stream → Python worker gọi model → kết quả ghi vào InfluxDB. 4. Visualization: Grafana dashboard hiển thị sentiment trend theo thời gian, word cloud từ khóa phổ biến.",
+      "evaluation_points": [
+        "Preprocessing tiếng Việt: tokenize, chuẩn hóa teencode, loại bỏ noise",
+        "Model: PhoBERT fine-tune hoặc TF-IDF + Logistic Regression",
+        "Deployment: Kafka → model worker → InfluxDB → Grafana dashboard"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_056",
+    "question_text": "Case Study: Triển khai mô hình ML cho bài toán gợi ý sản phẩm lên production. Thiết kế hệ thống CI/CD cho model, A/B deployment strategy, và monitoring pipeline.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 8,
+    "question_type": "PRACTICE",
+    "skill_groups": [
+      "MLOPS",
+      "ALGORITHM_THEORY"
+    ],
+    "skill_tags": [
+      "ML_MLOPS",
+      "ML_MONITORING"
+    ],
+    "answers": {
+      "detailed": "1. CI/CD: (a) Code push → GitHub Actions chạy unit test + data validation (Great Expectations). (b) Train model trên MLflow, track experiment. (c) Nếu model mới tốt hơn >2% recall@10, tự động deploy lên staging. 2. A/B Deployment: (a) Model A (current) và Model B (new) deploy song song trên Kubernetes. (b) Traffic split: 95% model A, 5% model B. (c) Theo dõi metrics 1 tuần, nếu B tốt hơn → promote B thành A. 3. Monitoring: Data Drift (PSI), Model Performance (CTR, Recall@10), Latency (p95 < 100ms), Error rate.",
+      "evaluation_points": [
+        "CI/CD: GitHub Actions + MLflow + tự động deploy nếu metric > threshold",
+        "A/B deployment: 95/5 traffic split, promote sau 1 tuần nếu tốt hơn",
+        "Monitoring: PSI cho data drift, CTR/Recall cho performance, p95 latency"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_057",
+    "question_text": "Case Study: Dữ liệu huấn luyện có 40% missing values, outliers, và nhiều categorical features. Mô tả pipeline preprocessing hoàn chỉnh và cách validate bằng cross-validation.",
+    "roles": {
+      "primary": "DS",
+      "secondary": [
+        "DA"
+      ]
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICE",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "EVALUATION_METRICS"
+    ],
+    "skill_tags": [
+      "DATA_CLEANING",
+      "EVAL_CROSS_VALIDATION"
+    ],
+    "answers": {
+      "detailed": "1. Missing Values: (a) Phân tích pattern: MCAR, MAR, hay MNAR? (b) Numeric: điền median + thêm indicator column is_missing. (c) Categorical: điền mode hoặc thêm category 'Unknown'. (d) Nếu missing quá 70% → drop cột. 2. Outliers: dùng IQR (Q3 - Q1) hoặc Z-score để phát hiện, cap/clip thay vì xóa. 3. Categorical: Target Encoding nếu high cardinality, One-Hot nếu <10 giá trị. 4. Cross-Validation: StratifiedKFold (n_splits=5) để giữ phân phối target. Pipeline: ColumnTransformer + Pipeline trong sklearn để tránh data leakage khi fit transform trên train rồi apply lên test.",
+      "evaluation_points": [
+        "Phân tích pattern missing + điền median/mode + indicator column",
+        "Outliers: IQR phát hiện, cap/clip thay vì xóa",
+        "ColumnTransformer + Pipeline + StratifiedKFold tránh data leakage"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_058",
+    "question_text": "Case Study: Chọn model cho bài toán fraud detection: dữ liệu cực kỳ mất cân bằng (0.01% fraud). So sánh 3 approaches khác nhau và giải thích trade-off giữa Recall và Precision.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 8,
+    "question_type": "PRACTICE",
+    "skill_groups": [
+      "ALGORITHM_THEORY",
+      "EVALUATION_METRICS"
+    ],
+    "skill_tags": [
+      "ML_REGULARIZATION",
+      "ML_MODEL_SELECTION"
+    ],
+    "answers": {
+      "detailed": "Approach 1 - Undersampling + XGBoost: Downsample non-fraud class để cân bằng, train XGBoost với scale_pos_weight. Ưu: đơn giản. Nhược: mất thông tin từ non-fraud. Approach 2 - SMOTE + LightGBM: Tạo synthetic fraud samples. Ưu: giữ dữ liệu non-fraud. Nhược: synthetic data có thể không realistic. Approach 3 - Anomaly Detection (Isolation Forest): Coi fraud là anomaly. Ưu: không cần label fraud đầy đủ. Nhược: không phân biệt được các loại fraud. Trade-off: Recall quan trọng hơn Precision (bỏ sót fraud gây thiệt hại > alert false positive). Dùng Precision-Recall AUC và F2-score (ưu tiên Recall gấp đôi).",
+      "evaluation_points": [
+        "Approach 1: Undersampling + XGBoost scale_pos_weight",
+        "Approach 2: SMOTE + LightGBM tạo synthetic samples",
+        "Approach 3: Isolation Forest coi fraud là anomaly",
+        "Trade-off: Recall > Precision, dùng PR-AUC và F2-score"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_055",
+    "question_text": "Viết hàm Python mô phỏng ROW_NUMBER() OVER(PARTITION BY ... ORDER BY ...) cho một list các dict. Input: list records, cột partition, cột order. Output: list records có thêm cột 'rn'.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "SQL_DATABASE",
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "SQL_WINDOW_FUNCTION",
+      "PYTHON_PANDAS"
+    ],
+    "starter_code": "def row_number_over(records: list[dict], partition_col: str, order_col: str) -> list[dict]:\n    # TODO: Nhom theo partition_col, sap xep theo order_col, gan so thu tu\n    pass",
+    "test_cases": [
+      {
+        "input": "records=[{'dept':'IT','name':'A','salary':500},{'dept':'IT','name':'B','salary':600},{'dept':'HR','name':'C','salary':400}] partition_col='dept' order_col='salary'",
+        "expected_output": "[{'dept':'IT','name':'A','salary':500,'rn':1},{'dept':'IT','name':'B','salary':600,'rn':2},{'dept':'HR','name':'C','salary':400,'rn':1}]"
+      },
+      {
+        "input": "records=[{'x':1,'v':10},{'x':1,'v':20}] partition_col='x' order_col='v'",
+        "expected_output": "[{'x':1,'v':10,'rn':1},{'x':1,'v':20,'rn':2}]"
+      }
+    ],
+    "constraints": "Không dùng pandas. Không mutate dict gốc (trả về bản sao). Thứ tự output: theo partition rồi order.",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "1. Nhóm records theo partition_col. 2. Trong mỗi nhóm, sort theo order_col. 3. Gán rn = 1,2,3... cho từng dòng trong nhóm đã sort. 4. Trả về list đã gán rn.",
+      "evaluation_points": [
+        "Nhóm theo partition_col bằng dict của list",
+        "Sort từng nhóm theo order_col",
+        "Gán rn tuần tự 1,2,3... trong mỗi nhóm"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_056",
+    "question_text": "Viết hàm Python tính sample size cần thiết cho A/B test với α (significance level), power (1-β), và minimum detectable effect cho trước.",
+    "roles": {
+      "primary": "DA",
+      "secondary": [
+        "DS"
+      ]
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION"
+    ],
+    "skill_tags": [
+      "STAT_AB_TESTING",
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "starter_code": "import math\n\ndef sample_size_ab_test(alpha: float = 0.05, power: float = 0.8, effect: float = 0.02, baseline_rate: float = 0.1) -> int:\n    # TODO: Tinh sample size moi nhom\n    pass",
+    "test_cases": [
+      {
+        "input": "alpha=0.05 power=0.8 effect=0.02 baseline_rate=0.1",
+        "expected_output": "Khoang 3500-4000"
+      },
+      {
+        "input": "alpha=0.01 power=0.9 effect=0.01 baseline_rate=0.5",
+        "expected_output": "Khoang 25000-30000"
+      }
+    ],
+    "constraints": "Dùng standard normal distribution (Z-score). Công thức: n = (Z_α/2 + Z_β)² × (p1(1-p1) + p2(1-p2)) / (p2-p1)².",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "Z_α/2 = norm.ppf(1 - alpha/2) ≈ 1.96 cho α=0.05. Z_β = norm.ppf(power) ≈ 0.84 cho power=0.8. p1 = baseline_rate. p2 = p1 + effect. n = (Z_α/2 + Z_β)² × (p1(1-p1) + p2(1-p2)) / (p2-p1)². Làm tròn lên số nguyên.",
+      "evaluation_points": [
+        "Tính Z_α/2 và Z_β từ phân phối chuẩn",
+        "p1 = baseline, p2 = p1 + effect",
+        "Áp dụng đúng công thức sample size, làm tròn lên"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_055",
+    "question_text": "Viết hàm Python đọc file CSV lớn theo chunk, chuyển đổi thành định dạng Parquet, và tổ chức partition theo cột 'date'. Trả về danh sách các partition đã tạo và kích thước.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 6,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "skill_tags": [
+      "FORMAT_PARQUET",
+      "DATA_PIPELINE_DESIGN"
+    ],
+    "starter_code": "import os\nimport csv\n\ndef csv_to_parquet_partitioned(csv_path: str, output_dir: str, date_col: str = 'date', chunk_size: int = 10000) -> list[str]:\n    # TODO: Doc CSV chunk, group theo date_col, ghi Parquet\n    pass",
+    "test_cases": [
+      {
+        "input": "CSV 3 dong: 'date,name,value\\n2025-01-01,A,10\\n2025-01-01,B,20\\n2025-01-02,C,30'",
+        "expected_output": "Tao 2 partition: date=2025-01-01 va date=2025-01-02"
+      }
+    ],
+    "constraints": "Dùng csv.reader. Tổ chức output: output_dir/date=YYYY-MM-DD/data.parquet. Trả về list đường dẫn partition.",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "1. Mở file CSV, đọc header. 2. Đọc theo chunk, với mỗi chunk: group theo cột date. 3. Với mỗi group, tạo thư mục output_dir/date=YYYY-MM-DD/, ghi Parquet (nếu có pyarrow/pandas thì dùng, nếu không thì ghi CSV đơn giản). 4. Tổng hợp danh sách partition được tạo.",
+      "evaluation_points": [
+        "Đọc CSV theo chunk với csv.reader",
+        "Group theo cột date và tạo thư mục partition",
+        "Ghi output theo cấu trúc date=YYYY-MM-DD/data.parquet"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_056",
+    "question_text": "Viết hàm Python sinh 100K bản ghi test data (user_id, action, timestamp) và benchmark thời gian thực hiện GROUP BY + COUNT với 3 cách: dict thuần, list comprehension, và pandas (nếu có).",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DATA_PIPELINE"
+    ],
+    "skill_tags": [
+      "DATABASE_PERFORMANCE",
+      "PIPE_PERFORMANCE"
+    ],
+    "starter_code": "import random\nimport time\n\nstrings = 'abcdefghijklmnopqrstuvwxyz'\ndef generate_data(n=100000):\n    users = [f'user_{random.randint(1, 10000)}' for _ in range(n)]\n    actions = [random.choice(['click','view','purchase','add_cart']) for _ in range(n)]\n    return users, actions\n\ndef benchmark_groupby():\n    users, actions = generate_data()\n    # TODO: 3 cach GROUP BY + COUNT, do thoi gian\n    pass",
+    "test_cases": [
+      {
+        "input": "n=1000 (test nho)",
+        "expected_output": "Ket qua gom theo user, COUNT action. In thoi gian 3 cach"
+      }
+    ],
+    "constraints": "Không cần thư viện ngoài (pandas optional). Kết quả: dict {user_id: count_action}.",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "1. Dict: duyệt users, dùng Counter hoặc dict.get(user, 0) + 1. 2. List comprehension: dùng zip → Counter(users). 3. Pandas: pd.DataFrame(users, actions).groupby('user')['action'].count(). Đo bằng time.perf_counter(). Dict thuần thường nhanh nhất cho bài toán nhỏ do không có overhead thư viện.",
+      "evaluation_points": [
+        "Sinh 100K bản ghi test data",
+        "Dict thuần: Counter hoặc dict.get()",
+        "Benchmark và so sánh thời gian 3 cách"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_057",
+    "question_text": "Viết hàm Python nhận schema của 2 bảng (list các cột) và tự động tìm cặp cột khóa ngoại tiềm năng (cùng tên hoặc pattern _id), rồi generate câu SQL JOIN giữa 2 bảng.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "SYSTEM_ARCHITECTURE",
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "skill_tags": [
+      "ARCH_DATA_ARCHITECTURE",
+      "DATA_WAREHOUSE"
+    ],
+    "starter_code": "def generate_join_sql(table_a: str, cols_a: list[str], table_b: str, cols_b: list[str]) -> str:\n    # TODO: Tim cot khop (cung ten hoac pattern _id), generate SELECT ... JOIN ... ON\n    pass",
+    "test_cases": [
+      {
+        "input": "table_a='orders' cols_a=['id','user_id','total'] table_b='users' cols_b=['id','name']",
+        "expected_output": "JOIN ON orders.user_id = users.id"
+      },
+      {
+        "input": "table_a='products' cols_a=['product_id','name'] table_b='sales' cols_b=['sale_id','product_id','amount']",
+        "expected_output": "JOIN ON products.product_id = sales.product_id"
+      }
+    ],
+    "constraints": "Ưu tiên khớp tên cột giống hệt, sau đó khớp pattern 'xxx_id' với 'id'. Trả về câu SQL hoàn chỉnh.",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "1. Tìm cột giống tên: set(cols_a) ∩ set(cols_b). 2. Nếu không có, tìm pattern: cột kết thúc '_id' trong bảng A khớp với 'id' trong bảng B, hoặc ngược lại. 3. Generate: SELECT * FROM table_a JOIN table_b ON table_a.{match_a} = table_b.{match_b}.",
+      "evaluation_points": [
+        "Tìm cột khớp tên giống hệt giữa 2 bảng",
+        "Fallback pattern: xxx_id ↔ id",
+        "Generate câu SQL JOIN hoàn chỉnh"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_059",
+    "question_text": "Viết hàm Python xử lý missing values trong DataFrame (list of dicts): điền giá trị numeric bằng median, categorical bằng mode, và tạo indicator column đánh dấu vị trí đã bị điền.",
+    "roles": {
+      "primary": "DS",
+      "secondary": [
+        "DA"
+      ]
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "DATA_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "DATA_CLEANING",
+      "FEATURE_ENGINEERING"
+    ],
+    "starter_code": "import statistics\n\ndef impute_missing(records: list[dict], num_cols: list[str], cat_cols: list[str]) -> list[dict]:\n    # TODO: Dien numeric = median, categorical = mode, them indicator cot\n    pass",
+    "test_cases": [
+      {
+        "input": "records=[{'age':25,'city':'HN'},{'age':None,'city':'SG'},{'age':30,'city':None}] num_cols=['age'] cat_cols=['city']",
+        "expected_output": "age: None→27.5 (median), city: None→HN (mode). Them age_missing, city_missing"
+      },
+      {
+        "input": "records=[{'x':None},{'x':10}] num_cols=['x'] cat_cols=[]",
+        "expected_output": "x None→10. Them x_missing column"
+      }
+    ],
+    "constraints": "Không dùng pandas. Median dùng statistics.median(). Mode: giá trị xuất hiện nhiều nhất.",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "1. Tính median cho từng num_col từ giá trị non-None. 2. Tính mode cho từng cat_col từ giá trị non-None. 3. Duyệt records: (a) Nếu giá trị None, điền median/mode và đặt indicator_col = 1. (b) Nếu không, indicator_col = 0.",
+      "evaluation_points": [
+        "Tính median và mode chỉ từ giá trị non-None",
+        "Điền missing và tạo indicator column (1 nếu đã điền, 0 nếu không)",
+        "Không mutate dict gốc"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_060",
+    "question_text": "Viết hàm Python triển khai K-Fold Cross Validation từ đầu: chia dữ liệu thành K fold, train trên K-1 fold và test trên fold còn lại, lặp K lần. Trả về list accuracy cho từng fold.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 6,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "EVALUATION_METRICS"
+    ],
+    "skill_tags": [
+      "EVAL_CROSS_VALIDATION",
+      "EVAL_CLASSIFICATION_REPORT"
+    ],
+    "starter_code": "def k_fold_cv(X: list[float], y: list[int], K: int, train_fn, predict_fn) -> list[float]:\n    # TODO: Chia du lieu K fold, train+test, tra ve list accuracy\n    pass",
+    "test_cases": [
+      {
+        "input": "X=[1,2,3,4] y=[0,0,1,1] K=2 train_fn=lambda X,y: None predict_fn=lambda X: [0,0,1,1]",
+        "expected_output": "[1.0, 1.0]"
+      }
+    ],
+    "constraints": "Fold size = len(X)//K. Dữ liệu chia tuần tự (không shuffle). train_fn nhận X, y; predict_fn nhận X trả list prediction.",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "Với mỗi fold i từ 0 đến K-1: (1) Tính start = i * fold_size, end = (i+1) * fold_size. (2) Tập test = X[start:end], tập train = X[:start] + X[end:]. Tương tự cho y. (3) train_fn(X_train, y_train). (4) y_pred = predict_fn(X_test). (5) accuracy = sum(1 for p,t in zip(y_pred, y_test) if p==t) / len(y_test).",
+      "evaluation_points": [
+        "Chia dữ liệu K fold tuần tự",
+        "Train trên K-1 fold, test trên 1 fold còn lại",
+        "Tính accuracy cho mỗi fold, trả về list"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_061",
+    "question_text": "Viết hàm Python tokenize và làm sạch văn bản tiếng Việt: loại bỏ dấu câu, số, ký tự đặc biệt, và các stopwords tiếng Việt cơ bản. Trả về list các từ đã làm sạch.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "NLP"
+    ],
+    "skill_tags": [
+      "NLP_PREPROCESSING",
+      "NLP_FUNDAMENTALS"
+    ],
+    "starter_code": "import re\n\nVN_STOPWORDS = {'la','va','cua','co','khong','duoc','mot','nhung','trong','cac','cho','khi','voi','den','thi','su','nay','do','nhieu','hon','rat','se','ra','vi','no','tu','den','ve'}\ndef clean_vietnamese_text(text: str) -> list[str]:\n    # TODO: Tokenize, loai bo stopwords, dau cau, so\n    pass",
+    "test_cases": [
+      {
+        "input": "text='Hôm nay, tôi đi học Python và SQL!!!'",
+        "expected_output": "['hom','toi','hoc','python','sql']"
+      },
+      {
+        "input": "text='Đây là một câu 123 test thôi'",
+        "expected_output": "['cau','test']"
+      }
+    ],
+    "constraints": "Chỉ dùng Python standard library. Output: lowercase, không dấu câu, không số.",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "1. Lowercase text. 2. Loại bỏ số và ký tự đặc biệt bằng regex [^a-zà-ỹ\\s]. 3. Tokenize bằng split(). 4. Lọc stopwords: nếu từ không nằm trong VN_STOPWORDS và len > 1. 5. Trả về list từ đã clean.",
+      "evaluation_points": [
+        "Loại bỏ dấu câu và số bằng regex",
+        "Tokenize bằng split() (hoặc regex word boundary)",
+        "Lọc stopwords tiếng Việt cơ bản"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_062",
+    "question_text": "Viết hàm Python tạo lag features cho Time Series: từ list giá trị và window size, tạo ma trận X (lag features) và vector y (target cho bước tiếp theo).",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "CODING_EXERCISE",
+    "skill_groups": [
+      "TIME_SERIES"
+    ],
+    "skill_tags": [
+      "ML_TIME_SERIES",
+      "FEATURE_ENGINEERING"
+    ],
+    "starter_code": "def create_lag_features(series: list[float], window: int) -> tuple[list[list[float]], list[float]]:\n    # TODO: Tao X (window lag features), y (next value)\n    pass",
+    "test_cases": [
+      {
+        "input": "series=[1,2,3,4,5] window=2",
+        "expected_output": "X=[[1,2],[2,3],[3,4]] y=[3,4,5]"
+      },
+      {
+        "input": "series=[10,20,30] window=3",
+        "expected_output": "X=[] y=[] (len < window+1)"
+      }
+    ],
+    "constraints": "X[i] = [series[i], series[i+1], ..., series[i+window-1]]. y[i] = series[i+window]. Nếu len(series) < window + 1, trả về ([], []).",
+    "allowed_languages": [
+      "Python"
+    ],
+    "answers": {
+      "detailed": "Với mỗi i từ 0 đến len(series) - window - 1: X.append(series[i:i+window]). y.append(series[i+window]). Đây là sliding window: cửa sổ window phần tử làm input, phần tử tiếp theo làm output. Độ dài output = len(series) - window.",
+      "evaluation_points": [
+        "Sliding window đúng: X[i] = series[i:i+window]",
+        "y[i] = series[i+window]",
+        "Xử lý biên: len < window+1 → ([], [])"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_057",
+    "question_text": "Hoàn thành câu sau: 'Trong Funnel Analysis, tỷ lệ ___ được tính bằng số user chuyển từ bước hiện tại sang bước tiếp theo, chia cho số user ở bước hiện tại.'",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 3,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_FUNNEL",
+      "ANALYTICS_BUSINESS"
+    ],
+    "template": "Trong Funnel Analysis, tỷ lệ [___] được tính bằng số user chuyển từ bước hiện tại sang bước tiếp theo, chia cho số user ở bước hiện tại.",
+    "answers": {
+      "accepted_answers": [
+        [
+          "chuyển đổi",
+          "chuyen doi",
+          "conversion",
+          "Conversion"
+        ]
+      ],
+      "explanation": "Tỷ lệ chuyển đổi (Conversion Rate) là chỉ số quan trọng trong Funnel Analysis, đo lường hiệu quả của từng bước trong hành trình người dùng. Công thức: CR = số user hoàn thành bước tiếp theo / số user ở bước hiện tại. Drop-off rate = 1 - CR."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_058",
+    "question_text": "Hoàn thành câu sau: 'Hàm ___ trong SQL gán số thứ tự cho mỗi dòng trong một partition, thường được kết hợp với OVER() và ORDER BY để đánh số theo thứ tự mong muốn.'",
+    "roles": {
+      "primary": "DA",
+      "secondary": [
+        "DE"
+      ]
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "SQL_DATABASE"
+    ],
+    "skill_tags": [
+      "SQL_WINDOW_FUNCTION",
+      "SQL_FUNDAMENTALS"
+    ],
+    "template": "Hàm [___] trong SQL gán số thứ tự cho mỗi dòng trong một partition, thường được kết hợp với OVER() và ORDER BY để đánh số theo thứ tự mong muốn.",
+    "answers": {
+      "accepted_answers": [
+        [
+          "ROW_NUMBER",
+          "row_number",
+          "ROW_NUMBER()",
+          "row_number()"
+        ]
+      ],
+      "explanation": "ROW_NUMBER() là Window Function phổ biến, gán số thứ tự 1,2,3... cho mỗi dòng trong partition. Khác với RANK() và DENSE_RANK(): ROW_NUMBER() luôn gán số duy nhất, RANK() để trống khi có tie, DENSE_RANK() không để trống. Cú pháp: ROW_NUMBER() OVER(PARTITION BY col1 ORDER BY col2)."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_058",
+    "question_text": "Hoàn thành câu sau: 'Trong cơ sở dữ liệu, ___ là viết tắt của bốn tính chất cốt lõi của một transaction: Atomicity (Tính nguyên tử), Consistency (Tính nhất quán), Isolation (Tính độc lập), Durability (Tính bền vững).'",
+    "roles": {
+      "primary": "DE",
+      "secondary": [
+        "DA"
+      ]
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DB_ACID",
+      "DATABASE_INDEXING"
+    ],
+    "template": "Trong cơ sở dữ liệu, [___] là viết tắt của bốn tính chất cốt lõi của một transaction: Atomicity (Tính nguyên tử), Consistency (Tính nhất quán), Isolation (Tính độc lập), Durability (Tính bền vững).",
+    "answers": {
+      "accepted_answers": [
+        [
+          "ACID",
+          "acid"
+        ]
+      ],
+      "explanation": "ACID là bốn tính chất đảm bảo transaction trong RDBMS được xử lý tin cậy: Atomicity (tất cả hoặc không gì cả), Consistency (dữ liệu luôn hợp lệ trước và sau transaction), Isolation (các transaction đồng thời không ảnh hưởng lẫn nhau), Durability (dữ liệu đã commit không bị mất)."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_059",
+    "question_text": "Hoàn thành câu sau: '___ là kỹ thuật lưu trữ lịch sử thay đổi của dữ liệu trong bảng Dimension của Data Warehouse. Type 2 tạo ra một dòng mới với surrogate key mới mỗi khi có thay đổi.'",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "skill_tags": [
+      "MODELING_SCD",
+      "DATA_WAREHOUSE"
+    ],
+    "template": "[___] là kỹ thuật lưu trữ lịch sử thay đổi của dữ liệu trong bảng Dimension của Data Warehouse. Type 2 tạo ra một dòng mới với surrogate key mới mỗi khi có thay đổi.",
+    "answers": {
+      "accepted_answers": [
+        [
+          "Slowly Changing Dimension",
+          "slowly changing dimension",
+          "SCD",
+          "scd",
+          "SCD Type 2",
+          "Slowly Changing Dimension Type 2"
+        ]
+      ],
+      "explanation": "Slowly Changing Dimension (SCD) quản lý thay đổi dữ liệu dimension theo thời gian. Type 0: giữ nguyên. Type 1: ghi đè. Type 2: tạo dòng mới (phổ biến nhất). Type 3: thêm cột previous_value. Type 4: dùng history table riêng."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_060",
+    "question_text": "Hoàn thành câu sau: 'Trong AWS, ___ là dịch vụ lưu trữ object với độ bền 99.999999999% (11 số 9), thường được dùng làm tầng lưu trữ chính cho Data Lake.'",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS"
+    ],
+    "skill_tags": [
+      "CLOUD_S3",
+      "CLOUD_AWS"
+    ],
+    "template": "Trong AWS, [___] là dịch vụ lưu trữ object với độ bền 99.999999999% (11 số 9), thường được dùng làm tầng lưu trữ chính cho Data Lake.",
+    "answers": {
+      "accepted_answers": [
+        [
+          "S3",
+          "s3",
+          "Simple Storage Service",
+          "Amazon S3",
+          "AWS S3"
+        ]
+      ],
+      "explanation": "Amazon S3 (Simple Storage Service) là dịch vụ lưu trữ object của AWS, nổi tiếng với độ bền 99.999999999% (eleven nines). Được dùng rộng rãi làm Data Lake storage layer, lưu trữ dữ liệu ở các định dạng Parquet, Avro, ORC, và tích hợp với các dịch vụ AWS khác như Athena, Redshift Spectrum, EMR."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_063",
+    "question_text": "Hoàn thành câu sau: '___ là kỹ thuật chia dữ liệu thành k phần bằng nhau, huấn luyện mô hình trên k-1 phần và kiểm tra trên phần còn lại, lặp lại k lần. Kết quả cuối cùng là trung bình của k lần đánh giá.'",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "EVALUATION_METRICS"
+    ],
+    "skill_tags": [
+      "EVAL_CROSS_VALIDATION",
+      "EVAL_CLASSIFICATION_REPORT"
+    ],
+    "template": "[___] là kỹ thuật chia dữ liệu thành k phần bằng nhau, huấn luyện mô hình trên k-1 phần và kiểm tra trên phần còn lại, lặp lại k lần. Kết quả cuối cùng là trung bình của k lần đánh giá.",
+    "answers": {
+      "accepted_answers": [
+        [
+          "Cross Validation",
+          "cross validation",
+          "K-Fold Cross Validation",
+          "k-fold cross validation",
+          "K-Fold"
+        ]
+      ],
+      "explanation": "K-Fold Cross Validation là phương pháp đánh giá mô hình phổ biến, giúp giảm variance của estimate so với train/test split đơn giản. StratifiedKFold là biến thể giữ tỷ lệ class. Leave-One-Out (LOO) là trường hợp đặc biệt với K = N."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_064",
+    "question_text": "Hoàn thành câu sau: '___ là kỹ thuật giải thích dự đoán của mô hình hộp đen (black-box) bằng cách tính toán đóng góp của từng đặc trưng (feature) vào kết quả dự đoán, dựa trên lý thuyết trò chơi (Shapley values).'",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 5,
+    "question_type": "FILL_BLANK",
+    "skill_groups": [
+      "MLOPS"
+    ],
+    "skill_tags": [
+      "ML_EXPLAINABILITY",
+      "ML_MLOPS"
+    ],
+    "template": "[___] là kỹ thuật giải thích dự đoán của mô hình hộp đen (black-box) bằng cách tính toán đóng góp của từng đặc trưng (feature) vào kết quả dự đoán, dựa trên lý thuyết trò chơi (Shapley values).",
+    "answers": {
+      "accepted_answers": [
+        [
+          "SHAP",
+          "shap",
+          "SHapley Additive exPlanations",
+          "SHAP values",
+          "Shapley"
+        ]
+      ],
+      "explanation": "SHAP (SHapley Additive exPlanations) dùng Shapley values từ lý thuyết trò chơi để phân bổ đóng góp của từng feature một cách công bằng. SHAP có nhiều biến thể: TreeSHAP (cho tree-based models), KernelSHAP (model-agnostic), DeepSHAP (cho neural networks)."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DA_059",
+    "question_text": "Trong Tableau, LOD Expressions (Level of Detail) cho phép tính toán ở một mức độ chi tiết (granularity) khác với mức đang hiển thị trên biểu đồ, mà không cần thay đổi cấu trúc dữ liệu nguồn.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 3,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "BI_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU",
+      "DATA_VISUALIZATION"
+    ],
+    "answers": {
+      "correct_answer": true,
+      "explanation": "LOD Expressions (FIXED, INCLUDE, EXCLUDE) là tính năng mạnh của Tableau cho phép kiểm soát mức độ chi tiết của phép tính độc lập với visualization. FIXED tính toán ở mức cố định, INCLUDE bổ sung dimension vào ngữ cảnh hiện tại, EXCLUDE loại bỏ dimension khỏi ngữ cảnh. Điều này giúp tạo ra các phép tính phức tạp mà không cần thay đổi nguồn dữ liệu."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_061",
+    "question_text": "Trong mô hình ELT (Extract - Load - Transform), dữ liệu thô được load trực tiếp vào Data Lake hoặc Data Warehouse trước, sau đó mới được transform bằng SQL hoặc Spark ngay trên nền tảng đích.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "DATA_PIPELINE"
+    ],
+    "skill_tags": [
+      "PIPE_ELT",
+      "DATA_PIPELINE_DESIGN"
+    ],
+    "answers": {
+      "correct_answer": true,
+      "explanation": "ELT hoán đổi thứ tự so với ETL truyền thống: dữ liệu được Extract từ nguồn, Load thẳng vào Data Lake (S3, ADLS) hoặc Data Warehouse (Snowflake, BigQuery, Redshift), và Transform bằng SQL/dbt/Spark ngay trên nền tảng đích. Ưu điểm: tận dụng sức mạnh compute của warehouse, linh hoạt tái transform từ raw data mà không cần chạy lại pipeline."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DE_062",
+    "question_text": "Docker container chia sẻ kernel với máy chủ host, giúp khởi động trong vài giây và tiêu tốn ít tài nguyên hơn đáng kể so với Virtual Machine truyền thống.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS"
+    ],
+    "skill_tags": [
+      "DEVOPS_DOCKER",
+      "PIPE_ORCHESTRATION"
+    ],
+    "answers": {
+      "correct_answer": true,
+      "explanation": "Docker sử dụng OS-level virtualization, chia sẻ kernel của host OS, không cần chạy một Guest OS riêng. Điều này giúp container nhẹ hơn VM (thường chỉ vài MB đến vài trăm MB so với vài GB của VM), khởi động trong vài giây (so với vài phút của VM). VM ảo hóa toàn bộ phần cứng và cần Guest OS riêng, nên nặng hơn nhiều."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_065",
+    "question_text": "L1 Regularization (Lasso) có khả năng đưa trọng số (weight) của mô hình về chính xác 0, thực hiện feature selection tự động. Ngược lại, L2 Regularization (Ridge) chỉ làm trọng số nhỏ lại nhưng không bao giờ về 0.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "ALGORITHM_THEORY",
+      "DEEP_LEARNING"
+    ],
+    "skill_tags": [
+      "ML_REGULARIZATION",
+      "DL_TRAINING"
+    ],
+    "answers": {
+      "correct_answer": true,
+      "explanation": "L1 (Lasso) thêm penalty = λ * Σ|w_i| vào loss function, tạo ra sparse solution do gradient của |w| là hằng số (±λ), đẩy weight nhỏ về 0. L2 (Ridge) thêm penalty = λ * Σ(w_i)², gradient tỷ lệ với w nên weight nhỏ dần nhưng không bao giờ chạm 0. Điều này khiến L1 phù hợp cho feature selection, L2 phù hợp khi muốn giữ tất cả features nhưng giảm overfitting."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_066",
+    "question_text": "Sai phân bậc 1 (first-order differencing) của chuỗi giá cổ phiếu thường có tính dừng (stationary) hơn chuỗi gốc, vì nó loại bỏ xu hướng (trend) khỏi dữ liệu.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "TRUE_FALSE",
+    "skill_groups": [
+      "TIME_SERIES"
+    ],
+    "skill_tags": [
+      "ML_TIME_SERIES"
+    ],
+    "answers": {
+      "correct_answer": true,
+      "explanation": "Sai phân bậc 1 (y'_t = y_t - y_{t-1}) là phép biến đổi phổ biến để loại bỏ trend tuyến tính khỏi chuỗi thời gian. Trong tài chính, giá cổ phiếu thường có tính random walk (không dừng), nhưng lợi nhuận (return = sai phân bậc 1 của log giá) thường có tính dừng. Đây cũng là lý do tham số d trong ARIMA(p,d,q) thường là 1 cho dữ liệu tài chính."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
+  },
+  {
+    "question_id": "DS_067",
+    "question_text": "Trong NLP, kỹ thuật nào sau đây được dùng để chuyển đổi văn bản thành vector số dựa trên tần suất xuất hiện của từ, đồng thời giảm trọng số của các từ xuất hiện phổ biến trong nhiều văn bản?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "MC_SINGLE",
+    "skill_groups": [
+      "NLP"
+    ],
+    "skill_tags": [
+      "NLP_PREPROCESSING",
+      "NLP_FUNDAMENTALS"
+    ],
+    "options": [
+      {
+        "id": "A",
+        "text": "Bag of Words (BoW)"
+      },
+      {
+        "id": "B",
+        "text": "TF-IDF"
+      },
+      {
+        "id": "C",
+        "text": "Word2Vec"
+      },
+      {
+        "id": "D",
+        "text": "One-Hot Encoding"
+      }
+    ],
+    "answers": {
+      "correct_option_id": "B",
+      "explanation": "TF-IDF (Term Frequency - Inverse Document Frequency) kết hợp TF (tần suất từ trong văn bản) và IDF (log(tổng số văn bản / số văn bản chứa từ đó)). IDF giảm trọng số của các từ xuất hiện trong nhiều văn bản (như 'và', 'là', 'của') vì chúng ít mang ý nghĩa phân biệt. BoW chỉ dùng TF, Word2Vec tạo word embedding dựa trên ngữ cảnh, One-Hot tạo vector nhị phân."
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "manual_expert",
+      "version": "v4.0",
+      "created_at": "2026-06-01"
+    }
   }
 ]
