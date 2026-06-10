@@ -292,7 +292,7 @@ function OnboardingScreen({ onNav }) {
       role: picked,
       user: { ...state.user, name: displayName, avatar: displayName.slice(0,2).toUpperCase() },
     });
-    onNav('interview', { mode: 'assessment' });
+    onNav('diagnostic');
   };
 
   return (
@@ -319,8 +319,8 @@ function OnboardingScreen({ onNav }) {
           {vi ? 'TIẾP THEO' : 'NEXT STEP'}
         </div>
         <div style={{ fontSize:13, color:'var(--fg-2)' }}>
-          {vi ? 'Bạn sẽ làm 1 câu hỏi đánh giá ban đầu → radar năng lực đầu tiên được tạo.'
-              : 'You will answer 1 assessment question → your first competency radar is created.'}
+          {vi ? '10 câu hỏi thích ứng (Stage 1: định vị · Stage 2: phù hợp theo kết quả). Xây dựng radar năng lực của bạn.'
+              : '10-question adaptive test (Stage 1: placement · Stage 2: tailored). Builds your competency radar.'}
         </div>
       </div>
 
@@ -329,7 +329,7 @@ function OnboardingScreen({ onNav }) {
                 disabled={!picked}
                 style={{ opacity: picked ? 1 : 0.4 }}
                 onClick={() => picked && finish()}>
-          {vi ? 'Bắt đầu đánh giá →' : 'Start assessment →'}
+          {vi ? 'Bắt đầu Diagnostic →' : 'Start Diagnostic →'}
         </button>
       </div>
     </div>
@@ -356,7 +356,7 @@ function ProfileScreen({ onNav }) {
         {vi ? 'Hoàn thành ít nhất một phiên phỏng vấn để radar của bạn được tạo và có thể chia sẻ.' : 'Complete at least one interview session to build your radar and enable sharing.'}
       </div>
       <button className="btn primary" onClick={() => onNav('interview', { mode: 'quick' })}>
-        {vi ? 'Bắt đầu đánh giá →' : 'Start assessment →'}
+        {vi ? 'Bắt đầu Diagnostic →' : 'Start Diagnostic →'}
       </button>
     </div>
   );

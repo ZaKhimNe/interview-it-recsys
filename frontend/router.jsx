@@ -2,7 +2,7 @@
 // router.jsx — top-level App with hash routing
 // ============================================================
 
-const ROUTES = ['landing','onboarding','home','interview','questions','dashboard','roadmap','history','notes','settings','profile'];
+const ROUTES = ['landing','onboarding','home','interview','questions','dashboard','roadmap','history','notes','settings','profile','diagnostic'];
 
 function parseHash() {
   const h = (location.hash || '#/landing').replace(/^#\/?/, '');
@@ -59,6 +59,7 @@ function AppShell({ route, opts, onNav }) {
             {effectiveRoute === 'notes'       && <NotesScreen onNav={onNav} />}
             {effectiveRoute === 'settings'    && <SettingsScreen onNav={onNav} />}
             {effectiveRoute === 'profile'     && <ProfileScreen onNav={onNav} />}
+            {effectiveRoute === 'diagnostic'  && <DiagnosticScreen onNav={onNav} />}
           </div>
         </main>
       </div>

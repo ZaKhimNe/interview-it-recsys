@@ -137,6 +137,28 @@ function HomeScreen({ onNav }) {
           )}
         </div>
       </div>
+      {/* Diagnostic Test banner */}
+      <div className="card" style={{ marginTop:16, borderTop:'4px solid #00e5ff', cursor:'pointer', padding:'18px 22px' }}
+           onClick={() => onNav('diagnostic')}>
+        <div className="row between" style={{ alignItems:'center', flexWrap:'wrap', gap:12 }}>
+          <div>
+            <div className="mono" style={{ fontSize:10, color:'#00e5ff', letterSpacing:'.22em', fontWeight:900, marginBottom:6 }}>
+              DIAGNOSTIC TEST · MST · 10 CAU
+            </div>
+            <div style={{ fontFamily:'var(--font-sans)', fontSize:18, fontWeight:950, color:'var(--fg-0)', textTransform:'uppercase', letterSpacing:'-.02em' }}>
+              {vi ? 'Danh gia nang luc toan dien' : 'Full Competency Assessment'}
+            </div>
+            <div className="muted" style={{ fontSize:13, marginTop:4 }}>
+              {vi
+                ? 'Stage 1: 4 cau dinh vi · Stage 2: 6 cau thich ung theo ket qua. Ghe GRE/TOEFL.'
+                : 'Stage 1: 4 placement questions · Stage 2: 6 questions adaptive to your result.'}
+            </div>
+          </div>
+          <button className="btn primary" style={{ flexShrink:0 }}>
+            {vi ? 'Bat dau →' : 'Start →'}
+          </button>
+        </div>
+      </div>
     </>
   );
 }

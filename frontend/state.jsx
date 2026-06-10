@@ -22,6 +22,17 @@ const DEFAULTS = {
     soundEffects: false,
   },
   customMode: { duration: 30, questionCount: 3, difficulty: 'mixed', skills: ['ALL'] },
+  mst: {
+    active: false,
+    stage: 1,
+    s1Ids: [],
+    s1Results: [],
+    s2Ids: [],
+    s2Results: [],
+    routing: null,
+    done: false,
+    startedAt: null,
+  },
 };
 
 // --------------- I18N DICTIONARY ------------------------------
@@ -330,8 +341,106 @@ function currentVector(state) {
   return last ? last.vector : null;
 }
 
+
+// ── MST helpers ────────────────────────────────────────────────
+
+function calcDelta(score, difficultyScore) {
+  const map = {
+    1:[0.1,0.3],2:[0.15,0.4],3:[0.2,0.5],4:[0.25,0.6],5:[0.3,0.7],
+    6:[0.35,0.8],7:[0.4,0.9],8:[0.5,1.0],9:[0.6,1.2],10:[0.7,1.5]
+  };
+  const [minD, maxD] = map[difficultyScore] || [0.1, 0.3];
+  if (score >= 0.8) return minD + (maxD - minD) * (score - 0.8) / 0.2;
+  if (score < 0.4)  return -(minD + (0.4 - score) / 0.4 * minD);
+  return (score - 0.5) * minD;
+}
+
+function scoreAnswer(question, { answer, selectedOption, boolAnswer, blankAnswers, code }) {
+  const qt = question.questionType;
+  if (qt === 'MC_SINGLE') {
+    const correct = selectedOption === question.correctOptionId;
+    return { score: correct ? 1.0 : 0.0, isCorrect: correct };
+  }
+  if (qt === 'TRUE_FALSE') {
+    const correct = boolAnswer === question.correctAnswer;
+    return { score: correct ? 1.0 : 0.0, isCorrect: correct };
+  }
+  if (qt === 'FILL_BLANK') {
+    const acc = question.acceptedAnswers || [];
+    if (!acc.length) return { score: 0.5, isCorrect: null };
+    const matched = blankAnswers.filter((b, i) =>
+      acc[i] && acc[i].some(a => b.trim().toLowerCase() === a.trim().toLowerCase())
+    ).length;
+    const score = matched / acc.length;
+    return { score, isCorrect: score >= 0.6 };
+  }
+  // THEORY / CODING / PRACTICE / CODING_EXERCISE: stub (SLM will replace)
+  return { score: 0.5, isCorrect: null };
+}
+
+function mstAvgScore(results) {
+  if (!results || !results.length) return 0;
+  return results.reduce((s, r) => s + r.score, 0) / results.length;
+}
+
+function mstRouting(avgScore) {
+  if (avgScore > 0.7)  return 'STRONG';
+  if (avgScore >= 0.4) return 'MID';
+  return 'WEAK';
+}
+
+function pickStage1(role) {
+  const objectiveTypes = ['MC_SINGLE', 'TRUE_FALSE', 'FILL_BLANK'];
+  const pool = QUESTIONS.filter(q => q.role === role && q.difficulty === 'INTERMEDIATE');
+  const objective  = pool.filter(q =>  objectiveTypes.includes(q.questionType)).sort(() => Math.random() - 0.5);
+  const subjective = pool.filter(q => !objectiveTypes.includes(q.questionType)).sort(() => Math.random() - 0.5);
+  const picked = [...objective.slice(0, 4)];
+  if (picked.length < 4) picked.push(...subjective.slice(0, 4 - picked.length));
+  // fallback: any difficulty
+  if (picked.length < 4) {
+    const ids = new Set(picked.map(q => q.id));
+    const fallback = QUESTIONS.filter(q => q.role === role && !ids.has(q.id)).sort(() => Math.random() - 0.5);
+    picked.push(...fallback.slice(0, 4 - picked.length));
+  }
+  return picked.slice(0, 4);
+}
+
+function pickStage2(role, routing, excludeIds, weakGroups) {
+  weakGroups = weakGroups || [];
+  const prioritize = (pool) => {
+    if (!weakGroups.length) return pool;
+    const prio = pool.filter(q => q.skillGroups && q.skillGroups.some(g => weakGroups.includes(g)));
+    const rest = pool.filter(q => !prio.some(p => p.id === q.id));
+    return [...prio, ...rest];
+  };
+  const pick = (diff, n) => {
+    const pool = QUESTIONS.filter(q => q.role === role && q.difficulty === diff && !excludeIds.includes(q.id));
+    return prioritize(pool.sort(() => Math.random() - 0.5)).slice(0, n);
+  };
+
+  let result = [];
+  if      (routing === 'WEAK')   result = [...pick('BEGINNER', 4), ...pick('INTERMEDIATE', 2)];
+  else if (routing === 'MID')    result = [...pick('BEGINNER', 2), ...pick('INTERMEDIATE', 2), ...pick('ADVANCED', 2)];
+  else if (routing === 'STRONG') result = [...pick('INTERMEDIATE', 2), ...pick('ADVANCED', 4)];
+  else                           result = pick('INTERMEDIATE', 6);
+
+  // deduplicate
+  const seen = new Set(excludeIds);
+  result = result.filter(q => { if (seen.has(q.id)) return false; seen.add(q.id); return true; });
+
+  // fill if short
+  if (result.length < 6) {
+    const allExclude = [...excludeIds, ...result.map(q => q.id)];
+    const fallback = QUESTIONS.filter(q => q.role === role && !allExclude.includes(q.id)).sort(() => Math.random() - 0.5);
+    result.push(...fallback.slice(0, 6 - result.length));
+  }
+
+  return result.slice(0, 6).sort(() => Math.random() - 0.5);
+}
+
 Object.assign(window, {
   StoreContext, StoreProvider, useStore,
   I18N, QUESTIONS, SKILL_AXES, ROLE_TARGETS, LEADERBOARD, DEFAULTS,
   roleColor, avatarColor, currentVector,
+  calcDelta, scoreAnswer, mstAvgScore, mstRouting, pickStage1, pickStage2,
 });

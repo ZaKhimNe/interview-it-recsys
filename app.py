@@ -24,6 +24,7 @@ JSX_ORDER = [
     "screens-practice.jsx",
     "screens-progress.jsx",
     "screens-social.jsx",
+    "screens-diagnostic.jsx",
     "router.jsx",
 ]
 
