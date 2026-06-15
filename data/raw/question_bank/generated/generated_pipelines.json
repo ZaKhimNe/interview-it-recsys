@@ -1,0 +1,1373 @@
+[
+  {
+    "question_id": "GEN_DE_PIPELINES_001",
+    "question_text": "Bạn đang thiết kế một pipeline CDC từ cơ sở dữ liệu PostgreSQL sang hệ thống data lake dựa trên AWS S3. Có hai lựa chọn: sử dụng Debezium với Kafka để capture change events, hoặc dùng AWS DMS (Database Migration Service) với cơ chế Full Load + CDC. Hãy so sánh trade-off giữa hai phương pháp về độ trễ (latency), tính nhất quán dữ liệu, và chi phí vận hành.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_CDC"
+    ],
+    "skill_tags": [
+      "PIPE_CDC"
+    ],
+    "answers": {
+      "detailed": "Debezium + Kafka: Captures changes via PostgreSQL logical decoding from WAL, enabling sub-second latency and strong exactly-once semantics through Kafka consumer group offsets combined with idempotent writes to S3. Logical decoding is non-intrusive and provides transaction-level ordering. However, requires managing a Kafka cluster infrastructure, monitoring Debezium connectors, tuning replication slots, and handling schema evolution through external coordination. Best for: low-latency streaming pipelines where operational complexity is acceptable. AWS DMS: Performs full snapshot load then captures changes via transaction log mining. Simpler deployment as a managed service (no infrastructure management), but CDC latency is typically seconds to minutes depending on configuration. DMS uses transaction sequence numbers for checkpointing, but only guarantees at-least-once semantics without idempotent consumer deduplication, risking duplicates during failover. Schema evolution requires DMS configuration updates. During failover, both approaches may experience replication lag—Debezium can resume from last committed offset, while DMS restarts from last checkpoint (potentially replaying changes). Cost: DMS charges per instance-hour and data transfer volume; Debezium/Kafka costs depend on cluster resources but with higher upfront infrastructure investment. For recovery scenarios: Debezium offers finer-grained control via offset resets, while DMS provides simpler point-in-time recovery but less flexibility. Choose Debezium for sub-second requirements and complex transformations; choose DMS for managed simplicity with tolerance for 30-second+ latency and moderate operational burden.",
+      "evaluation_points": [
+        "Explain how logical decoding vs AWS DMS CDC handle schema evolution differently and impact downstream processing",
+        "Compare recovery and fault-tolerance mechanisms: Kafka offset management vs DMS checkpointing and their impact on exactly-once guarantees",
+        "Analyze infrastructure complexity trade-off: Debezium requires operational overhead (monitoring, scaling, tuning) vs DMS as managed service with reduced ops burden",
+        "Discuss data freshness guarantees under failure scenarios and how each approach handles replication lag during recovery",
+        "Evaluate initial load strategy impact: Debezium's parallel snapshot capability vs DMS Full Load and effect on source database load"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_003",
+    "question_text": "Công ty bạn đang chuyển từ ETL truyền thống sang ELT trên nền tảng Snowflake. Bạn cần thiết kế pipeline xử lý dữ liệu từ nguồn API thời gian thực (streaming) và nguồn batch hàng ngày. Hãy giải thích lý do tại sao ELT phù hợp hơn ETL trong tình huống này, và đề xuất cách xử lý các lỗi dữ liệu (data quality issues) trong quá trình load.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_ELT",
+      "PIPE_ETL"
+    ],
+    "skill_tags": [
+      "PIPE_ELT",
+      "PIPE_ETL"
+    ],
+    "answers": {
+      "detailed": "ELT is better suited because Snowflake's decoupled compute architecture allows independent scaling of storage and processing—we can ingest raw data at high velocity without pre-processing bottlenecks, and transform only when needed. For streaming (Kafka), use Snowflake Connector or Kafka connectors to land raw events into a staging table with minimal schema validation (only reject malformed JSON). For batch (CSV), use COPY INTO or Snowpipe for incremental loads. Both sources feed the same ELT pattern.\n\nFor data quality:\n1. **Load-time validation:** Use Snowflake's ON_ERROR clause in COPY/MERGE to SKIP_FILE or CONTINUE on schema mismatches; log rejected rows to an error table with source, row_number, and error_description.\n2. **Error tracking:** Create error_log table capturing timestamp, source_system, error_type (null_violation, type_mismatch, constraint_fail), affected_column, and rejected_record. Include a hash of raw data for traceability.\n3. **Transformation-time dedup:** Use QUALIFY ROW_NUMBER() OVER (PARTITION BY key ORDER BY load_time DESC) = 1 to handle duplicates from streaming retries.\n4. **Alerting:** Set up Snowflake tasks with alerts when error_log row count exceeds threshold (e.g., >1% of daily load) or when null rate in critical columns rises. Pause dependent transformations until resolved.\n5. **Trade-offs to acknowledge:** Raw data storage increases costs; implement retention policies (30-90 days) for staging. Schema evolution requires versioning in downstream transformations. Streaming latency means near-real-time, not real-time—document SLAs clearly. For highly sensitive data (PII), consider pre-load masking as an exception to ELT puritanism.",
+      "evaluation_points": [
+        "Explains ELT advantages (decoupled compute scaling, schema flexibility, raw data retention) specific to Snowflake's architecture",
+        "Addresses hybrid streaming + batch pipeline design, including idempotency and late-arrival handling",
+        "Proposes comprehensive data quality strategy: validation rules at load time, error capture with lineage metadata, and monitoring thresholds",
+        "Discusses trade-offs: acknowledges increased storage costs with raw data, need for governance on staging tables, and when to apply pre-load filtering (e.g., PII anonymization before load)",
+        "Considers operational concerns: schema evolution handling, rollback strategies for bad loads, and SLA impact when transformation delays occur downstream"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_005",
+    "question_text": "Bạn đang vận hành một pipeline ETL hàng ngày xử lý 50GB dữ liệu, thời gian chạy trung bình 2 giờ. Gần đây, pipeline chậm hơn do khối lượng dữ liệu tăng lên 100GB. Hãy phân tích các nguyên nhân tiềm năng gây chậm (processing bottleneck, I/O, network) và đề xuất ít nhất 3 kỹ thuật tối ưu performance có thể áp dụng.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_ETL",
+      "PIPE_PERFORMANCE"
+    ],
+    "skill_tags": [
+      "PIPE_PERFORMANCE",
+      "PIPE_ETL"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân chậm: (1) Processing bottleneck: Transform logic không tối ưu (loops thay vì vectorized operations, missing query optimization), (2) I/O bottleneck: Partition không hiệu quả, disk I/O không parallelized, hoặc staging area chậm, (3) Network bottleneck: Network latency khi truyền 100GB, hoặc không có local caching. Kỹ thuật tối ưu: (1) Parallel processing: Dùng Spark/Hadoop để partition và xử lý song song, tối ưu shuffle operations. (2) Incremental processing: Thay vì full load, dùng CDC (Change Data Capture) hoặc watermark để chỉ xử lý dữ liệu mới (giảm từ 100GB xuống ~10-20GB/ngày). (3) Storage optimization: Dùng Parquet/ORC format (nén tốt hơn), thêm indexing trên join keys, tăng batch size. QUAN TRỌNG: Với mức 100GB/ngày, cần cân nhắc chuyển từ ETL sang ELT (ví dụ Snowflake/BigQuery): load raw data trước rồi transform trong DWH tiết kiệm thời gian ETL server, cho phép schema evolution, và giảm lệ thuộc vào staging infrastructure.",
+      "evaluation_points": [
+        "Correctly identifies three types of bottlenecks (processing, I/O, network) with concrete examples",
+        "Proposes practical optimization techniques (parallel processing, incremental loading, storage optimization) with appropriate tools/methods",
+        "Discusses trade-offs and implementation considerations (e.g., watermark vs CDC choice, batch sizing impact)",
+        "Recognizes architectural evolution: mentions whether ETL optimization or migration to ELT (cloud-native warehouse) is more appropriate given 100GB scale",
+        "Addresses data quality and lineage implications of chosen optimization strategy (e.g., incremental processing requires robust state management)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_007",
+    "question_text": "Hãy so sánh sự khác biệt giữa ETL và ELT trong việc xử lý dữ liệu không có cấu trúc (unstructured data) như file log hoặc JSON lồng nhau. Trong tình huống nào bạn chọn ETL thay vì ELT? Giải thích lý do với ví dụ cụ thể.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_ELT",
+      "PIPE_ETL"
+    ],
+    "skill_tags": [
+      "PIPE_ELT",
+      "PIPE_ETL"
+    ],
+    "answers": {
+      "detailed": "ELT phù hợp với unstructured data vì nó cho phép load raw data trực tiếp vào data lake (ví dụ S3, ADLS) hoặc data warehouse cloud (Snowflake, BigQuery), sau đó dùng SQL, Spark, hoặc Python để parse JSON lồng nhau, log files, hoặc XML. Điều này giữ lại dữ liệu gốc, hỗ trợ schema evolution khi định dạng log thay đổi, và tránh re-extract. ETL vẫn được chọn khi: (1) Yêu cầu latency thấp - hệ thống downstream cần dữ liệu clean ngay lập tức (ví dụ real-time dashboard hoặc fraud detection system yêu cầu dữ liệu đã được validation trước khi load), (2) Compliance/Security - cần xử lý PII hoặc anonymization trước khi vào hệ thống central (ví dụ log chứa customer email phải mask trước khi lưu), (3) Legacy infrastructure - hệ thống target không có compute power để transform (ví dụ PostgreSQL on-premise không thể xử lý Spark jobs), (4) Dữ liệu nhỏ với validation rules phức tạp. Ví dụ ELT: Load raw web server logs (JSON lồng nhau ~10GB/ngày) vào S3, dùng Snowflake's FLATTEN hoặc Spark DataFrame để parse user_id, request_path, nested error objects thành bảng normalized. Ví dụ ETL: Pre-process mobile app logs chứa device_id (PII) bằng Python ETL job (mask ID, flatten nested events), validate schema, rồi load vào PostgreSQL cho team analytics. Chi phí: ELT tiết kiệm infrastructure pre-processing nhưng tăng chi phí storage/scan; ETL tiết kiệm storage nhưng yêu cầu ETL server dedicated.",
+      "evaluation_points": [
+        "Giải thích cách mỗi pattern xử lý unstructured data (parsing, schema flexibility).",
+        "Nêu được tình huống ưu tiên ETL với lý do cụ thể (latency, compliance, legacy constraints).",
+        "Đưa ví dụ minh họa thực tế với dữ liệu unstructured cụ thể.",
+        "Phân tích chi phí/hiệu suất: ELT tăng chi phí storage/compute vs ETL tăng chi phí infrastructure pre-processing.",
+        "Nhận diện trade-off về data lineage và schema evolution trong mỗi approach."
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_009",
+    "question_text": "Bạn đang thiết kế một pipeline CDC từ MySQL sang Apache Kafka để feed real-time dashboard. Tuy nhiên, dashboard yêu cầu dữ liệu đã được transform (ví dụ: join dữ liệu từ nhiều bảng, lọc bỏ PII). Hãy đề xuất kiến trúc pipeline kết hợp CDC và transform, đồng thời giải thích cách xử lý vấn đề schema evolution (thay đổi cấu trúc bảng nguồn) mà không làm gián đoạn pipeline.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_CDC",
+      "PIPE_ELT"
+    ],
+    "skill_tags": [
+      "PIPE_CDC",
+      "PIPE_ELT"
+    ],
+    "answers": {
+      "detailed": "Kiến trúc: Dùng Debezium để capture change events từ MySQL binlog, publish vào Kafka topic 'raw-events' với Avro format. Một streaming processor (Kafka Streams hoặc Flink) đọc từ topic raw, thực hiện join với lookup tables (lưu trong local state store với TTL hoặc external cache), filter PII (mask sensitive fields), rồi ghi vào topic 'processed-events' với idempotent writes để đảm bảo exactly-once semantics. Dashboard đọc từ topic processed hoặc materialized view (ví dụ: Postgres, ClickHouse) từ processed topic.\n\nSchema evolution handling: (1) Dùng Confluent Schema Registry (hoặc AWS Glue) quản lý schema version với COMPATIBILITY_MODE=BACKWARD để schema mới đọc được dữ liệu cũ. (2) Processor logic phải flexible: dùng Optional fields, default values, hoặc map-based field access thay vì strict deserialization. (3) Khi schema thay đổi ở source: Debezium tự động capture mới schema, processor validate compatibility trước deploy. (4) Với breaking changes (e.g., column drop): deploy processor mới song song (dual processing), lưu raw events vào backup topic, reprocess theo batches khi sẵn sàng. (5) Giám sát: track schema version mismatch metrics, alert khi processor lag cao do join failures hoặc lookup misses.\n\nTrade-offs: Kafka Streams dễ deploy (stateless) nhưng join yêu cầu co-partitioning; Flink linh hoạt hơn nhưng operational complexity cao. Lookup table nên cached locally (state store) với TTL, hoặc external (Redis) nếu frequently changing. PII filter tốt nhất ở streaming layer trước ghi Kafka để giảm compliance risk.",
+      "evaluation_points": [
+        "Đề xuất kiến trúc CDC kết hợp transform với Kafka và streaming processor (Kafka Streams vs Flink trade-offs).",
+        "Giải thích cách dùng schema registry để quản lý schema evolution với validation chiến lược compatibility (backward/forward/full).",
+        "Xử lý exactly-once semantics khi join với lookup tables và ghi vào topic processed để tránh duplicate transform.",
+        "Chi tiết về state store management cho lookup tables: size constraints, TTL, fallback khi lookup miss.",
+        "Failover strategy: idempotent writes, offset management, và reprocessing logic khi schema breaking changes xảy ra.",
+        "Trade-offs giữa Kafka Streams (operational simplicity, co-partitioning requirements) vs Flink (more flexible joins, savepoints)."
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_006",
+    "question_text": "Trong một hệ thống CDC sử dụng Debezium với Kafka, bạn gặp vấn đề dữ liệu bị trễ (lag) khi nguồn có nhiều bảng cần theo dõi. Hãy phân tích nguyên nhân tiềm ẩn và đề xuất giải pháp tối ưu hóa.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_CDC",
+      "PIPE_PERFORMANCE"
+    ],
+    "skill_tags": [
+      "PIPE_CDC",
+      "PIPE_PERFORMANCE"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân lag trong Debezium+Kafka CDC:\n\n**1. Debezium Configuration Issues:**\n- snapshot.mode không tối ưu: 'initial' causes long upfront delay; 'when_needed' may trigger unexpectedly; 'never' risks missing historical data\n- max.tasks quá thấp: mỗi task theo dõi tuần tự, không xử lý song song các bảng\n- lsn.flush_interval_ms quá cao hoặc quá thấp: ảnh hưởng đến offset commit frequency và throughput\n\n**2. Kafka Backlog:**\n- Partition không đủ: số partition phải >= số Debezium task để tránh bottleneck\n- Consumer lag: downstream consumers chậm → Debezium không thể advance offset → source lag tăng\n- Single topic cho nhiều bảng: có thể gây ra out-of-order delivery, đặc biệt nếu transaction span nhiều bảng\n\n**3. Resource & Monitoring Gaps:**\n- CPU/memory không đủ → GC pauses hoặc slow polling\n- Thiếu monitoring: không biết bottleneck nằm ở Debezium, Kafka, hoặc database\n\n**Giải pháp tối ưu hóa:**\n1. **Snapshot Strategy:** Sử dụng 'initial' mode nếu có thời gian downtime, hoặc 'when_needed' với giới hạn thời gian. Cân nhắc snapshot.isolation.mode cho consistency.\n2. **Task Scaling:** Đặt max.tasks = số bảng hoặc nhóm bảng logic; mỗi task xử lý parallel + giữ transaction order nếu dùng single partition/table.\n3. **Partition Strategy:** Ít nhất max.tasks partition; có thể dùng topic riêng cho bảng high-velocity để tránh head-of-line blocking.\n4. **Batch Tuning:** Điều chỉnh max.poll.records, fetch.min.bytes, batch.size dựa trên write pattern; balance giữa latency và throughput.\n5. **Monitoring:** Track poll_duration_ms, num_rows_fetched, consumer_lag; set up alerts cho offset lag > threshold.\n6. **Advanced:** Tách connector riêng cho bảng hot (tần suất cao), dùng dedicated Kafka broker nếu volume lớn, tối ưu database connection pooling.",
+      "evaluation_points": [
+        "Understands Debezium's log-based CDC architecture and why snapshot modes (initial, when_needed, never) directly impact initial lag vs. ongoing latency",
+        "Recognizes partition assignment strategy: tasks should align with table partitioning (one task per table or table group) to avoid contention and ensure transaction ordering is preserved",
+        "Identifies monitoring metrics: track Debezium connector lag (poll latency, batch size), Kafka consumer lag, and database WAL/binlog position to diagnose root cause precisely",
+        "Discusses trade-offs: increasing tasks/partitions improves throughput but risks out-of-order delivery across tables if not carefully managed with single-partition topics per table",
+        "Proposes advanced optimizations: adjust heartbeat intervals, LSN flush intervals, and connection pool sizes; consider separating high-velocity tables into dedicated connectors with independent offsets"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_008",
+    "question_text": "Công ty bạn đang chuyển từ ETL truyền thống sang ELT trên nền tảng cloud (ví dụ: Snowflake, BigQuery). Hãy so sánh ưu nhược điểm của hai pattern này trong bối cảnh dữ liệu streaming và batch, đồng thời giải thích khi nào nên dùng ETL thay vì ELT.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_ELT",
+      "PIPE_ETL"
+    ],
+    "skill_tags": [
+      "PIPE_ELT",
+      "PIPE_ETL"
+    ],
+    "answers": {
+      "detailed": "ELT có ưu điểm: (1) tận dụng sức mạnh tính toán của cloud data warehouse (Snowflake, BigQuery), (2) giữ nguyên dữ liệu thô cho phép schema-on-read và schema evolution mà không cần re-extract, (3) dễ truy xuất data lineage từ raw data, (4) phù hợp batch lớn và streaming tốc độ cao. Nhược điểm: yêu cầu DWH mạnh mẽ, quản lý lưu trữ dữ liệu thô cần cẩn thận (chi phí), xử lý downstream phức tạp. ETL phù hợp khi: (1) yêu cầu compliance nghiêm ngặt (GDPR/HIPAA) cần anonymize/mask trước khi load, (2) hệ thống đích có năng lực tính toán hạn chế, (3) streaming yêu cầu độ trễ ultra-low (fraud detection < 100ms) không thể chờ post-load transformation, (4) cần governance ketat trên schema-on-write. Với batch: ELT linh hoạt hơn vì dữ liệu thô luôn sẵn cho nhiều use case phân tích mới. Với streaming: ELT thường tốt hơn (xử lý real-time trên DWH), nhưng ETL vẫn cần cho các pipeline low-latency yêu cầu pre-load validation/transformation.",
+      "evaluation_points": [
+        "Clearly distinguishes architectural impact: where transformation occurs and why it matters for cloud platforms",
+        "Explains data lineage advantage of ELT (raw data preservation) and how it enables schema evolution without re-extraction",
+        "Provides concrete streaming scenario: explains why ELT suits high-volume streaming (leveraging DWH parallelism) but ETL may be needed for sub-second latency requirements or pre-load compliance (e.g., PII masking before load)",
+        "Discusses batch implications: ELT's flexibility for evolving analytics use cases vs. ETL's predictability for governed, schema-on-write environments",
+        "Addresses storage cost-benefit trade-off: when raw data retention justifies ELT investment vs. when aggressive transformation in ETL is more economical"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_010",
+    "question_text": "Bạn đang thiết kế pipeline xử lý dữ liệu log từ nhiều microservice, với yêu cầu độ trễ dưới 5 phút và throughput 100GB/ngày. Hãy đề xuất kiến trúc pipeline (bao gồm CDC, ETL/ELT) và giải thích cách tối ưu hiệu năng.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_ELT",
+      "PIPE_PERFORMANCE"
+    ],
+    "skill_tags": [
+      "PIPE_PERFORMANCE",
+      "PIPE_ELT"
+    ],
+    "answers": {
+      "detailed": "Kiến trúc đề xuất: Sử dụng Kafka làm message queue trung tâm, với CDC (Debezium) cho dữ liệu thay đổi từ database, và Flink/Spark Streaming cho log từ microservice. Dữ liệu được load vào Data Lake (S3/ADLS) dưới dạng raw (ELT), sau đó transform bằng Spark SQL. **Lựa chọn ELT thay vì ETL:** Giữ lại dữ liệu raw cho phép schema evolution linh hoạt khi các microservice phát triển, và hỗ trợ nhiều use case analytics khác nhau từ dữ liệu gốc mà không cần re-extract. **CDC (Debezium):** Capture dữ liệu thay đổi từ database transaction logs (binlog, WAL), đảm bảo không bỏ sót bất kỳ mutation nào; phù hợp cho dữ liệu có state, nhưng logs từ microservice thường không cần CDC ngoại trừ khi log được persist trong database. **Tối ưu:** (1) Partition Kafka theo key (service_id) để đảm bảo ordering per-service. (2) Sử dụng micro-batch 1-2 phút (không streaming thuần) để cân bằng độ trễ ~3-4 phút (dưới SLA 5 phút) với overhead thấp hơn, giảm số lần commit và GC. (3) Nén dữ liệu (Snappy, Zstd) và tối ưu file size (128MB-256MB) trên Data Lake. (4) Incremental processing với watermark để tránh reprocess, xử lý late-arriving events trong time window hợp lý. (5) Autoscaling compute (Kubernetes) dựa trên lag Kafka. (6) Observability: log lineage từ raw → transformed data, monitor end-to-end latency và completeness để phát hiện pipeline failures sớm.",
+      "evaluation_points": [
+        "Justify why ELT (raw data to Data Lake) is chosen over ETL given the requirements—discuss schema flexibility, raw data retention, and support for multiple downstream consumers",
+        "Explain the role of CDC (Debezium) specifically: what data changes are being captured, how CDC fits into the ELT model, and when you would *not* use CDC",
+        "Address the trade-off between true streaming (low latency) and micro-batching (operational efficiency)—quantify the latency impact of 1-2 min batches against the 5-min SLA and justify the choice",
+        "Discuss data lineage and observability: how would you track raw vs. transformed data, monitor pipeline health, and handle late-arriving or out-of-order log events?",
+        "Evaluate whether ETL preprocessing is needed for any subset of the pipeline (e.g., sensitive PII in logs requiring early anonymization) before raw load, and explain the decision"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_012",
+    "question_text": "Trong pipeline ETL batch, bạn phát hiện một task xử lý dữ liệu bị chậm do skew (một partition xử lý nhiều dữ liệu hơn các partition khác). Hãy phân tích nguyên nhân và đưa ra cách khắc phục cụ thể.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_ETL",
+      "PIPE_PERFORMANCE"
+    ],
+    "skill_tags": [
+      "PIPE_PERFORMANCE",
+      "PIPE_ETL"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân data skew: (1) Key phân vùng không cân bằng (ví dụ: group by trên cột có giá trị phổ biến như NULL, 'Unknown'). (2) Join không đều do bảng nhỏ có distribution lệch. (3) File input có kích thước không đồng đều. (4) Hot keys sau transformation. **Cách khắc phục cụ thể:** (1) **Salt key:** Thêm số ngẫu nhiên vào key trước group/join để phân tán, sau đó aggregate lại. Trade-off: tăng shuffle overhead. (2) **Broadcast join:** Nếu bảng nhỏ, dùng broadcast thay vì shuffle join—tránh skew hoàn toàn nhưng yêu cầu bảng nhỏ < broadcast threshold. (3) **Partitioning tuning:** Tăng spark.sql.shuffle.partitions (mặc định 200) để tạo partition nhỏ hơn, giảm dữ liệu/partition. (4) **File splitting:** Spark's maxSplitBytes (mặc định 128MB) để tránh file quá lớn. (5) **Skew hint (Spark 3.0+):** SKEW hint trong SQL hoặc skewJoin API. **Monitoring:** Kiểm tra task duration, shuffle read/write bytes, và GC time qua Spark UI. Nếu một task chậm hơn >2x trung bình, đó là skew. Validate fix bằng cách so sánh execution time và resource utilization trước/sau.",
+      "evaluation_points": [
+        "Correctly identifies root causes of data skew (non-uniform key distribution, unbalanced joins, file sizing)",
+        "Demonstrates knowledge of practical mitigation techniques (salt key, broadcast join, partitioning, shuffle tuning)",
+        "Understands trade-offs: salt key adds complexity and extra shuffle; broadcast join requires small table assumption; repartitioning may increase memory/network costs",
+        "Can explain when to apply which technique (e.g., broadcast for small dimension tables, salt key for high-cardinality skewed keys)",
+        "Mentions monitoring and validation: how to detect skew (task duration variance, shuffle metrics) and measure improvement post-fix",
+        "Considers end-to-end impact: acknowledges that skew mitigation must be balanced against increased resource usage and latency introduced by extra transformations"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_014",
+    "question_text": "Bạn đang sử dụng Apache Airflow để quản lý pipeline CDC từ PostgreSQL lên Snowflake. Hãy giải thích cách thiết kế DAG để đảm bảo tính nhất quán dữ liệu (consistency) và tối ưu hiệu năng, bao gồm xử lý lỗi và retry.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_CDC",
+      "PIPE_PERFORMANCE"
+    ],
+    "skill_tags": [
+      "PIPE_CDC",
+      "PIPE_PERFORMANCE"
+    ],
+    "answers": {
+      "detailed": "**DAG Design for CDC Pipeline (PostgreSQL → Snowflake):**\n\n**(1) Architecture Overview:**\n- Debezium PostgreSQL Connector → Kafka topics (captures WAL-based changes, not Airflow's responsibility)\n- Airflow DAG orchestrates: check_for_new_data → load_to_staging → idempotent_merge → cleanup\n\n**(2) Consistency Guarantee:**\n- Use MERGE INTO (Snowflake native) with primary key and watermark (source_timestamp or CDC operation_id)\n- Store last_processed_watermark in external state (RDS/S3) to enable exactly-once semantics across retries\n- XCom passes metadata (e.g., current Kafka offset range, row counts) between tasks; never use XCom for large payloads or durable state\n- Handle schema evolution: capture schema_id from Debezium payload, validate target schema before merge\n\n**(3) Error Handling & Retry:**\n- Set retry_delay=300s with exponential backoff (retry_multiplier=2), max_retries=3 for transient failures\n- Idempotent merge allows safe retries: re-running same batch produces identical result (no duplicates)\n- SLA alert if DAG latency > 1 hour (detect Kafka lag or Snowflake throttling)\n- On persistent failure, trigger manual review task (email alert with offset/timestamp for recovery)\n\n**(4) Performance Optimization:**\n- Dynamic task mapping: fan-out one task per table (BashOperator running merge script), controlled by pool=snowflake_writes (limit concurrent writes)\n- Batch CDC events by time window (e.g., 5-minute intervals) to reduce Snowflake write operations\n- Use Snowflake warehouse auto-suspend to avoid idle cost\n\n**(5) State Management:**\n- Store offsets and watermarks in PostgreSQL table (not XCom) to survive DAG reruns/backfills\n- On backfill: query state table to resume from last checkpoint, preventing reprocessing\n- Validate consistency: COUNT(*) check staging vs. delta row count from Kafka offset range\n\n**(6) Backfill Handling:**\n- Set catchup=True with schedule_interval=PT5M (5-minute intervals)\n- Backfill logic: reset last_processed_watermark to target date, re-consume Kafka topic from that offset\n- Risk: Kafka topic retention may not cover historical backfill window → fallback to full table snapshot (CDC bootstrap mode)",
+      "evaluation_points": [
+        "Understands Airflow as orchestrator: correctly identifies that Debezium handles CDC capture (external system) while Airflow manages workflow, not data processing itself",
+        "Data consistency approach: validates idempotent merge strategy with primary key and watermark/timestamp for deduplication and replay safety",
+        "State management architecture: distinguishes between XCom (task metadata exchange) vs. durable backends (DB/S3) for maintaining CDC offsets and last_processed_watermark across retries and backfills",
+        "Resilience design: explains retry strategy (exponential backoff parameters), SLA monitoring for latency detection, and how idempotent operations enable safe retries without data duplication",
+        "Performance optimization: justifies dynamic task mapping for parallel table processing and resource pooling, with consideration of Snowflake concurrency limits",
+        "Error handling edge cases: addresses scenarios like task failure mid-merge, backfill with already-processed data, and Kafka offset reset handling"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_011",
+    "question_text": "Bạn đang thiết kế một pipeline CDC từ MySQL sang Data Warehouse. Hãy giải thích sự khác biệt giữa CDC dựa trên log (binlog) và CDC dựa trên timestamp polling. Khi nào bạn chọn log-based thay vì polling-based?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_CDC"
+    ],
+    "skill_tags": [
+      "PIPE_CDC"
+    ],
+    "answers": {
+      "detailed": "CDC dựa trên log (binlog) đọc trực tiếp từ binary log của MySQL, ghi lại mọi thay đổi (INSERT, UPDATE, DELETE) theo trình tự giao dịch, không ảnh hưởng đến database nguồn. CDC dựa trên timestamp polling định kỳ query bảng với cột timestamp (ví dụ: updated_at) để phát hiện thay đổi.\n\nLog-based ưu việt hơn vì: (1) không làm tăng tải cho database nguồn do không cần query liên tục, (2) phát hiện được cả DELETE operations (polling không thể nếu không có soft-delete), (3) độ trễ thấp hơn, gần real-time, (4) bảo đảm thứ tự giao dịch và hỗ trợ exactly-once semantics tốt hơn.\n\nTuy nhiên, log-based có nhược điểm: yêu cầu quyền truy cập binlog, xử lý schema evolution phức tạp hơn, cần quản lý offset/position cẩn thận để tránh duplicate hoặc missed records.\n\nPolling-based dễ triển khai hơn, không yêu cầu quyền binlog, và thích hợp cho các trường hợp đơn giản.\n\nChọn log-based khi: volume dữ liệu lớn, cần real-time hoặc độ trễ < 1 phút, có yêu cầu capture DELETE, hoặc cần exactly-once delivery. Chọn polling-based khi: dữ liệu nhỏ/trung bình, chấp nhận độ trễ vài phút, không cần DELETE tracking, hoặc hạn chế quyền hạn truy cập.",
+      "evaluation_points": [
+        "Giải thích đúng cơ chế hoạt động của log-based (binlog) và polling-based (timestamp query)",
+        "Nêu được ít nhất 3 ưu điểm của log-based: (1) không làm tăng tải query, (2) capture DELETE operations, (3) độ trễ thấp và real-time",
+        "Phân tích nhược điểm của log-based: yêu cầu quyền truy cập binlog, xử lý schema evolution, quản lý offset/position",
+        "Đưa ra tiêu chí chọn lựa cụ thể: volume dữ liệu, độ trễ chấp nhận được, yêu cầu capture DELETE, chi phí triển khai, khả năng quản lý binlog",
+        "Thảo luận về exactly-once delivery semantics và cách xử lý duplicate/missed records trong từng cách tiếp cận",
+        "Đề cập đến các giải pháp thực tế (Debezium, MySQL binlog connector) và cách tích hợp với Kafka/Data Warehouse"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_013",
+    "question_text": "Trong một dự án, bạn cần xây dựng pipeline ELT để xử lý dữ liệu từ nhiều nguồn (API, file CSV, database) vào Data Lake, sau đó transform trong Data Warehouse. Hãy so sánh ưu nhược điểm của ELT so với ETL truyền thống trong trường hợp này. Khi nào bạn chọn ELT thay vì ETL?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_ELT",
+      "PIPE_ETL"
+    ],
+    "skill_tags": [
+      "PIPE_ELT",
+      "PIPE_ETL"
+    ],
+    "answers": {
+      "detailed": "**ETL vs ELT Comparison:**\n\n**ETL (Extract, Transform, Load):**\n- Transform dữ liệu trong staging area trước khi load vào target\n- Ưu điểm: (1) Kiểm soát chất lượng dữ liệu nghiêm ngặt trước loading, (2) Giảm tải cho target system, (3) Schema-on-write rõ ràng, dễ kiểm soát\n- Nhược điểm: (1) Yêu cầu server ETL riêng với sức mạnh tính toán đủ lớn, (2) Thay đổi logic transform phức tạp (cần re-extract), (3) Chi phí hạ tầng cao\n\n**ELT (Extract, Load, Transform):**\n- Load raw data vào Data Lake/Warehouse trước, transform sau bằng sức mạnh của target system\n- Ưu điểm: (1) Tận dụng parallel processing của DWH mạnh (Snowflake, BigQuery, Redshift), (2) Linh hoạt cao - dữ liệu raw luôn available cho use cases mới, (3) Schema-on-read cho phép xử lý dữ liệu từ nguồn đa dạng (API, CSV, DB) mà không cần chuẩn hóa trước, (4) Dữ liệu lineage rõ ràng, dễ audit\n- Nhược điểm: (1) Yêu cầu Data Warehouse mạnh và scalable, (2) Chi phí lưu trữ raw data lớn, (3) Cần quản lý metadata và data governance cẩn thận\n\n**Chọn ELT khi:** Dữ liệu volumn lớn từ nhiều nguồn (như scenario), có DWH cloud-native mạnh, cần linh hoạt thay đổi transformations, schema không ổn định, hoặc cần analytical flexibility cao.\n\n**Chọn ETL khi:** Target system có giới hạn processing power, dữ liệu nhỏ/medium, transformation logic phức tạp và ít thay đổi, hoặc cần kiểm soát chất lượng tuyệt đối trước loading.",
+      "evaluation_points": [
+        "Clearly articulate the fundamental distinction: transformation timing (before vs. after loading) and location (staging vs. target system)",
+        "For ELT: include at least 3 advantages (computational leverage, flexibility/schema evolution, data lineage) and 2 disadvantages (infrastructure requirements, storage/cost management)",
+        "For ETL: include at least 2 advantages (strict quality control before loading, reduced target system load) and 2 disadvantages (expensive separate infrastructure, schema inflexibility)",
+        "Address the multi-source context: explain how ELT handles diverse schemas (API, CSV, database) more elegantly via schema-on-read",
+        "Provide concrete decision criteria: data volume, target system capabilities, transformation complexity, frequency of logic changes, regulatory/compliance needs",
+        "Mention architectural components relevant to the scenario: Data Lake for raw storage, Data Warehouse for transformations, orchestration tool considerations"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_015",
+    "question_text": "Công ty bạn có một pipeline ETL batch chạy hàng ngày xử lý 5GB dữ liệu từ transactional database sang Data Warehouse, nhưng thời gian chạy đang tăng dần theo thời gian (từ 30 phút lên 2 giờ). Hãy phân tích các nguyên nhân tiềm ẩn và đề xuất ít nhất 3 giải pháp tối ưu hiệu suất.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_ETL",
+      "PIPE_PERFORMANCE"
+    ],
+    "skill_tags": [
+      "PIPE_PERFORMANCE",
+      "PIPE_ETL"
+    ],
+    "answers": {
+      "detailed": "**Nguyên nhân tiềm ẩn:**\n(1) **Data growth:** Dữ liệu lịch sử tăng dần → full load scan toàn bộ bảng mỗi lần, dẫn đến I/O và processing time tăng tuyến tính.\n(2) **Thiếu optimization:** Không có partitioning/indexing, UDF thay vì native SQL, inefficient join logic.\n(3) **Architecture mismatch:** Pipeline batch ETL không phù hợp với tốc độ data growth; thiếu CDC (Change Data Capture) để detect chỉ dữ liệu thay đổi.\n\n**3+ Giải pháp tối ưu:**\n\n1. **Incremental Load + CDC (Change Data Capture):**\n   - Thay vì full load, chỉ extract dữ liệu mới/thay đổi dựa trên timestamp, sequence number, hoặc native CDC tools (SQL Server, Oracle, Postgres LOGICAL REPLICATION).\n   - Giảm volume xử lý từ 5GB → thường 50-500MB/ngày → thời gian giảm 90%+.\n\n2. **Partitioning + Predicate Pushdown:**\n   - Partition DWH table theo date/month; partition source extracts theo date ranges.\n   - DWH query engine chỉ scan partition cần thiết → giảm I/O 70-80%.\n   - Pushdown filter logic xuống database thay vì transform sau khi load.\n\n3. **Query & Transform Optimization:**\n   - Replace UDF với native SQL functions (vectorized execution).\n   - Optimize join order, add missing indexes trên foreign keys và filter columns.\n   - Sử dụng columnar format (Parquet) nếu đã lưu staged data → tăng compression & read speed 5-10x.\n\n4. **Parallelism & Horizontal Scaling:**\n   - Split pipeline thành micro-batches (e.g., hourly mini-loads thay vì daily monolithic batch).\n   - Tăng worker threads/processes, sử dụng distributed processing (Spark, Airflow parallel tasks).\n\n**Xem xét thêm:** Nếu data tiếp tục tăng, cân nhắc chuyển sang **ELT architecture** (load raw data vào cloud DWH như Snowflake/BigQuery, transform in-situ) để tận dụng parallel processing và schema flexibility, thay vì dựa vào dedicated ETL server.",
+      "evaluation_points": [
+        "Phân tích được ít nhất 2-3 nguyên nhân chính (data growth, inefficient transforms, I/O bottlenecks, missing partitioning/indexing)",
+        "Đề xuất ít nhất 3 giải pháp khả thi với cơ chế cụ thể (incremental/CDC, partitioning, query optimization, parallelism)",
+        "Giải thích được sự khác biệt giữa full load vs. incremental load và khi nào áp dụng",
+        "Xem xét liệu ứng viên có nhận ra giới hạn của ETL batch và khi nào nên chuyển sang ELT hoặc streaming architecture",
+        "Đề cập đến monitoring/metrics để xác định bottleneck chính (query execution time, I/O wait, network latency)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_017",
+    "question_text": "Bạn đang xây dựng một pipeline CDC real-time từ PostgreSQL sang Apache Kafka để streaming dữ liệu thay đổi đến các consumer downstream (ví dụ: Data Warehouse, cache). Hãy giải thích tại sao cần sử dụng Debezium và Kafka Connect trong kiến trúc này? Nếu không có Debezium, bạn sẽ triển khai giải pháp thay thế nào và nêu trade-off.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_CDC"
+    ],
+    "skill_tags": [
+      "PIPE_CDC"
+    ],
+    "answers": {
+      "detailed": "Debezium is a log-based CDC connector leveraging PostgreSQL's WAL (Write Ahead Log) integrated with Kafka Connect as a source connector. It captures all DML changes (INSERT, UPDATE, DELETE) from WAL and publishes them to Kafka topics in Avro/JSON format.\n\n**Why Debezium + Kafka Connect:**\n1. Non-intrusive: WAL reading doesn't impact source application performance (unlike triggers)\n2. Complete capture: Captures all changes including DELETEs with transaction ordering guarantees\n3. Low latency: Millisecond-level latency for downstream consumers\n4. Fault tolerance: Offset management ensures exactly-once semantics and recovery from failures\n5. Schema evolution: Built-in support for schema registry integration\n6. Operational simplicity: Centralized connector management vs. database-level complexity\n\n**Alternative Approaches & Trade-offs:**\n\n(1) **Polling with timestamp (updated_at column):**\n- Advantage: Simple to implement, database-agnostic\n- Disadvantages: Cannot capture DELETEs, high latency (polling interval), increases database query load, data loss if updates occur within polling window, no transaction ordering\n- Cost: Lower infrastructure but significant data integrity risk\n\n(2) **Trigger + Shadow Table:**\n- Advantage: Database-agnostic, captures all operations\n- Disadvantages: Performance overhead on source (every write triggers logic), complex failure recovery, potential missed changes if trigger fails, increases database maintenance burden, higher latency due to trigger execution\n- Cost: Lower infrastructure complexity but high database performance impact\n\n(3) **Custom application-level logging:**\n- Advantage: Full control over what to capture\n- Disadvantages: Requires application code changes, misses out-of-band changes, complex to maintain consistency, cannot handle legacy systems\n\n**Comparison Matrix:**\nDebezium: High operational complexity, lowest latency, zero source impact, best data completeness. Polling: Low complexity, high latency, high source impact, incomplete capture. Triggers: Medium complexity, medium latency, high source impact, medium completeness.\n\n**Recommended choice:** Debezium for mission-critical real-time pipelines (fraud detection, inventory sync). Polling only for non-critical, append-only data or low-frequency changes where DELETE capture is unnecessary.",
+      "evaluation_points": [
+        "Explain why log-based CDC (WAL) is preferred over trigger-based CDC and polling approaches for real-time scenarios",
+        "Discuss specific trade-offs: latency guarantees, operational complexity, failure recovery, and monitoring requirements for each approach",
+        "Demonstrate understanding of Kafka Connect offset management and exactly-once/at-least-once delivery semantics in CDC pipelines",
+        "Address schema evolution handling and downstream consumer compatibility concerns",
+        "Compare infrastructure overhead: Debezium cluster management vs. trigger-based solution performance impact on source database"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_018",
+    "question_text": "Bạn đang thiết kế một data pipeline sử dụng CDC để đồng bộ dữ liệu từ database PostgreSQL (nguồn chính) sang data warehouse Snowflake. Hãy so sánh ưu nhược điểm của việc sử dụng Debezium (log-based CDC) so với việc dùng batch query dựa trên trường updated_at để capture dữ liệu thay đổi. Trong tình huống nào bạn chọn mỗi phương pháp?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_CDC"
+    ],
+    "skill_tags": [
+      "PIPE_CDC"
+    ],
+    "answers": {
+      "detailed": "Debezium (log-based CDC) dùng WAL (Write-Ahead Log) của PostgreSQL để capture mọi thay đổi (INSERT, UPDATE, DELETE) gần như real-time với latency từ giây đến chục giây, không cần thêm trường timestamp. Ưu điểm: độ trễ thấp, không ảnh hưởng performance nguồn (chỉ đọc log), capture đầy đủ cả DELETE, đảm bảo transaction order. Nhược điểm: yêu cầu cấu hình Kafka/Schema Registry (phức tạp), quản lý offset và exactly-once semantics (challenging), xử lý schema evolution (cần monitoring), chi phí infrastructure cao, độ phức tạp operational (monitoring, debugging, recovery).\n\nBatch query dựa trên updated_at: đơn giản, dễ triển khai (cron job + SQL), chi phí thấp. Nhược điểm: không capture DELETE trừ khi dùng soft delete/logical delete flag, độ trễ cao (phút đến giờ tuỳ schedule), tải nặng lên database nguồn nếu table lớn (full table scan hoặc heavy index query), khó xử lý update không cập nhật timestamp, không capture INSERT/UPDATE xảy ra trong cùng batch window.\n\nChọn Debezium khi: (1) yêu cầu latency thấp (<5 phút), (2) dữ liệu volume lớn (tránh tác động batch query lên source), (3) cần capture DELETE, (4) team có expertise Kafka, (5) budget cho infrastructure. Ví dụ: real-time analytics, fraud detection, operational dashboards.\n\nChọn batch query khi: (1) dữ liệu nhỏ/trung bình, (2) latency tolerance cao (giờ/ngày), (3) schema ổn định, (4) không cần capture DELETE, (5) team nhỏ, infrastructure constrained. Ví dụ: daily reporting, historical analysis, non-critical sync.",
+      "evaluation_points": [
+        "Hiểu rõ cơ chế hoạt động của log-based CDC (WAL parsing, offset management) và batch query (watermark/checkpoint), bao gồm cách capture DELETE và xử lý duplicates",
+        "Phân tích trade-off về độ trễ (near real-time vs batch window), tác động performance nguồn (log scanning vs heavy queries), độ phức tạp triển khai (Kafka stack vs simple scheduling)",
+        "Thảo luận về exactly-once delivery semantics, handling của schema evolution, và xử lý các edge cases (network failures, duplicate changes, out-of-order events)",
+        "Đánh giá chi phí tổng thể: infrastructure (Kafka, Zookeeper), operational overhead (monitoring, debugging, disaster recovery), và storage costs",
+        "Đưa ra tình huống chọn lựa cụ thể dựa trên business requirements (latency SLA, data freshness tolerance, data volume, team expertise, budget constraints)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_020",
+    "question_text": "Công ty bạn đang chuyển từ ETL sang ELT để tận dụng sức mạnh của cloud data warehouse (Snowflake). Hãy giải thích lý do tại sao ELT thường được ưa chuộng trong môi trường cloud hiện đại, và nêu ít nhất hai tình huống cụ thể mà ETL vẫn là lựa chọn tốt hơn.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_ELT"
+    ],
+    "skill_tags": [
+      "PIPE_ELT"
+    ],
+    "answers": {
+      "detailed": "ELT ưu việt trong cloud vì: (1) Tận dụng khả năng scale của data warehouse (Snowflake, BigQuery) để xử lý transform, giảm tải cho pipeline. (2) Linh hoạt: dữ liệu raw được load trước, analyst có thể transform tùy ý mà không cần re-run pipeline. (3) Chi phí thấp hơn do không cần server transform riêng. ETL vẫn cần khi: (1) Dữ liệu nhạy cảm (PII) cần được mask/clean trước khi vào warehouse để tuân thủ GDPR. (2) Nguồn dữ liệu có format phức tạp (XML, PDF) cần parse trước khi load. (3) Hệ thống đích (data warehouse) yếu hoặc không hỗ trợ transform mạnh (ví dụ: MySQL làm warehouse).",
+      "evaluation_points": [
+        "Correctly identifies ELT advantages: leveraging cloud DWH parallel processing power, schema flexibility/evolution, cost efficiency by eliminating separate transformation infrastructure",
+        "Provides valid ETL scenarios: PII/sensitive data requiring pre-load masking (compliance), complex format parsing (XML/PDF), and legacy/weak target systems lacking transformation capabilities",
+        "Demonstrates understanding that ELT's raw data retention enables schema-on-read and multiple analytical use cases without re-extraction",
+        "Should also discuss data lineage benefits of ELT (easier traceability to raw source) and risk management of ELT (larger raw data storage costs, need for governance on transformation quality in warehouse)",
+        "Could strengthen by mentioning hybrid approaches: ETL for sensitive PII masking + ELT for downstream transformations, or considering network bandwidth/latency trade-offs when extracting large volumes"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_022",
+    "question_text": "Bạn đang xây dựng pipeline ETL xử lý dữ liệu bán hàng từ nhiều nguồn (API, file CSV, database) với yêu cầu đảm bảo tính chính xác và có thể tái chạy (idempotent). Thiết kế pipeline để xử lý các vấn đề: dữ liệu trùng lặp, lỗi kết nối tạm thời, và dữ liệu đến muộn (late-arriving data). Giải thích cách bạn triển khai cơ chế idempotency và xử lý lỗi.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_ETL"
+    ],
+    "skill_tags": [
+      "PIPE_ETL"
+    ],
+    "answers": {
+      "detailed": "**Pipeline Architecture:**\n\n(1) **Staged Area & Ingestion:** Implement a landing zone (e.g., S3 with partitioning by source/date/hour) to store raw data as-is. Partition scheme: `s3://landing/{source}/{date}/{hour}/` allows parallel processing and easy recovery.\n\n(2) **Error Handling & Resilience:** \n   - Use Apache Airflow with `retries=3` and `retry_delay=timedelta(minutes=5)` with exponential backoff for transient failures (network timeouts, temporary service unavailability).\n   - Separate error handling: transient errors retry automatically; permanent errors (schema mismatches, invalid credentials) route to a Dead Letter Queue (DLQ) for manual investigation.\n\n(3) **Idempotency Implementation:**\n   - **Unique Key Design:** For each transaction, define composite key = `{transaction_id, source, event_timestamp}`. Even if a task re-runs, this key remains unchanged.\n   - **UPSERT/MERGE Logic:** Replace simple `INSERT` with `MERGE INTO` (SQL) or equivalent upsert. Example:\n     ```sql\n     MERGE INTO fact_sales t\n     USING staging s\n     ON t.transaction_id = s.transaction_id AND t.source = s.source\n     WHEN MATCHED THEN UPDATE SET t.amount = s.amount, t.updated_at = NOW()\n     WHEN NOT MATCHED THEN INSERT (transaction_id, source, amount, updated_at) \n       VALUES (s.transaction_id, s.source, s.amount, NOW())\n     ```\n   - This ensures re-running a task overwrites stale data rather than creating duplicates.\n\n(4) **Deduplication Strategy:**\n   - At **ingestion layer:** Compute SHA256 hash of raw record; reject if hash already exists in landing zone within the same batch window.\n   - At **transformation layer:** Deduplicate on `transaction_id + source` before loading to fact tables.\n\n(5) **Late-Arriving Data Handling:**\n   - Define a **watermark SLA** (e.g., accept data up to 72 hours late).\n   - Partition fact tables by `event_date` (when data occurred) and `load_date` (when data arrived). Use `event_date >= CURRENT_DATE - 3` to re-process recent partitions.\n   - For aggregates (e.g., daily sales summary), maintain a window of updatable partitions. Example: mark partitions as \"final\" only after the watermark window closes.\n   - Implement a **backfill mechanism:** If late data arrives, re-run transformations for affected date partitions using Airflow's `backfill` command.\n\n(6) **Monitoring & Observability:**\n   - Alert if duplicate count exceeds threshold (e.g., >1% of daily volume).\n   - Track watermark lag: alert if data is consistently arriving >3 days late.\n   - Log task execution context (run_id, execution_date) for traceability; use XCom to pass file paths and record counts between tasks.\n   - Dashboard: display pipeline SLA adherence, retry frequency by source, and duplicate/error rates.\n\n**Example DAG Structure:**\n```python\nfrom airflow import DAG\nfrom airflow.operators.python import PythonOperator\nfrom airflow.providers.amazon.aws.operators.s3 import S3Operator\nfrom datetime import datetime, timedelta\n\nwith DAG('etl_sales', start_date=datetime(2024,1,1), schedule_interval='@daily', catchup=True) as dag:\n    extract_api = PythonOperator(task_id='extract_api', python_callable=..., retries=3, retry_delay=timedelta(minutes=5))\n    extract_csv = PythonOperator(task_id='extract_csv', python_callable=..., retries=3)\n    load_landing = S3Operator(task_id='load_landing', ...)\n    deduplicate = PythonOperator(task_id='deduplicate', ...)\n    transform = PythonOperator(task_id='transform', ...)\n    upsert_fact = PythonOperator(task_id='upsert_fact', ...)\n    \n    [extract_api, extract_csv] >> load_landing >> deduplicate >> transform >> upsert_fact\n```",
+      "evaluation_points": [
+        "Staged area architecture with partitioning strategy and data retention policy for late arrivals",
+        "Retry mechanism with exponential backoff configuration and maximum retry limits to prevent infinite loops",
+        "Idempotency implementation: unique key design (composite keys), MERGE/UPSERT logic, and handling of update timestamps",
+        "Deduplication strategy: detecting and handling duplicates at ingestion (e.g., hash of raw record) vs. transformation layer",
+        "Late-arriving data handling: watermark definition (e.g., 72-hour SLA), partition pruning strategy, and impact on aggregate/dimensional tables",
+        "Error categorization and handling: transient errors (retry) vs. permanent errors (DLQ/manual intervention)",
+        "Idempotency across multiple data sources: ensuring transaction_id + source uniqueness and handling schema variations",
+        "Monitoring and observability: duplicate detection thresholds, pipeline SLA metrics, and alerting on watermark breaches"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_024",
+    "question_text": "Bạn đang chịu trách nhiệm tối ưu hóa một data pipeline ETL chạy hàng ngày xử lý 50GB dữ liệu từ nhiều nguồn, nhưng thời gian chạy đang vượt quá SLA (8 tiếng). Hiện tại pipeline sử dụng Spark chạy trên cụm EMR và gồm các bước: đọc dữ liệu từ S3, join nhiều bảng, aggregate, ghi kết quả về S3 dưới dạng Parquet. Hãy phân tích các nguyên nhân tiềm ẩn gây chậm và đề xuất các kỹ thuật tối ưu cụ thể (bao gồm partition, broadcast join, shuffle, caching) để giảm thời gian xuống dưới 4 tiếng.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_PERFORMANCE"
+    ],
+    "skill_tags": [
+      "PIPE_PERFORMANCE"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân tiềm ẩn: (1) **Data skew trong join**: key phân bố không đều khiến shuffle tập trung dữ liệu vào vài executor, gây bottleneck. Để phát hiện: kiểm tra Spark UI, nếu task duration chênh lệch >5x là có skew. (2) **Partition không tối ưu**: spark.sql.shuffle.partitions mặc định 200 có thể quá thấp cho 50GB; quá nhiều partition gây task overhead. (3) **Missing broadcast join**: nếu join với bảng dimension nhỏ mà không broadcast, gây shuffle không cần thiết. (4) **Caching/reuse kém**: nếu dữ liệu intermediate được tính nhiều lần, mỗi lần đều đọc lại từ S3. (5) **S3 read bottleneck**: partition không align với S3 object layout, hoặc file quá nhỏ gây nhiều API calls.\n\n**Giải pháp cụ thể** (áp dụng tuần tự, đo lường sau mỗi bước):\n\n(1) **Kiểm tra & fix data skew** (ưu tiên cao):\n   - Dùng `df.groupBy(joinKey).count().describe()` để phát hiện skew\n   - Nếu skew, dùng **salting**: thêm random suffix vào key skew (vd: key + (rand() % 10)), join, rồi loại bỏ suffix sau\n   - Alternative: `broadcast(smallDF)` nếu bảng nhỏ là nguyên nhân\n\n(2) **Tối ưu partition**:\n   - Tăng `spark.sql.shuffle.partitions` từ 200 → 400-800 (thử nghiệm dựa trên core count)\n   - Ghi dữ liệu output với `.partitionBy('date', 'region')` để align với downstream queries\n   - Dùng `coalesce(n)` thay vì `repartition()` khi giảm partition (tránh shuffle toàn bộ)\n\n(3) **Broadcast join cho bảng nhỏ**:\n   - Kiểm tra kích thước mỗi bảng join; nếu <200MB, bật broadcast: `spark.sql.autoBroadcastJoinThreshold=209715200`\n   - Hoặc explicit: `broadcast(dimensionDF).join(factDF, ...)`\n\n(4) **Cache & reuse**:\n   - Nếu một intermediate dataframe được dùng >1 lần, cache sau filter/projection: `filteredDF.cache().count()`\n   - Monitor memory usage trong Spark UI\n\n(5) **Tối ưu I/O**:\n   - Điều chỉnh Parquet write: `.option('parquet.block.size', 134217728)` (128MB block)\n   - Giảm số file output: `coalesce(50)` trước ghi nếu có 1000+ files\n\n(6) **Enable Adaptive Query Execution (AQE)** (Spark 3.0+):\n   - Đặt `spark.sql.adaptive.enabled=true` để Spark tự động tối ưu join strategy và partition sau shuffle\n\n(7) **Đánh giá ELT alternative**:\n   - Nếu vẫn chậm sau tối ưu, xem xét **ELT**: load raw dữ liệu vào data lake (S3/ADLS), transform bằng SQL trong Snowflake/BigQuery\n   - Ưu điểm: tận dụng cloud DWH's optimizer, schema evolution linh hoạt, dễ debug\n   - Nhược điểm: chi phí query, quản lý raw data\n\n**Chiến lược đo lường**: Theo dõi Spark metrics (shuffle bytes, task skew ratio, CPU utilization). Đặt baseline sau mỗi tối ưu; nếu không cải thiện ≥10%, rollback & thử kỹ thuật khác.",
+      "evaluation_points": [
+        "Identifies root causes with data skew and partition misalignment as primary suspects, not just generic optimization",
+        "Proposes concrete, ranked optimizations (broadcast join, salting, AQE) with realistic thresholds and configuration values",
+        "Explains measurement/diagnostic strategy: how to detect skew (via Spark UI task duration analysis), shuffle metrics, and validate improvement incrementally",
+        "Considers trade-offs: broadcast join limits (memory pressure), salting complexity (post-aggregation cleanup), coalesce vs repartition (write performance vs read parallelism)",
+        "Discusses whether ELT paradigm shift (load raw data, transform in-warehouse with SQL) could be more sustainable long-term than optimizing ETL batch job",
+        "Addresses monitoring and SLA sustainability: recommends adding metrics (shuffle bytes, task skew ratio, I/O bottlenecks) to catch regressions"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_026",
+    "question_text": "Bạn đang gặp sự cố trong một pipeline CDC real-time dùng Kafka + Debezium + Snowflake. Dữ liệu từ PostgreSQL nguồn bị mất một số bản ghi khi load vào Snowflake, và bạn nghi ngờ có vấn đề về offset commit, schema evolution, hoặc network partition. Hãy mô tả quy trình debug từng bước để xác định nguyên nhân và cách khắc phục. Bao gồm cách kiểm tra offset trong Kafka, validate schema consistency giữa nguồn và đích, và xử lý trường hợp dữ liệu đến không đúng thứ tự (out-of-order).",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_CDC"
+    ],
+    "skill_tags": [
+      "PIPE_CDC"
+    ],
+    "answers": {
+      "detailed": "Quy trình debug chi tiết: (1) **Kiểm tra offset Kafka**: Dùng `kafka-consumer-groups.sh --bootstrap-server <broker> --group <debezium-group> --describe` để kiểm tra LAG (current offset vs. log-end offset). Nếu LAG > 0, consumer chưa catch up. Kiểm tra trong `__consumer_offsets` topic xem offset đã được commit sau khi write vào Snowflake hay chỉ sau khi read từ WAL. Đặt `offset.storage=org.apache.kafka.connect.storage.KafkaOffsetBackingStore` và `auto.commit.enable=false` để kiểm soát commit thủ công. (2) **Kiểm tra Debezium connector**: Xem logs (Connect worker logs) để tìm exception. Kiểm tra `snapshot.mode` (initial=full snapshot, when_needed=incremental, never=chỉ WAL). Xác minh `table.include.list` pattern khớp với source tables. Kiểm tra WAL retention trên PostgreSQL (`wal_keep_size`) - nếu WAL bị rotate quá nhanh, sẽ miss changes. (3) **Validate schema evolution**: Dùng Schema Registry để kiểm tra schema version của mỗi message (header hoặc payload). So sánh schema version đó với Snowflake table definition qua `DESCRIBE TABLE`. Nếu source drop column nhưng Snowflake chưa, dùng `value.schema.name` và `value.schema.version` từ message header. Set `schema.evolution.mode=backward_compatible` để chỉ allow safe changes. (4) **Xử lý out-of-order**: Đặt Kafka partition key = PostgreSQL PRIMARY KEY (ví dụ: `user_id`) để đảm bảo thứ tự per record. Kiểm tra Snowflake ingestion order bằng cách so sánh `_sdc_extracted_at` (Debezium timestamp) với `_sdc_loaded_at` (Snowflake load time). Nếu dữ liệu đến không đúng thứ tự, dùng MERGE statement với matching on PRIMARY KEY và update based on `_sdc_extracted_at`. (5) **Kiểm tra network partition**: Dùng Kafka metrics (broker request latency, error rates qua JMX) và Snowflake PIPE status: `SHOW PIPES; SELECT SYSTEM\\$PIPE_STATUS('<pipe_name>');` để kiểm tra số file đã ingest. Dùng `SELECT * FROM SNOWFLAKE.ACCOUNT_USAGE.COPY_HISTORY WHERE PIPE_NAME = '<pipe_name>'` để xem ingestion timestamp và file count. (6) **Xác định root cause**: Nếu Kafka offset ahead của Snowflake loaded data, issue là ở ingestion (network/PIPE). Nếu Snowflake offset behind Kafka offset, issue là ở Debezium capture hoặc commit logic. (7) **Khắc phục**: (a) Re-consume bằng `offset reset --to-earliest` hoặc pointing specific offset nếu xác định mất dữ liệu từ khi nào. (b) Implement exactly-once: dùng idempotent MERGE - thêm unique constraint trên (`_sdc_extracted_at`, `_sdc_source_table`, `pk_column`) để detect duplicate. (c) Dùng transactional outbox pattern: trigger Debezium capture từ `outbox` table thay vì source table, đảm bảo application write và CDC atomicity. (d) Kiểm tra Snowflake `_sdc_rejected_data` column nếu dùng AUTO_INGEST mode, để thấy rows bị reject do schema mismatch.",
+      "evaluation_points": [
+        "Correctly identifies kafka-consumer-groups.sh command with specific focus on consumer lag and offset position (current offset vs. log-end offset)",
+        "Explicitly checks Debezium connector snapshot mode (initial, when_needed, never) and logs for table inclusion patterns (table.include.list validation)",
+        "Validates schema compatibility using Schema Registry API or checking Kafka message headers for schema ID, comparing against Snowflake INFORMATION_SCHEMA",
+        "Explains partition key strategy (e.g., PRIMARY KEY) to maintain ordering per entity, not just general ordering",
+        "References Snowflake PIPE status (SHOW PIPES, system$pipe_status()) and COPY_HISTORY for validation of successful ingestion",
+        "Discusses exactly-once semantics implementation: idempotent writes (unique constraint on _sdc_extracted_at + source primary key) or Snowflake's MERGE with matching keys",
+        "Addresses transactional outbox pattern details: CDC captures from outbox table instead of source, ensuring application and CDC atomicity",
+        "Distinguishes between in-flight offset loss (broker failure before commit) vs. processing failure (application error after offset commit but before Snowflake write)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_023",
+    "question_text": "CDC (Change Data Capture) là gì? Hãy giải thích ngắn gọn cách thức hoạt động của cơ chế này trong việc đồng bộ dữ liệu giữa cơ sở dữ liệu nguồn và đích.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_CDC"
+    ],
+    "skill_tags": [
+      "PIPE_CDC"
+    ],
+    "answers": {
+      "detailed": "CDC là kỹ thuật theo dõi và ghi lại các thay đổi (INSERT, UPDATE, DELETE) trên cơ sở dữ liệu nguồn, sau đó áp dụng các thay đổi đó lên hệ thống đích. Cơ chế hoạt động phổ biến: (1) Log-based: sử dụng transaction log như MySQL binlog, PostgreSQL WAL - nhanh nhưng phức tạp, (2) Trigger-based: kích hoạt thủ tục lưu thay đổi vào bảng đặc biệt - dễ nhưng ảnh hưởng performance, (3) Query-based/Timestamp: so sánh snapshot định kỳ hoặc dùng cột timestamp - đơn giản nhưng độ trễ cao. CDC giảm đáng kể độ trễ (milliseconds) và tải so với batch load toàn bộ dữ liệu. Use case: real-time data warehouse, microservice synchronization, audit logging.",
+      "evaluation_points": [
+        "Nêu đúng định nghĩa CDC và mục đích theo dõi thay đổi dữ liệu (INSERT, UPDATE, DELETE)",
+        "Kể được ít nhất 2 cơ chế hoạt động khác nhau (log-based, trigger-based, query-based, timestamp column)",
+        "So sánh CDC với batch load về độ trễ (latency) và tài nguyên hệ thống",
+        "Nhận biết được trade-off: log-based phức tạp nhưng nhanh vs trigger-based dễ thực hiện nhưng ảnh hưởng performance",
+        "Nêu use case thực tế của CDC (real-time analytics, data warehouse sync, replication)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_025",
+    "question_text": "Bạn đang làm việc với một hệ thống dữ liệu lớn (hàng trăm GB mỗi ngày) từ nguồn OLTP. Công ty yêu cầu xây dựng pipeline CDC để đồng bộ dữ liệu vào data warehouse gần thời gian thực (near-real-time). Hãy so sánh ưu và nhược điểm của hai phương pháp: (1) CDC dựa trên log transaction (ví dụ Debezium + Kafka) và (2) CDC dựa trên timestamp column + batch incremental load. Trong tình huống dữ liệu nguồn có nhiều bảng cần join phức tạp, bạn chọn phương pháp nào? Giải thích lý do.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_CDC",
+      "PIPE_PERFORMANCE"
+    ],
+    "skill_tags": [
+      "PIPE_CDC",
+      "PIPE_PERFORMANCE"
+    ],
+    "answers": {
+      "detailed": "Log-based CDC (Debezium + Kafka) advantages: sub-second latency, non-intrusive (no source impact), captures all change types (INSERT/UPDATE/DELETE), maintains transaction order. Disadvantages: operational complexity (Kafka cluster, ZK, schema registry), requires exactly-once semantics handling (deduplication, idempotent writes), state store complexity for joins, potential ordering issues across partitions.\n\nTimestamp + incremental batch advantages: simple architecture, easy debugging, naturally idempotent (upsert strategy), minimal infrastructure, efficient for slowly-changing data. Disadvantages: minute-level latency, misses hard deletes (needs soft-delete pattern), potential source load from timestamp column scanning, eventual consistency only.\n\nFor complex multi-table joins: I would recommend a HYBRID approach rather than choosing one:\n- Use log-based CDC (Debezium + Kafka) for high-velocity fact tables and transactional data where DELETE capture is critical\n- Use timestamp-based batch loading for slowly-changing dimensions, allowing you to materialize complex join logic in data warehouse (via dbt, Spark SQL) rather than managing streaming state stores\n\nReasoning: Log-based streaming for joins requires maintaining distributed state stores (stateful processing), windowing logic, and out-of-order handling—significantly more complex than batch. By separating concerns (facts via streaming, dimensions via batch), you achieve near-real-time analytics while keeping join logic testable and maintainable in the warehouse layer. This also provides flexibility: if join complexity grows, you adjust warehouse-layer SQL rather than redeploying stream processors. Cost: higher operational complexity than pure timestamp approach, but essential for true near-real-time with reliable join semantics.",
+      "evaluation_points": [
+        "Correctly identifies latency characteristics (ms vs minutes) and capture completeness (DELETE handling) for both approaches",
+        "Recognizes operational complexity difference (Kafka infrastructure vs simpler query-based approach) and scalability implications",
+        "Explains why timestamp-based approach simplifies complex joins through pre-materialization, but should clarify that log-based CDC requires maintaining state stores or distributed join logic, increasing operational burden",
+        "Should explicitly discuss exactly-once semantics guarantee: log-based CDC requires deduplication & idempotency handling (Kafka offsets, destination idempotent writes), while timestamp-based is naturally idempotent if using upsert-on-timestamp strategy",
+        "Should mention hybrid approach consideration: log-based CDC for transactional tables (high-velocity, capture deletes) + timestamp batch for slowly-changing dimensions with complex joins"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_027",
+    "question_text": "Một team đang chuyển đổi từ ETL sang ELT với dữ liệu không có cấu trúc (unstructured data) như file log JSON phức tạp có schema thay đổi thường xuyên. Hãy phân tích các thách thức khi áp dụng ELT cho loại dữ liệu này, đặc biệt liên quan đến schema evolution và performance. Đề xuất ít nhất 2 giải pháp khắc phục.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_ELT",
+      "PIPE_ETL"
+    ],
+    "skill_tags": [
+      "PIPE_ELT",
+      "PIPE_ETL"
+    ],
+    "answers": {
+      "detailed": "**Thách thức chính:**\n\n(1) **Schema Evolution:** JSON lồng nhau với trường mới/thay đổi kiểu dữ liệu khó quản lý. ELT load raw vào VARIANT (Snowflake) hoặc JSON columns, nhưng transform bằng SQL dễ gây lỗi nếu field không tồn tại hoặc kiểu dữ liệu thay đổi. Thiếu schema governance dẫn đến \"schema on read\" không kiểm soát—các downstream consumers phải xử lý ngoại lệ.\n\n(2) **Performance:** Parsing JSON nested trong SQL (`JSON_EXTRACT`, `FLATTEN`, `UNNEST` trên nested arrays) rất chậy, đặc biệt trên dữ liệu lớn. Raw VARIANT không có index, buộc full scan. Query trên VARIANT cũng không tận dụng columnar compression của DWH.\n\n(3) **Data Lineage & Debugging:** Raw storage giữ lại dữ liệu gốc nhưng khi transform phức tạp, khó trace lỗi—đặc biệt khi schema thay đổi giữa các batch.\n\n**Giải pháp:**\n\n**#1 Schema Registry + Schema-on-Read Validation (Hybrid Approach)**\n- Integrate Avro/Protobuf schema registry tại ingestion layer (ví dụ Kafka + Debezium for CDC, hoặc custom validator cho file uploads)\n- Validate schema *trước* load vào DWH, reject hoặc flag schema violations early\n- Trong ELT transformation: dùng schema registry để tạo typed views trên top of raw VARIANT—SQL queries hoạt động trên schema được biết trước\n- **Trade-off:** Thêm complexity ở ingestion; nhưng giảm downstream errors và tăng query performance (optimizer có thể sử dụng schema hints)\n\n**#2 Two-Stage Staging with Pre-flattening (ETL + ELT Hybrid)**\n- Stage 1 (ETL-style): Spark job hoặc Snowflake Stream + Snowpipe-triggered logic để parse & flatten JSON thành cột riêng biệt (denormalize nested structures)\n- Stage 2 (ELT-style): Load flattened data vào data lake / intermediate table; final transformation & aggregation ở DWH\n- **Trade-off:** Thêm staging infrastructure & latency; nhưng queries ở DWH chạy nhanh hơn, schema rõ ràng, dễ debug. Có thể retain raw JSON backup để re-process nếu cần.\n\n**ELT vs. ETL Trade-off trong tình huống này:** ELT thuần (load raw VARIANT) phù hợp khi *schema exploration* là ưu tiên (ad-hoc analytics, prototyping); nhưng với unstructured data volatile, **hybrid approach (ETL pre-processing + ELT final transformation)** thường tối ưu hơn: đạt flexibility của ELT mà vẫn giữ performance và governance của ETL staging.",
+      "evaluation_points": [
+        "Identify schema evolution challenges specific to nested JSON (schema drift, type coercion, missing fields) and explain why raw VARIANT storage complicates downstream queries",
+        "Analyze performance implications: compare JSON parsing overhead in SQL vs. pre-processing trade-offs (latency, storage cost, compute resource allocation)",
+        "Propose concrete solutions with trade-off analysis: (a) Schema Registry integration—benefits (validation, versioning) vs. overhead; (b) Staging layer pre-processing—benefits (query performance, schema clarity) vs. architectural complexity and potential data loss",
+        "Justify ELT vs. ETL choice: explain when schema-on-read flexibility outweighs transformation complexity, and when hybrid approaches (semi-ETL staging) are preferable for highly volatile schemas",
+        "Address data lineage and debugging: how raw storage aids traceability but complicates troubleshooting when transformations fail on unexpected schema variations"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_029",
+    "question_text": "Bạn đang thiết kế pipeline batch ETL xử lý dữ liệu bán hàng từ nhiều nguồn (CSV 5GB, API REST 2GB, database 10GB). Pipeline hiện tại chạy mất 4 giờ, vượt quá SLA 2 giờ. Hãy phân tích các nguyên nhân tiềm ẩn gây chậm (bottleneck) và đề xuất các kỹ thuật tối ưu performance (ít nhất 3 kỹ thuật) có thể áp dụng cho pipeline này.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_PERFORMANCE"
+    ],
+    "skill_tags": [
+      "PIPE_PERFORMANCE"
+    ],
+    "answers": {
+      "detailed": "**Bottleneck Analysis:**\n(1) **I/O Bottleneck:** Sequential read of 17GB total data (CSV 5GB + API 2GB + DB 10GB) without parallelism. CSV and API are read serially, creating a linear dependency. (2) **Database Query Bottleneck:** Full table scan on 10GB database without indexed predicates or incremental filtering. (3) **Network Bottleneck:** REST API likely making synchronous, single-threaded requests; small payload overhead multiplied across millions of records. (4) **CPU/Memory Bottleneck:** Complex joins/aggregations run single-threaded without distributed computing framework.\n\n**Optimization Techniques:**\n\n(1) **Parallelism with Spark/Dask:** Partition CSV file into chunks (e.g., 4-8 partitions), read in parallel across worker nodes. Impact: I/O time reduced ~4-8x for CSV read phase. Trade-off: Requires Spark/Kubernetes cluster infrastructure.\n\n(2) **Incremental Load (CDC/Delta):** Instead of full DB load (10GB), implement change data capture (e.g., timestamp-based or log-based CDC) to load only new/updated records. Baseline: If only 10-20% of DB changes daily, reduces load time from 10GB to ~1-2GB. Trade-off: Requires CDC infrastructure setup (Debezium or custom triggers); adds operational complexity.\n\n(3) **Batch API Calls:** Replace synchronous single-request pattern with batch endpoints or bulk fetch. Example: group IDs into batches of 1000, fetch in one request. Impact: Reduce network round-trips by 10-100x, latency from minutes to seconds. Trade-off: Depends on API capability; requires endpoint redesign if not available.\n\n(4) **Columnar Format (Parquet) for Intermediate Data:** Convert CSV to Parquet during initial load; enables columnar compression (~5-10x) and faster filtering in join/aggregation phases. Impact: Reduces memory footprint, I/O on intermediate stages. Trade-off: Minimal; widely supported (Spark, Pandas).\n\n(5) **Database Query Optimization:** Add indexes on filter/join columns; use CTAS (Create Table As Select) instead of INSERT-SELECT for bulk operations. Impact: Query time from ~1 hour to ~10-15 minutes. Trade-off: Requires schema analysis and index maintenance.\n\n(6) **Lookup Table Caching:** Broadcast small lookup tables (e.g., customer master, product catalog) into memory during Spark shuffle phase, avoiding repeated joins. Impact: Reduces disk I/O and join time ~2-3x. Trade-off: Feasible only if lookup data fits in memory.\n\n**Monitoring:** Measure baseline with task-level logging (CSV read time, API fetch time, DB query time, transform time). Target: Achieve <2 hour SLA by combining parallelism + incremental load + query optimization.",
+      "evaluation_points": [
+        "Identify ≥2 distinct bottlenecks (I/O, CPU, network, database, memory) with specific root causes tied to data volumes (5GB CSV, 2GB API, 10GB DB)",
+        "Propose ≥3 optimization techniques with quantifiable impact estimates (e.g., 'parallelism can reduce I/O time by X%' or 'incremental load reduces DB load from 10GB to ~Y GB')",
+        "Explain trade-offs for each technique: implementation complexity, infrastructure cost, operational overhead (e.g., CDC adds complexity vs. incremental load's simpler state management)",
+        "Consider feasibility within batch ETL context: incremental load requires CDC or change tracking setup; Spark/Dask requires cluster infrastructure; API batching depends on endpoint support",
+        "Address monitoring/validation: how to measure bottleneck before/after optimization (e.g., task duration logs, I/O metrics, network latency)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_031",
+    "question_text": "Bạn cần thiết kế một CDC pipeline stream xử lý dữ liệu giao dịch tài chính từ MySQL (10k transactions/s) vào Apache Kafka, sau đó sink vào Snowflake với yêu cầu exactly-once semantics và độ trễ dưới 5 giây. Hãy mô tả kiến trúc chi tiết, bao gồm: (1) lựa chọn công cụ và cấu hình CDC (Debezium, Kafka Connect), (2) cơ chế đảm bảo exactly-once (idempotent producer, transactional Kafka, offset management), (3) xử lý lỗi và recovery (dead letter queue, schema compatibility), (4) tối ưu performance cho throughput cao (partitioning, batching, compression). Nếu xảy ra tình huống Kafka cluster bị downtime 5 phút, hãy mô tả cách pipeline khôi phục và đảm bảo không mất dữ liệu.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_CDC",
+      "PIPE_ORCHESTRATION",
+      "PIPE_PERFORMANCE"
+    ],
+    "skill_tags": [
+      "PIPE_CDC",
+      "PIPE_PERFORMANCE",
+      "PIPE_ORCHESTRATION"
+    ],
+    "answers": {
+      "detailed": "**Architecture Overview:**\nDebezium MySQL connector (log-based CDC on binlog) → Kafka (3+ brokers, RF=3) → Snowflake sink. Key choice: log-based CDC is non-intrusive and captures all row-level changes without impacting source app performance at 10k tx/s.\n\n**Exactly-Once Semantics (Three Layers):**\n1. **Kafka Producer (Debezium):** enable.idempotence=true (enables deduplication by sequence number), acks=all (wait for all replicas), min.insync.replicas=2, transactional.id='debezium-mysql-connector' (atomic batch writes).\n2. **Offset Management:** Kafka Connect's exactly-once mode stores consumer offsets in offset.storage.topic (RF=3, min.insync.replicas=2). Critical: offset commit is synchronized with sink transaction.\n3. **Snowflake Deduplication:** Snowflake connector batches records with metadata (source_partition, source_offset) used as dedup key. On retry, same offset range produces idempotent MERGE operations.\n\n**Partitioning Strategy:**\nPartition by account_id (not transaction_id) for even load distribution. Recommended: 10-20 partitions based on account cardinality. Risk: hotkey accounts require monitoring and potential re-partitioning.\n\n**Latency vs Throughput Trade-off:**\nBatch.size=1000, linger.ms=100 introduces ~100ms batching latency. Compression (snappy) reduces network I/O but adds CPU cost. To meet <5s SLA: this batching is acceptable. However, Snowflake Snowpipe (async ingestion) typically has 1-5 minute latency—if <5s is strict requirement, substitute with Kafka direct sink (COPY INTO every micro-batch) or stream to staging tables with materialized views.\n\n**Error Handling & Schema Evolution:**\n- Dead Letter Queue: route records failing Snowflake validation (schema mismatch, constraint violation) to separate topic for manual review.\n- Schema Registry (Avro) enforces compatibility checking: non-breaking changes (new optional fields) allowed; breaking changes (field removal, type change) trigger alert and require coordinated migration.\n- Retry: exponential backoff (100ms → 1s → 10s) with max retries=3 before DLQ.\n\n**Recovery from 5-Min Kafka Downtime:**\n\n1. **MySQL Binlog Offset Preservation:** Debezium persists binlog filename + position in Kafka (stored in __debezium-offset-storage topic). If binlog retention ≥ 5 minutes (expire_logs_days=7 is typical), Debezium resumes from exact position—no data loss.\n2. **Risk:** If binlog is purged before recovery, Debezium falls back to snapshot mode (re-read all data), causing duplicates unless Snowflake deduplication is active.\n3. **Offset Topic Loss:** If Kafka cluster loses data and offset topic is unrecoverable, Debezium can query MySQL binlog position from MySQL (SHOW BINARY LOG STATUS) and rebuild state—verify snapshot.mode=initial_only to prevent re-snapshots.\n4. **Snowflake Recovery:** Snowflake connector uses transactional offset (last_processed_offset stored in metadata table). On restart, it resumes from last committed offset, ensuring exactly-once.\n5. **Monitoring:** Track Debezium source lag (time since last change captured) and Snowflake sink lag (time since last committed offset). Alert if lag > 30s to detect stalled pipelines.\n\n**Performance Optimization:**\n- buffer.memory=64MB, batch.size=1000, compression.type=snappy, linger.ms=100.\n- Snowflake: use COPY INTO with staged files (S3) instead of row-by-row inserts; batch 10k-50k rows per COPY.\n- Monitor: Kafka broker CPU (compression), Debezium memory (batch buffering), Snowflake query queue.",
+      "evaluation_points": [
+        "Justifies log-based CDC (Debezium) over trigger-based, explicitly addressing non-intrusive nature and completeness for 10k tx/s workload",
+        "Distinguishes between exactly-once *delivery* semantics (Kafka + Snowflake) vs exactly-once *processing* and explains why transactional.id + offset deduplication handles duplicate messages across failures",
+        "Explains why partitioning by account_id (vs transaction_id) is preferred for load distribution and addresses potential hotkey risks",
+        "Addresses MySQL binlog retention edge case: what if binlog is purged before Kafka recovery completes? Discusses fallback to snapshot mode and data consistency implications",
+        "Discusses Snowflake Snowpipe latency SLA (typically 1-5 min) and how it conflicts with <5s requirement; suggests alternatives (Kafka Streaming Sink, COPY INTO with micro-batches)",
+        "Evaluates recovery completeness: distinguishes between Debezium source offset recovery (MySQL binlog position), Kafka offset recovery (consumer group), and Snowflake sink offset recovery; identifies single point of failure if offset.storage.topic is lost",
+        "Addresses schema evolution handling beyond 'Schema Registry validation': discusses breaking vs non-breaking changes and impact on exactly-once guarantees during migration",
+        "Quantifies performance impact of enabling idempotence, transactions, and compression; discusses trade-offs (latency vs throughput) given <5s SLA constraint"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_028",
+    "question_text": "CDC (Change Data Capture) là gì? Hãy giải thích ý nghĩa của nó trong việc đồng bộ dữ liệu giữa các hệ thống.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_CDC"
+    ],
+    "skill_tags": [
+      "PIPE_CDC"
+    ],
+    "answers": {
+      "detailed": "CDC là kỹ thuật theo dõi và nắm bắt các thay đổi dữ liệu (INSERT, UPDATE, DELETE) từ nguồn, cho phép đồng bộ dữ liệu theo thời gian thực hoặc gần thực. Ý nghĩa: (1) Giảm tải so với full load - chỉ xử lý dữ liệu thay đổi thay vì toàn bộ dataset; (2) Đảm bảo dữ liệu luôn cập nhật và nhất quán giữa các hệ thống; (3) Hỗ trợ kiến trúc hiện đại như microservices, event-driven systems, data lakes; (4) Cung cấp audit trail cho compliance. Các phương pháp phổ biến: log-based (binary logs, WAL), query-based, trigger-based. Công cụ: Debezium, AWS DMS, Kafka Connect.",
+      "evaluation_points": [
+        "Hiểu đúng khái niệm CDC: theo dõi các thay đổi (INSERT, UPDATE, DELETE) và mục đích của nó",
+        "Giải thích được lợi ích so với full load: giảm tải hạ tầng, tiết kiệm tài nguyên, hỗ trợ real-time/near real-time sync",
+        "Nêu được ứng dụng thực tế: microservices, data lakes, event-driven architectures, audit trails",
+        "Hiểu được các phương pháp triển khai CDC (query-based, log-based, trigger-based) hoặc công cụ phổ biến (Debezium, AWS DMS, Kafka)",
+        "Nhận thức về trade-offs: độ phức tạp, latency, ordering guarantees, handling của deletes"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_030",
+    "question_text": "Hãy phân biệt ETL và ELT. Khi nào bạn nên chọn ETL thay vì ELT trong xây dựng data pipeline?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_ETL"
+    ],
+    "skill_tags": [
+      "PIPE_ETL",
+      "PIPE_ELT"
+    ],
+    "answers": {
+      "detailed": "ETL (Extract, Transform, Load): Trích xuất dữ liệu từ nguồn, biến đổi (làm sạch, gộp, enrichment) trong staging area riêng biệt, sau đó tải vào target. ELT (Extract, Load, Transform): Trích xuất dữ liệu, tải *thô* vào data lake/warehouse, sau đó biến đổi *bên trong* target system.\n\nChọn ETL khi:\n- Dữ liệu nhạy cảm cần anonymization/masking trước khi lưu trữ\n- Target system có xử lý hạn chế (legacy systems, relational databases cũ)\n- Cần schema-on-write (schema cố định trước load) để đảm bảo quality\n- Tuân thủ compliance requirements nghiêm ngặt\n\nChọn ELT khi:\n- Dữ liệu lớn (big data) và cần xử lý song song\n- Target là cloud data warehouse mạnh (Snowflake, BigQuery, Redshift) hoặc data lake (S3, ADLS)\n- Cần linh hoạt schema, hỗ trợ schema evolution mà không re-extract\n- Múltiple use cases cần truy cập dữ liệu thô để phân tích khác nhau\n- Data lineage quan trọng (có thể trace về dữ liệu gốc)\n\nTrend hiện tại: ELT được ưa chuộng do cloud computing phổ biến và chi phí lưu trữ thấp, nhưng ETL vẫn cần thiết trong các use case có constraint bảo mật hoặc infrastructure legacy.",
+      "evaluation_points": [
+        "Phân biệt rõ thứ tự các bước và vị trí xử lý (staging area vs. target system)",
+        "Giải thích ưu điểm của ELT: schema flexibility, data lineage, khả năng hỗ trợ multiple downstream consumers mà không cần re-extract",
+        "Nêu rõ các trường hợp chọn ETL: dữ liệu nhạy cảm cần anonymization trước load, legacy systems với xử lý hạn chế, compliance requirements",
+        "Hiểu được bối cảnh chuyển đổi: ETL là truyền thống, ELT được phổ biến do cloud computing và data warehouse mạnh (Snowflake, BigQuery, Redshift)",
+        "Nhận diện chi phí & complexity trade-off: ETL cần infrastructure riêng nhưng kiểm soát tốt; ELT đơn giản hơn nhưng yêu cầu data warehouse mạnh mẽ"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_032",
+    "question_text": "Bạn đang thiết kế pipeline CDC từ MySQL lên Redshift. Hãy so sánh ưu nhược điểm của CDC dựa trên binlog so với CDC dựa trên timestamp polling. Trong tình huống MySQL có nhiều bảng với dữ liệu cập nhật thường xuyên, bạn chọn phương pháp nào và giải thích tại sao?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_CDC"
+    ],
+    "skill_tags": [
+      "PIPE_CDC",
+      "PIPE_PERFORMANCE"
+    ],
+    "answers": {
+      "detailed": "**Binlog CDC:** Reads MySQL's binary log (transaction-level events), captures all changes (INSERT, UPDATE, DELETE) with transaction order, minimal latency, non-intrusive to source. Requires binlog_format=ROW configuration, binlog retention management, and handles schema evolution naturally. Risk: binlog loss if retention is too short or replication lag during failover.\n\n**Timestamp Polling CDC:** Queries based on updated_at column at regular intervals, simple to implement, no database configuration needed. Cannot detect deletes (require soft deletes or separate tracking), higher latency bounded by polling interval, causes repeated full-table scans impacting source performance with frequent updates, struggles with concurrent updates on same row (may miss intermediate states).\n\n**For this scenario (many tables, frequent updates):** I choose **binlog CDC** because: (1) Event-driven approach scales linearly with change volume, not table count—timestamp polling would require N polling queries; (2) Latency remains sub-second regardless of update frequency, critical for real-time analytics; (3) Guaranteed deletion capture essential for data warehouse consistency; (4) With production tools like Debezium, operational complexity is abstracted. **Trade-off:** Requires upfront MySQL configuration and monitoring, but provides operational reliability.\n\n**When I'd choose timestamp polling:** For infrequent updates (batch-like), few tables, where delete handling isn't required, or in environments where database access is restricted.",
+      "evaluation_points": [
+        "Understand operational complexity: binlog requires specific MySQL configuration (binlog_format=ROW), retention management, and failover considerations vs. timestamp polling's simplicity",
+        "Evaluate data completeness trade-offs: binlog captures all changes (inserts, updates, deletes) with transaction ordering vs. timestamp polling's inability to capture deletes and potential duplicate handling on retries",
+        "Assess latency and scalability impact: binlog provides near-real-time capture across many tables without source query load vs. timestamp polling's polling interval overhead and full-table scan risks with frequent updates",
+        "Consider operational risks: binlog loss due to retention policies, log rotation, or replication lag vs. timestamp polling's risk of missed changes during gaps and complexity with concurrent updates on same row",
+        "Justify recommendation with quantitative reasoning: for 'many tables with frequent updates,' explain why binlog scales better (event-driven) than timestamp polling (polling-driven) and discuss when timestamp polling would still be acceptable",
+        "Mention ecosystem solutions: Debezium with MySQL connector as production-grade binlog CDC alternative that handles operational complexity"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_034",
+    "question_text": "Công ty bạn đang chạy pipeline ETL hàng đêm để xử lý 500GB dữ liệu từ nhiều nguồn, thời gian chạy tăng dần và vượt quá SLA 8 tiếng. Hãy đề xuất ít nhất 3 cách tối ưu performance pipeline, giải thích trade-off của từng cách.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_PERFORMANCE"
+    ],
+    "skill_tags": [
+      "PIPE_PERFORMANCE",
+      "PIPE_ELT"
+    ],
+    "answers": {
+      "detailed": "1. **Chuyển từ ETL sang ELT**: Tải dữ liệu thô vào data warehouse mạnh (ví dụ Snowflake/BigQuery) và thực hiện transformation bên trong nó. Trade-off: Tăng chi phí lưu trữ (dữ liệu thô), compute cost cao hơn; tuy nhiên giảm phụ thuộc vào ETL server, tận dụng song song hóa native của DWH, linh hoạt hơn khi requirement thay đổi. Best for: Long-term flexibility, nếu công ty có budget cho DWH mạnh.\n\n2. **Tăng parallelism & optimistic scheduling**: Chia pipeline thành task DAG nhỏ chạy song song (Airflow, Prefect); đánh giá lại resource allocation và task dependency. Trade-off: Cần quản lý resource cẩn thận, nguy cơ race condition nếu không có locking, khó debug khi lỗi phân tán. Lợi ích: Tận dụng tối đa CPU/IO, quick win với ROI cao. Best for: Immediate relief nếu infrastructure hiện tại còn dư capacity.\n\n3. **Partitioning & incremental processing**: Xử lý theo partition thời gian (ngày/giờ) thay vì full table; chỉ xử lý dữ liệu mới/thay đổi. Trade-off: Phức tạp hóa logic (xử lý backfill, late arrivals), cần chiến lược partition phù hợp, risk của data inconsistency nếu không quản lý state tốt. Lợi ích: Giảm 70-90% dữ liệu xử lý mỗi lần. Best for: Sustainable scaling, áp dụng chủ động từ sớm.\n\n**Prioritization suggest**: Thực hiện #2 trước (1-2 tuần, low cost), sau đó #3 (refactor pipeline, 3-4 tuần), cuối cùng đánh giá #1 nếu vẫn cần mở rộng thêm.",
+      "evaluation_points": [
+        "Đề xuất được ít nhất 3 giải pháp khả thi với cơ sở kỹ thuật rõ ràng",
+        "Giải thích trade-off chi tiết (chi phí, độ phức tạp, rủi ro) cho từng giải pháp, không chỉ liệt kê",
+        "Đánh giá ưu tiên/thứ tự thực hiện giải pháp dựa trên bối cảnh (ví dụ: quick wins trước, solution căn bản sau)",
+        "Xem xét các yếu tố bổ sung: kiến trúc hiện tại, cost-benefit ratio, độ phức tạp vận hành",
+        "Nhận thức về trade-off giữa performance gain vs. engineering effort/risk"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_036",
+    "question_text": "Bạn đang thiết kế pipeline CDC real-time từ PostgreSQL sang Kafka, sau đó xử lý và lưu vào Delta Lake trên AWS S3. Yêu cầu: đảm bảo exactly-once semantics, độ trễ dưới 1 phút, và throughput 10k events/s. Hãy thiết kế kiến trúc chi tiết, giải thích cách xử lý các edge case như: PostgreSQL failover, Kafka lag, và duplicate events. Đưa ra phương pháp tối ưu performance cho từng tầng.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_CDC",
+      "PIPE_ORCHESTRATION",
+      "PIPE_PERFORMANCE"
+    ],
+    "skill_tags": [
+      "PIPE_CDC",
+      "PIPE_PERFORMANCE",
+      "PIPE_ORCHESTRATION"
+    ],
+    "answers": {
+      "detailed": "**Architecture Overview:** Debezium PostgreSQL connector → Kafka topics (partitioned by table primary key) → Apache Flink/Spark Structured Streaming → Delta Lake on S3 with ACID commits.\n\n**Exactly-Once Semantics:**\n- Kafka producer: Enable idempotent producer (`enable.idempotence=true`) to prevent duplicates at broker level\n- Sink: Delta Lake MERGE INTO with primary key deduplication. For idempotency, use `(table_id, event_id, operation_timestamp)` as unique constraint or dedup column\n- End-to-end: Combine Kafka transactional writes with Delta Lake transaction logs to guarantee atomic updates\n\n**PostgreSQL Failover Handling:**\n- Debezium tracks WAL position via replication slots (not just offsets). Configure slot retention appropriately (`wal_keep_size`)\n- On primary failover: replica promotion automatically advances LSN. Debezium reconnects and resumes from last committed slot position\n- Risk: If slot is lost, Debezium triggers snapshot mode; mitigate by configuring read replicas with slot synchronization\n- Validate: Monitor replication lag (`pg_last_wal_receive_lsn()` vs consumer progress)\n\n**Kafka Lag Management:**\n- Throughput requirement: 10k events/s requires minimum 5-10 partitions (assume 1k-2k events/s per partition after batching)\n- Consumer parallelism: Scale to partition count; configure max.poll.records (default 500) based on processing latency budget (<1min end-to-end)\n- Backpressure: Implement flow control in Flink/Spark; if lag exceeds 30s, trigger alert and scale consumers\n- Monitor: Track `consumer_lag_seconds` per partition; set alert threshold at 30s (leaving 30s buffer for processing)\n\n**Duplicate Event Handling:**\n- Debezium assigns unique CDC event ID (`__cdc_metadata.event_id` or similar); use as dedup key\n- Delta Lake MERGE: `WHEN MATCHED AND source.event_id = target.event_id THEN IGNORE` prevents re-processing\n- Handle Kafka rebalancing: Consumer offset reset may cause re-reads; idempotent sink write prevents data corruption\n\n**Performance Optimization:**\n1. **PostgreSQL:** Set `wal_level=logical`, `max_replication_slots ≥ 2`, use NVMe SSD for WAL; tune `checkpoint_timeout` to balance throughput vs recovery time\n2. **Kafka:** `batch.size=32KB`, `linger.ms=100ms`, `compression=snappy` (10-30% reduction), tune `num.network.threads` to CPU cores\n3. **Flink/Spark:** Parallelism = partition count; micro-batch interval = 5-10s for sub-minute latency; state backend = RocksDB with incremental checkpoints\n4. **Delta Lake:** `optimize` command (compaction) post-write to maintain file sizes ~128MB; use Z-order clustering on join keys (`ZORDER BY user_id, timestamp`) for query acceleration\n\n**Edge Cases:**\n- **Consumer crash + Kafka lag spike:** Checkpoint state to S3 (Flink's external state backend); on recovery, resume from committed offset without reprocessing old messages\n- **DDL changes (schema evolution):** Debezium handles column additions/drops via `schema_evolution_mode`. Delta Lake supports schema merging; test compatibility before production\n- **Network partition between Kafka and sink:** Configure Flink/Spark sink with max retry = 3 and circuit breaker; failed batches checkpoint as failure; operator should monitor dead-letter queue\n- **End-to-end latency validation:** Inject test events with timestamps; measure P95 latency from PostgreSQL INSERT to Delta Lake MERGE completion; target <1min includes all queues\n\n**Monitoring:** Track (1) Debezium connector lag via `replication_slot_lag_bytes`, (2) Kafka consumer lag per partition, (3) Flink/Spark processing time histogram, (4) Delta Lake write latency. Alert if any component exceeds 20s.",
+      "evaluation_points": [
+        "Correctly identifies log-based CDC (Debezium) as appropriate choice and explains why (non-intrusive, captures all changes); distinguishes from trigger-based approaches",
+        "Explains exactly-once semantics end-to-end: Kafka idempotent producer + transactional writes + Delta Lake idempotent merge with primary key deduplication logic",
+        "Addresses PostgreSQL failover with concrete details: LSN tracking, replication slot management, and explains how Debezium recovers from slot position (not just 'snapshot mode')",
+        "Quantifies Kafka lag mitigation: shows understanding of partition count scaling (10 events/s ÷ N partitions = per-partition throughput), consumer group parallelism, and monitoring strategies",
+        "Provides specific duplicate handling mechanism: explains merge-on-key semantics in Delta Lake ACID transactions and idempotency key generation strategy",
+        "Performance tuning is concrete: WAL retention policy impact on disk, Kafka batching parameters (linger.ms, batch.size), Snappy compression ratio trade-offs, Delta Lake Z-order selectivity",
+        "Checkpointing strategy: explains difference between Kafka offset commits and application-level checkpoints; discusses potential duplicate window between Kafka commit and sink write",
+        "Identifies but does not fully address: schema evolution handling (DDL changes in PostgreSQL), consumer rebalancing during failover, end-to-end latency monitoring strategy to validate <1min SLA"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_033",
+    "question_text": "CDC (Change Data Capture) là gì? Hãy giải thích ngắn gọn và kể tên hai công cụ phổ biến hỗ trợ CDC.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_CDC"
+    ],
+    "skill_tags": [
+      "PIPE_CDC"
+    ],
+    "answers": {
+      "detailed": "CDC (Change Data Capture) là kỹ thuật theo dõi và ghi lại các thay đổi dữ liệu (chèn, cập nhật, xóa) trên nguồn dữ liệu. Nó cho phép đồng bộ hóa dữ liệu theo thời gian thực hoặc gần thực mà không cần thực hiện full load lại toàn bộ dữ liệu, tiết kiệm tài nguyên và giảm độ trễ. Hai công cụ phổ biến: Debezium (nền tảng CDC mã nguồn mở, tích hợp Kafka) và AWS DMS (dịch vụ quản lý CDC và migration của AWS).",
+      "evaluation_points": [
+        "Định nghĩa đúng CDC và các loại thay đổi được theo dõi (INSERT, UPDATE, DELETE)",
+        "Hiểu được mục đích sử dụng CDC (đồng bộ hóa theo thời gian thực, tránh full load)",
+        "Kể tên ít nhất 2 công cụ phổ biến và hiểu sự khác biệt cơ bản giữa chúng",
+        "Nhận biết ứng dụng thực tế của CDC trong data pipeline (streaming, replication, analytics)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_035",
+    "question_text": "Bạn đang thiết kế pipeline cho một hệ thống thương mại điện tử. Dữ liệu giao dịch được lưu trong PostgreSQL, cần đồng bộ real-time sang Data Warehouse (Snowflake) để phân tích. Hãy so sánh việc dùng CDC (Debezium/Kafka) và batch ETL (Airflow + SQL dump) trong tình huống này. Giải thích trade-off về độ trễ, tài nguyên và độ phức tạp.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_CDC",
+      "PIPE_ETL"
+    ],
+    "skill_tags": [
+      "PIPE_CDC",
+      "PIPE_ETL"
+    ],
+    "answers": {
+      "detailed": "CDC (Debezium/Kafka): Độ trễ thấp (giây), phù hợp real-time, nhưng yêu cầu hạ tầng Kafka phức tạp, monitoring, schema evolution handling, và chi phí vận hành cao. Đảm bảo exactly-once semantics và order giao dịch. Batch ETL (Airflow + SQL dump): Độ trễ cao (giờ), dễ triển khai, ít tài nguyên vận hành, chi phí thấp, nhưng có risk miss changes nếu quá trình bị interrupt. Trade-off: (1) Nếu cần real-time fraud detection hay personalized recommendations → CDC; (2) Nếu chỉ báo cáo cuối ngày → Batch; (3) Hybrid approach: CDC cho transaction events (high-value) + micro-batch Spark Streaming (mỗi 5-10 phút) cho analytics, tận dụng ELT pattern của Snowflake để transform raw data linh hoạt mà không cần re-extract.",
+      "evaluation_points": [
+        "Phân tích đúng độ trễ và tài nguyên của từng approach",
+        "Nhận ra độ phức tạp và yêu cầu hạ tầng của CDC (Kafka, Debezium configuration, monitoring)",
+        "Thảo luận về failure handling: CDC ensures exactly-once semantics & transaction order; batch có risk missed changes nếu crash giữa chạy",
+        "Xem xét schema evolution: CDC phức tạp hơn với log parsing; batch linh hoạt hơn với ELT pattern trên Snowflake",
+        "Đề xuất hybrid solution: micro-batch hoặc CDC cho high-value transactions + batch cho bulk reporting",
+        "Tính toán cost trade-off: Kafka infrastructure vs. Snowflake compute cho batch transformation"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_037",
+    "question_text": "Trong một pipeline ELT trên BigQuery, bạn nhận thấy các bước transform (dùng SQL) chạy rất chậm khi xử lý hàng tỷ bản ghi. Hãy liệt kê ít nhất 3 kỹ thuật tối ưu performance cho pipeline này, giải thích cách áp dụng và lý do tại sao chúng hiệu quả.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_ELT",
+      "PIPE_PERFORMANCE"
+    ],
+    "skill_tags": [
+      "PIPE_PERFORMANCE",
+      "PIPE_ELT"
+    ],
+    "answers": {
+      "detailed": "1. **Partition Pruning** (Time-based): Partition large tables by DATE/TIMESTAMP and filter aggressively in WHERE clauses. BigQuery only scans relevant partitions, reducing data volume by 80-95%. Apply when queries have date-range filters. Cost: minimal storage overhead; benefit: dramatic query cost reduction.\n\n2. **Clustering** (on high-cardinality JOIN/GROUP BY columns): Cluster by user_id, country, or transaction_type to co-locate similar rows. Accelerates JOIN and GROUP BY operations by improving I/O locality. Apply when specific columns appear repeatedly in filters or aggregations. Trade-off: clustering reduces partition pruning effectiveness if over-applied.\n\n3. **Materialized Views** (for repeated aggregations): Pre-compute common metrics (daily active users, revenue by region) and refresh incrementally. Eliminates recalculation of expensive joins/aggregations. Apply for dashboards or reports with predictable query patterns. Maintenance: requires refresh strategy (scheduled or event-driven); storage cost consideration.\n\n4. **Approximate Aggregations** (APPROX_COUNT_DISTINCT, APPROX_QUANTILES): Trade precision for 10-100x speed improvement on cardinality estimation. Apply only to non-critical metrics (trend analysis, exploration). Unsuitable for financial audits or exact reporting.\n\n**Measurement:** Validate improvements via execution plans, bytes_scanned metrics, and slot utilization in BigQuery audit logs. Prioritize partition pruning first (highest impact), then clustering (secondary optimization).",
+      "evaluation_points": [
+        "Correctly identifies partition pruning with time-based partitioning and explains query filtering mechanism",
+        "Understands clustering strategy for JOIN/GROUP BY operations and its I/O efficiency impact",
+        "Recognizes materialized views for caching frequent aggregations and reducing redundant computation",
+        "Demonstrates awareness of approximate aggregation trade-offs (speed vs. accuracy tolerance)",
+        "Addresses when each technique applies: partition pruning for range filters, clustering for cardinality, materialized views for repeated patterns",
+        "Considers cost implications: materialized views incur storage/maintenance overhead; approximate functions sacrifice precision",
+        "Evaluates monitoring approach: query execution plans, slot utilization, bytes scanned metrics to validate optimization impact",
+        "Discusses potential limitations: over-clustering reduces pruning effectiveness; materialized views require manual refresh strategy"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_039",
+    "question_text": "Công ty bạn đang dùng Airflow để orchestrate pipeline ETL hàng ngày. Gần đây, các DAG thường xuyên bị timeout do tác vụ xử lý dữ liệu lớn (trên 100GB). Hãy đề xuất ít nhất hai pattern để tối ưu pipeline này (ví dụ: incremental processing, dynamic task mapping) và giải thích chi tiết cách triển khai, bao gồm cả cách xử lý backfill khi cần chạy lại dữ liệu lịch sử.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_ORCHESTRATION",
+      "PIPE_PERFORMANCE"
+    ],
+    "skill_tags": [
+      "PIPE_ORCHESTRATION",
+      "PIPE_PERFORMANCE"
+    ],
+    "answers": {
+      "detailed": "1. **Incremental Processing with Partition Pruning**: Instead of processing 100GB daily, filter to only new/changed data using logical partitioning. Implement via SQL: `WHERE created_date = {{ ds }}` (Airflow execution date). Maintain a metadata table tracking `max_updated_timestamp` per source; each task queries incrementally since last checkpoint. For backfill: use `airflow dags backfill -d <dag_id> --start_date 2024-01-01 --end_date 2024-12-31` which automatically loops through each `schedule_interval` with correct `ds` context. Ensure tasks are idempotent (use UPSERT or INSERT OVERWRITE partition, never APPEND) so retries don't duplicate data.\n\n2. **Dynamic Task Mapping (Airflow 2.3+)**: Split data into parallel batches using `.expand()`. For example, an upstream task returns list of partition IDs `[region_1, region_2, ...]`; downstream BashOperator or PythonOperator maps over them: `process_region.expand(region_id=fetch_regions())`. Each mapped task processes one batch in parallel, reducing wall-clock time. For backfill: the same DAG handles historical execution automatically—no separate loop DAG needed. The `schedule_interval` context (`ds`) passes to each mapped task.\n\n3. **Critical Implementation Detail**: Keep XCom payloads small (only metadata like partition IDs, not datasets). Delegate 100GB processing to Spark/dbt operators that read directly from data lake. Make all tasks idempotent so backfills and retries work safely. Monitor task timeouts: set task-level `execution_timeout` and use SLAs; if timeout persists, data volume signals need for external processing framework, not Airflow task optimization alone.",
+      "evaluation_points": [
+        "Understand incremental processing via partition pruning (e.g., WHERE created_date = ds) and explain how to track state (max_timestamp in metadata table or XCom for small values)",
+        "Explain dynamic task mapping using expand() with upstream task output to parallelize batch processing (e.g., map_index parameter), NOT TaskGroup which is for static organization",
+        "Articulate idempotency requirement: tasks must produce identical results on retry/backfill; implement using upserts or overwrite partitions (not appends)",
+        "Design backfill strategy: use Airflow's native backfill command with --start_date/--end_date on existing DAG with same partition logic, avoiding custom loop DAGs",
+        "Address XCom limitations: only pass small metadata (e.g., list of partition IDs) not 100GB datasets; delegate heavy processing to Spark/dbt executors",
+        "Discuss state management: how to safely resume from failure point in incremental loads using database checkpoints or partition markers, not in-memory state"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_041",
+    "question_text": "Bạn đang thiết kế một pipeline CDC dùng Debezium và Kafka để đồng bộ dữ liệu từ cơ sở dữ liệu MySQL (có nhiều bảng quan hệ phức tạp) sang Data Lake (dạng Parquet). Hãy phân tích các thách thức kỹ thuật khi xử lý schema evolution (ví dụ: thêm cột, thay đổi kiểu dữ liệu) và đảm bảo consistency dữ liệu trong trường hợp có lỗi mạng hoặc crash. Đưa ra giải pháp chi tiết, bao gồm cách dùng Avro Schema Registry và xử lý exactly-once semantics.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_CDC",
+      "PIPE_PERFORMANCE"
+    ],
+    "skill_tags": [
+      "PIPE_CDC",
+      "PIPE_PERFORMANCE"
+    ],
+    "answers": {
+      "detailed": "**Schema Evolution & Avro Registry:** Use Avro Schema Registry with compatibility mode enforcement. For adding columns: use BACKWARD_TRANSITIVE (old consumers read new schemas by ignoring new fields) or FORWARD_TRANSITIVE (new consumers read old schemas with defaults). Avoid removing required fields or changing types without intermediate versions. Register schemas before deployment; Schema Registry validates compatibility before acceptance.\n\n**Exactly-Once Semantics (Complex):** Kafka idempotent producer (enable.idempotence=true, acks=all, max.in.flight.requests=5) prevents broker-side duplicates within a single producer session. However, for true exactly-once across producer failure + consumer failure: (1) Enable transactional writes in Debezium connector, (2) Store consumer offsets **inside the Data Lake** (e.g., in a _metadata partition alongside Parquet files) rather than relying on Kafka offsets alone, (3) Implement idempotency at sink level: generate deterministic keys per record (table_id + primary_key + LSN) and deduplicate before writing. (4) On consumer restart, compare last written offset from Data Lake against Kafka offset; if lag exists, replay from Data Lake offset.\n\n**Relational Data Handling:** With multiple related tables, ordering matters. Use Debezium's transaction boundary metadata (txId field) to group related INSERT/UPDATE/DELETE across tables. Store these as atomic Parquet writes (one partition per transaction). For foreign key constraints: implement post-processing validation in the consumer; if a child record arrives before its parent, buffer in a temporary DLQ topic, retry after a delay window.\n\n**Error Handling & Recovery:** (1) Dead Letter Queue: route schema incompatibilities and serialization failures to a dedicated Kafka topic with original payload + error metadata. (2) Consumer-side retry: exponential backoff for transient failures (network timeout); for permanent failures (schema mismatch), emit to DLQ and alert. (3) Crash recovery: Debezium tracks WAL LSN/binlog position internally; on restart, it resumes from last captured position without replaying. Verify consistency by comparing record counts from source vs. Data Lake.\n\n**Monitoring:** Track schema compatibility violations, DLQ lag, and end-to-end latency (source commit timestamp → Parquet write time) to catch silent consistency issues.",
+      "evaluation_points": [
+        "Explain backward/forward/full compatibility modes in Avro and when each applies to schema evolution (e.g., adding optional fields vs. removing required fields)",
+        "Discuss idempotent producer configuration (enable.idempotence=true, acks=all, retries) and why it alone is insufficient for exactly-once without consumer-side deduplication",
+        "Address handling of related tables with foreign keys: how to maintain referential integrity across CDC events when inserts/deletes arrive out-of-order or with network delays",
+        "Explain offset management strategy: storing offsets in the Data Lake (e.g., as metadata in Parquet) vs. Kafka internal topics, and recovery semantics after consumer crash",
+        "Discuss schema compatibility checks: how Schema Registry validates compatibility before allowing schema registration, and what happens when incompatible change is attempted",
+        "Detail Debezium-specific handling: snapshot mode for initial load, incremental snapshots for large tables, and watermarking for exactly-once across snapshot + CDC phases"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_038",
+    "question_text": "Bạn đang thiết kế một hệ thống CDC để đồng bộ dữ liệu từ cơ sở dữ liệu PostgreSQL có dung lượng 5TB lên data lake (S3) với yêu cầu độ trễ dưới 5 phút. Hệ thống hiện tại sử dụng Debezium với Kafka, nhưng gặp vấn đề với việc xử lý các bảng có nhiều cột TEXT (lên đến 50 cột) và dữ liệu thay đổi liên tục. Hãy phân tích nguyên nhân chậm và đề xuất giải pháp tối ưu hóa pipeline CDC này, bao gồm cả cấu hình Debezium, Kafka, và xử lý tại consumer.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_CDC",
+      "PIPE_PERFORMANCE"
+    ],
+    "skill_tags": [
+      "PIPE_CDC",
+      "PIPE_PERFORMANCE"
+    ],
+    "answers": {
+      "detailed": "**Root Cause Analysis:**\n(1) Snapshot overhead: 5TB PostgreSQL with 50-column TEXT tables causes large initial snapshot blocks consumer startup\n(2) Message serialization: JSON serialization of TEXT data inflates message size by 40-60%, causing Kafka broker I/O bottleneck\n(3) Consumer throughput: Deserializing large JSON messages with many TEXT columns blocks processing pipeline, causing latency drift\n\n**Proposed Solutions:**\n\n**Debezium Configuration:**\n- Set `snapshot.mode=initial_only` (not `when_needed`) to avoid re-snapshots; use separate snapshot.locking.mode=none for minimal lock impact\n- Enable `column.propagate.source.type=false` and selectively exclude non-essential TEXT columns via `column.exclude.list`\n- Configure `max.queue.size=8192` and `max.batch.size=2048` to balance memory vs throughput\n\n**Kafka Optimization:**\n- Increase `max.message.bytes=10485760` (10MB) and broker-side `replica.fetch.max.bytes=12582912`\n- Switch to **Avro** schema registry (reduces message size ~50%, faster deserialization than JSON)\n- Tune `compression.type=snappy` for CPU-efficient compression\n- Increase partitions to 16-32 based on TEXT table frequency to enable parallel consumer processing\n\n**Consumer Strategy:**\n- Use **micro-batch processing** (Spark Streaming 5-10s micro-batches or Kafka Streams topology) rather than pure streaming to reduce deserialization CPU overhead while maintaining <5min latency\n- Implement parallel deserialization with thread pools (4-8 threads per consumer instance)\n- Write to S3 in Parquet format with snappy compression; batch writes every 100K records or 30s (achieves ~2-3min end-to-end latency)\n\n**Trade-offs:**\n- Avro adds schema registry dependency but saves 50% message size and 30% CPU at consumer\n- Micro-batch introduces 5-10s latency vs pure streaming but improves throughput 3-5x with identical resource footprint\n- Excluding TEXT columns reduces latency but requires data lineage documentation\n- Hybrid trigger-based CDC for low-frequency tables (<1 change/min) reduces Debezium load by ~20%, but introduces trigger maintenance risk—only apply to dimension tables\n\n**Expected outcome:** 2-3 minute end-to-end latency (well within 5min SLA), 40-50% reduction in broker I/O, 30-40% reduction in consumer CPU.",
+      "evaluation_points": [
+        "Correctly identifies root causes: snapshot size, message serialization overhead, and consumer throughput bottlenecks",
+        "Proposes technically valid optimizations (Avro over JSON, Debezium snapshot.mode configuration, Kafka broker tuning) with measurable impact",
+        "Explicitly evaluates latency implications: does the proposed solution meet <5 minute SLA? (micro-batch with Avro typically achieves 30s-2min latency, suitable for requirement)",
+        "Addresses schema evolution strategy for TEXT-heavy schemas and considers impact on desererialization performance",
+        "Discusses streaming vs micro-batch trade-off: explain why Kafka Streams/Flink micro-batch is more appropriate than pure batch for <5min latency while maintaining scalability",
+        "Quantifies resource impact: estimate message size reduction (JSON→Avro ~40-60%), throughput gains, and cost implications of proposed changes",
+        "Evaluates hybrid trigger-based approach more critically: clarifies when this is appropriate (low-frequency tables) vs risks (missed deletes, maintenance overhead)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_040",
+    "question_text": "Công ty bạn đang chuyển đổi từ ETL truyền thống sang ELT trên nền tảng cloud (Snowflake). Bạn phát hiện rằng pipeline ELT hiện tại xử lý dữ liệu từ nguồn OLTP (MySQL) có nhiều bảng với quan hệ phức tạp (foreign key, nested JSON) mất nhiều thời gian hơn dự kiến ở giai đoạn transform (dbt). Cụ thể, một bảng fact có 200 triệu dòng và cần join với 5 bảng dimension. Hãy phân tích nguyên nhân hiệu suất thấp và đề xuất tối ưu hóa pattern ELT cho tình huống này, bao gồm cả cách tổ chức staging layer và incremental logic.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_ELT",
+      "PIPE_PERFORMANCE"
+    ],
+    "skill_tags": [
+      "PIPE_ELT",
+      "PIPE_PERFORMANCE"
+    ],
+    "answers": {
+      "detailed": "**Nguyên nhân hiệu suất thấp:**\n(1) **Staging layer không tối ưu:** Load toàn bộ dữ liệu raw mỗi lần mà không phân mảnh, khiến Snowflake phải quét toàn bộ 200M dòng fact table\n(2) **Transform logic không incremental:** dbt chạy toàn bộ fact table join với 5 dimensions mỗi lần, thay vì chỉ xử lý dữ liệu mới/thay đổi\n(3) **Thiếu optimization hints:** Không sử dụng clustering keys, partition pruning, hay materialized views để tối ưu join queries\n(4) **Schema complexity:** Nested JSON từ MySQL không được flattened trước, khiến transform phức tạp hơn\n\n**Giải pháp ELT tối ưu:**\n\n**1. Tổ chức Staging Layer (3 layers):**\n- **Raw layer:** Load toàn bộ dữ liệu từ MySQL (CDC hoặc full dump) với Fivetran/Airbyte\n- **Staging layer (STS):** Incremental load dùng watermark (updated_at timestamp), partition theo ngày. Cho mỗi bảng, tạo STS table với only new/modified rows\n- **Marts layer:** Fact/dimension tables đã transform, được clustering và partitioned\n\n**2. Incremental Logic (dbt):**\n```\n- dbt incremental model cho fact table với strategy='merge' + unique_key=[order_id, updated_at]\n- Chỉ process rows từ staging.fact_stg WHERE updated_at > max(updated_at) từ production.fact\n- Dimension tables: full refresh nếu nhỏ (<1M rows), incremental nếu lớn, với SCD Type 2 handling\n```\n\n**3. Performance Optimization:**\n- **Clustering:** Tạo CLUSTER BY (order_date, customer_id) trên fact table để tối ưu 5-way join\n- **Partitioning:** PARTITION BY DATE_TRUNC('month', order_date) để Snowflake prune partitions\n- **Materialized Views:** Pre-aggregate heavily-used fact+dimension combinations (e.g., daily sales by product)\n- **Star Schema Pattern:** Dimension tables được load trước fact table, indexed trên PK; join thứ tự: fact → dim1 → dim2 (outer joins chỉ khi cần)\n\n**4. Nested JSON Handling:**\n- Trong staging: FLATTEN(json_column, MODE='ARRAY') để parse nested JSON thành rows\n- Tạo intermediate staging tables (e.g., stg_order_items từ flattened order JSON)\n- Sau đó join flat structures với dimensions\n\n**5. Validation & Trade-offs:**\n- Monitor incremental merge: kiểm tra duplicates, missed updates bằng row count comparison\n- Full refresh schedule (weekly/monthly) như safety net cho data quality\n- Accept storage overhead (raw + staging) để gain flexibility trong future analytics\n- Nếu dimension tables thay đổi thường xuyên, xem xét snapshot pattern thay vì SCD Type 2\n",
+      "evaluation_points": [
+        "Identifies root causes of performance degradation specific to ELT (full-table transforms vs. incremental logic, lack of clustering/partitioning)",
+        "Proposes concrete incremental patterns (watermark-based CDC, merge strategy with unique_key) and explains why they reduce redundant processing",
+        "Addresses schema complexity: discusses partitioning strategy, clustering keys, and handling nested JSON with FLATTEN—showing understanding of Snowflake's columnar architecture",
+        "Considers star schema optimization and dimension caching, demonstrating knowledge of fact-dimension relationship optimization in cloud DWH",
+        "Discusses trade-offs: incremental merge complexity vs. full-refresh cost; considers when each approach is appropriate based on data volume and change frequency",
+        "Explains staging layer organization (raw → staging → marts) and its role in maintaining data lineage while enabling flexibility",
+        "Addresses operational concerns: monitoring incremental logic for data quality (duplicates, missed updates), backfill strategy for late-arriving dimensions, and handling of slowly-changing dimensions (SCD)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_PIPELINES_042",
+    "question_text": "Bạn đang vận hành một pipeline ETL batch hàng ngày xử lý dữ liệu từ nhiều nguồn (API, file CSV, database) với tổng dung lượng 500GB, thời gian chạy trung bình 6 giờ. Gần đây, pipeline thường xuyên bị fail do OOM (out-of-memory) ở bước transform Python (Pandas), và thời gian chạy tăng lên 10 giờ. Bạn cần debug và tối ưu. Hãy mô tả quy trình debug chi tiết (cách xác định bottleneck, monitoring metrics), đề xuất ít nhất 3 kỹ thuật tối ưu performance cụ thể, và thiết kế lại pipeline nếu cần (cân nhắc dùng Spark hoặc chunking).",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_PIPELINE",
+      "PIPE_ETL",
+      "PIPE_PERFORMANCE"
+    ],
+    "skill_tags": [
+      "PIPE_ETL",
+      "PIPE_PERFORMANCE"
+    ],
+    "answers": {
+      "detailed": "Quy trình debug: (1) Kiểm tra memory usage qua top/htop và Python memory profiler (memory_profiler) để xác định bước nào tiêu tốn RAM nhiều; (2) Xem log pipeline để tìm error pattern; (3) Dùng tool như Spark UI hoặc Airflow log để xem task duration. Nguyên nhân thường: Pandas load toàn bộ dữ liệu vào memory, transform không tối ưu. Giải pháp: (1) Chunking - dùng pandas read_csv với chunksize hoặc dask; (2) Chuyển sang Spark với partitioning và broadcast join; (3) Tối ưu code transform - tránh loop, dùng vectorized operation, convert dtypes phù hợp. Nếu không chuyển Spark, có thể dùng Python generator và multiprocessing. Ngoài ra, cần thiết kế incremental processing thay vì full refresh.",
+      "evaluation_points": [
+        "Mô tả quy trình debug có hệ thống và sử dụng đúng công cụ monitoring",
+        "Đề xuất ít nhất 3 kỹ thuật tối ưu khả thi và phù hợp",
+        "Có cân nhắc thiết kế lại pipeline với công nghệ phù hợp (Spark, chunking)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    }
+  }
+]

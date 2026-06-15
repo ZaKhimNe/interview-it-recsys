@@ -1,0 +1,716 @@
+[
+  {
+    "question_id": "GEN_DS_EVALUATION_001",
+    "question_text": "Trong một bài toán phân loại nhị phân mất cân bằng (tỷ lệ positive:negative = 1:100), bạn huấn luyện mô hình và nhận được Accuracy = 99%. Giải thích tại sao Accuracy không phải là metric tốt trong trường hợp này, và đề xuất 2 metric phù hợp hơn để đánh giá mô hình. So sánh ưu nhược điểm của F1-score và AUC-ROC trong bối cảnh này.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "EVALUATION_METRICS"
+    ],
+    "skill_tags": [
+      "EVALUATION_METRICS"
+    ],
+    "answers": {
+      "detailed": "Accuracy bị chi phối bởi lớp đa số: với tỷ lệ 1:100, mô hình có thể dự đoán tất cả instances là negative và vẫn đạt 99% accuracy (100 TN, 0 TP), nhưng hoàn toàn không phát hiện positive nào—vô dụng cho mục tiêu thực tế.\n\n**Hai metric phù hợp hơn:**\n1. **F1-score** = 2 × (Precision × Recall) / (Precision + Recall): tập trung vào lớp thiểu số, cân bằng giữa false positives và false negatives.\n2. **AUC-ROC**: đo khả năng phân biệt giữa 2 lớp ở mọi threshold, independent của độ mất cân bằng.\n\n**So sánh F1-score vs AUC-ROC:**\n\n| Tiêu chí | F1-score | AUC-ROC |\n|----------|----------|----------|\n| **Ưu điểm** | Tập trung vào lớp minority, dễ hiểu, phản ánh precision/recall cụ thể ở threshold hiện tại | Threshold-independent, toàn diện, so sánh mô hình khách quan |\n| **Nhược điểm** | Phụ thuộc threshold chọn; không hiện rõ trade-off | Có thể lạc quan với dữ liệu cực kỳ mất cân bằng; không phản ánh precision thực tế |\n| **Khi nào dùng** | Khi có threshold quyết định cụ thể (fraud detection: phải quyết định có chặn transaction hay không) | Khi so sánh nhiều mô hình hay đánh giá khả năng phân biệt tổng thể |\n\n**Khuyến cáo:** Kết hợp cả hai + **Precision-Recall curve** để khắc phục hạn chế của AUC-ROC với dữ liệu cực kỳ mất cân bằng (1:100).",
+      "evaluation_points": [
+        "Giải thích được Accuracy không hiệu quả vì bị chi phối bởi lớp đa số (ví dụ: mô hình dự đoán tất cả negative vẫn đạt 99%)",
+        "Đề xuất F1-score và AUC-ROC với so sánh ưu nhược điểm rõ ràng",
+        "Giải thích được AUC-ROC đo khả năng phân biệt ở mọi threshold, không phụ thuộc vào độ mất cân bằng",
+        "Kết nối với bối cảnh kinh doanh: F1-score phù hợp khi cần threshold cụ thể (e.g., fraud detection với ngưỡng quyết định), AUC-ROC phù hợp khi so sánh mô hình hay đánh giá tổng thể khả năng phân biệt",
+        "Nhận biết rằng AUC-ROC có thể lạc quan với dữ liệu cực kỳ mất cân bằng (1:100) vì FPR tính trên 100 negative examples, nên cần xem xét thêm Precision-Recall curve"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_EVALUATION_003",
+    "question_text": "Bạn đang làm việc với một bộ dữ liệu có 10,000 mẫu và 500 features. Bạn sử dụng k-fold cross-validation (k=5) để đánh giá mô hình logistic regression. Tuy nhiên, sau khi chạy, bạn nhận thấy độ lệch chuẩn của các fold rất cao (F1 dao động từ 0.6 đến 0.95). Hãy phân tích nguyên nhân tiềm ẩn và đề xuất cách xử lý. Có nên sử dụng stratified cross-validation thay vì k-fold thông thường không? Giải thích tại sao.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "EVALUATION_METRICS",
+      "EVAL_CROSS_VALIDATION"
+    ],
+    "skill_tags": [
+      "EVAL_CROSS_VALIDATION"
+    ],
+    "answers": {
+      "detailed": "Độ lệch chuẩn cao (F1: 0.6–0.95) có ba nguyên nhân chính: (1) **Mất cân bằng lớp**: Nếu tỷ lệ lớp không đồng đều, k-fold thông thường có thể tạo folds với phân bố lớp khác nhau, dẫn đến variance cao. Kiểm tra baseline class distribution trước tiên. (2) **Feature-sample ratio xấu**: 500 features cho 10k mẫu (tỷ lệ 1:20) dễ overfitting, làm mỗi fold học patterns khác nhau. (3) **Heterogeneity dữ liệu**: Outliers hoặc subgroups trong data không đồng đều giữa folds.\n\n**Stratified K-fold giải pháp nào?** Có, nên dùng nếu có mất cân bằng lớp, vì nó đảm bảo mỗi fold giữ nguyên tỷ lệ lớp toàn bộ dataset, giảm variance từ **class distribution shift**. Tuy nhiên, nó không giải quyết overfitting từ high dimensionality.\n\n**Giải pháp toàn diện**: (1) Dùng stratified K-fold (bắt buộc nếu imbalanced). (2) Kiểm tra fold-wise F1 để phát hiện folds problematic. (3) Giảm features via PCA, feature selection, hoặc regularization mạnh hơn (L1/L2). (4) Shuffle dữ liệu trước split. (5) Nếu vẫn cao, tăng k (ví dụ k=10) để ổn định hơn. Kết hợp stratified CV + feature reduction hiệu quả nhất.",
+      "evaluation_points": [
+        "Identify whether high variance stems from class imbalance (check class distribution), sample heterogeneity/outliers, or feature-sample ratio (500:10000 = 1:20, which is concerning) causing instability",
+        "Explain that stratified K-fold is mandatory for imbalanced classification but may not fully solve high variance if root cause is feature-sample ratio or outliers rather than class distribution",
+        "Propose diagnostic steps: (a) check baseline class distribution and imbalance ratio, (b) inspect fold-wise class distributions after stratification, (c) analyze F1 variance by fold to identify problematic folds",
+        "Recommend complementary solutions beyond stratified CV: feature selection/dimensionality reduction (to improve feature-sample ratio), outlier detection, regularization tuning (L1/L2), or increasing k only if computational feasible",
+        "Discuss trade-offs: stratified CV reduces variance from class imbalance but doesn't address overfitting from high dimensionality; combining stratified CV with feature selection is more robust than either alone"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_EVALUATION_005",
+    "question_text": "Cho bảng classification report sau của một mô hình phân loại 3 lớp (A, B, C): lớp A có precision=0.9, recall=0.5; lớp B có precision=0.6, recall=0.8; lớp C có precision=0.7, recall=0.7. Hãy giải thích ý nghĩa của từng chỉ số này. Tính macro-F1 và weighted-F1, cho biết sự khác biệt giữa chúng và khi nào nên dùng macro thay vì weighted.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "EVALUATION_METRICS",
+      "METRIC_F1_SCORE"
+    ],
+    "skill_tags": [
+      "METRIC_F1_SCORE"
+    ],
+    "answers": {
+      "detailed": "Precision lớp A=0.9: trong số dự đoán là A, 90% đúng; recall=0.5: mô hình chỉ phát hiện 50% số A thực tế (Type II error cao). Tương tự cho B và C. Lớp B có recall=0.8 nhưng precision=0.6 có nghĩa nhiều false positive; lớp C cân bằng. \n\nMacro-F1 = (F1_A + F1_B + F1_C)/3, với F1_A = 2*(0.9*0.5)/(0.9+0.5)≈0.643, F1_B = 2*(0.6*0.8)/(0.6+0.8)≈0.686, F1_C = 2*(0.7*0.7)/(0.7+0.7)=0.7. Macro-F1 ≈ 0.676.\n\nWeighted-F1 = (n_A*F1_A + n_B*F1_B + n_C*F1_C) / (n_A + n_B + n_C), với n_i là số mẫu của lớp i.\n\n**Khác biệt:** Macro-F1 đối xử công bằng tất cả lớp bất kể số lượng mẫu, phù hợp khi muốn đánh giá performance của từng lớp như nhau (đặc biệt quan trọng cho lớp thiểu số). Weighted-F1 chia trọng số theo tần suất lớp, phản ánh performance trên toàn dataset, phù hợp khi class distribution tự nhiên và cost của lỗi tương đương. Chọn macro khi tất cả lớp đều quan trọng (ví dụ: phân loại bệnh hiếm), chọn weighted khi lớp đa số là ưu tiên.",
+      "evaluation_points": [
+        "Giải thích đúng precision và recall cho từng lớp",
+        "Tính đúng macro-F1 và weighted-F1 với công thức chính xác",
+        "Phân biệt được khi nào dùng macro vs weighted dựa trên class distribution",
+        "Nhận diện được lớp A có vấn đề (precision cao nhưng recall thấp - Type II error) và lớp B có nguy cơ (recall cao - Type I error), từ đó xác định impact với business context",
+        "Giải thích tại sao macro-F1 không chỉ 'coi trọng lớp thiểu số' mà còn đề cao sự cân bằng performance giữa tất cả lớp, bất kể imbalance"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_EVALUATION_007",
+    "question_text": "Bạn đang xây dựng hệ thống phát hiện gian lận giao dịch ngân hàng (tỷ lệ gian lận 0.1%). Bạn cần tối ưu threshold cho mô hình dựa trên precision-recall curve. Hãy thiết kế chiến lược chọn threshold sao cho cân bằng giữa việc phát hiện gian lận và giảm thiểu false positive (vì mỗi false positive tốn $50 cho nhân viên kiểm tra, mỗi true positive ngăn chặn mất $1000). Trình bày cách bạn tính toán cost-based threshold và giải thích tại sao AUC-ROC không phù hợp trong trường hợp này.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "EVALUATION_METRICS"
+    ],
+    "skill_tags": [
+      "EVALUATION_METRICS"
+    ],
+    "answers": {
+      "detailed": "AUC-ROC is unsuitable because: (1) It is threshold-independent and treats all misclassifications equally, ignoring the asymmetric costs ($1000 per missed fraud vs $50 per false alert); (2) With 0.1% fraud prevalence, class imbalance makes ROC curve misleading—AUC can be high even with poor minority class performance. PR curve is better because it focuses on the positive class (fraud) and naturally reflects class imbalance.\n\nCost-based threshold strategy:\n1. **Complete Cost Function:** profit(threshold) = TP(threshold) * $1000 - FP(threshold) * $50 - FN(threshold) * cost_FN, where cost_FN must be estimated (e.g., average fraud loss if undetected). Even if cost_FN is unknown, we can express it as: profit = (TP - FP * 0.05 - FN * k) where k = cost_FN / 1000.\n2. **Threshold Optimization:** Evaluate all thresholds on validation set. For each, compute profit = TP * $1000 - FP * $50. Select threshold maximizing profit. Alternatively, derive mathematically: the threshold should satisfy: P(fraud|score) / P(non-fraud|score) ≥ 50/1000 = 0.05 (cost ratio).\n3. **Practical Constraints:** Verify that precision at optimal threshold is acceptable (e.g., if precision < 10%, too many false alerts burden review team). Ensure FP volume stays within review capacity budget.\n4. **Alternative Metric:** Can use F-beta score with beta = sqrt(1000/50) ≈ 4.47, weighting recall 4.47x more than precision, directly reflecting cost asymmetry.\n5. **Recalibration:** Monitor fraud prevalence and cost structure over time; recalibrate threshold monthly or when business costs change.\n6. **Cost Curve:** Plot expected cost vs threshold for clearer business visualization than PR curve alone.",
+      "evaluation_points": [
+        "Correctly identifies why AUC-ROC is unsuitable (threshold-independent, ignores class imbalance and business costs) and justifies PR curve focus",
+        "Demonstrates understanding of cost-sensitive learning by incorporating explicit cost values ($1000 per TP prevented, $50 per FP)",
+        "Designs a profit maximization approach but must rigorously account for all cost components: profit = TP * $1000 - FP * $50 - FN * cost_of_missed_fraud (should derive or estimate FN cost from business context)",
+        "Can derive optimal threshold mathematically using cost-benefit analysis: at each threshold, compute expected profit across validation set; or derive threshold condition where marginal benefit of lowering threshold equals marginal cost",
+        "Addresses practical constraints: precision sufficiency (FP budget), recalibration strategy for concept drift, and sensitivity analysis to cost assumptions",
+        "Strong candidate should also compare against alternative metrics: F-beta score with beta derived from cost ratio (beta = sqrt(1000/50) ≈ 4.47, heavily weighting recall), or cost curves for direct cost visualization"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_EVALUATION_009",
+    "question_text": "Bạn có một mô hình deep learning phân loại ảnh y tế (2 lớp: bệnh/không bệnh) với 100k ảnh. Khi áp dụng 5-fold cross-validation, bạn nhận thấy F1 trên validation set dao động từ 0.85 đến 0.92, nhưng khi deploy lên production, F1 chỉ đạt 0.65. Hãy debug vấn đề: phân tích các nguyên nhân tiềm ẩn liên quan đến cross-validation (data leakage, temporal drift, non-i.i.d. data) và đề xuất phương pháp cross-validation phù hợp hơn (ví dụ: grouped CV, time series CV). Đưa ra giải pháp cụ thể để cải thiện độ tin cậy của đánh giá.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "EVALUATION_METRICS",
+      "EVAL_CROSS_VALIDATION"
+    ],
+    "skill_tags": [
+      "EVAL_CROSS_VALIDATION"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân chính: (1) **Data Leakage**: Ảnh từ cùng bệnh nhân có thể xuất hiện ở cả train và validation folds, dẫn đến overfitting lên bệnh nhân chứ không phải bệnh. Giải pháp: Dùng **GroupedKFold** hoặc **StratifiedGroupKFold** theo patient ID để đảm bảo ảnh từ cùng bệnh nhân chỉ ở một fold. (2) **Temporal/Distribution Drift**: Dữ liệu production khác biệt với training set (thiết bị chụp ảnh mới, dân số khác nhau, chất lượng ảnh thay đổi). Giải pháp: Áp dụng **Forward Chaining (Time Series CV)** nếu data có thứ tự thời gian, hoặc đánh giá metric stability trên holdout set từ production. (3) **Non-i.i.d Data**: Ảnh tương quan theo thời gian/bệnh viện. Giải pháp: Kiểm tra feature distribution giữa các folds bằng statistical tests. \n\n**Cân nhắc metric**: Vì đây là bài toán y tế (phát hiện bệnh), cần cân bằng **Precision vs Recall**: Recall cao là tối tiên (tránh bỏ sót bệnh nhân = false negative có chi phí y tế cao), nhưng precision cũng quan trọng (false positive gây lo lắng bệnh nhân, xét nghiệm lặp lại). F1-score là compromise, nhưng nên xét ROC-AUC hoặc PR-curve để hiểu tradeoff rõ hơn. \n\n**Hành động cụ thể**: (1) Implement StratifiedGroupKFold theo patient ID, (2) Kiểm tra metric variance cao giữa folds (signal của data leakage), (3) Tạo holdout test set từ production data cũ để xác nhận performance thực tế, (4) Monitor feature/label distribution drift qua thời gian, (5) Nếu drift mạnh, retrain với data mới hoặc áp dụng domain adaptation techniques.",
+      "evaluation_points": [
+        "Identifies data leakage via grouped CV (patient-level) as root cause of inflated validation F1",
+        "Recognizes temporal/distribution drift between validation and production, explaining the F1 drop from 0.85-0.92 to 0.65",
+        "Proposes StratifiedGroupKFold and forward chaining to prevent non-i.i.d violations",
+        "Critically: Discusses whether F1 is the appropriate metric for medical imaging (should address precision vs recall tradeoff: missing disease diagnosis = high cost of false negatives, but false positives also have clinical/cost implications)",
+        "Recommends establishing holdout test set from production data and monitoring metric stability across folds as signal of evaluation reliability",
+        "Proposes domain adaptation or retraining strategy when drift is detected"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_EVALUATION_006",
+    "question_text": "Bạn đang làm việc với một bộ dữ liệu mất cân bằng (imbalanced dataset) cho bài toán phân loại nhị phân, trong đó lớp thiểu số chỉ chiếm 5%. Khi đánh giá mô hình, bạn thấy accuracy đạt 95%. Hãy giải thích tại sao accuracy không phải là metric phù hợp trong trường hợp này? Bạn sẽ sử dụng metric nào khác và tại sao?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "EVALUATION_METRICS"
+    ],
+    "skill_tags": [
+      "EVALUATION_METRICS"
+    ],
+    "answers": {
+      "detailed": "Trong bộ dữ liệu mất cân bằng, accuracy có thể gây hiểu lầm vì mô hình có thể đạt accuracy cao (95%) bằng cách dự đoán tất cả là lớp đa số, mà không phát hiện được lớp thiểu số. Đây là vấn đề critical vì lớp thiểu số thường là lớp cần quan tâm (fraud, disease, defect). Các metric phù hợp hơn: (1) F1-score cho lớp thiểu số—sử dụng harmonic mean của precision và recall, penalize mạnh các extreme values (precision cao nhưng recall thấp hoặc ngược lại), đảm bảo mô hình phải làm tốt cả hai. (2) AUC-ROC—đánh giá khả năng phân biệt độc lập với ngưỡng, không bị ảnh hưởng bởi imbalance. (3) PR-AUC—nhạy hơn với lớp thiểu số so với ROC. Trade-off giữa precision và recall: Precision cao (ít false positive) quan trọng khi cost of false alarm cao (e.g., fraud: flag legitimate users gây friction); Recall cao (ít false negative) quan trọng khi cost of missing minority class cao (e.g., disease: miss patient diagnosis). F1-score buộc phải balance cả hai, phù hợp khi không chắc cost nào cao hơn.",
+      "evaluation_points": [
+        "Hiểu rõ vấn đề accuracy bị ảnh hưởng bởi imbalance dẫn đến đánh giá sai lệch (majority class prediction trap)",
+        "Đề xuất được ít nhất 2 metric thay thế và giải thích cụ thể lý do phù hợp (không chỉ liệt kê)",
+        "Giải thích được tại sao F1-score (harmonic mean) penalize extreme values tốt hơn arithmetic mean, đảm bảo cả precision và recall đều cao",
+        "Kết nối metrics với business implications: ví dụ FN vs FP trong bối cảnh lớp thiểu số (e.g., 'missed fraud' vs 'false alarms')",
+        "Giải thích khi nào dùng F1 vs AUC-ROC (F1 cho fixed threshold, AUC-ROC cho threshold-independent evaluation)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_EVALUATION_008",
+    "question_text": "Công ty bạn đang xây dựng mô hình phát hiện gian lận giao dịch. Dữ liệu có 1% giao dịch gian lận. Bạn huấn luyện mô hình và nhận được classification report với F1-score cho lớp gian lận là 0.6. Hãy giải thích ý nghĩa của F1-score = 0.6 trong ngữ cảnh này, và so sánh với việc sử dụng AUC-ROC để đánh giá mô hình. Khi nào F1-score quan trọng hơn AUC-ROC?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "EVALUATION_METRICS",
+      "METRIC_F1_SCORE"
+    ],
+    "skill_tags": [
+      "METRIC_F1_SCORE",
+      "EVALUATION_METRICS"
+    ],
+    "answers": {
+      "detailed": "F1-score = 0.6 is the harmonic mean of precision and recall for the fraud class, indicating moderate balance between correctly identifying fraud (precision) and catching all fraud cases (recall). In fraud detection with 1% fraud rate, this score warrants investigation into its components: if recall is high but precision low, the model flags many transactions for review (high operational cost); if recall is low but precision high, the model misses most fraud (direct financial loss). Recall is typically prioritized because a missed fraud (FN) causes direct financial damage, whereas a false alarm (FP) primarily costs investigation time.\n\nAUC-ROC measures overall discriminative ability across all thresholds, making it threshold-independent and useful for comparing models. However, on highly imbalanced data (1% fraud), AUC can be misleadingly optimistic—a model might achieve 0.85 AUC by tuning thresholds in ways that leave recall for the minority class dangerously low at the operating point you actually choose.\n\nF1-score is superior when: (1) you need a specific operational threshold (e.g., daily review capacity limits the number of flagged transactions), (2) FP and FN costs are asymmetric and known (fraud loss >> investigation cost), and (3) the minority class (fraud) is the primary concern. F1 directly optimizes for that chosen threshold and that specific business objective.\n\nAUC-ROC remains valuable for: comparing candidate models before threshold selection, or when the final operating point is not yet determined. In this scenario, examine precision and recall separately to diagnose whether F1 = 0.6 reflects weak recall (missing fraud) or weak precision (too many false alarms), then adjust the threshold or retrain accordingly.",
+      "evaluation_points": [
+        "Correctly explains F1-score = 0.6 as the harmonic mean of precision and recall for the fraud class",
+        "Articulates the business cost asymmetry: FN (missed fraud) causes direct financial loss, while FP (false alarm) causes operational overhead—and connects this to why recall > precision in fraud detection",
+        "Distinguishes threshold-independence (AUC-ROC) from threshold-dependence (F1-score), and explains why AUC can be misleading on 1% imbalanced data (may show high AUC even if minority class detection is poor at practical operating points)",
+        "Identifies F1-score as superior when: (a) a specific decision threshold is needed operationally, (b) the cost of FP vs FN is asymmetric and known, and (c) the minority class (fraud) is the primary focus",
+        "Proactively suggests examining precision and recall individually to diagnose F1 = 0.6 (e.g., is recall low because model misses fraud, or is precision low because it raises false alarms?)",
+        "Acknowledges when AUC-ROC remains valuable: ranking model quality across all thresholds for stakeholder comparison, or when operational threshold is not yet determined"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_EVALUATION_010",
+    "question_text": "Bạn đang thực hiện cross-validation (k-fold) để đánh giá mô hình phân loại. Hãy giải thích tại sao cần phải chuẩn hóa dữ liệu (standardization) bên trong mỗi fold thay vì chuẩn hóa toàn bộ dữ liệu trước khi chia fold? Minh họa với một ví dụ cụ thể về hậu quả nếu làm sai.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "EVALUATION_METRICS",
+      "EVAL_CROSS_VALIDATION"
+    ],
+    "skill_tags": [
+      "EVAL_CROSS_VALIDATION"
+    ],
+    "answers": {
+      "detailed": "Chuẩn hóa toàn bộ dữ liệu trước khi chia fold gây ra data leakage nghiêm trọng: mean và std được tính từ toàn bộ dữ liệu (bao gồm test set), nên thông tin từ test set bị lộ sang quá trình huấn luyện train fold, làm đánh giá lạc quan và không phản ánh khả năng tổng quát hóa thực tế của mô hình. Đúng ra, trong mỗi fold: (1) fit scaler chỉ trên train fold để tính mean/std, (2) transform cả train và test fold của fold đó bằng scaler này, (3) huấn luyện mô hình, (4) khôi động scaler mới cho fold tiếp theo. Ví dụ cụ thể: dataset có 1000 mẫu, feature có mean=50, std=10. Nếu fold test thứ nhất chứa outlier (giá trị 200), chuẩn hóa toàn bộ sẽ kéo mean lên 52, std lên 12. Khi đó train fold thứ nhất nhận dữ liệu đã bị méo này, mô hình học pattern sai lệch. Kết quả: CV metrics (ví dụ AUC) có thể cao hơn 0.05-0.10 so với thực tế khi deploy, vì train set đã bị 'được hưởng lợi' từ thông tin test set. Cách xác minh: so sánh kết quả CV giữa hai cách, hoặc kiểm tra sklearn pipeline tự động áp dụng quy tắc fit-on-train-transform-all để tránh leakage.",
+      "evaluation_points": [
+        "Hiểu rõ khái niệm data leakage trong CV: giải thích cụ thể cách thông tin từ test set (mean/std) tác động đến train set khi chuẩn hóa toàn bộ trước",
+        "Giải thích được quy trình chuẩn hóa đúng: fit scaler trên train fold, transform cả train và test fold đó, khôi động lại scaler cho fold tiếp theo",
+        "Định lượng hậu quả: nhận diện rằng data leakage dẫn đến đánh giá lạc quan (metrics cao hơn thực tế) và mô hình không tổng quát hóa trên dữ liệu mới",
+        "Minh họa ví dụ cụ thể: cách outlier hoặc phân phối bất thường ở test fold ảnh hưởng đến mean/std toàn cục, làm méo dữ liệu train của các fold khác",
+        "Đề xuất cách xác minh: so sánh kết quả CV giữa hai cách (chuẩn hóa sai vs đúng) để thấy độ chênh lệch metrics"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_EVALUATION_012",
+    "question_text": "Bạn nhận được classification report từ mô hình phân loại đa lớp (3 lớp) với các giá trị: precision, recall, f1-score cho từng lớp và macro avg = 0.7, weighted avg = 0.8. Hãy giải thích sự khác biệt giữa macro average và weighted average. Trong tình huống nào bạn nên ưu tiên macro avg thay vì weighted avg? Cho ví dụ.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "EVALUATION_METRICS"
+    ],
+    "skill_tags": [
+      "EVALUATION_METRICS",
+      "METRIC_F1_SCORE"
+    ],
+    "answers": {
+      "detailed": "Macro average tính trung bình đơn giản của metric qua các lớp, không tính đến số lượng mẫu: macro_avg = (metric_class1 + metric_class2 + metric_class3) / 3. Weighted average tính trung bình có trọng số theo support (số mẫu thực tế) của mỗi lớp: weighted_avg = Σ(metric_class_i × support_i) / total_samples.\n\nKhác biệt then chốt: Macro avg coi tất cả lớp như nhau, còn weighted avg ưu tiên lớp có nhiều mẫu hơn.\n\nKhi ưu tiên macro avg thay vì weighted avg:\n1. **Dữ liệu imbalanced với lớp thiểu số quan trọng**: Phát hiện bệnh hiếm (ung thư 1%, bình thường 99%). Nếu mô hình chỉ dự đoán \"bình thường\", weighted avg = 99% (cao) nhưng macro avg ≈ 50% (thấp) - cảnh báo mô hình thất bại trên lớp quan trọng.\n2. **Khi chi phí false negative cao**: Phát hiện gian lận, dự báo sụp đổ (FN có hậu quả nghiêm trọng).\n3. **Đánh giá công bằng tất cả lớp**: Khi giả định mỗi lớp có giá trị bằng nhau về business.\n\nVí dụ: 3 lớp với F1-score: Class A (60% dữ liệu): 0.85, Class B (30%): 0.75, Class C (10%): 0.45. Macro avg = (0.85 + 0.75 + 0.45) / 3 = 0.683. Weighted avg = (0.85×0.6 + 0.75×0.3 + 0.45×0.1) = 0.78. Macro avg thấp hơn → tiết lộ mô hình yếu trên Class C, điều quan trọng nếu Class C là bệnh hiếm.",
+      "evaluation_points": [
+        "Giải thích đúng công thức: macro avg = (metric_class1 + metric_class2 + metric_class3) / 3; weighted avg = (metric_class1 * support1 + metric_class2 * support2 + metric_class3 * support3) / total_samples",
+        "Phân biệt rõ ràng: macro avg coi mỗi lớp ngang nhau (không phụ thuộc vào class distribution), weighted avg phản ánh performance trên dữ liệu thực tế",
+        "Xác định khi nào macro avg quan trọng hơn: khi các lớp thiểu số có chi phí cao (y tế, bảo mật) hoặc khi muốn đánh giá công bằng tất cả lớp bất kể imbalance",
+        "Nhận diện tình huống cảnh báo: macro avg << weighted avg cho thấy mô hình hoạt động kém trên lớp thiểu số, ngay cả khi weighted avg cao",
+        "Cung cấp ví dụ định lượng cụ thể với con số thực tế (ví dụ: class A 95% accuracy, class B 50% accuracy → macro=72.5% nhưng weighted=90%)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_EVALUATION_014",
+    "question_text": "Bạn đang phát triển một hệ thống chẩn đoán bệnh từ ảnh X-quang. Dữ liệu có 0.5% ca bệnh (positive class). Bạn huấn luyện mô hình deep learning và sử dụng Stratified K-Fold cross-validation với k=5 để đánh giá. Tuy nhiên, kết quả AUC-ROC trên các fold rất khác nhau (0.85, 0.92, 0.78, 0.88, 0.95). Hãy phân tích nguyên nhân tiềm ẩn của sự biến động này và đề xuất ít nhất 2 phương pháp cải thiện độ ổn định của đánh giá. Ngoài ra, hãy giải thích tại sao AUC-ROC có thể không phải là metric tốt nhất cho bài toán này và đề xuất alternative metric phù hợp hơn.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "EVAL_CROSS_VALIDATION",
+      "EVALUATION_METRICS"
+    ],
+    "skill_tags": [
+      "EVAL_CROSS_VALIDATION",
+      "EVALUATION_METRICS",
+      "METRIC_F1_SCORE"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân biến động: (1) Dữ liệu cực kỳ mất cân bằng (0.5%), Stratified K-Fold vẫn có thể tạo fold với ít hoặc không có positive sample; (2) Số lượng positive sample nhỏ dẫn đến variance cao khi tính AUC-ROC; (3) Phân phối ảnh không đồng nhất giữa các fold (ví dụ: fold chứa nhiều ca khó). Giải pháp: (1) Dùng Repeated Stratified K-Fold để lấy trung bình nhiều lần; (2) Dùng Monte Carlo Cross-Validation (shuffle-split) nhiều lần; (3) Tăng số fold lên 10 hoặc dùng Leave-One-Out nếu dữ liệu rất nhỏ. AUC-ROC không phù hợp vì nó đánh giá trên mọi ngưỡng, trong khi chẩn đoán bệnh cần ngưỡng cụ thể; Precision-Recall AUC (PR-AUC) nhạy hơn với lớp thiểu số và phản ánh tốt hơn khả năng phát hiện positive class. Ngoài ra, F2-score (weight recall cao hơn) cũng phù hợp vì ưu tiên giảm false negative.",
+      "evaluation_points": [
+        "Phân tích chính xác nguyên nhân biến động AUC-ROC (imbalance, sample size, phân phối fold)",
+        "Đề xuất ít nhất 2 phương pháp cải thiện độ ổn định (repeated CV, Monte Carlo, tăng fold, etc.)",
+        "Giải thích lý do AUC-ROC không tối ưu và đề xuất alternative (PR-AUC, F2-score) kèm rationale"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_EVALUATION_011",
+    "question_text": "Trong một dự án phân loại khách hàng rời bỏ (churn), bạn có tập dữ liệu với 95% khách hàng không rời bỏ và 5% rời bỏ. Bạn xây dựng mô hình Random Forest và đạt được độ chính xác (accuracy) 95%. Hãy giải thích tại sao accuracy không phải là metric phù hợp trong trường hợp này, và đề xuất các metric khác phù hợp hơn. Nếu mô hình của bạn dự đoán tất cả đều là 'không rời bỏ', hãy tính F1-score của mô hình đó.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "EVALUATION_METRICS",
+      "METRIC_F1_SCORE"
+    ],
+    "skill_tags": [
+      "EVALUATION_METRICS",
+      "METRIC_F1_SCORE"
+    ],
+    "answers": {
+      "detailed": "Accuracy không phù hợp vì mất cân bằng lớp: một mô hình luôn dự đoán 'không rời bỏ' sẽ đạt 95% accuracy mà không thực sự học được điều gì, không phát hiện được khách hàng sắp rời bỏ. Từ góc độ kinh doanh, bỏ sót khách hàng rời bỏ (FN cao) gây mất doanh thu lớn, trong khi cảnh báo sai với khách hàng trung thành (FP cao) tăng chi phí giữ chân.\n\nCác metric phù hợp hơn:\n- Precision: tỷ lệ dự đoán rời bỏ đúng (TP/(TP+FP)), quan trọng khi muốn tránh cảnh báo sai\n- Recall: tỷ lệ phát hiện được khách hàng rời bỏ thực tế (TP/(TP+FN)), quan trọng nhất vì cần bắt được hầu hết churn\n- F1-score: trung bình điều hòa của precision và recall, đảm bảo cả hai đều cao (trung bình điều hòa phạt nặng khi một trong hai quá thấp)\n- AUC-ROC: đánh giá hiệu suất trên tất cả các ngưỡng quyết định\n\nVới mô hình dự đoán tất cả là 'không rời bỏ':\n- TP = 0 (không dự đoán đúng bất kỳ churn nào)\n- FP = 0 (không có dự đoán dương tính sai)\n- TN = 95% (dự đoán đúng khách hàng không rời bỏ)\n- FN = 5% (bỏ sót tất cả khách hàng rời bỏ)\n\nPrecision = TP/(TP+FP) = 0/0 = undefined (hoặc quy ước = 0)\nRecall = TP/(TP+FN) = 0/5% = 0\nF1-score = 2*(Precision*Recall)/(Precision+Recall) = 0\n\nF1 = 0 có nghĩa mô hình hoàn toàn vô dụng cho bài toán phát hiện churn, mặc dù có accuracy 95%.",
+      "evaluation_points": [
+        "Nhận biết vấn đề mất cân bằng lớp và giải thích tại sao accuracy sai lệch (baseline model that predicts majority class achieves 95% without learning)",
+        "Hiểu được hệ quả kinh doanh của từng loại lỗi: FN (khách hàng rời bỏ bị bỏ sót) dẫn đến mất doanh thu, FP (khách hàng trung thành bị cảnh báo sai) tăng chi phí giữ chân",
+        "Đề xuất đúng các metric phù hợp (Precision, Recall, F1-score, AUC-ROC) và giải thích khi nào sử dụng từng metric",
+        "Giải thích tại sao F1-score (trung bình điều hòa) phù hợp hơn trung bình cộng: nó phạt mạnh khi precision hoặc recall quá thấp",
+        "Tính toán chính xác F1-score = 0 và diễn giải ý nghĩa: mô hình hoàn toàn không phát hiện được lớp churn"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_EVALUATION_013",
+    "question_text": "Bạn đang làm việc với bài toán phân loại đa lớp (3 lớp: A, B, C). Sau khi huấn luyện, bạn nhận được classification report với precision, recall, f1-score cho từng lớp. Hãy giải thích ý nghĩa của các giá trị macro avg và weighted avg trong report. Khi nào nên dùng macro avg thay vì weighted avg? Cho ví dụ cụ thể để minh họa.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "EVALUATION_METRICS",
+      "METRIC_F1_SCORE"
+    ],
+    "skill_tags": [
+      "EVALUATION_METRICS",
+      "METRIC_F1_SCORE"
+    ],
+    "answers": {
+      "detailed": "Macro avg tính trung bình đơn giản (unweighted) của metric trên từng lớp: (metric_A + metric_B + metric_C) / 3, cho mỗi lớp trọng số bằng nhau. Weighted avg tính trung bình có trọng số theo số lượng mẫu thực tế của mỗi lớp: (metric_A*n_A + metric_B*n_B + metric_C*n_C) / (n_A + n_B + n_C).\n\nKhi nào dùng macro avg: (1) Dữ liệu mất cân bằng và tất cả lớp đều quan trọng như nhau (ví dụ: phát hiện bệnh hiếm gặp, phát hiện gian lận); (2) Muốn đánh giá model có thực sự giỏi với lớp thiểu số hay chỉ giỏi với lớp đa số; (3) Cân bằng hiệu suất trên tất cả lớp là mục tiêu chính.\n\nKhi nào dùng weighted avg: (1) Phân phối lớp phản ánh tỷ lệ thực tế trong sản xuất; (2) Lớp đa số là ưu tiên business; (3) Muốn một metric tổng hợp gần với hiệu suất thực tế trên tập test.\n\nVí dụ cụ thể: Phân loại email (A=spam, B=phishing, C=legitimate). Tập test: A=100 mẫu (precision=0.90), B=10 mẫu (precision=0.50), C=90 mẫu (precision=0.95).\n- Macro avg precision = (0.90 + 0.50 + 0.95) / 3 ≈ 0.78 (nếu thiểu số lớp B cần được giám sát cẩn thận)\n- Weighted avg precision = (0.90*100 + 0.50*10 + 0.95*90) / 200 = (90 + 5 + 85.5) / 200 ≈ 0.90 (thiên về lớp đa số)\n\nNếu chi phí lỗi phát hiện phishing (false negative) gấp 3 lần lỗi spam, cân nhắc sử dụng F-beta với beta tương ứng để tăng trọng số recall trên lớp B.",
+      "evaluation_points": [
+        "Giải thích chính xác macro avg và weighted avg với công thức toán học rõ ràng",
+        "Phân biệt trường hợp sử dụng: macro avg cho imbalanced data khi tất cả lớp đều quan trọng, weighted avg khi lớp đa số là ưu tiên business",
+        "Đưa ví dụ tính toán cụ thể với số liệu thực tế để minh họa sự khác biệt",
+        "Nhận diện rằng macro avg có thể bị chi phối bởi lớp thiểu số với performance kém, và khi nào điều này là mong muốn vs không mong muốn",
+        "Liên hệ tới F-beta score khi chi phí lỗi không đối xứng giữa các lớp (ví dụ: thiểu số lớp A quan trọng gấp 2 lần lớp B)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_EVALUATION_015",
+    "question_text": "Công ty bạn đang phát triển mô hình phát hiện gian lận giao dịch với tỷ lệ gian lận rất thấp (0.1%). Bạn sử dụng cross-validation k-fold (k=5) để đánh giá mô hình. Hãy trình bày cách thực hiện cross-validation cho bài toán này, đặc biệt chú ý đến vấn đề mất cân bằng lớp. Nếu bạn nhận thấy độ lệch AUC-ROC giữa các fold lớn (ví dụ: từ 0.85 đến 0.65), hãy giải thích nguyên nhân có thể và cách khắc phục.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "EVAL_CROSS_VALIDATION",
+      "EVALUATION_METRICS"
+    ],
+    "skill_tags": [
+      "EVAL_CROSS_VALIDATION",
+      "EVALUATION_METRICS"
+    ],
+    "answers": {
+      "detailed": "**Stratified K-Fold Implementation:**\nUse StratifiedKFold to ensure each fold maintains ~0.1% fraud ratio. This prevents folds with disproportionate fraud samples, which would cause unreliable fold-specific evaluations. For each fold: train on k-1 folds, evaluate on holdout fold.\n\n**Root Causes of High AUC-ROC Variance (0.85 to 0.65):**\n1. **Small minority class sample size per fold**: With 0.1% fraud rate and k=5, each fold contains only ~20% of fraud samples. Random variation in which fraud cases appear in each fold significantly affects minority-class model performance.\n2. **Data heterogeneity**: Fraud patterns may cluster—some folds may contain easier/harder cases to detect.\n3. **High variance in FPR calculation**: Despite stratification, the large majority class (99.9% negatives) per fold can still introduce variance in False Positive Rate estimation.\n\n**Important Context on AUC-ROC:**\nAUC-ROC is threshold-independent and measures the model's ability to rank positives higher than negatives. However, with severe class imbalance, **AUC-ROC can be misleading**: a model predicting all negatives achieves high TNR but low TPR, yet AUC may appear reasonable. High variance across folds indicates the model's minority-class discrimination is unstable.\n\n**Mitigation Strategies:**\n1. **Reduce k** to k=3 (larger fraud samples per fold) or use leave-p-out cross-validation if computationally feasible\n2. **Repeated Stratified K-Fold**: Repeat stratified split 10-30 times with different random seeds, average metrics to reduce fold variance\n3. **Shuffle before split**: Randomize order before stratification to reduce fraud clustering\n4. **Collect more data**: Increase fraud samples to improve fold stability\n5. **Use complementary metrics**:\n   - **AUC-PR (Area Under Precision-Recall curve)**: More informative than AUC-ROC for imbalanced data; directly reflects minority class performance\n   - **Precision-Recall curves**: Show trade-offs relevant to fraud detection (cost of false positives vs false negatives)\n   - **F1-score or F2-score**: Directly penalizes false negatives on fraud cases\n6. **Ensemble or weighted methods**: Use class weights (weight_fraud = 999, weight_normal = 1) or SMOTE to improve minority class representation\n\n**Monitoring:** Report median and 95% CI of AUC-PR and AUC-ROC across folds. High variance in fold metrics signals model instability on minority class, not necessarily poor overall performance.",
+      "evaluation_points": [
+        "Correctly propose stratified k-fold and explain why it preserves class distribution in each fold",
+        "Identify root causes of high AUC-ROC variance: (a) small sample size of minority class per fold, (b) random variation in fold composition despite stratification, (c) data heterogeneity",
+        "Recommend concrete solutions: reduce k, use repeated stratified k-fold, perform shuffle before split, increase total data",
+        "Critically discuss AUC-ROC suitability: explain that AUC-ROC is threshold-independent and measures discriminative ability (not calibration), but can still have high variance with imbalanced data due to FPR calculation on large negative class; recommend complementary metrics (AUC-PR, F1, precision-recall curves) which are more sensitive to minority class performance",
+        "Demonstrate understanding that variance across folds reflects model instability on minority class, not metric weakness, and suggests need for more fraud samples or ensemble methods"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_EVALUATION_017",
+    "question_text": "Bạn đang đánh giá mô hình phân loại nhị phân với AUC-ROC = 0.92, nhưng precision-recall (AUC-PR) chỉ đạt 0.15. Hãy giải thích sự khác biệt này có thể xảy ra trong bối cảnh nào? Thiết kế một quy trình đánh giá mô hình gồm các bước: lựa chọn threshold tối ưu, so sánh nhiều mô hình, và xác định mô hình cuối cùng. Biết rằng chi phí cho false positive (FP) và false negative (FN) là khác nhau (cost_FP = 10$, cost_FN = 100$). Làm thế nào để tích hợp cost vào quyết định chọn threshold?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "EVALUATION_METRICS",
+      "METRIC_F1_SCORE"
+    ],
+    "skill_tags": [
+      "EVALUATION_METRICS",
+      "METRIC_F1_SCORE"
+    ],
+    "answers": {
+      "detailed": "AUC-ROC cao (0.92) nhưng AUC-PR thấp (0.15) điển hình xảy ra khi dữ liệu rất mất cân bằng (lớp dương hiếm). AUC-ROC đánh giá khả năng phân tách tổng quát qua tất cả threshold, không nhạy với tỷ lệ lớp. Ngược lại, AUC-PR tập trung vào lớp dương và precision bị ảnh hưởng mạnh bởi nhiều FP, làm cho AUC-PR trở nên chỉ báo nhạy cảm hơn cho tác vụ có lớp hiếm.\n\n**Quy trình đánh giá chi tiết:**\n1. **Chia dữ liệu:** Sử dụng stratified k-fold để đảm bảo tỷ lệ lớp không đổi trong train/validation/test.\n2. **Tối ưu hóa threshold dựa trên chi phí:** Với mỗi mô hình, tính xác suất dự đoán trên validation set. Duyệt threshold từ 0 đến 1 và tính total_cost = FP*cost_FP + FN*cost_FN. Chọn threshold làm cho total_cost nhỏ nhất. Với chi phí FP=10$ và FN=100$, tỷ lệ chi phí là 1:10, hàm ý threshold nên hạ thấp để bắt được nhiều trường hợp dương tính (nhạy cảm hơn) dù FP tăng.\n3. **So sánh mô hình:** Đánh giá từng mô hình dựa trên total_cost trên validation set, không dùng F1-score vì chi phí không đối xứng.\n4. **Chọn mô hình và threshold tối ưu:** Lựa chọn mô hình + threshold có total_cost nhỏ nhất.\n5. **Đánh giá cuối cùng:** Kiểm tra trên test set với threshold đã chọn.\n\n**Tích hợp chi phí vào threshold:** Nguyên lý: optimal_threshold ≈ cost_FP / (cost_FP + cost_FN) = 10 / 110 ≈ 0.09. Threshold này cân bằng chi phí cạnh biên giữa hai loại lỗi. Khi cost_FN cao hơn, threshold giảm, làm tăng recall (bắt nhiều dương tính) nhưng giảm precision. Ngoài ra, F-beta score với beta=√(cost_FN/cost_FP) ≈ √10 ≈ 3.16 cung cấp cách tiếp cận thay thế, tập trung recall gấp 3.16 lần precision.",
+      "evaluation_points": [
+        "Correctly identifies class imbalance as root cause of AUC-ROC vs AUC-PR divergence and explains why AUC-ROC is misleading for imbalanced data",
+        "Demonstrates understanding that threshold optimization should minimize total cost (FP*cost_FP + FN*cost_FN) rather than using fixed metrics like F1",
+        "Explains the relationship between cost asymmetry and threshold selection: cost_FN/cost_FP = 10:1 implies threshold should be lowered to catch more positives despite higher FP rate",
+        "Proposes structured evaluation framework with stratified splits and separate validation/test sets for unbiased cost calculation",
+        "Strong candidate: Articulates why precision-recall metrics (F-beta) or cost-weighted metrics are more appropriate than AUC-ROC for cost-sensitive scenarios and can calculate optimal threshold mathematically (e.g., threshold at P(y=1|x) = cost_FP / (cost_FP + cost_FN))",
+        "Weak candidate: Treats threshold tuning as ad-hoc or fails to connect cost ratios to threshold selection logic; proposes F1-score despite acknowledged cost asymmetry"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_EVALUATION_019",
+    "question_text": "Bạn có một mô hình deep learning cho bài toán phân loại ảnh y tế (10 lớp). Sau khi huấn luyện, bạn nhận thấy trên tập validation, macro F1-score là 0.78 nhưng weighted F1-score là 0.92. Khi bạn kiểm tra confusion matrix, phát hiện lớp 'ung thư' (chỉ chiếm 2% dữ liệu) có recall rất thấp (0.1) nhưng precision cao (0.9). Hãy phân tích nguyên nhân sâu xa của vấn đề này (có thể liên quan đến threshold mặc định, loss function, hoặc phân phối dữ liệu). Thiết kế một chiến lược cải thiện recall cho lớp 'ung thư' mà không làm giảm quá nhiều precision, bao gồm việc điều chỉnh threshold, thay đổi loss function, và sử dụng kỹ thuật tăng cường dữ liệu (data augmentation) đặc thù.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "EVALUATION_METRICS",
+      "METRIC_F1_SCORE",
+      "EVAL_CROSS_VALIDATION"
+    ],
+    "skill_tags": [
+      "EVALUATION_METRICS",
+      "METRIC_F1_SCORE",
+      "EVAL_CROSS_VALIDATION"
+    ],
+    "answers": {
+      "detailed": "**Root Cause Analysis:**\n(1) **Threshold mismatch:** The default 0.5 threshold is inappropriate for imbalanced data. The model outputs low probabilities for the minority cancer class due to training on predominantly negative examples, so only predictions with very high confidence exceed 0.5, yielding high precision but low recall.\n(2) **Loss function bias:** Standard cross-entropy loss is dominated by the majority classes (98% of data). Each cancer misclassification contributes minimally to total loss compared to majority class errors, so the model learns to prioritize majority class accuracy.\n(3) **Class imbalance:** The 2% cancer prevalence means the model can achieve 98% accuracy by predicting 'not cancer' for everything—this is reflected in the macro F1 (0.78) vs weighted F1 (0.92) gap, where the weighted metric masks minority class failure.\n\n**Improvement Strategy:**\n\n**1. Threshold Optimization:**\n- Construct the precision-recall curve on the validation set for the cancer class.\n- Since false negatives (missing cancer) are more costly in medical diagnosis than false positives, identify a threshold (e.g., 0.3–0.4) that achieves a business-acceptable tradeoff: target recall ≥0.6 while maintaining precision ≥0.8 (adjust based on clinical requirements).\n- Use this class-specific threshold only for cancer; keep default thresholds for other classes.\n\n**2. Loss Function Modification:**\n- **Weighted Cross-Entropy:** Assign class weight w_cancer = (total_samples) / (n_classes × cancer_samples) ≈ 50 to the cancer class, amplifying its loss contribution.\n- **Focal Loss (preferred):** FL(p_t) = -α(1 - p_t)^γ * log(p_t). Set γ=2 to penalize hard negatives (false negatives for cancer) exponentially, forcing the model to focus on difficult minority examples rather than easy majority negatives.\n\n**3. Data Augmentation (Domain-Specific):**\n- **For medical images:** Apply geometric transformations (rotation ±15°, elastic deformation, random shifts) and intensity augmentations (contrast stretching, Gaussian noise) to cancer samples to generate synthetic variants.\n- **SMOTE alternative:** Use SMOTE on deep feature representations (from a hidden layer) rather than raw pixels to generate realistic synthetic cancer samples.\n- **GAN-based:** Train a conditional GAN on cancer images to synthesize new examples, but validate that generated images remain clinically meaningful.\n- Oversample cancer class to 5–10% of training data (not 50%, which can cause overfitting).\n\n**4. Evaluation Protocol:**\n- Monitor per-class precision, recall, and F1 during validation, not just weighted metrics.\n- Plot the precision-recall curve for the cancer class and identify the knee point where precision drop is acceptable given recall gains.\n- Use stratified cross-validation to ensure each fold has representative cancer samples.\n- Test on a held-out test set with original class distribution to verify the tradeoff holds and precision doesn't degrade below clinical acceptability thresholds (e.g., ≥0.8 for cancer diagnosis).",
+      "evaluation_points": [
+        "Correctly identifies that macro F1 (0.78) vs weighted F1 (0.92) gap reveals severe class imbalance impact—macro treats all classes equally while weighted favors majority classes, exposing the minority class (cancer) underperformance",
+        "Explains the precision-recall tradeoff explicitly: high precision (0.9) with low recall (0.1) indicates the model is conservative, predicting cancer only when highly confident, which is a direct consequence of class imbalance and threshold mismatch",
+        "Proposes concrete threshold adjustment strategy with validation methodology (e.g., use precision-recall curve to find optimal threshold considering business cost: cost of false negatives vs false positives in medical diagnosis)",
+        "Recommends weighted cross-entropy or focal loss with clear rationale: focal loss specifically addresses hard examples and class imbalance by down-weighting easy negatives, making it superior for this scenario over standard weighted CE",
+        "Distinguishes between data augmentation techniques (rotation, elastic deformation) vs resampling (SMOTE, oversampling): augmentation creates synthetic variations of existing cancer samples while resampling duplicates or generates minority class instances",
+        "Specifies monitoring metrics during iteration: track precision-recall curve and F1 per-class, not just overall accuracy or weighted metrics, to ensure minority class improvement doesn't catastrophically harm precision (e.g., acceptable threshold: precision ≥0.8 with recall ≥0.6)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_EVALUATION_016",
+    "question_text": "Bạn đang xây dựng một mô hình phân loại nhị phân để phát hiện giao dịch gian lận, với tỷ lệ gian lận chỉ 0.1%. Bạn huấn luyện mô hình và thu được accuracy 99.9% trên tập validation. Tuy nhiên, khi kiểm tra chi tiết, mô hình luôn dự đoán 'không gian lận'. Hãy giải thích vì sao accuracy là một metric không phù hợp trong trường hợp này, và đề xuất 2 metric khác phù hợp hơn để đánh giá mô hình. So sánh ưu nhược điểm của F1-score và AUC-ROC trong tình huống này.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "EVALUATION_METRICS"
+    ],
+    "skill_tags": [
+      "EVALUATION_METRICS"
+    ],
+    "answers": {
+      "detailed": "Accuracy không phù hợp vì dữ liệu mất cân bằng nghiêm trọng (0.1% gian lận). Mô hình luôn dự đoán lớp đa số sẽ đạt accuracy cao (99.9%) nhưng không phát hiện được bất kỳ giao dịch gian lận nào. Hai metric phù hợp: (1) F1-score: kết hợp precision và recall thông qua trung bình điều hòa, tập trung vào lớp thiểu số (gian lận). Ưu điểm: nhạy với cả dương tính giả và âm tính giả, đơn giản để so sánh. Nhược điểm: phụ thuộc vào threshold được chọn (thường là 0.5), không phản ánh toàn bộ hiệu năng trên mọi ngưỡng, và có thể che dấu trade-off giữa precision/recall. (2) AUC-ROC: đo khả năng phân biệt giữa hai lớp trên mọi threshold, không bị ảnh hưởng bởi ngưỡng quyết định. Ưu điểm: threshold-independent, tốt cho so sánh các mô hình khác nhau. Nhược điểm: có thể lạc quan trên dữ liệu mất cân bằng cao vì FPR bị giảm khi số lượng TN lớn; không trực tiếp phản ánh chi phí kinh doanh. Trong tình huống gian lận: AUC-ROC tốt cho lựa chọn mô hình, nhưng F1-score hoặc đường cong Precision-Recall và metric Recall/Precision cụ thể phù hợp hơn để tuning threshold và ra quyết định vận hành, vì chi phí của false negative (bỏ lỡ gian lận) thường cao hơn false positive.",
+      "evaluation_points": [
+        "Correctly identifies accuracy pitfall: majority class prediction achieves 99.9% accuracy despite complete failure on minority class (fraud)",
+        "Accurately recommends F1-score and AUC-ROC with valid reasoning; explains harmonic mean penalizes extreme imbalance between precision/recall",
+        "Clarifies that AUC-ROC is threshold-independent and measures discrimination ability across all operating points, but should explain why this matters for model comparison",
+        "Should elaborate: F1-score depends on chosen threshold and provides single-point evaluation; AUC-ROC aggregates performance across thresholds, making it better for comparing models but less direct for operational decisions",
+        "Should strengthen recommendation: In fraud detection, business context matters—if false negatives (missed fraud) are costlier, should prioritize Recall and Precision over F1; AUC-ROC useful for model selection, but F1/Precision-Recall curve more actionable for threshold tuning",
+        "Missing: Could mention Precision-Recall curve as alternative/complement to ROC-AUC, especially superior for highly imbalanced data (better visualization than ROC for minority class)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_EVALUATION_018",
+    "question_text": "Bạn đang làm việc cho một công ty tài chính, cần xây dựng hệ thống đánh giá mô hình credit scoring. Dữ liệu có 50,000 mẫu với tỷ lệ vỡ nợ 5%. Bạn sử dụng cross-validation để đánh giá mô hình, nhưng nhận thấy kết quả classification report (precision, recall, F1-score) dao động rất lớn giữa các fold. Hãy debug vấn đề này: (1) Phân tích 3 nguyên nhân tiềm ẩn gây ra dao động lớn. (2) Đề xuất phương pháp cross-validation phù hợp nhất cho dữ liệu mất cân bằng này và giải thích tại sao. (3) Nếu bạn phải chọn giữa stratified k-fold và repeated stratified k-fold, hãy phân tích trade-off về độ chính xác ước lượng so với chi phí tính toán.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "EVALUATION_METRICS",
+      "EVAL_CROSS_VALIDATION",
+      "METRIC_F1_SCORE"
+    ],
+    "skill_tags": [
+      "EVAL_CROSS_VALIDATION",
+      "METRIC_F1_SCORE"
+    ],
+    "answers": {
+      "detailed": "(1) Three root causes: (a) Standard k-fold causes uneven minority class distribution across folds—some folds may have very few or zero default samples (5% of 50K ≈ 2.5K defaults), leading to unstable metrics. (b) Temporal or group structure: credit data often has customer clustering; if not controlled, train/test leakage inflates evaluation. (c) Lack of stratification causes class ratio variance between folds, destabilizing precision/recall estimates. (2) **Stratified k-fold** is the minimum requirement, preserving class ratios in each fold and ensuring all folds contain sufficient minority samples. (3) **Repeated stratified k-fold trade-off:** Running 5-fold × 3 repeats = 15 model trains instead of 5. Benefit: reduces variance of performance estimates significantly (important for small minority class), providing more robust confidence in generalization. Cost: 3× computational overhead. For 50K samples, this is practical and recommended. (4) **Critical metric consideration:** F1-score alone may be insufficient for credit scoring. False negatives (defaulters classified as good) are typically more costly than false positives (good applicants rejected). Consider **F-beta with beta=2** to weight recall twice as heavily as precision, reflecting domain risk. Avoid raw accuracy entirely—a 95% baseline model (always predict 'no default') is useless but appears highly accurate.",
+      "evaluation_points": [
+        "Identify at least 2 technical root causes (class imbalance, data structure/leakage, fold size issues)",
+        "Recommend stratified k-fold and explain how it maintains class distribution stability across folds",
+        "Analyze computational vs. statistical accuracy trade-off for repeated stratified k-fold with concrete numbers",
+        "**[NEW]** Critically evaluate whether F1-score alone is appropriate for credit scoring, or if F-beta with beta > 1 (emphasizing recall) is required given the asymmetric cost of false negatives (missed defaults) vs. false positives (rejected good applicants)",
+        "**[NEW]** Explain why simple accuracy is misleading here (5% baseline) and justify metric selection based on business requirements"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_EVALUATION_020",
+    "question_text": "Khi đánh giá mô hình phân loại nhị phân trên tập dữ liệu mất cân bằng (ví dụ: 95% negative, 5% positive), bạn sẽ ưu tiên sử dụng F1-score hay AUC-ROC? Giải thích lý do và chỉ ra hạn chế của từng metric trong tình huống này.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "EVALUATION_METRICS",
+      "METRIC_F1_SCORE"
+    ],
+    "skill_tags": [
+      "EVALUATION_METRICS",
+      "METRIC_F1_SCORE"
+    ],
+    "answers": {
+      "detailed": "In imbalanced classification (95% negative, 5% positive), F1-score and AUC-PR are preferred over AUC-ROC, though they serve different purposes:\n\n**AUC-ROC Limitation:** AUC-ROC can produce falsely optimistic results because FPR = FP/(FP+TN) remains artificially low when TN is very large (majority class). A naive model predicting all negatives might achieve ~95% accuracy and reasonable AUC-ROC, yet completely fail to identify the minority class.\n\n**F1-Score Strengths:** Directly balances precision and recall on the minority class, avoiding the majority-class bias. Disadvantage: depends on threshold choice, so it's an operating-point metric rather than threshold-independent.\n\n**AUC-PR is Superior:** Precision-Recall AUC plots recall (TPR) against precision—both inherently sensitive to minority class performance. This eliminates the TN denominator problem and is more informative for imbalanced data than AUC-ROC.\n\n**Practical Recommendation:**\n1. Use AUC-ROC to compare and rank candidate models (threshold-independent model comparison)\n2. Use AUC-PR and F1-score at optimal thresholds to evaluate final model performance\n3. Always inspect the confusion matrix and calculate business-specific costs (e.g., cost of FP fraud alerts vs. cost of FN fraud losses) to set the threshold that minimizes total business impact\n4. Consider weighted F1 or macro-averaged metrics if both classes matter\n\nThis three-step approach balances statistical rigor with business reality.",
+      "evaluation_points": [
+        "Explain why AUC-ROC can be misleading on imbalanced data: FPR remains low even for poor models because TN is large, masking poor minority class detection (connect to TP/(TP+FN) vs FP/(FP+TN) ratio)",
+        "Clarify that F1-score's threshold dependency is actually a feature, not a bug—it allows practitioners to optimize for business objectives; distinguish between 'macro F1' (unweighted) and 'weighted F1' (class-aware)",
+        "Articulate the key difference: AUC-ROC measures discrimination ability across all thresholds (useful for comparing models), while F1 & Precision-Recall directly reflect minority class performance at a chosen operating point (useful for deployment decisions)",
+        "Recommend decision framework: use AUC-ROC to compare candidate models → use F1/AUC-PR to select threshold → validate with confusion matrix and business cost analysis (cost of FP vs FN)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_EVALUATION_022",
+    "question_text": "Bạn đang huấn luyện mô hình phân loại đa lớp với 10 class. Sau khi chạy cross-validation 5-fold, bạn nhận được classification report với macro-F1 = 0.72, weighted-F1 = 0.85. Hãy giải thích sự khác biệt giữa hai giá trị này, phân tích nguyên nhân có thể, và đề xuất cách cải thiện macro-F1.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "EVALUATION_METRICS",
+      "METRIC_F1_SCORE"
+    ],
+    "skill_tags": [
+      "EVALUATION_METRICS",
+      "METRIC_F1_SCORE"
+    ],
+    "answers": {
+      "detailed": "Macro-F1 computes an unweighted average of F1-scores across all 10 classes, while weighted-F1 weights each class's F1 by its support (number of samples). The 0.13 gap strongly suggests class imbalance: minority classes have substantially lower F1-scores, dragging down macro-F1, but their small sample size means they contribute minimally to weighted-F1. Root causes: (1) severe class imbalance where minority classes are underrepresented; (2) minority classes have inherently harder decision boundaries or noisier features; (3) imbalanced loss optimization favors majority classes. Solutions: (1) SMOTE or stratified oversampling to balance training data, but validate against overfitting on synthetic samples; (2) adjust class_weight in loss function to penalize minority class misclassifications more heavily—this shifts the decision boundary but may increase FP on majority classes, requiring careful trade-off analysis; (3) collect additional data specifically for weak minority classes if feasible; (4) perform per-class threshold tuning, but use a held-out validation set (not cross-validation folds) to avoid data leakage. Finally, confirm which classes are most critical for the business use case—some minority classes may warrant higher recall/precision targets than others.",
+      "evaluation_points": [
+        "Correctly distinguishes macro-F1 (unweighted average) vs weighted-F1 (support-weighted average) and identifies class imbalance as root cause",
+        "Recognizes that the 0.13 gap indicates significant performance disparity across classes and can articulate why minority classes drag down macro-F1 while weighted-F1 remains high",
+        "Proposes multiple practical solutions (SMOTE, class weights, data collection) but should also discuss trade-offs: e.g., oversampling risks overfitting on synthetic data, class weight adjustment may shift decision boundary and increase FP on majority classes",
+        "Demonstrates awareness that threshold tuning per-class is possible but should acknowledge this adds complexity and requires careful validation strategy (e.g., separate validation set for threshold calibration to avoid data leakage during cross-validation)",
+        "Should clarify whether improvements target all minority classes equally or prioritize business-critical classes, and how to measure success beyond macro-F1 (e.g., per-class recall/precision trade-off analysis)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_EVALUATION_024",
+    "question_text": "Trong cross-validation, bạn thường gặp hai chiến lược: k-fold truyền thống và stratified k-fold. Hãy so sánh ưu nhược điểm của từng phương pháp, và cho biết khi nào bạn chọn stratified thay vì k-fold? Đưa ra ví dụ cụ thể về tình huống stratified k-fold có thể dẫn đến kết quả đánh giá sai lệch nếu không được sử dụng đúng cách.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "EVAL_CROSS_VALIDATION",
+      "EVALUATION_METRICS"
+    ],
+    "skill_tags": [
+      "EVAL_CROSS_VALIDATION",
+      "EVALUATION_METRICS"
+    ],
+    "answers": {
+      "detailed": "K-fold chia ngẫu nhiên dữ liệu thành k phần, đơn giản nhưng có rủi ro tạo fold mất cân bằng lớp. Ví dụ: với dataset 95% lớp A, 5% lớp B và k=5, một fold có thể chứa 100% lớp A, dẫn đến metric sai lệch và low variance estimates. Stratified k-fold giải quyết bằng cách giữ tỷ lệ lớp trong mỗi fold (95-5 distribution ở tất cả fold), giảm bias và variance đặc biệt với dữ liệu mất cân bằng.\n\nTuy nhiên, stratified có nhược điểm quan trọng:\n1. Time series data: stratified phá vỡ cấu trúc thời gian, gây rò rỉ dữ liệu (train trên dữ liệu tương lai). Giải pháp: TimeSeriesSplit\n2. Grouped data: nếu dữ liệu có phụ thuộc (bệnh nhân từ cùng bệnh viện), stratified có thể để sample cùng nhóm ở train/test. Giải pháp: GroupKFold hoặc StratifiedGroupKFold\n\nChọn stratified khi: classification task + class imbalance + iid data. Tránh stratified khi có temporal/group structure; dùng TimeSeriesSplit hoặc GroupKFold thay thế.",
+      "evaluation_points": [
+        "Clearly distinguish use cases: stratified for classification with class imbalance, k-fold for balanced/regression problems",
+        "Quantify the problem: show numerical example (e.g., 95-5 class split, k=5 could create folds with 0% minority class)",
+        "Explain temporal/grouped leakage risk: demonstrate how stratified can cause data leakage in time series (train on future data) or grouped data (patient samples from same hospital in both train/test)",
+        "Recommend alternatives: mention GroupKFold, TimeSeriesSplit, and StratifiedGroupKFold for complex scenarios",
+        "Discuss variance-bias tradeoff: stratified reduces variance in fold-to-fold evaluation but may increase bias if structural assumptions are violated"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  }
+]

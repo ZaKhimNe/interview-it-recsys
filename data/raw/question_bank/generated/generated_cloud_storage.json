@@ -1,0 +1,1894 @@
+[
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_001",
+    "question_text": "Sự khác biệt chính giữa Amazon S3 và Google Cloud Storage là gì?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_AWS",
+      "CLOUD_GCP"
+    ],
+    "skill_tags": [
+      "CLOUD_AWS",
+      "CLOUD_GCP"
+    ],
+    "answers": {
+      "detailed": "Cả Amazon S3 và Google Cloud Storage đều là dịch vụ lưu trữ đối tượng (object storage) với độ bền và khả năng mở rộng cao. Sự khác biệt chính bao gồm: (1) **Lớp lưu trữ**: S3 có Standard, Infrequent Access, Glacier; GCS có Standard, Nearline, Coldline, Archive - cho phép tối ưu chi phí dựa trên access patterns; (2) **Mô hình giá**: S3 tính phí cao hơn cho request, phù hợp với workload tần suất cao; GCS có phí request thấp hơn, lợi ích cho phân tích dữ liệu; (3) **Tích hợp hệ sinh thái**: S3 tích hợp sâu với AWS (EMR, Redshift, Lambda), GCS với GCP (BigQuery, Dataflow, Vertex AI); (4) **Hiệu suất**: S3 lịch sử có giới hạn request rate, GCS cung cấp throughput cao hơn từ đầu; (5) **Nhất quán dữ liệu**: Cả hai hỗ trợ strong consistency cho PUT/DELETE. **Lựa chọn thực tế**: Chọn S3 nếu ecosystem AWS hoặc cần tích hợp sâu; chọn GCS nếu đã sử dụng BigQuery/Dataflow hoặc cần chi phí truy vấn thấp. Cả hai không phải block storage hoặc file storage.",
+      "evaluation_points": [
+        "Correctly identifies both as object storage services with strong consistency",
+        "Lists concrete storage tier differences (S3: Standard/IA/Glacier vs GCS: Standard/Nearline/Coldline/Archive)",
+        "Mentions ecosystem integration differences and their practical implications for data pipeline architecture",
+        "Distinguishes from block/file storage (prevents conceptual confusion)",
+        "Demonstrates understanding of pricing model trade-offs and how this impacts cost optimization for different access patterns",
+        "STRONGER ANSWER: Explains practical implications - when to choose each (e.g., S3 for frequent AWS integrations, GCS for BigQuery analytics; lifecycle policies for cost management)",
+        "STRONGER ANSWER: Mentions performance characteristics (e.g., S3 request rate limits historically vs GCS higher throughput; multipart upload strategies)",
+        "STRONGER ANSWER: References data locality and latency considerations in relation to compute services (EMR on S3 vs Dataflow on GCS)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_003",
+    "question_text": "Định nghĩa file Parquet và Avro. Sự khác biệt cơ bản giữa hai định dạng này là gì?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "FORMAT_PARQUET",
+      "FORMAT_AVRO"
+    ],
+    "answers": {
+      "detailed": "Parquet là định dạng cột (columnar format) được tối ưu cho phân tích dữ liệu, nén dữ liệu theo cột giúp giảm dung lượng và tăng tốc độ đọc khi chỉ cần một số cột. Avro là định dạng tuần tự hàng (row-serialization format) phù hợp cho xử lý streaming, lưu trữ log và trao đổi dữ liệu, hỗ trợ schema evolution tốt hơn. Sự khác biệt chính: (1) Parquet hiệu quả cho OLAP (đọc nhiều cột từ file lớn), Avro hiệu quả cho streaming/OLTP (xử lý từng event hoặc hàng); (2) Parquet nén tốt hơn nhờ dữ liệu đồng nhất trong cột, nhưng ghi chậm hơn; (3) Avro dễ dàng thêm/xóa trường schema mà không phá vỡ tương thích ngược, hỗ trợ forward/backward compatibility; (4) Parquet tối ưu cho lưu trữ dài hạn, Avro tối ưu cho serialization nhanh chóng.",
+      "evaluation_points": [
+        "Parquet is columnar format (stores data by column), Avro is row-serialization format (stores data by row)",
+        "Parquet optimized for OLAP queries (analytical reads of specific columns), Avro optimized for streaming/event-driven workloads and schema evolution",
+        "Parquet achieves better compression through column-level compression and predicate pushdown; Avro better for rapid serialization/deserialization in streaming pipelines",
+        "Avro provides superior schema evolution (forward/backward compatibility) with explicit schema versioning; Parquet requires schema compatibility management at metadata level",
+        "Parquet: larger files, slower write, faster analytical reads; Avro: smaller overhead, faster writes, better for transactional/streaming scenarios"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_005",
+    "question_text": "Làm thế nào để upload một file lên Amazon S3 bucket bằng AWS CLI?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_AWS",
+      "CLOUD_S3"
+    ],
+    "skill_tags": [
+      "CLOUD_AWS",
+      "CLOUD_S3"
+    ],
+    "answers": {
+      "detailed": "Sử dụng lệnh 'aws s3 cp' để upload file đơn lẻ hoặc 'aws s3 sync' để đồng bộ toàn bộ thư mục. Ví dụ: 'aws s3 cp /home/data/file.csv s3://my-bucket/input/file.csv' hoặc 'aws s3 sync /home/data/ s3://my-bucket/input/ --exclude \"*.tmp\"'. Trước tiên, cần cấu hình AWS credentials bằng 'aws configure' (nhập Access Key, Secret Key, region). Có thể thêm tùy chọn: --recursive (upload tất cả file trong thư mục), --acl public-read (kiểm soát quyền), --storage-class GLACIER (chọn lớp lưu trữ), --sse AES256 (mã hóa). Kiểm tra kết quả bằng 'aws s3 ls s3://my-bucket/input/'.",
+      "evaluation_points": [
+        "Biết lệnh 'aws s3 cp' hoặc 'aws s3 sync' và phân biệt khi nào dùng từng lệnh",
+        "Hiểu cú pháp cơ bản: đường dẫn local -> S3 URI (s3://bucket_name/key)",
+        "Biết cần cấu hình AWS credentials trước khi dùng CLI (aws configure)",
+        "Biết sử dụng các tùy chọn phổ biến: --recursive, --exclude, --include để kiểm soát file nào upload",
+        "Hiểu các tùy chọn metadata: --acl, --storage-class, --sse để kiểm soát quyền, lớp lưu trữ, mã hóa",
+        "Có thể xử lý lỗi cơ bản và kiểm tra upload thành công (aws s3 ls)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_007",
+    "question_text": "Bạn đang thiết kế pipeline Data Engineering cho một công ty thương mại điện tử. Dữ liệu giao dịch (transaction) đến từ Kafka với tốc độ 10,000 messages/giây và cần được lưu vào Google Cloud Storage dưới dạng file Parquet để phân tích sau. Hãy so sánh ưu và nhược điểm của việc sử dụng Parquet so với Avro trong tình huống này, và giải thích tại sao bạn chọn Parquet?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_GCP",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "FORMAT_PARQUET",
+      "FORMAT_AVRO",
+      "CLOUD_GCP"
+    ],
+    "answers": {
+      "detailed": "In this scenario, I would choose Parquet as the final analytical storage format, but with a nuanced implementation strategy:\n\n**Why Parquet for analytical storage:**\n(1) Columnar format optimizes OLAP queries—reading only amount, date, product_id columns avoids full-row scans, reducing I/O by 70-90% on typical analytical queries.\n(2) Compression (snappy/gzip) is superior on transaction data with repetitive values (category, product_id, region), typically achieving 4-8x compression vs 2-3x for Avro.\n(3) GCS cost directly benefits: less storage = lower egress/retrieval costs.\n\n**Avro's strengths (not dismissible):**\n(1) Row-based format naturally aligns with sequential writes from Kafka, reducing serialization overhead during ingestion.\n(2) Schema registry integration enables seamless schema evolution—critical if transaction schema changes without breaking consumers.\n\n**Recommended architecture (addressing the 10K msg/sec requirement):**\n- **Ingestion layer**: Use Kafka→Spark Structured Streaming with Avro deserialization (leveraging Confluent Schema Registry if schema changes are expected).\n- **Buffering strategy**: Implement micro-batch windows (e.g., 30-60 second triggers) or file-based buffering to batch writes, balancing latency vs I/O efficiency.\n- **Format conversion**: Apply lazy transformations in Spark, then write to GCS as Parquet with partition strategy (e.g., by `date` and `product_category`) to optimize downstream queries.\n- **Trade-off decision**: Accept 30-60 second latency for 5-7x storage savings and 10x faster analytical queries. If real-time OLAP is required, reconsider Avro for analytical store.\n\n**Cost-benefit**: At 10K msg/sec (864M transactions/day), Parquet compression saves ~800GB/day in GCS, offsetting transformation overhead.",
+      "evaluation_points": [
+        "Recognizes columnar (Parquet) vs row-based (Avro) trade-offs and their impact on OLAP workloads",
+        "Understands compression efficiency differences and cost implications on cloud storage",
+        "Articulates schema evolution considerations (Avro's strengths) and when they matter",
+        "Demonstrates awareness of write throughput trade-offs and buffering/batching strategy",
+        "Discusses concrete Spark implementation: Structured Streaming with microbatch or trigger intervals; how batching window affects latency vs compression efficiency",
+        "Addresses partitioning strategy for Parquet (e.g., by date, product_category) to optimize downstream OLAP queries",
+        "Considers hybrid approach: Avro for Kafka→Spark ingestion layer, Parquet for analytical storage (data format transformation pattern)",
+        "Evaluates schema evolution risk: if transaction schema changes frequently, Avro's schema registry integration may reduce downstream breaking changes"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_009",
+    "question_text": "Công ty bạn có một pipeline ETL chạy hàng ngày, đọc dữ liệu từ S3 (định dạng Avro), xử lý bằng Spark, và ghi kết quả dưới dạng Parquet vào S3. Bạn nhận thấy thời gian chạy pipeline tăng dần theo thời gian do số lượng file Avro đầu vào tăng (từ 100 file lên 10,000 file mỗi ngày). Hãy đề xuất 2 giải pháp tối ưu hóa hiệu suất đọc từ S3 và giải thích tại sao chúng hiệu quả?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_AWS",
+      "CLOUD_S3",
+      "FORMAT_AVRO"
+    ],
+    "skill_tags": [
+      "CLOUD_AWS",
+      "CLOUD_S3",
+      "FORMAT_AVRO"
+    ],
+    "answers": {
+      "detailed": "Hai giải pháp tối ưu hóa: (1) **Sử dụng S3 Select (server-side filtering)** để lọc dữ liệu trực tiếp trên S3 trước khi đưa vào Spark. S3 Select hỗ trợ Avro và cho phép thực hiện SELECT, WHERE phía server, chỉ trả về các hàng/cột cần thiết. Ưu điểm: giảm bandwidth, giảm dữ liệu cần deserialize trong Spark. Lưu ý: S3 Select có chi phí tính toán riêng (trade-off vs bandwidth savings), phù hợp khi filtering logic đơn giản. (2) **Gộp các file Avro nhỏ thành file lớn hơn (100-200 MB)** trước khi lưu S3, hoặc sử dụng Spark repartitioning và `spark.sql.files.maxPartitionBytes` để giảm số lượng task. Lý do hiệu quả: Mỗi file nhỏ = 1 S3 HTTP request + latency overhead (mở connection, DNS lookup); 10,000 file = 10,000 requests tuần tự/song song, gây bottleneck. File lớn hơn giảm request count, tăng throughput per request, và giảm scheduling overhead trong Spark (ít task = ít overhead context switching). Ngoài ra, có thể dùng S3 Inventory + parallel reads, hoặc consolidate daily raw files thành staging layer trước khi ETL để cấu trúc dữ liệu tối ưu từ đầu.",
+      "evaluation_points": [
+        "Đề xuất ít nhất 1 giải pháp liên quan đến S3 Select (server-side filtering) và giải thích được tradeoff: chi phí S3 Select vs bandwidth savings",
+        "Đề xuất giải pháp gộp file nhỏ thành file lớn và giải thích cơ chế: mỗi file nhỏ = 1 S3 HTTP request/latency, overhead mở kết nối; file lớn = ít request hơn nhưng cần I/O sequencing",
+        "Liên hệ được với Spark partitioning: số partition = số task, quá nhiều task nhỏ gây overhead scheduling và driver/executor communication; tối ưu partition size (128MB-256MB) để cân bằng parallelism vs I/O efficiency",
+        "Hiểu được root cause: S3 latency (not throughput) là bottleneck chính khi có 10,000 file nhỏ; giải pháp nên tập trung giảm số lượng request, không chỉ giảm dung lượng dữ liệu",
+        "Nên đề cập đến alternative solutions: sử dụng S3 inventory + parallelization, hoặc restructure ETL để batch/consolidate files daily thay vì read đơn lẻ"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_006",
+    "question_text": "Parquet và Avro khác nhau như thế nào về cấu trúc lưu trữ dữ liệu?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "FORMAT_PARQUET",
+      "FORMAT_AVRO"
+    ],
+    "answers": {
+      "detailed": "Parquet là định dạng cột (columnar), lưu dữ liệu theo từng cột, tối ưu cho truy vấn đọc một số cột và nén hiệu quả (sử dụng dictionary encoding, RLE). Avro là định dạng hàng (row-based), lưu dữ liệu theo từng hàng, tối ưu cho ghi tuần tự và xử lý luồng dữ liệu. Parquet thường dùng trong phân tích dữ liệu (OLAP) và data warehouse (Hive, Spark), Avro dùng trong pipeline xử lý dữ liệu (ETL/streaming như Kafka). Thêm vào đó, Avro hỗ trợ schema evolution tốt hơn Parquet, nhưng Parquet có tỷ lệ nén cao hơn khi dữ liệu lặp lại.",
+      "evaluation_points": [
+        "Phân biệt rõ columnar vs row-based storage và tác động đến I/O performance",
+        "Giải thích được lợi ích nén dữ liệu của Parquet (dictionary encoding, RLE) vs Avro",
+        "Nhận biết schema evolution capability: Avro hỗ trợ tốt hơn, Parquet yếu hơn",
+        "Đưa ra use case cụ thể: Parquet cho data warehouse (Hive, Spark SQL), Avro cho Kafka/streaming",
+        "Biết về trade-off: Parquet chậm ghi nhưng đọc nhanh, Avro ngược lại"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_008",
+    "question_text": "AWS S3 có những class lưu trữ nào và khi nào nên dùng S3 Standard, S3 Glacier?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_AWS",
+      "CLOUD_S3"
+    ],
+    "skill_tags": [
+      "CLOUD_AWS",
+      "CLOUD_S3"
+    ],
+    "answers": {
+      "detailed": "AWS S3 có 6 storage class chính: (1) S3 Standard - truy cập thường xuyên, độ trễ thấp (ms), phí lưu trữ cao, không có phí truy xuất; (2) S3 Intelligent-Tiering - tự động chuyển tier dựa trên mô hình truy cập, tối ưu chi phí; (3) S3 Standard-IA - truy cập không thường xuyên (30 ngày), chi phí thấp hơn nhưng có phí truy xuất; (4) S3 One Zone-IA - như Standard-IA nhưng lưu một zone duy nhất, rẻ hơn nhưng rủi ro cao; (5) S3 Glacier - lưu trữ lâu dài (năm), truy xuất chậm (3-5 giờ), phí rất thấp; (6) S3 Glacier Deep Archive - rẻ nhất, truy xuất 12 giờ trở lên. Dùng S3 Standard cho dữ liệu hot (log real-time, data warehouse, content phục vụ người dùng). Dùng Glacier cho dữ liệu cold/archive (backup dài hạn, compliance, lịch sử). Intelligent-Tiering phù hợp cho dữ liệu có mô hình truy cập bất định.",
+      "evaluation_points": [
+        "Liệt kê đúng các storage class chính (Standard, Intelligent-Tiering, Standard-IA, One Zone-IA, Glacier, Glacier Deep Archive)",
+        "Phân biệt được use case giữa Standard và Glacier dựa trên tần suất truy cập",
+        "Hiểu trade-off giữa chi phí lưu trữ và chi phí truy xuất (retrieval cost)",
+        "Nêu cụ thể thời gian truy xuất cho Glacier (phút đến giờ) và Deep Archive (giờ đến ngày)",
+        "Giải thích khi nào sử dụng Intelligent-Tiering để tự động tối ưu hóa chi phí",
+        "Nhận biết hạn chế của One Zone-IA (không có cross-zone replication) so với Standard-IA"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_010",
+    "question_text": "Bạn đang thiết kế pipeline xử lý dữ liệu real-time từ Kafka vào GCP Cloud Storage. Dữ liệu đầu ra cần được lưu dưới dạng file Avro để tương thích với hệ thống downstream. Bạn sẽ chọn bucket region nào và cấu hình lifecycle policy ra sao để tối ưu chi phí?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_GCP",
+      "FORMAT_AVRO"
+    ],
+    "skill_tags": [
+      "CLOUD_GCP",
+      "FORMAT_AVRO"
+    ],
+    "answers": {
+      "detailed": "Choose bucket region based on: (1) Kafka cluster location for latency, (2) compliance/data residency laws, (3) downstream consumer location. For multi-region resilience, consider dual-region or geo-redundant buckets despite cost premium. Lifecycle policy: Standard→Nearline at 30 days assumes low access frequency; validate against actual query patterns. Transition to Coldline at 90 days, delete at 365 days—adjust thresholds if retention SLA differs. For Avro format: use Snappy compression by default (good speed/ratio balance for real-time), or Deflate if storage cost critical and throughput tolerance is higher. Implement partitioning as YYYY/MM/DD prefix for query pushdown and retention (enables deletion of entire date partitions). For streaming pipeline: choose Dataflow (managed, scales automatically, handles late data) or Spark Structured Streaming (more control). Ensure exactly-once semantics via idempotent writes (Avro schema versioning) and deduplication windows. Monitor with Cloud Monitoring: GCS object count, lifecycle policy transitions, and cost anomalies. Consider setting object hold policies on critical date partitions to prevent accidental deletion.",
+      "evaluation_points": [
+        "Understanding of region selection trade-offs: latency vs. cost vs. data residency/compliance requirements; awareness that 'nearest' isn't always optimal (e.g., multi-region redundancy for HA)",
+        "Lifecycle policy design reasoning: articulation of access patterns, cost vs. availability trade-off, and why specific transition thresholds (30/90/365 days) are chosen or if they need adjustment based on SLA",
+        "Avro compression strategy: knowledge of compression codec trade-offs (snappy=speed, deflate=ratio, gzip=compatibility), impact on write throughput vs. storage costs, and when to compress at source vs. sink",
+        "Data partitioning for operational efficiency: understanding of partition key design (date-based vs. domain-based), how partitioning enables incremental processing and deletion, and scalability implications",
+        "Missing critical elements for real-time pipeline: streaming framework choice (Dataflow/Beam, Spark Streaming), batch vs. micro-batch semantics, exactly-once delivery guarantee, and failure recovery strategy",
+        "Missing cost optimization depth: consideration of object lifecycle during writes (delete intermediate files), cross-region replication costs if HA required, and monitoring/alerting on storage spend"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_012",
+    "question_text": "Bạn đang vận hành pipeline ETL trên AWS đọc file Parquet từ S3 (hàng triệu file, mỗi file 100MB). Một số file bị hỏng (corrupt) do lỗi ghi từ upstream, khiến Spark job fail. Làm thế nào để phát hiện và xử lý các file corrupt mà không cần scan toàn bộ dữ liệu? Hãy đề xuất giải pháp thiết kế robust.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_AWS",
+      "CLOUD_S3",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "CLOUD_AWS",
+      "CLOUD_S3",
+      "FORMAT_PARQUET"
+    ],
+    "answers": {
+      "detailed": "1) **Pre-validation layer (S3 Events + Lambda)**: Use AWS Lambda triggered on S3 PutObject events to validate Parquet files using PyArrow before they enter the pipeline. Check magic bytes ('PAR1'), schema readability, and row group metadata. Move corrupt files to a quarantine bucket and publish events to SNS/SQS for alerting. This avoids scanning millions of files in Spark and fails fast. 2) **Spark-level resilience**: Use `spark.sql.files.ignoreCorruptFiles=true` (not badRecordsPath, which applies to CSV/JSON, not Parquet). This skips unreadable partitions and logs file paths. Combine with partition-level error tracking to identify which files failed. 3) **Retry strategy**: Implement exponential backoff (3-5 retries) at the partition level using Spark's RDD lineage—recompute only failed partitions, not the entire dataset. Use `spark.task.maxFailures` to control retries. 4) **Dead-letter queue (SQS)**: Route permanently failed files to DLQ after max retries for downstream investigation. 5) **Monitoring**: Log corrupt file metadata (size, modification time, schema mismatch) to CloudWatch without collecting full records to the driver. 6) **Glue Data Quality**: Schedule periodic profiling on valid data to catch schema drift and content anomalies. This design detects corruption early, minimizes re-scanning via partition-level fault tolerance, and provides observability.",
+      "evaluation_points": [
+        "Explain why early validation (Lambda/PyArrow) is preferable to relying solely on Spark's badRecordsPath, considering lazy evaluation and job failure timing",
+        "Clarify the correct Spark option for handling corrupt Parquet files (e.g., `spark.sql.parquet.mergeSchema` vs `badRecordsPath` applicability and limitations with Parquet format)",
+        "Design a partition-level retry strategy that avoids re-scanning valid files and leverages Spark's fault tolerance lineage graph",
+        "Compare trade-offs between pre-validation (early detection, higher upfront cost) vs in-pipeline error handling (deferred cost, potential cascading failures)",
+        "Discuss how to instrument logging/monitoring without adding I/O bottlenecks in a multi-million file scenario"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_014",
+    "question_text": "Công ty bạn sử dụng GCP Cloud Storage để lưu trữ dữ liệu log từ microservices (Avro format). Một ngày có 500GB log mới, và team cần query lịch sử 90 ngày với độ trễ dưới 5 giây. Hãy thiết kế giải pháp tối ưu về chi phí và hiệu năng, bao gồm cách chọn storage class, partition strategy, và caching.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_GCP",
+      "FORMAT_AVRO"
+    ],
+    "skill_tags": [
+      "CLOUD_GCP",
+      "FORMAT_AVRO"
+    ],
+    "answers": {
+      "detailed": "Design a tiered storage lifecycle policy with automatic transitions: Standard (0-30 days, $0.020/GB/month) for hot logs enabling <5s queries, Nearline (30-60 days, $0.010/GB/month) with ~1 second retrieval latency, and Coldline (60-90 days, $0.004/GB/month) accepting longer retrieval times. CRITICAL: Verify that Coldline retrieval latency (which can exceed 5 seconds) doesn't violate SLA for 60-90 day queries; if it does, extend Nearline to 90 days instead. Partition Cloud Storage objects by dt=YYYY-MM-DD/hh=HH to enable partition pruning in BigQuery external tables, reducing scan volume by 95%+ for typical time-range queries. Use BigQuery external tables on Avro files to query directly without ingestion costs; this trades slightly higher latency (200-500ms overhead vs. native tables) for 90% cost savings on storage. Layer application-level caching: use Redis/Memcached (not Cloud CDN, which is for static HTTP content) to cache results of repeated queries (e.g., 'top 10 errors per hour')—this handles 80% of queries sub-100ms and reduces BigQuery scan by 60%. For real-time requirements, implement Pub/Sub→BigQuery streaming ingestion (freshest data) and async archival to Cloud Storage (cost-optimized historical data). Expected outcome: ~50% cost reduction vs. Standard-only storage, with <5s median latency and <100ms p95 latency for cached queries.",
+      "evaluation_points": [
+        "Lifecycle policy design: understanding cost-benefit of automatic transitions between Standard→Nearline→Coldline and retrieval latency SLAs (Nearline/Coldline have longer retrieval times, risking 5-second SLA violation on cold data)",
+        "Partition strategy rationale: explaining why dt+hh partitioning enables partition pruning in BigQuery external tables, reducing bytes scanned (and cost), and discussing whether additional partitioning by service/region improves query selectivity",
+        "BigQuery external table vs. native table trade-off: candidate should clarify that external Avro queries are slower than native tables but cheaper for infrequent access; native import costs upfront but guarantees <5s latency",
+        "Caching layer selection: distinguishing between Cloud CDN (HTTP caching for static files, less suitable for analytical queries) vs. Redis/Memcached (application-level query result caching, more appropriate for 'top 10 query' patterns); explaining when each is cost-effective",
+        "Real-time ingestion architecture: evaluating Pub/Sub→BigQuery streaming vs. batch-to-Cloud Storage trade-offs; noting that streaming writes cost more but guarantee freshness",
+        "Missing consideration: mentioning RDD/DataFrame/Dataset trade-offs if batch processing with Spark is involved, or justifying why direct BigQuery querying eliminates need for Spark entirely"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_011",
+    "question_text": "Hãy giải thích sự khác biệt cơ bản giữa định dạng file Parquet và Avro trong Data Engineering.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "FORMAT_PARQUET",
+      "FORMAT_AVRO"
+    ],
+    "answers": {
+      "detailed": "Parquet is a columnar format that stores data by column rather than by row, enabling efficient predicate pushdown and compression for selective column reads—ideal for OLAP queries in systems like Athena or data warehouses. Avro is a row-based, schema-on-write format with embedded schema evolution support, optimizing for sequential writes and schema versioning, making it preferred for streaming (Kafka) and serialization. Performance trade-off: Parquet excels at analytical queries (columnar compression, lazy loading) but has overhead for write-heavy or small-record scenarios; Avro prioritizes write speed and schema flexibility. Parquet is typical in the cold path (storage/analytics), Avro in the hot path (ingestion/streaming).",
+      "evaluation_points": [
+        "Correctly identifies Parquet as columnar format and Avro as row-based, with accurate use-case mapping (OLAP vs. streaming/serialization)",
+        "Explains compression benefits of Parquet and embedded schema advantage of Avro, demonstrating understanding of practical implications",
+        "Strong candidate should articulate: Parquet's predicate pushdown and lazy column loading for analytical queries; Avro's schema evolution support and better write throughput; trade-off between storage optimization (Parquet) vs. serialization speed (Avro)",
+        "Strong candidate should mention: Parquet's overhead for small reads/writes due to block structure; Avro's flexibility with schema versioning; both formats' role in data pipelines (Avro for ingestion/streaming, Parquet for storage/analytics)",
+        "Weak candidate merely lists use cases without explaining *why* (missing lineage to storage layout, query patterns, and I/O characteristics)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_013",
+    "question_text": "AWS S3 cung cấp các lớp lưu trữ nào? Hãy kể tên ít nhất 3 lớp và cho biết trường hợp sử dụng phù hợp cho mỗi lớp.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_AWS",
+      "CLOUD_S3"
+    ],
+    "skill_tags": [
+      "CLOUD_AWS",
+      "CLOUD_S3"
+    ],
+    "answers": {
+      "detailed": "AWS S3 cung cấp 7 lớp lưu trữ chính: (1) S3 Standard - chi phí cao, truy cập ngay lập tức, dành cho hot data như real-time analytics; (2) S3 Intelligent-Tiering - tự động chuyển đổi giữa các tier dựa trên pattern truy cập, tối ưu chi phí mà không ảnh hưởng hiệu năng; (3) S3 Standard-IA - chi phí lưu trữ thấp hơn Standard nhưng có chi phí truy cập, dành cho dữ liệu ít truy cập; (4) S3 One Zone-IA - chỉ lưu tại 1 AZ, chi phí rẻ nhất trong IA, dành cho backup; (5) S3 Glacier Instant Retrieval - truy xuất trong milliseconds, chi phí thấp, cho archive dữ liệu 90 ngày; (6) S3 Glacier Flexible Retrieval - truy xuất từ phút đến giờ, chi phí rất thấp, cho long-term backup; (7) S3 Glacier Deep Archive - truy xuất từ 12 giờ trở lên, chi phí rẻ nhất, cho compliance/archive 7+ năm. Data Engineer nên dùng Standard cho production hot data, Intelligent-Tiering cho cost optimization, Glacier cho long-term archive và compliance.",
+      "evaluation_points": [
+        "Kể đúng tên ít nhất 3 lớp lưu trữ S3 (S3 Standard, S3 Intelligent-Tiering, S3 Standard-IA, S3 One Zone-IA, S3 Glacier Instant Retrieval, S3 Glacier Flexible Retrieval, S3 Glacier Deep Archive)",
+        "So sánh chi phí lưu trữ (storage cost) và chi phí truy cập dữ liệu (retrieval cost) giữa các lớp",
+        "Giải thích rõ thời gian truy xuất (retrieval time) và tính khả dụng (availability) của từng lớp",
+        "Đưa ra ít nhất 2-3 use case cụ thể phù hợp với từng lớp (ví dụ: S3 Standard cho real-time analytics, Glacier cho compliance/backup dài hạn)",
+        "Nêu được lợi ích của S3 Intelligent-Tiering trong việc tự động tối ưu chi phí"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_015",
+    "question_text": "Bạn đang làm việc với pipeline xử lý log real-time từ Kafka vào GCP Cloud Storage. Dữ liệu được lưu dưới dạng Avro. Hãy giải thích tại sao Avro lại phù hợp hơn Parquet cho trường hợp này, và nêu một nhược điểm khi dùng Avro so với Parquet.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_GCP",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "CLOUD_GCP",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "answers": {
+      "detailed": "Avro is well-suited for real-time Kafka→GCS pipeline: (1) Row-based format optimizes sequential writes, critical for streaming ingestion where individual records arrive continuously; (2) Embedded schema and schema evolution support streamline schema management across Kafka producers/consumers without external registry overhead; (3) Reasonable compression for log data with variable field counts. However, key trade-off: Avro's row-oriented design penalizes analytical queries—when analysts need specific columns (e.g., user_id, timestamp), Avro must deserialize entire rows, causing high I/O overhead. Parquet's columnar storage with predicate pushdown would be 10-100x faster for selective column reads. Senior consideration: adopt hybrid approach—stream Avro to GCS for low-latency writes, then convert to Parquet in Cloud Storage for analytical workloads (or partition by timestamp and convert batch hourly), balancing write performance with query efficiency.",
+      "evaluation_points": [
+        "Explains row-based (Avro) vs column-based (Parquet) formats and their write/read performance trade-offs",
+        "Articulates schema evolution capability and embedded schema benefits for streaming/Kafka integration",
+        "Identifies analytical query performance penalty (full row reads vs column projection) with I/O impact",
+        "Strong candidate should also discuss: (1) Compression ratios in streaming vs batch contexts, (2) When to use hybrid approach (Avro for streaming ingestion, convert to Parquet for analytics), (3) GCP-specific considerations (BigTable, BigQuery integration patterns)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_017",
+    "question_text": "Công ty bạn sử dụng AWS S3 để lưu trữ dữ liệu Parquet cho các bảng fact và dimension. Một số job ETL chạy chậm do nhiều file nhỏ. Hãy đề xuất ít nhất 2 giải pháp để tối ưu hiệu năng đọc, và giải thích trade-off của mỗi giải pháp.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_AWS",
+      "CLOUD_S3",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "CLOUD_AWS",
+      "CLOUD_S3",
+      "FORMAT_PARQUET"
+    ],
+    "answers": {
+      "detailed": "Giải pháp 1: Consolidation/Compaction - Sử dụng Spark job để gộp các file Parquet nhỏ thành file lớn hơn (128MB-1GB) định kỳ. Trade-off: Chi phí một lần (one-time compaction job) nhưng giảm đáng kể metadata overhead, số lượng tasks, và scheduling delay. Cần lưu trữ tạm thời nhưng hiệu quả dài hạn nếu dữ liệu ít thay đổi. Giải pháp 2: Partitioning - Cấu trúc S3 theo partition scheme (ví dụ s3://bucket/fact_sales/year=2024/month=01/day=15/) để Spark chỉ scan các partition cần thiết. Trade-off: Áp dụng tốt cho fact tables theo thời gian nhưng có thể gây ra skewed partitions nếu phân bố dữ liệu không đều. Giải pháp 3 (tối ưu Spark): Điều chỉnh spark.sql.files.maxPartitionBytes (mặc định 128MB) để giảm số task từ nhiều file nhỏ, sử dụng DataFrame API (không RDD) để tận dụng Catalyst Optimizer và Tungsten memory management. Trade-off: Yêu cầu tuning cho từng workload. Tổng hợp: Consolidation + Partitioning + Spark tuning là giải pháp toàn diện nhất; S3 Select phù hợp cho selective queries nhưng không thay thế being consolidation.",
+      "evaluation_points": [
+        "Identifies the small file problem and its root cause (metadata overhead, increased network I/O, scheduler overhead)",
+        "Proposes file consolidation/compaction strategy with realistic file sizes (128MB-1GB) and acknowledges one-time vs. recurring job trade-offs",
+        "Explains partition pruning strategy and when it's effective (time-series fact tables)",
+        "Discusses S3 Select/Athena but recognizes limitations for complex multi-table joins",
+        "Should mention Spark DataFrame's predicate pushdown and Catalyst Optimizer benefits when reading consolidated Parquet files",
+        "Should address Spark parallelism configuration (spark.sql.files.maxPartitionBytes, spark.default.parallelism) to avoid excessive partitions from small files",
+        "Should compare consolidation cost (one-time ETL job) vs. runtime benefit (ongoing query optimization) with ROI analysis",
+        "Strong answer acknowledges when to use RDD vs DataFrame: DataFrames leverage Tungsten and Catalyst for consolidated files; RDDs unnecessary here"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_019",
+    "question_text": "Bạn cần thiết kế một hệ thống lưu trữ data lake trên GCP Cloud Storage cho dữ liệu IoT với khối lượng 10TB/ngày, yêu cầu: (1) Lưu trữ dạng Parquet để truy vấn nhanh, (2) Chi phí thấp cho dữ liệu cũ hơn 30 ngày, (3) Hỗ trợ schema evolution khi thiết bị gửi thêm trường. Hãy đề xuất kiến trúc chi tiết về cấu trúc thư mục, lifecycle policy, và cách xử lý schema evolution. Đồng thời, phân tích một edge case: nếu dữ liệu Parquet bị hỏng do lỗi ghi, làm thế nào để phát hiện và khắc phục?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_GCP",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "CLOUD_GCP",
+      "FORMAT_PARQUET"
+    ],
+    "answers": {
+      "detailed": "**Directory Structure & Partitioning**: Use time-based partitioning `/iot/year=YYYY/month=MM/day=DD/hour=HH/device_id=XXX/` rather than device-first, as IoT workloads are typically time-series queries (recent data). This avoids skew from high-volume devices and aligns with lifecycle policies. Include a `_metadata` folder per day for schema version tracking.\n\n**Lifecycle Policy**: Implement GCS Storage Classes with automatic transitions: Hot (0-7 days, Standard) → Warm (7-30 days, Nearline) → Cold (30-90 days, Coldline) → Archive (90+ days, Archive). Use lifecycle rules based on object creation time with versioning enabled for recovery.\n\n**Schema Evolution Strategy**: \n- Store schema version in Parquet file footer metadata (e.g., `schema.version=2`) or in a sidecar JSON file per partition\n- For evolution, enforce \"additive-only\" changes: new fields must be nullable with default values\n- At read time, use Spark's automatic schema merging (`.option(\"mergeSchema\", \"true\")`) to reconcile files with different schemas\n- For strict control, maintain a schema registry (Confluent/AWS Glue) that validates producer schemas before writing; reject incompatible versions\n- Handle old devices sending legacy schema: either maintain backward compatibility decoder or route to a separate legacy partition\n\n**Corrupt File Detection & Recovery**:\n- **Detection**: Implement multi-layer validation:\n  1. File-level: Compute SHA256 checksum at write-time, store in metadata file; validate on read\n  2. Parquet-level: Use `ParquetFileReader` to validate footer and CRC checksums; corrupt files fail schema validation\n  3. Data-level: Row count, timestamp range, and null-rate checks (e.g., alert if nulls exceed 50%)\n- **Monitoring**: Dataflow/Spark jobs emit metrics on failed file validation; CloudMonitoring triggers alerts for validation failures\n- **Recovery**:\n  1. For recent data (< 30 days with versioning): Restore corrupted object from GCS version history (no cost if within retention window)\n  2. For checkpoint-based streaming: If Dataflow/Kafka checkpoint is intact, replay and re-write the partition; idempotent writes (with deduplication key: device_id + timestamp) prevent duplicates\n  3. For unrecoverable data: Route to dead-letter queue (BigQuery table or GCS failed-reads folder) with metadata (corruption type, file path, timestamp); alert data owners for upstream investigation\n  4. Long-term: Implement daily integrity audit job that scans all Parquet files, flags corrupted partitions, and maintains a repair manifest\n\n**Architectural Considerations**: Use Dataflow (managed Spark) for streaming ingestion with autoscaling to handle 10TB/day; enable side-inputs for schema registry lookups. For 30+ day data in Coldline/Archive, avoid frequent reads; use BigQuery external tables (with caching) for ad-hoc queries rather than direct GCS scans.",
+      "evaluation_points": [
+        "Justifies partitioning strategy (by device_id vs time-based) and its impact on query patterns and data skew; explains why date-based partitioning may be preferable for time-series IoT data",
+        "Articulates the trade-off between Parquet's columnar compression/performance benefits versus schema flexibility constraints; explains how schema evolution affects Parquet file metadata and compatibility",
+        "Distinguishes between schema registry patterns (Avro Registry, Protobuf) versus runtime schema inference; discusses when to use strict schema validation vs permissive (additive columns only) evolution",
+        "Proposes end-to-end data validation strategy: file-level integrity (checksums, Parquet footer validation), schema-level validation (detect missing/incompatible fields), and data-level validation (anomaly detection)",
+        "Designs a practical recovery mechanism that considers streaming checkpoint semantics, idempotency requirements, and cost trade-offs between re-processing, backup restoration, and dead-letter queues",
+        "Addresses infrastructure considerations: GCS versioning costs, streaming framework choice (Dataflow/Kafka) impact on checkpoint reliability, and monitoring/alerting for corrupt files"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_016",
+    "question_text": "Hãy định nghĩa AWS S3 và GCP Cloud Storage là gì? Sự khác biệt chính giữa hai dịch vụ lưu trữ đám mây này là gì?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_AWS",
+      "CLOUD_GCP"
+    ],
+    "skill_tags": [
+      "CLOUD_AWS",
+      "CLOUD_GCP"
+    ],
+    "answers": {
+      "detailed": "AWS S3 (Simple Storage Service) là dịch vụ lưu trữ đối tượng của AWS cho phép lưu trữ và truy xuất dữ liệu dưới dạng bucket và object. GCP Cloud Storage là dịch vụ lưu trữ đối tượng tương tự của Google Cloud với cấu trúc tương tự. Sự khác biệt chính: (1) Storage classes: S3 có Standard, IA, Glacier trong khi Cloud Storage có Standard, Nearline, Coldline, Archive với chi phí và tốc độ truy xuất khác nhau; (2) Tích hợp hệ sinh thái: S3 tích hợp sâu với EC2, Lambda, Athena, EventBridge; Cloud Storage tích hợp với BigQuery, Dataflow, Dataproc; (3) Tính nhất quán: S3 đảm bảo eventual consistency cho các hoạt động liệt kê trong khi Cloud Storage cung cấp strong consistency; (4) Quản lý phiên bản: S3 dùng versioning IDs, Cloud Storage dùng generation numbers. Cả hai đều hỗ trợ replication, lifecycle policies, và encryption.",
+      "evaluation_points": [
+        "Định nghĩa chính xác AWS S3 và GCP Cloud Storage là dịch vụ lưu trữ đối tượng (object storage)",
+        "So sánh storage classes cụ thể: S3 (Standard, IA, Glacier) vs Cloud Storage (Standard, Nearline, Coldline, Archive) và chi phí truy xuất khác nhau",
+        "Hiểu về tích hợp hệ sinh thái: S3 với EC2, Lambda, Athena vs Cloud Storage với BigQuery, Dataflow, Dataproc",
+        "Nêu được các tính năng chung (replication, versioning, lifecycle) nhưng cũng chỉ ra sự khác biệt trong cơ chế quản lý (S3 versioning vs Cloud Storage generation)",
+        "Nếu mức senior: nhận xét về hiệu suất, chi phí truy xuất API, hoặc tính nhất quán dữ liệu (S3 eventual consistency vs Cloud Storage strong consistency)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_018",
+    "question_text": "Bạn đang làm việc cho một công ty thương mại điện tử, cần lưu trữ log giao dịch hàng ngày dưới dạng file Parquet trên AWS S3. Tại sao bạn chọn Parquet thay vì CSV hay JSON? Và bạn sẽ tổ chức cấu trúc bucket S3 như thế nào để tối ưu cho việc query sau này?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_S3",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "CLOUD_S3",
+      "FORMAT_PARQUET"
+    ],
+    "answers": {
+      "detailed": "Parquet is superior to CSV/JSON for transactional log storage: (1) **Columnar Format**: Parquet stores data by column, enabling predicate pushdown—when querying specific columns or filtering (e.g., WHERE transaction_amount > 1000), Spark/Athena skip irrelevant data blocks entirely, reducing I/O by 50-80%. (2) **Compression**: Achieves 70-90% compression (vs CSV/JSON's 20-40%) because columnar data has high locality of similar types. Choose compression codec wisely: Snappy for speed, Gzip for ratio. (3) **Schema Evolution**: Parquet enforces typed schema, supporting backward/forward compatibility for evolving schemas without breaking existing queries. (4) **Binary Format**: More efficient serialization than text-based formats.\n\n**Optimal S3 Bucket Structure**: `s3://company-logs/transaction/year=YYYY/month=MM/day=DD/hour=HH/*.parquet` (consider hourly partitioning for high-volume logs). This Hive-style partitioning enables **partition pruning**—query engines eliminate entire S3 prefixes during planning, not runtime. Example: `SELECT * FROM logs WHERE year=2026 AND month=06` scans only s3://company-logs/transaction/year=2026/month=06/* without reading other months.\n\n**Additional Considerations**: (1) File sizing: aim for 128-256MB per Parquet file (balanced S3 parallelism vs too many small objects). (2) Schema management: store Glue Catalog metadata or use Delta Lake/Iceberg for reliable schema versioning. (3) Compression codec trade-off: monitor actual compression ratios for your data; Snappy offers speed, Gzip better ratio. (4) Write safety: use atomic writes (e.g., write to temporary partition, then rename) to handle S3 eventual consistency. (5) Lifecycle policy: transition old partitions to Glacier after 90 days, not immediately to S3 Intelligent-Tiering (unpredictable cost). (6) Query engine: Athena with Glue Catalog auto-discovers partitions; enable query result caching for repeated queries on same partition.",
+      "evaluation_points": [
+        "Explain Parquet's columnar format advantage: enables predicate pushdown and partition pruning in Spark/Athena, reducing I/O significantly",
+        "Distinguish between Parquet's schema evolution (backward/forward compatibility) vs CSV/JSON's schema-less nature and its implications for long-term data governance",
+        "Partition strategy rationale: Hive-style partitioning (year=YYYY/month=MM/day=DD) enables partition elimination during query planning, not just runtime filtering",
+        "Discuss Parquet's internal block/row group structure and how it interacts with S3 object size optimization (typically 128-256MB per file for balanced parallelism)",
+        "Address schema storage: whether to use Athena Glue Catalog, Delta Lake metadata, or Iceberg for schema management alongside Parquet files",
+        "Lifecycle and cost optimization: Parquet compression ratios vary by data characteristics; mention monitoring actual compression rates and S3 Intelligent-Tiering vs explicit Glacier transitions",
+        "Consider compression codec trade-offs (Snappy vs Gzip vs LZO) for balanced compression ratio vs query speed",
+        "Mention concurrent write safety: S3 eventual consistency implications when multiple ETL jobs write to same partition concurrently"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_020",
+    "question_text": "So sánh định dạng Avro và Parquet trong ngữ cảnh Data Engineering. Khi nào bạn chọn Avro thay vì Parquet? Cho ví dụ cụ thể.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "answers": {
+      "detailed": "Avro is a row-based, binary format optimized for sequential writes, with schema embedded in every file enabling straightforward schema evolution (backward/forward compatibility). It excels in write-heavy, streaming scenarios with low-latency requirements. Parquet is a columnar format designed for analytical queries, enabling column pruning, predicate pushdown, and type-specific compression, resulting in significant I/O reduction and query performance gains for read-heavy workloads. Choose Avro when: continuous event ingestion (Kafka → streaming processors), frequent schema changes requiring flexible evolution, and data processed sequentially before transformation. Choose Parquet when: storing large historical datasets for OLAP queries, using SQL engines (Spark SQL, Athena, Presto) for analytics, needing aggressive compression for cloud storage cost optimization, or running BI queries accessing subsets of columns. Example: Use Avro for real-time event streams from Kafka into a streaming processor with evolving event schemas; use Parquet for the resulting aggregated/transformed data in S3 data lake, enabling cost-effective analytic queries via Athena or Spark SQL. Key trade-off: Avro prioritizes write flexibility and latency; Parquet prioritizes read performance and storage efficiency.",
+      "evaluation_points": [
+        "Explain row-based vs columnar storage trade-offs: Avro's sequential I/O efficiency for writes vs Parquet's column pruning and predicate pushdown for analytical reads",
+        "Articulate schema evolution specifics: Avro's schema versioning embedded in file vs Parquet's dependency on external schema registry; discuss backward/forward compatibility implications",
+        "Discuss compression and storage efficiency: Parquet's superior compression due to columnar locality and type-specific compression; Avro's simpler but less efficient compression for heterogeneous data",
+        "Performance characteristics in context: Avro latency for streaming ingestion; Parquet's query performance for OLAP workloads with large datasets and selective column access",
+        "Ecosystem integration: Avro's native Kafka integration and streaming frameworks; Parquet's optimization in data warehouses (Hive, Spark SQL, Athena, Presto)",
+        "Practical trade-off scenarios: When schema evolution frequency justifies Avro overhead; when read-heavy analytics queries justify Parquet's larger initial write cost"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_022",
+    "question_text": "Bạn đang thiết kế một data pipeline trên GCP, nhận dữ liệu streaming từ Pub/Sub, cần lưu trữ dưới dạng Avro vào GCP Cloud Storage, sau đó định kỳ chạy Spark job để chuyển đổi sang Parquet cho BigQuery. Hãy giải thích chi tiết quy trình: schema management, compression codec nào nên dùng cho Avro và Parquet, và cách tối ưu chi phí lưu trữ bằng cách sử dụng storage class của Cloud Storage?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_GCP",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "CLOUD_GCP",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "answers": {
+      "detailed": "Quy trình: Apache Beam (Dataflow) đọc từ Pub/Sub, ghi Avro vào Cloud Storage sử dụng schema registry (Confluent hoặc tự quản lý file schema trong Cloud Storage/Firestore). **Schema Management**: Triển khai schema registry để enforce schema validation trước ghi, hỗ trợ schema evolution với chiến lược BACKWARD/FORWARD/BOTH compatibility tuỳ business logic; khi schema thay đổi (ví dụ thêm field mới), Spark job phải dùng DataFrame API để tự động xử lý với giá trị default, tránh RDD vì thiếu type safety. **Compression**: Avro dùng snappy (tối ưu I/O throughput cho streaming, ~50% nén, CPU thấp) hoặc deflate (nén cao hơn ~65% nhưng I/O chậm); Parquet dùng zstd (cân bằng tốt ~60% nén, CPU vừa phải) hoặc snappy nếu query latency là ưu tiên. **Spark Optimization**: Dùng DataFrame API (không RDD) để Catalyst Optimizer phân tích query plan; partition Avro data theo `YYYY/MM/DD/HH` để align với lifecycle transitions; Tungsten memory management xử lý hiệu quả schema conversion từ Avro sang Parquet. **Cost Optimization**: Nearline storage cho Avro tạm (hot, 30 ngày), tự động chuyển sang Coldline sau 90 ngày (cold backup), Archive cho 1+ năm; lifecycle policy dùng object age + storage class rules; tính toán: nếu retrieval 1 lần/tháng từ Coldline = $0.01/GB, so sánh với Nearline $0.01/GB/tháng + retrieval free → break-even ~3 tháng. **Error Handling**: Implement dead-letter queue trong Dataflow cho malformed Avro records, Spark job dùng `on_corrupted_record` option để skip/fail gracefully.",
+      "evaluation_points": [
+        "Detailed explanation of schema evolution strategy: how Spark handles breaking vs. non-breaking changes, why schema registry is critical for streaming pipelines, and concrete examples (e.g., adding optional fields vs. removing required fields)",
+        "Compression codec trade-offs with quantitative reasoning: snappy (fast I/O, lower CPU, ~50% compression ratio) for hot Avro data vs. zstd (better ratio ~60%, higher CPU) for cold Parquet; understanding impact on egress costs from GCP",
+        "Spark job optimization for this specific pipeline: DataFrame vs. RDD choice (should use DataFrame with Catalyst Optimizer for schema-aware transformations), partitioning strategy to match Cloud Storage lifecycle policies, and lazy evaluation implications for large-scale schema conversions",
+        "Cost optimization beyond storage classes: quantifying when Nearline/Coldline transitions occur (typical: Nearline after 30 days, Coldline after 90 days), calculating break-even points between storage cost and retrieval cost, and interaction with BigQuery ingestion costs",
+        "Error handling and schema compatibility: what happens when Dataflow encounters malformed Avro or schema mismatches, how to implement dead-letter queues, and ensuring Spark job doesn't fail on schema evolution in streaming context"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_024",
+    "question_text": "Bạn đang debug một pipeline Spark đọc file Parquet từ AWS S3. Query chạy rất chậm mặc dù đã partition theo date. Khi kiểm tra, bạn phát hiện file Parquet có kích thước không đồng đều (một số file 1GB, số khác 10MB) và số lượng file quá lớn (hàng triệu file). Hãy phân tích nguyên nhân và đề xuất giải pháp tối ưu (bao gồm kỹ thuật compaction, tuning Spark, và cấu hình S3)?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_S3",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "CLOUD_S3",
+      "FORMAT_PARQUET"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân: 1) Small file problem: hàng triệu file nhỏ gây overhead metadata (S3 LIST requests hit rate limiting ~3,500 requests/sec/partition), mỗi file là một task trong DAG → overhead scheduling và serialization. 2) Uneven partition: file 1GB vs 10MB tạo data skew, một số executor phải xử lý gấp 100 lần dữ liệu, dẫn đến stragglers. 3) S3 throughput: đọc từ nhiều file nhỏ không tận dụng network bandwidth so với ít file lớn.\n\nGiải pháp tối ưu:\n\n1) COMPACTION (batch job, chạy offline): Dùng coalesce() thay vì repartition() vì đây là narrow transformation (không shuffle). VD: `df.coalesce(df.rdd.getNumPartitions() / 10).write.parquet(s3_path)` để merge 10 files thành 1. Target: file size 128-256MB (tương ứng HDFS block size, tối ưu cho S3 multi-part upload). Nếu cần redistribute data (xử lý skew), dùng repartition() nhưng tính toán overhead shuffle trước.\n\n2) SPARK TUNING:\n- spark.sql.files.maxPartitionBytes: tăng từ 128MB → 256MB, giảm số partitions → ít tasks, ít scheduler overhead\n- Adaptive Query Execution (AQE): enable spark.sql.adaptive.enabled=true, spark.sql.adaptive.coalescePartitions.enabled=true → DAG optimizer tự động coalesce partitions nhỏ sau shuffle\n- spark.sql.shuffle.partitions: default 200, nếu data skew → custom partition key hoặc dùng salting strategy\n- spark.sql.parquet.filterPushdown=true: giảm dữ liệu đọc qua predicate pushdown\n\n3) S3 CONFIGURATION:\n- Dùng S3A connector (s3a:// protocol) thay vì s3n://: support multi-threaded upload/download\n- fs.s3a.fast.upload=true: enable S3A fast upload stream, buffer writes in memory\n- fs.s3a.max.total.tasks=16: tăng parallel S3 requests (cân bằng với rate limit)\n- fs.s3a.threads.max=20: thread pool cho S3A operations\n- fs.s3a.connection.timeout=5000ms: timeout để tránh hanging tasks\n- Không cần request rate giá cao nếu partition strategy tối ưu\n\n4) PARTITION STRATEGY:\n- Hiện tại partition theo date (quá mịn → hàng triệu file): chuyển sang partition theo date + hour nếu data volume cao, hoặc thêm heuristic layer (ví dụ country/region)\n- Kiểm tra cardinality: nếu date partition > 10K files/partition → dùng time-based bucketing (bucket = hàng tuần/tháng)\n\n5) LONG-TERM: Delta Lake\n- Auto-compaction: `OPTIMIZE table_name ZORDER BY (col1, col2)` tự động merge files và sắp xếp dữ liệu theo join column\n- Data statistics: lưu min/max stats → predicate pushdown tốt hơn\n- Tradeoff: thêm metadata overhead, storage cost (history), nhưng read latency giảm 50-70%\n\nMETRICS KIỂM CHỨNG: Monitor Spark UI → Tasks/stage, shuffle read/write size; CloudWatch → S3 GET/LIST request count, duration. Mục tiêu: giảm task count từ millions → tens of thousands, S3 LIST requests từ gigabytes metadata → megabytes.",
+      "evaluation_points": [
+        "Identifies small file problem as metadata overhead (S3 LIST requests, rate limiting) and connects to partition count impacting DAG planning and task scheduling",
+        "Distinguishes between coalesce (narrow transformation, no shuffle) vs repartition (wide transformation, requires shuffle) and justifies choice based on file distribution",
+        "Explains how Adaptive Query Execution (AQE) with coalescing relates to lazy evaluation and DAG optimization before execution",
+        "Understands trade-offs: compaction incurs upfront write cost but reduces future read latency; over-tuning spark.sql.files.maxPartitionBytes can cause executor memory pressure",
+        "Recognizes that partition strategy (date vs hour) affects both directory traversal cost at read-time and data skew risk; justifies choice with cardinality analysis",
+        "Connects S3A tuning (fast.upload, max.total.tasks) to partition write parallelism and shuffle spill management, not just read performance",
+        "Proposes Delta Lake's Z-order and auto-compaction as managed solution but acknowledges additional storage/compute costs and migration effort",
+        "Suggests quantitative metrics: monitor spark.executor.memory, shuffle read/write metrics, and S3 API call counts before/after optimization"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_023",
+    "question_text": "Công ty bạn cần load dữ liệu từ nhiều nguồn (CSV, JSON, log files) vào data lake trên AWS S3. Dữ liệu sẽ được dùng cho cả batch processing (Spark) và ad-hoc queries (Presto/Athena). Bạn chọn định dạng file nào? Tại sao?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_S3",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "CLOUD_S3",
+      "FORMAT_PARQUET"
+    ],
+    "answers": {
+      "detailed": "I would choose Parquet for this multi-source data lake scenario. Reasoning: (1) **Columnar format advantage**: Parquet stores data by column, enabling Athena/Presto to scan only required columns (e.g., SELECT user_id FROM table scans ~5% of data vs. row-based scanning 100%). This directly reduces S3 bandwidth costs and query latency. (2) **Spark integration**: Parquet enables Spark's vectorized reads (batch processing multiple rows at once) and predicate pushdown (push filtering to storage layer), significantly faster than CSV/JSON parsing for batch jobs. (3) **Parquet vs. Avro trade-off**: Avro is row-based, optimized for write throughput and streaming (Kafka). In your scenario, data is write-once (ingested into lake), queried many times—Parquet's read optimization dominates. Avro would incur higher query costs. (4) **Schema evolution**: Parquet supports adding/removing columns without rewriting files, crucial when ingesting heterogeneous sources. (5) **Implementation strategy**: Use Spark (or AWS Glue) to ETL CSV/JSON/logs into Parquet, enforcing a unified schema during conversion (critical—address schema drift early). Partition by date (dt=YYYY-MM-DD) to enable partition pruning: queries on specific dates skip scanning unrelated files. (6) **Cost consideration**: With Athena billing ~$5/TB scanned, columnar format + partitioning can reduce scanning by 50-80%, yielding significant savings. One caveat: if your workload is *write-heavy* with infrequent queries, ORC (Hive's columnar format) or raw gzipped JSON might be acceptable—but your ad-hoc query requirement tips toward Parquet.",
+      "evaluation_points": [
+        "Correctly identifies Parquet as columnar format and explains compression/I/O benefits for analytical queries (Athena/Presto)",
+        "Demonstrates understanding of Spark optimizations: vectorized reads, predicate pushdown, and how they interact with Parquet's physical layout",
+        "Articulates Avro vs Parquet trade-off (row-based write performance vs column-based read performance) and recognizes use-case dependency (write-heavy vs read-heavy)",
+        "Proposes realistic ETL strategy (CSV/JSON → Parquet conversion) and partitioning scheme (dt=YYYY-MM-DD) for cost optimization in S3",
+        "Recognizes schema evolution capability in Parquet—important for evolving data sources (CSV, JSON, logs)",
+        "Considers cost implications: explain *why* columnar format reduces S3 API costs (fewer bytes scanned, S3 Select integration) and Presto/Athena billing model (pay per GB scanned)",
+        "Addresses data quality/governance: Does the candidate consider converting heterogeneous sources (CSV, JSON, logs) to unified schema *before* Parquet? How is schema drift handled?",
+        "Missing: discusses when ORC might be preferred (Hive ecosystem), or when raw formats (gzipped JSON) are acceptable for write-heavy, infrequent-query scenarios"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_025",
+    "question_text": "Bạn đang thiết kế pipeline xử lý dữ liệu real-time từ Kafka vào GCP Cloud Storage. Dữ liệu cần được lưu để phân tích sau, và có thể ghi đè lên message cũ. Bạn chọn Avro hay Parquet? Giải thích chi tiết.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_GCP",
+      "FORMAT_AVRO"
+    ],
+    "skill_tags": [
+      "CLOUD_GCP",
+      "FORMAT_AVRO"
+    ],
+    "answers": {
+      "detailed": "The choice depends on clarifying the upsert requirement and downstream query patterns. **For real-time Kafka ingestion to Cloud Storage:**\n\n**Avro is suitable IF:**\n- Primary use case is append-only event log or immutable fact table (no in-place updates)\n- Schema evolution is critical (add/remove fields without breaking consumers)\n- Ingestion SLA requires minimal latency and buffering\n- Downstream analytical queries are batch-oriented or can tolerate full table scans\n- Trade-off: Row-based format means analytical queries scanning few columns will read unnecessary data, increasing I/O costs\n\n**Parquet is suitable IF:**\n- Downstream queries are selective (e.g., aggregate over specific columns repeatedly)\n- Schema is stable\n- Analytics queries are low-latency (columnar projection and predicate pushdown critical)\n- Upsert requirement means you'll implement merge logic (e.g., BigLake, Delta Lake) anyway—Parquet's optimization benefits justify conversion overhead\n\n**Recommended hybrid approach:**\n1. **Ingestion tier (Avro)**: Write raw events from Kafka with compression (snappy), leveraging Avro's schema registry for evolution and minimal serialization overhead\n2. **Transformation tier**: Aggregate/deduplicate to handle logical upserts in streaming or batch job (Dataflow/Spark)\n3. **Analytics tier (Parquet)**: Store deduplicated/merged results in Parquet on Cloud Storage, partitioned by key columns (e.g., date, entity ID), for fast ad-hoc queries\n\n**Critical clarification on upserts**: File formats do NOT handle upserts natively. If \"overwriting old messages\" means logical deduplication (keep latest version of a key), implement this in the transformation layer. If it means physically truncating/rewriting files, both Avro and Parquet require the same external orchestration (iceberg, Delta, or application-level merge logic).\n\n**Cost consideration**: Each Avro→Parquet conversion incurs compute and storage. Justify only if analytical query frequency/selectivity makes Parquet's efficiency gains worthwhile vs Avro's simpler lineage.",
+      "evaluation_points": [
+        "Understands row-based (Avro) vs columnar (Parquet) trade-offs and their impact on write-heavy streaming vs read-heavy analytics workloads",
+        "Recognizes schema evolution capabilities in Avro via schema registry and why this matters for real-time streaming from Kafka",
+        "Articulates the tension between ingestion format optimization and query pattern optimization, explaining when a two-tier approach (Avro→Parquet) is justified vs when it adds unnecessary complexity",
+        "Addresses the 'upsert/overwrite' requirement explicitly: discusses how file format choice interacts with storage layout strategy (append-only logs vs in-place updates) on Cloud Storage",
+        "Explains compression trade-offs: Avro's per-record compression vs Parquet's columnar compression effectiveness, and impact on I/O cost in GCP",
+        "Considers downstream query patterns and SLAs: if analytical queries are ad-hoc and low-latency, intermediate Parquet conversion may be mandatory; if batch and latency-tolerant, Avro-only may suffice",
+        "DISTINGUISH: Avro is NOT optimized for upserts at the file level—upserts require application logic or a merge strategy; clarify whether the requirement means logical upserts (application-level) or physical file overwrites"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_027",
+    "question_text": "Bạn có một pipeline Spark đọc dữ liệu từ S3 (dạng Parquet, 10TB, partition theo ngày) và ghi kết quả vào cùng bucket. Sau 2 tuần chạy, bạn nhận thấy job chạy chậm dần và cost S3 tăng vọt. Debug nguyên nhân và đề xuất giải pháp tối ưu.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_S3",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "CLOUD_S3",
+      "FORMAT_PARQUET"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân thường gặp: (1) **Small file problem**: Khi ghi Parquet với nhiều partition nhỏ (ví dụ partition theo giờ), S3 có nhiều file nhỏ (<128MB). Spark phải thực hiện nhiều LIST/GET request, tăng chi phí S3 và overhead I/O. (2) **Data skew**: Một số partition có dữ liệu lớn hơn nhiều, gây straggler tasks và tuning ineffective. (3) **S3 rate limiting**: Quá nhiều request (GET/LIST) từ Spark triggers throttling. (4) **Wide transformation overhead**: Output write là wide operation (repartition dữ liệu trước ghi), gây shuffle qua network. (5) **Metadata operations**: Job history, _SUCCESS files, .spark-staging folder tăng chi phí S3. (6) **Parquet suboptimization**: Row group size quá nhỏ, compression không hiệu quả.\n\nGiải pháp: (1) **Coalesce/repartition output** thành file ~256MB-1GB trước khi ghi—reduce S3 LIST/GET operations và file listing overhead. (2) **Sử dụng S3A committer** (Netflix) hoặc EMRFS consistent view để tránh rename overhead (S3 không có rename atomic, Spark rename expensive). (3) **Tối ưu Parquet**: set parquet.block.size=256MB, dùng snappy/zstd compression để giảm storage và I/O. (4) **Enable Adaptive Query Execution (AQE)**: Spark tự động coalesce dựa trên thống kê runtime, tối ưu shuffle partitions. (5) **Partition pruning on read**: Sử dụng partition filtering (ngày) khi đọc từ S3 để giảm dữ liệu input. (6) **Disable speculative metadata writes**: Tắt job history, _SUCCESS files không cần thiết để giảm S3 requests.",
+      "evaluation_points": [
+        "Identifies small file problem as a primary issue and explains I/O overhead from excessive file listing—demonstrates understanding of partition strategy impact on performance",
+        "Recognizes data skew as a straggler problem and suggests coalesce/repartition—shows knowledge of wide transformations and shuffle bottlenecks (writing output is a wide operation)",
+        "Understands S3 cost model (request-based pricing for LIST/GET operations vs storage) and proposes S3A committer to reduce rename overhead—demonstrates cloud platform optimization",
+        "Proposes Adaptive Query Execution (AQE) for automatic coalesce—shows knowledge of Catalyst Optimizer and lazy evaluation benefits",
+        "Discusses Parquet-specific optimizations (block size, compression) and metadata overhead—indicates deep understanding of serialization and storage formats",
+        "Could strengthen answer by explicitly connecting output write as a wide transformation requiring shuffle, and explaining why coalescing reduces both network I/O and S3 LIST operations",
+        "Missing discussion of partition pruning strategy—should clarify whether to filter on read (partition elimination) vs write (fewer output partitions), and their relative impact on cost"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_029",
+    "question_text": "Thiết kế một hệ thống lưu trữ và xử lý dữ liệu IoT (cảm biến nhiệt độ, độ ẩm, áp suất) từ 1 triệu thiết bị, mỗi thiết bị gửi 1 message/giây. Yêu cầu: (1) Real-time dashboard latency < 5 giây, (2) Lưu trữ 90 ngày cho batch analytics, (3) Cost tối ưu. Bạn chọn cloud storage nào (S3 hay GCS)? Định dạng file? Giải thích chi tiết.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_AWS",
+      "CLOUD_GCP",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "CLOUD_AWS",
+      "CLOUD_GCP",
+      "FORMAT_PARQUET",
+      "FORMAT_AVRO"
+    ],
+    "answers": {
+      "detailed": "Strong answer with solid architecture. To strengthen, add: (1) Avro for streaming ingestion is write-optimized and supports schema evolution (critical for evolving sensor specs), but incurs higher deserialization cost; Parquet is read-optimized, columnar, enabling Catalyst to push down filters on dt and device_id, drastically reducing I/O for analytics queries. (2) When Dataflow transforms Avro→Parquet using Spark, lazy evaluation defers the entire DAG until an action (write) is called, allowing Catalyst to fuse transformations and optimize memory layout via Tungsten—explain this concretely. (3) Real-time dashboard uses BigQuery's streaming buffer (sub-second ingest, <5s query latency via index/cache), but batch analytics reads from Parquet cold storage (higher latency, lower cost per query). Clarify the boundary: why not stream directly to Parquet (answer: write amplification, small file problem, higher egress cost). (4) Discuss RDD vs DataFrame: if using Spark, must use DataFrame API (not RDD map/filter) to benefit from Catalyst; mention Tungsten's off-heap memory for 90-day retention scans. (5) Quantify cost: e.g., 1M devices × 1 msg/s × 86,400s × 90 days ≈ 7.8B events; raw Avro ~500B/event = 3.9PB → Parquet ~50B/event = 390TB after compression; Coldline at $0.004/GB/month saves ~$1.5M/month vs standard. (6) Lifecycle policy detail: GCS Nearline (30-day minimum) for warm data, Coldline (90-day retention end-of-life) for compliance archives; contrast with S3 Glacier retrieval fees and restore delays.",
+      "evaluation_points": [
+        "Justify why Avro (row-based) is chosen for streaming ingestion vs Parquet: understand write amplification, schema evolution, and serialization overhead in real-time contexts",
+        "Explain the Catalyst Optimizer's role when converting Avro to Parquet: lazy evaluation, DAG construction, and query plan optimization for batch analytics",
+        "Discuss DataFrame vs RDD trade-offs in Spark jobs: when to use structured APIs (DataFrame/Dataset) for the Parquet transformation vs lower-level RDD operations, considering type safety and Tungsten memory management",
+        "Assess latency bottlenecks: why <5s dashboard latency is achievable with BigQuery streaming buffer but NOT with batch Parquet analytics; discuss action vs transformation implications (collect() pitfalls on driver)",
+        "Cost-benefit analysis: quantify egress costs, storage tiering, and compute costs; explain why GCP's lack of streaming buffer charges beats AWS Kinesis Firehose + S3 costs for this 1M device scale",
+        "Partition strategy impact: justify dt=YYYY-MM-DD for Parquet (time-series queries, retention cleanup) vs device_id for Avro (write distribution, hot partition mitigation)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_026",
+    "question_text": "Trong một pipeline xử lý dữ liệu thời gian thực, bạn cần lưu dữ liệu đầu vào dạng JSON lồng nhau phức tạp (nested JSON) và sau đó phân tích cột (columnar query). Bạn sẽ chọn Avro hay Parquet? Giải thích lý do và trade-off.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "answers": {
+      "detailed": "Avro is better for real-time ingest due to schema evolution flexibility (backward/forward compatible) and efficient sequential writes optimized for streaming platforms like Kafka. However, for nested JSON specifically, Parquet's columnar format with nested schema support enables efficient projection pushdown—you can query deeply nested fields (e.g., 'user.address.zipcode') without deserializing entire records. Parquet also compresses better for columnar data (dictionary, RLE) and integrates with Spark's Catalyst Optimizer for predicate pushdown and partition pruning, critical for analytical workloads. Trade-off: Avro sacrifices query efficiency for write speed; Parquet requires batch writes but excels at analytical scans. Hybrid solution: stream Avro to Kafka/staging, then use Spark jobs to batch-convert to Parquet partitioned by time/domain, storing in data lake. This balances ingestion speed with query performance while leveraging Catalyst optimizations on Parquet. Consider conversion cost and latency requirements when implementing the pipeline.",
+      "evaluation_points": [
+        "Explain how Parquet's columnar format handles nested JSON structures via schema flattening/projection pushdown, and Avro's row-based approach for nested data",
+        "Discuss compression efficiency: Parquet's dictionary/RLE compression for columnar data vs. Avro's codec flexibility and sequential write efficiency",
+        "Articulate the Spark Catalyst Optimizer's interaction: Parquet enables predicate pushdown and partition pruning for analytical queries; Avro requires full deserialization before optimization",
+        "Address nested JSON specifics: detail how Parquet preserves nested structures while enabling column-level access (e.g., spark.read.parquet on nested paths), vs. Avro requiring full record deserialization",
+        "Qualify the hybrid solution: explain partitioning strategy, format conversion overhead (CPU cost), and latency impact when migrating from Avro streaming to Parquet batch storage"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_028",
+    "question_text": "Bạn đang thiết kế một data lake trên AWS S3. Một team yêu cầu ghi dữ liệu với tần suất 1000 file/giây, mỗi file nhỏ 100KB. Họ đang gặp vấn đề về performance và cost. Bạn sẽ tối ưu như thế nào?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_S3"
+    ],
+    "skill_tags": [
+      "CLOUD_S3"
+    ],
+    "answers": {
+      "detailed": "Vấn đề gốc rễ: 1000 file/giây × 100KB = 100MB/s throughput, nhưng S3 có giới hạn 3500 PUT request/prefix/giây. Chi phí yêu cầu dominates chi phí lưu trữ với file nhỏ. Giải pháp phân tầng: (1) AGGREGATION: Sử dụng Kinesis Data Firehose (managed, low-ops) với buffer size 128MB hoặc time window 60s, ghi ra Parquet để tối ưu query cost, hoặc dùng Spark Structured Streaming với micro-batch 10-30s để kiểm soát latency-cost trade-off. (2) SCALING: Phân tán ghi vào nhiều S3 prefix (ví dụ s3://bucket/year=2024/month=01/day=15/hour=HH/minute=MM/data-{random}.parquet) để đạt >3500 PUT/sec tổng cộng. (3) COST OPTIMIZATION: Lifecycle Policy chuyển dữ liệu >30 ngày sang Glacier, >90 ngày sang Deep Archive. (4) FORMAT CHOICE: Parquet vs. Avro - Parquet tốt hơn cho OLAP workloads (columnar), Avro tốt hơn cho streaming do serialization overhead thấp hơn.",
+      "evaluation_points": [
+        "Identifies the root cause: S3 request rate limits (3500 PUT/prefix/sec) and per-request cost making small files economically inefficient",
+        "Proposes data aggregation strategy (batching) with specific tools (Kinesis Firehose, Spark Streaming) and formats (Avro/Parquet) - demonstrating understanding of streaming architectures",
+        "Explains prefix partitioning strategy to horizontally scale throughput beyond single-prefix limits",
+        "Articulates cost optimization through S3 Lifecycle policies (tiering to Glacier/Deep Archive)",
+        "STRONG CANDIDATE would additionally discuss: (a) trade-offs between latency and cost (batch size vs. flush frequency), (b) how Kinesis Firehose vs. Spark Streaming differ in complexity/operational overhead, (c) implications of chosen format on downstream query performance (Parquet columnar benefits for analytics), (d) buffer management and failure recovery mechanisms, (e) considerations for late-arriving data in time-windowed batches"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_030",
+    "question_text": "So sánh cấu trúc lưu trữ (storage model) của Parquet và Avro. Khi nào bạn chọn Avro thay vì Parquet cho một data pipeline ETL?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "FORMAT_PARQUET",
+      "FORMAT_AVRO"
+    ],
+    "answers": {
+      "detailed": "Parquet is columnar storage: data organized by column, optimized for compression and selective column queries (projection pushdown), reducing I/O during analytical reads. Avro is row-oriented: data stored sequentially by row, optimized for write throughput and streaming scenarios. Choose Avro when: (1) streaming ingestion requires fast sequential writes (e.g., Kafka producers), (2) schema evolution is frequent—Avro supports backward/forward compatibility through explicit versioning, (3) data undergoes multiple serialization cycles. However, recognize that modern ETL pipelines increasingly use Avro only at ingestion layer (message brokers), then convert to Parquet or Delta Lake for storage, since Parquet's compression (10-100x) dominates for analytical workloads. Critical trade-off: Avro prioritizes write speed and schema flexibility at the cost of storage efficiency; Parquet prioritizes query performance and compression at the cost of write latency. For streaming analytics with schema evolution, consider hybrid formats (Delta Lake, Iceberg) that combine row/columnar benefits.",
+      "evaluation_points": [
+        "Correctly distinguishes columnar (Parquet) vs row-oriented (Avro) storage models and their I/O implications",
+        "Identifies schema evolution as a key Avro advantage with specific mechanism explanation (Avro's backward/forward compatibility guarantees)",
+        "Quantifies or compares compression efficiency trade-offs: Parquet achieves 10-100x better compression for analytical workloads due to columnar organization; Avro trades compression for serialization speed",
+        "Distinguishes between streaming *ingestion* use cases (Avro) vs streaming *analytics* (Parquet with Iceberg/Delta Lake formats emerging as hybrids)",
+        "Acknowledges that Avro schema evolution requires explicit version management in ETL pipelines, whereas Parquet is schema-on-read and immutable",
+        "Recognizes that modern ETL patterns often use Avro for message brokers (Kafka) then convert to Parquet in data lake (Delta/Iceberg) for analytical efficiency",
+        "Mentions that for streaming with frequent schema changes, intermediate formats like Protobuf or JSON may be preferable over pure Avro"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_032",
+    "question_text": "Công ty bạn sử dụng GCP Cloud Storage để lưu dữ liệu log từ 1000 máy chủ. Các log được ghi dạng JSON, mỗi file 1MB. Bạn muốn tối ưu query trên BigQuery. Nên chọn storage class nào (Standard, Nearline, Coldline, Archive) và định dạng file nào để giảm cost? Giải thích.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_GCP",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "CLOUD_GCP",
+      "FORMAT_PARQUET"
+    ],
+    "answers": {
+      "detailed": "Choose Standard for hot logs (first 30 days, daily queries); transition to Nearline at 30-60 days (weekly analysis); Coldline after 90 days (rare audits). Archive only for compliance retention beyond 1 year. Rationale: Standard has zero retrieval cost; Nearline/Coldline add retrieval fees (~$0.01-0.04/GB) but drop storage by 50-80%. Convert JSON→Parquet because: (1) columnar format enables BigQuery to scan only queried columns (vs. full rows in JSON), reducing query cost by 30-60%; (2) Snappy/GZIP compression cuts storage 60-70%; (3) Parquet's schema enables Catalyst-like optimizations in BigQuery's execution engine. Partition by date (YYYY/MM/DD) for partition pruning—BigQuery charges per bytes scanned, so daily partitions allow queries to skip irrelevant data. Apply lifecycle policy to auto-transition classes. **Trade-off caveat**: Coldline/Archive impose 30/90-day minimum billing and retrieval costs; if logs require ad-hoc forensic queries, keep in Nearline or use BigQuery table snapshots instead. **Size optimization**: 1MB files are fragmented; consolidate into 100MB+ objects to reduce API call overhead and improve BigQuery load efficiency.",
+      "evaluation_points": [
+        "Justifies Standard→Nearline/Coldline transition timeline with cost-benefit analysis (access patterns vs. retrieval costs)",
+        "Explains WHY Parquet reduces query cost: columnar compression, predicate pushdown, and reduced data scanned by BigQuery (not just 'faster'); contrasts with JSON's row-oriented overhead",
+        "Discusses partition strategy trade-offs: fine-grained partitioning (daily) vs. query overhead; relates to BigQuery's partition pruning and slot consumption",
+        "Acknowledges lifecycle policy automation but identifies edge cases: retrieval costs for Coldline/Archive if logs need ad-hoc querying; recommends monitoring access patterns",
+        "Considers alternative formats (Avro vs. Parquet) and their serialization efficiency trade-offs for BigQuery ingestion",
+        "Recognizes that 1MB files are small; mentions potential consolidation into larger objects to reduce GCS API costs and improve query performance (object size vs. partition count balance)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_034",
+    "question_text": "Bạn cần thiết kế một data storage cho pipeline xử lý log từ nhiều nguồn (Kafka, API). Dữ liệu cần được lưu trữ lâu dài trên AWS S3 và hỗ trợ schema evolution (thêm/xóa trường). Bạn chọn định dạng file nào? Giải thích cách schema evolution hoạt động trong định dạng đó.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_S3",
+      "FORMAT_AVRO"
+    ],
+    "skill_tags": [
+      "FORMAT_AVRO",
+      "CLOUD_S3"
+    ],
+    "answers": {
+      "detailed": "Avro is optimal for this use case. It embeds schema with data (or externalizes via Schema Registry) and supports robust schema evolution: (1) Adding fields requires default values for backward compatibility—old readers ignore new fields, new readers use defaults for missing ones. (2) Removing fields is forward compatible if previous readers don't require them. (3) Renaming uses field aliases. Avro's row-oriented format suits streaming writes from Kafka. However, consider a dual-format strategy: write Avro to S3 for durability, then convert to Parquet for analytical queries (Parquet is columnar, faster for OLAP). Integrate Confluent Schema Registry for centralized schema versioning and governance. Use AWS Glue Catalog to register schemas and track evolution, enabling Athena/EMR to auto-discover column changes. For performance: compress Avro with snappy for write speed, use Glue crawlers to update Parquet schema in Catalog on evolution detection.",
+      "evaluation_points": [
+        "Explain Avro's embedded schema and row-oriented format benefits for streaming ingestion from Kafka/APIs",
+        "Detail backward/forward compatibility mechanics: default values for new fields, removal safety, and field aliasing for renames",
+        "Compare Avro vs Parquet trade-offs: Avro for streaming writes, Parquet for analytical queries on S3; discuss when to use each or both in architecture",
+        "Discuss Schema Registry integration for centralized schema management across producers/consumers vs embedding schema in each record",
+        "Address AWS Glue Catalog role in schema discovery, versioning, and downstream tooling (Athena, EMR) integration",
+        "Mention serialization overhead and file size implications; discuss compression strategies (snappy, gzip) in S3 context"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_031",
+    "question_text": "Hãy giải thích sự khác biệt cơ bản giữa định dạng tệp Parquet và Avro trong data engineering.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "FORMAT_PARQUET",
+      "FORMAT_AVRO"
+    ],
+    "answers": {
+      "detailed": "Parquet is a columnar format optimized for analytical queries (OLAP)—it excels at selective column reads and provides excellent compression through column-wise codecs (snappy, gzip). Avro is row-based, optimized for sequential writes and record serialization, making it ideal for streaming systems like Kafka and ETL pipelines where full-record access is typical. Parquet supports complex nested schemas and efficient schema merging during evolution; Avro uses simpler union-based schema evolution with embedded schema in each record, reducing message overhead but less flexible for structural changes. Choose Parquet for data warehousing and batch analytics; choose Avro for real-time streaming and schema registry scenarios where compactness and flexibility matter.",
+      "evaluation_points": [
+        "Correctly identifies Parquet as columnar (optimized for selective column reads) vs Avro as row-based (optimized for full-record serialization)",
+        "Articulates appropriate use cases: Parquet for OLAP analytics with compression benefits; Avro for streaming/Kafka and ETL with sequential writes",
+        "Explains schema evolution approaches: Parquet's schema merging and nested field compatibility vs Avro's simpler default/union-based evolution",
+        "STRONG: Discusses compression codec differences (Parquet leverages columnar compression like snappy/gzip; Avro relies on generic compression), performance implications for read vs write latency, and nested data handling (Parquet supports complex nested schemas efficiently; Avro has basic nested support)",
+        "STRONG: Compares serialization overhead—Parquet's binary format with metadata footprint vs Avro's compact self-describing schema, and impact on message size for data transfer",
+        "WEAK: Simply states format type without justifying architectural choices or missing discussion of when to choose one over the other based on pipeline requirements"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_033",
+    "question_text": "Bạn đang thiết kế một pipeline xử lý log từ hàng trăm server, dữ liệu được ghi liên tục vào AWS S3 dưới dạng tệp Avro. Sau đó, công ty cần chạy truy vấn phân tích trên các tệp này mỗi giờ. Hãy giải thích tại sao bạn nên chọn Avro cho giai đoạn ghi và cách tối ưu hóa lưu trữ trên S3 cho truy vấn hiệu quả.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_S3",
+      "FORMAT_AVRO"
+    ],
+    "skill_tags": [
+      "CLOUD_S3",
+      "FORMAT_AVRO"
+    ],
+    "answers": {
+      "detailed": "Avro is optimal for write phase due to: (1) row-based format enabling sequential writes from multiple servers, (2) embedded schema supporting schema evolution without breaking consumers, (3) compact binary format reducing storage. For S3 optimization: Partition by time hierarchy (year/month/day/hour) enabling partition pruning—queries only scan relevant data. Compress with Snappy (fast writes, acceptable ratio) or Gzip (higher compression, slower). For queries, use Athena with partition projection for automatic partition discovery, reducing metadata overhead. For recurring hourly analysis with complex transformations, AWS Glue (Spark) is more cost-effective than multiple Athena queries. Consider batch ETL pipeline converting Avro→Parquet post-ingestion (columnar format is 10-100x faster for analytical queries). Implement S3 lifecycle policies: move logs >30 days to Glacier. Register schemas in AWS Glue Catalog for data governance and automatic query optimization. Expected improvement: 70-80% query cost reduction with partitioning + compression, further 50% with format conversion.",
+      "evaluation_points": [
+        "Explain Avro advantages for streaming writes: row-based format, schema evolution support, and compact serialization",
+        "Discuss S3 partitioning strategy with specific examples (s3://bucket/logs/year=YYYY/month=MM/day=DD/hour=HH/) and explain partition pruning benefits",
+        "Compare compression trade-offs: Snappy (faster) vs Gzip (better ratio) based on query patterns and latency requirements",
+        "Evaluate tool selection: Athena for ad-hoc queries vs Glue+Spark for complex transformations, considering costs and query frequency",
+        "Address format conversion strategy: when/why to convert Avro→Parquet for column-oriented query optimization and cost savings",
+        "Discuss lifecycle policies: archive old logs to Glacier and set appropriate retention based on query SLA",
+        "Consider metadata management: use AWS Glue Catalog for schema tracking and query optimization"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_035",
+    "question_text": "Công ty bạn sử dụng GCP Cloud Storage để lưu trữ dữ liệu Parquet cho một hệ thống khuyến nghị. Mỗi ngày có 100GB dữ liệu được ghi, nhưng truy vấn chỉ cần 5% số cột. So sánh chi phí và hiệu năng giữa việc lưu trữ toàn bộ dữ liệu dưới dạng Parquet so với việc lưu trữ dưới dạng Avro, và giải thích tại sao Parquet lại là lựa chọn tối ưu hơn trong trường hợp này.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_GCP",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "CLOUD_GCP",
+      "FORMAT_PARQUET"
+    ],
+    "answers": {
+      "detailed": "Parquet is superior for this read-heavy scenario due to columnar storage: scanning only 5% of columns reduces I/O to ~5GB vs 100GB for Avro's row-based format. In GCP, BigQuery charges per GB scanned (~$6.25/TB), so this saves ~$0.60 per query. Additionally, Parquet's columnar homogeneity achieves 80-85% compression (100GB → 15-20GB), reducing Cloud Storage costs by ~80% vs uncompressed, and slightly better than Avro. However, consider write-time conversion costs if source data is Avro—only economical if query frequency exceeds ~100+ daily queries. In Spark, Parquet enables lazy evaluation with predicate pushdown (filtering before read) and partition pruning, further optimizing performance. Recommendation: Use Parquet with daily partitioning by date and clustering by frequently-filtered columns (e.g., user_id) in BigQuery, or implement Hive partitioning in Cloud Storage to avoid small-file performance degradation from daily 100GB writes. Monitor write costs (conversion + storage transactions) against read savings to validate ROI.",
+      "evaluation_points": [
+        "Correctly identifies columnar vs row-based I/O differences and quantifies cost savings (5% data scanned vs 100%)",
+        "Explains compression efficiency from column homogeneity and storage cost reduction",
+        "Distinguishes query-time billing (BigQuery charges per GB scanned, not read) from storage costs",
+        "Advanced: Discusses how Parquet's lazy evaluation in Spark enables predicate pushdown and partition pruning to further reduce I/O",
+        "Considers write-time conversion overhead and when conversion cost exceeds read-time benefits",
+        "Evaluates schema evolution differences (Avro superior) and when this matters despite format choice",
+        "Missing: Concrete numbers (e.g., 100GB Parquet ~15-20GB compressed; scanning 5% = ~1GB query cost vs 80-100GB for Avro)",
+        "Missing: Risk analysis—Parquet splittability and small-file problem in daily 100GB writes; recommends partitioning strategy"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_037",
+    "question_text": "Bạn đang xây dựng một data lake trên AWS S3 với dữ liệu từ nhiều nguồn (IoT sensors, web logs, transaction). Mỗi nguồn có schema khác nhau và thay đổi theo thời gian. Hãy đề xuất cách tổ chức bucket S3, lựa chọn định dạng tệp (Parquet hay Avro) cho từng loại dữ liệu, và giải thích cách xử lý schema evolution khi có thay đổi từ nguồn.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_S3",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "CLOUD_S3",
+      "FORMAT_PARQUET",
+      "FORMAT_AVRO"
+    ],
+    "answers": {
+      "detailed": "Bucket structure: s3://datalake/bronze/{source}/{year}/{month}/{day}/ for raw ingestion, silver/{source}/{year}/{month}/{day}/ for cleaned/deduplicated data, and gold/ for aggregated business tables. This layering enables incremental processing and rollback capability.\n\nFormat selection:\n- IoT sensors (streaming, frequent schema evolution): Avro. Embedded schema allows each record to carry its schema version; backward/forward compatibility rules (adding nullable fields with defaults) enable producers and consumers to operate independently during transitions.\n- Web logs (analytical queries, stable schema): Parquet. Columnar storage compresses repetitive data (~5-10x for logs) and enables predicate pushdown for fast queries. Schema evolution via schema merging on read in Spark (spark.sql.parquet.mergeSchema=true).\n- Transactions (ACID semantics, audit trails): Parquet with Delta Lake or Apache Iceberg. Table formats provide ACID guarantees, time-travel (recover historical states), and schema versioning with enforcement.\n\nSchema evolution handling:\n1. Avro: Define compatibility rules in schema registry. Example—adding 'status' field: {\"name\": \"status\", \"type\": [\"null\", \"string\"], \"default\": \"unknown\"}. Producers write new schema, consumers with old schema see default; vice versa for backward compatibility.\n2. Parquet: Use Glue Schema Registry to track versions. On schema change, write new data to new partition/version location. At read time, use schema merge or apply transformations (casting, aliasing) to unify schemas across files.\n3. Table formats (Delta/Iceberg): Maintain schema version history. Schema changes are atomic; old readers fail loudly (fail-safe) or can explicitly opt into schema evolution mode. Iceberg's hidden partitioning isolates partition columns from schema.\n\nGovernance: Centralize schemas in AWS Glue Schema Registry with versioning and validation rules. Require schema reviews before production deployment. Document breaking vs. non-breaking changes. Implement data quality checks (Glue Data Quality) post-ingestion to catch schema violations early.\n\nTrade-offs: Avro's overhead for small records (schema per record) vs. Parquet's need for schema merge on read; flexibility vs. query performance; Parquet's better for BI tools, Avro's better for event streaming. Table formats add operational complexity but justify investment for high-value transactional data.",
+      "evaluation_points": [
+        "Bucket structure follows medallion/bronze-silver-gold layering principle and explains partitioning rationale (year/month/day) for query performance and lifecycle management",
+        "Justifies format selection with specific technical reasoning: Avro for schema flexibility with embedded schema (IoT), Parquet for columnar compression and analytical query performance (logs), and table formats (Delta/Iceberg) for ACID/time-travel capabilities (transactions)",
+        "Articulates schema evolution strategies with nuance: backward/forward compatibility in Avro (e.g., adding nullable fields with defaults), schema-on-read merging in Spark for Parquet, and version control via table formats vs. point-in-time handling",
+        "Demonstrates understanding of Glue Schema Registry for centralized governance, versioning, and validation, not just tracking—explains how this prevents downstream breaking changes",
+        "Addresses trade-offs: Avro's flexibility vs. Parquet's performance; flat vs. nested schemas; schema-on-write (Avro) vs. schema-on-read (Parquet); and cost implications of format choice for storage and compute",
+        "Considers operational concerns: how to handle non-breaking changes (new optional fields) vs. breaking changes (field removal/type changes), rollback strategies, and consumer communication"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_039",
+    "question_text": "Bạn có một pipeline xử lý dữ liệu thời gian thực từ Kafka (dùng Avro) lưu vào AWS S3 dưới dạng Parquet, chạy Spark job hàng giờ để chuyển đổi. Gần đây, truy vấn trên S3 bị chậm đột biến, đặc biệt khi đọc dữ liệu từ 3 tháng trước. Hãy phân tích nguyên nhân có thể và đề xuất giải pháp tối ưu hóa hiệu năng, bao gồm cả việc tinh chỉnh partition, compression, và file size.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_AWS",
+      "CLOUD_S3",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "CLOUD_S3",
+      "FORMAT_PARQUET",
+      "CLOUD_AWS"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân chậm: (1) **Small file problem**: Spark job tạo nhiều file nhỏ, mỗi file gây một request S3 (I/O overhead). (2) **Partition không tối ưu**: chỉ partition theo ngày không hỗ trợ partition pruning khi Catalyst Optimizer phân tích DAG. Truy vấn dữ liệu tháng cũ quét toàn bộ thư mục dù chỉ cần một tháng. (3) **Compression không phù hợp**: Gzip có ratio nén cao nhưng chậm giải nén (CPU-intensive), ảnh hưởng đến throughput. (4) **Schema evolution**: Chuyển đổi Avro → Parquet có thể tạo overhead serialization/deserialization nếu không có Encoder tối ưu.\n\nGiải pháp: (a) **Coalesce/Repartition**: Dùng coalesce() (narrow transformation, không shuffle) để gộp file thành ~100-500MB mỗi file, giảm S3 request. Nếu cần sắp xếp lại, dùng repartition() (wide transformation, có shuffle) cẩn thận vì shuffle cost cao. (b) **Partition Strategy**: Partition theo year/month (hoặc year/month/day) để Catalyst Optimizer thực hiện partition pruning ở logical plan phase, giảm dữ liệu quét từ 3 tháng xuống 1 tháng. (c) **Compression**: Thay Gzip bằng Snappy (nhanh hơn, ratio chấp nhận) hoặc Zstd (cân bằng tốt giữa nén và tốc độ). (d) **Data Skipping**: Bật Parquet min-max statistics để Spark bỏ qua file/block không phù hợp filter mà không cần đọc toàn bộ. (e) **S3 Select / Athena**: Dùng S3 Select (server-side filtering) hoặc Athena (SQL engine trên S3) để giảm dữ liệu transfer. (f) **Delta Lake**: Xem xét migrate sang Delta Lake, sử dụng OPTIMIZE command để tối ưu file layout, tích hợp Z-order clustering cho truy vấn cụ thể, và quản lý schema evolution tự động.",
+      "evaluation_points": [
+        "Identifies small file problem as a primary issue and explains S3 API request overhead (connection with narrow transformations vs. wide transformations in Spark)",
+        "Demonstrates understanding of partition pruning strategy and its relationship to Spark's Catalyst Optimizer (logical plan optimization before execution)",
+        "Recommends appropriate compression codecs with trade-offs (Snappy/Zstd vs. Gzip) and justifies file size targets (100-500MB aligns with Spark's partition/shuffle efficiency)",
+        "Proposes advanced solutions (Delta Lake OPTIMIZE, S3 Select, Parquet data skipping/min-max stats) showing knowledge of metadata-driven query optimization",
+        "Discusses schema evolution challenges between Avro and Parquet, indicating awareness of serialization/deserialization overhead and type safety concerns",
+        "Optionally explains how repartition (wide transformation with shuffle) vs. coalesce (narrow transformation without shuffle) impacts job performance and network I/O during optimization",
+        "Considers time-based partitioning strategy (year/month) to enable partition pruning in Spark's logical plan phase, reducing data scanned during DAG execution"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_036",
+    "question_text": "Định nghĩa AWS S3 và Cloud Storage. Sự khác biệt cơ bản giữa lưu trữ đối tượng (object storage) và lưu trữ khối (block storage) là gì?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_AWS",
+      "CLOUD_GCP"
+    ],
+    "skill_tags": [
+      "CLOUD_AWS",
+      "CLOUD_GCP"
+    ],
+    "answers": {
+      "detailed": "AWS S3 là dịch vụ lưu trữ đối tượng có khả năng mở rộng vô hạn, lưu dữ liệu dưới dạng object (gồm data, metadata, key identifier), truy cập qua REST API. Cloud Storage (GCP) có kiến trúc tương tự. Khác biệt cơ bản: Object Storage lưu dữ liệu dạng phẳng, không phân cấp tập tin, phù hợp dữ liệu không cấu trúc hoặc semi-structured (logs, images, Parquet files), có latency ms-level nhưng khả năng mở rộng vô hạn. Block Storage (EBS, Persistent Disk) chia dữ liệu thành khối, gắn trực tiếp với máy chủ như một ổ cứng, phù hợp cho database, transactional systems, OS volumes, có IOPS cao nhưng khó scale beyond single instance. Ví dụ: S3 cho data lakes Spark jobs, machine learning datasets; EBS cho PostgreSQL database, application state. Trade-off: S3 rẻ hơn lâu dài cho dữ liệu lớn nhưng truy cập từng object có overhead; EBS có chi phí provisioned IOPS cao nhưng performance predictable cho workload hot data.",
+      "evaluation_points": [
+        "Định nghĩa chính xác S3/Cloud Storage và cấu trúc object (data, metadata, key)",
+        "Giải thích rõ object storage lưu dữ liệu phẳng qua HTTP/REST API vs block storage gắn với compute instances",
+        "Hiểu trade-off: object storage có latency cao nhưng khả năng mở rộng vô hạn; block storage có IOPS cao nhưng khó scale",
+        "Liệt kê ví dụ cụ thể: S3 cho data lakes, analytics (Spark jobs), machine learning; EBS cho database transactions, OS root volumes",
+        "Giải thích chi phí và performance: S3 tính theo GB lưu trữ + request; EBS tính theo provisioned IOPS + GB",
+        "Hiểu sự khác biệt trong data durability/availability: S3 có built-in replication; EBS phụ thuộc snapshot strategy",
+        "Nhận biết khi nào chọn object storage (batch processing, machine learning) vs block storage (transactional, real-time)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_038",
+    "question_text": "Parquet và Avro là hai định dạng file phổ biến trong Data Engineering. Hãy so sánh cách chúng lưu trữ schema và dữ liệu (row-based vs columnar).",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "FORMAT_PARQUET",
+      "FORMAT_AVRO"
+    ],
+    "answers": {
+      "detailed": "Parquet là định dạng cột (columnar), lưu dữ liệu theo cột với metadata schema trong footer, tối ưu cho truy vấn đọc subset columns và nén hiệu quả ở mức column (RLE, dictionary). Avro là định dạng hàng (row-based), lưu schema JSON inline với dữ liệu, tối ưu cho ghi tuần tự và xử lý stream. Schema evolution: Avro hỗ trợ linh hoạt hơn (field addition/removal), Parquet yêu cầu schema compatibility checking. Tradeoff: Avro nhỏ gọn cho Kafka/event streaming, Parquet hiệu quả cho data lake analytics (chi phí query thấp, compression cao do column-level encoding).",
+      "evaluation_points": [
+        "Phân biệt row-based (Avro) vs columnar (Parquet): cách lưu trữ vật lý và ảnh hưởng đến I/O patterns",
+        "Hiểu hiệu suất: Parquet tối ưu cho analytical queries (đọc subset columns), Avro cho sequential reads (streaming, log ingestion)",
+        "Schema management: Avro lưu inline với mỗi record, Parquet lưu trong footer metadata; tradeoff giữa redundancy vs efficiency",
+        "Compression hiệu quả: Parquet column-level compression (RLE, dictionary) vs Avro row-level compression; kích thước file output",
+        "Schema evolution: So sánh khả năng backward/forward compatibility của cả hai định dạng và impact trên data pipelines",
+        "Trade-off thực tế: Avro phù hợp Kafka/streaming (small record size, schema flexibility), Parquet phù hợp data lake/warehouse (analytical workloads, cost-per-query)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_040",
+    "question_text": "Bạn đang thiết kế pipeline xử lý log hàng ngày với lượng data 500GB từ nhiều nguồn. Dữ liệu cần lưu vào AWS S3, sau đó đọc bằng Spark để phân tích. Bạn sẽ chọn định dạng file nào: Parquet hay Avro? Giải thích lý do và cách cấu hình partition trên S3.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_AWS",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "CLOUD_AWS",
+      "FORMAT_PARQUET",
+      "FORMAT_AVRO"
+    ],
+    "answers": {
+      "detailed": "Choose Parquet for this 500GB analytics-heavy pipeline. Parquet's columnar format enables Spark's Catalyst Optimizer to apply predicate pushdown—when analyzing logs, you may only read 5-10 columns from 500GB, and Parquet reads only those columns to disk, while Avro (row-oriented) must deserialize entire rows. Compression reduces storage ~70% vs Avro's ~50%, lowering S3 costs and network I/O. Partition strategy: dt=YYYY-MM-DD/hour=HH (e.g., s3://bucket/logs/dt=2024-01-15/hour=10/) enables partition pruning—queries filtering by date automatically skip unrelated partitions without scanning their metadata. Avro trades write speed (~10-20% faster ingestion) for significantly slower reads; only choose it if schema evolution is frequent (e.g., new fields added unpredictably). For logs with stable schemas, Parquet's read performance dominates ROI. Configure Spark with: `spark.read.option('mergeSchema', 'false').parquet('s3://bucket/logs/dt=*/hour=*/')` to leverage partition discovery.",
+      "evaluation_points": [
+        "Explains columnar format advantage: Parquet's column-oriented storage enables predicate pushdown and selective column reads, directly reducing I/O for analytics queries (e.g., scanning 10 columns from 500GB only reads relevant columns)",
+        "Discusses partition strategy impact on partition pruning: demonstrates understanding that dt=YYYY-MM-DD/hour=HH partitioning enables Spark to skip entire partitions at query time, avoiding full table scans (e.g., filtering for specific dates eliminates unnecessary S3 reads)",
+        "Quantifies compression trade-offs: explains why Parquet's snappy/gzip compression (~70% reduction) matters for S3 storage costs and network I/O when reading, whereas Avro's compression is typically lighter (~50%)",
+        "Acknowledges schema evolution scenarios: identifies when Avro's schema-on-read flexibility justifies higher read latency (e.g., log ingestion with unpredictable field additions), but recognizes logs typically have stable schemas",
+        "Addresses write performance consideration: acknowledges Avro's faster write speed (~10-20% better) may matter during ingestion phase, but read performance dominates total pipeline cost for analytics (80/20 rule: write once, read many)",
+        "Spark configuration specifics: mentions reading partitioned Parquet via `spark.read.parquet('s3://bucket/logs/dt=*/hour=*/')` and how Spark's partition discovery optimizes the DAG (narrow transformation filtering)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_042",
+    "question_text": "Công ty bạn đang chuyển từ on-premise HDFS sang GCP Cloud Storage. Hãy giải thích cách thiết kế bucket hierarchy cho dữ liệu raw, staging, curated. Làm thế nào để quản lý lifecycle policy để tiết kiệm chi phí cho dữ liệu lưu trữ lâu dài?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_GCP"
+    ],
+    "skill_tags": [
+      "CLOUD_GCP"
+    ],
+    "answers": {
+      "detailed": "**Bucket Hierarchy Design:**\n- raw/: Immutable, original data ingestion point. Partition by dt=YYYY-MM-DD/source=/topic=. Store checksums for integrity validation.\n- staging/: Intermediate processing layer. Temporary outputs from ETL jobs (TTL-based cleanup). Consider separate bucket if high churn to optimize lifecycle scans.\n- curated/: Clean, deduplicated, queryable data. Optimized for analytics (Parquet, columnar). Higher query frequency justifies higher access tier (Standard/Nearline).\n\n**Lifecycle Policy Strategy:**\n- raw/: Standard (0-7d) → Nearline (7-30d, cost ~50% less) → Coldline (31-365d) → Archive (365d+). Rationale: raw rarely re-accessed after processing completes.\n- staging/: Aggressive TTL (7d) → delete. Or use object expiration rather than storage class transition (cheaper for short-lived data).\n- curated/: Standard (0-90d, active analytics) → Nearline (91-365d, occasional historical queries) → Archive (365d+, compliance hold only). Monitor actual access patterns via Cloud Logging to refine thresholds.\n\n**Cost Optimization Trade-offs:**\n- Archive cost is 70% lower than Standard, but retrieval (PB/month pricing) and request costs ($0.10 per 10K requests) can offset savings if accessed frequently. Analyze query frequency before archiving.\n- Egress costs ($0.20/GB) dominate for multi-region replication. Consider single-region buckets where compliance allows.\n- Object versioning incurs storage charges per version. Use with bucket lock only for immutable raw layer; curated layer should use soft-delete + cleanup jobs.\n\n**Migration from HDFS:**\n- Use GCP Data Transfer Service or Dataflow for parallelized migration; preserve partitioning structure.\n- Implement dual-write during transition period to ensure consistency.\n- Validate row counts and checksums post-migration before decommissioning HDFS.",
+      "evaluation_points": [
+        "Đề xuất bucket hierarchy rõ ràng với rationale (raw/staging/curated và tại sao cần tách biệt)",
+        "Áp dụng lifecycle policy đúng storage class (Nearline, Coldline, Archive) với cost-benefit analysis cụ thể",
+        "Giải thích versioning và bảew vệ dữ liệu (Object Lock, retention policies, soft delete strategies)",
+        "Thiết kế partition strategy tối ưu cho query performance (dt=YYYY-MM-DD, region, data domain) và impact trên lifecycle management",
+        "Xác định các edge cases: hot data vs cold data, query patterns, và khi nào nên giữ data ở Nearline vs Archive",
+        "Tối ưu chi phí: trade-off giữa storage cost (Archive rẻ) vs retrieval cost (Archive tốn khi truy vấn), egress cost, và request pricing",
+        "Data governance: access control patterns (IAM roles per layer), audit logging, và compliance requirements (retention vs deletion)",
+        "Migration strategy từ HDFS: handling large initial data transfer, minimizing downtime, và metadata preservation"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_044",
+    "question_text": "Bạn đang debug pipeline Spark đọc 10TB dữ liệu Parquet từ AWS S3. Pipeline chạy rất chậm, chỉ đạt 20% throughput dự kiến. Hãy phân tích nguyên nhân và đề xuất giải pháp tối ưu, bao gồm cấu hình Spark, S3 endpoint, và file layout.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_AWS",
+      "CLOUD_S3",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "CLOUD_AWS",
+      "CLOUD_S3",
+      "FORMAT_PARQUET"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân chính: 1) S3 request rate limit từ nhiều small file + partition mismatch gây amplified GET requests. 2) Partition size tối ưu không khớp với S3 object size, dẫn tới hoặc memory pressure (oversized) hoặc scheduler overhead (undersized). 3) Thiếu locality và không dùng pushdown tối ưu, làm phí bandwidth. 4) Không diagnose chi tiết (Spark UI, CloudWatch metrics). \n\nGiải pháp:\n- Diagnose: Thu thập metrics từ Spark UI (task duration, shuffle spill, GC time) và S3 CloudWatch (RequestCount, UserErrors do throttling). Dùng spark.eventLog.logBlockManagerEvents=true để trace I/O pattern.\n- File Layout: Compact Parquet files thành 128MB-1GB range (1 file ≈ 1-2 partitions). Tránh small file anti-pattern; consolidate nếu cần dùng S3 compaction job.\n- Spark Config: spark.sql.files.maxPartitionBytes=256MB (phù hợp với Parquet file size), spark.default.parallelism=số_executor * cores. Dùng coalesce() chỉ khi giảm parallelism không ảnh hưởng; repartition() nếu cần shuffle.\n- S3A Connector: fs.s3a.connection.maximum=1000 (hoặc cao hơn dựa trên executor count), fs.s3a.multipart.size=100M, fs.s3a.multipart.threshold=100M, fs.s3a.fast.upload=true. Enable connection reuse và retry logic (fs.s3a.retry.limit=5, fs.s3a.retry.interval=100ms).\n- S3 Endpoint: Dùng VPC gateway endpoint (không phí transfer) hoặc S3 Transfer Acceleration nếu cross-region. Validate latency: 1-2ms local, <50ms cross-AZ.\n- Pushdown Tối ưu: Parquet column pruning (Catalyst tự động nếu dùng DataFrame API, không RDD). Dùng S3 Select (nếu dataset hỗ trợ) để pushdown predicate/projection; giảm 30-70% data scanned.\n- Caching: Persist() hot data (reused trong multiple actions) only nếu memory adequate (spark.memory.fraction, spark.memory.storageFraction). Ưu tiên broadcast cho small lookup table (<1GB) thay vì cache large dataset.\n- Profiling: Dùng Spark profiler hoặc flame graphs để identify CPU vs I/O bottleneck. Nếu I/O bound, optimize S3 latency; nếu CPU bound, check GC tuning (spark.executor.extraJavaOptions). Nếu network bound, validate executor-to-S3 path (security group, NAT gateway).",
+      "evaluation_points": [
+        "Diagnose root cause using Spark UI (task duration, GC time, shuffle spill) and S3 CloudWatch metrics (request rate, throttling errors)",
+        "Explain how partition size affects DAG execution: oversized partitions cause memory pressure and GC; undersized partitions create excessive scheduler overhead and S3 request amplification",
+        "Recommend S3A tuning with rationale: multipart upload settings (fs.s3a.multipart.size, fs.s3a.multipart.threshold), connection pooling, and read retry logic for transient failures",
+        "Address file layout strategy: compact Parquet files (128MB-1GB) to reduce S3 LIST calls and initial partition discovery; explain trade-off between fewer large files (better I/O) vs parallelism ceiling",
+        "Propose pushdown optimizations: Parquet column pruning via Catalyst, S3 Select for predicate/projection pushdown (if supported), and early filtering to reduce data scanned",
+        "Discuss caching strategy: persist hot data to local SSD/EBS only if reused across multiple actions; explain memory overhead vs latency trade-off; mention broadcast variables for small lookup tables",
+        "Mention advanced diagnostics: enable task metrics (spark.eventLog.logBlockManagerEvents), profile CPU/network bottlenecks, and validate S3 endpoint routing (VPC, gateway vs internet gateway latency)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_041",
+    "question_text": "Parquet và Avro là hai định dạng file phổ biến trong Data Engineering. Hãy giải thích sự khác biệt chính giữa chúng về cách lưu trữ dữ liệu (row-oriented vs column-oriented) và trường hợp sử dụng điển hình của mỗi loại.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "FORMAT_PARQUET",
+      "FORMAT_AVRO"
+    ],
+    "answers": {
+      "detailed": "Parquet is a columnar format that stores data vertically by column, making it optimal for analytical queries that read only a subset of columns (SELECT, aggregations, GROUP BY). It achieves high compression ratios because similar data types in the same column compress well together. Avro is a row-oriented format that stores complete rows sequentially, optimized for write-heavy operations and data transmission over networks without schema overhead. Typical use cases: Parquet excels in OLAP systems and data warehouses (cost-efficient storage and fast analytical queries); Avro dominates in ETL pipelines, Kafka streaming, and log ingestion where schema evolution is critical and data traverses distributed systems. A key trade-off: Parquet provides better query performance and compression for analytical workloads, while Avro offers flexibility in schema handling and lower serialization/deserialization latency for event-driven architectures.",
+      "evaluation_points": [
+        "Correctly distinguishes row-oriented (Avro) vs column-oriented (Parquet) storage architecture",
+        "Identifies appropriate use cases: Parquet for analytical queries (OLAP), Avro for streaming/messaging (Kafka, logs)",
+        "Explains compression advantage of Parquet (high compression on repeated column values) and schema evolution flexibility of Avro (handles missing/new fields gracefully)",
+        "Discusses performance implications: Parquet excels at selective column reads and aggregations; Avro better for full-row access and serialization overhead in transit",
+        "Acknowledges data format maturity: Parquet as Hadoop ecosystem standard for data warehouses; Avro as schema-on-read format for event streaming systems"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_043",
+    "question_text": "AWS S3 và GCP Cloud Storage đều là dịch vụ lưu trữ đám mây. Hãy nêu ít nhất hai điểm tương đồng và hai điểm khác biệt chính giữa hai dịch vụ này về mặt tính năng và cách sử dụng trong Data Engineering.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_AWS",
+      "CLOUD_GCP"
+    ],
+    "skill_tags": [
+      "CLOUD_AWS",
+      "CLOUD_GCP"
+    ],
+    "answers": {
+      "detailed": "Tương đồng: (1) Cả hai đều là object storage với bucket/container model, hỗ trợ versioning, lifecycle policies, và multi-region replication. (2) Đều tích hợp tốt với dịch vụ compute của mình (EC2/EMR với S3; Compute Engine/Dataproc với Cloud Storage) và hỗ trợ CORS, encryption. Khác biệt: (1) AWS S3 cung cấp nhiều storage classes hơn (Standard, Intelligent-Tiering, Glacier, Deep Archive) cho cost optimization linh hoạt, trong khi GCP chỉ có Standard, Nearline, Coldline, Archive. (2) S3 Select cho phép query trực tiếp trên S3 (reduce data transfer), GCP Cloud Storage tích hợp Pub/Sub cho event-driven architectures. (3) Consistency: AWS S3 đảm bảo strong consistency cho tất cả operations từ 2020; GCP Cloud Storage cũng strong consistency by default nhưng có khác biệt về read-after-write semantics sau delete. (4) Data Engineering: S3 ecosystem maturity với Spark/Hadoop vs GCP tối ưu cho streaming với Dataflow và BigQuery integration native.",
+      "evaluation_points": [
+        "Correctly identify at least 2 similarities: object storage model, versioning, lifecycle policies, multi-region replication support",
+        "Correctly identify at least 2 differences: storage tier granularity (S3 has more tiers), query capabilities (S3 Select vs Pub/Sub integration), pricing models",
+        "Clarify consistency guarantees: AWS S3 has strong consistency for all operations since 2020; GCP Cloud Storage has strong consistency by default (not eventual consistency limitations)",
+        "Discuss practical Data Engineering trade-offs: S3 performance at scale with partitioning strategies vs GCP's streaming ingestion patterns; IAM/access control differences",
+        "Address integration patterns: S3 with Spark/Hadoop ecosystem maturity vs GCP's native BigQuery integration for analytics workloads"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_045",
+    "question_text": "Bạn đang làm việc cho một công ty thương mại điện tử, cần lưu trữ log truy cập từ web server dưới dạng Avro và sau đó chạy các truy vấn phân tích trên dữ liệu này. Hãy giải thích tại sao Avro phù hợp cho việc ghi log, và bạn sẽ chuyển đổi dữ liệu sang Parquet như thế nào để tối ưu cho phân tích?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "answers": {
+      "detailed": "Avro is well-suited for write-heavy logging because its row-oriented format enables sequential, efficient writes and supports schema evolution (adding fields without breaking producers). However, for analytical queries on large datasets, Parquet's columnar format provides superior compression and I/O efficiency. To convert: use Spark Streaming or batch Spark jobs to read Avro files, infer/validate schema, then write to Parquet with date-based partitioning (e.g., /year=/2024/month=/01/day=/15/). This partition strategy enables query engines to skip irrelevant data. For example, a query on user_id and timestamp only reads those columns from Parquet, reducing I/O by 70-80% versus scanning all Avro rows. Consider: Avro handles late-arriving data flexibly; implement incremental conversion patterns (daily batch jobs) to balance freshness and resource usage. Also partition by source/service if log volume varies significantly across servers.",
+      "evaluation_points": [
+        "Explain Avro's row-oriented format advantages for sequential write workloads (ghi log) and schema evolution capability",
+        "Describe the conversion process: read Avro with Spark/Hive, preserve/infer schema, write Parquet with time-based partitioning strategy",
+        "Compare storage efficiency: Avro's row-based compression vs Parquet's columnar compression for analytical queries",
+        "Discuss query performance trade-offs: Parquet excels at column selection but requires partition pruning strategy; address data skew considerations",
+        "Mention handling of late-arriving data and incremental processing patterns when converting streaming logs"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_047",
+    "question_text": "Công ty bạn có pipeline xử lý dữ liệu real-time từ Kafka, lưu xuống AWS S3 dưới dạng Avro, và sau đó chạy batch job Spark để chuyển sang Parquet cho kho dữ liệu. Gần đây, bạn nhận thấy chi phí lưu trữ S3 tăng cao do dữ liệu log không được xóa sau 30 ngày. Hãy thiết kế một giải pháp quản lý vòng đời dữ liệu trên S3 để tối ưu chi phí, bao gồm cả việc chọn storage class phù hợp cho dữ liệu cũ và cách tự động hóa quá trình này. Giải thích lý do cho mỗi lựa chọn.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_AWS"
+    ],
+    "skill_tags": [
+      "CLOUD_AWS"
+    ],
+    "answers": {
+      "detailed": "Giải pháp: Sử dụng S3 Lifecycle Policies kết hợp với cost monitoring. Giai đoạn 1 (0-7 ngày): dữ liệu Avro raw lưu ở S3 Standard để Spark job truy cập với latency thấp và throughput cao, chi phí cao nhưng đảm bảo performance của batch job. Giai đoạn 2 (7-30 ngày): sau khi chuyển đổi thành công sang Parquet và xác nhận data quality, dữ liệu Avro cũ transition sang S3 Standard-IA vì ít truy cập; tiết kiệm 30% chi phí lưu trữ nhưng cần tính thêm retrieval cost nếu Spark job cần re-validate. Giai đoạn 3 (30-90 ngày): dữ liệu Parquet nén transition sang S3 Glacier (retrieval time 1-5 phút với Expedited) cho audit trail; tiết kiệm 80% chi phí nhưng chỉ phù hợp nếu không có requirement truy cập thường xuyên. Sau 90 ngày: xóa hoàn toàn sau khi kiểm tra compliance/retention requirements. Tự động hóa: (1) Lifecycle Policy với prefix rules (raw/avro/, processed/parquet/) để tự động transition; (2) S3 Inventory report hàng tuần để audit dữ liệu nào vẫn ở S3 Standard quá lâu; (3) CloudWatch + S3 Storage Lens để theo dõi cost trends và phát hiện dữ liệu zombie; (4) Lambda trigger từ Inventory để alert nếu phát hiện file không match lifecycle expectations. Lý do chi tiết: Standard-IA có minimum 30-day commitment và on-retrieval cost (~$0.01/GB), nên chỉ hiệu quả nếu dữ liệu thực sự ít truy cập; Glacier phù hợp archive dài hạn (chi phí lưu trữ ~$0.004/GB) nhưng retrieval có latency và cost, cần đảm bảo SLA cho audit queries. Lưu ý: setup S3 versioning + MFA Delete để bảo vệ chống xóa vô tình, và tính cost của transition operations khi số file lớn.",
+      "evaluation_points": [
+        "Thiết kế lifecycle policy với các giai đoạn storage class cụ thể (Standard, Standard-IA, Glacier) và giải thích transition timing dựa trên data access patterns của Spark job",
+        "Giải thích chi tiết lý do chọn storage class: Standard-IA yêu cầu minimum 30 ngày lưu trữ và có retrieval cost, phù hợp với timeline này; Glacier có trade-off giữa chi phí lưu trữ thấp (80% giảm) nhưng retrieval latency cao (1-5 phút)",
+        "Đề xuất tự động hóa với Lifecycle Policy (prefix-based rules) và S3 Inventory, nhưng cần xác định: làm thế nào để xác định dữ liệu nào thực sự 'không dùng đến' (access logs, CloudTrail, or application-level tracking)?",
+        "Xem xét chi phí transition operations (S3 lifecycle transitions có chi phí) và retrieval cost của Standard-IA/Glacier khi Spark job cần re-process; tính toán break-even point",
+        "Đề xuất giám sát và alerting: CloudWatch metrics cho S3 storage costs, S3 Storage Lens để phát hiện data bloat, và setup để tránh vô tình xóa dữ liệu quan trọng (versioning, MFA Delete, backup strategy)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_049",
+    "question_text": "Bạn đang thiết kế một data lake trên GCP Cloud Storage để lưu trữ dữ liệu từ nhiều nguồn (CSV, JSON, Avro) với yêu cầu: hỗ trợ schema evolution, query nhanh trên dữ liệu lịch sử, và chi phí thấp cho dữ liệu cũ. So sánh ưu nhược điểm của việc lưu dữ liệu dưới dạng Avro so với Parquet trong ngữ cảnh này, và đề xuất chiến lược tổ chức dữ liệu (bucket, folder structure, partition) để tối ưu cho cả ghi và đọc. Giải thích tại sao bạn chọn giải pháp đó.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_GCP",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "CLOUD_GCP",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "answers": {
+      "detailed": "Avro vs Parquet Trade-off: Avro excels at schema evolution through reader/writer schema versioning, enabling field additions/removals without breaking consumers; ghi tuần tự nhanh lý tưởng cho ingestion. However, Avro's row-based format requires full row deserialization, making analytical queries inefficient when selecting specific columns. Parquet's columnar storage enables predicate pushdown and compression (5-10x typical compression ratio), dramatically reducing I/O for selective column queries; however, schema evolution is limited to adding nullable columns—removing or retyping fields requires rewriting entire files.\n\nRecommended Data Lake Architecture:\n\n**Bucket Organization**: Single GCS bucket with segregated layers:\n- raw/ (Bronze): Store Avro with schema versioning metadata\n- processed/ (Silver/Gold): Parquet optimized for analytics\n\n**Partition Strategy**:\n- raw/source={source_name}/dt={YYYY-MM-DD}/: Partition by ingestion date and source topic. This enables incremental loads and source-level governance.\n- processed/domain={business_domain}/region={region}/dt={YYYY-MM-DD}/: Partition by business context and query patterns, supporting pruning on common filters.\n\n**Schema Evolution Handling**:\nFor Avro raw data: Implement schema registry (Confluent or custom) to version schemas. When source schema changes, validate compatibility (Avro's union types for optional backward/forward compatibility). For processed Parquet: Only apply schema changes that don't require rewrites (add nullable columns); breaking changes trigger reprocessing from raw layer.\n\n**Cost Optimization via GCS Lifecycle**:\n- Standard (0-30 days): raw/ and recent processed/ for active ingestion and query\n- Nearline (30-90 days): processed/ data accessed for compliance/historical analysis\n- Coldline (90+ days): Archive processed/ with BigLake metadata index to enable fast metadata-only queries without full retrieval\n\n**Query Optimization**:\n- Route recent queries to Standard-tier Parquet (processed/)\n- For cold data queries, use BigQuery external tables with Parquet layout; leverage clustering on processed/region and processed/dt to avoid full scan even in Coldline\n- Partition pruning in Spark/BigQuery automatically filters by dt, reducing scan by 98% for time-range queries\n\n**Rationale**: Avro in raw layer provides flexible ingestion and schema evolution safety; Parquet in processed layer enables cost-effective analytical queries through compression and columnar format. Tiered storage reduces cost by 70%+ for data >90 days while maintaining queryability via metadata indices. Partition strategy balances ingestion parallelism (source-level raw partitions) with query performance (domain/region-level processed partitions).",
+      "evaluation_points": [
+        "Distinguish schema evolution mechanisms: Avro's schema versioning with reader/writer schema compatibility vs Parquet's nullable column addition limitation; explain implications for long-term data lake evolution",
+        "Quantify compression and I/O trade-offs: Parquet's columnar compression typically 5-10x better for analytical queries; Avro's row-based format faster for full-record ingestion; relate to GCP's network egress costs",
+        "Evaluate partition strategy depth: justify date-based partitioning for time-series ingestion patterns; explain pruning benefits for time-range queries; discuss whether to partition raw/ differently (by source/topic) vs processed/ (by domain/region) based on query patterns",
+        "Address cold-data access patterns: explain impact of GCS access tiers on query latency (Coldline retrieval penalty ~1hr); recommend maintaining queryable Parquet subset in Standard tier for recent data; discuss BigLake or iceberg metadata optimization for cold data discovery",
+        "Consider incremental processing: acknowledge that schema changes in Avro source may require reprocessing entire raw/ partition; propose change-data-capture (CDC) or schema registry patterns to minimize reprocessing scope",
+        "Assess data layout for Spark/BigQuery: mention that Parquet layout must match downstream engine expectations (Spark prefers snappy compression; BigQuery prefers specific partition pruning strategies)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_046",
+    "question_text": "So sánh sự khác biệt chính giữa AWS S3 và GCP Cloud Storage về mô hình consistency, pricing model và use cases điển hình cho Data Engineering. Khi nào bạn chọn S3 thay vì GCS và ngược lại?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_AWS",
+      "CLOUD_GCP"
+    ],
+    "skill_tags": [
+      "CLOUD_AWS",
+      "CLOUD_GCP"
+    ],
+    "answers": {
+      "detailed": "S3 and GCS are both object storage, but differ significantly:\n\n**Consistency Model**: S3 achieved strong consistency for all operations in 2020 (previously eventual for overwrites). GCS provided strong consistency from inception for all operations (PUT, GET, DELETE, LIST), making it more reliable for tightly-coupled data pipelines without retry logic.\n\n**Pricing Model**: S3 charges per GB storage, per-request (GET/PUT), and data egress at $0.09/GB (varies by region). GCS charges per GB storage with automatic sustained-use discounts (up to 25% after 30 days), but critically, egress to BigQuery/Compute Engine is FREE. This makes GCS substantially cheaper when data stays within Google ecosystem. S3's strength is predictable, granular cost breakdown; GCS's is ecosystem-aware discounting.\n\n**Ecosystem & Use Cases**: S3 is the de facto standard for Hadoop/Spark (EMR, S3-compatible APIs), integrates with Redshift, Glue, SageMaker. GCS excels when BigQuery is your data warehouse (zero-copy queries, native support, ~10x cheaper egress) or when using Dataflow for streaming pipelines. GCS also has built-in ACL controls that map naturally to IAM.\n\n**Decision Framework**:\n- **Choose S3** if: primary compute is AWS-based (EMR, Redshift), you need multi-cloud portability, or data transfer outside Google Cloud is frequent\n- **Choose GCS** if: BigQuery is your analytics engine (total cost ownership is lower), you use Dataflow, or data remains within Google ecosystem\n- **Trade-off**: S3 has broader third-party tool support; GCS has superior cost structure for Google-centric architectures",
+      "evaluation_points": [
+        "Explain S3's consistency guarantee evolution (eventual consistency → strong consistency in 2020) and GCS's strong consistency model from inception, with implications for data pipeline reliability",
+        "Quantify pricing differences: S3's per-request costs, egress charges, storage class trade-offs vs GCS's automatic sustained-use discounts and more favorable egress pricing within Google Cloud ecosystem",
+        "Articulate ecosystem lock-in trade-offs: S3's dominance with EMR, Redshift, Glue, SageMaker vs GCS's tight integration with BigQuery (native support, zero egress), Dataflow, and Vertex AI for ML pipelines",
+        "Demonstrate decision-making framework: when cost-of-compute dominates (choose based on compute platform), when multi-cloud portability is required, when data residency/regulatory constraints apply",
+        "Identify weak candidate markers: calling both 'the same', ignoring pricing nuances, or simply stating 'pick your cloud provider' without technical justification"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_048",
+    "question_text": "Bạn đang làm việc cho một công ty có pipeline xử lý dữ liệu log real-time từ 500 microservices. Họ muốn lưu trữ dữ liệu thô (raw) trên AWS S3 và sau đó chuyển đổi sang Parquet cho phân tích. Hãy giải thích tại sao Parquet là lựa chọn tốt hơn Avro cho use case này, và đề xuất cách tổ chức bucket S3 (partitioning, naming convention) để tối ưu query trên Athena.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_S3",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "CLOUD_S3",
+      "FORMAT_PARQUET"
+    ],
+    "answers": {
+      "detailed": "Parquet is a columnar format optimal for analytical queries—it only reads necessary columns, reducing I/O and costs. Unlike Avro (row-based), Parquet excels at predicate pushdown, allowing Athena to skip irrelevant data blocks. For high-volume real-time logs, Parquet's superior compression (especially for repetitive fields) and native Athena integration make it superior. Recommended S3 structure: `s3://company-logs/year=YYYY/month=MM/day=DD/hour=HH/service_name=SERVICE/` with Parquet files (~128MB-256MB each to avoid small file overhead). This partitioning enables Athena to prune partitions via WHERE clauses on date and service, dramatically reducing data scanned. Use Snappy compression for balance between speed and compression ratio; consider Gzip if storage cost is critical. Additionally, enable Glue partition projection to avoid expensive partition discovery, and ensure Parquet files contain meaningful row groups aligned with partition keys for optimal predicate pushdown on Athena queries.",
+      "evaluation_points": [
+        "Explain columnar vs row-based format differences and their impact on analytical query performance (predicate pushdown, selective column reads)",
+        "Justify Parquet over Avro specifically for real-time log scenarios (compression ratios, schema evolution support, ecosystem maturity for analytics)",
+        "Design appropriate partitioning hierarchy considering query patterns on Athena (avoid over-partitioning; balance between partition pruning and file size)",
+        "Discuss S3 naming conventions and file organization best practices (file size targets for Athena, preventing small file problem, data layout for efficient scanning)",
+        "Address compression trade-offs (Snappy vs Gzip vs LZO) with concrete reasoning for real-time log use case",
+        "Consider data freshness and query latency implications of partitioning strategy on Athena",
+        "Mention metadata optimization (Glue catalog, partition projection) for reducing query planning overhead"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_050",
+    "question_text": "Trong Data Engineering, Avro thường được dùng cho streaming data (ví dụ Kafka) và Parquet cho batch analytics. Hãy phân tích trade-off khi chọn Avro so với Parquet cho một pipeline phức tạp: dữ liệu đến từ Kafka, cần lưu trữ lâu dài và hỗ trợ cả streaming lẫn batch processing. Schema evolution có ảnh hưởng như thế nào đến quyết định này?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "answers": {
+      "detailed": "Avro is row-based, optimized for write-heavy streaming workloads (Kafka), with efficient append-only semantics and superior schema evolution support via named fields and default values (backward/forward compatibility). Parquet is columnar, optimized for read-heavy analytics with excellent compression (2-10x better) but limited schema evolution (structural changes require rewriting). Trade-off: Avro uses 3-5x more storage but provides schema flexibility; Parquet reduces storage and accelerates analytical queries but struggles with complex schema modifications. For a hybrid pipeline: (1) Stream events into Kafka as Avro with schema registry for version control; (2) Convert to Parquet in long-term storage (using tools like Spark/Flink) for cost-effective analytics; (3) Use schema registry to enforce compatibility rules, preventing downstream breakage. However, the conversion overhead (serialization/deserialization latency, CPU cost) must be weighed against analytics benefits. For large-scale pipelines, consider modern formats like Apache Iceberg or Delta Lake that natively support both streaming ingest and analytical queries with first-class schema evolution, eliminating the conversion cost entirely. Schema registry becomes critical: define clear compatibility policies (backward-compatible for consumers, forward-compatible for producers) and automate breaking change detection to catch issues before they reach production.",
+      "evaluation_points": [
+        "Explain row-based vs columnar trade-offs with concrete metrics (write latency, compression ratio, query performance)",
+        "Discuss schema evolution mechanisms: Avro's named fields + default values vs Parquet's limitations with structural changes, and impact on downstream consumers",
+        "Evaluate the hybrid architecture: latency/throughput of Avro→Parquet conversion pipeline, storage costs, operational complexity, and when this overhead is justified",
+        "Analyze schema registry's role: versioning strategy, compatibility checking (backward/forward/full), and breaking change detection across Kafka → storage → analytics layers",
+        "Consider alternative approaches: Lambda architecture, Kappa architecture, or Iceberg/Delta Lake formats that support both streaming and analytics with schema evolution",
+        "Address production concerns: handling late-arriving data, schema drift detection, rollback strategies, and monitoring data quality across format boundaries"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_052",
+    "question_text": "Công ty bạn đang chuyển từ on-premise Hadoop sang GCP. Dữ liệu được lưu dưới dạng Avro trong HDFS. Bạn được giao thiết kế pipeline di chuyển dữ liệu lên GCP Cloud Storage, sau đó chạy Spark jobs trên Dataproc. Hãy giải thích cách xử lý schema evolution khi dữ liệu Avro có nhiều version khác nhau, và đề xuất strategy để tối ưu chi phí lưu trữ (ví dụ: sử dụng Nearline vs Standard storage class).",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_GCP",
+      "FORMAT_AVRO"
+    ],
+    "skill_tags": [
+      "CLOUD_GCP",
+      "FORMAT_AVRO"
+    ],
+    "answers": {
+      "detailed": "**Schema Evolution Handling:**\n\n1. **Schema Management**: Use Avro's built-in compatibility rules (forward/backward/full) rather than just a registry. Avro metadata in file headers enables reading without external dependency, but for multi-version governance, implement Schema Registry (Confluent or GCP Pub/Sub Schema) as single source of truth. Document compatibility policy: e.g., allow field additions with defaults, forbid type changes.\n\n2. **Spark Read Strategy**: When reading multi-version Avro files, use Spark's `spark.read.format(\"avro\")` which automatically respects file schema. For schema evolution:\n   - Use `mergeSchema` option to handle schema drift across files\n   - Apply schema projection to read only necessary columns (reduces I/O)\n   - Partition data by schema version in Cloud Storage to isolate incompatible schemas and enable targeted migration\n\n3. **Validation**: Test schema evolution with sample data before full migration. Monitor for silent failures (missing fields defaulting incorrectly). Implement data quality checks post-read.\n\n**Cost Optimization Strategy:**\n\n1. **Storage Class Selection**:\n   - **Standard**: Hot data (accessed in Spark jobs < 30 days old). Keep recent partitions here for job locality.\n   - **Nearline**: Warm data (accessed infrequently, 30-90 days). Lower storage cost (~55% discount) but higher egress cost (~2x). Use only if retrieval frequency justifies the trade-off.\n   - **Archive**: Historical data (never accessed in Spark, >90 days). Only if compliance/backup required.\n\n2. **Lifecycle Policy**: Implement GCP Object Lifecycle Management to auto-transition based on age, not arbitrary 30-day cutoff. Measure actual access patterns first. For Avro files, transition at partition level (e.g., daily/monthly partitions) rather than individual files to minimize management overhead.\n\n3. **Compression + Storage Trade-off**: Snappy compression reduces storage ~30-40% with minimal CPU overhead on Dataproc reads. Gzip saves more (~60%) but increases compute cost. For Avro, compress at block level (Avro's native codec) not file level to preserve Spark's block-aware scheduling.\n\n4. **Avoid False Economies**: Don't over-transition to Nearline. If a job reads 10GB from Nearline weekly, egress costs offset storage savings. Calculate monthly TCO: (storage cost × days in Standard) + (storage cost × days in Nearline + egress cost × retrieval frequency).\n\n**GCP Integration**: Use Dataproc lifecycle hooks to auto-trigger lifecycle transitions on schedule. Monitor with Cloud Monitoring for actual access patterns to refine transitions over time.",
+      "evaluation_points": [
+        "Understanding Avro schema evolution semantics: forward/backward/full compatibility, field defaults, and how Spark handles schema mismatch (e.g., missing fields, type promotion)",
+        "Comparison of schema management approaches: embedded Avro metadata vs external Schema Registry, trade-offs in centralized governance vs distributed file autonomy, and failure handling if schema version is unavailable",
+        "Spark-specific optimization for Avro reads: schema projection to reduce data loaded, predicate pushdown with Avro, partitioning strategy by schema version to isolate incompatible schemas, and impact on Dataproc cluster sizing",
+        "Cost optimization reasoning: quantifying storage vs retrieval costs (Nearline has higher egress cost for frequent reads), lifecycle transition timing (cold data detection heuristics), and impact of compression on compute-to-storage trade-off in Dataproc jobs",
+        "Migration validation: testing schema evolution with sample data, monitoring for silent data loss from schema mismatches, and rollback strategy if incompatibilities are discovered post-migration"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_CLOUD_STORAGE_054",
+    "question_text": "Bạn đang thiết kế một data lake trên AWS S3 cho hệ thống IoT với 1 triệu thiết bị gửi dữ liệu mỗi giây. Dữ liệu bao gồm cả structured (sensor readings) và unstructured (images). Hãy đề xuất kiến trúc chi tiết để lưu trữ, xử lý và tối ưu chi phí, bao gồm: cách tổ chức bucket S3 (partitioning, lifecycle policies), lựa chọn file format cho từng loại dữ liệu (Avro, Parquet, hoặc raw), cách xử lý dữ liệu real-time với Kinesis và Spark, và giải pháp cho các edge case như data corruption, schema changes, và query performance khi dữ liệu lên tới petabytes. Giải thích lý do cho mỗi quyết định.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BIG_DATA_CLOUD_TOOLS",
+      "CLOUD_AWS",
+      "CLOUD_S3",
+      "FORMAT_AVRO",
+      "FORMAT_PARQUET"
+    ],
+    "skill_tags": [
+      "CLOUD_AWS",
+      "CLOUD_S3",
+      "FORMAT_PARQUET",
+      "FORMAT_AVRO"
+    ],
+    "answers": {
+      "detailed": "Kiến trúc: Sử dụng Kinesis Data Streams để ingest 1M msgs/sec, với Spark Structured Streaming (DataFrame-based, không RDD vì Catalyst Optimizer tối ưu hóa micro-batch scheduling) xử lý sensor readings và ghi vào S3. Tổ chức bucket: s3://iot-lake/raw/ (dữ liệu thô, lưu Avro vì hỗ trợ schema evolution và write hiệu quả cho structured data; images lưu raw binary với metadata JSON bên cạnh) và s3://iot-lake/processed/ (dữ liệu đã xử lý, lưu Parquet cho analytics - DataFrame giúp Catalyst tối ưu aggregate queries). Partition: /year=YYYY/month=MM/day=DD/hour=HH/device_type=xxx/ để partition pruning hiệu quả trong Athena queries. Lazy evaluation: Spark xây dựng DAG chứa các transformation (filter, map, aggregation) trước khi action (write) được gọi, cho phép Catalyst tối ưu toàn bộ pipeline; tuy nhiên, cần tránh collect() trên petabyte-scale data vì gây OutOfMemory trên driver. Lifecycle: raw data chuyển Glacier sau 90 ngày (chi phí lưu trữ thấp), processed data giữ Standard 30 ngày rồi sang Infrequent Access (tradeoff: retrieval cost vs access latency). Schema evolution: dùng Avro schema registry hoặc lưu schema version trong S3 metadata; Dataset (JVM-based type safety) nếu dùng Scala/Java để compile-time detection, DataFrame nếu Python (runtime flexibility). Data corruption: Spark job định kỳ kiểm tra checksum, sử dụng partition pruning để isolate corrupt batches; Object Lambda validate trước ingest. Query performance: Athena với Parquet partitioning cho ad-hoc queries (cost-effective), Redshift Spectrum cho complex joins, cache hot partitions trong Delta Lake format nếu cần interactive analytics. Compression: Zstandard cho Parquet (tốt nhất compression ratio/CPU trade-off), Snappy cho real-time streaming không đòi hỏi tối đa compression. Chi phí tổng thể tối ưu qua S3 Intelligent-Tiering cho processed data (auto-tiering dựa access pattern).",
+      "evaluation_points": [
+        "Justifies choice of Spark DataFrame/Dataset over RDD for structured sensor data, explaining Catalyst Optimizer benefits and when to use each abstraction for the streaming pipeline",
+        "Explains how lazy evaluation and DAG construction optimize the data processing pipeline from Kinesis through S3, and identifies potential OutOfMemory risks with actions like collect() on petabyte-scale data",
+        "Distinguishes between transformations (map, filter, repartition for partitioning strategy) and actions (write to S3) in the streaming context, and discusses trigger frequency trade-offs",
+        "Addresses schema evolution strategy for unstructured images: discusses storing metadata separately vs. using Avro schema registry, and trade-offs with raw binary storage",
+        "Proposes monitoring strategy for data quality: checksum validation, partition pruning effectiveness with Athena, and query performance metrics as data scales to petabytes",
+        "Justifies Parquet compression codec selection (Zstandard vs Snappy vs GZIP) with concrete trade-offs: compression ratio vs CPU cost vs query performance at scale"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  }
+]

@@ -1,0 +1,2114 @@
+[
+  {
+    "question_id": "GEN_DA_ANALYTICS_035",
+    "question_text": "Bạn đang làm cho một công ty thương mại điện tử. Họ muốn phân tích hành vi người dùng từ lúc vào trang đến khi mua hàng. Hãy thiết kế một funnel analysis với ít nhất 4 bước, và giải thích cách bạn sẽ xác định bước nào có tỷ lệ drop-off cao nhất, cũng như đề xuất cải thiện.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_FUNNEL"
+    ],
+    "skill_tags": [
+      "ANALYTICS_FUNNEL"
+    ],
+    "answers": {
+      "detailed": "Funnel gồm 4 bước: (1) Truy cập trang chủ, (2) Xem chi tiết sản phẩm, (3) Thêm vào giỏ hàng, (4) Hoàn thành thanh toán. Tính tỷ lệ chuyển đổi bước-sang-bước: nếu 100K truy cập → 60K xem sản phẩm (60%) → 12K thêm giỏ (20%) → 9K thanh toán (75%), bước yếu nhất là bước 2→3 (drop-off 80%). Phân tách funnel theo device (mobile vs desktop), traffic source (organic, paid, direct) để xác định nếu drop-off chỉ ảnh hưởng một segment. Xem xét đường dẫn thay thế: users có thể thêm giỏ, bỏ đi rồi quay lại sau 7 ngày (không coi là drop-off cuối). Giả thuyết cho drop-off cao: (a) giá quá cao so với competitors, (b) UX phức tạp/slow loading, (c) thiếu trust signals (reviews, warranty). Đề xuất: A/B test thêm review sản phẩm + social proof; test giảm bước checkout từ 5→3 bước; test hiển thị so sánh giá. Đo lường thành công: nếu review tăng cart-to-checkout rate từ 20%→25% (5pp), rollout; nếu không, test giả thuyết tiếp theo.",
+      "evaluation_points": [
+        "Defines 4+ mutually exclusive, sequential steps appropriate to e-commerce conversion goal",
+        "Calculates step-to-step conversion rates AND identifies the step with highest drop-off with a concrete percentage threshold (e.g., <10% is critical)",
+        "Segments the funnel by at least one dimension (device type, traffic source, user cohort) to identify if drop-off is universal or specific to a segment",
+        "Accounts for alternative paths (e.g., users who abandon cart but return later, direct checkout without product page) and discusses how to handle them",
+        "Proposes 2+ testable hypotheses for WHY the drop-off occurs (e.g., pricing, UX friction, trust signals, payment options) with supporting metrics to validate",
+        "Recommends A/B tests or product changes with expected impact and how to measure success (e.g., 'Add product reviews + reduce checkout steps; measure if cart-to-checkout improves by 5%')"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_036",
+    "question_text": "RFM là viết tắt của những thành phần nào? Hãy giải thích ngắn gọn ý nghĩa của từng thành phần trong phân tích khách hàng.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "RFM là viết tắt của Recency (thời gian gần đây khách hàng mua hàng), Frequency (tần suất mua hàng), Monetary (giá trị tiền mua hàng). Recency đo lường khoảng thời gian từ lần mua cuối đến hiện tại, Frequency đếm số lần mua trong một khoảng thời gian, Monetary tính tổng doanh thu từ khách hàng. Mô hình này giúp phân khúc khách hàng dựa trên hành vi mua sắm bằng cách gán điểm (thường là 1-5 theo quintiles) cho từng thành phần. Ứng dụng thực tế: khách hàng có Recency cao, Frequency cao, Monetary cao (Champions) nên ưu tiên giữ chân; khách hàng có Recency thấp nhưng Frequency và Monetary cao (At Risk) cần tái kích hoạt; hoặc các chiến dịch tiếp thị cá nhân hóa khác.",
+      "evaluation_points": [
+        "Giải thích đúng 3 thành phần RFM (Recency, Frequency, Monetary)",
+        "Nêu được ý nghĩa và cách đo lường từng thành phần",
+        "Hiểu mục đích phân khúc khách hàng dựa trên hành vi mua sắm",
+        "Giải thích cách gán điểm hoặc phân loại cho từng thành phần (ví dụ: quintiles, nhóm điểm 1-5)",
+        "Nêu ít nhất một ứng dụng thực tế (ví dụ: xác định khách hàng có giá trị cao, tái kích hoạt khách hàng ngủ quên, hay các chiến dịch tiếp thị có mục đích)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_038",
+    "question_text": "Bạn đang làm cho một công ty thương mại điện tử. Hãy thiết kế một phân tích phễu (Funnel Analysis) cho quy trình mua hàng từ lúc khách truy cập trang chủ đến khi hoàn tất thanh toán. Giải thích lý do chọn các bước trong phễu và cách bạn xác định bước nào có tỷ lệ rớt cao nhất.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_FUNNEL"
+    ],
+    "skill_tags": [
+      "ANALYTICS_FUNNEL"
+    ],
+    "answers": {
+      "detailed": "Phễu gồm các bước: 1) Truy cập trang chủ -> 2) Xem trang sản phẩm -> 3) Thêm vào giỏ hàng -> 4) Bắt đầu thanh toán -> 5) Hoàn tất thanh toán. Lý do chọn: các bước này phản ánh hành trình mua sắm điển hình và mỗi bước đại diện một quyết định mua của người dùng.\n\nPhương pháp xác định bước rớt cao nhất:\n- Tính conversion rate giữa các bước liên tiếp: CR = (users at step N+1) / (users at step N)\n- Tính drop-off rate: 1 - CR. Ví dụ, nếu 100 người vào trang chủ, 80 xem sản phẩm, 60 thêm vào giỏ, 40 bắt đầu thanh toán, 30 hoàn tất thanh toán → drop-off lần lượt là 20%, 25%, 33%, 25%. Bước 4 (thanh toán) có drop-off cao nhất (33%).\n\nTuy nhiên, để hiểu nguyên nhân gốc rễ, cần phân tích thêm:\n- Segment analysis: drop-off khác nhau giữa mobile/desktop, new/returning users, traffic sources\n- Behavioral factors: checkout time, payment method availability, cart abandonment email effectiveness\n- Technical factors: page load time, form complexity, error rates tại bước thanh toán\n\nCó thể đề xuất cải thiện: đơn giản hóa form thanh toán, thêm lựa chọn phương thức thanh toán, hiển thị bảo mật, hoặc tối ưu mobile checkout experience.",
+      "evaluation_points": [
+        "Xác định đúng các bước phễu phù hợp với hành trình mua sắm",
+        "Giải thích rõ lý do chọn bước (why these steps matter to the business)",
+        "Tính toán chính xác conversion rate và drop-off rate giữa các bước liên tiếp",
+        "Xác định bước có tỷ lệ rớt cao nhất và so sánh định lượng",
+        "Phân tích drop-off theo các chiều khác (device, traffic source, user cohort, geography) để hiểu nguyên nhân gốc rễ",
+        "Đề xuất các giải pháp cụ thể để giảm drop-off tại bước yếu nhất (ví dụ: UX improvement, friction reduction, incentive)",
+        "Xem xét các yếu tố khác ngoài conversion rate (checkout time, error rates, payment method options) khi phân tích bước thanh toán"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_040",
+    "question_text": "Công ty có một chiến dịch marketing mới. Bạn muốn so sánh hiệu quả giữa hai nhóm khách hàng: nhóm A được gửi email giảm giá và nhóm B không nhận. Hãy trình bày cách sử dụng Cohort Analysis để đo lường tỷ lệ giữ chân (retention rate) của hai nhóm sau 30 ngày. Giải thích tại sao Cohort Analysis lại phù hợp hơn so với so sánh trung bình đơn thuần.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_COHORT"
+    ],
+    "skill_tags": [
+      "ANALYTICS_COHORT"
+    ],
+    "answers": {
+      "detailed": "Define two cohorts explicitly by treatment assignment: Cohort A (received discount email on campaign start date) and Cohort B (control, no email). For each cohort, calculate 30-day retention rate = (number of users with activity on/after Day 30) / (total users at Day 0) × 100. Track both cohorts over identical calendar periods to control for external factors. Compare retention curves day-by-day (Day 1, 7, 14, 30) to assess sustained engagement, not just the final retention rate. Cohort analysis is superior to simple averages because: (1) it isolates the treatment effect by comparing fixed groups with identical tracking windows, eliminating selection bias; (2) it reveals retention trajectory differences (e.g., does Cohort A drop-off faster after the discount expires?), not just aggregate numbers; (3) it controls for time-varying external factors by analyzing contemporaneous cohorts. However, causality requires proper randomization—ensure random assignment to A/B groups to rule out confounding variables like user quality or seasonal demand shifts.",
+      "evaluation_points": [
+        "Correctly define two cohorts based on treatment assignment (Cohort A: received discount email; Cohort B: control group) rather than time periods, as this directly measures campaign effectiveness",
+        "Calculate N-day retention rate accurately for each cohort: Retention(%) = (Users active on Day 30 / Initial cohort size) × 100, ensuring identical tracking periods",
+        "Explain why cohort analysis is superior to simple averages: it isolates the treatment effect by controlling for cohort composition bias, startup effects, and external market conditions; it reveals how campaign impact evolves over time (retention curve trajectory) rather than a single metric",
+        "Acknowledge that cohort analysis alone doesn't establish causality—proper A/B test design (randomization, control variables) is required to attribute retention differences to the marketing treatment",
+        "Demonstrate understanding of potential confounding factors: user acquisition quality, seasonality, or platform changes that could affect both cohorts' retention trends"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_042",
+    "question_text": "Bạn cần trình bày kết quả phân tích RFM cho ban lãnh đạo để đưa ra chiến lược chăm sóc khách hàng. Hãy đề xuất một biểu đồ (data visualization) phù hợp nhất để thể hiện phân khúc khách hàng dựa trên RFM, và giải thích lý do chọn loại biểu đồ đó. Ngoài ra, hãy chỉ ra một điểm yếu tiềm ẩn của biểu đồ bạn chọn.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "DATA_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "DATA_VISUALIZATION"
+    ],
+    "answers": {
+      "detailed": "Heatmap (ma trận nhiệt) với trục X là Recency, trục Y là Frequency, màu sắc thể hiện Monetary là lựa chọn tốt vì nó trực quan hóa 3 chiều dữ liệu cùng lúc trong không gian nhỏ, giúp lãnh đạo nhanh chóng xác định các cụm khách hàng (Champions: R/F/M cao; At Risk: R thấp, F/M cao; New Customers: R cao, F/M thấp). Điều này hỗ trợ chiến lược tiếp cận cụ thể từng segment. Điểm yếu: (1) khó đọc với quá nhiều nhóm; (2) màu sắc gây nhầm lẫn nếu thang đo không rõ; (3) heatmap ít hiệu quả với dữ liệu mới (khách hàng mới có R cao nhưng F/M thấp, gây khó khăn trong phân loại). Thay thế: bubble chart (X=Recency, Y=Frequency, bubble size=Monetary, màu=segment) linh hoạt hơn nhưng yêu cầu màn hình lớn hơn. Cải tiến: thêm annotation tên segment, chú thích, hoặc tích hợp dashboard tương tác cho phép lọc theo tiêu chí cụ thể.",
+      "evaluation_points": [
+        "Correctly identifies heatmap as effective for multi-dimensional RFM visualization with clear justification",
+        "Identifies realistic weaknesses (over-plotting, color scale ambiguity) of chosen visualization",
+        "Discusses how the visualization supports decision-making for specific customer segments (Champions, At Risk, etc.)",
+        "Compares heatmap to alternative visualizations (e.g., bubble chart, scatter plot with size/color encoding) and explains trade-offs",
+        "Addresses limitations of RFM itself (new customers, subscription models) and how visualization should adapt",
+        "Proposes practical enhancements (e.g., adding annotations for segment names, interactive filtering, or combining with other metrics)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_044",
+    "question_text": "Bạn đang xây dựng một hệ thống tự động phân tích cohort theo thời gian thực (real-time) cho một ứng dụng SaaS. Dữ liệu giao dịch được cập nhật mỗi giây và bạn cần tính retention rate cho các cohort theo ngày. Hãy thiết kế giải pháp để xử lý vấn đề: (1) dữ liệu lịch sử rất lớn (hàng trăm triệu bản ghi), (2) cần cập nhật retention rate mỗi giờ, (3) dữ liệu đến không đồng nhất (một số khách hàng có hành vi bất thường như mua hàng ồ ạt trong vài phút). Đưa ra cách xử lý edge case và tối ưu performance.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "ANALYTICS_COHORT",
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_COHORT",
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "Giải pháp kiến trúc: (1) **Batch Preprocessing (nightly)**: Xác định cohort assignment bằng cách tìm first_action_date cho mỗi user_id (định nghĩa 'action' rõ ràng: ví dụ bất kỳ sự tương tác nào hoặc chỉ signup). Lưu vào cohort_master table (user_id, cohort_date, first_action_date) và partition theo cohort_date để tối ưu query. (2) **Streaming Pipeline (Kafka + Spark Streaming)**: Nhận dữ liệu transaction real-time, filter/normalize mỗi giờ, append vào incremental_actions table. (3) **Retention Computation**: Hàng giờ join cohort_master với incremental_actions WHERE action_date >= cohort_date GROUP BY (cohort_date, days_since_acquisition) để tính retained_users_count / cohort_size. Dùng window functions để xử lý duplicate trong streaming window. **Edge Cases & Data Quality**: (a) Burst behavior: define 'action' là 'first meaningful action per day per user' (deduplicate trước aggregation) hoặc set threshold (>100 actions/day -> flag as anomaly, separate analysis). (b) Late-arriving data: dùng watermarking (allow 24h late arrivals), update retention metrics với retraction/correction khi dữ liệu muộn về. (c) Cohort leakage: enforce immutable cohort_master, versioning khi có data correction. **Performance Optimization**: Partition incremental_actions theo cohort_date range, use Parquet columnar format, cache top-N cohorts by query frequency, pre-aggregate D1/D7/M1 retention curves. Trade-off: eventual consistency (update mỗi giờ) vs. strong consistency (real-time) phụ thuộc vào SLA yêu cầu.",
+      "evaluation_points": [
+        "Clearly define what 'active' means for retention calculation (e.g., any action, specific action type, minimum threshold) and how this definition is applied consistently across batch and streaming updates",
+        "Explain the retention rate formula in context of the architecture: how exactly the join between cohort table and incremental actions produces the numerator (returned users) and denominator (cohort size), and how to avoid double-counting across hourly updates",
+        "Discuss trade-offs between real-time accuracy and performance: eventual consistency vs. strong consistency, late-arriving data handling (users whose first action arrives after cohort assignment), and impact on retention curves",
+        "Justify the burst detection threshold (e.g., why 100 actions/day) and discuss alternative approaches (e.g., statistical methods, rate-limiting per user_id before aggregation, flagging for manual review)",
+        "Address how to handle cohort re-assignment or data corrections without corrupting historical retention metrics, and strategies for validating data integrity between batch and streaming pipelines"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_041",
+    "question_text": "Hãy định nghĩa khái niệm Cohort Analysis trong phân tích dữ liệu kinh doanh và cho biết mục đích chính của nó là gì?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_COHORT"
+    ],
+    "skill_tags": [
+      "ANALYTICS_COHORT"
+    ],
+    "answers": {
+      "detailed": "Cohort Analysis là phương pháp phân tích dữ liệu bằng cách chia người dùng thành các nhóm (cohort) dựa trên một đặc điểm chung hoặc sự kiện (gọi là 'cohort definition event', ví dụ: tháng đăng ký, ngày mua đầu tiên) trong một khoảng thời gian cụ thể. Mục đích chính là theo dõi hành vi của cùng một nhóm cố định qua các kỳ kế tiếp, giúp: (1) đánh giá retention và stickiness của sản phẩm (ví dụ: D1, D7, M1 retention), (2) phát hiện xu hướng và so sánh sự khác biệt giữa các cohort, (3) phân biệt giữa cohort effects (thay đổi hành vi của nhóm cứng) và period effects (ảnh hưởng từ người dùng mới), và (4) đánh giá tác động thực của các thay đổi sản phẩm hoặc chiến dịch. Điều này giúp phân biệt cohort analysis với customer segmentation thông thường, vì cohort analysis tập trung vào theo dõi cùng một nhóm qua thời gian.",
+      "evaluation_points": [
+        "Định nghĩa đúng khái niệm cohort: nhóm người dùng chia sẻ một đặc điểm chung hoặc sự kiện trong khoảng thời gian cụ thể",
+        "Giải thích được sự khác biệt giữa Cohort Analysis và Customer Segmentation thông thường (cohort analysis theo dõi cùng một nhóm cố định theo thời gian)",
+        "Nêu được mục đích chính: theo dõi hành vi theo thời gian để phân biệt giữa cohort effects (thay đổi hành vi của nhóm cố định) và period effects (ảnh hưởng từ người dùng mới)",
+        "Cung cấp ví dụ cụ thể về loại cohort (retention cohort, behavior cohort) hoặc metric theo dõi (D1, D7, M1 retention)",
+        "Có thể giải thích cách sử dụng cohort analysis để đánh giá tác động của thay đổi sản phẩm hoặc chiến dịch"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_043",
+    "question_text": "Trong mô hình RFM, chỉ số 'F' (Frequency) đo lường điều gì và tại sao nó quan trọng trong việc phân khúc khách hàng?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "Chỉ số 'F' (Frequency) đo lường tần suất giao dịch của khách hàng trong một khoảng thời gian cụ thể (ví dụ: số lần mua hàng trong 6 tháng hoặc 12 tháng qua). Nó quan trọng vì giúp xác định mức độ trung thành và giá trị khách hàng lâu dài. Kết hợp với R (Recency) và M (Monetary), F cho phép doanh nghiệp phân loại khách hàng thành các nhóm chiến lược: ví dụ, khách hàng có R cao, F cao, M cao là 'Champions' cần được ưu đãi đặc biệt; trong khi R cao nhưng F thấp là nhóm 'At Risk' cần được tái kích hoạt. Việc ghi điểm F thường dựa trên phân vị (quintiles) hoặc các ngưỡng tùy chỉnh. Tuy nhiên, cần lưu ý rằng F có thể không hoàn toàn phản ánh giá trị ở các mô hình subscription, và khách hàng mới sẽ có F thấp dù có tiềm năng cao.",
+      "evaluation_points": [
+        "Định nghĩa đúng F là tần suất giao dịch trong khoảng thời gian cụ thể",
+        "Giải thích được tầm quan trọng: phân biệt mức độ trung thành và giá trị khách hàng lâu dài",
+        "Cung cấp ví dụ cụ thể về cách sử dụng F trong phân khúc (ví dụ: F cao + R cao = Champions, F thấp + R cao = At Risk)",
+        "Thảo luận về phương pháp ghi điểm F (ví dụ: quintiles, custom bins) và tầm quan trọng của việc chọn khoảng thời gian phù hợp",
+        "Đề cập đến những hạn chế (ví dụ: F có thể không phản ánh giá trị thực sự ở các mô hình subscription, khó áp dụng cho khách hàng mới)",
+        "Liên hệ F với các chiến lược hành động cụ thể (ví dụ: loyalty programs cho F cao, re-engagement cho F thấp)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_045",
+    "question_text": "Khi xây dựng biểu đồ cho Funnel Analysis, loại biểu đồ nào thường được sử dụng nhất và tại sao nó phù hợp?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "DATA_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "DATA_VISUALIZATION"
+    ],
+    "answers": {
+      "detailed": "Loại biểu đồ thường được sử dụng nhất là **Funnel Chart (biểu đồ phễu)** vì nó là tiêu chuẩn trong funnel analysis. **Tại sao phù hợp:** Hình dáng phễu trực quan hóa rõ ràng sự giảm dần theo từng bước, giúp dễ dàng nhận ra điểm rơi (drop-off) và tỷ lệ chuyển đổi giữa các bước. **Khi nào dùng Bar Chart thay thế:** Bar Chart phù hợp hơn khi cần so sánh chi tiết conversion rate hoặc khi muốn hiển thị giá trị tuyệt đối cạnh nhau. **Mục đích chính:** Cả hai đều giúp phân tích viên nhanh chóng xác định bước nào có tỷ lệ chuyển đổi thấp nhất để ưu tiên tối ưu hóa.",
+      "evaluation_points": [
+        "Nêu đúng loại biểu đồ chính: Funnel Chart (biểu đồ phễu) là lựa chọn tối ưu nhất",
+        "Giải thích tại sao Funnel Chart phù hợp: hình dáng phễu trực quan hóa sự sụt giảm qua các bước và điểm rơi (drop-off)",
+        "Phân biệt khi nào dùng Bar Chart: so sánh conversion rate hoặc khi cần giá trị tuyệt đối cụ thể",
+        "Nhấn mạnh mục đích: phát hiện bước có tỷ lệ chuyển đổi thấp nhất để tối ưu hóa"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_047",
+    "question_text": "Bạn đang làm việc cho một công ty thương mại điện tử. Họ muốn phân tích hành vi khách hàng từ khi xem sản phẩm đến khi mua hàng (funnel: Xem -> Thêm giỏ hàng -> Thanh toán -> Mua thành công). Dữ liệu cho thấy tỷ lệ chuyển đổi từ 'Thêm giỏ hàng' sang 'Thanh toán' thấp hơn nhiều so với các bước khác. Hãy đề xuất 2 nguyên nhân có thể và cách kiểm tra chúng.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_FUNNEL"
+    ],
+    "skill_tags": [
+      "ANALYTICS_FUNNEL"
+    ],
+    "answers": {
+      "detailed": "Two plausible hypotheses: (1) **Checkout UX friction or technical barriers**: The payment form may be overly complex, have field validation errors, or suffer from slow page load times. Test by: examining error logs and page performance metrics; analyzing session recordings to identify where users abandon; A/B testing a streamlined checkout with fewer form fields; comparing conversion rates by device type (mobile may show higher drop-off). Expected outcome: if simplified checkout lifts conversion by >15%, UX is the primary driver. (2) **Unexpected costs revealed at checkout**: Users may be shocked by shipping fees, taxes, or service charges not shown in the cart. Test by: segmenting users by whether they saw shipping costs earlier in the journey; A/B testing early cost disclosure (e.g., show estimated shipping at cart entry); surveying abandoned cart users on price sensitivity. Expected outcome: if early cost transparency increases conversion by >10%, cost surprise is the issue. **Critical follow-ups**: (a) Segment the funnel by device, geography, cart value, and payment method to pinpoint if drop-off is universal or concentrated; (b) Use cohort analysis to see if drop-off changed after recent checkout updates; (c) Compare against industry benchmarks to assess severity. This reveals whether the issue is systemic or segment-specific, informing which fix to prioritize.",
+      "evaluation_points": [
+        "Identifies 2+ plausible hypotheses grounded in common e-commerce friction points (e.g., checkout UX, unexpected costs, payment method issues, trust concerns)",
+        "Proposes testable validation methods with clear metrics (e.g., error rate thresholds, conversion lift targets, session replay insights, drop-off funnel by device/payment method)",
+        "Recognizes need to segment the funnel (by device type, customer cohort, cart value, acquisition source) to isolate which user groups exhibit the drop-off",
+        "Distinguishes between technical diagnostics (logs, error tracking) vs. behavioral insights (surveys, session recording) vs. experimental validation (A/B tests with control groups)",
+        "Proposes follow-up analysis to rule out alternative explanations (e.g., is the drop-off consistent across geographies/payment providers, or concentrated in specific segments?)",
+        "Articulates expected outcome and success metric for each hypothesis test (e.g., 'if checkout simplification lifts conversion by >15%, UX friction is likely the root cause')"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_049",
+    "question_text": "Công ty có một sản phẩm SaaS với dữ liệu đăng ký theo tháng. Bạn cần thiết kế một hệ thống RFM để dự đoán nguy cơ rời bỏ (churn) cho khách hàng hiện tại. Tuy nhiên, dữ liệu có 2 vấn đề: (1) Nhiều khách hàng có tần suất sử dụng không đều (có tháng dùng nhiều, có tháng không dùng), (2) Chỉ số M (Monetary) bị nhiễu do các gói giá khác nhau. Bạn sẽ xử lý các vấn đề này như thế nào để đảm bảo mô hình RFM hiệu quả? (Yêu cầu giải thích chi tiết kỹ thuật và trade-off)",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "Xử lý vấn đề 1 (tần suất không đều): Thay vì F là số lần giao dịch tuyệt đối, chuyển sang dùng tỷ lệ tháng hoạt động trên tổng thời gian (F = số tháng có giao dịch / tổng số tháng). Kết hợp thêm độ biến thiên (std của usage) để bắt pattern không đều. Trade-off: mất cường độ sử dụng chi tiết, nhưng giảm nhiễu chu kỳ và phù hợp hơn với SaaS subscription. Đặc biệt cho SaaS, R nên đo 'ngày kể từ lần đăng nhập cuối' thay vì 'lần giao dịch cuối' vì định dạng subscription khác với e-commerce. Xử lý vấn đề 2 (M bị nhiễu do gói giá): Chuẩn hóa M theo percentile ranking riêng cho từng gói giá, hoặc dùng MRR (Monthly Recurring Revenue) bình thường hóa. Trade-off: mất thông tin giá trị tuyệt đối nhưng so sánh công bằng giữa phân khúc. Tuy nhiên, RFM truyền thống có hạn cho SaaS churn prediction vì không capture engagement. Kết hợp thêm chỉ số engagement (DAU/MAU ratio, feature adoption, support tickets) vào model. Kiểm chứng bằng: (1) correlation giữa RFM score và churn rate trên historical data, (2) segmentation analysis (e.g., high R+F+M có churn rate thấp hơn), (3) A/B test retention campaign trên các segment khác nhau để validate actionability.",
+      "evaluation_points": [
+        "Addresses both stated problems (F irregularity and M normalization) with concrete technical solutions",
+        "Explains trade-offs clearly (information loss vs noise reduction)",
+        "Proposes validation method using historical data and correlation analysis",
+        "Discusses R dimension adaptation for SaaS subscription model (e.g., days since last login vs purchase recency)",
+        "Considers engagement-based metrics (DAU/MAU, feature adoption) as complementary indicators to traditional RFM for SaaS churn prediction",
+        "Explains how to segment customers into actionable cohorts (e.g., 'At Risk', 'Dormant', 'Engaged') and tailor retention strategies",
+        "Addresses the limitation that RFM alone may be insufficient for SaaS; proposes combining with behavioral metrics (login frequency, feature usage, support tickets)",
+        "Discusses time horizon selection (rolling window vs fixed period) and its impact on F and R scoring"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_046",
+    "question_text": "Bạn đang làm việc cho một công ty thương mại điện tử. Hãy giải thích cách bạn sẽ sử dụng Cohort Analysis để đánh giá hiệu quả của chiến dịch marketing mới, so với chiến dịch cũ. Cụ thể, bạn sẽ chọn cohort nào, metric nào và cách so sánh?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_COHORT"
+    ],
+    "skill_tags": [
+      "ANALYTICS_COHORT"
+    ],
+    "answers": {
+      "detailed": "Chọn cohort theo thời gian bắt đầu chiến dịch (ví dụ: user đăng ký trong tháng 1 cho chiến dịch mới, tháng 1 năm ngoái cho chiến dịch cũ để kiểm soát yếu tố mùa vụ). Định nghĩa rõ metric: retention rate = % user từ cohort vẫn thực hiện hành động mục tiêu (ví dụ: mua hàng, truy cập) ở các period sau (D1, D7, D30). So sánh bằng biểu đồ đường retention của hai cohort trên cùng một trục để nhận diện sự khác biệt.\n\nGiải thích kết quả:\n- Nếu cohort mới có retention cao hơn ở D1-D7 nhưng tương tự ở D30: chiến dịch mới tốt hơn trong onboarding.\n- Nếu cohort mới cao hơn ở mọi period: chiến dịch tốt hơn về chất lượng user.\n- Nếu curve mới giảm sâu sớm: chiến dịch thu hút user không phù hợp hoặc trải nghiệm sản phẩm có vấn đề.\n\nCần phân tích thêm:\n- Segment cohort theo channel, demographics, initial purchase value để xác định chiến dịch nào hiệu quả với segment nào.\n- Kiểm tra period effects (ảnh hưởng chung của thị trường, sản phẩm mới) vs cohort effects (chất lượng campaign) để đảm bảo so sánh công bằng.\n- Đề xuất hành động: nếu retention tốt hơn, scale up campaign; nếu tệ hơn, test lại messaging, audience targeting hoặc creative.",
+      "evaluation_points": [
+        "Correctly identifies cohort definition event (campaign signup period) and retention as primary metric, with seasonality control strategy",
+        "Explains visualization approach (overlay retention curves) but should clarify what constitutes 'active' user and retention period definitions (D1, D7, M1, etc.)",
+        "Distinguishes between period effects (seasonal trends) and cohort effects (campaign quality), but answer doesn't explicitly discuss this critical differentiation",
+        "Provides basic comparison framework but lacks interpretation guidance: what retention lift is meaningful? How to identify onboarding issues vs. long-term engagement problems from curve shape?",
+        "Missing secondary segmentation by acquisition channel, user demographics, or purchase behavior to uncover deeper insights about campaign effectiveness",
+        "Lacks proposal of follow-up actions: if new campaign shows lower early retention, what hypotheses to test? If retention flattens differently, what does that signal?"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_048",
+    "question_text": "Bạn đang phân tích funnel đăng ký của một ứng dụng di động, gồm 4 bước: Mở app -> Xem hướng dẫn -> Nhập thông tin -> Xác nhận OTP. Tỷ lệ chuyển đổi tổng thể thấp. Làm thế nào để bạn xác định bước nào là bottleneck chính? Hãy giải thích cách tính và đưa ra quyết định.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_FUNNEL"
+    ],
+    "skill_tags": [
+      "ANALYTICS_FUNNEL"
+    ],
+    "answers": {
+      "detailed": "To identify the main bottleneck, calculate step-by-step conversion rates (users completing step i / users entering step i). In this example: App Open→Tutorial: 80%, Tutorial→Info Entry: 50%, Info Entry→OTP: 30%. The OTP confirmation step (30%) is the bottleneck. However, consider absolute drop-off: if 1000 users start but only 120 reach OTP, the 50% drop at Info Entry (affecting 200 users) may be equally critical to fix. Next, segment by device type (iOS vs. Android), region, and acquisition source to determine if the bottleneck is universal or specific to cohorts—this reveals whether it's a product issue or platform-specific problem. For the OTP step, hypothesize causes: SMS delivery delays, unclear instructions, timeout errors, or poor UX. Test solutions like simplifying OTP input, adding retry logic, or switching to alternative verification methods. For the Info Entry step, test form field reduction or autofill features. Prioritize based on impact and implementation effort.",
+      "evaluation_points": [
+        "Correctly calculates step-by-step conversion rates and identifies the bottleneck with clear quantitative reasoning",
+        "Recognizes importance of absolute drop-off numbers (e.g., 50% of 100 users vs. 30% of 1000 users) to prioritize impact, not just relative percentages",
+        "Proposes segmentation analysis (by device type, OS, region, acquisition source) to uncover whether bottleneck is universal or specific to cohorts",
+        "Goes beyond diagnosis: formulates hypotheses for *why* users drop at each step (e.g., OTP step may fail due to SMS latency, unclear instructions, or technical bugs) and suggests testable solutions (A/B tests, UX improvements, error handling)",
+        "Discusses user journey linearity: acknowledges whether users might skip tutorial, revisit steps, or abandon mid-funnel, and adjusts funnel definition accordingly",
+        "Weak response: identifies bottleneck only by relative conversion rate without exploring absolute impact, segmentation, or proposing specific product/operational actions"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_050",
+    "question_text": "RFM là phương pháp phân đoạn khách hàng dựa trên Recency, Frequency, Monetary. Hãy so sánh RFM với phương pháp phân đoạn dựa trên hành vi mua hàng đơn giản (ví dụ: mua nhiều hay ít). Khi nào nên dùng RFM thay vì phương pháp kia? Cho ví dụ cụ thể.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "RFM chi tiết hơn phân đoạn đơn giản: Recency đo thời gian từ lần mua cuối (nhận diện khách hàng còn hoạt động), Frequency đo tần suất mua (khách hàng trung thành), Monetary đo giá trị chi tiêu (khách hàng có giá trị cao). Phân đoạn đơn giản chỉ dựa vào tổng số lần mua hoặc doanh thu, bỏ qua chiều thời gian.\n\nNên dùng RFM khi:\n1. **Chiến lược cá nhân hóa:** Ví dụ, khách hàng mua nhiều nhưng lâu không mua (high F, low R) cần chương trình tái kích hoạt (win-back); khách hàng mua gần đây nhưng ít (high R, low F) cần upsell; khách hàng mua nhiều, thường xuyên, mới đây (high R, F, M - Champions) cần chương trình VIP.\n2. **Ngành có chu kỳ mua lặp lại:** E-commerce, SaaS, subscription services nơi tần suất và độ gần đây của mua hàng là chỉ số quan trọng.\n\nHạn chế RFM: Khó áp dụng cho khách hàng mới (chưa có lịch sử mua), subscription models (monetary ít thay đổi), hoặc non-transactional businesses. Trong những trường hợp này, có thể dùng RFE (Recency, Frequency, Engagement) thay thế.\n\nTrade-off: RFM phức tạp hơn nhưng cung cấp insight chi tiết để tối ưu hóa ROI marketing, đặc biệt với tập khách hàng lớn. Chi phí triển khai cao hơn nhưng hiệu quả chiến lược marketing tăng đáng kể.",
+      "evaluation_points": [
+        "Giải thích rõ 3 thành phần RFM và ưu điểm so với phân đoạn đơn giản (hiện tại đã có)",
+        "Trình bày cách gán điểm RFM (ví dụ: quintiles, custom bins) và cách kết hợp chúng thành chiến lược",
+        "Đưa ra ví dụ cụ thể về các segment khách hàng (ví dụ: Champions, At Risk, New Customers) và hành động marketing tương ứng",
+        "Thảo luận về hạn chế của RFM (khách hàng mới, subscription models, non-transactional businesses) và khi nào không nên dùng",
+        "Phân tích trade-off về độ phức tạp, chi phí triển khai, và ROI so với phương pháp đơn giản"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_052",
+    "question_text": "Bạn cần trình bày kết quả phân tích doanh thu theo tháng cho ban lãnh đạo. Dữ liệu có 12 tháng, doanh thu tăng đều nhưng có một tháng giảm mạnh. Hãy chọn loại biểu đồ phù hợp nhất và giải thích tại sao. Ngoài ra, bạn sẽ làm gì để biểu đồ không bị hiểu lầm?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "DATA_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "DATA_VISUALIZATION"
+    ],
+    "answers": {
+      "detailed": "Chọn biểu đồ đường (line chart) vì thể hiện rõ xu hướng doanh thu theo thời gian và dễ phát hiện bất thường. Ưu điểm: hiển thị mối quan hệ liên tiếp giữa các tháng, giúp lãnh đạo nhanh chóng nhìn thấy tháng giảm mạnh.\n\nĐể tránh hiểu lầm:\n1. Trục Y bắt đầu từ 0 để tránh phóng đại biến động\n2. Thêm annotation (chú thích) ở tháng giảm với nguyên nhân (ví dụ: 'Giảm do sự cố kỹ thuật' hoặc 'Thấp mùa')\n3. Sử dụng màu sắc khác hoặc biểu tượng để làm nổi bật tháng bất thường\n4. Thêm đường xu hướng (trend line) để hiển thị pattern tổng thể bỏ qua nhiễu\n5. Nếu có tính mùa vụ, so sánh với cùng kỳ năm trước hoặc thêm series tương ứng\n6. Cung cấp bảng dữ liệu kèm theo với giá trị cụ thể, tỷ lệ thay đổi hàng tháng (%)\n7. Chuẩn bị giải thích rõ ràng về nguyên nhân giảm để trước khi lãnh đạo đặt câu hỏi",
+      "evaluation_points": [
+        "Chọn đúng line chart và giải thích ưu điểm (hiển thị xu hướng, dễ phát hiện bất thường)",
+        "Nhận dạng và phân tích nguyên nhân của điểm bất thường (spike/drop) từ góc độ kinh doanh, không chỉ thị giác",
+        "Đề xuất cách làm nổi bật bất thường (annotation, màu sắc, icon) phù hợp với loại khán giả (ban lãnh đạo)",
+        "Biện pháp tránh hiểu lầm: trục y từ 0, legend rõ ràng, cung cấp giá trị cụ thể, so sánh YoY nếu có tính mùa vụ",
+        "Lựa chọn phương pháp trình bày dữ liệu bổ sung (dashboard, bảng dữ liệu) để hỗ trợ khám phá thêm"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_054",
+    "question_text": "Bạn được giao thiết kế hệ thống phân tích RFM cho công ty thương mại điện tử với hơn 10 triệu khách hàng. Dữ liệu giao dịch lưu trong cơ sở dữ liệu quan hệ, có thể cập nhật hàng ngày. Hãy trình bày cách bạn sẽ tính toán RFM scores một cách hiệu quả, xử lý các edge case như khách hàng mới không có lịch sử mua, hoặc khách hàng có giao dịch trả hàng. Làm thế nào để cập nhật scores hàng ngày mà không ảnh hưởng đến performance?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "Để tính hiệu quả: sử dụng ETL hàng đêm (batch processing) thay vì real-time. Tạo bảng aggregate chứa Recency (số ngày từ lần mua cuối), Frequency (số giao dịch confirmed trong 12 tháng), Monetary (tổng doanh thu confirmed trong 12 tháng). Dùng SQL window function để tính.\n\n**Edge cases:**\n- Khách hàng mới (chưa có transaction): R=999 hoặc NULL, F=0, M=0 (handle riêng trong campaign, hoặc dùng RFE - Engagement thay vì M)\n- Giao dịch trả hàng: trừ vào Monetary chỉ khi fully refunded, không tính vào Frequency. Với partial refund, cập nhật Monetary proportionally\n- Giao dịch pending/cancelled: exclude khỏi tính toán\n\n**Cập nhật hiệu quả hàng ngày:**\n- Incremental update: chỉ xử lý giao dịch mới của ngày hôm đó, cập nhật scores cho khách hàng liên quan\n- Đánh index trên customer_id, transaction_date\n- Phân vùng (partition) bảng transaction theo tháng/quý để tối ưu query\n- Caching materialized view cho scores của ngày trước, chỉ update deltas\n\n**Chuyển scores thành hành động:**\n- Dùng quintile hoặc custom bin để gán điểm 1-5 cho mỗi chiều (R, F, M)\n- Kết hợp thành 9 segment: Champions (5,5,5), At Risk (1,_,_), New Customers (5,1,_), v.v.\n- Champions: loyalty programs, upsell; At Risk: re-engagement campaigns; New: nurture\n\n**Giới hạn của RFM:**\n- Khách hàng mới luôn có F,M thấp dù tiềm năng cao → kết hợp với LTV predictions hoặc RFE (recency, frequency, engagement)\n- Subscription models: M không phản ánh giá trị thực (stable revenue) → dùng churn risk thay thế\n- Seasonal businesses: R, F có thể sai lệch nếu không xem xét context\n- Không capture product affinity, churn risk, hoặc customer sentiment",
+      "evaluation_points": [
+        "Thiết kế giải pháp ETL batch với incremental update và trade-off giữa latency vs. performance",
+        "Xử lý edge case: khách hàng mới, trả hàng, hàng chờ xử lý (pending returns)",
+        "Tối ưu performance bằng index, partition, window function",
+        "Định nghĩa rõ thời gian horizon cho R, F, M (ví dụ: tại sao 12 tháng) và cách tính điểm từ các metric này (quintiles, custom bins)",
+        "Giải thích cách chuyển RFM scores thành hành động business: segment khách hàng (Champions, At Risk, etc.) và ứng dụng marketing",
+        "Thảo luận các giới hạn của RFM đối với e-commerce: khách hàng mới khó đánh giá, subscription models, cancel/refund complexity, seasonal patterns"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_051",
+    "question_text": "Định nghĩa Cohort Analysis là gì? Trong phân tích dữ liệu kinh doanh, nó thường được dùng để làm gì?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_COHORT"
+    ],
+    "skill_tags": [
+      "ANALYTICS_COHORT"
+    ],
+    "answers": {
+      "detailed": "Cohort Analysis là phương pháp phân nhóm người dùng dựa trên một sự kiện chung (cohort definition event) trong một khoảng thời gian cụ thể—ví dụ như ngày đăng ký, lần mua đầu tiên, hoặc khi họ sử dụng một tính năng mới—và theo dõi hành vi của các nhóm cố định này qua các giai đoạn tiếp theo.\n\nMục đích chính là:\n1. Đo lường sự thay đổi hành vi theo thời gian (tỷ lệ giữ chân người dùng, doanh thu, engagement) để phân biệt giữa thay đổi do khách hàng mới (period effects) và thay đổi trong hành vi của người dùng hiện tại (cohort effects).\n2. Đánh giá product stickiness và giá trị dài hạn của người dùng thông qua retention curves.\n3. Phát hiện xu hướng, đánh giá tác động của chiến dịch/tính năng mới, và xác định vấn đề onboarding (ví dụ: sự sụt giảm mạnh trong D7 retention).\n\nVí dụ: So sánh tỷ lệ giữ chân của người dùng đăng ký tháng 1 vs tháng 2 để đánh giá xem các cải tiến sản phẩm có tăng stickiness hay không.",
+      "evaluation_points": [
+        "Định nghĩa đúng khái niệm cohort dựa trên sự kiện chung (cohort definition event) trong một khoảng thời gian cụ thể",
+        "Giải thích được sự khác biệt giữa cohort analysis và customer segmentation (tập trung vào nhóm cố định theo thời gian)",
+        "Đưa ví dụ cụ thể về cohort definition (ngày đăng ký, lần mua đầu tiên, áp dụng tính năng)",
+        "Nhận dạng các loại cohort analysis phổ biến (retention cohort, behavior cohort) và metric theo dõi (D1/D7 retention, churn rate)",
+        "Giải thích được ứng dụng thực tế: phân biệt period effects vs cohort effects, đánh giá product stickiness"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_053",
+    "question_text": "Bộ chỉ số RFM trong phân tích khách hàng là viết tắt của những chữ nào? Giải thích ngắn gọn ý nghĩa từng thành phần.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "RFM là viết tắt của Recency (thời gian gần đây khách hàng có giao dịch), Frequency (tần suất giao dịch), và Monetary (giá trị tiền tệ). Recency đo lường độ sống động của khách hàng, Frequency đo lường lòng trung thành, và Monetary đo lường giá trị kinh tế. Mỗi chỉ số thường được gán điểm (ví dụ: 1-5 dựa trên quintiles), sau đó kết hợp để tạo RFM score nhằm phân loại khách hàng thành các nhóm cụ thể như Champions (R cao, F cao, M cao), At Risk (R thấp, F cao, M cao), hoặc Prospects mới. Điều này giúp thiết kế các chiến dịch marketing nhắm mục tiêu (ví dụ: tái kích hoạt cho khách hàng rủi ro, chương trình loyalty cho khách hàng trung thành). Tuy nhiên, RFM có những hạn chế như khó xử lý khách hàng mới hoặc không phù hợp với mô hình subscription nơi 'Monetary' ít thay đổi.",
+      "evaluation_points": [
+        "Đúng tên viết tắt (Recency, Frequency, Monetary) và định nghĩa cơ bản của từng thành phần",
+        "Giải thích được cách RFM được sử dụng để phân loại khách hàng thành các nhóm có hành động cụ thể (VIP, tiềm năng, rủi ro)",
+        "Hiểu rõ phương pháp gán điểm (ví dụ: quintiles 1-5) và cách kết hợp 3 chỉ số để tạo RFM score",
+        "Liên hệ đến các ứng dụng thực tế (tái kích hoạt khách hàng, chương trình loyalty, upsell) dựa trên từng kết hợp điểm số",
+        "Nhận thức được những giới hạn của RFM (khó áp dụng cho khách hàng mới, mô hình subscription, hoặc các doanh nghiệp không dựa trên giao dịch)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_055",
+    "question_text": "Bạn đang làm việc cho một công ty thương mại điện tử. Họ muốn phân tích hành vi người dùng từ lúc vào trang đến khi mua hàng. Hãy thiết kế một funnel analysis với ít nhất 4 bước, và giải thích cách bạn sẽ xác định bước nào có tỷ lệ drop-off cao nhất, cũng như đề xuất cải thiện.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_FUNNEL"
+    ],
+    "skill_tags": [
+      "ANALYTICS_FUNNEL"
+    ],
+    "answers": {
+      "detailed": "**Thiết kế Funnel (5 bước):**\n1. Truy cập trang chủ (sessions)\n2. Xem danh mục sản phẩm (users who browsed categories)\n3. Xem chi tiết sản phẩm (product detail page views)\n4. Thêm vào giỏ hàng (items added to cart)\n5. Hoàn tất thanh toán (orders completed)\n\n**Tính toán tỷ lệ chuyển đổi:**\nStep 1→2: 80%, Step 2→3: 75%, Step 3→4: 70%, Step 4→5: 50%\n→ **Bước drop-off cao nhất:** Step 4→5 (50%), mất 50% người dùng từ giỏ hàng đến thanh toán\n\n**Phân tích nguyên nhân:**\n- Form thanh toán quá dài/phức tạp\n- Chi phí vận chuyển hiển thị muộn gây sốc\n- Phương thức thanh toán hạn chế\n- Yêu cầu tạo tài khoản bắt buộc\n- Không có thông tin bảo mật rõ ràng\n\n**Đề xuất cải thiện (ưu tiên):**\n1. **Thanh toán khách (guest checkout)** – loại bỏ yêu cầu tạo tài khoản\n2. **Hiển thị tổng chi phí sớm** – tại trang giỏ hàng (tổng + phí vận chuyên + thuế)\n3. **Tối giản form checkout** – từ 15 trường xuống 7-8 trường, nhập tự động địa chỉ\n4. **Thêm phương thức thanh toán** – ví điện tử, BNPL, thẻ tín dụng đa loại\n5. **Hiển thị biểu tượng bảo mật** – SSL, chứng chỉ, đảm bảo thanh toán\n\n**Phân khúc funnel để insights sâu hơn:**\n- Theo thiết bị (mobile vs desktop) – mobile thường có drop-off cao hơn ở checkout\n- Theo nguồn traffic (organic vs paid) – organic users có thể có hành vi khác\n- Theo loại sản phẩm (giá cao vs giá thấp) – sản phẩm giá cao có drop-off cao hơn\n\n**Kiểm chứng:**\n- A/B test: guest checkout vs required login\n- User testing: quan sát hành vi tại màn hình checkout\n- Heatmap analysis: xác định nút/trường nào bị bỏ qua\n- Exit surveys: hỏi lý do người dùng rời đi tại step 4",
+      "evaluation_points": [
+        "Thiết kế funnel hợp lý với ít nhất 4 bước, đảm bảo các bước có tính chất tuần tự, loại trừ lẫn nhau, và toàn diện",
+        "Tính toán và xác định chính xác bước có drop-off cao nhất, so sánh tỷ lệ chuyển đổi giữa các bước liên tiếp",
+        "Nhận diện các đường dẫn thay thế hoặc phi tuyến tính (vd: người dùng có thể quay lại xem sản phẩm sau khi vào giỏ hàng)",
+        "Phát triển các giả thuyết cụ thể về *tại sao* người dùng drop-off dựa trên dữ liệu hoặc hành vi người dùng",
+        "Đề xuất các cải thiện được ưu tiên và gợi ý cách kiểm chứng (A/B testing, user research) để xác nhận tác động",
+        "Đề cập đến việc phân khúc funnel (vd: theo thiết bị, nguồn traffic, loại sản phẩm) để có insights sâu hơn"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_057",
+    "question_text": "Khi trình bày kết quả Cohort Analysis về tỷ lệ giữ chân (retention) cho một sản phẩm SaaS, bạn sẽ chọn loại biểu đồ nào và tại sao? Hãy so sánh ít nhất 2 loại biểu đồ khả thi và giải thích trade-off của từng loại.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "DATA_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "DATA_VISUALIZATION"
+    ],
+    "answers": {
+      "detailed": "Heatmap (ma trận màu) và line chart đều khả thi, tùy thuộc vào mục tiêu trình bày:\n\n**Heatmap:**\n- Ưu điểm: Hiển thị trực quan mẫu hình (pattern) tổng thể với nhiều cohort; dễ phát hiện xu hướng bất thường, phân bố retention theo cohort và thời gian\n- Nhược điểm: Khó đọc giá trị chính xác; màu sắc có thể gây sai lệch nếu chọn scale không phù hợp\n- Khi nào dùng: Trình bày cho lãnh đạo/stakeholder cần overview nhanh, hoặc khi có 10+ cohort\n\n**Line Chart:**\n- Ưu điểm: Thể hiện chính xác đường cong retention của từng cohort; dễ so sánh chi tiết; cho phép thêm trend line hoặc confidence interval\n- Nhược điểm: Rối mắt khi quá nhiều đường (>5-6 cohort); khó nhìn mẫu hình toàn cảnh\n- Khi nào dùng: Phân tích sâu các cohort chính hoặc so sánh 2-3 cohort cụ thể\n\n**Cách tiếp cận tốt nhất:** Kết hợp cả hai - dùng heatmap để tổng quan và xác định outliers, sau đó dùng line chart để drill-down vào cohorts thú vị. Cũng cần diễn giải kết quả: flattening curve = user loyalty tốt; sharp drop early = onboarding issue. Ngoài ra, xem xét segment thêm theo channel, pricing, hoặc adoption date để phát hiện cohort effects vs. period effects.",
+      "evaluation_points": [
+        "Identifies appropriate visualization types (heatmap, line chart) with clear trade-offs between pattern recognition and precision",
+        "Explains when to use each chart type based on business need (overview vs. detailed comparison) and audience context",
+        "Discusses how to interpret retention patterns (e.g., flat curves indicate stickiness, sharp drops suggest onboarding issues) and what insights each visualization reveals",
+        "Mentions segmentation strategies: comparing cohorts by acquisition channel, pricing tier, or feature adoption within the chosen visualization",
+        "Addresses presentation best practices: combining visualizations (heatmap for overview + line chart for key cohorts), defining 'active' metric consistency, and time-period granularity choices"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_059",
+    "question_text": "Bạn đang triển khai RFM segmentation cho một nền tảng thương mại điện tử với hơn 10 triệu khách hàng. Dữ liệu giao dịch lưu trong bảng SQL có cấu trúc: transaction_id, customer_id, transaction_date, amount. Hãy thiết kế truy vấn SQL để tính các chỉ số RFM, sau đó phân tích vấn đề performance khi chạy trên toàn bộ dữ liệu lịch sử (5 năm) và đề xuất cách tối ưu (vd: partitioning, indexing, sampling). Ngoài ra, nếu có một nhóm khách hàng có Recency rất cao (giao dịch gần đây) nhưng Frequency thấp, bạn sẽ diễn giải như thế nào?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "SQL Query: SELECT customer_id, DATEDIFF(CURDATE(), MAX(transaction_date)) AS Recency, COUNT(transaction_id) AS Frequency, SUM(amount) AS Monetary FROM transactions WHERE transaction_date IS NOT NULL GROUP BY customer_id HAVING COUNT(transaction_id) > 0; Performance Issues: (1) Full table scan on 5-year history (~billions of rows); (2) GROUP BY aggregation expensive at 10M+ customer cardinality; (3) No index optimization. Optimization Strategy: (1) Partition by transaction_date (monthly/quarterly) to enable partition pruning and parallel processing; (2) Create composite index on (customer_id, transaction_date, amount); (3) Implement materialized view updated daily/weekly rather than full recalculation; (4) Use window functions (ROW_NUMBER OVER PARTITION BY customer_id ORDER BY transaction_date DESC) for efficiency; (5) Sampling only for exploratory analysis, not production segmentation. RFM Scoring: Convert raw metrics to 1-5 quintiles based on customer distribution (e.g., Recency: 1=oldest 20%, 5=newest 20%) or custom business thresholds (e.g., F>5 transactions=5 points). Combine into segments: 555='Champions', 111='At Risk'. Target Segment Interpretation: High Recency + Low Frequency indicates either (a) new customer with single purchase, or (b) dormant customer recently reactivated. Actionable strategy: Launch targeted re-engagement campaign with frequency incentives (loyalty bonus for 2nd/3rd purchase within 30 days), personalized product recommendations, or time-limited offers. Measure success via F increase and repeat purchase rate within 90 days. Limitations: RFM assumes transactional behavior; less effective for subscription models where Monetary is predictable. Consider RFE (Recency, Frequency, Engagement) or CLV-based segmentation instead. Handle data quality: exclude refunds/returns, deduplicate transactions, account for seasonality.",
+      "evaluation_points": [
+        "SQL query correctness: syntax, logic for RFM metrics, handling of edge cases (e.g., customers with no transactions, NULL values)",
+        "Performance analysis depth: quantify expected execution time/resource usage, explain why GROUP BY is expensive at scale, justify partition strategy (time-based vs. customer-based), discuss trade-offs between partitioning granularity and maintenance overhead",
+        "Optimization completeness: discuss materialized views or incremental computation strategies (daily/weekly RFM updates vs. full recalculation), explain when sampling is inappropriate (biased toward active customers), mention alternative approaches like window functions for efficiency",
+        "RFM scoring methodology: candidate should explain HOW to convert R/F/M raw values into 1-5 scores (quintiles, custom bins, business-driven thresholds), justify scoring choice based on data distribution and business goals",
+        "Interpretation of target segment: recognize this is a 'New Customer' or 'At Risk/Dormant Reactivation' opportunity, propose specific re-engagement strategies (e.g., personalized email, discount incentives), discuss measurement of campaign success (F improvement tracking)",
+        "Advanced considerations: limitations of RFM for this business (e.g., subscription vs. transaction model, seasonality effects, multi-channel attribution), adaptations needed (RFE for engagement platforms, lifetime value adjustments), data quality issues (duplicate transactions, refunds, returns handling)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_056",
+    "question_text": "Hãy định nghĩa Cohort Analysis trong phân tích dữ liệu kinh doanh.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_COHORT"
+    ],
+    "skill_tags": [
+      "ANALYTICS_COHORT"
+    ],
+    "answers": {
+      "detailed": "Cohort Analysis là phương pháp phân nhóm người dùng (cohort) dựa trên một sự kiện chung xác định (ví dụ: tháng đăng ký, kênh acquisition, hoặc lần đầu tiên sử dụng một feature) và theo dõi hành vi của nhóm cố định này qua các khoảng thời gian liên tiếp. Mục đích chính là: (1) Đo lường retention/churn theo thời gian (D1, D7, M1 retention) để đánh giá product stickiness; (2) Phân biệt giữa thay đổi do chu kỳ (period effects - ảnh hưởng của thời điểm) và thay đổi do chính nhóm người dùng (cohort effects); (3) Phát hiện xu hướng và phát sinh giả thuyết về onboarding, feature adoption, hoặc user behavior. Ví dụ: So sánh retention curve của cohort tháng 1 vs tháng 2 để hiểu liệu sự sụt giảm retention là do product thay đổi hay do user quality khác nhau.",
+      "evaluation_points": [
+        "Định nghĩa đúng: phân nhóm người dùng theo đặc điểm chung + theo dõi theo thời gian (phân biệt với segmentation)",
+        "Nêu rõ 'cohort definition event' cụ thể (ví dụ: signup date, first purchase, feature adoption) không chỉ chung chung",
+        "Giải thích mục đích: phân biệt giữa period effects (ảnh hưởng của thời kỳ) và cohort effects (ảnh hưởng của chính nhóm người dùng)",
+        "Cung cấp ví dụ cụ thể về metric tracking (D1/D7/M1 retention, churn rate) và cách diễn giải kết quả (vd: retention curve flattening = long-term stickiness)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_058",
+    "question_text": "Bạn đang làm cho một công ty thương mại điện tử. Hãy thiết kế một funnel phân tích chuyển đổi từ khi khách hàng truy cập trang chủ đến khi hoàn tất thanh toán. Bạn sẽ chọn những bước nào và giải thích tại sao?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_FUNNEL"
+    ],
+    "skill_tags": [
+      "ANALYTICS_FUNNEL"
+    ],
+    "answers": {
+      "detailed": "Funnel gồm các bước: (1) Truy cập trang chủ, (2) Xem trang sản phẩm, (3) Thêm vào giỏ hàng, (4) Bắt đầu thanh toán (checkout), (5) Hoàn tất thanh toán (success). \n\nLý do chọn: Mỗi bước đại diện cho một quyết định hoặc hành động có ý định mua rõ ràng; bỏ qua bước trung gian (vd: xem chi tiết sản phẩm) sẽ làm mất thông tin về điểm rớt cụ thể. Các bước này là mutually exclusive và exhaustive cho hành trình mua hàng chuỗi.\n\nCách đo lường: Theo dõi conversion rate giữa các bước (vd: % users xem sản phẩm → thêm giỏ), drop-off rate tuyệt đối, và thời gian trung bình ở mỗi bước để phát hiện nút thắt (vd: 40% bỏ ở checkout có thể báo hiệu form phức tạp).\n\nPhân tích sâu: Phân khúc funnel theo device (mobile vs. desktop), nguồn traffic (organic, paid, direct), và cohort người dùng để xác định drop-off không đều. Ví dụ: mobile checkout có tỷ lệ thất bại cao hơn có thể do UX kém. Formulate hypotheses (vd: thời gian loading chậm, thiếu phương thức thanh toán) và test qua A/B test (vd: rút gọn form, thêm trust badge).\n\nCân nhắc: Xác nhận liệu hành trình là strictly linear hay có alternative paths (vd: users quay lại, cart abandonment → re-engagement emails) và điều chỉnh định nghĩa funnel cho phù hợp.",
+      "evaluation_points": [
+        "Identifies 4–5 mutually exclusive, exhaustive steps that reflect the linear purchase journey with clear business intent",
+        "Justifies step selection by explaining what each step measures and why intermediate steps (e.g., product detail view, cart abandonment) matter for identifying friction",
+        "Proposes specific metrics (step-to-step conversion rate, drop-off rate, time per step) and segmentation strategies (e.g., by device type, traffic source, user cohort) to uncover root causes of drop-off",
+        "Formulates testable hypotheses for why users drop off at each stage (e.g., payment form complexity, trust signals, unexpected shipping costs) and suggests A/B tests or product interventions",
+        "Acknowledges non-linear paths or alternative behaviors (e.g., users who exit and return, multi-session journeys, cart abandoners who re-engage) and how to account for them in analysis"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_060",
+    "question_text": "Mô hình RFM thường được dùng để phân khúc khách hàng. Hãy so sánh ưu và nhược điểm của RFM so với phân khúc dựa trên CLV (Customer Lifetime Value) đơn thuần.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "RFM phân khúc khách hàng dựa trên hành vi gần đây (Recency), tần suất giao dịch (Frequency), và giá trị tiêu tốn (Monetary). **Ưu điểm RFM:** (1) Đơn giản, dễ triển khai, không cần mô hình phức tạp; (2) Kết quả trực quan và hành động ngay được (ví dụ: gửi email re-engagement cho R cao-F thấp, hay loyalty program cho R-F-M đều cao); (3) Không yêu cầu dữ liệu lịch sử dài hay giả định phức tạp. **Nhược điểm RFM:** (1) Bỏ qua chi phí acquisition (CAC)—không phân biệt khách hàng đắt tiền vs. rẻ; (2) Không dự đoán tương lai tốt—chỉ dựa trên quá khứ, không học churn risk hay lifetime value thực tế; (3) Khó xử lý khách hàng mới (R cao nhưng F=0); (4) Không điều chỉnh margin hoặc retention rate khác nhau giữa các khách hàng. **CLV (Customer Lifetime Value):** Tính toán giá trị doanh thu ròng dự kiến từ một khách hàng, kết hợp (a) doanh thu trung bình, (b) tần suất mua, (c) chu kì sống khách hàng, (d) chi phí acquisition, (e) chi phí duy trì, (f) tỉ lệ giữ lại. **Ưu điểm CLV:** (1) Tổng hợp toàn diện, dự đoán giá trị thực tế lâu dài; (2) Giúp quyết định dài hạn: ai xứng đáng đầu tư vào retention/upsell. **Nhược điểm CLV:** (1) Phức tạp, cần dữ liệu lịch sử dài, giả định về churn rate và margin; (2) Nhạy cảm với giả định—sai sót nhỏ trong churn/discount rate gây sai lệch lớn; (3) Không hữu dụng cho tác vụ ngắn hạn (tactical campaign). **Kết luận:** RFM phù hợp cho marketing ngắn hạn, tối ưu tốc độ; CLV cho chiến lược dài hạn, tối ưu giá trị. Thực tế, cần dùng **kết hợp**: RFM để phân khúc nhanh, sau đó dùng CLV để ưu tiên khách hàng nào cần retention effort cao nhất trong từng segment RFM.",
+      "evaluation_points": [
+        "Correctly identifies RFM advantages: simplicity, actionability, low implementation cost, and suitability for tactical campaigns",
+        "Correctly identifies RFM limitations: ignores acquisition costs, doesn't predict future behavior, treats all dimensions equally",
+        "Distinguishes CLV as a forward-looking metric that incorporates cost structure, margin, and retention—but should clarify CLV still requires RFM-like inputs as foundational data",
+        "Recognizes the time horizon trade-off (short-term vs. long-term strategy) but should elaborate: RFM works with recent data snapshots while CLV requires predictive modeling",
+        "Should discuss hybrid approach: RFM for immediate segmentation + CLV for prioritization of retention/upsell efforts; also mention when each fails (e.g., new customers in RFM, new market dynamics in CLV)",
+        "Should address data quality requirements: RFM needs clean transactional history; CLV requires accurate churn rates, margin assumptions, and discount rates—both have practical pitfalls"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_062",
+    "question_text": "Công ty bạn có dashboard hiển thị số lượng đơn hàng theo ngày. Một ngày, số đơn hàng giảm 40% so với hôm trước. Hãy trình bày cách bạn kiểm tra và visualize dữ liệu để tìm nguyên nhân.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "DATA_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "DATA_VISUALIZATION"
+    ],
+    "answers": {
+      "detailed": "Bước 1: Kiểm tra tính hợp lệ dữ liệu - Xác nhận record count, null rates, schema integrity trong source; kiểm tra pipeline execution logs, độ trễ ETL, và tracking implementation để loại trừ lỗi kỹ thuật. Bước 2: Thiết lập baseline so sánh - So sánh với cùng ngày tuần trước (WoW), cùng ngày năm ngoái (YoY), và trung bình 30 ngày trước để nhận diện nếu đây là anomaly hay pattern mùa vụ. Bước 3: Phân tích đa chiều chi tiết - Tách riêng theo kênh (web/app/marketplace), vùng địa lý, category sản phẩm, khung giờ (peak vs. off-peak), loại user (new/returning). Định lượng đóng góp của mỗi segment vào mức giảm 40% tổng thể. Bước 4: Visualize hiệu quả - Sử dụng line chart cho trend detection, waterfall chart để show variance by segment, heatmap cho pattern giờ trong ngày, control chart để xác nhận anomaly. Bước 5: Hình thành và kiểm định giả thuyết - Nếu giảm tập trung ở 1-2 kênh cụ thể (>50% decline), khả năng cao là lỗi kỹ thuật (payment failure, app crash, site latency); nếu rải rác đều các kênh, điều tra yếu tố bên ngoài (marketing campaign pause, event khí hậu, activity đối thủ, thay đổi chính sách).",
+      "evaluation_points": [
+        "Distinguish between data quality issues (pipeline delays, ETL errors, tracking bugs) vs. genuine business impact using data validation checks (record counts, null rates, schema changes)",
+        "Apply temporal baselines systematically: Day-over-Day (DoD), Week-over-Week (WoW), Year-over-Year (YoY) to isolate seasonality and identify if decline is anomalous",
+        "Segment root cause analysis by multiple dimensions (channel, geography, product category, device type, user cohort) and quantify contribution of each segment to the 40% decline",
+        "Propose specific visualizations with clear intent: line chart for trend detection, waterfall chart to show variance by segment, heatmap for time-of-day patterns, control chart for anomaly detection",
+        "Formulate and test hypotheses with supporting metrics: e.g., if web channel dropped 50% but app stable, investigate web-specific issues (payment gateway, site performance); if all channels dropped equally, suspect external factors (marketing pause, competitor activity, market event)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_064",
+    "question_text": "Bạn được giao thiết kế một hệ thống phân tích cohort tự động cho nền tảng SaaS để theo dõi retention của người dùng theo tuần. Dữ liệu gồm 10 triệu người dùng, mỗi ngày có 500k events. Hãy trình bày cách bạn xử lý vấn đề dữ liệu thiếu (missing data) khi người dùng không có event trong một tuần, và tối ưu hiệu suất truy vấn để dashboard load dưới 5 giây.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_COHORT"
+    ],
+    "skill_tags": [
+      "ANALYTICS_COHORT"
+    ],
+    "answers": {
+      "detailed": "Xử lý missing data: Phân biệt (1) Churn thực sự: không có event ≥7 ngày liên tiếp → đánh dấu inactive; (2) Tracking gaps ngẫu nhiên: 1-2 ngày thiếu event → imputation chỉ áp dụng nếu user có event trước & sau gap (forward-fill hoặc assume hành vi tuần trước, nhưng MUST validate imputation không tạo bias bằng cách so sánh retention curves của cohort imputed vs. non-imputed). (3) Edge case: user với 1-2 events/tháng → định nghĩa rõ ngưỡng active (vd: ≥1 event/7 ngày) và document clearly.\n\nTối ưu hiệu suất: (1) Pre-aggregate daily → cohort_summary table (cohort_week, week_number, active_count, total_count) dùng Spark/Presto; (2) Partition by cohort_week (monthly) để giảm scan range; lưu Parquet với snappy compression; (3) Caching layer (Redis): cache top 100 cohorts + ad-hoc queries với TTL 1 hour (balance giữa freshness và performance); (4) Query optimization: chỉ load cohorts cần thiết (date range filter trước aggregation), dùng approximate algorithms (HyperLogLog) cho active_count nếu cần ultra-fast dashboard; (5) Monitor late-arriving events (backfill strategy) để tránh revision lớn.\n\nEdge cases & validation: (a) Handle churn vs. temporary inactive: kiểm tra nếu user quay lại sau 7+ ngày không hoạt động → coi là new cohort? hay same cohort nhưng có gap? (define rõ); (b) Avoid confusing period effects (vd: seasonal drop) với cohort quality (vd: Nov signup cohort kém hơn Oct) → segment further by acquisition channel; (c) Alerting: flag nếu event volume drop >20% so với baseline để phát hiện tracking issues sớm.",
+      "evaluation_points": [
+        "Correctly distinguishes between churn (true missing data) and tracking gaps, with clear operational threshold (7-day inactivity) - strong foundation for retention definition",
+        "Proposes practical pre-aggregation + partitioning + caching architecture with measurable performance targets (sub-5s load), though lacks detail on partition strategy rationale (e.g., monthly vs. weekly cohort partitions) and cache invalidation logic",
+        "Addresses edge case of sparse-activity users but should go further: discusses how to validate imputation doesn't introduce bias (e.g., comparing imputed vs. non-imputed cohorts' actual retention curves) and avoids confounding period effects (e.g., seasonal trends) with cohort effects",
+        "Missing critical consideration: should propose monitoring/alerting for data quality anomalies (e.g., sudden drop in events, backfill delays) that could invalidate cohort analyses, and define how to handle late-arriving events in streaming context",
+        "Should specify trade-off: real-time accuracy vs. pre-computed performance (e.g., if using daily aggregation, there's inherent 1-day lag for current week retention)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_061",
+    "question_text": "Bạn đang làm tại một công ty SaaS. Hãy giải thích cách bạn sẽ thiết lập một Cohort Analysis để đo lường tỷ lệ giữ chân người dùng hàng tháng, và làm thế nào để phân biệt giữa cohort dựa trên tháng đăng ký với cohort dựa trên hành vi (ví dụ: người dùng đã hoàn thành hành động 'tạo dự án đầu tiên'). Khi nào nên dùng mỗi loại?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_COHORT"
+    ],
+    "skill_tags": [
+      "ANALYTICS_COHORT"
+    ],
+    "answers": {
+      "detailed": "**Setup for Monthly Retention Cohort Analysis:**\n\nFor a SaaS platform, I'd structure two parallel cohort analyses:\n\n**1. Time-Based Cohort (Signup Month):**\n- Define cohort by signup_date (e.g., Jan 2024, Feb 2024 cohort)\n- Track retention as: (active users in period N) / (total users in cohort) × 100\n- SQL example:\n```sql\nWITH cohorts AS (\n  SELECT user_id, DATE_TRUNC('month', signup_date) AS cohort_month\n  FROM users\n),\nactivity AS (\n  SELECT user_id, DATE_TRUNC('month', last_login_date) AS activity_month\n  FROM user_activity\n)\nSELECT \n  c.cohort_month,\n  DATEDIFF(month, c.cohort_month, a.activity_month) AS period_months,\n  COUNT(DISTINCT c.user_id) AS cohort_size,\n  COUNT(DISTINCT a.user_id) AS retained_users,\n  ROUND(100.0 * COUNT(DISTINCT a.user_id) / COUNT(DISTINCT c.user_id), 2) AS retention_pct\nFROM cohorts c\nLEFT JOIN activity a ON c.user_id = a.user_id\nGROUP BY c.cohort_month, period_months;\n```\n\n**2. Behavior-Based Cohort (First Project Creation):**\n- Define cohort by first_project_creation_date (the onboarding milestone)\n- Tracks whether the feature/action drives subsequent engagement\n- Same retention calculation, but grouped by behavior event timing\n\n**Key Distinction & When to Use Each:**\n\n| Aspect | Time-Based | Behavior-Based |\n|--------|-----------|----------------|\n| **What it measures** | Overall product health across acquisition waves | Specific feature adoption impact |\n| **Use case** | Identify if recent cohorts have different retention → catch platform-wide degradation or improvements | Validate if completing onboarding action (creating first project) correlates with higher long-term retention |\n| **Example insight** | Jan 2024 cohort shows 40% M1 retention vs Feb 2024 shows 35% → investigate acquisition quality or product changes | Users who create a project within week 1 retain at 60% M3, non-creators at 20% → design friction in project creation |\n\n**Critical Distinction: Cohort Effect vs Period Effect**\n- Time-based cohorts help separate these: if *all* January cohorts drop in March (period effect), it's platform-wide; if *only* January cohort drops (cohort effect), it's acquisition quality\n- Behavior-based isolates feature impact by removing confounds from acquisition timing\n\n**Interpretation & Next Steps:**\n- **Flattening retention curve** = core users establish sticky habits (healthy)\n- **Sharp early drop** = poor onboarding (consider improving project creation UX)\n- **Segment further** by channel: time-based Jan cohort split by organic vs paid to diagnose if channel quality differs\n- **Combine both**: Check if behavior-based cohort (creators) within time-based cohort (Jan signups) shows 2-3x higher retention than non-creators—validates feature criticality",
+      "evaluation_points": [
+        "Correctly defines cohort_month and retention calculation formula (retained users / initial cohort size), with clear SQL structure",
+        "Accurately distinguishes time-based (signup date) vs behavior-based (first project creation) cohorts and provides valid use cases for each",
+        "Interprets retention curves meaningfully: e.g., recognizes that sharp drops indicate onboarding friction, flattening suggests long-term stickiness",
+        "Addresses the critical concept of separating cohort effects from period effects—explains how behavior-based cohorts isolate feature impact vs general platform trends",
+        "Proposes further segmentation strategy: e.g., breaking time-based cohorts by acquisition channel or comparing retention curves across cohorts to identify inflection points",
+        "Discusses practical trade-offs: time-based cohorts are simple but may mask product improvements; behavior-based cohorts require clear event definition and can lag in data availability"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_063",
+    "question_text": "Công ty bạn có một trang thương mại điện tử với quy trình: 'Xem trang chủ -> Xem sản phẩm -> Thêm vào giỏ -> Thanh toán -> Hoàn tất'. Tỷ lệ chuyển đổi từ 'Thêm vào giỏ' sang 'Thanh toán' thấp bất thường (chỉ 10%). Bạn sẽ phân tích Funnel Analysis như thế nào để tìm nguyên nhân? Đưa ra ít nhất 2 giả thuyết và cách kiểm tra (A/B test hoặc phân tích hành vi).",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_FUNNEL"
+    ],
+    "skill_tags": [
+      "ANALYTICS_FUNNEL"
+    ],
+    "answers": {
+      "detailed": "**Step 1: Quantify the Drop-off**\nSELECT step, COUNT(DISTINCT user_id) as users FROM events GROUP BY step;\nResult: Cart (10k) → Checkout (1k) = 90% drop-off. This is the critical bottleneck.\n\n**Step 2: Segment to Isolate Root Causes**\nBefore forming hypotheses, segment the funnel:\n- By device (mobile vs. desktop): Mobile often has higher cart abandonment\n- By traffic source (organic, paid, direct): Different user intents\n- By user cohort (new vs. returning): Returning users may have higher conversion\n- Query: SELECT step, device, COUNT(DISTINCT user_id) FROM events GROUP BY step, device\n\n**Step 3: Form Data-Driven Hypotheses**\n\n**Hypothesis 1: Unexpected Costs (Shipping/Taxes)**\n- Signal: Cart users don't see total cost until checkout page\n- Check via: Session replay or form abandonment time analysis (how long do users spend on checkout page before leaving?)\n- Test: A/B test showing estimated shipping cost on cart page vs. control\n- Expected outcome: Cost transparency reduces drop-off by revealing price sensitivity earlier\n\n**Hypothesis 2: Checkout Form Friction**\n- Signal: Form field errors, required fields mismatch user expectations\n- Check via: Heatmap analysis (where do users click/scroll?), form field abandonment rates\n- Test: A/B test simplified checkout (2-step vs. current multi-step), or optional fields\n- Expected outcome: Reduce abandonment by lowering friction\n\n**Hypothesis 3: Payment Method Unavailability (if applicable)**\n- Signal: Segment by geography or device to find if certain regions/methods have higher drop\n- Check via: Funnel analysis by geography/device, payment method availability logs\n- Test: Add popular local payment methods (e.g., e-wallets in Asia)\n\n**Step 4: Benchmark & Prioritize**\nCompare against industry standard (20-30% conversion): your 10% is 2-3x worse. Prioritize interventions by expected impact (test cost-transparency first, then form simplification).\n\n**Key Distinction:** If results vary significantly by user cohort (e.g., users from May have 15% conversion, June users have 5%), this suggests a cohort effect (product/process change) rather than a constant friction point, requiring different remediation.",
+      "evaluation_points": [
+        "Correctly calculate drop-off rate and identify the critical bottleneck (Cart → Checkout: 90% drop)",
+        "Distinguish between funnel analysis (sequential steps, single snapshot) and cohort analysis (how fixed user groups behave over time) - e.g., do users from different signup cohorts or traffic sources have different conversion rates?",
+        "Propose 2+ hypotheses grounded in either quantitative signals (e.g., device type, traffic source, geographic location variations in drop-off) or qualitative user behavior insights (friction points)",
+        "Design testable hypotheses using appropriate methods: A/B testing for interventions (e.g., showing shipping cost earlier), behavioral analysis (heatmaps, session replay, form abandonment metrics) for diagnosis, or segment analysis (cohort-level drop-off by user attribute) for causation",
+        "Consider external benchmarks (industry standard 20-30% conversion) and recommend diagnostic queries (e.g., filter by device, traffic source, or user cohort to isolate where drop-off concentrates)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_065",
+    "question_text": "Mô hình RFM phân loại khách hàng thành 5 nhóm: Champions, Loyal, At Risk, Lost, Others. Hãy giải thích cách tính điểm R, F, M cho một khách hàng cụ thể (ví dụ: mua lần cuối 10 ngày trước, tần suất 5 lần, tổng chi tiêu 2 triệu) và cách bạn sẽ xác định nhóm nào là 'At Risk' để tập trung chiến dịch giữ chân. Tại sao không chỉ dùng một chỉ số duy nhất?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "**Cách tính điểm RFM:**\nDùng quantile để gán điểm 1-5 cho từng chiều dựa trên phân phối của toàn bộ khách hàng. Ví dụ: nếu khách hàng ở top 20% về recency (mua gần đây), R=5; nếu ở top 40-60%, R=3. Tương tự với F (tần suất mua) và M (tổng tiền). Với ví dụ: 10 ngày trước (R=4, trong 20% gần đây), 5 lần mua (F=3, trung bình), 2 triệu (M=3, trung bình).\n\n**Xác định nhóm At Risk:**\n'At Risk' là khách hàng có R thấp (R≤2, mua cách đây >X ngày) nhưng F cao và M cao (F≥4, M≥4). Điều này chỉ ra họ từng trung thành nhưng gần đây không mua nữa—dấu hiệu churn. Có thể dùng quy tắc OR (R≤2 AND F≥4) hoặc k-means clustering để tạo nhóm động.\n\n**Tại sao không dùng chỉ số duy nhất:**\n- R=5 (mới) không nói lên tính trung thành; một khách hàng mới chỉ mua 1 lần có nguy cơ rời cao\n- F=5 (tần suất cao) cũ đã không mua 6 tháng—không phát hiện churn\n- M=5 (tiền nhiều) không bảo vệ nếu họ bỏ đi (lỗ lớn)\n- RFM kết hợp cho bức tranh đầy đủ: xác định Champions (R5F5M5), Loyal (cao trên 2-3 chiều), At Risk (R thấp nhưng từng giá trị), Lost (R rất thấp).\n\n**Hạn chế và cải tiến:**\nRFM khó xử lý khách hàng mới (R cao nhưng F/M thấp) và subscription models (M ít biến động). Có thể thay M bằng Engagement metrics (RFE) hoặc thêm Duration (thời gian làm khách hàng) để cải thiện.",
+      "evaluation_points": [
+        "Explains quantile-based scoring methodology (e.g., how to assign 1-5 scores using percentile ranks across the customer base)",
+        "Provides concrete threshold rules for 'At Risk' segment and justifies why this combination indicates churn risk (e.g., R≤2 indicates disengagement despite historical value)",
+        "Articulates why single metrics fail: R alone misses loyal high-value customers; F alone doesn't capture recency decline; M alone ignores engagement patterns",
+        "Discusses practical implications: what retention actions suit 'At Risk' (re-engagement campaigns, personalized offers, win-back strategies)",
+        "Identifies RFM limitations and adaptations: challenges with new customers (high R, low F/M), non-transactional businesses, subscription models, or seasonal patterns"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_067",
+    "question_text": "Bạn cần trình bày kết quả phân tích Funnel và Cohort tới ban lãnh đạo không chuyên về kỹ thuật. Hãy đề xuất loại biểu đồ nào cho từng phân tích và giải thích tại sao (ví dụ: stacked bar, line chart, heatmap). Ngoài ra, làm thế nào để tránh gây hiểu lầm khi visualize dữ liệu (ví dụ: trục y không bắt đầu từ 0, tỷ lệ phần trăm không chính xác)?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "DATA_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "DATA_VISUALIZATION"
+    ],
+    "answers": {
+      "detailed": "**Funnel Analysis:** Use a traditional funnel chart or waterfall bar chart (horizontal bars showing drop-off between stages). This is intuitive for non-technical audiences because it immediately visualizes the magnitude of user loss at each step. Avoid stacked bars here as they obscure the sequential flow.\n\n**Cohort Analysis:** Use a heatmap (rows = cohorts by definition event, columns = time periods, color intensity = retention %) combined with a supporting line chart showing 2-3 key cohorts. The heatmap reveals overall patterns (e.g., newer cohorts cohort effects vs older cohorts), while line charts help executives see absolute trends for comparison.\n\n**Key Visualization Pitfalls to Avoid:**\n1. **Y-axis truncation:** Always start bar/funnel charts at 0. If showing retention, consider a 0-100% scale so 50% retention doesn't look like failure.\n2. **Color scale confusion:** Define heatmap colors clearly (e.g., red = low retention, green = high). Add a legend and explain the threshold (e.g., \"red < 30%, yellow 30-70%, green > 70%\").\n3. **Absolute vs. percentage numbers:** Always use percentages for cohorts of different sizes. Include sample size annotations (e.g., \"n=1,200\") to show statistical credibility.\n4. **Period vs. cohort effects confusion:** Index line charts to 100% at cohort start (Day 0) to isolate cohort behavior from market seasonality. Annotate external events (e.g., \"Feature X launch, Week 3\") to explain anomalies.\n5. **Inconsistent metric definitions:** Ensure \"active\" is defined identically across all periods (e.g., \"1+ session in period\"), and note this clearly on slides.\n\n**Example:** Show a heatmap of retention by signup cohort, then alongside it, one line chart overlaying 3-4 cohorts (early, mid, recent) indexed to Day 0 = 100%, with shaded confidence bands. This lets executives see both the macro pattern and micro cohort trajectories without confusion.",
+      "evaluation_points": [
+        "Recommends appropriate visualization types (funnel chart, heatmap, line chart) with clear reasoning for non-technical executives",
+        "Identifies at least 2 common visualization pitfalls (e.g., y-axis not starting at 0, misleading color scales, absolute vs. percentage numbers)",
+        "Explains how to avoid misinterpretation in cohort analysis specifically: distinguishing cohort effects from period effects through visualization choices, and consistently defining metrics across periods",
+        "Proposes concrete solutions with examples (e.g., indexing to cohort start, adding confidence intervals or sample size annotations, color scale calibration)",
+        "Demonstrates understanding that heatmaps excel at showing *cohort degradation patterns over time* but discusses tradeoffs with line charts for showing absolute trends"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_069",
+    "question_text": "Bạn làm việc tại một công ty thương mại điện tử với 5 triệu khách hàng. Hệ thống hiện tại tính RFM mỗi tháng một lần bằng cách quét toàn bộ lịch sử giao dịch, mất 6 giờ và ảnh hưởng đến hiệu năng database. Hãy thiết kế giải pháp tối ưu: (1) Đề xuất cách lưu trữ dữ liệu (ví dụ: incremental update, materialized view) để tính RFM mỗi ngày trong vòng 30 phút. (2) Xử lý edge case: khách hàng có nhiều giao dịch trong cùng một ngày, hoặc khách hàng không có giao dịch trong tháng. (3) Làm sao để scale lên 50 triệu khách hàng?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "**Optimized RFM Calculation Architecture:**\n\n**(1) Data Storage & Incremental Update Strategy:**\n- Create a `customer_rfm_state` aggregate table with: customer_id (PK), last_purchase_date, transaction_count_30d, total_spend_30d, last_updated_timestamp\n- Implement event-driven incremental updates: each transaction triggers a row upsert (using MERGE or INSERT...ON CONFLICT), updating only affected customers\n- Use a materialized view `customer_rfm_scores` that joins `customer_rfm_state` with scoring logic (e.g., SQL CASE statements or window functions to assign 1-5 quintiles based on distribution)\n- Refresh the materialized view daily (off-peak hours) in ~30 minutes via batch aggregation of transactions from prior 24h + state table\n- Consider CDC (Change Data Capture) tools like Debezium to stream transaction changes to an intermediate staging table, then batch-merge into the state table\n\n**(2) Edge Case Handling:**\n- **Multiple transactions same day:** For Recency, take MIN(transaction_date) or MAX(transaction_date) consistently; aggregate monetary values with SUM() for that day\n- **No transactions in lookback window:** Preserve previous R score as 'stale' (or assign a 'dormant' category) to distinguish from new customers; set F=0, M=0, but flag separately for re-engagement campaigns\n- **New customers (first transaction):** Assign R=5 (most recent), F=1, M=score based on first order; avoid using quintile-based scoring until sufficient historical data (e.g., >2 transactions)\n- **Negative monetary (refunds/returns):** Subtract from total_spend_30d; decide whether to cap M at 0 or treat negatives as churn signals\n- **Rolling vs. fixed windows:** Define 'last 30 days' as a rolling window (DATE_TRUNC to current_date - 30) to avoid cliff effects at month boundaries\n\n**(3) Scaling to 50M Customers:**\n- **Partitioning:** Partition both `customer_rfm_state` and transaction tables by customer_id hash or modulo (e.g., 256 partitions) to enable parallel updates and scans\n- **Distributed processing:** Use Spark (or Databricks/Snowflake clustering) to parallelize the daily refresh across partitions; each worker processes a subset of customers\n- **Tiered update strategy:** Reserve true daily updates (30-min SLA) for high-value segments (top 10-20% by M or F); calculate others weekly or bi-weekly\n- **Streaming option:** For real-time RFM, ingest transactions via Kafka → stream processor (Flink/Spark Streaming) → distributed state store (Redis/DynamoDB with customer-level keys)\n- **Denormalization trade-off:** Store pre-computed quintile scores (1-5) instead of raw R/F/M values in the retrieval layer to reduce computation; recalculate quintiles nightly in batch\n- **Caching layer:** Use Redis or memcached to cache RFM scores by customer_id, invalidate on incremental updates\n\n**Additional Considerations:**\n- Monitor incremental update accuracy: compare monthly full-scan results (as sanity check) vs. incremental daily state\n- Define scoring methodology clearly: are quintiles recalculated daily (unstable segments) or fixed monthly (stable segments)? This affects marketing campaign continuity\n- Add data quality checks: flag transactions with missing/invalid customer_id, future dates, or extreme values\n- Document time horizons: specify whether 'recency' is rolling 30d, calendar month, or cohort-based; communicate to stakeholders",
+      "evaluation_points": [
+        "Correctly identifies incremental updates and materialized views as optimization strategy, with appropriate refresh cadence",
+        "Proposes partitioning and distributed computing (Spark/Databricks) for scalability, but missing details on partition strategy effectiveness and trade-offs",
+        "Handles some edge cases (same-day transactions, zero transactions) but overlooks: (a) how to score customers with no recent activity—do you reassign scores or decay them?, (b) definition of time windows—is 'last 30 days' fixed or rolling?, (c) new customers with only 1 transaction—how does bucketing/quintile scoring handle sparse data?",
+        "Does not discuss RFM *scoring methodology*: should scoring be dynamic (recalculated quintiles monthly) or fixed buckets? This impacts segment stability and business decisions",
+        "Missing: data quality validation (duplicate transactions, refunds, canceled orders), how to handle customers with negative monetary value, and metrics to monitor incremental update accuracy",
+        "Lacks business impact discussion: what segments drive the 30-minute SLA requirement? Are all 5M customers equally valuable for daily RFM updates, or should tiering (e.g., top 20% daily, rest weekly) be considered?"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_066",
+    "question_text": "Cohort Analysis là gì? Hãy giải thích các thành phần chính của một bảng Cohort Analysis cơ bản.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_COHORT"
+    ],
+    "skill_tags": [
+      "ANALYTICS_COHORT"
+    ],
+    "answers": {
+      "detailed": "Cohort Analysis là phương pháp phân nhóm người dùng dựa trên đặc điểm chung (ví dụ: thời gian đăng ký, kênh tiếp thị) và theo dõi hành vi của họ theo thời gian. Một bảng Cohort cơ bản gồm: (1) Cohort: nhóm người dùng được xác định bởi một sự kiện chung (ví dụ: tháng đăng ký), (2) Thời gian theo dõi: các giai đoạn sau sự kiện (ví dụ: tháng 1, tháng 2...), (3) Số liệu: tỷ lệ giữ chân, doanh thu, hoặc hành động khác. Mục đích là so sánh hiệu suất giữa các nhóm để phát hiện xu hướng.",
+      "evaluation_points": [
+        "Định nghĩa đúng Cohort Analysis: nhóm người dùng cố định được xác định bởi một sự kiện chung, theo dõi theo thời gian (phân biệt với segmentation thông thường)",
+        "Liệt kê ít nhất 3 thành phần chính của bảng Cohort: Cohort (ví dụ: tháng đăng ký), Thời gian theo dõi (ví dụ: Day 1, Month 1, Month 2), Metric (ví dụ: tỷ lệ giữ chân, doanh thu, engagement)",
+        "Giải thích được mục đích: so sánh hiệu suất giữa các cohort để phát hiện xu hướng và phân biệt giữa cohort effect (hành vi của nhóm cụ thể) và period effect (thay đổi do yếu tố thị trường chung)",
+        "Đưa ra ví dụ về cách diễn giải kết quả (ví dụ: đường cong giữ chân bằng phẳng cho thấy retention dài hạn tốt, giảm mạnh cho thấy vấn đề onboarding)",
+        "Thảo luận cách chọn cohort definition event và tracking metric phù hợp với câu hỏi kinh doanh cụ thể"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_068",
+    "question_text": "Funnel Analysis là gì? Hãy nêu một ví dụ về các bước trong funnel của một ứng dụng đặt đồ ăn (food delivery) từ lúc user mở app đến khi đặt hàng thành công.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_FUNNEL"
+    ],
+    "skill_tags": [
+      "ANALYTICS_FUNNEL"
+    ],
+    "answers": {
+      "detailed": "Funnel Analysis là phương pháp theo dõi hành trình của người dùng qua các bước cụ thể để xác định tỷ lệ chuyển đổi, điểm rơi rụng và cơ hội tối ưu hóa.\n\nVí dụ cho food delivery:\n- Bước 1: Mở app (100% baseline)\n- Bước 2: Tìm kiếm/duyệt nhà hàng (80% → 20% drop-off)\n- Bước 3: Xem thực đơn nhà hàng (60% → 20% drop-off)\n- Bước 4: Thêm món vào giỏ hàng (45% → 15% drop-off)\n- Bước 5: Hoàn tất thanh toán (20% → 25% drop-off)\n\nPhân tích sâu:\n- Drop-off cao nhất ở bước thanh toán (25%) → có thể do phí giao hàng cao, quy trình phức tạp, hoặc vấn đề bảo mật\n- Nên phân khúc theo: thiết bị (iOS vs Android), nguồn tiếp cận (organic vs paid), vùng địa lý để xác định nhóm user nào bị ảnh hưởng nhất\n- Có thể A/B test: đơn giản hóa thanh toán, hiển thị phí sớm hơn, hoặc cung cấp diskon giao hàng miễn phí\n- Theo dõi time-to-complete ở mỗi bước cũng giúp phát hiện khó khăn UX",
+      "evaluation_points": [
+        "Định nghĩa đúng Funnel Analysis và mục đích của nó trong việc xác định điểm rơi rụng",
+        "Đưa ra ít nhất 4-5 bước hợp lý, tuần tự trong funnel food delivery (từ mở app đến hoàn tất đơn hàng)",
+        "Giải thích cách tính conversion rate giữa các bước và xác định drop-off cao nhất",
+        "Đề xuất *giả thuyết* về nguyên nhân drop-off ở bước cụ thể (ví dụ: phí giao hàng cao, quy trình thanh toán phức tạp) và cách kiểm chứng",
+        "Đề cập đến việc phân khúc funnel theo các chiều khác (ví dụ: thiết bị, nguồn tiếp cận, vùng địa lý) để phát hiện sâu hơn",
+        "Gợi ý các cải tiến sản phẩm hoặc A/B test để tối ưu hóa từng bước"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_070",
+    "question_text": "RFM là viết tắt của những từ nào? Hãy giải thích ý nghĩa của từng thành phần và cách phân loại khách hàng đơn giản.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "RFM là viết tắt của Recency (thời gian gần đây khách hàng mua hàng), Frequency (tần suất mua hàng), Monetary (giá trị tổng chi tiêu). \n\nÝ nghĩa từng thành phần: Recency đo lường độ gần gũi giữa khách hàng và công ty (khách hàng mua gần đây có khả năng phản hồi cao hơn), Frequency đo lòng trung thành thông qua số lần mua, Monetary đo giá trị kinh tế của khách hàng.\n\nCách phân loại: Chia mỗi thành phần thành nhóm (thường dùng quintile hoặc percentile, ví dụ: 1-5 điểm cho mỗi thành phần). Kết hợp 3 thành phần để tạo các nhóm khách hàng (ví dụ: R cao, F cao, M cao = Champions/VIP; R thấp, F cao, M cao = At Risk - cần tái kích hoạt; R cao, F thấp, M thấp = New Customers cần chăm sóc).\n\nỨng dụng: Xây dựng chiến lược tiếp thị cá nhân hóa (chương trình loyalty cho Champions, email tái kích hoạt cho At Risk, onboarding cho New Customers).\n\nHạn chế: Khó áp dụng cho khách hàng mới (dữ liệu không đủ), mô hình subscription, hoặc khi \"Monetary\" không phản ánh giá trị thực (có thể thay bằng RFE - Engagement).",
+      "evaluation_points": [
+        "Giải thích đúng 3 chữ viết tắt (Recency, Frequency, Monetary) và ý nghĩa của từng thành phần",
+        "Mô tả cách phân loại cơ bản (ví dụ: phân nhóm theo percentile hoặc quintile, không chỉ 3-5 nhóm chung chung)",
+        "Hiểu được RFM dùng để phân khúc khách hàng và xây dựng chiến lược tiếp thị cá nhân hóa",
+        "Nêu ví dụ cụ thể về nhóm khách hàng (Champions, At Risk, New Customers) và chiến lược tương ứng",
+        "Thảo luận về hạn chế của RFM (khó áp dụng cho khách hàng mới, mô hình subscription, doanh nghiệp không giao dịch rõ ràng)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_072",
+    "question_text": "Bạn đang làm việc cho một startup thương mại điện tử. Hãy thiết kế một báo cáo Data Visualization để so sánh hiệu quả của chiến dịch marketing giữa hai kênh: Facebook Ads và Google Ads. Bạn sẽ chọn loại biểu đồ nào cho từng chỉ số (ví dụ: ROI, tỷ lệ chuyển đổi, chi phí thu hút khách hàng) và giải thích lý do?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "DATA_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "DATA_VISUALIZATION"
+    ],
+    "answers": {
+      "detailed": "Để so sánh hai kênh hiệu quả, tôi sẽ sử dụng: (1) **Grouped bar chart** cho ROI và CAC theo tháng—cho phép so sánh trực tiếp định lượng giữa Facebook và Google, dễ nhận diện channel nào outperform, với error bars hiển thị confidence intervals. (2) **Dual-axis line chart** cho conversion rate (trục trái) và ad spend (trục phải)—hiển thị xu hướng khi chi phí thay đổi ảnh hưởng đến conversion; tuy nhiên lưu ý rằng dual-axis có thể bozarđơi khiến độ dốc bị bóp méo, nên thêm secondary visualization. (3) **Scatter plot** chi phí vs. doanh thu (màu phân biệt kênh, kích thước = conversion rate)—phát hiện outliers và dị thường. (4) **Summary table** với confidence intervals cho các chỉ số trung bình—cho biết kết quả có ý nghĩa thống kê hay do noise (p-value <0.05). \n\n**Bước tiếp theo (critical for business impact):** (A) **Segmentation analysis**: phân tích theo customer lifecycle stage (new vs. repeat) vì ROI tổng thể có thể che giấu rằng Facebook hiệu quả với acquisition (high volume, low CAC) nhưng Google tốt hơn với retention (high LTV). Thêm **cohort retention analysis** (30-day, 90-day repeat purchase rate) để xem channel nào mang về customer có lifetime value cao hơn—điều này thay đổi decision từ 'tăng spend Facebook' thành 'Facebook cho awareness, Google cho conversion'. (B) **Attribution model clarity**: nếu có multi-touch journey (e.g., click Facebook rồi convert qua Google), rõ ràng hóa model attribution đang sử dụng. Last-touch model sẽ credited tất cả cho Google, nhưng nếu dùng linear hoặc data-driven (Shapley values), Facebook đóng góp ~30-50%. Khác model → khác decision. Khuyến nghị: hiển thị '% contribution by channel' dưới ba attribution models (last-touch, linear, algorithmic) để stakeholder thấy sensitivity. (C) **Decision rules & thresholds**: không reallocate budget dựa trên ROI tháng lẻ; thay vào đó, đặt rule: 'nếu Google CAC < Facebook 20% trong 2 tháng liên tiếp AND retention rate (30-day) cao hơn Facebook 5%+, reallocate 15% budget'. (D) **Seasonal & external factors**: thêm annotation trên chart cho campaign changes, seasonality (e.g., Q4 spike), hoặc macroeconomic shifts—điều này giải thích outliers thay vì nhầm lẫn với channel performance thực sự. (E) **Visualization hierarchy**: chính visual là summary dashboard (ROI, CAC, LTV by channel), phụ dashboard là segment breakdowns (device, age cohort, geography), cấp 3 là raw conversion paths (để audit attribution). Điều này tránh cognitive overload.",
+      "evaluation_points": [
+        "Selects appropriate chart types with clear rationale tied to data properties (comparison vs. trend vs. correlation) and justifies why each visualization type minimizes cognitive load for stakeholders",
+        "Justifies metric choices (ROI, CAC, conversion rate) based on business objectives and explains how each metric drives channel optimization decisions; discusses why LTV/retention metrics may be more valuable than short-term conversion rate",
+        "Proposes segmentation/filtering strategy (by time period, customer cohort, device type, acquisition source) and explains how segment-level analysis reveals that overall ROI may mask channel strengths in specific customer cohorts (e.g., Facebook strong with new customers, Google strong with repeat buyers)",
+        "Explicitly addresses attribution model choice: discusses whether last-touch, first-touch, or data-driven attribution is appropriate given the multi-touch journey risk, and explains how different attribution models could reverse channel performance conclusions",
+        "Discusses limitations of chosen visualizations (e.g., dual-axis line charts can distort perception, grouped bar charts become cluttered with >3 time periods) and proposes mitigations (small multiples, statistical significance testing)",
+        "Recommends KPI hierarchy and actionable decision thresholds—e.g., 'reallocate budget only if channel outperforms on both CAC AND LTV, sustained >2 months, with p-value <0.05'—and specifies who owns each decision",
+        "Identifies pitfalls specific to e-commerce: seasonality effects (e.g., Q4 inflates Google ROI), new customer acquisition vs. retention asymmetry across channels, and how visualization should normalize for these factors"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_074",
+    "question_text": "Công ty của bạn nhận thấy tỷ lệ giữ chân khách hàng (retention rate) giảm dần trong 3 tháng gần đây. Bạn được yêu cầu sử dụng Cohort Analysis để tìm nguyên nhân. Hãy mô tả cách bạn xây dựng cohort, các chỉ số bạn sẽ phân tích và cách bạn xác định xem vấn đề đến từ nhóm khách hàng mới hay cũ?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_COHORT"
+    ],
+    "skill_tags": [
+      "ANALYTICS_COHORT"
+    ],
+    "answers": {
+      "detailed": "Tôi sẽ xây dựng cohort dựa trên tháng đăng ký đầu tiên (monthly signup cohort), sau đó theo dõi retention rate (% quay lại) ở các mốc thời gian cố định (Day-7, Day-30, Day-90). Điểm mấu chốt là phân biệt cohort effect vs period effect:\n\n**Phân tích Cohort:**\n1. **Nếu cohort gần đây (Jan, Feb, Mar) có retention thấp hơn cohort cũ ở cùng độ tuổi:** Vấn đề là khách hàng mới - nguyên nhân có thể là: (a) chất lượng khách hàng từ channel marketing xuống (acquisition channel mix thay đổi), (b) onboarding/first-time experience xấu đi, (c) product quality xuống nhưng chưa ảnh hưởng khách cũ\n2. **Nếu tất cả cohort (cả cũ lẫn mới) đều có retention giảm tại cùng lifecycle point:** Vấn đề là product/service tổng thể - nguyên nhân: (a) thay đổi sản phẩm gần đây, (b) đối thủ cạnh tranh mới, (c) thay đổi thị trường/user behavior\n\n**Chỉ số cần phân tích:**\n- Retention rate ở Day-7, Day-30 theo từng cohort\n- Hình dạng retention curve (có thẻ bẻ gập ở thời điểm cụ thể không?)\n- Activation rate (% users dùng feature chính)\n- Revenue retention nếu có subscription\n\n**Hành động cụ thể:**\n- Nếu cohort mới kém: kiểm tra onboarding flow, đánh giá chất lượng leads từ từng channel, so sánh user behavior pattern\n- Nếu tất cả cohort kém: audit product changes gần đây, so sánh metrics với competitor, phân tích user feedback/NPS trend",
+      "evaluation_points": [
+        "Correctly defines cohort by signup time (monthly cohort) and tracks retention evolution over subsequent periods",
+        "Distinguishes between cohort effect (quality/behavior of specific acquisition cohorts declining) vs period effect (external factors affecting all users equally) - this is THE key insight of cohort analysis per reference",
+        "Identifies new cohort problem: recent cohorts (Jan, Feb, Mar) show lower day-1 or day-30 retention vs historical cohorts at same age suggests acquisition/onboarding issue",
+        "Identifies old cohort problem: all cohorts (including old ones) show declining retention at same lifecycle point suggests product/competitive issue rather than acquisition quality",
+        "Specifies retention metrics to compare (e.g., Day-7, Day-30 retention rates) and additional diagnostic metrics (activation rate, feature adoption, churn curve shape)",
+        "Proposes root cause hypotheses aligned with findings: new cohorts → marketing channel quality, onboarding UX; all cohorts → product degradation, competitor entry, external market shift",
+        "Recommends specific follow-up actions tied to diagnosis (A/B test onboarding, compare product logs, analyze competitor activity)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_071",
+    "question_text": "Bạn đang làm cho một công ty thương mại điện tử. Hãy so sánh Cohort Analysis và Funnel Analysis khi phân tích hành vi khách hàng: mỗi phương pháp phù hợp với mục tiêu phân tích nào và có trade-off gì?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_COHORT",
+      "ANALYTICS_FUNNEL"
+    ],
+    "skill_tags": [
+      "ANALYTICS_COHORT",
+      "ANALYTICS_FUNNEL"
+    ],
+    "answers": {
+      "detailed": "Cohort Analysis tập trung vào theo dõi hành vi của một nhóm khách hàng cố định (được định nghĩa bởi sự kiện như ngày đăng ký) qua các giai đoạn thời gian để hiểu tỷ lệ giữ chân và giá trị vòng đời. Phù hợp với mục tiêu đánh giá chất lượng người dùng dài hạn và tác động của chiến dịch (ví dụ: so sánh retention của cohort người dùng Q1 vs Q2). Funnel Analysis tập trung vào các bước chuyển đổi tuần tự trong một quy trình cụ thể (ví dụ: Browse → Add to Cart → Checkout → Purchase) để xác định điểm rơi rụng tức thời, phù hợp với tối ưu hóa UX ngắn hạn. Trade-off: (1) Cohort Analysis yêu cầu dữ liệu lịch sử dài, là phương pháp hồi tưởng, khó phát hiện vấn đề tức thời; (2) Funnel Analysis nhạy với thay đổi ngắn hạn và dễ hành động, nhưng bỏ qua yếu tố thời gian và sự khác biệt giữa các cohort (ví dụ: conversion từ Browse → Purchase có thể giảm do chất lượng user mới giảm, không phải vì UX). Trong thương mại điện tử, nên dùng Cohort Analysis trước để phát hiện xu hướng retention, rồi dùng Funnel Analysis để chẩn đoán nơi các cohort mới rơi rụng.",
+      "evaluation_points": [
+        "Correctly distinguishes primary use cases: Cohort Analysis for retention/LTV trends over time; Funnel Analysis for conversion bottlenecks in a single journey",
+        "Identifies valid trade-offs: Cohort Analysis requires historical data depth and is retrospective; Funnel Analysis is real-time but ignores temporal cohort behavior differences",
+        "Provides concrete e-commerce examples (e.g., 'users acquired in Q1 vs Q2' for cohorts; 'Browse → Add to Cart → Checkout → Purchase' for funnels)",
+        "Explains why Funnel Analysis can miss cohort effects: e.g., a declining checkout conversion rate might reflect changing user quality (cohort effect) rather than a UX problem",
+        "Articulates when to use both: Cohort Analysis first to detect quality/retention shifts; Funnel Analysis to diagnose where new cohorts drop off"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_073",
+    "question_text": "Công ty có dữ liệu giao dịch gồm: customer_id, ngày giao dịch, giá trị. Hãy giải thích cách xây dựng RFM (Recency, Frequency, Monetary) để phân khúc khách hàng. Nếu bạn chỉ có 3 tháng dữ liệu, bạn sẽ xử lý thế nào và tại sao?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "RFM gồm: Recency (số ngày từ giao dịch cuối cùng đến ngày phân tích), Frequency (số lượng giao dịch trong kỳ), Monetary (tổng giá trị giao dịch). Thường chuẩn hóa từng chỉ số thành thang điểm (1-5) dựa trên quintiles hoặc custom bins, sau đó phân cụm khách hàng theo mẫu RFM.\n\nVới dữ liệu 3 tháng:\n1. **Vấn đề chính:** Frequency và Monetary bị thiên lệch do thời gian ngắn; khách hàng mới không có lịch sử đủ để đánh giá công bằng; không đủ dữ liệu để suy luận xu hướng dài hạn.\n2. **Giải pháp:** (a) Annualize Frequency/Monetary: nhân với hệ số (12/3 = 4) để so sánh với tiêu chuẩn dài hạn, (b) Sử dụng tần suất trung bình tháng (Frequency/3) cho so sánh công bằng hơn, (c) Tách riêng khách hàng mới, áp dụng ngưỡng khác hoặc sử dụng chỉ số bổ sung (ví dụ: recency trọng số cao hơn).\n3. **Áp dụng chiến lược:** Segment high R, low F → re-engagement campaigns; high R, F, M → loyalty programs; low R, high M → win-back campaigns.\n4. **Hạn chế:** RFM khó áp dụng hiệu quả với khách hàng mới, mô hình subscription (nơi Monetary ít thay đổi), hoặc khi thiếu bối cảnh về sản phẩm/nền tảng; có thể cần chỉ số bổ sung như engagement hoặc product affinity.",
+      "evaluation_points": [
+        "Định nghĩa đúng 3 thành phần RFM và công thức tính toán cụ thể",
+        "Nhận ra vấn đề với dữ liệu ngắn hạn: bias trong Frequency/Monetary, khách hàng mới bị đánh giá không công bằng",
+        "Đưa giải pháp xử lý dữ liệu ngắn hạn (annualization, thang điểm tương đối, hoặc giới hạn scope phân tích)",
+        "Đề cập cách áp dụng RFM vào chiến lược marketing cụ thể (ví dụ: high R, low F → re-engagement; high R, F, M → loyalty programs)",
+        "Thảo luận về sự thích ứng của RFM với bối cảnh kinh doanh: hạn chế với khách hàng mới, mô hình đăng ký, hoặc đề xuất chỉ số bổ sung"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_075",
+    "question_text": "Bạn đang thiết kế bảng dashboard cho giám đốc kinh doanh, theo dõi hiệu suất bán hàng theo kênh (online, offline, partner). Cần thể hiện: doanh thu hàng tháng, tỷ lệ chuyển đổi, và tỷ lệ giữ chân khách hàng. Hãy đề xuất loại biểu đồ phù hợp cho từng chỉ số, giải thích lý do, và nêu cách xử lý khi dashboard bị chậm do dữ liệu lớn (>1 triệu dòng).",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "BI_VISUALIZATION",
+      "DATA_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "DATA_VISUALIZATION",
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "**Chart Selection & Justification:**\n- Doanh thu hàng tháng: Grouped bar chart vì cho phép so sánh trực tiếp 3 kênh cùng kỳ, dễ nhận diện kênh tốt nhất\n- Tỷ lệ chuyển đổi: Line chart (3 đường riêng theo kênh) để theo dõi xu hướng và phát hiện điểm giảm sút\n- Tỷ lệ giữ chân: Stacked area chart thể hiện vừa tuyệt đối (tổng) vừa thành phần (từng kênh)\n\n**Performance Optimization:**\n1. Pre-aggregation: Tạo bảng tổng hợp hàng ngày (1M dòng → ~1K dòng/tháng), materialized view cập nhật daily batch\n2. Indexing: Tạo composite index (channel, date) và partitioning bảng raw theo tháng\n3. Caching strategy: Cache query results với TTL 4 giờ; sử dụng Redis/Memcached cho kết quả hot queries\n4. Default time filter: Mặc định hiện 6 tháng gần nhất, cho phép drill-down tối đa 24 tháng\n5. Progressive loading: Hiển thị dữ liệu tổng quát trước (1 tháng), sau đó load chi tiết từng kênh\n6. Fallback strategy: Nếu vẫn chậm (>3 giây), chuyển sang biểu đồ tĩnh được cập nhật hàng đêm\n\n**Trade-off Discussion:** Chi tiết real-time vs. tốc độ - quyết định dựa trên business requirement (doanh thu có thể delay 1 ngày, nhưng chỉ số chuyển đổi nên gần real-time để adjust marketing campaign)",
+      "evaluation_points": [
+        "Justifies chart types based on data characteristics (comparison vs. trend vs. composition) and audience needs (business director)",
+        "Identifies specific performance bottlenecks (query execution, data transfer, rendering) and proposes targeted solutions with trade-offs",
+        "Proposes pre-aggregation strategy with concrete examples (aggregate to daily/monthly level, which dimensions to preserve)",
+        "Discusses caching strategy specifics (what to cache, refresh frequency, invalidation policy) and materialized view maintenance",
+        "Evaluates monitoring/alerting for dashboard SLA and graceful degradation options when performance targets unmet",
+        "Considers data freshness requirements vs. performance needs (e.g., revenue updated daily vs. real-time conversion rates)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_077",
+    "question_text": "Công ty có dữ liệu log sự kiện của người dùng trên website (click, xem trang, thêm giỏ hàng, thanh toán). Bạn cần xây dựng Funnel Analysis để tối ưu hóa tỷ lệ chuyển đổi. Hãy thiết kế quy trình: (1) Xác định các bước funnel, (2) Xử lý dữ liệu bị thiếu hoặc trùng lặp, (3) Đo lường và debug khi tỷ lệ chuyển đổi giảm đột ngột 20% ở bước 'thêm giỏ hàng'. Yêu cầu giải thích chi tiết cách kiểm tra nguyên nhân.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "ANALYTICS_FUNNEL",
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_FUNNEL",
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "Building on the provided answer: The cohort analysis step merits deeper explanation. When the 20% drop occurs, immediately create hourly/daily cohorts based on session start time. Compare Add-to-Cart conversion rates: if users starting sessions *before* the drop timestamp show normal conversion (e.g., 35%) and users *after* show 15% conversion, this *cohort effect* suggests a deployment or configuration change at that precise time—check deployment logs, feature flag toggles, and A/B test launches within ±30 minutes. Conversely, if *all* cohorts show degradation proportionally, this *period effect* points to infrastructure (CDN issues, database slowdown) or demand-side issues (traffic spike, bot activity). Additionally, segment these cohorts by device type and geography: if only iOS users in certain regions show the drop, this pinpoints a JavaScript SDK or mobile API issue rather than backend infrastructure. Finally, calculate not just conversion rate but also session drop rate (% of sessions not reaching 'Add to Cart' step at all) and event error rate (% of 'Add to Cart' events returning errors in logs)—this distinguishes between user choice (low conversion) and system failure (high drop/error rate). Cross-reference the exact timestamp of the drop with: (1) deployment releases, (2) infrastructure alerts (CPU, memory, database connections), (3) campaign or traffic spikes, and (4) third-party service status changes to confirm root cause.",
+      "evaluation_points": [
+        "Correct funnel definition (Visit → View Product → Add to Cart → Checkout → Payment) with appropriate data cleaning logic (session-level deduplication by timestamp, removal of incomplete journeys)",
+        "Systematic debugging framework covering technical (error logs, API latency), dimensional (device/geo/channel), and temporal (deployment windows, traffic patterns) investigation—demonstrates root-cause analysis structure",
+        "Critical conceptual distinction: Can the candidate explain why cohort analysis by session start time (hourly/daily cohorts) isolates the *timing of failure* (cohort effect) from metric trends affecting all users (period effect)? Example: If only users starting sessions after 2PM show drop, suspect deployment at that time; if all cohorts equally affected, suspect infrastructure/traffic issue",
+        "Proposed concrete follow-up metrics beyond the answer: (1) Session drop rate vs. conversion rate drop (differentiates user abandonment from technical failures), (2) Add-to-Cart event success rate within sessions (distinguishes tracking issues from user behavior), (3) Cross-cohort conversion comparison matrix (device type × cohort creation time) to pinpoint device-deployment interactions",
+        "Verification of root cause: Does candidate propose linking cohort analysis results to concrete events (deploy timestamp, feature flag changes, campaign launches, CDN/infrastructure alerts) to confirm hypothesis rather than stopping at correlation?"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_078",
+    "question_text": "Hãy định nghĩa Cohort Analysis là gì và cho ví dụ về một ứng dụng cụ thể trong phân tích dữ liệu kinh doanh.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_COHORT"
+    ],
+    "skill_tags": [
+      "ANALYTICS_COHORT"
+    ],
+    "answers": {
+      "detailed": "Cohort Analysis là phương pháp phân tích hành vi người dùng bằng cách chia nhóm người dùng dựa trên đặc điểm chung (ví dụ: thời gian đăng ký, kênh tiếp thị, hoặc lần đầu sử dụng feature) và theo dõi hành vi của những nhóm *cố định* này qua các kỳ thời gian liên tiếp.\n\nVí dụ cụ thể: Phân tích Retention Cohort của hai đợt campaign:\n- Nhóm đăng ký tháng 1: theo dõi % người dùng vẫn hoạt động vào D1, D7, D30, M1\n- Nhóm đăng ký tháng 2: theo dõi cùng metrics\n\nGiá trị kinh doanh: So sánh đường cong retention của hai cohort giúp phân biệt liệu hiệu suất giảm do *thay đổi trong product quality* (cohort effect) hay do *thay đổi user demographics/channel* (period effect). Từ đó, có thể quyết định tối ưu hóa onboarding, feature, hay targeting campaign để cải thiện long-term value.",
+      "evaluation_points": [
+        "Định nghĩa đúng Cohort Analysis (nhóm người dùng với đặc điểm chung, theo dõi theo thời gian)",
+        "Phân biệt được giữa Cohort Analysis và Customer Segmentation thông thường (tập trung vào theo dõi *group cố định* qua các kỳ)",
+        "Ví dụ cụ thể về Retention Cohort hoặc Behavior Cohort với metric rõ ràng (ví dụ: DAU, Conversion rate)",
+        "Giải thích được giá trị kinh doanh: phân biệt Period Effects (ảnh hưởng của thời gian) vs Cohort Effects (ảnh hưởng của nhóm người dùng)",
+        "Thảo luận cách áp dụng insights để tối ưu chiến dịch marketing hoặc product"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_081",
+    "question_text": "Công ty có một nền tảng SaaS với dữ liệu đăng ký theo tháng. Bạn cần xây dựng mô hình RFM để phân khúc khách hàng. Tuy nhiên, dữ liệu có vấn đề: nhiều khách hàng có tần suất sử dụng không đều (có tháng dùng nhiều, có tháng không dùng). Bạn sẽ xử lý vấn đề này như thế nào để đảm bảo chỉ số R, F, M chính xác?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "To handle irregular usage patterns in SaaS subscription data:\n\n(1) **Recency (R):** Use the date of last activity (login, feature use, transaction). However, interpret cautiously: high R + low F may signal trial/free-tier customers or recent churn rather than engagement.\n\n(2) **Frequency (F):** Avoid raw transaction counts. Instead:\n   - *Option A (per-active-month):* Count active months, then calculate average transactions/active month. This rewards consistent users and avoids penalizing seasonal patterns.\n   - *Option B (fixed time window):* Use last 3 or 6 months for consistency and simplicity, but risks ignoring long-term loyalty. Trade-off: fixed windows are easier to automate but may misclassify recently-returned customers.\n   - *Supplementary metric:* Add a regularity score (e.g., coefficient of variation of monthly activity) to flag 'steady' vs. 'bursty' users with similar F scores.\n\n(3) **Monetary (M):** Normalize by time active:\n   - Calculate total revenue ÷ number of active months (or tenure in months).\n   - For fixed subscriptions, consider blending with engagement depth (features used, API volume, expansion revenue) since all customers may pay identically.\n\n(4) **SaaS-specific adaptation:**\n   - Low R + High F = 'At Risk' → re-engagement campaigns\n   - High R + Low F = 'Trial/New' or 'Churning' → clarify with cohort analysis\n   - High R + High F + High M = 'Champions' → upsell and retention focus\n   - Consider RFE (Recency, Frequency, Engagement) instead if transactional revenue is secondary to usage intensity.\n\nTrade-off: per-active-month normalization is fairer for loyal but sporadic users, but requires handling edge cases (e.g., single-transaction customers). Recommend validating segment coherence with business outcomes (retention, expansion ARR).",
+      "evaluation_points": [
+        "Identifies that raw frequency counts are misleading for churning/irregular-use SaaS customers and proposes normalization approaches (per-active-month or fixed time window)",
+        "Explains why recency remains straightforward but acknowledges that high recency + low frequency may indicate trial/churn rather than engagement",
+        "Proposes normalizing monetary value by active period to avoid penalizing customers with shorter relationships",
+        "Discusses trade-offs: fixed time window (e.g., 3 months) is simpler but may miss loyal long-term customers; active-month normalization is fairer but requires careful handling of customers with single transactions",
+        "Considers adding a regularity/consistency metric (e.g., coefficient of variation in monthly usage) to distinguish 'steady users' from 'bursty users' with similar aggregate R, F, M",
+        "Explains how adjusted RFM segments map to SaaS-specific actions (e.g., 'At Risk' = high R, low F → re-engagement campaigns; 'Churned' = low R, low F → win-back offers)",
+        "Acknowledges SaaS-specific limitation: Monetary may not reflect customer lifetime value if subscription fees are constant; consider blending with engagement metrics (API calls, features used) or expansion revenue"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_083",
+    "question_text": "Bạn đang phân tích dữ liệu kinh doanh cho một công ty thương mại điện tử. Họ muốn so sánh hiệu quả của hai chiến dịch marketing: chiến dịch A (nhắm mục tiêu nhóm khách hàng mới) và chiến dịch B (nhắm mục tiêu nhóm khách hàng cũ). Hãy thiết kế một dashboard data visualization để trình bày kết quả, bao gồm cách chọn biểu đồ phù hợp và giải thích lý do.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "Dashboard structure: (1) Top-level KPI cards showing ROI, CAC, conversion rate, and revenue for each campaign side-by-side. (2) Column chart comparing campaign performance across key metrics (revenue, orders, conversion rate, CAC). (3) Line chart tracking daily/weekly revenue trend to detect seasonality and campaign momentum. (4) Pie chart showing customer composition (new vs. returning) within each campaign to validate targeting accuracy. (5) Segmentation table: breakdown by cohort (new customer LTV, repeat purchase rate for existing customers) to assess true campaign value. Chart selection rationale: columns enable direct metric comparison; lines reveal temporal patterns; pies show composition. Critical considerations: (a) Ensure time periods are equivalent and external factors controlled (e.g., discounts, seasonality); (b) Use statistical significance testing (confidence intervals) to validate if differences are real or due to variance; (c) Distinguish incremental lift (campaign-caused) from cannibalization (shifted purchases); (d) For new customers, consider forward-looking LTV metrics beyond immediate ROI; (e) Add interactive filters for campaign date range, traffic source, device type to isolate true campaign impact. Answer should demonstrate understanding that raw revenue comparison is insufficient—attribution and customer quality matter equally.",
+      "evaluation_points": [
+        "Selects appropriate chart types with clear justification (column for comparison, line for trends, pie for composition)",
+        "Designs logically structured dashboard with interactive filters and drill-down capabilities",
+        "Identifies key business metrics beyond revenue: ROI, CAC (Customer Acquisition Cost), conversion rate, and segment-level performance",
+        "Discusses how to isolate campaign effectiveness (controlled comparison, time period alignment, customer segment isolation)",
+        "Addresses attribution challenges: distinguishes between incremental lift vs. cannibalization; considers if new/old customer segments are truly independent cohorts",
+        "Proposes appropriate statistical validation (confidence intervals, significance testing) to determine if differences are meaningful",
+        "Considers business context: explains why new vs. old customer performance matters (lifetime value implications, market saturation, growth strategy)",
+        "Mentions practical dashboard enhancements: KPI cards for headline metrics, segment filters, date range controls, and tooltips with statistical confidence"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_085",
+    "question_text": "Khi thiết kế một bảng điều khiển (dashboard) để theo dõi hiệu suất kinh doanh, bạn nên chọn loại biểu đồ nào để thể hiện xu hướng doanh thu theo tháng và so sánh giữa các năm? Giải thích lý do.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "Line chart (đường) là lựa chọn tối ưu vì: (1) Thể hiện rõ ràng xu hướng doanh thu qua thời gian, giúp phát hiện mùa vụ hay đột biến; (2) Dễ so sánh nhiều năm trên cùng một biểu đồ bằng cách sử dụng các đường màu khác nhau; (3) Truyền tải thông điệp về tăng/giảm một cách trực quan. Alternatively, biểu đồ cột nhóm (grouped bar chart) phù hợp nếu ưu tiên so sánh chi tiết từng tháng cụ thể giữa các năm hơn là quan sát xu hướng tổng thể. Tránh pie chart (không phù hợp cho chuỗi thời gian) và scatter plot (mất thứ tự thời gian). Lựa chọn cuối cùng phụ thuộc vào mục đích chính: trend analysis → line chart; month-to-month comparison → grouped bar chart.",
+      "evaluation_points": [
+        "Identify line chart as primary choice for time-series trend analysis across multiple years",
+        "Explain why line chart is superior: clearly shows temporal progression, reveals seasonality patterns, and simplifies multi-year overlay comparison",
+        "Recognize grouped/clustered bar chart as valid alternative when monthly comparison is priority over trend visibility",
+        "Justify rejection of pie charts (not suitable for time-series) and scatter plots (no temporal ordering)",
+        "Consider color coding or dual axes strategies to differentiate years effectively in visualization",
+        "Understand trade-off: line chart emphasizes trends; bar chart emphasizes point-in-time comparisons"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_087",
+    "question_text": "Bạn đang làm việc tại một công ty thương mại điện tử. Khi phân tích phễu chuyển đổi từ xem sản phẩm đến mua hàng, bạn phát hiện tỷ lệ drop-off cao bất thường ở bước 'thêm vào giỏ hàng' so với bước 'xem sản phẩm'. Hãy đề xuất ít nhất hai giả thuyết để giải thích hiện tượng này và cách kiểm chứng từng giả thuyết bằng dữ liệu.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_FUNNEL"
+    ],
+    "skill_tags": [
+      "ANALYTICS_FUNNEL"
+    ],
+    "answers": {
+      "detailed": "Giả thuyết 1: Nút 'thêm vào giỏ hàng' khó tìm hoặc không hoạt động trên thiết bị di động. Kiểm chứng: so sánh tỷ lệ drop-off trên desktop vs mobile; phân tích heatmap/session recording để xác định xem người dùng có tương tác với nút CTA hay không; kiểm tra log lỗi API thêm giỏ. Nếu giả thuyết đúng, mobile sẽ có drop-off cao hơn 15-20% và heatmap sẽ cho thấy engagement thấp với CTA.\n\nGiả thuyết 2: Giá cuối cùng (sau thuế, phí vận chuyển) cao hơn kỳ vọng của người dùng. Kiểm chứng: so sánh drop-off giữa nhóm sản phẩm có giá bao gồm tất cả chi phí vs nhóm phải tính thêm; phân tích tỷ lệ hoàn lại sau khi thêm vào giỏ; khảo sát định tính hoặc tracking sự kiện 'xem chi tiết giá' trước khi rời bỏ. Xem xét A/B test hiển thị giá trọn gói từ đầu.\n\nGiả thuyết 3: Lỗi kỹ thuật hoặc tốc độ tải chậm khi thêm vào giỏ. Kiểm chứng: theo dõi tỷ lệ thành công API thêm giỏ, độ trễ trang, tỷ lệ timeout. Nếu tỷ lệ thất bại API > 5%, đây là nguyên nhân cơ học.\n\nÖng cần ưu tiên kiểm chứng theo thứ tự: (1) lỗi kỹ thuật (nhanh nhất, dễ sửa), (2) UX device, (3) pricing shock. Đồng thời, phân tích drop-off theo danh mục sản phẩm, nguồn traffic, và địa lý để xác định xem vấn đề có phải toàn cục hay chỉ riêng một segment.",
+      "evaluation_points": [
+        "Hypotheses are grounded in realistic UX/product scenarios and show understanding of common e-commerce friction points",
+        "Data validation methods are concrete (segmentation by device, price comparison analysis, API logging) rather than vague",
+        "Candidate should prioritize hypotheses by business impact and ease of validation (e.g., technical errors are quickest to rule out)",
+        "Candidate should propose follow-up experiments or A/B tests to validate root cause and measure impact of proposed fixes (e.g., A/B test clearer CTA, test all-inclusive pricing display)",
+        "Candidate should consider confounding factors: seasonality, traffic source quality, inventory/stock-out issues, or shipping cost surprises that may compound at cart stage",
+        "Strong answer articulates how to segment funnel analysis (by device, geography, product category, acquisition source) to identify whether drop-off is systematic or isolated to specific user cohorts"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_089",
+    "question_text": "Một công ty muốn phân khúc khách hàng bằng RFM nhưng chỉ có dữ liệu giao dịch trong 6 tháng gần nhất. Hãy so sánh ưu nhược điểm của việc sử dụng khung thời gian 6 tháng so với 1 năm, và đề xuất cách xử lý cho khách hàng mới (chỉ có 1 giao dịch gần đây) để tránh phân khúc sai lệch.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "Ưu điểm 6 tháng: (1) Phản ánh hành vi hiện tại, phù hợp với chu kỳ kinh doanh ngắn (thời trang, điện tử); (2) Tránh nhiễu từ dữ liệu cũ và xu hướng cũ; (3) Cho phép phân khúc nhanh hơn. Nhược điểm: (1) Bỏ qua khách hàng mua theo mùa (chỉ xem thấp điểm F nếu họ chưa quay lại trong 6 tháng); (2) Khó phát hiện khách hàng trung thành lâu năm nếu họ có khoảng trống > 6 tháng. 1 năm giải quyết các vấn đề này nhưng có nguy cơ bỏ qua xu hướng gần đây. Giải pháp: dùng time-weighted scoring (VD: giao dịch 3 tháng gần có trọng số cao hơn). Với khách hàng mới (1 giao dịch): (1) Tạo phân khúc 'New Customers' riêng biệt, gán R cao (1-5), F thấp (1), M dựa trên ticket size, không dán nhãn loyalty cho đến khi có 2-3 giao dịch; (2) Dùng RFE (Recency, Frequency, Engagement) thay vì M, kết hợp behavioral signals (thời gian xem, email open, add-to-cart) để dự báo potential; (3) Định nghĩa ngưỡng tối thiểu (VD: tối thiểu 2 giao dịch hoặc engagement score ≥ 3) trước khi gán vào segment chính; (4) Xác thực bằng A/B test: so sánh campaign lift giữa khách hàng RFM 6 tháng vs 1 năm để lựa chọn khung thời gian phù hợp với mô hình kinh doanh.",
+      "evaluation_points": [
+        "Quantifies time-horizon impact: explain how 6-month vs 1-year windows affect recency/frequency scoring differently (e.g., seasonal purchase cycles, customer churn rates), with concrete examples (fashion vs. FMCG)",
+        "Scoring methodology clarity: should specify how to implement time-weighted scoring or adjust thresholds when transitioning time frames, and impact on percentile/quintile cutoffs",
+        "New customer handling robustness: beyond creating a separate segment, should discuss whether to use predictive signals (e.g., RFE—engagement metrics, AOV proxy, product category affinity) or exclude from RFM until reaching minimum transaction threshold, with trade-offs",
+        "Validation approach: proposes A/B testing or holdout validation to confirm 6-month RFM segments predict future behavior better than 1-year baseline, or measure campaign lift differences",
+        "Addresses season/business-model mismatch: acknowledges if the 6-month window biases against dormant-but-loyal customers and proposes mitigation (e.g., suppress churned segment rather than downgrade)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_086",
+    "question_text": "Funnel Analysis (phân tích phễu) là gì? Hãy kể tên 3 chỉ số (metric) phổ biến thường được theo dõi trong một phễu bán hàng thương mại điện tử.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_FUNNEL"
+    ],
+    "skill_tags": [
+      "ANALYTICS_FUNNEL"
+    ],
+    "answers": {
+      "detailed": "Funnel Analysis là phương pháp phân tích hành trình của người dùng qua các bước cụ thể để đạt mục tiêu, thường được biểu diễn dưới dạng phễu vì số lượng người dùng giảm dần qua mỗi bước. Trong thương mại điện tử, 3 metric phổ biến là: Số người truy cập trang (Visitors), Số người thêm sản phẩm vào giỏ hàng (Add-to-Cart), và Số người hoàn tất thanh toán (Checkout Completed).",
+      "evaluation_points": [
+        "Định nghĩa đúng Funnel Analysis",
+        "Kể được ít nhất 3 metric phổ biến",
+        "Giải thích tại sao gọi là phễu (số lượng giảm dần)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_088",
+    "question_text": "Bạn đang làm việc cho một công ty SaaS. Hãy thiết kế một phân tích RFM để phân khúc khách hàng nhằm xác định nhóm có nguy cơ rời bỏ (churn) cao. Bạn sẽ chọn ngưỡng (threshold) nào cho từng chỉ số R, F, M? Tại sao?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "For a SaaS company, I would adapt RFM as follows:\n\n**Metric Definitions:**\n- R (Recency): Days since last product usage/login (relative to typical engagement cycle, e.g., daily/weekly/monthly)\n- F (Frequency): Count of logins or feature-usage events in a defined period (e.g., last 90 days)\n- M (Monetary): MRR, ARR, or contract value; for free-tier users, proxy with engagement value (feature adoption rate)\n\n**Proposed Thresholds for High Churn Risk:**\n- **R > 30 days** (assuming weekly/bi-weekly expected usage): Inactivity is a strong churn signal\n- **F < 1x/week**: Low engagement indicates weak product-market fit or adoption stalling\n- **M < 50th percentile of customer LTV**: Lower-value customers have lower switching costs\n\n**Why These Thresholds:**\n1. **Data-driven approach**: Analyze historical churn cohorts—what were their R/F/M profiles 30-60 days before churning?\n2. **SaaS-specific logic**: Unlike e-commerce (purchase-driven), SaaS churn correlates with diminishing usage. Recency + Frequency together are stronger predictors than monetary value alone.\n3. **Segmentation strategy**: Rather than RFM scores (1-5), use a 2x2x2 cube or threshold-based logic to identify segments:\n   - *At-Risk*: High R (inactive) + Low F + Any M → Immediate re-engagement campaigns\n   - *At-Risk*: Any R + Low F + Low M → Evaluate for sunset or feature-simplification\n   - *Loyal*: Low R + High F + High M → Upsell and expansion opportunities\n\n**Critical Considerations:**\n- **Timing horizon**: Align R and F with your product's natural usage cycle (daily vs. quarterly review tools need different thresholds)\n- **New customers**: Exclude users <30 days old; RFM is unreliable for cohorts with insufficient history\n- **Segment validation**: Cross-check RFM segments against actual churn rates using a holdout cohort; adjust thresholds if predictive power is weak\n- **Complementary signals**: RFM alone may miss users with high login counts but no meaningful feature usage; consider combining with engagement metrics (features used, time-in-app, NPS)\n- **Action bias**: Define what actions each segment triggers (e.g., At-Risk → email outreach + success manager check-in vs. churn-warning email)",
+      "evaluation_points": [
+        "Explains how R, F, M metrics are adapted for SaaS context (usage-based rather than purchase-based behavior)",
+        "Proposes specific, justified thresholds (R>30 days, F<1/week, M<50% median) with reasoning tied to churn indicators",
+        "Acknowledges data-driven threshold selection using historical churn cohorts and distribution analysis (avoiding arbitrary cutoffs)",
+        "Discusses scoring methodology: Does the candidate explain whether thresholds use percentiles/quintiles vs. absolute values? Are thresholds combined with AND/OR logic?",
+        "Addresses SaaS-specific limitations: How to handle new customers (no historical data), free-tier vs. paid customers, or multi-user accounts affecting frequency metrics",
+        "Defines actionable segments: Beyond identifying 'high churn risk', what retention strategies would differ between (low R, low F, low M) vs. (high R, low F, medium M)?",
+        "Suggests complementary metrics or validation: How would the candidate validate RFM segments correlate with actual churn? Should engagement metrics (feature adoption, support tickets) supplement M?"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_090",
+    "question_text": "Công ty có một phễu bán hàng 4 bước: Xem trang chủ → Xem sản phẩm → Thêm giỏ hàng → Thanh toán. Tỷ lệ chuyển đổi từ Thêm giỏ hàng sang Thanh toán chỉ đạt 10%, trong khi mức trung bình ngành là 25%. Bạn sẽ làm gì để phân tích nguyên nhân và đề xuất giải pháp? Hãy mô tả các bước cụ thể.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_FUNNEL"
+    ],
+    "skill_tags": [
+      "ANALYTICS_FUNNEL"
+    ],
+    "answers": {
+      "detailed": "Bước 1 - Phân tích chi tiết: Tôi sẽ xây dựng phễu chuyên sâu với metrics như conversion rate, drop-off volume, bounce rate, avg session duration ở trang thanh toán. Phân khúc theo: kênh traffic (organic/paid), thiết bị (mobile/desktop), user cohort (new/repeat). Bước 2 - Xác định nguyên nhân: Sử dụng heatmap & session replay để phát hiện pain point (form complexity, hidden fees). Kiểm tra technical issues (checkout errors, payment gateway downtime). Thực hiện user feedback analysis (survey, interview) để hiểu lý do thoát. Bước 3 - Ưu tiên giải pháp: Nếu mobile conversion thấp hơn desktop → tối ưu mobile UI. Nếu hidden fees là nguyên nhân → hiển thị rõ total trước khi submit. Nếu form phức tạp → test simple 1-step checkout. Bước 4 - A/B test: Thiết kế 2-3 experiments với hypothesis rõ ràng (VD: 'Simplifying form → +5% conversion'). Xác định sample size & duration cần thiết. KPI chính: checkout conversion; KPI phụ: AOV, refund rate. Bước 5 - Đo lường thành công: Target tăng conversion từ 10% → 15-20% trong 6 tháng.",
+      "evaluation_points": [
+        "Phân tích chi tiết phễu với metrics cụ thể (conversion rate, drop-off volume, funnel velocity) và phân khúc theo kênh/thiết bị/cohort",
+        "Xác định và ưu tiên nguyên nhân gốc sử dụng phương pháp định lượng (heatmap, session replay, error logs) và định tính (user interview, feedback analysis)",
+        "Xác định các thao tác cần test với giả thuyết rõ ràng và thiết kế A/B test hợp lý (sample size, duration, KPI chính phụ)",
+        "Đề xuất roadmap triển khai với độ ưu tiên dựa trên effort vs impact, và xác định metric thành công cụ thể (target: 15-20% conversion)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_092",
+    "question_text": "Bạn đang phân tích hiệu quả chiến dịch marketing qua cohort theo tháng. Bạn nhận thấy Cohort tháng 1 có tỷ lệ giữ chân (retention) tháng đầu tiên cao hơn các cohort khác, nhưng retention các tháng sau lại thấp hơn. Hãy giải thích hiện tượng này và đề xuất cách Data Visualization để thể hiện rõ sự khác biệt giữa các cohort.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_COHORT"
+    ],
+    "skill_tags": [
+      "ANALYTICS_COHORT"
+    ],
+    "answers": {
+      "detailed": "This phenomenon likely reflects a **cohort quality trade-off**: Month 1's aggressive promotion (deep discounts) attracted price-sensitive users with weak product affinity, yielding high immediate returns but poor long-term retention. Competing cohorts may have acquired fewer but more engaged users. However, we must rule out **period effects** (e.g., seasonal demand fluctuations, product changes post-Month 1) affecting all cohorts equally.\n\n**Root Cause Hypotheses to Test:**\n1. Acquisition quality: Compare Month 1 cohort profile (DAU, feature adoption, LTV) vs Month 2+ cohorts\n2. Campaign messaging: Month 1 emphasized discount; others emphasized product value\n3. Onboarding: Month 1 users may have weaker product familiarity\n\n**Visualization Strategy:**\n- **Cohort Retention Heatmap**: X-axis = post-acquisition month (M1, M2, M3...), Y-axis = acquisition cohort month, cells = retention % with gradient coloring. Reveals if Month 1 cohort consistently underperforms or if all cohorts decline similarly (period effect).\n- **Line Chart**: Overlay retention curves by cohort; a steep divergence after M1 for Month 1 cohort suggests quality issue; parallel decline suggests period effect.\n- **Segment Breakdown**: Heatmaps stratified by acquisition channel (paid, organic) or user segment (new vs returning) to isolate campaign impact.\n\n**Recommended Actions:** (1) Analyze early churn (D1-D7) in Month 1 vs later cohorts; (2) Compare LTV projections; (3) A/B test discount depth vs value-focused messaging in next campaign.",
+      "evaluation_points": [
+        "Correctly identifies potential root cause (aggressive promotion attracting low-quality users) vs alternative hypotheses (seasonal demand, product-market fit timing)",
+        "Distinguishes cohort effect (quality of acquired users) from period effect (market-wide trends affecting all cohorts in Month 2+) - a key pitfall in cohort analysis",
+        "Proposes appropriate visualizations (heatmap for overview, line chart for trend comparison) but should specify retention definition (DAU, transaction, engagement metric) and metric consistency across periods",
+        "Goes beyond visualization: proposes segmentation strategy (e.g., by acquisition channel, user intent, price sensitivity) to isolate campaign-specific vs organic retention drivers",
+        "Identifies follow-up actions: A/B test messaging quality vs discount depth; compare Month 1 cohort profile (demographics, LTV, feature adoption) with Month 2+ cohorts; analyze early churn patterns (Day 1-7) vs later churn"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_094",
+    "question_text": "Bạn cần thiết kế một dashboard real-time cho phễu bán hàng của công ty thương mại điện tử với dữ liệu streaming. Hãy trình bày cách bạn sẽ xử lý các vấn đề: (1) Tính toán tỷ lệ chuyển đổi chính xác khi có người dùng quay lại phễu nhiều lần, (2) Xử lý dữ liệu bị trùng (duplicate) do lỗi hệ thống, (3) Đảm bảo dashboard cập nhật trong vòng 5 giây với 1 triệu sự kiện/giờ. Đưa ra giải pháp cụ thể cho từng vấn đề.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "ANALYTICS_FUNNEL",
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_FUNNEL",
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "**1. Session-Based Funnel for Returning Users:**\nDefine sessions using session_id derived from user_id + time-based windowing (e.g., 30-min inactivity threshold). This separates distinct shopping journeys from a single user's multiple visits. Calculate step-to-step conversion *within* each session (e.g., product_view → add_to_cart → checkout → payment). Critically, segment analysis by cohort (e.g., new vs. returning users, acquisition source) to understand if returning users exhibit different behavior patterns—this reveals whether conversion differences are due to user maturation (cohort effect) or period effects (e.g., seasonal trends). Track both session-level metrics and repeat visitor rates separately.\n\n**2. Deduplication Strategy:**\nImplement idempotent event processing: assign each event a composite key (user_id + event_type + timestamp + session_id) and check against Redis/Druid dedup cache. Use Kafka exactly-once semantics with idempotent producers. In Spark Streaming/Flink, apply watermarking (e.g., 2-min grace period) to handle late events; discard duplicates arriving beyond the window. Monitor dedup effectiveness with metrics like duplicate_event_rate and duplicate_source (to identify systemic failures, e.g., mobile client retries). Alert if dedup rate suddenly spikes.\n\n**3. Real-Time SLA (<5 seconds for 1M events/hour ≈ 278 events/sec):**\nArchitecture: Kafka (multi-partition by user_id) → Spark Streaming (micro-batch, 2-3 sec windows with dedup state) → Redis (hot metrics cache with 1-min TTL) + Druid (OLAP for deep analysis). Pre-aggregate at funnel step level during micro-batch (e.g., step_conversion_rate, drop_off_count per cohort). Push updates to frontend via WebSocket subscriptions filtered by dashboard segment. Validate latency end-to-end: event ingestion (Kafka, <100ms) + processing (spark window, 2-3s) + storage write (Redis, <100ms) + frontend delivery (WebSocket, <500ms).\n\n**Actionable Insights & Validation:**\nIdentify critical drop-off points (e.g., 40% drop at payment if checkout takes >3 steps). Hypothesize causes (UX friction, payment method unavailable, device type) and validate via A/B test or user segmentation. Example: segment funnel by device; if mobile shows 15% lower conversion at payment, prioritize mobile payment optimization. Acknowledge limitations: new sessions lack recency history (adapt with RFE—recency, frequency, engagement—for non-transactional context), and non-linear paths (users re-enter earlier steps) require explicit path modeling, not just linear funnels.",
+      "evaluation_points": [
+        "Can explain how session-based funnel differs from user-level funnel analysis and when each is appropriate (addresses reference: fixed groups evolving over time)",
+        "Articulates why returning users create measurement challenges and proposes session definition criteria with clear rationale (30-min idle choice justified by business context, e.g., e-commerce domain)",
+        "Discusses deduplication strategy trade-offs: event_id uniqueness assumptions, watermark retention costs vs. accuracy, and handling late-arriving events beyond watermark window",
+        "Explains how to segment funnel analysis (by device, traffic source, user cohort) to derive actionable insights beyond raw conversion rates; identifies drop-off hypotheses and suggests validation methods",
+        "Addresses architectural latency budget: breaks down 5-second SLA into components (ingestion, processing, storage query, frontend), justifies technology choices (micro-batch window, Redis TTL strategy)",
+        "Acknowledges limitations: new user behavior in session-based funnel, non-linear paths (e.g., cart abandonment/recovery), and incomplete sessions; proposes adaptations (e.g., cohort analysis for repeat behavior patterns)",
+        "Discusses data quality validation: how to detect systemic duplicate sources, monitor dedup effectiveness, and alert on anomalies (e.g., sudden conversion rate spike from dedup failure)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_091",
+    "question_text": "RFM là viết tắt của những từ nào? Hãy giải thích ngắn gọn ý nghĩa của từng thành phần trong phân tích khách hàng.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "RFM là viết tắt của Recency (thời gian kể từ lần mua cuối), Frequency (tần suất mua hàng), Monetary (giá trị tiền chi tiêu). Recency đo lường mức độ gần đây của giao dịch cuối cùng, Frequency đo lường số lần khách hàng mua trong kỳ, Monetary đo lường tổng giá trị chi tiêu. Mỗi chiều thường được gán điểm (1-5 dựa trên quintile hoặc bins tùy chỉnh), từ đó tạo thành RFM score để phân khúc khách hàng. Ứng dụng: khách hàng High R, F, M là 'Champions' (cần loyalty program); High R, Low F cần re-engagement; Low R là 'At Risk' (cần chiến lược giữ chân). Hạn chế: khó áp dụng cho khách hàng mới hoặc mô hình subscription nơi 'monetary' ít liên quan.",
+      "evaluation_points": [
+        "Trả lời đúng tên đầy đủ của các thành phần RFM (Recency, Frequency, Monetary)",
+        "Giải thích đúng ý nghĩa của từng thành phần với ví dụ cụ thể (e.g., Recency = số ngày kể từ lần mua cuối cùng)",
+        "Nêu được ứng dụng trong phân khúc khách hàng và liên hệ với chiến lược marketing (e.g., khách hàng High R, Low F cần tái kích hoạt)",
+        "Hiểu cách tính điểm RFM (e.g., phân chia thành quintiles, gán điểm 1-5 cho mỗi chiều)",
+        "Nhận thức được hạn chế của RFM (khó áp dụng cho khách hàng mới, mô hình subscription, doanh nghiệp không có dữ liệu giao dịch rõ ràng)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_093",
+    "question_text": "Bạn đang làm việc cho một công ty thương mại điện tử. Dữ liệu cho thấy tỷ lệ chuyển đổi từ 'Thêm vào giỏ hàng' đến 'Thanh toán thành công' đang giảm dần qua các tháng. Hãy trình bày cách bạn sử dụng Funnel Analysis để xác định nguyên nhân và đề xuất giải pháp. Tại sao bạn chọn cách tiếp cận đó thay vì chỉ nhìn vào tỷ lệ chuyển đổi tổng thể?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_FUNNEL"
+    ],
+    "skill_tags": [
+      "ANALYTICS_FUNNEL"
+    ],
+    "answers": {
+      "detailed": "Tôi sẽ xây dựng funnel chi tiết gồm các bước: Xem sản phẩm → Thêm vào giỏ hàng → Bắt đầu thanh toán → Nhập thông tin giao hàng → Xác nhận đơn hàng → Thanh toán thành công. Sau đó tính tỷ lệ chuyển đổi giữa từng cặp bước liền kề (step-to-step conversion rate) và so sánh theo tháng để phát hiện bước nào có sự sụt giảm đột biến. Ví dụ, nếu tỷ lệ từ 'Bắt đầu thanh toán' đến 'Nhập thông tin giao hàng' giảm, nguyên nhân có thể do form nhập liệu phức tạp hoặc thiếu tùy chọn thanh toán. \n\nSử dụng funnel analysis thay vì tỷ lệ chuyển đổi tổng thể vì tỷ lệ tổng thể chỉ cho thấy vấn đề tồn tại nhưng không chỉ ra chính xác bước nào gây ra sự cố, dẫn đến khó khăn trong việc đưa ra giải pháp cụ thể.\n\nBổ sung thêm: Để phân biệt liệu sự sụt giảm là do hành vi thay đổi của người dùng hiện tại (cohort effect) hay do thành phần người dùng thay đổi (period effect), tôi sẽ dùng Cohort Analysis—nhóm người dùng theo tháng họ bắt đầu funnel, rồi theo dõi tỷ lệ chuyển đổi của từng cohort qua các tháng tiếp theo. Đồng thời, tôi sẽ segment funnel theo các chiều khác (thiết bị, địa vị trí, loại sản phẩm) để đảm bảo kết luận không bị ảnh hưởng bởi Simpson's Paradox. Cuối cùng, kết hợp dữ liệu funnel với user feedback, log thay đổi trang thanh toán, và tính khả dụng phương thức thanh toán để xác định nguyên nhân cụ thể và đề xuất giải pháp (tối ưu form, thêm payment method, A/B testing).",
+      "evaluation_points": [
+        "Mô tả chi tiết các bước trong funnel và cách tính tỷ lệ chuyển đổi từng bước (step-to-step conversion rate)",
+        "Xác định phương pháp so sánh theo thời gian để phát hiện bước suy giảm, bao gồm cả segmentation theo chiều kích khác (thiết bị, địa vị trí, loại sản phẩm) để đảm bảo không phải lỗi do Simpson's Paradox",
+        "Giải thích khi nào nên bổ sung Cohort Analysis (nhóm người dùng theo tháng đăng ký) để phân biệt giữa period effects (ảnh hưởng từ người dùng mới) và cohort effects (thay đổi hành vi người dùng cũ)",
+        "Đề xuất các nguồn dữ liệu bổ sung cần khám phá (user feedback, device type, payment method availability, checkout page changes) để xác định nguyên nhân cụ thể",
+        "Trình bày cách hành động dựa trên kết quả funnel (A/B testing, form optimization, payment gateway improvements)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_095",
+    "question_text": "Bạn đang làm việc cho một công ty thương mại điện tử có tỷ lệ khách hàng quay lại mua hàng thấp. Bạn được yêu cầu sử dụng RFM để phân nhóm và đề xuất chiến lược marketing cho nhóm khách hàng có giá trị cao nhất. Hãy mô tả chi tiết quy trình RFM bạn sẽ thực hiện, cách xác định ngưỡng điểm (scoring thresholds) và giải thích tại sao bạn chọn cách đó thay vì dùng phân khúc mặc định.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "Quy trình RFM chi tiết: (1) Định nghĩa timeframe rõ ràng: R = ngày kể từ mua hàng gần nhất (ví dụ: 0-30 ngày = score 5), F = số lần mua trong 12 tháng, M = tổng doanh thu trong cùng kỳ. (2) Xác định ngưỡng dựa trên phân vị (quintile 20%, 40%, 60%, 80%) thay vì điểm mặc định vì: dữ liệu e-commerce thường skewed (một số khách VIP chi rất cao), phân vị giữ tỷ lệ khách hàng đều trong mỗi nhóm, dễ so sánh qua thời gian. (3) Kết hợp điểm thành segment: Focus vào R≥4 + F≥4 + M≥4 (Champions - 5-10% khách) với chiến lược: gửi ưu đãi VIP sớm, loyalty program cao cấp, target LTV tăng 20%. Cũng quan tâm R≤2 + F≥4 + M≥4 (At Risk Champions) cần win-back campaign ngay vì CAC thấp, khả năng quay lại cao. Giới hạn: RFM yếu với khách mới (F=1 không phản ánh giá trị thực), thay thế bằng RFE (Engagement metrics). Nên thêm yếu tố seasonal/category để điều chỉnh ngưỡng.",
+      "evaluation_points": [
+        "Correctly defines and calculates R, F, M with specific timeframe considerations (e.g., defining recency horizon based on business cycle)",
+        "Justifies quantile-based thresholds vs. business rules by analyzing actual data distribution and explaining trade-offs (e.g., quintiles vs. custom bins for skewed distributions)",
+        "Proposes specific, actionable strategies for high-value segments with clear KPI targets (e.g., retention rate, LTV increase, repeat purchase rate) and defines success metrics",
+        "Identifies limitations of RFM in the e-commerce context (e.g., new customer problem, seasonal patterns, product category effects) and suggests mitigation strategies (e.g., RFE for engagement, recency decay weighting)",
+        "Explains segment combinations beyond single high-scorers (e.g., low R + high F + high M = 'At Risk Champions' requiring win-back campaigns) to demonstrate sophisticated segmentation understanding"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_097",
+    "question_text": "Công ty bạn có một phễu đăng ký dịch vụ gồm 5 bước: Truy cập trang chủ → Điền form → Xác nhận email → Chọn gói → Thanh toán. Dữ liệu cho thấy tỷ lệ chuyển đổi từ Điền form sang Xác nhận email giảm mạnh vào cuối tuần. Bạn nghi ngờ có vấn đề kỹ thuật hoặc UX. Hãy thiết kế một quy trình debug chi tiết sử dụng Funnel Analysis kết hợp với dữ liệu session và thiết bị người dùng để xác định nguyên nhân gốc. Ngoài ra, đề xuất cách xử lý dữ liệu bị thiếu (missing data) trong quá trình này mà không làm sai lệch kết quả.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_FUNNEL"
+    ],
+    "skill_tags": [
+      "ANALYTICS_FUNNEL"
+    ],
+    "answers": {
+      "detailed": "Quy trình debug chi tiết: (1) Phân tích funnel theo ngày trong tuần, tính conversion rate (form→email) cho weekday vs weekend, xác nhận độ giảm và kiểm định statistical significance (ít nhất 30+ mẫu trong mỗi segment). (2) Phân tách theo thiết bị (mobile/desktop), OS (iOS/Android), trình duyệt, và source traffic; so sánh conversion rate từng segment, xác định segment có drop cao nhất. (3) Kiểm tra session log chi tiết: thời gian chờ giữa bước (form submit→email verification nhận được), số lần reload form, HTTP status codes (timeout 504, rate limit 429), API latency. (4) Cross-reference với external factors: các issue đã biết, deployment timeline, traffic spikes vào cuối tuần. Ví dụ: nếu drop 40% ở mobile Safari cuối tuần, nghi ngờ bug form validation hoặc email delivery API. Xử lý missing data: (1) Không loại bỏ toàn bộ session bị thiếu bước (gây undercounting drop-off). (2) Phân loại missing: bước không appear trong log (user chưa bao giờ đến) vs bước appear nhưng missing timestamp (lỗi logging). Với loại thứ nhất, gán 'dropped at step X'; với loại thứ hai, dùng session duration heuristic (nếu session < 30s, gán 'likely dropped', không interpolate). (3) Phân tích riêng segment missing data (report 'n=X with missing data') để đánh giá bias. Không dùng interpolation lineal vì giả định sequential nature của funnel không hợp lý. Đề xuất: (1) Tối ưu email verification form trên mobile (rút gọn field, one-click verify, autocomplete domain). (2) Thêm loading indicator rõ ràng và retry mechanism với exponential backoff. (3) Triển khai monitoring real-time API latency và error rate, set alert khi latency > 3s hoặc error rate > 2%. (4) A/B test giải pháp trên mobile segment cuối tuần, target recovery 20-30% conversion, measure qua funnel conversion rate + session completion time.",
+      "evaluation_points": [
+        "Thiết kế quy trình debug có phân tách theo nhiều chiều (thiết bị, thời gian, nguồn) với các giả thuyết rõ ràng cần kiểm chứng",
+        "Định lượng cụ thể: tính toán conversion rate delta (%) theo mỗi chiều, xác định statistical significance (p-value), và xác định segment chịu ảnh hưởng nặng nhất",
+        "Đưa ra phương pháp xử lý missing data cụ thể, có logic và giải thích tại sao không thể dùng deletion hoặc simple imputation",
+        "Đề xuất giải pháp kỹ thuật hoặc UX khả thi dựa trên phân tích, kèm theo cách đo lường hiệu quả (A/B test hoặc monitoring metrics)",
+        "Cân nhắc trade-off: ví dụ giữa độ chính xác của phương pháp xử lý missing data và độ phức tạp thực thi"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_098",
+    "question_text": "Cohort Analysis là gì? Hãy cho ví dụ về một cohort và metric thường dùng trong phân tích này.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_COHORT"
+    ],
+    "skill_tags": [
+      "ANALYTICS_COHORT"
+    ],
+    "answers": {
+      "detailed": "Cohort Analysis là phương pháp phân nhóm người dùng (cohort) dựa trên một sự kiện chung xảy ra trong khoảng thời gian cụ thể, sau đó theo dõi hành vi của nhóm cố định này qua các giai đoạn tiếp theo. Điều này giúp phân biệt giữa thay đổi do chiến dịch tiếp thị mới (period effects) và thay đổi do chính sản phẩm (cohort effects). Ví dụ: Nhóm khách hàng đăng ký trong tháng 1/2024 là một cohort theo thời gian signup. Metric phổ biến bao gồm: (1) Retention rate theo ngày/tuần/tháng (D1, D7, M1) để đo độ bền vững của sản phẩm, (2) Churn rate để phát hiện vấn đề onboarding. Từ retention curve, nếu nó san bằng sau vài tuần = khách hàng loyal; nếu giảm mạnh = cần cải thiện trải nghiệm onboarding.",
+      "evaluation_points": [
+        "Định nghĩa đúng cohort analysis và phân biệt với segmentation thông thường (focus vào tracking fixed groups over time, không chỉ phân nhóm tĩnh)",
+        "Đưa ra ví dụ cụ thể về cohort definition event (e.g., signup date, first purchase date, feature adoption date)",
+        "Lựa chọn metric phù hợp và giải thích tại sao (ví dụ: retention rate để đo product stickiness, churn rate để phát hiện onboarding issues)",
+        "Hiểu được cách diễn giải kết quả (ví dụ: retention curve flattening = long-term retention tốt, sharp drop = vấn đề onboarding)",
+        "Nhận biết được sự khác nhau giữa period effects (ảnh hưởng từ yếu tố ngoài) vs. cohort effects (thay đổi trong hành vi nhóm cố định)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_100",
+    "question_text": "Funnel Analysis là gì? Hãy kể tên 3 bước phổ biến trong phễu bán hàng của một công ty thương mại điện tử.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_FUNNEL"
+    ],
+    "skill_tags": [
+      "ANALYTICS_FUNNEL"
+    ],
+    "answers": {
+      "detailed": "Funnel Analysis là phương pháp phân tích hành trình người dùng qua một chuỗi các bước tuần tự và cố định hướng tới mục tiêu cụ thể (ví dụ: hoàn tất mua hàng, đăng ký tài khoản). Nó định lượng tiến trình của người dùng từ bước này sang bước khác và xác định các điểm mà người dùng rời khỏi (drop-off points).\n\nVí dụ 3 bước trong phễu bán hàng TMĐT:\n(1) Truy cập trang sản phẩm → (2) Thêm sản phẩm vào giỏ hàng → (3) Hoàn tất thanh toán\n\nMỗi bước có tỷ lệ chuyển đổi (conversion rate) riêng. Nếu ở bước 2 có 60% người dùng rời khỏi (không hoàn tất thanh toán), đây là điểm rò rỉ (leakage point) cần được điều tra và tối ưu hóa. Phân tích này giúp công ty ưu tiên cải thiện những khâu có tỷ lệ chuyển đổi thấp nhất.",
+      "evaluation_points": [
+        "Giải thích đúng khái niệm funnel analysis là ánh xạ hành trình người dùng qua các bước tuần tự hướng tới mục tiêu cụ thể",
+        "Liệt kê ít nhất 3 bước trong phễu bán hàng TMĐT theo thứ tự logic (ví dụ: xem sản phẩm → thêm vào giỏ → thanh toán)",
+        "Giải thích được tỷ lệ chuyển đổi (conversion rate) giữa các bước và khái niệm drop-off/điểm rò rỉ (leakage points)",
+        "Nêu được ứng dụng thực tiễn: xác định khâu yếu nhất trong quy trình để tối ưu hóa"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_101",
+    "question_text": "Hãy định nghĩa Funnel Analysis trong phân tích dữ liệu kinh doanh và cho biết mục đích chính của nó là gì?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_FUNNEL"
+    ],
+    "skill_tags": [
+      "ANALYTICS_FUNNEL"
+    ],
+    "answers": {
+      "detailed": "Funnel Analysis là phương pháp phân tích hành trình người dùng thông qua một chuỗi các bước tuần tự được định nghĩa trước để đạt tới một mục tiêu cụ thể (ví dụ: mua hàng, đăng ký, áp dụng tính năng). Mục đích chính là lượng hóa tiến trình của người dùng qua từng bước và xác định các điểm rơi (drop-off) để tối ưu hóa tỷ lệ chuyển đổi. Ví dụ: một funnel mua hàng có thể gồm: xem sản phẩm → thêm vào giỏ (80% → 60%) → nhập thông tin thanh toán (60% → 45%) → hoàn thành mua hàng (45% → 40%), từ đó xác định được bước thanh toán có tỷ lệ rơi cao nhất cần được cải thiện.",
+      "evaluation_points": [
+        "Định nghĩa chính xác: Funnel Analysis ánh xạ hành trình người dùng qua các bước tuần tự được định nghĩa trước (ví dụ: xem sản phẩm → thêm vào giỏ → thanh toán → mua hàng)",
+        "Nhận dạo điểm rơi (drop-off): xác định chính xác ở bước nào người dùng bỏ cuộc và tỷ lệ chuyển đổi giữa các bước liên tiếp",
+        "Ứng dụng cụ thể: cung cấp ví dụ funnel thực tế (e-commerce, signup, feature adoption) để minh họa cách áp dụng"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_103",
+    "question_text": "Định nghĩa RFM trong phân tích dữ liệu khách hàng. Hãy kể tên ba thành phần của RFM và giải thích ngắn gọn ý nghĩa của từng thành phần.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "skill_tags": [
+      "ANALYTICS_BUSINESS"
+    ],
+    "answers": {
+      "detailed": "RFM là viết tắt của Recency (thời gian kể từ lần mua cuối), Frequency (tần suất mua hàng), Monetary (giá trị tiền tệ của các giao dịch). Đây là mô hình dùng để phân khúc khách hàng dựa trên hành vi mua sắm. Mỗi khách hàng thường được gán một điểm (1-5) cho mỗi chiều, sau đó kết hợp lại để tạo RFM score. Ví dụ, khách hàng có R cao, F cao, M cao (Champions) nên nhận ưu tiên cao, trong khi R thấp, F cao, M cao (At Risk) cần được tái kích hoạt. Tuy nhiên, RFM có hạn chế: khó áp dụng cho khách hàng mới (R cao nhưng F, M thấp), không phù hợp với mô hình subscription hay doanh nghiệp không giao dịch, và có thể cần điều chỉnh thời gian xem xét tùy ngành.",
+      "evaluation_points": [
+        "Định nghĩa chính xác RFM và ba thành phần (Recency, Frequency, Monetary)",
+        "Giải thích cách RFM được sử dụng để gán điểm/phân loại khách hàng (ví dụ: quintiles, phân loại từ 1-5)",
+        "Mô tả ứng dụng thực tế: cách các segment khác nhau được xử lý (ví dụ: Champions - R cao, F cao, M cao; At Risk - R thấp; New Customers - R cao, F thấp)",
+        "Thảo luận về hạn chế của RFM (ví dụ: khó áp dụng với khách hàng mới, mô hình subscription, doanh nghiệp không giao dịch) và các điều chỉnh tiềm năng"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_ANALYTICS_104",
+    "question_text": "Hãy định nghĩa Cohort Analysis trong phân tích dữ liệu kinh doanh và cho biết mục đích chính của nó là gì?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ANALYTICS_BUSINESS",
+      "ANALYTICS_COHORT"
+    ],
+    "skill_tags": [
+      "ANALYTICS_COHORT"
+    ],
+    "answers": {
+      "detailed": "Cohort Analysis là phương pháp phân nhóm người dùng dựa trên một đặc điểm chung (cohort definition event) trong một khoảng thời gian cụ thể—ví dụ: thời gian đăng ký, ngày mua hàng đầu tiên, hoặc thời điểm sử dụng feature mới—sau đó theo dõi hành vi của các nhóm CỐ ĐỊNH này qua các giai đoạn tiếp theo. Điểm khác biệt chính so với segmentation thông thường là cohort analysis tập trung vào sự THAY ĐỔI HÀNH VI THEO THỜI GIAN của những nhóm cố định, không phải chỉ so sánh các nhóm khác nhau tại một thời điểm. Mục đích chính bao gồm: (1) đánh giá retention (tỷ lệ giữ chân khách hàng ở D1, D7, M1 v.v.); (2) phân biệt cohort effects (thay đổi hành vi của một nhóm cộ định) và period effects (ảnh hưởng từ user mới); (3) phát hiện vấn đề onboarding qua những biến động retention curve; (4) đánh giá hiệu quả chiến dịch và kênh tiếp cận bằng cách segmentize cohort theo chiều khác.",
+      "evaluation_points": [
+        "Định nghĩa đúng Cohort Analysis là phân nhóm người dùng theo đặc điểm chung (cohort definition event) trong một khoảng thời gian cụ thể",
+        "Nhận biết được mục đích chính: theo dõi hành vi của các nhóm CỐ ĐỊNH theo thời gian (phân biệt với segmentation thông thường)",
+        "Nêu được ứng dụng cụ thể như retention cohort (tỷ lệ giữ chân D1, D7, M1) hoặc behavior cohort (khi lần đầu sử dụng feature)",
+        "Hiểu rõ sự khác biệt giữa cohort effect (thay đổi hành vi của một nhóm cố định) và period effect (ảnh hưởng từ các user mới)",
+        "Có thể giải thích cách lựa chọn cohort definition event và metric phù hợp dựa trên câu hỏi kinh doanh cụ thể"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  }
+]

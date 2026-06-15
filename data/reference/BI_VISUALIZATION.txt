@@ -1,0 +1,102 @@
+# BI_VISUALIZATION — Reference Document (Source: Gemini 2.5 Flash)
+
+## BI_VISUALIZATION Competency Reference (Role: Data Analyst)
+
+## Power BI
+
+### DAX Measures vs. Calculated Columns
+
+**Definition:**
+*   **DAX Measures:** Dynamic calculations evaluated at query time, based on the current filter context. They do not consume memory for storage but are computed on-the-fly. Measures are typically used for aggregations (e.g., Sum, Average, Count) and return a single scalar value.
+*   **Calculated Columns:** Static columns added to a table in the data model, computed during data refresh. They consume memory and disk space as their values are stored for every row. Calculated columns are evaluated in row context and can be used like any other column (e.g., in filters, slicers, or row-level calculations).
+
+**Key Distinction:** The fundamental difference lies in their evaluation context and storage. Measures are dynamic, context-dependent, and memory-efficient for aggregations. Calculated columns are static, row-context dependent, and memory-intensive as they store values for every row. Measures react to filter context changes, while calculated columns do not change their stored values based on report interactions.
+
+**Practical Interview-Level Detail:** A strong candidate understands that measures are preferred for aggregations due to their dynamic nature and memory efficiency. Calculated columns are suitable for row-level transformations that are fixed (e.g., concatenating strings, deriving a category from another column) or when the result needs to be used in a slicer or as a dimension. They should articulate the concept of "context transition" for measures that use `CALCULATE` to modify filter context.
+
+**Strong vs. Weak Answers:**
+*   **Strong:** Explains the performance implications (calculated columns increase model size, measures compute on demand), the role of filter context vs. row context, and provides scenarios where one is clearly superior (e.g., "Total Sales" as a measure, "Full Name" as a calculated column). Discusses `CALCULATE` and context transition.
+*   **Weak:** Simply states that one is "better" without explaining why, or misapplies them (e.g., suggesting a calculated column for a simple sum of sales). Lacks understanding of evaluation context.
+
+**Common Interview Pitfalls/Misconceptions:** Overusing calculated columns for aggregations that should be measures, leading to bloated data models and poor performance. Not understanding that calculated columns are computed *once* during refresh, not dynamically.
+
+### Data Model, Relationships, and Star Schema
+
+**Definition:**
+*   **Data Model:** The logical structure of how data is organized within Power BI, consisting of tables, columns, and the relationships between them. It's the foundation for all analysis and visualization.
+*   **Relationships:** Connections between tables based on common columns (keys), defining how data flows and filters propagate. They dictate how Power BI joins data internally for calculations and visualizations.
+*   **Star Schema:** A specific type of data model design characterized by a central "fact" table surrounded by multiple "dimension" tables. Fact tables contain quantitative measures (e.g., sales amount, quantity), while dimension tables contain descriptive attributes (e.g., product name, customer demographics).
+
+**Key Distinction:** A well-designed data model, particularly a star schema, is crucial for performance and usability. Relationships define the cardinality (one-to-one, one-to-many, many-to-one) and cross-filter direction, which impacts how filters propagate. Star schema is preferred over snowflake schema in Power BI for simplicity and performance, as Power BI's VertiPaq engine is optimized for it.
+
+**Practical Interview-Level Detail:** Candidates should demonstrate an understanding of cardinality (1:M being most common), cross-filter direction (single vs. both, and when to use 'both' cautiously), and the importance of creating relationships on unique, non-null keys. They should explain how a star schema simplifies DAX calculations and optimizes query performance. Discussions might include handling many-to-many relationships using bridge tables, and the concept of role-playing dimensions.
+
+**Strong vs. Weak Answers:**
+*   **Strong:** Can articulate the benefits of a star schema (performance, ease of use, reduced ambiguity), explain how to set up relationships correctly, troubleshoot common relationship issues, and discuss the impact of relationship design on DAX filter context. Can explain how to handle complex scenarios like M:M.
+*   **Weak:** Lacks understanding of cardinality or cross-filter direction, struggles to explain why a star schema is beneficial, or proposes complex, inefficient data models.
+
+**Common Interview Pitfalls/Misconceptions:** Creating bidirectional relationships unnecessarily, leading to ambiguity and performance issues. Not understanding the performance benefits of a star schema over a flat table or complex snowflake.
+
+## Tableau
+
+### LOD Expressions
+
+**Definition:**
+**Level of Detail (LOD) Expressions** in Tableau allow you to compute values at a data source level that is more granular (INCLUDE), less granular (EXCLUDE), or entirely independent (FIXED) of the dimensions in the view. They provide powerful control over the aggregation level of calculations.
+
+**Key Distinction:** LOD expressions differ from regular aggregations because they allow you to specify the exact level of detail for the calculation, independent of the dimensions currently present in the view. This contrasts with standard aggregations which are always computed at the granularity of the view. The three main types are:
+*   **FIXED:** Computes a value using only the specified dimensions, ignoring dimensions in the view.
+*   **INCLUDE:** Computes a value using the specified dimensions *in addition to* any dimensions in the view.
+*   **EXCLUDE:** Computes a value using all dimensions in the view *except* the specified ones.
+
+**Practical Interview-Level Detail:** A strong candidate can provide concrete use cases for each LOD type, such as:
+*   **FIXED:** Calculating the average sales per customer (regardless of product in view), or finding the first order date for each customer.
+*   **INCLUDE:** Showing the average sales per product within each region, where region is in the view.
+*   **EXCLUDE:** Calculating the percentage of total sales for a sub-category, while still showing the overall category total.
+They should also understand Tableau's order of operations, specifically how LOD expressions are evaluated *before* dimension filters but *after* context filters.
+
+**Strong vs. Weak Answers:**
+*   **Strong:** Clearly explains the purpose and syntax of each LOD type, provides relevant business scenarios, and demonstrates an understanding of how LODs interact with Tableau's order of operations (e.g., why a context filter affects a FIXED LOD but a dimension filter doesn't).
+*   **Weak:** Struggles to differentiate between the types, provides generic or incorrect use cases, or doesn't understand the impact of filters on LODs.
+
+**Common Interview Pitfalls/Misconceptions:** Misunderstanding the order of operations, leading to incorrect results when filters are applied. Using the wrong LOD type for a given problem, or overcomplicating a calculation that could be done with simpler aggregations.
+
+### Calculated Fields and Data Blending
+
+**Definition:**
+*   **Calculated Fields:** Custom fields created in Tableau using formulas to transform existing data or create new metrics. They can be row-level, aggregate, or table calculations.
+*   **Data Blending:** A method in Tableau to combine data from multiple, disparate data sources on a single worksheet. It works by querying each data source independently and then aggregating the results to a common level of detail based on linking fields.
+
+**Key Distinction:** Calculated fields are versatile for data manipulation within a single data source or across joined sources. Data blending is distinct from traditional database joins. Joins combine data at the row level *before* aggregation, creating a single, larger data source. Blending combines data at an *aggregated* level *after* each source has been queried independently. Blending is typically performed on a secondary data source based on a primary data source's linking fields.
+
+**Practical Interview-Level Detail:** Candidates should explain when to use blending (e.g., combining data from different systems that cannot be joined directly, or when data sources have different granularities that would lead to data duplication with a join). They should also be aware of blending's limitations, such as only being able to use fields from the primary data source for filtering, and performance considerations with large datasets. For calculated fields, they should differentiate between row-level (e.g., `[Sales] * 0.1`), aggregate (e.g., `SUM([Sales]) / SUM([Quantity])`), and table calculations (e.g., `RUNNING_SUM(SUM([Sales]))`).
+
+**Strong vs. Weak Answers:**
+*   **Strong:** Clearly articulates the trade-offs between blending and joining, knowing when to choose each. Provides specific scenarios for blending (e.g., Google Analytics data with CRM data). Demonstrates proficiency in creating various types of calculated fields.
+*   **Weak:** Confuses blending with joining, unaware of blending's limitations, or struggles to create complex calculated fields.
+
+**Common Interview Pitfalls/Misconceptions:** Using blending when a join is more appropriate and efficient. Not understanding that blending aggregates data *before* combining, which can lead to unexpected results if not handled carefully.
+
+## Data Visualization Best Practices
+
+### Chart Selection, Color, and Clarity
+
+**Definition:**
+*   **Chart Selection:** The deliberate choice of a visualization type (e.g., bar chart, line chart, scatter plot) that most effectively and accurately communicates the intended message or insight from the data.
+*   **Color:** The strategic use of hues, saturation, and lightness to highlight key information, differentiate categories, or represent quantitative values, while ensuring accessibility and avoiding misinterpretation.
+*   **Clarity:** The overall ease with which a viewer can understand the data and insights presented in a visualization, achieved through thoughtful design, minimal clutter, and intuitive labeling.
+
+**Key Distinction:** Effective visualization goes beyond merely displaying data; it aims to facilitate understanding and decision-making. The distinction lies in moving from simply showing data to *telling a story* with data. This involves understanding the audience and the purpose (exploratory vs. explanatory).
+
+**Practical Interview-Level Detail:** A strong candidate can justify their chart choices based on data type (categorical, ordinal, quantitative) and the relationship being shown (comparison, distribution, composition, trend, relationship). They should discuss the use of pre-attentive attributes (color, size, shape, position) to guide the viewer's eye. For color, they should mention sequential, diverging, and categorical palettes, accessibility considerations (color blindness), and avoiding excessive or clashing colors. Clarity involves maximizing the data-ink ratio, using clear titles and labels, providing context, and avoiding unnecessary visual elements (chart junk).
+
+**Strong vs. Weak Answers:**
+*   **Strong:** Can articulate the "why" behind design choices, demonstrates an understanding of cognitive load, provides examples of good and bad practices, and considers the target audience and message. Can critique a given visualization effectively.
+*   **Weak:** Focuses on aesthetics over function, uses default settings without thought, or struggles to explain the rationale behind common best practices.
+
+**Common Interview Pitfalls/Misconceptions:** Prioritizing "pretty" over "effective." Using 3D charts or pie charts for inappropriate data. Ignoring accessibility or color psychology. Overloading a visualization with too much information.
+
+## OLAP Concepts
+
+**Definition:**
+**Online Analytical Processing (OLAP)** is a

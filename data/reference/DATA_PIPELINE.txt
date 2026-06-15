@@ -1,0 +1,116 @@
+# DATA_PIPELINE — Reference Document (Source: Gemini 2.5 Flash)
+
+## DATA_PIPELINE Competency Reference (Role: Data Engineer)
+
+This document outlines key competencies for Data Engineers in designing, building, and maintaining robust data pipelines. A strong candidate demonstrates not only theoretical knowledge but also practical application, understanding trade-offs, and anticipating operational challenges.
+
+## ETL vs ELT
+
+**Definition:**
+*   **ETL (Extract, Transform, Load):** The traditional approach where data is extracted from sources, transformed (cleaned, aggregated, enriched) in a staging area, and then loaded into a target data warehouse or data mart. Transformation occurs *before* loading into the final destination.
+*   **ELT (Extract, Load, Transform):** A modern paradigm where data is extracted from sources, loaded *raw* into a scalable data lake or data warehouse, and then transformed *within* the destination using its processing capabilities.
+
+**Key Distinctions & Practical Detail:**
+The primary distinction lies in *where* and *when* the transformation occurs.
+*   **ETL:** Favored when target systems have limited processing power, or strict schema-on-write requirements. Transformations are often performed on dedicated ETL servers.
+*   **ELT:** Enabled by powerful, columnar, cloud-native data warehouses (e.g., Snowflake, BigQuery, Redshift) and data lakes (e.g., S3, ADLS Gen2) that can efficiently store vast amounts of raw data and perform complex transformations at scale.
+    *   **Advantages of ELT:**
+        *   **Flexibility:** Raw data is always available, allowing for schema evolution and new analytical use cases without re-extracting.
+        *   **Performance:** Leverages the target DWH's parallel processing for transformations.
+        *   **Simplicity:** Reduces the need for separate transformation infrastructure.
+        *   **Data Lineage:** Easier to trace data back to its original raw form.
+    *   **Disadvantages of ELT:** Requires a robust, scalable data warehouse and careful management of raw data.
+
+**Strong Candidate:** Discusses the shift from ETL to ELT driven by cloud computing, the benefits of retaining raw data, and how ELT supports agile analytics and multiple downstream consumers. They can articulate scenarios where ETL might still be preferred (e.g., highly sensitive data requiring pre-load anonymization, legacy systems).
+**Pitfall:** Only knowing the definitions without understanding the architectural implications or the role of modern data platforms.
+
+## Batch vs Micro-batch vs Streaming
+
+**Definition:**
+*   **Batch Processing:** Data is collected and processed in large volumes at scheduled intervals (e.g., daily, hourly). High latency, high throughput.
+*   **Micro-batch Processing:** A hybrid approach where data is collected into small batches over short intervals (e.g., seconds to minutes) and then processed. Lower latency than batch, but not true real-time.
+*   **Streaming Processing:** Data is processed continuously, record-by-record, as it arrives. Lowest latency, highest complexity.
+
+**Trade-offs & Practical Detail:**
+The choice depends on latency requirements, data volume, complexity, and cost.
+*   **Batch:** Suitable for historical analysis, reporting, and non-time-sensitive tasks. Simpler to implement, cost-effective for large volumes. Tools: Apache Spark Batch, Hadoop MapReduce.
+*   **Micro-batch:** Good for near real-time dashboards or operational analytics where a few seconds of latency is acceptable. Offers a balance between latency and complexity. Tools: Apache Spark Streaming (often implemented as micro-batch).
+*   **Streaming:** Essential for real-time applications like fraud detection, personalized recommendations, IoT analytics. Requires robust, fault-tolerant systems. Tools: Apache Flink, Kafka Streams, Apache Storm.
+
+**Strong Candidate:** Connects processing modes to specific business use cases and data freshness requirements. They can explain the operational overhead and architectural differences (e.g., state management in streaming, exactly-once semantics).
+**Pitfall:** Confusing micro-batch with true streaming, or not understanding the increased complexity and cost associated with lower latency.
+
+## Apache Airflow
+
+**Definition:** Airflow is an open-source platform to programmatically author, schedule, and monitor workflows (DAGs). It's primarily an orchestrator, not a data processing engine.
+
+**Key Concepts & Practical Detail:**
+*   **DAG Definition:** A Directed Acyclic Graph, defined in Python, representing a workflow. It specifies tasks and their dependencies.
+*   **Operators:** Building blocks of DAGs, encapsulating a unit of work.
+    *   **PythonOperator:** Executes arbitrary Python callables. Ideal for custom logic.
+    *   **BashOperator:** Executes shell commands. Useful for running scripts or interacting with CLI tools.
+    *   **Sensors:** Special operators that wait for a certain condition to be met (e.g., file arrival, database record, external API response) before downstream tasks can run.
+*   **Scheduling:** Defined by `schedule_interval` (cron-like string or timedelta) and `start_date`. Airflow runs DAGs for each interval *after* the interval has passed. `catchup=True` allows Airflow to run missed DAG runs.
+*   **XCom (Cross-Communication):** A mechanism for tasks to exchange small amounts of metadata (e.g., file paths, IDs). Not designed for large data transfer.
+*   **Task Dependencies:** Defined using bitshift operators (`>>`, `<<`) or `set_upstream`/`set_downstream` methods to specify execution order.
+*   **Backfill:** Rerunning a DAG for past `schedule_interval`s, typically for historical data processing or recovery.
+
+**Strong Candidate:** Demonstrates understanding of Airflow's role as an orchestrator, not a processing engine. They discuss best practices like modular DAGs, using `ExternalTaskSensor` for cross-DAG dependencies, and managing secrets. They understand the importance of making tasks idempotent for retries and backfills.
+**Pitfall:** Using XCom for large data, performing heavy data processing directly within Airflow tasks (instead of delegating to Spark/dbt/etc.), or not understanding the `schedule_interval` and `start_date` interaction.
+
+## Change Data Capture (CDC)
+
+**Definition:** CDC is a set of software design patterns used to determine and track changes to data so that actions can be taken using the changed data.
+
+**Types & Practical Detail:**
+*   **Log-based CDC:** Reads the database's transaction logs (e.g., PostgreSQL WAL, MySQL binlog, SQL Server transaction log). This is generally preferred.
+    *   **Advantages:** Non-intrusive (no impact on source application performance), captures all changes (inserts, updates, deletes), provides transaction order.
+    *   **Disadvantages:** Requires specific database configurations, parsing logs can be complex, schema evolution handling.
+*   **Trigger-based CDC:** Uses database triggers to record changes into a separate shadow table.
+    *   **Advantages:** Database-agnostic, simpler to implement for basic cases.
+    *   **Disadvantages:** Performance overhead on the source database, potential for missed changes if triggers fail, increased database complexity.
+*   **Debezium:** An open-source distributed platform for log-based CDC. It provides a set of Kafka Connect connectors that monitor specific database systems, capturing row-level changes and streaming them to Kafka topics.
+
+**Strong Candidate:** Explains why log-based CDC is generally superior for production systems due to its non-intrusive nature and completeness. They can discuss the challenges of CDC (e.g., schema changes, managing offsets, ensuring exactly-once delivery with Kafka).
+**Pitfall:** Not knowing the underlying mechanisms of CDC or the significant performance implications of trigger-based approaches.
+
+## Data Quality Checks in Pipelines
+
+**Definition:** Processes and tools integrated into data pipelines to ensure the accuracy, completeness, consistency, validity, uniqueness, and timeliness of data.
+
+**Tools & Practical Detail:**
+*   **Great Expectations:** An open-source framework for data validation, documentation, and profiling. It allows users to define "Expectations" (assertions about data) in a declarative way, generating data quality reports and data documentation.
+    *   **Use Cases:** Validating raw data upon ingestion, checking transformed data before loading into final tables, profiling new datasets.
+*   **dbt (data build tool) tests:** dbt allows defining tests (SQL queries that return zero rows for success) directly within the transformation layer.
+    *   **Built-in Tests:** `unique`, `not_null`, `accepted_values`, `relationships` (referential integrity).
+    *   **Custom Tests:** Any SQL query can be defined as a test.
+    *   **Use Cases:** Ensuring referential integrity post-transformation, validating business rules, checking data freshness.
+
+**Strong Candidate:** Discusses a multi-layered approach to data quality, applying checks at various stages (source, staging, transformation, final). They can differentiate between schema validation, referential integrity, value-based checks, and freshness checks. They emphasize proactive monitoring and alerting based on quality failures.
+**Pitfall:** Only mentioning basic `NOT NULL` checks without a systematic framework, or not understanding the importance of integrating quality checks directly into the pipeline lifecycle.
+
+## Error Handling and Retry Strategies
+
+**Definition:** Mechanisms implemented in pipelines to gracefully manage failures, prevent data loss, and ensure pipeline resilience.
+
+**Concepts & Practical Detail:**
+*   **Error Handling:**
+    *   **Logging:** Comprehensive logging of errors, warnings, and informational messages.
+    *   **Alerting:** Immediate notification to relevant teams (e.g., Slack, PagerDuty) upon critical failures or data quality breaches.
+    *   **Dead-Letter Queues (DLQs):** A separate queue where messages that cannot be processed successfully are sent for later inspection or reprocessing.
+    *   **Graceful Degradation:** Designing pipelines to continue functioning, possibly with reduced functionality or data freshness, during partial failures.
+*   **Retry Strategies:**
+    *   **Fixed Interval:** Retrying after a constant delay.
+    *   **Exponential Backoff:** Increasing the delay between retries exponentially (e.g., 1s, 2s, 4s, 8s). This is generally preferred for transient errors to avoid overwhelming the failing service.
+    *   **Jitter:** Adding a random component to the backoff delay to prevent "thundering herd" problems where many retries hit a service simultaneously.
+    *   **Max Retries:** Defining a maximum number of attempts before failing permanently.
+
+**Strong Candidate:** Differentiates between transient (network issues, temporary service unavailability) and permanent errors (bad data, code bugs). They discuss how retry strategies should be coupled with idempotency and circuit breakers to prevent cascading failures. They can explain how these are implemented in orchestration tools like Airflow (`retries`, `retry_delay`).
+**Pitfall:** Not distinguishing between error types, implementing naive retries that exacerbate problems, or lacking a comprehensive alerting strategy.
+
+## Idempotency Design
+
+**Definition:** An operation is idempotent if it can be applied multiple times without changing the result beyond the initial application. In data pipelines, this means running a task multiple times produces the same final state as running it once.
+
+**Importance & Practical Detail:**
+Idempotency is crucial for building robust, fault-tolerant data pipelines, especially when dealing

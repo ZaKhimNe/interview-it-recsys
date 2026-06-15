@@ -1,0 +1,223 @@
+[
+  {
+    "question_id": "GEN_DS_DEEP_LEARNING_001",
+    "question_text": "Bạn đang huấn luyện một mô hình CNN sâu (50+ layers) cho bài toán phân loại ảnh với dữ liệu huấn luyện hạn chế (10k ảnh). Mô hình bị overfit ngay từ epoch đầu, loss không giảm. Hãy liệt kê và giải thích chi tiết ít nhất 3 kỹ thuật training tricks khác nhau để khắc phục vấn đề này, bao gồm cả cơ chế hoạt động và điều kiện áp dụng cụ thể.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DEEP_LEARNING",
+      "DL_TRAINING"
+    ],
+    "skill_tags": [
+      "DL_TRAINING"
+    ],
+    "answers": {
+      "detailed": "When training a deep CNN (50+ layers) on limited data (10k images), the core problems are: (1) **vanishing gradients** in deep networks making optimization difficult, and (2) **insufficient data diversity** leading to overfitting. Here are three key techniques addressing different aspects:\n\n**1) Gradient Clipping + Learning Rate Warmup**\n- **Mechanism**: Gradient clipping caps gradient norms (e.g., `||g|| > threshold → g := threshold * g/||g||`) to prevent exploding gradients. Warmup gradually increases learning rate from 0 to target over initial epochs, stabilizing early training.\n- **Why it helps deep networks**: In 50+ layers, small gradients multiply through many chain rule operations (exponential decay), while occasional large gradients can cause instability. Warmup prevents large updates from destroying learned features in shallow layers.\n- **Specific condition**: Critical when batch size is small (<32), as gradient variance is high. Less necessary with large batch sizes where gradient estimation is more stable.\n- **Limitation**: Does NOT directly solve vanishing gradients; it only prevents their oscillation. Consider pairing with ResNets (skip connections enable gradient flow).\n\n**2) Mixup / CutMix Data Augmentation**\n- **Mechanism**: Mixup creates synthetic samples: `x' = λ*x_i + (1-λ)*x_j` and `y' = λ*y_i + (1-λ)*y_j` where λ ~ Beta(α, α). CutMix cuts and pastes regions between images.\n- **Why it reduces overfitting**: Unlike standard augmentation (rotation, crop), Mixup enforces *smoother decision boundaries* between classes. The network cannot memorize individual samples; it must learn generalizable features. With only 10k images, this synthetic data diversity is crucial.\n- **Specific condition**: Requires sufficient GPU memory for online generation. Works best when original dataset has clear semantic boundaries (e.g., object classification); less effective for fine-grained tasks with ambiguous labels.\n- **Trade-off**: Label smoothing (soft targets) emerges naturally, which can hurt calibration on out-of-distribution data.\n\n**3) Stochastic Depth (Layer Drop)**\n- **Mechanism**: During training, randomly drop entire residual blocks with probability p (e.g., 20%), making skip connections the only path. Blocks are reactivated at inference.\n- **Why it's powerful for deep networks**: (a) Acts as implicit ensemble of shorter networks, reducing effective depth and alleviating vanishing gradients. (b) Gradients can flow directly through skip connections even when blocks are dropped, improving gradient propagation. (c) Reduces parameters effectively used, mimicking regularization.\n- **Specific condition**: **Only applicable to architectures with skip connections** (ResNet, EfficientNet). Does NOT work with VGG or plain CNNs.\n- **Comparison to Dropout**: Dropout operates at neuron level (causes sparse activations), while Stochastic Depth drops entire blocks (maintains structural integrity, better gradient flow). More effective for very deep networks (50+).\n\n**Alternative approach to consider: Transfer Learning**\nGiven 10k training images and 50+ layers, training from scratch risks severe overfitting despite regularization. Fine-tuning a pre-trained ResNet-50 (ImageNet weights) would be more sample-efficient: freeze early layers (pre-learned features) and only fine-tune later layers + classifier, reducing effective parameters and dramatically lowering overfitting risk.\n\n**Recommended application order**:\n1. **Start with Transfer Learning** (if pre-trained weights available) or **ResNet with skip connections** (enables Stochastic Depth).\n2. **Apply Mixup/CutMix** immediately (data-level, zero computational overhead).\n3. **Add Stochastic Depth** (p=0.1-0.2 for shallow layers, higher for deeper).\n4. **Use Gradient Clipping + Warmup** if training from scratch with small batch sizes.\n5. **Monitor validation loss**: if still overfitting, add Dropout (0.3-0.5) on fully-connected layers or Label Smoothing (ε=0.1).",
+      "evaluation_points": [
+        "Explain the ROOT CAUSE of the problem: does overfit stem from vanishing gradients (deep network training difficulty) or insufficient regularization due to limited data? How does each technique address different root causes?",
+        "For Gradient Clipping + Learning Rate Warmup: clarify HOW these specifically mitigate vanishing/exploding gradients in 50+ layer networks and why warmup is necessary (not just 'stabilize gradient'). Distinguish from other gradient management techniques.",
+        "For Mixup/CutMix: explain why linear interpolation reduces overfitting compared to standard augmentation (e.g., it enforces smoother decision boundaries, prevents memorization). Discuss the trade-off: does it work well with limited data, or does it require sufficient data diversity?",
+        "For Dropout/Stochastic Depth: quantify the difference—why is Stochastic Depth (block-level) more effective than layer-level Dropout for ResNets? Explain the interaction with skip connections (how do gradients flow through dropped blocks?)",
+        "For Label Smoothing: connect this to the actual problem—how does reducing model confidence prevent overfitting on 10k images? Discuss potential downsides (worse calibration on out-of-distribution data).",
+        "Missing consideration: Should the candidate mention transfer learning or model scaling strategies (e.g., EfficientNet scaling) as alternatives, and why they might be superior to training from scratch with limited data?",
+        "Practical prioritization: which technique should be applied FIRST given 10k images and 50+ layers, and in what order (e.g., data augmentation before regularization)?"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DEEP_LEARNING_003",
+    "question_text": "Thiết kế một kiến trúc CNN dựa trên ý tưởng của DenseNet và EfficientNet để giải quyết bài toán phân loại ảnh y tế (ví dụ: phát hiện khối u từ MRI) với yêu cầu: độ chính xác cao nhưng số tham số giới hạn dưới 10 triệu. Bạn sẽ kết hợp các đặc điểm nào từ hai kiến trúc này? Giải thích lý do cho từng lựa chọn và cách bạn xử lý trade-off giữa độ sâu và độ rộng của mạng.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DEEP_LEARNING",
+      "DL_CNN"
+    ],
+    "skill_tags": [
+      "DL_CNN"
+    ],
+    "answers": {
+      "detailed": "DenseNet's dense connections and EfficientNet's compound scaling both address parameter efficiency, but through different mechanisms. Proposed hybrid architecture: (1) **MBConv as base block** (EfficientNet): Depthwise separable convolutions reduce parameters by decoupling spatial and channel-wise learning—critical for medical imaging where each MRI slice must preserve fine diagnostic details. (2) **Dense connections within stages** (DenseNet): Unlike ResNet's additive skip connections, dense connections concatenate all previous feature maps, enabling 'feature reuse' and dramatically improving gradient flow in deeper networks. This is crucial for medical imaging with limited training data, as gradients can propagate from output directly to shallow layers, reducing vanishing gradient risk and allowing effective training of deeper networks without degradation. (3) **Modified compound scaling**: Rather than scaling all three dimensions (depth, width, resolution), we keep input resolution fixed at the medical imaging standard (e.g., 224×224 or 256×256) to preserve diagnostic information, then jointly scale depth and width in controlled ratio (e.g., depth×1.2, width×1.1 per scaling stage) to stay under 10M parameters. **Trade-off handling**: Increasing depth expands receptive field, enabling the network to capture larger tumor contexts and hierarchical features, but risks overfitting on small medical datasets. Dense connections mitigate this by enabling feature reuse—shallow layers contribute directly to deeper predictions, reducing redundancy. Width scaling alone would bloat parameters; MBConv's efficiency means we gain expressiveness per added parameter. For this domain, slightly favor depth over width since medical features are hierarchical (edges→textures→tumor patterns). **Expected parameters**: ~8-9M with 3-4 dense blocks, each containing 4-5 MBConv layers (expansion ratio 4-6). **Additional safeguards**: Implement strong regularization (dropout 0.3-0.4 in dense blocks, label smoothing) and validate receptive field size matches tumor sizes in target MRI datasets.",
+      "evaluation_points": [
+        "Explain *how* dense connections improve gradient flow in deep networks and why this is particularly valuable for medical imaging tasks with limited data (avoiding vanishing gradients similar to ResNet's skip connections)",
+        "Justify the choice to keep resolution fixed for medical images: discuss how receptive field grows with depth/pooling and why maintaining input resolution preserves diagnostic information from MRI scans",
+        "Quantify the parameter efficiency trade-off: show concrete comparison of parameter counts when scaling depth vs width, and explain why dense connections scale better than naive depth increase",
+        "Address overfitting risk in medical imaging domain: specify regularization techniques (dropout rates, batch normalization in MBConv) needed when working with smaller annotated medical datasets",
+        "Discuss receptive field design: ensure network receptive field is large enough to capture tumor context but controlled enough to avoid losing fine diagnostic details",
+        "Compare this hybrid approach against pure DenseNet and pure EfficientNet on medical imaging benchmarks: what would be the expected trade-offs?"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DEEP_LEARNING_005",
+    "question_text": "Bạn đang xây dựng hệ thống unsupervised deep learning để phát hiện bất thường (anomaly detection) trên dữ liệu video giám sát. Dữ liệu huấn luyện chỉ gồm các video bình thường (không có bất thường). Hãy thiết kế một giải pháp dựa trên autoencoder kết hợp với các kỹ thuật unsupervised learning nâng cao (ví dụ: contrastive learning, memory-augmented autoencoder). Giải thích cách bạn huấn luyện, cách phát hiện anomaly, và cách xử lý các trường hợp edge case như nhiễu camera hoặc thay đổi ánh sáng.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DEEP_LEARNING",
+      "DL_UNSUPERVISED"
+    ],
+    "skill_tags": [
+      "DL_UNSUPERVISED"
+    ],
+    "answers": {
+      "detailed": "Giải pháp: (1) Dùng memory-augmented autoencoder (MemAE) với một memory bank chứa các prototype vectors học từ dữ liệu bình thường. Khi encode, thay vì reconstruct trực tiếp, model dùng attention để lấy weighted combination từ memory, buộc reconstruction chỉ dùng các pattern bình thường. (2) Kết hợp contrastive learning: dùng SimCLR-style loss trên các frame để học embedding phân biệt, giúp memory bank lưu trữ các đặc trưng đa dạng hơn. Huấn luyện: dùng reconstruction loss (MSE) + contrastive loss (NT-Xent) + entropy regularization để khuyến khích attention sparse. Phát hiện anomaly: dùng reconstruction error + memory attention entropy (anomaly thường có attention phân tán). Xử lý edge case: (a) Nhiễu camera: thêm augmentation (Gaussian noise, blur) trong huấn luyện để model robust. (b) Thay đổi ánh sáng: dùng frame differencing hoặc optical flow features thay vì raw pixel. (c) Nếu anomaly quá giống normal (ví dụ: người đi bộ bình thường nhưng đi sai hướng): dùng temporal memory (LSTM trên sequence) để capture context.",
+      "evaluation_points": [
+        "Thiết kế kiến trúc chi tiết: memory-augmented autoencoder kết hợp contrastive learning, có cơ chế attention",
+        "Giải thích cách huấn luyện và phát hiện anomaly: reconstruction error + memory entropy",
+        "Xử lý edge case cụ thể: nhiễu (augmentation), ánh sáng (feature engineering), anomaly tinh tế (temporal context)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DEEP_LEARNING_006",
+    "question_text": "Bạn đang huấn luyện một mô hình CNN cho bài toán phân loại ảnh, nhưng quá trình huấn luyện bị dao động loss mạnh và không hội tụ. Hãy so sánh ưu nhược điểm của việc sử dụng Batch Normalization so với Layer Normalization trong trường hợp này, và giải thích tại sao bạn chọn kỹ thuật nào?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DEEP_LEARNING",
+      "DL_CNN",
+      "DL_TRAINING"
+    ],
+    "skill_tags": [
+      "DL_TRAINING",
+      "DL_CNN"
+    ],
+    "answers": {
+      "detailed": "Batch Normalization (BN) chuẩn hóa theo batch dimension, giảm internal covariate shift bằng cách ổn định phân phối đầu vào của mỗi lớp, cho phép learning rate lớn hơn và tăng tốc độ hội tụ. Tuy nhiên, BN phụ thuộc vào ước lượng mean/variance từ batch hiện tại; với batch nhỏ (<=8), các ước lượng này không ổn định, gây dao động loss. Layer Normalization (LN) chuẩn hóa theo feature dimension độc lập trên từng mẫu, không phụ thuộc batch size, nhưng hiệu quả kém hơn BN trên CNN vì không tận dụng thông tin thống kê từ nhiều mẫu. Trong CNN với batch size vừa phải (>=16), BN là lựa chọn ưu tiên. Nếu batch nhỏ (<=8), hãy cân nhắc Group Normalization (GN) thay vì LN—GN chia channels thành groups và chuẩn hóa trong mỗi group, kết hợp lợi thế của BN và LN. Thêm vào đó, áp dụng warmup learning rate và kiểm chứy rằng BN ở chế độ eval() khi inference để tránh biến động.",
+      "evaluation_points": [
+        "Correctly explain the normalization dimension (batch vs. feature) and how it affects gradient propagation during backpropagation",
+        "Discuss internal covariate shift reduction and its impact on effective learning rate stability",
+        "Address the trade-off: BN's dependency on batch statistics (running mean/variance) vs. LN's independence, including implications for inference phase",
+        "Explain why batch size threshold (<=8 vs. >=16) matters quantitatively—how variance estimation degrades with small batches",
+        "Mention Group Normalization (GN) as a practical alternative for CNNs with small batches, bridging BN and LN advantages",
+        "Provide concrete debugging steps: verify batch size, check if using BN during inference correctly (eval mode), consider warmup strategy to stabilize early training"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DEEP_LEARNING_008",
+    "question_text": "Bạn đang thiết kế một kiến trúc CNN mới cho bài toán phân loại ảnh vệ tinh với độ phân giải cao (5000x5000 pixel). Yêu cầu: mô hình phải xử lý được kích thước ảnh lớn mà không làm tăng quá nhiều bộ nhớ, đồng thời giữ được độ chính xác cao. Hãy đề xuất và giải thích cách kết hợp các kỹ thuật như depthwise separable convolution, dilated convolution, và global average pooling để đạt mục tiêu. Phân tích trade-off giữa độ chính xác và chi phí tính toán cho từng kỹ thuật.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DEEP_LEARNING",
+      "DL_CNN",
+      "DL_TRAINING"
+    ],
+    "skill_tags": [
+      "DL_CNN",
+      "DL_TRAINING"
+    ],
+    "answers": {
+      "detailed": "To design an efficient CNN for high-resolution satellite imagery classification (5000x5000 pixels), integrate depthwise separable convolution, dilated convolution, and global average pooling as follows:\n\n**Depthwise Separable Convolution:**\nSeparates standard convolution into depthwise (spatial filtering per channel, 9 params for 3x3) and pointwise (1x1 channel mixing, C*K params for K output channels). For a standard 3x3 conv with C input and K output channels: 9*C*K params → 9*C + C*K params (~8x reduction for C=K=64). Trade-off: reduces FLOPs and memory significantly but slightly weakens channel interactions; most suitable in deeper layers where channel dependencies are already partially learned by earlier layers.\n\n**Dilated Convolution:**\nExpands receptive field by spacing kernel elements (e.g., 3x3 kernel with dilation=2 sees a 5x5 region without increasing parameters). Use multiple dilation rates (2, 4, 6) stacked in middle layers to capture multi-scale context needed for satellite objects (buildings, roads, vegetation) without spatial resolution loss that stride-based pooling causes. Trade-off: can introduce gridding artifacts if rates are not carefully chosen; solved by mixing dilation rates or ensuring dense coverage of receptive field.\n\n**Proposed Architecture:**\n- Early layers (1-3): Standard 3x3 convolutions (preserve fine spatial detail for texture/edge detection)\n- Middle layers (4-6): Depthwise separable convolutions with dilated convolutions (dilation rates 2, 4) to expand receptive field while reducing parameters—this is key for handling 5000x5000 without memory explosion\n- Late layers (7-8): Dilated depthwise separable convolutions (dilation=1) + Global Average Pooling → fully connected classification head\n\n**Global Average Pooling:**\nReplaces spatial dimensions with single values per channel, eliminating fully connected layers. Reduces overfitting, removes ~1M parameters per FC layer, and enforces spatial translation invariance. Trade-off: loses fine spatial localization; acceptable for image-level classification but not suitable for dense prediction tasks (segmentation).\n\n**Trade-off Analysis:**\n- Depthwise Separable: 8x parameter reduction, ~6x FLOPs reduction, but 1-3% potential accuracy drop due to reduced channel expressiveness\n- Dilated Conv: Receptive field grows without stride penalties (preserves resolution longer), no parameter increase, but requires careful dilation rate selection to avoid gridding; multi-rate design adds minor computational overhead (~15% FLOPs vs. single rate)\n- Global Average Pooling: Complete elimination of spatial information (risk if location-based features critical), but 99% parameter reduction in classification head; mitigated by using spatial pyramid pooling (multiple pooling sizes) if location information matters\n\n**Practical Consideration for 5000x5000 Input:**\nDirect processing may exceed memory; implement one of: (1) patch-based processing (512x512 patches with overlap, aggregate predictions), (2) progressive resizing during training (start at 1024x1024, gradually increase), or (3) hierarchical feature pyramid. Depthwise separable + dilated convolution reduces per-layer memory ~12x, making patch-free training feasible with batch size 4-8 on modern GPUs.",
+      "evaluation_points": [
+        "Explain the mathematical basis of depthwise separable convolution (depthwise: spatial filtering per channel; pointwise: 1x1 convolution for channel interaction) and quantify parameter reduction (e.g., standard conv with K filters of size 3x3 on C channels = 9*C*K params; depthwise separable = 9*C + C*K params)",
+        "Justify the placement of dilated convolution in middle layers: discuss how dilation rate (e.g., rate=2,4,6) creates multi-scale receptive fields without stride, and explain why stacking multiple dilation rates (atrous spatial pyramid pooling concept) prevents gridding artifacts better than single dilation rates",
+        "Propose concrete architectural design: specify which blocks use depthwise separable vs. standard convolution, where dilated convolutions appear, and how receptive field grows across depths relative to the 5000x5000 input—demonstrate understanding of hierarchical feature extraction for satellite imagery (low-level texture → mid-level object parts → high-level semantic classes)",
+        "Quantify trade-offs with specific scenarios: e.g., 'depthwise separable reduces MACs by ~8x but may lose 1-3% accuracy on fine-grained features; dilated conv preserves receptive field with dilation=2 at half computational cost vs. stride-2 pooling but requires careful rate selection to avoid artifacts'",
+        "Discuss practical considerations for 5000x5000 inputs: batch size constraints, multi-scale pyramid processing (image tiling or progressive resizing), and whether patching strategies or hierarchical approaches are preferable to direct downsampling",
+        "Address spatial information loss with GAP: explain when GAP is appropriate (large global classes in satellite imagery) versus when spatial pyramid pooling or feature map attention mechanisms better preserve discriminative location-based information"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DEEP_LEARNING_010",
+    "question_text": "Bạn đang xây dựng một hệ thống unsupervised deep learning để phát hiện bất thường (anomaly detection) trên dữ liệu video giám sát. Dữ liệu huấn luyện chỉ gồm các video bình thường (không có bất thường). Hãy thiết kế một giải pháp dựa trên autoencoder kết hợp với các kỹ thuật unsupervised learning nâng cao (ví dụ: contrastive learning, memory-augmented autoencoder). Giải thích cách bạn huấn luyện, cách phát hiện anomaly, và cách xử lý các trường hợp edge case như nhiễu camera hoặc thay đổi ánh sáng.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DEEP_LEARNING",
+      "DL_TRAINING",
+      "DL_UNSUPERVISED"
+    ],
+    "skill_tags": [
+      "DL_UNSUPERVISED",
+      "DL_TRAINING"
+    ],
+    "answers": {
+      "detailed": "Thiết kế: Dùng memory-augmented autoencoder (MemAE) với một memory bank lưu trữ các latent codes của dữ liệu bình thường. Memory bank ngăn chặn mode collapse và đảm bảo chỉ dùng những patterns bình thường để tái tạo. Kết hợp contrastive learning trên latent embeddings (không phải frame level) để tách biệt các biểu diễn của những video bình thường, sử dụng SimCLR-style augmentations (crop, flip, color jitter). Huấn luyện: 1) Áp dụng 3D convolutions để capture temporal context (receptive field mở rộng theo thời gian), giúp phân biệt chuyển động bình thường từ những thay đổi ánh sáng; 2) Joint loss function = reconstruction MSE + memory addressing regularization + contrastive loss trên latent codes; 3) Sử dụng learning rate warmup (vì joint training phức tạp) và cosine annealing decay để ổn định hội tụ; optimizer Adam được khuyên dùng vì thích ứng learning rate tự động cho các gradient scales khác nhau. Phát hiện anomaly: kết hợp (1) reconstruction error (MSE), (2) attention entropy (nếu anomaly, attention phân tán vì không match memory patterns), (3) temporal consistency (optical flow) để phát hiện chuyển động bất thường. Ngưỡng anomaly được đặt dựa trên percentile (e.g., top 5%) của training data thay vì giả định Gaussian cứng nhắc. Xử lý edge case: 1) Nhiễu camera: thêm Gaussian noise + blur augmentations trong training; dùng temporal consistency constraint (so sánh optical flow giữa frame liên tiếp) để loại bỏ nhiễu thống kê; 2) Thay đổi ánh sáng: dùng histogram equalization hoặc chuẩn hóa adaptive, kết hợp optical flow (chỉ phản ánh chuyển động thực, không phản ánh lighting) để phân biệt; 3) Trade-offs: max pooling có thể mất thông tin nhưng tạo translation invariance tốt hơn, average pooling giữ chi tiết nhưng nhạy cảm hơn với noise. Sử dụng max pooling ở early layers (catch edges), average ở deeper layers (reduce noise sensitivity). Computational cost: 3D convolutions gây overhead, nhưng memory bank giảm inference cost vì chỉ cần forward pass encoder + memory lookup.",
+      "evaluation_points": [
+        "Explains why memory-augmented autoencoder is superior to standard autoencoder for this task (e.g., how memory bank prevents mode collapse, why reconstruction error alone is insufficient for anomaly detection in video)",
+        "Justifies the combination of contrastive learning with MemAE: clarifies whether contrastive loss is applied to latent codes or frame embeddings, and how it complements reconstruction-based anomaly scoring",
+        "Discusses optimization strategy: learning rate scheduling (warmup, decay) and choice of optimizer (SGD with momentum vs. Adam) for training MemAE and contrastive loss jointly, including convergence considerations",
+        "Addresses the receptive field concept in temporal dimension: explains how temporal context (multi-frame receptive field via 3D convolutions or temporal convolutions) helps distinguish anomalies from lighting changes or camera noise",
+        "Proposes quantitative thresholding strategy for anomaly detection: how to set reconstruction error threshold robustly without labeled anomaly data (e.g., percentile-based, Gaussian assumption, or dynamic thresholding)",
+        "Analyzes trade-offs: max pooling vs. average pooling in feature extraction, and impact on anomaly sensitivity; discusses computational cost of MemAE vs. standard architectures (ResNet-based encoders)",
+        "Explains how augmentations (Gaussian noise, blur) during training provide regularization and prevent overfitting to spurious patterns, relating to generalization on unseen normal variations"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  }
+]

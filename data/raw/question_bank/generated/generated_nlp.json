@@ -1,0 +1,1248 @@
+[
+  {
+    "question_id": "GEN_DS_NLP_001",
+    "question_text": "Hãy định nghĩa kỹ thuật stemming và lemmatization trong tiền xử lý văn bản NLP. Cho ví dụ minh họa sự khác biệt giữa hai kỹ thuật này.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "NLP",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Stemming là quá trình loại bỏ hậu tố (affixes) để đưa từ về gốc thô (stem) dựa vào các quy tắc heuristic, mà không cần đảm bảo từ kết quả có nghĩa trong từ điển. Ví dụ: 'running' → 'run', 'flies' → 'fli' (không phải từ tiếng Anh hợp lệ). Lemmatization là quá trình đưa từ về dạng gốc từ điển (lemma) dựa vào phân tích hình thái học và ngữ cảnh (thường sử dụng POS tagging). Ví dụ: 'ran' → 'run', 'better' → 'good' (khi được nhận dạng là tính từ). \n\nSự khác biệt chính:\n1. Cơ chế: Stemming dùng quy tắc đơn giản (ví dụ: Porter Stemmer); Lemmatization sử dụng từ điển và morphological analysis.\n2. Độ chính xác: Stemming có thể tạo ra các từ không hợp lệ; Lemmatization luôn trả về từ có nghĩa.\n3. Tốc độ: Stemming nhanh hơn vì không cần lookup từ điển; Lemmatization chậm hơn do phụ thuộc vào POS tagging.\n4. Ứng dụng: Stemming phù hợp khi tốc độ là ưu tiên (ví dụ: full-text search); Lemmatization phù hợp khi độ chính xác là quan trọng (ví dụ: sentiment analysis, information extraction).",
+      "evaluation_points": [
+        "Định nghĩa chính xác stemming (quy tắc heuristic, không đảm bảo từ điển) và lemmatization (sử dụng từ điển + POS tagging)",
+        "Cung cấp ví dụ minh họa rõ ràng về sự khác biệt (ví dụ: stemming có thể tạo 'fli', 'automat' - từ không có nghĩa; lemmatization luôn trả về từ hợp lệ)",
+        "Giải thích được sự phụ thuộc của lemmatization vào POS tagging và ngữ cảnh, tại sao điều này quan trọng (ví dụ: 'better' → 'good' chỉ khi được nhận dạng là tính từ)",
+        "Phân tích được trade-offs: tốc độ vs. độ chính xác, độ phức tạp xử lý vs. chất lượng output",
+        "Đề cập được những trường hợp sử dụng thích hợp (stemming: khi tốc độ quan trọng hơn; lemmatization: khi cần độ chính xác cao)",
+        "Tránh nhầm lẫn giữa hai kỹ thuật hoặc không hiểu đúng vai trò của từ điển và morphological analysis"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_003",
+    "question_text": "Chỉ số F1-score được tính như thế nào? Giải thích tại sao F1-score thường được ưu tiên hơn accuracy trong các bài toán NLP như phân loại văn bản với dữ liệu mất cân bằng.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "NLP",
+      "NLP_EVALUATION"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "F1-score là trung bình điều hòa của precision và recall: F1 = 2 * (precision * recall) / (precision + recall), với Precision = TP/(TP+FP) và Recall = TP/(TP+FN). \n\nTrong NLP, dữ liệu thường mất cân bằng (spam detection, sentiment analysis, named entity recognition). Accuracy bị chi phối bởi lớp đa số—nếu 95% không spam, model đoán tất cả là không spam vẫn đạt 95% accuracy mặc dù hoàn toàn vô dụng. F1-score xem xét cả precision (độ chính xác của dự đoán dương) và recall (khả năng phát hiện tất cả lớp dương), phản ánh hiệu suất thực tế trên cả hai lớp.\n\nTuy nhiên, F1-score giả định chi phí FP và FN bằng nhau. Nếu chi phí không bằng nhau (e.g., medical diagnosis, security), nên dùng weighted F1 hoặc các metric khác. Với multi-class imbalanced, macro F1 hoặc weighted F1 thích hợp hơn.",
+      "evaluation_points": [
+        "Công thức F1-score chính xác và hiểu rõ các thành phần (TP, FP, FN)",
+        "Giải thích được hạn chế của accuracy với dữ liệu mất cân bằng (majority class bias)",
+        "Lý do F1-score tốt hơn: xem xét cả precision và recall, phù hợp với dữ liệu mất cân bằng",
+        "Nhận thức về các trường hợp sử dụng: F1-score phù hợp khi cần cân bằng giữa FP và FN, nhưng có thể không phù hợp nếu chi phí FP và FN không bằng nhau (e.g., medical diagnosis)",
+        "Biết về các biến thể: macro F1, weighted F1 cho bài toán multi-class mất cân bằng"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_005",
+    "question_text": "Kỹ thuật TF-IDF hoạt động như thế nào? Giải thích thành phần TF, IDF và mục đích của việc kết hợp chúng.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "NLP",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "TF-IDF = TF(t,d) × IDF(t). TF (Term Frequency) là tần suất xuất hiện của từ t trong văn bản d, thường được chuẩn hóa bằng log hoặc chia cho tổng từ để tránh bias với văn bản dài. IDF (Inverse Document Frequency) = log(N/df_t), với N là tổng số văn bản, df_t là số văn bản chứa từ t. Mục đích: TF tăng trọng số cho từ xuất hiện nhiều trong một văn bản cụ thể, IDF giảm trọng số cho từ phổ biến (stop words như 'và', 'của') vì chúng ít mang thông tin phân biệt. Kết hợp TF×IDF giúp xác định từ nào vừa quan trọng với văn bản cụ thể vừa hiếm gặp trong corpus—những từ discriminative nhất. Ứng dụng: information retrieval, document similarity, feature extraction cho text classification. Lưu ý: TF-IDF vẫn hoạt động trên Bag of Words nên không capture ngữ nghĩa hay word order; stop word list có thể phụ thuộc miền (domain-specific).",
+      "evaluation_points": [
+        "Công thức TF-IDF chính xác và giải thích đúng từng thành phần",
+        "Giải thích được mục đích: TF tăng trọng số từ quan trọng trong văn bản, IDF giảm trọng số từ phổ biến",
+        "Nêu được các biến thể của TF (raw count, log-normalized, binary) hoặc IDF (smooth IDF)",
+        "Thảo luận được ứng dụng (information retrieval, document similarity, text classification)",
+        "Hiểu được hạn chế: TF-IDF dựa trên BoW, không capture ngữ nghĩa hoặc word order",
+        "Nhận thức được tính chất context-dependent của stop words và cần danh sách domain-specific"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_007",
+    "question_text": "Bạn đang làm việc cho một công ty thương mại điện tử cần xây dựng hệ thống gợi ý sản phẩm dựa trên mô tả văn bản. Bạn phải chọn giữa hai kỹ thuật biểu diễn văn bản: TF-IDF và Word2Vec. Hãy so sánh ưu nhược điểm của từng kỹ thuật trong ngữ cảnh này và giải thích vì sao bạn chọn một trong hai.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "NLP",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "TF-IDF: Biểu diễn từ dựa trên tần suất và độ phổ biến trong corpus. Ưu điểm: đơn giản, tính toán nhanh, không cần huấn luyện, dễ triển khai hệ thống tìm kiếm thời gian thực. Nhược điểm: hoạt động trên nguyên lý BoW nên không hiểu ngữ nghĩa (ví dụ: 'xe hơi' và 'oto' không liên quan); tạo ra vector thưa thớt (sparse), tốn bộ nhớ khi corpus lớn; không bắt được từ đồng nghĩa.\n\nWord2Vec: Học vector từ dựa trên ngữ cảnh qua mạng neural. Ưu điểm: bắt được quan hệ ngữ nghĩa và tương tự (ví dụ: 'điện thoại thông minh' và 'smartphone' có vector gần nhau); vector mật độ cao (dense), hiệu quả bộ nhớ; cải thiện gợi ý chất lượng. Nhược điểm: yêu cầu corpus lớn để huấn luyện tốt; xử lý chậm hơn TF-IDF cho tìm kiếm thời gian thực; vấn đề cold-start với sản phẩm mới.\n\nVới e-commerce, tôi đề xuất: (1) Nếu số lượng sản phẩm nhỏ (<10K) và cần phản hồi nhanh: TF-IDF để lọc nhanh. (2) Nếu có corpus lớn và thời gian latency cho phép: Word2Vec hoặc pre-trained embeddings (FastText, multilingual BERT) để hiểu ngữ nghĩa. (3) Tối ưu: Kết hợp hybrid—dùng TF-IDF để candidate retrieval (top-1000), sau đó dùng Word2Vec để ranking cuối cùng, cân bằng tốc độ và chất lượng.\n\nChọn Word2Vec (hoặc pre-trained embeddings) cho gợi ý chính xác, nhưng phải đánh đổi với chi phí tính toán và yêu cầu dữ liệu; cân nhắc hybrid approach nếu hệ thống yêu cầu latency thấp.",
+      "evaluation_points": [
+        "Explains why TF-IDF fails to capture synonymy and semantic relationships (BoW limitation), not just states it",
+        "Discusses TF-IDF's computational efficiency and scalability advantages for real-time recommendation systems",
+        "Addresses sparse vector representation problem in TF-IDF vs. dense embeddings in Word2Vec (memory, indexing trade-offs)",
+        "Considers hybrid approaches: TF-IDF for initial filtering + Word2Vec for ranking, or pre-trained embeddings (FastText, BERT) to mitigate Word2Vec's cold-start data requirement",
+        "Acknowledges e-commerce specifics: product catalog size, need for fast retrieval, handling of rare/new products, domain-specific terminology",
+        "Discusses practical considerations: implementation cost, latency requirements, model maintenance, and when each technique becomes preferable"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_009",
+    "question_text": "Trong bài toán phân loại văn bản đa nhãn (multi-label classification), bạn sử dụng các chỉ số evaluation nào? Giải thích sự khác biệt giữa micro-averaged F1 và macro-averaged F1, và tình huống nào nên ưu tiên từng loại.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "NLP",
+      "NLP_EVALUATION"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Các chỉ số phổ biến cho multi-label classification: Hamming loss, precision/recall/F1 per label, micro-averaged F1, macro-averaged F1, và weighted F1.\n\n**Micro-averaged F1:** Tính tổng TP, FP, FN trên tất cả nhãn rồi tính F1 từ các tổng này. Metric này ưu tiên nhãn phổ biến vì chúng đóng góp nhiều vào tổng. Phù hợp khi tần suất xuất hiện của nhãn phản ánh tầm quan trọng thực tế.\n\n**Macro-averaged F1:** Tính F1 cho từng nhãn riêng lẻ rồi lấy trung bình không có trọng số. Điều này có nghĩa mỗi nhãn được coi như có tầm quan trọng bằng nhau, làm cho macro F1 NH민감hơn với hiệu suất trên nhãn thiểu số. Khi dữ liệu mất cân bằng mạnh (ví dụ: nhãn A chiếm 90%, nhãn B chiếm 10%), macro F1 sẽ phản ánh rõ nếu model hoạt động kém trên nhãn B, ngay cả khi micro F1 cao do nhãn A.\n\n**Weighted F1:** Tính F1 cho từng nhãn rồi lấy trung bình theo tỷ lệ hỗ trợ (support) của mỗi nhãn—cách tiếp cận trung gian.\n\n**Khi nào ưu tiên từng loại:** Dùng micro F1 nếu muốn đánh giá hiệu suất tổng thể và tần suất nhãn phản ánh giá trị thực tế. Dùng macro F1 khi tất cả nhãn đều quan trọng như nhau hoặc quan tâm đến hiệu suất trên nhãn thiểu số. Dùng weighted F1 khi cần cân bằng giữa hai tiếp cận này.",
+      "evaluation_points": [
+        "Correctly identify metrics for multi-label classification (Hamming loss, per-label P/R/F1, micro/macro F1, weighted F1)",
+        "Accurately explain the computational difference: micro F1 aggregates TP/FP/FN globally then calculates F1; macro F1 calculates per-label F1 then averages",
+        "Clarify that macro F1 is NOT insensitive to class imbalance—it weights all labels equally regardless of frequency, making it MORE sensitive to minority class performance",
+        "Discuss weighted F1 as a third option that balances between micro and macro approaches",
+        "Provide concrete guidance: use micro F1 when label frequency reflects real-world importance; use macro F1 when all labels have equal importance; use weighted F1 when proportional importance is needed"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_006",
+    "question_text": "Hãy giải thích khái niệm tokenization trong tiền xử lý văn bản NLP. Cho ví dụ cụ thể.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "NLP",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Tokenization là quá trình chia nhỏ văn bản thành các đơn vị nhỏ hơn gọi là token, có thể là từ, subword, hoặc ký tự. Ví dụ: Câu 'Tôi yêu NLP' có thể được tokenize thành ['Tôi', 'yêu', 'NLP'] (tokenization theo từ) hoặc ['T', 'ôi', ' ', 'yêu', ...] (tokenization theo ký tự). Tokenization giúp mô hình hiểu cấu trúc ngôn ngữ và là bước đầu tiên trong pipeline NLP. Các chiến lược khác nhau (whitespace-based, regex, subword tokenization như BPE hoặc WordPiece) có ảnh hưởng khác nhau đến việc xử lý từ ngoài từ điển (OOV), đặc biệt quan trọng đối với tiếng Việt và các ngôn ngữ phong phú hình thái. Lựa chọn tokenization cũng ảnh hưởng đến kích thước từ điển cuối cùng và hiệu suất của mô hình.",
+      "evaluation_points": [
+        "Định nghĩa chính xác tokenization và các loại token (từ, subword, ký tự)",
+        "Cung cấp ví dụ cụ thể và chính xác với ngôn ngữ tiếng Việt",
+        "Giải thích vai trò của tokenization trong pipeline NLP",
+        "Thảo luận về các chiến lược tokenization khác nhau (whitespace, punctuation-based, regex, subword tokenization như BPE, WordPiece)",
+        "Nhận thức về xử lý từ ngoài từ điển (OOV) và tầm quan trọng đối với các ngôn ngữ phong phú hình thái như tiếng Việt",
+        "Thấu hiểu tác động của các lựa chọn tokenization đối với kích thước từ điển và hiệu suất mô hình"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_008",
+    "question_text": "Chỉ số BLEU (Bilingual Evaluation Understudy) được dùng để đánh giá độ bao phủ (Recall) của văn bản được sinh ra bởi mô hình. Câu này đúng hay sai? Giải thích.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "NLP",
+      "NLP_EVALUATION"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Câu này sai. BLEU (Bilingual Evaluation Understudy) chủ yếu đo độ chính xác (Precision) dựa trên n-gram overlap giữa văn bản sinh ra và văn bản tham chiếu, không phải Recall. BLEU tính toán tỷ lệ n-grams trong output trùng khớp với reference text. Thành phần brevity penalty được thêm vào để penalize văn bản được sinh quá ngắn (dưới độ dài reference), nhưng bản chất vẫn là Precision-based metric. Điều này khác với ROUGE, một Recall-based metric đo xem bao nhiêu n-grams của reference xuất hiện trong output. Một hạn chế quan trọng của BLEU là nó không xét đến synonyms, cấu trúc ngữ pháp hay ngữ nghĩa, chỉ so khớp n-gram đơn thuần.",
+      "evaluation_points": [
+        "Nhận biết câu sai và chỉ ra BLEU đo Precision (n-gram overlap) thay vì Recall",
+        "Giải thích được brevity penalty là gì và tại sao nó cần thiết",
+        "Phân biệt rõ ràng giữa Precision-based metrics (BLEU) và Recall-based metrics (ROUGE)",
+        "Thảo luận hạn chế của BLEU: không xét synonym, cấu trúc văn pháp, hay ngữ nghĩa",
+        "Hiểu được tại sao BLEU sử dụng n-gram (unigram, bigram, trigram, 4-gram) và cách tính điểm composite"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_010",
+    "question_text": "Khi xây dựng mô hình phân loại văn bản, bạn cần xử lý văn bản tiếng Việt với các ký tự đặc biệt và stop words. Hãy liệt kê 3 bước tiền xử lý cơ bản và giải thích tại sao chúng quan trọng.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "NLP",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Ba bước tiền xử lý cơ bản cho tiếng Việt: (1) **Word Segmentation (Tách từ)**: Tiếng Việt không có dấu cách tự nhiên giữa các từ, vì vậy phải tách từ trước (dùng thư viện pyvi). Điều này là bước tiên quyết để nhận diện đúng ranh giới từ. (2) **Chuyển về chữ thường**: Chuẩn hóa dữ liệu, tránh trùng lặp từ do khác case (ví dụ: 'Sản phẩm' và 'sản phẩm' được coi là một). (3) **Loại bỏ ký tự đặc biệt và dấu câu**: Giảm nhiễu, giúp mô hình tập trung vào từ ngữ chính. (4) **Loại bỏ stop words (có điều kiện)**: Các từ phổ biến như 'và', 'của', 'là' thường không mang nhiều ý nghĩa và có thể giảm chiều dữ liệu. Tuy nhiên, phải cân nhắc ngữ cảnh - trong một số bài toán như phân tích cảm xúc, 'không' là stop word nhưng lại rất quan trọng. Khuyến nghị: xây dựng stop word list riêng cho miền bài toán thay vì dùng danh sách generic.",
+      "evaluation_points": [
+        "Liệt kê ít nhất 3 bước tiền xử lý phù hợp với tiếng Việt",
+        "Giải thích lý do từng bước một cách hợp lý và đề cập đến đặc thù của tiếng Việt (không có dấu cách tự nhiên giữa từ, yêu cầu word segmentation)",
+        "Nhấn mạnh tác động đến chất lượng mô hình và thảo luận về sự cân bằng giữa giảm nhiễu và mất thông tin (ví dụ: khi nào loại bỏ stop words có thể làm hại hiệu suất)",
+        "Thảo luận về tính phụ thuộc vào ngữ cảnh - một số stop words có thể quan trọng tùy theo miền (ví dụ: 'của' trong phân tích cú pháp, 'là' trong phân loại cảm xúc)",
+        "Đề cập tokenization/word segmentation riêng cho tiếng Việt là bước tiên quyết trước các bước khác"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_012",
+    "question_text": "Bạn đang làm việc cho một công ty thương mại điện tử và cần xây dựng mô hình phân loại cảm xúc (positive/negative) từ đánh giá sản phẩm. Bạn nhận thấy dữ liệu mất cân bằng (80% positive, 20% negative). Bạn nên chọn metric nào để đánh giá mô hình? Giải thích tại sao accuracy không phù hợp và so sánh với ít nhất một metric khác.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "NLP",
+      "NLP_EVALUATION"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Accuracy không phù hợp với dữ liệu mất cân bằng vì mô hình có thể đạt 80% accuracy chỉ bằng cách dự đoán tất cả là positive (dummy classifier), mà không bắt được bất kỳ negative nào—điều này không phù hợp với yêu cầu thực tế. Thay vào đó, nên sử dụng: **F1-score (harmonic mean của precision và recall)**: cân bằng tốt giữa precision (độ chính xác của dự đoán positive) và recall (tỉ lệ bắt đúng negative). F1 thích hợp khi muốn giải quyết cả false positive và false negative. **AUC-ROC**: đánh giá khả năng xếp hạng của mô hình qua các ngưỡng quyết định, không bị ảnh hưởng bởi ngưỡng cố định, hữu ích khi cần linh hoạt trong việc điều chỉnh precision/recall. Trong ngữ cảnh thương mại điện tử, nên xem xét: negative reviews cần được phát hiện chính xác (recall cao) để cải thiện sản phẩm, nhưng cũng không muốn misclassify positive reviews (precision cao). Confusion matrix và Precision-Recall curve cung cấp cái nhìn chi tiết hơn. Ngoài ra, kết hợp metrics này với class weights trong training hoặc resampling technique để tối ưu hoá mô hình hoàn toàn.",
+      "evaluation_points": [
+        "Clearly explain why accuracy fails: dummy classifier achieving 80% by predicting all positive demonstrates the pitfall",
+        "Define and compare F1-score, AUC-ROC, and Precision-Recall curve with specific trade-offs (F1 emphasizes minority class, AUC-ROC evaluates ranking across thresholds)",
+        "Discuss precision vs. recall trade-off in business context: false negatives (missing negative reviews) vs. false positives (incorrectly flagging positive reviews)",
+        "Address when to use each metric: F1 for balanced importance, AUC-ROC for ranking quality, or weighted metrics for asymmetric costs",
+        "Mention class weights or resampling techniques alongside metric selection as a complete solution"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_014",
+    "question_text": "Bạn cần xây dựng hệ thống gợi ý bình luận tự động cho một nền tảng mạng xã hội. Dữ liệu văn bản đầu vào rất đa dạng: có chứa emoji, viết tắt, lỗi chính tả, và code-switching (pha trộn ngôn ngữ). Hãy thiết kế pipeline tiền xử lý và chọn mô hình NLP phù hợp. Làm thế nào để đánh giá chất lượng bình luận sinh ra, đặc biệt khi không có ground truth? Xử lý edge case như văn bản quá ngắn (1-2 từ) hoặc chứa nội dung nhạy cảm?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "NLP",
+      "NLP_PREPROCESSING",
+      "NLP_EVALUATION"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Pipeline tiền xử lý: (1) Chuẩn hóa emoji thành semantic text (emoji → 'smiling face' hoặc sentiment tokens). (2) Xử lý viết tắt và slang bằng từ điển custom với priority rules. (3) Spell checker (SymSpell) với ngữ cảnh từ corpus mạng xã hội. (4) Code-switching: Sử dụng SentencePiece tokenizer (trong XLM-R) thay vì whitespace, vì nó tự động xử lý subword segmentation qua các ngôn ngữ mà không cần chuẩn hóa về một ngôn ngữ chính—bảo toàn ngữ cảnh tự nhiên. (5) Vocabulary management: Áp dụng min_df=2, max_df=0.8 để loại rare tokens và quá phổ biến tokens. Mô hình: Transformer-based (BART hoặc GPT-2 fine-tune) với XLM-R backbone cho đa ngôn ngữ; BART tốt hơn cho controlled generation. Đánh giá khi không có ground truth: (a) Metrics nội tại: perplexity (fluency), distinct-1/2/3 (diversity), BLEU vs template (relevance proxy). (b) User signals: track click-through rate, adoption, user edits trên suggestions. (c) Structured human evaluation: 100-sample mini-batch scored by 3 annotators trên rubric (fluency 1-5, relevance 1-5, safety 1-5), tính Krippendorff's alpha ≥ 0.6. (d) Adversarial testing: out-of-distribution checks. Edge case: Văn bản ngắn (<3 từ): dùng mẫu rule-based hoặc confidence threshold—chỉ suggest nếu model confidence > 0.7. Nội dung nhạy cảm: Pipeline gồm 2 stage—(i) toxic keyword filter (đen danh sách), (ii) classifier phụ (distilBERT fine-tune trên toxic corpus) reject output nếu toxicity score > 0.6, với human review loop cho grey zone.",
+      "evaluation_points": [
+        "Depth of tokenization strategy: Does candidate discuss subword tokenization (BPE, WordPiece, SentencePiece) for handling code-switching and OOV words in Vietnamese-English context, or merely mention spell-checking?",
+        "Vocabulary management: Can candidate explain how to handle emoji/abbreviation vocabularies, min_df/max_df thresholds, or vocabulary pruning for social media text to manage sparsity?",
+        "Evaluation rigor without ground truth: Beyond perplexity and diversity metrics, does candidate propose A/B testing frameworks, user engagement signals (likes, replies), or structured human evaluation protocols (inter-annotator agreement, rubrics)?",
+        "Tokenization impact on model choice: Does candidate recognize that transformer tokenizers (like SentencePiece in XLM-R) inherently handle code-switching better than whitespace tokenization, and connect this to pipeline design?",
+        "Edge case quantification: For short texts and sensitive content, does candidate propose specific thresholds, fallback strategies, or discuss the tradeoff between filtering aggressiveness and user experience?"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_011",
+    "question_text": "Stop words là gì? Tại sao chúng thường được loại bỏ trong tiền xử lý văn bản?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "NLP",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Stop words là các từ phổ biến như 'và', 'của', 'là', 'được'... mà không mang nhiều ý nghĩa ngữ nghĩa riêng biệt. Chúng thường được loại bỏ vì: (1) giảm nhiễu và cải thiện chất lượng dữ liệu, (2) giảm kích thước từ điển, (3) tăng hiệu suất mô hình. Tuy nhiên, cần lưu ý rằng tính 'stop word' phụ thuộc vào bối cảnh - ví dụ, từ 'apple' có thể là stop word trong dataset về trái cây nhưng rất quan trọng trong bài viết về tin công nghệ. Do đó, danh sách stop words nên được điều chỉnh theo từng miền ứng dụng (domain-specific).",
+      "evaluation_points": [
+        "Định nghĩa chính xác stop words (từ phổ biến mang ý nghĩa ngữ nghĩa thấp)",
+        "Giải thích lý do loại bỏ: giảm nhiễu, giảm kích thước từ điển, cải thiện hiệu suất",
+        "Ví dụ minh họa cụ thể (ví dụ: 'và', 'của', 'là', 'được')",
+        "Thảo luận tính phụ thuộc vào bối cảnh (context-dependency) - khi nào stop words lại có giá trị",
+        "Nhận xét về danh sách stop words phụ thuộc vào miền (domain-specific stop word lists)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_013",
+    "question_text": "Tokenization là gì? Hãy so sánh tokenization dựa trên khoảng trắng và tokenization dùng từ điển (ví dụ: WordPiece).",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "NLP",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Tokenization là quá trình chia văn bản thành các đơn vị nhỏ (token) có thể là từ, subword, hoặc ký tự.\n\n**Whitespace Tokenization:**\n- Chia đơn giản theo dấu khoảng trắng\n- Ưu điểm: dễ hiểu, tính toán nhanh\n- Nhược điểm: gặp vấn đề với từ hiếm (OOV), contractions ('don't' → 1 token), ngôn ngữ không dùng khoảng trắng (Trung, Nhật), vocabulary size lớn\n\n**WordPiece Tokenization:**\n- Xây dựng vocabulary dựa trên tần suất từ training data\n- Chia từ hiếm thành subwords quen thuộc (ví dụ: 'playing' → 'play' + '##ing')\n- Ưu điểm: giảm OOV rate, vocabulary size nhỏ hơn, xử lý từ hiếm hiệu quả hơn, cải thiện hiệu suất model\n- Nhược điểm: phức tạp hơn, cần training để xây dựng vocabulary\n\nWordPiece hiệu quả với từ hiếm vì nó có thể biểu diễn bằng các subwords phổ biến đã có trong vocabulary, thay vì coi là OOV.",
+      "evaluation_points": [
+        "Định nghĩa đúng tokenization và các loại token (word, subword, character)",
+        "So sánh chi tiết: whitespace tokenization đơn giản nhưng gặp vấn đề với OOV words, contractions, và ngôn ngữ không dùng khoảng trắng (tiếng Trung, Nhật)",
+        "Giải thích cơ chế WordPiece: xây dựng vocabulary dựa trên tần suất, có thể chia từ hiếm thành subwords quen thuộc (ví dụ: 'playing' → 'play' + '##ing')",
+        "So sánh ảnh hưởng: whitespace tạo vocabulary lớn với OOV rate cao; WordPiece giảm vocabulary size và OOV rate, cải thiện hiệu suất model",
+        "Đề cập các phương pháp subword khác (BPE, SentencePiece) và khi nào sử dụng từng loại"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_015",
+    "question_text": "Chỉ số Perplexity (PPL) là gì và nó được dùng để đánh giá mô hình ngôn ngữ như thế nào?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "NLP",
+      "NLP_EVALUATION"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Perplexity (PPL) đo lường độ 'bối rối' của mô hình khi dự đoán từ tiếp theo dựa trên ngữ cảnh. Công thức: PPL = exp(-1/N * Σ log P(w_i | context)) hoặc PPL = e^(Cross-Entropy). PPL càng thấp, mô hình càng tự tin và chính xác trong dự đoán; PPL cao cho thấy mô hình không chắc chắn. Nó được tính trên toàn bộ tập dữ liệu (test set) và phản ánh khả năng dự đoán chuỗi từ. Tuy nhiên, perplexity có hạn chế: nó không luôn tương ứng với chất lượng sinh văn thực tế hoặc độ hữu ích cho ứng dụng cuối cùng, vì vậy cần kết hợp với các metric khác như BLEU, ROUGE hoặc đánh giá con người.",
+      "evaluation_points": [
+        "Định nghĩa đúng perplexity là độ 'bối rối' và mối quan hệ với xác suất log",
+        "Giải thích PPL thấp = mô hình tự tin hơn, PPL cao = mô hình không chắc chắn",
+        "Liên hệ với Cross-Entropy Loss (PPL = e^(CE)) và ý nghĩa thống kê",
+        "Nhận diện perplexity là metric trên tập dữ liệu (test/val), không phải metric instance-level",
+        "Thảo luận về giới hạn: perplexity không phản ánh chất lượng sinh văn thực tế hoặc độ hữu ích cho ứng dụng cuối cùng",
+        "Đề cập các phương pháp đánh giá bổ sung (BLEU, ROUGE, human evaluation) để có đánh giá toàn diện"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_017",
+    "question_text": "Bạn đang làm việc cho một công ty thương mại điện tử cần xây dựng hệ thống phân loại cảm xúc (sentiment analysis) cho đánh giá sản phẩm. Dữ liệu có nhiều từ viết tắt, emoji và lỗi chính tả. Hãy thiết kế pipeline tiền xử lý văn bản để xử lý các vấn đề này, và giải thích cách bạn sẽ đánh giá hiệu suất mô hình cuối cùng với độ chính xác (accuracy) và F1-score.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "NLP",
+      "NLP_EVALUATION",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Pipeline tiền xử lý cho Vietnamese sentiment analysis: 1) Chuẩn hóa Unicode và chữ thường để đảm bảo consistency, 2) Thay thế emoji/emoticons bằng từ khóa có ý nghĩa ('😊' -> 'positive', 'ko' -> 'không') dùng từ điển được xây dựng sẵn, 3) Sửa lỗi chính tả bằng Levenshtein distance hoặc mô hình ngôn ngữ nhẹ, 4) Xác định xem sử dụng stemming hay lemmatization: với Vietnamese, lemmatization thường tốt hơn vì cần POS tagging để xử lý flexion chính xác, mặc dù chậm hơn, 5) Loại bỏ stop words một cách thận trọng (tránh xóa từ mang tính cảm xúc). Quan trọng: không nên over-normalize bằng cách xóa dấu câu hoặc ký tự đặc biệt nếu chúng mang tính cảm xúc (ví dụ: '!!!' hoặc '???'). Đánh giá: Dùng F1-score (macro) thay vì accuracy vì dữ liệu sentiment thường mất cân bằng (một lớp đánh giá chiếm ưu thế). Bổ sung Precision và Recall để hiểu rõ trade-off. Sử dụng stratified k-fold cross-validation để đảm bảo độ tin cậy. Riêng biệt: đánh giá chất lượng preprocessing trước khi training (manual review mẫu transformed text) để phát hiện vấn đề ngoài kỳ vọng.",
+      "evaluation_points": [
+        "Propose a reasonable preprocessing pipeline (at least 3 steps) with justification for Vietnamese language specifics",
+        "Explain handling of abbreviations, emoji, and spelling errors with concrete methods and their trade-offs",
+        "Discuss whether to apply stemming or lemmatization for Vietnamese and justify the choice (speed vs. accuracy)",
+        "Explain the risks of over-normalization (e.g., removing emotionally-charged characters or important context) and how to mitigate them",
+        "Justify metric selection (F1-score) with consideration of class imbalance, and explain why accuracy alone is insufficient",
+        "Describe cross-validation strategy and discuss potential data leakage between preprocessing and train/test splits",
+        "Explain how to evaluate the preprocessing pipeline independently before model training (e.g., manual review of transformed text quality)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_019",
+    "question_text": "Bạn đang triển khai mô hình Transformer cho bài toán dịch máy (machine translation). Kết quả cho thấy BLEU score cao nhưng chất lượng bản dịch thực tế kém, đặc biệt với câu dài và ngữ cảnh phức tạp. Hãy phân tích nguyên nhân và đề xuất cách cải thiện, bao gồm việc điều chỉnh preprocessing, mô hình hoặc metric đánh giá.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "NLP",
+      "NLP_EVALUATION"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân: 1) BLEU's limitation: chỉ dựa trên n-gram precision, không capture fluency, semantic equivalence, hoặc discourse cohesion—đặc biệt problematic với câu dài vì penalty tích lũy và reference bias. 2) Tokenization mismatch: từ hiếm/OOV không được xử lý tối ưu, làm model phải sinh <unk> tokens, giảm chất lượng. 3) Attention mechanism: multi-head attention trong Transformer gặp khó với dependency xa dài; positional encoding không đủ mạnh cho câu dài. Cải thiện: 1) Tiền xử lý: áp dụng BPE/WordPiece subword tokenization trên CẢ source và target để giảm vocabulary size và xử lý OOV—quan trọng cho ngôn ngữ morphologically rich. Tránh cắt câu dài nếu có discourse context quan trọng; nếu cắt, sử dụng context-aware splitting. 2) Mô hình: thay thế bằng Longformer hay Performer attention để xử lý sequence dài hiệu quả hơn; tăng hidden dimension thay vì chỉ tăng layer; áp dụng layer normalization variants (RMSNorm). Beam search width không phải solution chính—focus vào model capacity. 3) Đánh giá: BLEU lại khuyến cáo chỉ cho quick proxy. Kết hợp chrF (character-level, robust hơn với syntax), BERTScore (semantic similarity nhưng phụ thuộc pretrained model), và human evaluation on representative test cases (especially long/complex sentences). Theo dõi riêng BLEU trên câu dài vs. ngắn để diagnostic.",
+      "evaluation_points": [
+        "Depth of tokenization analysis: Does candidate explain WHY BPE/subword tokenization helps with rare words and morphologically complex language pairs (e.g., Vietnamese-English)? Can they discuss vocabulary size tradeoffs?",
+        "Attention mechanism understanding: Does candidate distinguish between multi-head attention limitations for very long sequences and propose concrete solutions (e.g., local attention, Longformer architecture) rather than generic 'longer attention'?",
+        "Metric critique specificity: Does candidate explain WHY BLEU fails on longer sentences (exposure bias, reference bias) and explain fundamental differences between surface-level (BLEU, chrF) vs. semantic metrics (BERTScore), including when each is appropriate?",
+        "Preprocessing strategy completeness: Does candidate discuss tokenization at SOURCE language level (preprocessing impact on encoder) vs. TARGET language level (decoding impact), and how sentence splitting may harm discourse-level translation quality?",
+        "Beam search pitfall awareness: Does candidate recognize that beam search width doesn't fix fundamental model capacity issues and may mask undertrained attention mechanisms?"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_016",
+    "question_text": "Tokenization là gì trong tiền xử lý văn bản NLP? Hãy cho một ví dụ cụ thể.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "NLP",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Tokenization là quá trình chia văn bản thành các đơn vị nhỏ hơn gọi là token, có thể là từ, câu, hoặc ký tự. Ví dụ: 'Tôi học NLP' -> token từ: ['Tôi', 'học', 'NLP']. Để xử lý tốt hơn các từ hiếm gặp (OOV - out-of-vocabulary) và các ngôn ngữ phức tạp, có thể sử dụng tokenization ở cấp subword như WordPiece hoặc BPE, chia 'tokenization' thành ['token', '##ization']. Việc lựa chọn chiến lược tokenization ảnh hưởng đến kích thước từ điển và hiệu suất mô hình.",
+      "evaluation_points": [
+        "Định nghĩa đúng tokenization và các loại token (từ, câu, ký tự)",
+        "Đưa ra ví dụ cụ thể minh họa",
+        "Thảo luận các chiến lược tokenization khác nhau (whitespace, punctuation-based, regex)",
+        "Nhắc đến các phương pháp subword tokenization (WordPiece, BPE) và ưu điểm của chúng",
+        "Giải thích cách tokenization xử lý các trường hợp đặc biệt như từ viết tắt, dấu gạch ngang, hoặc từ ngoại lai"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_018",
+    "question_text": "Stop words là gì và tại sao chúng thường được loại bỏ trong tiền xử lý văn bản?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "NLP",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Stop words là các từ phổ biến, ít mang ý nghĩa ngữ nghĩa như 'và', 'là', 'của', 'trong' trong tiếng Việt. Chúng thường được loại bỏ để giảm nhiễu, giảm kích thước dữ liệu và tập trung vào các từ quan trọng hơn cho phân tích. Tuy nhiên, việc loại bỏ stop words phụ thuộc nhiều vào ngữ cảnh và miền dữ liệu—chẳng hạn, từ 'là' có thể không quan trọng trong phân loại tin tức tổng quát nhưng lại có thể là tín hiệu quan trọng trong phân tích cảm xúc. Do đó, cần xây dựng danh sách stop words cụ thể cho từng miền và ngôn ngữ, và cân nhắc tác động của nó trên các biểu diễn thưa như Bag of Words và TF-IDF.",
+      "evaluation_points": [
+        "Định nghĩa đúng stop words với ví dụ tiếng Việt phù hợp",
+        "Giải thích lý do loại bỏ (giảm nhiễu, kích thước, tập trung từ quan trọng)",
+        "Thảo luận tính phụ thuộc vào ngữ cảnh/miền dữ liệu (ví dụ: 'apple' có thể là stop word trong dataset trái cây nhưng quan trọng trong tin tức công nghệ)",
+        "Đề cập đến nhu cầu danh sách stop words cụ thể cho từng miền/ngôn ngữ",
+        "Nêu tác động của stop words lên các biểu diễn thưa (Bag of Words, TF-IDF)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_020",
+    "question_text": "Chỉ số F1-score được sử dụng để đánh giá mô hình NLP như thế nào? So sánh với accuracy.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "NLP",
+      "NLP_EVALUATION"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "F1-score là trung bình điều hòa của precision và recall, được tính bằng: F1 = 2 * (precision * recall) / (precision + recall). Nó rất phù hợp với dữ liệu mất cân bằng vì không bị ảnh hưởng bởi lớp chiếm đa số. Accuracy chỉ tỷ lệ dự đoán đúng trên tổng số (TP+TN)/(TP+TN+FP+FN), dễ bị sai lệch nếu một lớp chiếm đa số (ví dụ: 99% lớp âm tính → accuracy cao nhưng mô hình vô dụng). F1-score rất quan trọng trong các bài toán NLP như phân loại cảm xúc, NER, hoặc phát hiện spam. Tuy nhiên, việc chọn metric phụ thuộc vào bài toán: nếu cần tối thiểu false positive (spam detection) thì ưu tiên precision; nếu cần tối thiểu false negative (phát hiện bệnh) thì ưu tiên recall.",
+      "evaluation_points": [
+        "Giải thích đúng F1-score là trung bình điều hòa của precision và recall (công thức: 2 * (precision * recall) / (precision + recall))",
+        "So sánh chính xác với accuracy và nêu rõ tại sao accuracy sai lệch với dữ liệu mất cân bằng (ví dụ: 95% lớp âm tính, 5% lớp dương tính)",
+        "Nêu trường hợp cụ thể dùng F1-score trong NLP: phân loại cảm xúc, nhận dạng thực thể (NER), phát hiện spam",
+        "Giải thích khi nào ưu tiên precision vs recall (ví dụ: y tế cần recall cao, spam detection cần precision cao)",
+        "Đề cập đến weighted F1-score hoặc macro/micro F1 cho bài toán multi-class không cân bằng"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_022",
+    "question_text": "Công ty của bạn đang xây dựng hệ thống chatbot hỗ trợ khách hàng bằng tiếng Việt. Dữ liệu chat có nhiều lỗi chính tả, viết tắt, và emoji. Hãy thiết kế pipeline tiền xử lý văn bản để xử lý các vấn đề này, bao gồm cách xử lý từ viết tắt phổ biến và chuẩn hóa emoji thành văn bản. Làm thế nào để đảm bảo pipeline không làm mất ngữ nghĩa quan trọng?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "NLP",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Pipeline gồm: (1) Chuẩn hóa Unicode và whitespace, (2) Chuyển emoji thành văn bản mô tả (ví dụ: '😀' -> '[happy]' hoặc '[cảm xúc tích cực]'), (3) Mở rộng viết tắt dùng bảng ánh xạ thủ công (ví dụ: 'ko'->'không', 'dc'->'được', 'vs'->'versus'), (4) Sửa lỗi chính tả dùng từ điển hoặc mô hình ngôn ngữ nhỏ được huấn luyện trên dữ liệu chat tiếng Việt, (5) Giữ lại dấu câu và từ đặc biệt có ý nghĩa. Để bảo toàn ngữ nghĩa: (a) Sử dụng context-aware sửa lỗi (không sửa nếu từ không phổ biến nhưng có ý nghĩa trong ngữ cảnh), (b) Test từng luật ánh xạ trên tập dữ liệu để tránh sai sót, (c) Sử dụng tokenization subword (ví dụ: SentencePiece hoặc BPE) sau tiền xử lý để xử lý tốt từ viết tắt chưa mở rộng và lỗi chính tả còn lại. Đánh giá pipeline qua metrics như semantic similarity giữa text gốc và sau xử lý.",
+      "evaluation_points": [
+        "Đề xuất pipeline chi tiết với thứ tự xử lý logic và giải thích lý do cho từng bước",
+        "Xử lý viết tắt và emoji cụ thể với các ví dụ minh họa (ví dụ: emoji cảm xúc vs emoji biểu tượng, viết tắt phổ biến trong tiếng Việt như 'vs', 'dc', 'hk')",
+        "Giải thích cách bảo toàn ngữ nghĩa thông qua phân tích ngữ cảnh (context-aware) và test cases",
+        "Đề xuất chiến lược tokenization phù hợp (ví dụ: SentencePiece, BPE, hoặc WordPiece cho tiếng Việt) và giải thích tại sao subword tokenization lợi ích cho các lỗi chính tả và từ viết tắt",
+        "Thảo luận về trade-off giữa độ chính xác sửa lỗi và tốc độ xử lý, cũng như cách đánh giá hiệu suất pipeline"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_024",
+    "question_text": "Bạn đang huấn luyện mô hình phân loại văn bản (ví dụ: spam detection) và nhận thấy accuracy trên validation đạt 98% nhưng F1-score cho lớp thiểu số chỉ 0.3. Hãy phân tích nguyên nhân có thể và đề xuất ít nhất 3 giải pháp để cải thiện, bao gồm cách điều chỉnh preprocessing, model, và evaluation metric.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "NLP",
+      "NLP_EVALUATION"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân: Dữ liệu mất cân bằng làm cho mô hình thiên về lớp đa số—nó học được giảm thiểu loss tổng thể bằng cách luôn dự đoán lớp đa số, vì vậy accuracy cao nhưng F1 cho lớp thiểu số thấp. Confusion matrix sẽ cho thấy recall của lớp thiểu số gần 0.\n\nGiải pháp:\n(1) **Preprocessing**: Không chỉ tăng cường dữ liệu bằng synonym replacement hoặc back-translation (dùng từ điển đồng nghĩa hoặc dịch ngôn ngữ trung gian), mà còn chuẩn hóa tokenization để bảo toàn đặc trưng của lớp thiểu số (ví dụ: giữ lại từ hiếm gặp thay vì loại bỏ chúng). Xem xét stratified train/val/test split để đảm bảo phân bố lớp nhất quán.\n\n(2) **Model**: Áp dụng class weights (nặng hơn cho lớp thiểu số trong hàm mất mát), focal loss (giảm trọng lượng của những mẫu dễ phân loại), hoặc ensemble methods (Random Forest, Gradient Boosting) có thể xử lý mất cân bằng tốt hơn. Class weights điều chỉnh trực tiếp hàm mất mát; focal loss giúp mô hình tập trung vào các mẫu khó.\n\n(3) **Evaluation**: Sử dụng macro-F1 (trung bình F1 của hai lớp, không bị ảnh hưởng bởi tỷ lệ lớp), confusion matrix để xem recall/precision từng lớp, và có thể PR-curve thay vì ROC-AUC. Đối với spam detection, high recall cho lớp thiểu số (spam) thường ưu tiên vì cost của false negative cao.",
+      "evaluation_points": [
+        "Identify root cause: class imbalance leading to majority-class bias (model learns to predict majority class regardless of input)",
+        "Preprocessing solutions should include text normalization strategies (tokenization approach, lowercasing, stop word removal) that preserve minority class patterns; discuss why synonym replacement/back-translation is preferable to simple oversampling for text data",
+        "Model solutions must explain the mechanism (class weights adjust loss function, focal loss reduces easy negatives, ensemble reduces bias); justify why these outperform threshold tuning alone",
+        "Evaluation metrics: explain why macro-F1 and confusion matrix reveal the problem that accuracy masks; discuss when to use precision vs. recall trade-offs for minority class (e.g., spam detection requires high recall)",
+        "Discuss interaction effects: e.g., does data augmentation require adjusted tokenization? Does focal loss interact with class weights? Should validation split preserve class distribution (stratified split)?"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_021",
+    "question_text": "Hãy định nghĩa và so sánh tokenization, stemming và lemmatization trong tiền xử lý văn bản NLP.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "NLP",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Tokenization là quá trình chia văn bản thành các token (từ, cụm từ, ký tự). Ngoài tokenization cơ bản (whitespace, punctuation), có các chiến lược subword tokenization như BPE và WordPiece giúp xử lý từ ngoài từ vựng (OOV) và ngôn ngữ phức tạp. Stemming là quá trình cắt bỏ hậu tố dựa trên quy tắc (heuristic), nhanh nhưng ít chính xác và có thể tạo ra từ không hợp lệ (ví dụ: 'running' -> 'run', 'automat' từ 'automatic'). Lemmatization sử dụng phân tích hình thái học và POS tagging để đưa từ về dạng từ điển gốc chính xác (ví dụ: 'better' -> 'good', 'ran' -> 'run'), chậm hơn nhưng chính xác hơn. Trade-off chính: stemming dùng khi cần tốc độ, lemmatization khi cần độ chính xác cao.",
+      "evaluation_points": [
+        "Định nghĩa đúng tokenization (kể cả các chiến lược: whitespace, regex, subword tokenization như BPE, WordPiece) và tầm quan trọng của nó trong xử lý từ ngoài từ vựng (OOV)",
+        "Giải thích rõ stemming là quy trình dựa trên quy tắc (rule-based), nhanh nhưng ít chính xác, có thể tạo ra từ không hợp lệ",
+        "Giải thích lemmatization dùng phân tích hình thái học và POS tagging, chậm hơn nhưng chính xác hơn, luôn trả về từ điển",
+        "So sánh chi tiết các trade-off: tốc độ vs độ chính xác, kích thước từ vựng, và ứng dụng thực tế (khi nào dùng cái nào)",
+        "Cung cấp ví dụ minh họa cho mỗi khái niệm, đặc biệt là trường hợp stemming tạo non-words (ví dụ: 'automat' từ 'automatic')"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_023",
+    "question_text": "Bạn đang làm việc với một bộ dữ liệu đánh giá sản phẩm và cần phân loại cảm xúc (tích cực/tiêu cực). Sau khi sử dụng TF-IDF để vector hóa văn bản, bạn nhận thấy độ chính xác thấp. Hãy đề xuất ít nhất hai kỹ thuật tiền xử lý văn bản khả thi để cải thiện hiệu suất và giải thích tại sao chúng có thể giúp ích.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "NLP",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Các kỹ thuật tiền xử lý khả thi: (1) **Loại bỏ stop words có chọn lọc**: Xóa các từ thông dụng như 'là', 'cái' để giảm nhiễu. Tuy nhiên, cần cẩn thận—các từ như 'không' hoặc 'rất' có giá trị cao cho phân tích cảm xúc và không nên loại bỏ. Lý do: TF-IDF gán trọng số cao cho từ xuất hiện ở ít tài liệu, nhưng các từ dừng phổ biến làm loãng tín hiệu cảm xúc thực. (2) **Áp dụng n-gram (bigram/trigram)**: Thay vì chỉ xem từ riêng lẻ, bắt cặp từ như 'không tốt', 'rất yêu thích'. Lý do: BoW/TF-IDF mất thứ tự từ—'không tốt' và 'tốt' sẽ có vector tương tự nhưng cảm xúc ngược nhau. N-gram recapture ngữ cảnh cục bộ. (3) **Stemming/Lemmatization**: Chuẩn hóa từ ('yêu', 'yêu thích', 'yêu mến' → 'yêu') để giảm thứ nguyên và tập hợp các biến thể từ liên quan. Lý do: Giảm sparsity của BoW, giúp TF-IDF học trọng số chung cho khái niệm từ thay vì các hình thức riêng lẻ. (4) **Xử lý emoji/ký tự đặc biệt**: Chuyển đổi emoji thành mô tả văn bản ('😊' → 'vui vẻ') vì emoji mang tín hiệu cảm xúc mạnh nhưng TF-IDF coi chúng là từ vựng hiếm và không khái quát hóa tốt. **Kết luận**: Vấn đề cốt lõi là TF-IDF là biểu diễn BoW—nó mất ngữ cảnh và thứ tự từ, cả hai đều quan trọng cho cảm xúc. Các kỹ thuật này không thay thế TF-IDF nhưng tối ưu hóa đầu vào của nó để nó nắm bắt được tín hiệu cảm xúc tốt hơn.",
+      "evaluation_points": [
+        "Proposes at least two concrete preprocessing techniques (stop word removal, stemming/lemmatization, n-grams, normalization)",
+        "Explains the *specific limitation* of TF-IDF that each technique addresses (e.g., stop word removal reduces noise from high-frequency but low-semantic-value words; n-grams capture negation/context that BoW loses, critical for sentiment where 'not good' ≠ 'good')",
+        "Demonstrates understanding that TF-IDF is a BoW-based approach that loses word order—explicitly connects this to sentiment analysis vulnerability (e.g., negations, intensifiers, sarcasm)",
+        "Considers trade-offs or context-dependency (e.g., stop words like 'not' or 'very' may be critical for sentiment and should NOT be removed; domain-specific decisions matter)",
+        "Distinguishes between techniques that reduce dimensionality/noise versus those that capture linguistic structure (strengthens conceptual clarity)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_025",
+    "question_text": "So sánh BLEU và ROUGE trong đánh giá mô hình sinh văn bản như dịch máy hoặc tóm tắt. Khi nào bạn nên chọn BLEU thay vì ROUGE, và ngược lại? Giải thích hạn chế chính của mỗi chỉ số.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "NLP",
+      "NLP_EVALUATION"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "BLEU đo precision dựa trên n-gram overlap (1-4 grams với geometric mean), thường dùng dịch máy; ROUGE đo recall (variants: ROUGE-N, ROUGE-L, ROUGE-S), thường dùng tóm tắt. Chọn BLEU khi cần độ chính xác từng từ và khớp chặt tham chiếu (dịch máy, trả lời câu hỏi); chọn ROUGE khi bao phủ thông tin quan trọng ưu tiên (tóm tắt, trích xuất). Hạn chế BLEU: (1) bỏ qua từ đồng nghĩa, (2) phụ thuộc số lượng tham chiếu, (3) không phản ánh thứ tự/ý nghĩa, (4) từ phổ biến bị trừ penalty. Hạn chế ROUGE: (1) có thể cao với tóm tắt dài nhưng thông tin sai, (2) chỉ đo n-gram overlap không hiểu semantic, (3) không đánh giá coherence/flow. Thực tiễn: kết hợp cả hai chỉ số + BERTScore/METEOR + human evaluation để đánh giá toàn diện.",
+      "evaluation_points": [
+        "Định nghĩa chính xác: BLEU dựa trên n-gram precision với geometric mean (1-gram đến 4-gram), ROUGE dựa trên recall (ROUGE-N, ROUGE-L, ROUGE-S variants)",
+        "Giải thích khi nào chọn: BLEU phù hợp dịch máy vì cần độ chính xác từng từ; ROUGE phù hợp tóm tắt vì bao phủ thông tin quan trọng là ưu tiên",
+        "Hạn chế BLEU: không xử lý từ đồng nghĩa, phụ thuộc vào tham chiếu, không đánh giá thứ tự từ, bỏ qua ngữ nghĩa, yêu cầu multiple references để tin cậy",
+        "Hạn chế ROUGE: có thể cao với tóm tắt dài nhưng thông tin sai, không đánh giá flow/coherence, chỉ n-gram overlap không phản ánh hiểu biết ngữ nghĩa",
+        "Khuyến nghị thực tiễn: kết hợp cả BLEU và ROUGE, thêm BERTScore hoặc metric ngữ nghĩa, thực hiện human evaluation cho kết quả chính xác"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_027",
+    "question_text": "Trong một bài toán phân loại văn bản đa nhãn, bạn sử dụng mô hình BERT và nhận được micro-F1 là 0.85 nhưng macro-F1 chỉ 0.60. Hãy giải thích sự khác biệt này và đề xuất các bước bạn sẽ thực hiện để chẩn đoán và cải thiện hiệu suất.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "NLP",
+      "NLP_EVALUATION"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Micro-F1 tính trung bình trên tất cả các mẫu (tính tổng TP, FP, FN toàn bộ rồi tính F1), trong khi macro-F1 tính F1 cho từng nhãn rồi lấy trung bình số học. Chênh lệch lớn (0.85 vs 0.60) chỉ ra mô hình hoạt động tốt trên nhãn majority nhưng kém trên nhãn minority/hiếm. \n\nNguyên nhân: (1) Class imbalance - mô hình bias về nhãn phổ biến. (2) Dữ liệu huấn luyện không đủ cho nhãn hiếm. (3) Mô hình chưa học đủ đặc trưng phân biệt cho các nhãn nhỏ.\n\nCác bước chẩn đoán & cải thiện: (1) Vẽ confusion matrix và tính F1/precision/recall từng nhãn để xác định nhãn yếu. (2) Kiểm tra class distribution - nếu imbalance > 1:10, cần xử lý. (3) Áp dụng class weights trong loss function hoặc oversampling dữ liệu minority. (4) Thử focal loss để tập trung vào mẫu khó phân loại. (5) Fine-tune BERT với learning rate 1e-5 đến 5e-5 để tránh overfitting. (6) Augmentation dữ liệu cho nhãn hiếm (paraphrase, synonym replacement). (7) Tuning threshold tối ưu cho từng nhãn thay vì dùng 0.5 mặc định. (8) Sử dụng stratified cross-validation để đánh giá ổn định.",
+      "evaluation_points": [
+        "Giải thích rõ ràng ý nghĩa micro-F1 vs macro-F1 và khi nào mỗi metric phù hợp",
+        "Phân tích nguyên nhân chênh lệch lớn: class imbalance, nhãn hiếm, mô hình bias về nhãn majority",
+        "Đề xuất các bước chẩn đoán cụ thể: confusion matrix, per-label F1 scores, class distribution analysis",
+        "Xử lý class imbalance: class weights, oversampling/undersampling, data augmentation cho nhãn hiếm",
+        "Tinh chỉnh mô hình: learning rate thích hợp, threshold optimization per-label, focal loss cho imbalanced data",
+        "Thảo luận về ảnh hưởng của tokenization BERT đến hiệu suất (subword tokenization xử lý từ hiếm thế nào)",
+        "Evaluation strategy: stratified cross-validation, per-label metrics tracking"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_028",
+    "question_text": "Bạn đang xây dựng hệ thống phân loại cảm xúc cho các đánh giá sản phẩm. Dữ liệu thô chứa nhiều từ viết tắt, emoji, và lỗi chính tả. Hãy đề xuất các bước tiền xử lý văn bản cần thiết và giải thích tại sao mỗi bước là quan trọng đối với hiệu suất mô hình.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "NLP",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Các bước tiền xử lý bao gồm: 1) Chuẩn hóa chữ thường (lowercasing) để giảm độ phức tạp từ vựng và tăng tần suất từ, 2) Loại bỏ hoặc thay thế emoji bằng nhãn ngữ nghĩa (ví dụ ':smile:' -> 'positive_emoji') để giữ thông tin cảm xúc mà không tăng kích thước từ vựng, 3) Sửa lỗi chính tả cơ bản (dùng từ điển hoặc spell checker) vì lỗi làm tăng số lượng từ hiếm và từ ngoài từ vựng (OOV), 4) Mở rộng từ viết tắt (vd: 'btw' thành 'by the way') để đồng nhất biểu diễn, 5) Cân nhắc cẩn thận về loại bỏ stop words - không nên loại bỏ nếu mô hình là neural/transformers vì chúng có thể mang ý nghĩa trong cảm xúc (vd: 'not good'), nhưng có thể loại bỏ cho TF-IDF. Quan trọng: không loại bỏ dấu câu hoặc ký tự đặc biệt quá sớm vì chúng mang thông tin cảm xúc (vd: '!!!' thể hiện nhấn mạnh, '...' thể hiện do dự). Lựa chọn chiến lược tokenization (word-level vs. subword như BPE/WordPiece) phụ thuộc vào mô hình: neural models và transformers có thể tận dụng subword tokenization để xử lý lỗi chính tả và từ hiếm hiệu quả hơn.",
+      "evaluation_points": [
+        "Đề xuất đầy đủ các bước xử lý và giải thích lý do tại sao cần thiết cho bài toán phân loại cảm xúc cụ thể",
+        "Nhận ra trade-off của stop words, dấu câu, và ký tự đặc biệt trong ngữ cảnh cảm xúc (ví dụ: 'not good', '!!!')",
+        "Biết cách xử lý emoji, từ viết tắt, và lỗi chính tả một cách phù hợp với bài toán và loại dữ liệu",
+        "Hiểu rõ về chiến lược tokenization (word-level vs. subword) và tác động của nó đến kích thước từ vựng, xử lý OOV, và hiệu suất mô hình",
+        "Nhận thức được sự khác biệt giữa các bước tiền xử lý tùy thuộc vào kiến trúc mô hình (TF-IDF vs. neural models vs. pre-trained transformers)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_031",
+    "question_text": "Bạn đang làm việc với mô hình BERT cho bài toán trích xuất thực thể (NER). Dữ liệu huấn luyện có sự mất cân bằng lớn giữa các loại thực thể (ví dụ: PERSON xuất hiện nhiều, ORGANIZATION ít). Bạn sẽ chọn chỉ số evaluation nào và điều chỉnh như thế nào để đánh giá mô hình một cách công bằng? Giải thích lý do.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "NLP",
+      "NLP_EVALUATION"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "For imbalanced NER evaluation with BERT: (1) Use macro F1 as primary metric since it averages scores across entity types equally, preventing PERSON's dominance from masking poor ORGANIZATION performance. Micro F1 would be misleading here. (2) Report span-level (entity-level) F1 instead of token-level, since token-level F1 can hide boundary errors—a partial match shouldn't count as success. (3) Include per-class F1 scores and confusion matrix to diagnose specific weaknesses. (4) Consider BERT's WordPiece tokenization impact: subword tokenization can fragment entities, requiring careful BIO label alignment; document how tokenization affects rare entity types. (5) During training, apply class weights or focal loss to reduce majority class dominance and improve minority entity learning. (6) Define business requirements: if false positives for ORGANIZATION are costly, optimize for precision; if recall matters more, adjust thresholds accordingly. Reporting weighted F1 alongside macro F1 provides context on the imbalance severity.",
+      "evaluation_points": [
+        "Recognize class imbalance problem and justify macro F1 over micro F1 (macro treats each entity type equally regardless of frequency)",
+        "Explain token-level vs span-level (entity-level) F1 difference: token-level can hide boundary errors, span-level requires exact entity boundaries",
+        "Discuss per-class F1 scores and confusion matrix to identify which entity types (e.g., ORGANIZATION) are underperforming",
+        "Address tokenization impact on NER evaluation: mention how BERT's WordPiece tokenization affects entity boundaries and label alignment (BIO tagging strategy)",
+        "Propose training-time solutions: focal loss, class weights, or oversampling minority classes to address imbalance at source",
+        "Consider domain-specific evaluation: precision/recall trade-off priorities (e.g., high precision for ORGANIZATION if false positives are costly)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_033",
+    "question_text": "Công ty bạn muốn xây dựng một chatbot hỗ trợ khách hàng cho ngân hàng. Dữ liệu hội thoại lịch sử có chứa nhiều câu nói lặp, lỗi ngữ pháp, và từ lóng. Hãy thiết kế một pipeline tiền xử lý văn bản cho dữ liệu này, bao gồm cách xử lý các trường hợp đặc biệt (ví dụ: câu hỏi về số tài khoản, ngày tháng, hoặc yêu cầu chuyển tiền). Phân tích các thách thức và đề xuất giải pháp tối ưu hóa cho mô hình ngôn ngữ lớn (LLM) hoặc mô hình truyền thống.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "NLP",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Pipeline tiền xử lý: 1) Chuẩn hóa văn bản: lowercasing, loại bỏ ký tự đặc biệt không cần thiết nhưng giữ số và ký tự quan trọng (ví dụ: dấu # trong 'tài khoản #123'); 2) Phát hiện và mask thông tin nhạy cảm (số tài khoản, số điện thoại) bằng regex hoặc mô hình NER để tránh rò rỉ; 3) Xử lý lỗi chính tả và từ lóng: sử dụng từ điển ngân hàng (vd: 'ck' -> 'chuyển khoản') và spell checker tùy chỉnh; 4) Chuẩn hóa ngày tháng và số tiền về định dạng chuẩn (vd: '1tr' -> '1000000'); 5) Loại bỏ các câu lặp hoặc spam dựa trên độ tương đồng cosine. Thách thức: từ lóng thay đổi theo thời gian cần cập nhật từ điển định kỳ; dữ liệu nhạy cảm cần mask chính xác để không ảnh hưởng đến ngữ nghĩa. **Chiến lược tokenization:** Đối với tiếng Việt, nên sử dụng subword tokenization (BPE, WordPiece) thay vì word-level tokenization để xử lý tốt hơn từ lóng, lỗi chính tả, và các token đặc biệt như số tài khoản được mask. Với LLM hiện đại, có thể bỏ qua bước loại bỏ lỗi chính tả vì mô hình đã học từ dữ liệu lỗi, nhưng vẫn cần mask thông tin nhạy cảm. Tối ưu: dùng pipeline song song với Spark để xử lý lượng lớn dữ liệu, kết hợp với tokenizer được huấn luyện trên dữ liệu ngân hàng để tối ưu hóa từ vựng cho miền này.",
+      "evaluation_points": [
+        "Thiết kế pipeline đầy đủ và xử lý các trường hợp đặc biệt (số tài khoản, ngày tháng, từ lóng)",
+        "Phân tích thách thử và đưa ra giải pháp cụ thể (từ điển, mask, spell checker tùy chỉnh)",
+        "Đề xuất tối ưu hóa cho LLM và mô hình truyền thống riêng biệt, bao gồm xử lý dữ liệu song song",
+        "Thảo luận chiến lược tokenization phù hợp (subword tokenization vs. word-level) cho tiếng Việt, đặc biệt trong ngữ cảnh ngân hàng với các token đặc biệt như số tài khoản, số tiền, và ngày tháng",
+        "Giải thích cách các lựa chọn tokenization ảnh hưởng đến xử lý từ lóng, lỗi chính tả, và thông tin nhạy cảm"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_035",
+    "question_text": "Bạn đang phát triển một mô hình dịch máy (machine translation) từ tiếng Anh sang tiếng Việt. Sau khi huấn luyện, bạn nhận thấy BLEU score cao nhưng bản dịch thường không tự nhiên và thiếu ngữ cảnh văn hóa. Hãy giải thích hạn chế của BLEU score trong trường hợp này, đề xuất ít nhất 2 chỉ số evaluation khác phù hợp hơn, và thiết kế một quy trình đánh giá kết hợp cả tự động và thủ công để cải thiện chất lượng.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "NLP",
+      "NLP_EVALUATION"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "BLEU score relies on exact n-gram overlap and ignores semantic similarity, grammatical correctness, and cultural context. For Vietnamese, BLEU is particularly problematic because: 1) Vietnamese uses different tokenization (words vs subwords like BPE) that can split morphologically-related terms differently than English, causing valid translations to be penalized, 2) Vietnamese's lack of inflection and use of compound words means 'I am hungry' -> 'Tôi đói' represents correct compression, not error, yet BLEU treats word count mismatches negatively.\n\nProposed metrics: 1) METEOR—uses stemming and synonym databases tuned for Vietnamese morphology, capturing grammatical variations and word order flexibility in Vietnamese syntax, 2) BERTScore—leverages multilingual BERT embeddings to measure semantic similarity independent of exact word matches, handling Vietnamese's flexible word order and compound word formations.\n\nEvaluation process: a) Automatic: compute BLEU, METEOR, BERTScore on test set; additionally log tokenization mismatches (subword boundaries), b) Manual: stratified sampling of 100 sentences across (i) low BERTScore + high BLEU (semantic failures), (ii) high BLEU + low METEOR (grammatical issues), (iii) balanced difficulty levels. Evaluators score on 1-5 scale for naturalness, semantic accuracy, cultural appropriateness, and grammatical correctness with detailed rubrics, c) Hybrid: weight metrics as 0.25*BLEU + 0.35*METEOR + 0.40*BERTScore; validate against manual scores using Spearman correlation; retrain with human feedback incorporated via domain-specific tokenization adjustments or loss function weighting.",
+      "evaluation_points": [
+        "Explain how tokenization choices (especially for Vietnamese with its morphological characteristics) impact translation quality and BLEU score reliability",
+        "Discuss the role of subword tokenization (BPE, SentencePiece) in handling Vietnamese's agglutinative nature and rare word combinations that may cause BLEU to undercount valid translations",
+        "Clarify why BERTScore and METEOR better capture semantic equivalence for morphologically similar but structurally different languages (Vietnamese vs English)",
+        "Specify the manual evaluation rubric: include criteria for cultural appropriateness, grammatical correctness, semantic accuracy, and naturalness with clear definitions",
+        "Address potential biases in the 100-sample stratification strategy—ensure representation across sentence lengths, domains, and translation difficulty levels"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_032",
+    "question_text": "Stemming và Lemmatization khác nhau như thế nào? Cho ví dụ minh họa.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "NLP",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Stemming là quá trình cắt bỏ phần cuối của từ (suffix) để lấy gốc từ (stem) dựa trên quy tắc heuristic, không quan tâm đến từ điển hay ngữ cảnh. Ví dụ: 'running' -> 'run', 'flies' -> 'fli', 'automatically' -> 'automat' (từ không tồn tại trong từ điển). Lemmatization là quá trình chuẩn hóa từ về dạng từ điển (lemma) dựa trên phân tích hình thái học và POS tagging để hiểu ngữ cảnh. Ví dụ: 'running' (động từ) -> 'run', 'better' (tính từ so sánh) -> 'good'. Nhìn chung: Stemming nhanh hơn nhưng ít chính xác và có thể tạo ra từ không hợp lệ; Lemmatization chính xác hơn (luôn trả về từ trong từ điển) nhưng chậm hơn. Lựa chọn tùy vào yêu cầu của ứng dụng (tốc độ vs. độ chính xác).",
+      "evaluation_points": [
+        "Giải thích đúng bản chất: stemming là quá trình heuristic (cắt suffix), lemmatization dựa trên từ điển và phân tích hình thái học",
+        "Ví dụ chính xác thể hiện khác biệt: stemming có thể tạo ra từ không tồn tại trong từ điển (ví dụ: 'automat' từ 'automatic'), lemmatization luôn trả về từ hợp lệ",
+        "Hiểu được lemmatization sử dụng POS tagging để xác định ngữ cảnh (ví dụ: 'better' là tính từ so sánh -> 'good', không phải động từ)",
+        "Nhấn mạnh trade-off: stemming nhanh hơn nhưng ít chính xác, lemmatization chính xác hơn nhưng chậm hơn; lựa chọn tùy vào ứng dụng"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_034",
+    "question_text": "Mục đích của việc loại bỏ stop words trong tiền xử lý văn bản là gì? Khi nào không nên loại bỏ stop words?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "NLP",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Loại bỏ stop words (từ phổ biến như 'và', 'là', 'của') giúp giảm nhiễu, giảm kích thước từ điển, và tập trung vào từ khóa quan trọng, đặc biệt hữu ích cho mô hình BoW và TF-IDF.\n\nTuy nhiên, không nên loại bỏ stop words trong các tình huống sau:\n1. **Phân tích cảm xúc/Sentiment Analysis:** Từ phủ định như 'not', 'never' hoàn toàn thay đổi nghĩa (\"not good\" vs \"good\"), vì vậy loại bỏ chúng sẽ làm mất thông tin quan trọng.\n2. **Mô hình dựa trên ngữ cảnh (BERT, GPT, Transformer):** Các mô hình này học từ toàn bộ cấu trúc ngữ pháp, và stop words mang thông tin cú pháp quan trọng.\n3. **Tác vụ nhạy cảm với thứ tự từ:** Như dịch máy, Q&A, hoặc phân tích ngữ pháp.\n4. **Domain-specific tasks:** Tính chất \"stop word\" phụ thuộc ngữ cảnh. Chẳng hạn, từ 'apple' có thể là stop word trong dataset về trái cây nhưng quan trọng trong tin tức công nghệ.\n\nKhuyến nghị: Thay vì loại bỏ ngay, hãy sử dụng domain-specific stop word lists hoặc để mô hình học tự động tầm quan trọng của các từ (như TF-IDF hoặc embedding models).",
+      "evaluation_points": [
+        "Giải thích đúng lợi ích cơ bản: giảm nhiễu, giảm kích thước từ điển, tập trung vào từ khóa quan trọng",
+        "Nhận thức về tính phụ thuộc ngữ cảnh của stop words (ví dụ: 'apple' có thể là stop word trong dataset về trái cây nhưng quan trọng trong tin tức công nghệ)",
+        "Đưa ra ít nhất hai tình huống cụ thể không nên loại bỏ: phân tích cảm xúc (negation words như 'not', 'never'), phân tích ngữ pháp, hoặc tác vụ nhạy cảm với thứ tự từ",
+        "Hiểu rõ ảnh hưởng của stop words đến các loại mô hình khác nhau: BoW/TF-IDF (có thể loại bỏ), BERT/Transformer (nên giữ vì học từ ngữ cảnh)",
+        "Thảo luận về domain-specific stop word lists thay vì sử dụng danh sách chung"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_036",
+    "question_text": "Bạn đang làm dự án phân loại văn bản tiếng Việt với dữ liệu không cân bằng (80% lớp A, 20% lớp B). Bạn chọn F1-score làm metric chính thay vì accuracy. Hãy giải thích lý do và phân tích trade-off giữa Precision và Recall khi tối ưu F1-score cho bài toán này.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "NLP",
+      "NLP_EVALUATION"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Accuracy không phù hợp vì mô hình có thể đạt 80% accuracy chỉ bằng cách dự đoán tất cả là lớp A (dummy classifier), mà không học được thông tin về lớp B thiểu số. F1-score = 2*(Precision*Recall)/(Precision+Recall) là trung bình điều hòa, cân bằng hai metric này thay vì ưu tiên một chiều.\n\nTrade-off giữa Precision và Recall: Khi giảm classification threshold, mô hình dự đoán lớp B nhiều hơn → Recall tăng (bắt được nhiều mẫu B), nhưng Precision giảm (nhiều False Positive). Ngược lại, khi tăng threshold, Precision tăng nhưng Recall giảm. F1-score đạt cực đại tại điểm cân bằng tối ưu giữa hai metric này.\n\nChiến lược xử lý:\n1. Class weighting: Gán trọng số cao cho lớp B (thiểu số) trong hàm loss function để mô hình phạt nhiều hơn khi sai dự đoán lớp B.\n2. Threshold tuning: Thay vì dùng threshold 0.5 mặc định, điều chỉnh threshold dựa trên validation set để tối ưu F1.\n3. Weighted F1 vs Macro F1: Sử dụng weighted F1 (trọng số theo tỷ lệ class) cho đánh giá tổng thể, nhưng cũng kiểm tra Recall riêng trên lớp B để đảm bảo không bị bỏ sót.\n4. Resampling: Oversampling lớp B hoặc undersampling lớp A để giảm độ mất cân bằng (cần cẩn thận tránh overfitting hoặc loss quá dữ liệu).\n5. Xem xét business impact: Nếu False Negative (bỏ sót lớp B) có chi phí cao, ưu tiên Recall; nếu False Positive có chi phí cao, ưu tiên Precision.",
+      "evaluation_points": [
+        "Giải thích rõ vì sao accuracy không phù hợp với dữ liệu mất cân bằng (dummy classifier problem)",
+        "Phân tích chính xác công thức F1 = 2*(Precision*Recall)/(Precision+Recall) và cách nó cân bằng hai metric",
+        "Chỉ rõ trade-off cụ thể: lowering threshold tăng Recall nhưng giảm Precision, và ngược lại; F1 đạt max tại điểm cân bằng tối ưu",
+        "Phân biệt giữa macro F1 (trung bình không trọng số) vs weighted F1 (có trọng số theo class distribution) và khi nào dùng cái nào",
+        "Đề xuất chiến lược cụ thể: class weighting trong loss function, threshold tuning qua validation set, hoặc resampling (undersampling/oversampling)",
+        "Giải thích tại sao weighted F1 có thể không đủ khi lớp B quá thiểu số; cần xem xét business impact của False Negative vs False Positive"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_038",
+    "question_text": "Bạn đang xây dựng hệ thống tóm tắt văn bản tiếng Việt dùng mô hình seq2seq với attention. Dữ liệu huấn luyện có nhiều câu dài > 500 token. Hãy thiết kế pipeline tiền xử lý để xử lý vấn đề này, bao gồm cách xử lý câu quá dài và kỹ thuật để giảm thiểu mất mát thông tin. Phân tích ưu nhược điểm của các phương pháp bạn đề xuất.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "NLP",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Pipeline: (1) Vietnamese-specific preprocessing: normalize diacritical marks, handle combining characters (Vietnamese uses tone marks that can be separated). (2) Tokenize using pyvi (supports Vietnamese word segmentation, not just splitting on whitespace) and compute token length. (3) For sequences > 512 tokens: (a) Truncation — simple but loses 30-40% of content in news articles where important details appear mid-text or end; use only if domain analysis confirms key info concentration. (b) Sliding window with overlap (e.g., 400 tokens per chunk, 100-token overlap) — preserves context transitions but increases dataset size by ~20-30%, manages cross-chunk coherence. (c) Hierarchical chunking + attention — split into sentences/paragraphs (linguistic units), apply seq2seq per chunk, then hierarchical attention layer combines chunk representations; computationally expensive but leverages document structure. (4) Recommended hybrid approach for Vietnamese seq2seq: Use sentence-level segmentation first (pyvi.segmenter), then form chunks of 3-5 sentences (~300-400 tokens), apply encoder-decoder per chunk with shared vocabulary. Use hierarchical attention in decoder to weight important chunks when generating summary. Advantages: respects linguistic boundaries in Vietnamese, reduces information loss (vs. truncation), manageable computational cost. Disadvantages: requires sentence segmentation quality (Vietnamese lacks clear sentence boundaries), adds architectural complexity, slower inference due to multi-pass processing. Validation: compare ROUGE-L scores between full-text oracle summaries and chunk-based summaries on held-out Vietnamese news corpus.",
+      "evaluation_points": [
+        "Specific discussion of Vietnamese tokenization challenges (word segmentation ambiguity, combining marks, monosyllabic nature) and why pyvi is appropriate choice",
+        "Quantitative analysis of trade-offs: memory usage, inference latency, and BLEU/ROUGE scores for each chunking strategy with concrete numbers",
+        "Explanation of how hierarchical attention specifically handles cross-chunk dependencies and prevents information loss compared to simple concatenation",
+        "Discussion of Vietnamese-specific preprocessing (diacritical mark normalization, case handling) before tokenization",
+        "Consideration of seq2seq encoder-decoder architecture implications: how long sequences affect both encoder attention complexity (O(n²)) and decoder generation quality",
+        "Alternative solutions for Vietnamese: use of abstractive compression before tokenization, or hybrid extractive-abstractive approach to handle length",
+        "Validation strategy: how to measure information retention (e.g., comparing summaries from chunked vs. full-text models on test set)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_040",
+    "question_text": "Công ty bạn đang phát triển chatbot hỗ trợ khách hàng. Mô hình hiện tại dùng BERT fine-tuned cho intent classification, đạt accuracy 95% trên test set. Khi triển khai thực tế, chatbot thường xuyên hiểu sai các câu hỏi có chứa từ viết tắt, lỗi chính tả, và ngữ pháp không chuẩn. Hãy thiết kế một quy trình đánh giá (evaluation framework) để phát hiện và khắc phục các lỗi này, bao gồm metric phù hợp, dữ liệu test bổ sung, và cách cải thiện mô hình.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "NLP",
+      "NLP_EVALUATION"
+    ],
+    "skill_tags": [
+      "NLP"
+    ],
+    "answers": {
+      "detailed": "Quy trình đánh giá toàn diện: (1) **Test Set Bổ sung**: Xây dựng dataset phân tầng với ≥100 mẫu/loại lỗi: (a) Từ viết tắt phổ biến (bt, k, vs, etc.), (b) Lỗi chính tả (phát âm tương tự, hoán vị ký tự), (c) Ngữ pháp thiếu từ/thứ tự. Phân tích tần suất lỗi từ production logs để đảm bảo đại diện. (2) **Metric**: (a) F1-score riêng cho từng loại lỗi để xác định điểm yếu cụ thể, (b) Weighted F1 nếu một loại lỗi tác động business lớn hơn, (c) Exact Match (EM) để đo intent classification chính xác, (d) Confusion Matrix phân tích theo loại lỗi. So sánh: baseline accuracy trên test set gốc vs. tổng hợp test set mới để lượng hóa hiệu suất gap. (3) **Cải thiện**: (a) **Tiền xử lý**: Xây dựng từ điển viết tắt tiếng Việt, tích hợp spell-checker (ví dụ: Hunspell hoặc BERT-based), đặt threshold để tránh sửa lỗi không cần thiết. (b) **Data Augmentation**: Sinh lỗi quy tắc (random character swap, deletion, insertion) với tỷ lệ 30% trên training set; hold-out augmented validation set riêng biệt. (c) **Adversarial Training**: Fine-tune BERT với adversarial examples để tăng robustness. (d) **Evaluation A/B**: So sánh mô hình cũ vs. mới trên production với ≥1000 interactions, đo user satisfaction, false rejection rate, và độ tin cậy statistical (p < 0.05).",
+      "evaluation_points": [
+        "Design test set with clear stratification: specify minimum sample sizes per error type (abbreviations, spelling errors, grammatical errors) and ensure representative distribution matching real-world error frequencies",
+        "Justify metric selection with concrete reasoning: explain why F1 per error type is chosen over accuracy (which hides class imbalance), why Exact Match matters for intent classification (business impact), and propose error-weighted metrics if some errors are more costly than others",
+        "Propose evaluation methodology: establish baseline metrics on current test set vs. new error-focused test set to quantify performance gap; recommend conducting error analysis (confusion matrix per error type) to prioritize which error types cause most misclassifications",
+        "Detail preprocessing solutions: specify the abbreviation dictionary source (crowdsourced, domain-specific), explain spell-checker integration (character-level vs. phonetic similarity for Vietnamese), and discuss computational trade-offs",
+        "Design data augmentation rigorously: specify augmentation techniques (rule-based error injection vs. back-translation), calculate augmented dataset size, and describe hold-out validation set to prevent data leakage",
+        "Include adversarial training details: clarify whether to use adversarial examples within fine-tuning or as a separate robustness testing phase; propose metrics to measure robustness gain",
+        "A/B testing framework: specify success metrics (user satisfaction, false rejection rate), sample size calculation, and statistical significance testing approach for production deployment"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_037",
+    "question_text": "Bạn đang làm việc cho một công ty thương mại điện tử, cần xây dựng hệ thống phân loại đánh giá sản phẩm (tích cực/tiêu cực). Bộ dữ liệu có 10.000 mẫu, với sự mất cân bằng lớp (80% tích cực, 20% tiêu cực). Hãy mô tả quy trình tiền xử lý văn bản bạn sẽ thực hiện, sau đó đề xuất mô hình NLP phù hợp và các chỉ số đánh giá hiệu suất, giải thích lý do chọn từng chỉ số.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "NLP",
+      "NLP_EVALUATION",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP",
+      "NLP_PREPROCESSING",
+      "NLP_EVALUATION"
+    ],
+    "answers": {
+      "detailed": "Quy trình tiền xử lý: (1) Loại bỏ ký tự đặc biệt, số, chữ thường hóa; (2) Tokenization sử dụng pyvi hoặc spaCy để xử lý dấu tone và từ ghép tiếng Việt, quan trọng hơn NLTK cho ngôn ngữ này; (3) Loại bỏ stop words phổ biến; (4) Lemmatization (thường ưu tiên hơn Stemming cho tiếng Việt); (5) Xử lý emoji và từ viết tắt; (6) Cân nhắc sử dụng subword tokenization nếu chọn LSTM để giảm OOV. \n\nMô hình: PhoBERT được ưu tiên vì pre-trained trên Vietnamese corpus, hiểu ngữ cảnh tốt, và 10K mẫu đủ cho fine-tuning. LSTM+Word2Vec là lựa chọn thứ cấp nếu tài nguyên tính toán hạn chế. Xử lý mất cân bằng: áp dụng class weights trong loss function (weight_neg=4, weight_pos=1) hoặc SMOTE trên training set với stratified split. \n\nChỉ số đánh giá: (1) F1-weighted (vì phản ánh hiệu suất trên cả hai lớp theo phân bố thực tế) và F1-macro (nếu muốn weight bằng nhau); (2) Precision và Recall riêng biệt để hiểu chi phí business (sai dương=khách hàng bị phân loại sai, sai âm=review xấu bị bỏ qua); (3) Confusion Matrix để phân tích chi tiết; (4) AUC-ROC để đo khả năng phân tách độc lập ngưỡng quyết định. Tránh accuracy vì 80% baseline chỉ dự đoán lớp đa số. Sử dụng stratified k-fold validation và tuning threshold trên validation set để optimize chỉ số phù hợp mục tiêu business.",
+      "evaluation_points": [
+        "Mô tả chi tiết chiến lược tokenization cho tiếng Việt (ví dụ: xử lý dấu tone marks, từ ghép, các tokenizer chuyên biệt như pyvi) và tác động đến OOV handling",
+        "So sánh chi tiết PhoBERT vs LSTM+Word2Vec: chi phí tính toán, yêu cầu dữ liệu fine-tuning, khả năng generalization, và lý do lựa chọn dựa trên 10K mẫu",
+        "Đề xuất các kỹ thuật xử lý mất cân bằng lớp (SMOTE, class weights, stratified sampling) và khi nào nên áp dụng chúng trước/sau tokenization",
+        "Giải thích trade-off giữa F1-macro vs F1-weighted, khi nào sử dụng precision/recall riêng biệt, và mối quan hệ với business metrics (chi phí sai dương/sai âm)",
+        "Thảo luận về validation strategy phù hợp với class imbalance (stratified k-fold, threshold tuning trên validation set)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_NLP_041",
+    "question_text": "Bạn đang làm việc với một tập dữ liệu đánh giá sản phẩm từ một trang thương mại điện tử, trong đó có nhiều bình luận chứa lỗi chính tả (ví dụ: 'sãn phẩm tốt'), từ viết tắt ('sp'), emoji, và một số bình luận spam không liên quan. Hãy thiết kế một pipeline tiền xử lý văn bản để chuẩn bị dữ liệu cho mô hình phân loại cảm xúc (sentiment classification). Giải thích các bước bạn thực hiện, lý do chọn từng bước, và cách bạn xử lý các trường hợp đặc biệt như từ viết tắt hoặc emoji. So sánh trade-off giữa việc giữ lại emoji và loại bỏ chúng.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "NLP",
+      "NLP_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "NLP",
+      "NLP_PREPROCESSING"
+    ],
+    "answers": {
+      "detailed": "Một pipeline tiền xử lý văn bản cho phân loại cảm xúc trên bình luận sản phẩm tiếng Việt nên bao gồm: (1) Làm sạch dữ liệu: loại bỏ URL, số điện thoại, và phát hiện/lọc spam bằng regex hoặc danh sách từ khóa spam phổ biến. Điều này loại bỏ nhiễu mạnh mà không liên quan đến cảm xúc. (2) Chuẩn hóa chính tả: sử dụng SymSpell hoặc mô hình seq2seq để sửa lỗi chính tả (ví dụ: 'sãn phẩm' → 'sản phẩm'). Điều này quan trọng vì các lỗi chính tả có thể khiến mô hình không nhận ra từ quan trọng. (3) Xử lý emoji và biểu tượng: có hai cách tiếp cận với trade-off khác nhau. Giữ lại emoji: chuyển đổi thành nhãn text (ví dụ: '😊' → 'happy_face', '😡' → 'angry_face') hoặc dùng emoji2text. Ưu điểm: emoji mang thông tin cảm xúc rõ ràng (😡 là tiêu cực rõ ràng); nhược điểm: tăng kích thước từ vựng, cần ánh xạ emoji tùy chỉnh, emoji mới khó xử lý. Loại bỏ emoji: đơn giản hóa dữ liệu, giảm kích thước từ vựng; nhược điểm: mất tín hiệu cảm xúc rõ ràng (ví dụ: 'sản phẩm tốt 😡' mất ngữ cảnh về cảm xúc mâu thuẫn). Khuyến nghị: giữ lại và chuyển đổi emoji thành text cho sentiment classification vì emoji là biểu hiện rõ ràng về cảm xúc trong bình luận người dùng. (4) Xử lý từ viết tắt: tạo từ điển tùy chỉnh cho lĩnh vực (ví dụ: 'sp' → 'sản phẩm', 'tl' → 'tuyệt luyện') và thay thế trước tokenization. (5) Tokenization: dùng công cụ xử lý tiếng Việt như pyvi để tách từ chính xác (ví dụ: 'sản phẩm' là một token, không phải 'sản' + 'phẩm'). (6) Chuẩn hóa: chuyển về chữ thường. (7) Loại bỏ stopwords: tùy chọn - nên giữ lại negation ('không', 'chẳng') vì chúng thay đổi cảm xúc (ví dụ: 'không tốt' là tiêu cực). (8) Lemmatization thay vì stemming cho tiếng Việt: lemmatization với POS tagging cho kết quả tốt hơn vì tiếng Việt là ngôn ngữ cô lập không có biến cách; stemming có nguy cơ tạo ra các dạng không hợp lệ. Thứ tự quan trọng: sửa chính tả trước tokenization đảm bảo nhận dạng từ chính xác, xử lý emoji trước xóa stopwords để không làm mất ngữ cảnh cảm xúc.",
+      "evaluation_points": [
+        "Mô tả pipeline đầy đủ các bước tiền xử lý (ít nhất 4-5 bước) với lý do rõ ràng cho từng bước",
+        "Xử lý tốt các trường hợp đặc biệt: từ viết tắt, emoji, spam với các công cụ cụ thể (ví dụ: SymSpell, từ điển tùy chỉnh)",
+        "So sánh trade-off giữa giữ lại và loại bỏ emoji với ví dụ cụ thể về tác động đến sentiment classification",
+        "Giải thích lựa chọn giữa stemming vs. lemmatization cho tiếng Việt, xem xét đặc thù ngôn ngữ và hiệu suất mô hình",
+        "Thảo luận về thứ tự các bước xử lý (ví dụ: tại sao sửa chính tả trước tokenization, hay chuẩn hóa emoji trước loại bỏ stopwords)",
+        "Xem xét tác động của các quyết định tiền xử lý đối với mô hình sentiment classification cụ thể (ví dụ: loss of emotional signals vs. noise reduction)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  }
+]

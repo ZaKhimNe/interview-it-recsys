@@ -1,0 +1,61 @@
+# SQL_DATABASE — Reference Document (Source: Gemini 2.5 Flash)
+
+## SQL Fundamentals
+
+**Definition:** SQL (Structured Query Language) fundamentals encompass the core commands used to interact with relational databases. This includes `SELECT` for data retrieval, `FROM` to specify tables, `WHERE` for row-level filtering, `GROUP BY` for aggregating data, `HAVING` for filtering aggregated groups, `ORDER BY` for sorting results, and `LIMIT`/`TOP` for restricting output rows.
+
+**Key Distinction:** A critical distinction lies between `WHERE` and `HAVING`. `WHERE` filters individual rows *before* aggregation, while `HAVING` filters groups of rows *after* aggregation. Understanding the logical processing order of a SQL query (FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY -> LIMIT) is paramount.
+
+**Practical Interview-Level Detail:**
+*   **Strong Candidate:** Demonstrates a deep understanding of the query execution order and can articulate how each clause interacts. They can apply complex conditions in `WHERE` and `HAVING` clauses, often combining multiple `AND`/`OR` conditions, and effectively use aggregate functions (`COUNT`, `SUM`, `AVG`, `MIN`, `MAX`) with `GROUP BY`. They can explain scenarios where `HAVING` is strictly necessary (e.g., "find departments with more than 10 employees").
+*   **Weak Candidate:** May confuse `WHERE` and `HAVING`, attempting to filter aggregated results with `WHERE`. They might struggle with multi-level aggregation or applying conditions to aggregated data. A common pitfall is trying to use an alias defined in `SELECT` within the `WHERE` clause.
+
+## JOINs (INNER/LEFT/RIGHT/FULL)
+
+**Definition:** JOINs are used to combine rows from two or more tables based on a related column between them.
+
+**Key Distinction:**
+*   **`INNER JOIN`**: Returns only the rows where there is a match in *both* tables. It's the most restrictive join.
+*   **`LEFT JOIN` (or `LEFT OUTER JOIN`)**: Returns all rows from the *left* table, and the matching rows from the *right* table. If there's no match in the right table, `NULL` values are returned for right table columns.
+*   **`RIGHT JOIN` (or `RIGHT OUTER JOIN`)**: Returns all rows from the *right* table, and the matching rows from the *left* table. If there's no match in the left table, `NULL` values are returned for left table columns.
+*   **`FULL JOIN` (or `FULL OUTER JOIN`)**: Returns all rows when there is a match in *either* the left or right table. If there's no match, `NULL` values are returned for the non-matching side.
+
+**Practical Interview-Level Detail:**
+*   **Strong Candidate:** Can articulate specific business scenarios for each join type (e.g., `LEFT JOIN` to find all customers and their orders, including customers with no orders). They understand how to handle `NULL` values resulting from `OUTER JOIN`s (e.g., `WHERE right_table.id IS NULL` to find unmatched records). They can discuss potential performance implications of joining large tables and identify scenarios leading to data duplication if join conditions are not unique.
+*   **Weak Candidate:** Tends to default to `INNER JOIN` without considering other requirements. Struggles to differentiate between `LEFT` and `RIGHT` join outcomes, especially concerning `NULL` values. May not recognize when a join condition could lead to an explosion of rows (Cartesian product if `ON` clause is missing or incorrect).
+
+## Subqueries
+
+**Definition:** A subquery (or inner query) is a query nested inside another SQL query. It can be used in `SELECT`, `FROM`, `WHERE`, or `HAVING` clauses.
+
+**Key Distinction:** Subqueries can be **correlated** (dependent on the outer query, executing once per outer row) or **non-correlated** (independent, executing once). They can also return a **scalar** value (single row, single column), a **single column list** (multiple rows, single column), or a **table** (multiple rows, multiple columns).
+
+**Practical Interview-Level Detail:**
+*   **Strong Candidate:** Understands when to use subqueries versus JOINs, often preferring JOINs for performance and readability where possible. They can effectively use `IN`, `EXISTS`, `NOT IN`, `NOT EXISTS` with subqueries, explaining the performance differences (e.g., `EXISTS` is often more efficient than `IN` for large subquery results). They can create derived tables using subqueries in the `FROM` clause to pre-process data. They recognize that correlated subqueries can be performance bottlenecks and suggest alternatives.
+*   **Weak Candidate:** Overuses subqueries where a simpler JOIN would suffice. Struggles with correlated subqueries or understanding the different return types. May not grasp the performance implications, especially with `NOT IN` and `NULL` values (a common pitfall: `SELECT * FROM A WHERE A.id NOT IN (SELECT id FROM B WHERE id IS NOT NULL)` is crucial if B.id can be NULL).
+
+## Window Functions (ROW_NUMBER/RANK/DENSE_RANK/LAG/LEAD/NTILE)
+
+**Definition:** Window functions perform a calculation across a set of table rows that are related to the current row, without collapsing rows into a single output row (unlike aggregate functions). They operate on a "window" of rows defined by the `OVER()` clause.
+
+**Key Functions & Distinctions:**
+*   **`OVER(PARTITION BY ... ORDER BY ...)`**: The core of window functions. `PARTITION BY` divides the result set into groups (partitions), and `ORDER BY` specifies the logical order of rows within each partition.
+*   **`ROW_NUMBER()`**: Assigns a unique, sequential integer to each row within its partition, starting from 1.
+*   **`RANK()`**: Assigns a rank within its partition. Rows with the same values receive the same rank, and the next rank is skipped (e.g., 1, 1, 3).
+*   **`DENSE_RANK()`**: Assigns a rank within its partition. Rows with the same values receive the same rank, and no ranks are skipped (e.g., 1, 1, 2).
+*   **`LAG(column, offset, default)`**: Accesses data from a previous row in the same partition.
+*   **`LEAD(column, offset, default)`**: Accesses data from a subsequent row in the same partition.
+*   **`NTILE(N)`**: Divides the rows in a partition into `N` groups, assigning an integer from 1 to `N` indicating the group.
+
+**Practical Interview-Level Detail:**
+*   **Strong Candidate:** Can solve complex analytical problems like "find the top N employees per department," "calculate a running total," or "compare current month's sales to previous month's sales." They clearly explain the difference between `RANK` and `DENSE_RANK` and the importance of `PARTITION BY` and `ORDER BY` in defining the window. They can use `LAG`/`LEAD` for time-series analysis or change detection.
+*   **Weak Candidate:** May confuse ranking functions or struggle to construct the `OVER()` clause correctly. They might try to solve "top N per group" problems using complex subqueries or self-joins, which are often less efficient and harder to read than window functions.
+
+## CTEs (Common Table Expressions)
+
+**Definition:** A CTE is a temporary, named result set that you can reference within a single `SELECT`, `INSERT`, `UPDATE`, or `DELETE` statement. It's defined using the `WITH` clause.
+
+**Key Distinction:** CTEs improve query readability and modularity by breaking down complex queries into logical, named steps. Unlike temporary tables, CTEs are typically not materialized (stored physically) and are only valid for the duration of the query they are part of. They can also be recursive.
+
+**Practical Interview-Level Detail:**
+*   **Strong Candidate:** Uses CTEs to structure complex queries, making them easier to read, debug, and maintain. They can explain how CTEs enhance readability over deeply nested subqueries. They understand that CTEs can be referenced multiple times within the same query, avoiding repetitive code. They might discuss the performance implications, noting that while not always a performance booster, they can sometimes help

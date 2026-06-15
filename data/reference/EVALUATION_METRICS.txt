@@ -1,0 +1,47 @@
+# EVALUATION_METRICS — Reference Document (Source: Gemini 2.5 Flash)
+
+## EVALUATION_METRICS (Role: Data Scientist)
+
+This document outlines key competencies in evaluation metrics for Data Scientists, distinguishing between foundational understanding and advanced, context-aware application.
+
+## Classification Metrics
+
+### Confusion Matrix (TP/FP/TN/FN)
+**Definition:** A table summarizing the performance of a classification model, showing the counts of True Positives (TP), False Positives (FP), True Negatives (TN), and False Negatives (FN).
+**Distinction:** Not a metric itself, but the fundamental building block for all other classification metrics.
+**Practical Detail:** TP: correctly predicted positive. FP (Type I error): incorrectly predicted positive. TN: correctly predicted negative. FN (Type II error): incorrectly predicted negative.
+**Strong Candidate:** Can articulate the business implications of each error type, e.g., "A high FP rate in fraud detection means many legitimate transactions are flagged, increasing operational overhead, whereas a high FN rate means actual fraud goes undetected, leading to financial losses."
+**Weak Candidate:** Recites definitions without connecting them to real-world consequences or business objectives.
+
+### Accuracy Pitfall
+**Definition:** The proportion of total predictions that were correct: (TP + TN) / (TP + TN + FP + FN).
+**Distinction:** Simple and intuitive, but highly misleading for imbalanced datasets.
+**Practical Detail:** A model predicting the majority class can achieve very high accuracy on imbalanced data while being useless for identifying the minority class.
+**Strong Candidate:** Immediately identifies accuracy's limitation for imbalanced data and proactively suggests more robust alternatives like precision, recall, or F1-score.
+**Weak Candidate:** Proposes accuracy as the primary or sole metric for all classification problems, regardless of class distribution.
+
+### Precision vs Recall Tradeoff
+**Precision:** TP / (TP + FP). The proportion of positive predictions that were actually correct. Focuses on minimizing Type I errors.
+**Recall (Sensitivity):** TP / (TP + FN). The proportion of actual positives that were correctly identified. Focuses on minimizing Type II errors.
+**Distinction:** Precision measures the quality of positive predictions; Recall measures the completeness of positive predictions. They are often inversely related; improving one typically degrades the other.
+**Practical Detail:** The choice depends on the business context. High precision is critical when false positives are costly (e.g., spam filtering, medical diagnosis for a rare disease). High recall is critical when false negatives are costly (e.g., cancer detection, fraud detection).
+**Strong Candidate:** Explains the inverse relationship and provides concrete business examples where one is prioritized over the other, demonstrating an understanding of cost-sensitive learning.
+**Weak Candidate:** Treats precision and recall as interchangeable or fails to grasp the fundamental tradeoff.
+
+### F1-score
+**Definition:** The harmonic mean of Precision and Recall: 2 * (Precision * Recall) / (Precision + Recall).
+**Distinction:** Provides a single metric that balances precision and recall, useful when both are important and classes are somewhat imbalanced.
+**Practical Detail:** The harmonic mean penalizes extreme values more heavily than an arithmetic mean, ensuring a high F1-score requires both high precision and high recall.
+**Strong Candidate:** Explains *why* the harmonic mean is used (to penalize models with poor performance in either precision or recall) and when F1 is a suitable choice over individual P/R.
+**Weak Candidate:** Just states the formula without understanding its purpose or limitations.
+
+### F-beta Score
+**Definition:** A generalization of the F1-score that allows explicit weighting of precision versus recall: (1 + beta^2) * (Precision * Recall) / (beta^2 * Precision + Recall).
+**Distinction:** F1-score is F-beta with beta=1. Beta > 1 weights recall more heavily; Beta < 1 weights precision more heavily.
+**Practical Detail:** Used when the cost of false negatives is `beta^2` times the cost of false positives. For instance, beta=2 means recall is considered twice as important as precision.
+**Strong Candidate:** Can explain how to choose the `beta` value based on specific business cost functions or domain expertise, providing examples of scenarios where a non-1 beta is appropriate.
+**Weak Candidate:** Is unaware of F-beta or cannot articulate its utility beyond F1.
+
+### ROC-AUC Interpretation
+**Definition:** The Receiver Operating Characteristic (ROC) curve plots the True Positive Rate (Recall) against the False Positive Rate (1 - Specificity) at various classification threshold settings. AUC (Area Under the Curve) is the aggregate measure of performance across all possible thresholds.
+**Distinction:** Threshold-independent. Measures how well a model distinguishes between classes, regardless of the chosen operating point.

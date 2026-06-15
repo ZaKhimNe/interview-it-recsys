@@ -1,0 +1,53 @@
+# DATA_PREPROCESSING — Reference Document (Source: Gemini 2.5 Flash)
+
+## DATA_PREPROCESSING
+
+Data preprocessing is a critical phase in the machine learning pipeline, transforming raw data into a clean, structured, and suitable format for model training. A strong candidate demonstrates not just knowledge of techniques but also a deep understanding of their underlying assumptions, trade-offs, and practical implications.
+
+---
+
+## Missing Value Strategies
+
+Missing values are common in real-world datasets and can significantly impact model performance if not handled appropriately.
+
+*   **Mean/Median/Mode Imputation:**
+    *   **Definition:** Replacing missing numerical values with the feature's mean or median, and categorical values with the mode.
+    *   **Distinction:** Mean imputation is sensitive to outliers and can distort the feature's distribution. Median imputation is more robust to outliers and preferred for skewed data. Mode is suitable for both categorical and discrete numerical features.
+    *   **Practical Detail:** Simple and fast. However, it reduces variance, can distort correlations between features, and underestimates standard errors.
+    *   **Strong Candidate:** Discusses the implications of each method on data distribution and variance, highlights the choice between mean/median based on skewness and presence of outliers, and acknowledges the loss of information. They might suggest using median for skewed data or when outliers are present.
+    *   **Pitfall:** Blindly applying mean imputation without considering data distribution or the impact on feature relationships.
+
+*   **KNN Imputation:**
+    *   **Definition:** Imputes missing values by finding the *K*-nearest neighbors to the observation with missing values and averaging (for numerical) or taking the mode (for categorical) of their respective feature values.
+    *   **Distinction:** More sophisticated than statistical imputation as it leverages feature similarity, preserving relationships better.
+    *   **Practical Detail:** Computationally more expensive, especially for large datasets or high dimensionality. Requires feature scaling before application.
+    *   **Strong Candidate:** Explains how KNN leverages the inherent structure of the data, discusses the computational trade-off, and emphasizes the necessity of prior feature scaling.
+
+*   **Indicator Variables (Missingness Indicator):**
+    *   **Definition:** Creating a binary feature (0 or 1) that indicates whether the original feature had a missing value. This is often combined with an imputation strategy.
+    *   **Distinction:** Explicitly captures "missingness" as a potentially informative signal, rather than just treating it as a nuisance.
+    *   **Practical Detail:** Useful when the fact that a value is missing is itself predictive of the target variable.
+    *   **Strong Candidate:** Explains *why* missingness might be informative (e.g., a customer not providing income might indicate a specific demographic) and how this method allows the model to learn from that signal.
+    *   **Pitfall:** Not considering the mechanism of missingness (MCAR, MAR, MNAR) and its implications for chosen strategies.
+
+---
+
+## Outlier Detection
+
+Outliers are data points significantly different from other observations. They can skew model training, leading to suboptimal performance.
+
+*   **IQR Method (Interquartile Range):**
+    *   **Definition:** Identifies outliers as data points falling outside the range `[Q1 - 1.5*IQR, Q3 + 1.5*IQR]`, where Q1 and Q3 are the first and third quartiles, and IQR = Q3 - Q1.
+    *   **Distinction:** A non-parametric method, robust to non-normal distributions and extreme values, making it suitable for skewed data.
+    *   **Practical Detail:** Simple and effective for univariate outlier detection.
+    *   **Strong Candidate:** Explains its robustness and limitations for multivariate or high-dimensional data.
+
+*   **Z-score (Standard Score):**
+    *   **Definition:** Measures how many standard deviations a data point is from the mean. Data points with a Z-score exceeding a threshold (e.g., |Z| > 3) are considered outliers.
+    *   **Distinction:** Assumes a normal distribution of data.
+    *   **Practical Detail:** Effective for normally distributed data. Highly sensitive to extreme outliers, as both mean and standard deviation are affected by them.
+    *   **Strong Candidate:** Clearly states the normality assumption and discusses its sensitivity to extreme values.
+
+*   **Isolation Forest:**
+    *   **Definition:** An ensemble tree-based anomaly detection algorithm that isolates anomalies by randomly selecting a feature and then randomly selecting a split value. Anomalies are points that require fewer splits to be isolated in a tree.
+    *   **Distinction:** Unsupervised, works well in high dimensions, and does not assume any specific data

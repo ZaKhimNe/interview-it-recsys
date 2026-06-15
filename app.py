@@ -10,11 +10,11 @@ from pathlib import Path
 
 import streamlit as st
 
-from core.data_loader import load_question_bank, get_radar_profile_data
+from src.data_loader import load_question_bank, get_radar_profile_data
 
 ROOT_DIR     = Path(__file__).parent
-FRONTEND_DIR = ROOT_DIR / "frontend"
-STATIC_DIR   = ROOT_DIR / "static"
+FRONTEND_DIR = ROOT_DIR / "app" / "frontend"
+STATIC_DIR   = ROOT_DIR / "app" / "static"
 
 JSX_ORDER = [
     "state.jsx",

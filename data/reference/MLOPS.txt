@@ -1,0 +1,68 @@
+# MLOPS — Reference Document (Source: Gemini 2.5 Flash)
+
+## MLOPS Competency: Data Scientist Role
+
+### ML Pipeline Design
+
+**Definition:** An ML pipeline is a structured, automated sequence of steps that orchestrates the entire machine learning lifecycle, from data ingestion and preparation to model training, evaluation, validation, and deployment. It ensures reproducibility, scalability, and maintainability of ML systems.
+
+**Key Distinction:** Unlike ad-hoc scripts, a pipeline defines a directed acyclic graph (DAG) of interconnected components, each performing a specific task. Tools like Kubeflow Pipelines, MLflow Pipelines, or Apache Airflow are used for orchestration.
+
+**Practical Interview Detail:** A strong candidate will discuss the modularity of pipeline components, the importance of versioning each component, and how pipelines facilitate continuous integration and continuous delivery (CI/CD) for ML. They should be able to articulate the benefits of automation, such as reduced manual errors and faster iteration cycles.
+
+**Training/Serving Skew:**
+**Definition:** Training/serving skew refers to a discrepancy between the data distribution or feature engineering logic used during model training and the data encountered during model inference (serving). This can lead to significant degradation in model performance in production.
+**Strong Answer:** Identifies common causes:
+1.  **Data Pipeline Differences:** Separate codebases or environments for training and serving data transformations.
+2.  **Feature Value Discrepancies:** Changes in upstream data sources or data collection mechanisms.
+3.  **Feedback Loops:** Model predictions influencing future input data, creating a self-reinforcing bias.
+4.  **Time-based Drift:** Natural evolution of data over time (data drift).
+Mitigation strategies include using a feature store to ensure consistent feature engineering, rigorous data validation at both training and serving time, and monitoring feature distributions in production.
+**Weak Answer:** Only defines the term without discussing its causes or practical mitigation strategies, or confuses it with concept drift.
+
+### Experiment Tracking with MLflow
+
+**Definition:** Experiment tracking is the systematic recording and organization of all relevant information pertaining to a machine learning experiment. This includes code versions, hyperparameters, input data, evaluation metrics, and generated artifacts (e.g., trained models, plots).
+
+**MLflow Components:**
+*   **MLflow Tracking:** Provides an API and UI for logging `runs` (individual executions of ML code), `params` (hyperparameters used), `metrics` (performance scores like accuracy, RMSE), and `artifacts` (any output files, including the trained model).
+*   **MLflow Model Registry:** A centralized hub for managing the lifecycle of MLflow Models. It enables versioning of registered models, stage transitions (e.g., Staging, Production, Archived), and annotations, facilitating model governance and deployment workflows.
+
+**Key Distinction:** More than just saving a CSV of results, MLflow links all components of an experiment, enabling easy comparison of runs, reproduction of results, and auditing.
+**Strong Answer:** Explains how to use MLflow to compare different model architectures or hyperparameter sets, reproduce specific results, and leverage the Model Registry for managing model versions across different environments (e.g., promoting a model from Staging to Production). They might discuss logging custom metrics or complex artifacts.
+**Weak Answer:** Only mentions saving models or metrics without understanding the holistic view of an experiment or the Model Registry's role in lifecycle management and governance.
+**Pitfall:** Confusing the Model Registry with a generic artifact store. The Model Registry specifically manages *versions and stages* of *MLflow Models*, which are a specific type of artifact.
+
+### Model Versioning
+
+**Definition:** Model versioning is the practice of assigning unique identifiers to different iterations of a machine learning model, tracking changes in its code, data, hyperparameters, and performance. This ensures that specific models can be reproduced, audited, and deployed consistently.
+
+**Key Distinction:** It goes beyond just versioning the *code* (e.g., using Git) to include the *trained model artifact itself*, often linking it to the specific data and code that produced it.
+**Practical Interview Detail:** Essential for reproducibility, auditing, rollback capabilities (deploying a previous, stable version), and enabling A/B testing of different model versions. It's often integrated with experiment tracking systems (like MLflow Model Registry) and potentially data versioning tools (like DVC).
+**Strong Answer:** Explains the necessity of versioning the entire ML "recipe" (code, data, environment, model artifact) for true reproducibility and robust MLOps. Discusses how different versions can be managed, promoted, and deployed.
+**Weak Answer:** Only mentions Git for code versioning, overlooking the critical aspect of versioning the trained model artifact and its dependencies.
+
+### Deployment Patterns
+
+**REST API Inference (Online/Real-time):**
+**Definition:** Exposing a trained model as a web service (e.g., using Flask, FastAPI, or cloud-native solutions) that receives individual prediction requests over HTTP/HTTPS and returns immediate, low-latency responses.
+**Practical Detail:** Suitable for interactive applications requiring instant predictions (e.g., fraud detection, personalized recommendations). Requires robust infrastructure for high availability, scalability (e.g., Kubernetes, serverless functions), and often stateless design.
+
+**Batch Scoring:**
+**Definition:** Applying a model to a large dataset at once, typically on a scheduled basis, to generate predictions for many instances simultaneously.
+**Practical Detail:** Used when predictions are not needed immediately (e.g., daily reports, pre-calculating scores for a large user base). Prioritizes high throughput over low latency. Often integrated with data warehousing or big data processing frameworks.
+
+**Streaming Inference:**
+**Definition:** Processing continuous streams of data in real-time to generate predictions as data arrives.
+**Practical Detail:** Combines aspects of online and batch. Requires low-latency processing of continuous data streams (e.g., using Kafka, Flink, Spark Streaming). Ideal for scenarios where data is constantly flowing and immediate action is needed (e.g., IoT sensor data analysis, real-time anomaly detection).
+
+**Strong Answer:** Compares and contrasts these patterns based on latency requirements, throughput, data volume, and typical use cases. Discusses the underlying infrastructure and architectural considerations for each.
+**Weak Answer:** Only describes one pattern or confuses the distinct requirements and trade-offs of each.
+
+### Model Monitoring
+
+**Definition:** The continuous observation of a deployed model's performance, input data characteristics, and output predictions to detect issues, ensure continued effectiveness, and trigger alerts or retraining.
+
+**Data Drift Detection:**
+**Definition:** A change in the statistical properties of the input features (P(X)) over time, which can cause a deployed model's predictions to become less reliable.
+**Practical Detail:** Detected by comparing the distribution of current production data
