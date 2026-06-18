@@ -1,0 +1,63 @@
+# PYTHON_ANALYTICS — Reference Document (Source: Gemini 2.5 Flash)
+
+## PYTHON_ANALYTICS Competency Reference (Role: Data Analyst)
+
+This document outlines the core Python competencies expected of a Data Analyst, focusing on practical application, technical depth, and common pitfalls.
+
+## Pandas Core Concepts
+
+### DataFrame Creation
+**Definition:** A Pandas DataFrame is a two-dimensional, size-mutable, and potentially heterogeneous tabular data structure with labeled axes (rows and columns). It can be thought of as a dictionary-like container for Series objects.
+**Distinction:** Differs from a Series (1D labeled array) by having two axes. Unlike NumPy arrays, DataFrames can hold columns of different data types and have explicit row and column labels.
+**Interview Detail:** Candidates should demonstrate proficiency in creating DataFrames from various sources: dictionaries of lists/Series, lists of dictionaries, NumPy arrays, and external files (CSV, Excel, SQL queries using `pd.read_sql`).
+**Strong Candidate:** Discusses the importance of `dtype` inference and how to explicitly define `dtypes` for memory optimization or type consistency. Understands the role of the `index` parameter for meaningful row labels and its impact on subsequent operations.
+**Weak Candidate:** Only knows `pd.DataFrame()` without understanding input flexibility or index implications.
+**Pitfall:** Not considering the `index` or `columns` parameters, leading to default integer indices when more descriptive labels are available.
+
+### Indexing and Selection (`loc`, `iloc`, `[]`)
+**Definition:** Methods for selecting subsets of data from a DataFrame.
+*   `loc`: Label-based indexing, used for selecting by row/column labels. Both start and end labels are inclusive.
+*   `iloc`: Integer-position-based indexing, used for selecting by integer positions (0-based). The end position is exclusive, similar to Python slicing.
+*   `[]`: Primary method for column selection. Can also be used for row slicing with integer positions or boolean indexing.
+**Distinction:** `loc` for explicit labels, `iloc` for positional access. `[]` is versatile but can be ambiguous for row vs. column selection without context.
+**Interview Detail:** Candidates should demonstrate multi-axis selection, boolean indexing (`df[df['col'] > 5]`), and conditional updates.
+**Strong Candidate:** Clearly articulates *when* to use `loc` vs. `iloc` and *why* they are preferred over chained indexing (`df['col'][row_index]`) to avoid the `SettingWithCopyWarning`, explaining its implications for data integrity.
+**Weak Candidate:** Relies solely on `[]` for all selection, leading to inefficient or incorrect operations.
+**Pitfall:** Misunderstanding `SettingWithCopyWarning` and its potential to lead to silent failures or unexpected behavior. Confusion between inclusive/exclusive slicing for `loc` vs. `iloc`.
+
+### Groupby Aggregations
+**Definition:** A process involving splitting data into groups based on one or more keys, applying a function to each group independently, and combining the results into a single DataFrame.
+**Distinction:** The `groupby()` method returns a `DataFrameGroupBy` object, which then requires an aggregation function (`mean`, `sum`, `count`, `agg`, `transform`, `apply`) to produce a result.
+**Interview Detail:** Candidates should perform single and multiple aggregations, apply custom functions, and understand `agg()` for different aggregations per column.
+**Strong Candidate:** Discusses the performance implications of `apply` (generally slower) versus optimized aggregations or `transform`. Explains `transform`'s utility for group-wise operations that return a result of the same size as the original group, useful for imputation or normalization. Demonstrates `named_agg` for clear output column names.
+**Weak Candidate:** Only knows basic `df.groupby('col')['val'].mean()`.
+**Pitfall:** Not understanding the difference between `agg`, `transform`, and `apply` in the context of `groupby`, leading to inefficient code or incorrect output shapes.
+
+### Merge and Join Types
+**Definition:** Operations to combine two DataFrames based on common columns or indices.
+*   `inner`: Returns only rows with matching keys in both DataFrames.
+*   `left`: Returns all rows from the left DataFrame, and matching rows from the right. `NaN` for unmatched right keys.
+*   `right`: Returns all rows from the right DataFrame, and matching rows from the left. `NaN` for unmatched left keys.
+*   `outer`: Returns all rows when there is a match in either left or right DataFrame. `NaN` for unmatched keys.
+**Distinction:** `pd.merge()` is primarily column-based, while `df.join()` is index-based by default, though it can also join on columns using the `on` parameter.
+**Interview Detail:** Candidates should correctly choose the appropriate join type for given scenarios, handle multiple join keys, and manage overlapping column names using `suffixes`.
+**Strong Candidate:** Articulates the performance considerations for merging large datasets, discusses handling duplicate keys (`validate` parameter), and understands how to troubleshoot merge issues (e.g., data type mismatches in join keys).
+**Weak Candidate:** Only knows `pd.merge()` without understanding the different `how` options or `suffixes`.
+**Pitfall:** Not handling non-unique keys correctly, leading to unintended Cartesian products. Forgetting `suffixes` when column names overlap, resulting in `_x` and `_y` suffixes that might need renaming.
+
+### Pivot Tables
+**Definition:** A data summarization tool that reshapes data by aggregating values based on one or more key columns to form new indices and columns.
+**Distinction:** `pd.pivot_table()` performs aggregation (e.g., sum, mean) and can handle duplicate entries in the index/columns combination. `df.pivot()` is a simpler reshaping operation that *does not* aggregate and requires unique combinations of index and column values.
+**Interview Detail:** Candidates should use `index`, `columns`, `values`, and `aggfunc` parameters effectively.
+**Strong Candidate:** Demonstrates using `pivot_table` for multi-level indices and columns, applying multiple aggregation functions, and using `fill_value` for cleaner output. Understands when `pivot` is appropriate (e.g., when data is already unique for the pivot keys).
+**Weak Candidate:** Only uses `pivot_table` for simple sums or means, or confuses it with `pivot`.
+**Pitfall:** Using `pivot` when aggregation is required, leading to errors due to duplicate entries.
+
+### Apply/Map/Applymap
+**Definition:** Methods for applying functions to Pandas Series or DataFrames.
+*   `Series.map()`: Element-wise application of a function or dictionary to a Series.
+*   `DataFrame.applymap()`: Element-wise application of a function to every element of a DataFrame.
+*   `DataFrame.apply()`: Row or column-wise application of a function to a DataFrame or Series.
+**Distinction:** `map` is for Series, `applymap` is for DataFrames element-wise, `apply` is for Series or DataFrame row/column-wise.
+**Interview Detail:** Candidates should use `lambda` functions with these methods.
+**Strong Candidate:** Understands the performance hierarchy: vectorized operations > `map`/`applymap` > `apply` (especially row-wise). Knows *when not to use* `apply` (e

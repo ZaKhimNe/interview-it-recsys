@@ -1,0 +1,6834 @@
+[
+  {
+    "user_id": "u_0165",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.499,
+      "BI_VISUALIZATION": 0.34,
+      "STATISTICS_EXPERIMENTATION": 0.597,
+      "ANALYTICS_BUSINESS": 0.549,
+      "PYTHON_ANALYTICS": 0.45
+    }
+  },
+  {
+    "user_id": "u_0384",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.6,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.322,
+      "DATA_ARCHITECTURE_MODELING": 0.388,
+      "BIG_DATA_CLOUD_TOOLS": 0.322,
+      "DATABASE_INTERNALS": 0.334,
+      "SYSTEM_ARCHITECTURE": 0.439
+    }
+  },
+  {
+    "user_id": "u_0046",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.3,
+    "skill_vector": {
+      "SQL_DATABASE": 0.363,
+      "BI_VISUALIZATION": 0.104,
+      "STATISTICS_EXPERIMENTATION": 0.336,
+      "ANALYTICS_BUSINESS": 0.244,
+      "PYTHON_ANALYTICS": 0.156
+    }
+  },
+  {
+    "user_id": "u_0157",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 3.2,
+    "skill_vector": {
+      "SQL_DATABASE": 0.403,
+      "BI_VISUALIZATION": 0.477,
+      "STATISTICS_EXPERIMENTATION": 0.405,
+      "ANALYTICS_BUSINESS": 0.455,
+      "PYTHON_ANALYTICS": 0.282
+    }
+  },
+  {
+    "user_id": "u_0054",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.294,
+      "BI_VISUALIZATION": 0.228,
+      "STATISTICS_EXPERIMENTATION": 0.237,
+      "ANALYTICS_BUSINESS": 0.316,
+      "PYTHON_ANALYTICS": 0.167
+    }
+  },
+  {
+    "user_id": "u_0073",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.7,
+    "skill_vector": {
+      "SQL_DATABASE": 0.33,
+      "BI_VISUALIZATION": 0.29,
+      "STATISTICS_EXPERIMENTATION": 0.342,
+      "ANALYTICS_BUSINESS": 0.352,
+      "PYTHON_ANALYTICS": 0.396
+    }
+  },
+  {
+    "user_id": "u_0316",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 1.5,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.468,
+      "EVALUATION_METRICS": 0.399,
+      "DATA_PREPROCESSING": 0.395,
+      "DEEP_LEARNING": 0.387,
+      "NLP": 0.29,
+      "TIME_SERIES": 0.529,
+      "MLOPS": 0.637
+    }
+  },
+  {
+    "user_id": "u_0210",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 0.7,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.284,
+      "EVALUATION_METRICS": 0.276,
+      "DATA_PREPROCESSING": 0.281,
+      "DEEP_LEARNING": 0.22,
+      "NLP": 0.268,
+      "TIME_SERIES": 0.419,
+      "MLOPS": 0.327
+    }
+  },
+  {
+    "user_id": "u_0075",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.173,
+      "BI_VISUALIZATION": 0.238,
+      "STATISTICS_EXPERIMENTATION": 0.178,
+      "ANALYTICS_BUSINESS": 0.214,
+      "PYTHON_ANALYTICS": 0.126
+    }
+  },
+  {
+    "user_id": "u_0334",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.9,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.626,
+      "DATA_ARCHITECTURE_MODELING": 0.714,
+      "BIG_DATA_CLOUD_TOOLS": 0.572,
+      "DATABASE_INTERNALS": 0.681,
+      "SYSTEM_ARCHITECTURE": 0.767
+    }
+  },
+  {
+    "user_id": "u_0404",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.411,
+      "DATA_ARCHITECTURE_MODELING": 0.396,
+      "BIG_DATA_CLOUD_TOOLS": 0.332,
+      "DATABASE_INTERNALS": 0.371,
+      "SYSTEM_ARCHITECTURE": 0.281
+    }
+  },
+  {
+    "user_id": "u_0416",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.295,
+      "DATA_ARCHITECTURE_MODELING": 0.238,
+      "BIG_DATA_CLOUD_TOOLS": 0.221,
+      "DATABASE_INTERNALS": 0.356,
+      "SYSTEM_ARCHITECTURE": 0.318
+    }
+  },
+  {
+    "user_id": "u_0093",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.593,
+      "BI_VISUALIZATION": 0.483,
+      "STATISTICS_EXPERIMENTATION": 0.457,
+      "ANALYTICS_BUSINESS": 0.481,
+      "PYTHON_ANALYTICS": 0.411
+    }
+  },
+  {
+    "user_id": "u_0216",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.2,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.438,
+      "EVALUATION_METRICS": 0.501,
+      "DATA_PREPROCESSING": 0.337,
+      "DEEP_LEARNING": 0.189,
+      "NLP": 0.239,
+      "TIME_SERIES": 0.138,
+      "MLOPS": 0.508
+    }
+  },
+  {
+    "user_id": "u_0480",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.5,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.493,
+      "DATA_ARCHITECTURE_MODELING": 0.627,
+      "BIG_DATA_CLOUD_TOOLS": 0.598,
+      "DATABASE_INTERNALS": 0.567,
+      "SYSTEM_ARCHITECTURE": 0.614
+    }
+  },
+  {
+    "user_id": "u_0060",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.26,
+      "BI_VISUALIZATION": 0.109,
+      "STATISTICS_EXPERIMENTATION": 0.187,
+      "ANALYTICS_BUSINESS": 0.227,
+      "PYTHON_ANALYTICS": 0.256
+    }
+  },
+  {
+    "user_id": "u_0369",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.3,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.197,
+      "DATA_ARCHITECTURE_MODELING": 0.263,
+      "BIG_DATA_CLOUD_TOOLS": 0.198,
+      "DATABASE_INTERNALS": 0.181,
+      "SYSTEM_ARCHITECTURE": 0.456
+    }
+  },
+  {
+    "user_id": "u_0164",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.3,
+    "skill_vector": {
+      "SQL_DATABASE": 0.381,
+      "BI_VISUALIZATION": 0.493,
+      "STATISTICS_EXPERIMENTATION": 0.484,
+      "ANALYTICS_BUSINESS": 0.545,
+      "PYTHON_ANALYTICS": 0.329
+    }
+  },
+  {
+    "user_id": "u_0211",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.088,
+      "EVALUATION_METRICS": 0.237,
+      "DATA_PREPROCESSING": 0.05,
+      "DEEP_LEARNING": 0.09,
+      "NLP": 0.083,
+      "TIME_SERIES": 0.05,
+      "MLOPS": 0.207
+    }
+  },
+  {
+    "user_id": "u_0252",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.3,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.685,
+      "EVALUATION_METRICS": 0.553,
+      "DATA_PREPROCESSING": 0.699,
+      "DEEP_LEARNING": 0.639,
+      "NLP": 0.611,
+      "TIME_SERIES": 0.395,
+      "MLOPS": 0.551
+    }
+  },
+  {
+    "user_id": "u_0444",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.4,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.624,
+      "DATA_ARCHITECTURE_MODELING": 0.516,
+      "BIG_DATA_CLOUD_TOOLS": 0.56,
+      "DATABASE_INTERNALS": 0.535,
+      "SYSTEM_ARCHITECTURE": 0.365
+    }
+  },
+  {
+    "user_id": "u_0321",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.2,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.548,
+      "EVALUATION_METRICS": 0.516,
+      "DATA_PREPROCESSING": 0.356,
+      "DEEP_LEARNING": 0.52,
+      "NLP": 0.407,
+      "TIME_SERIES": 0.579,
+      "MLOPS": 0.269
+    }
+  },
+  {
+    "user_id": "u_0290",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.432,
+      "EVALUATION_METRICS": 0.499,
+      "DATA_PREPROCESSING": 0.362,
+      "DEEP_LEARNING": 0.266,
+      "NLP": 0.315,
+      "TIME_SERIES": 0.589,
+      "MLOPS": 0.535
+    }
+  },
+  {
+    "user_id": "u_0390",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.371,
+      "DATA_ARCHITECTURE_MODELING": 0.181,
+      "BIG_DATA_CLOUD_TOOLS": 0.302,
+      "DATABASE_INTERNALS": 0.287,
+      "SYSTEM_ARCHITECTURE": 0.105
+    }
+  },
+  {
+    "user_id": "u_0008",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 3.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.666,
+      "BI_VISUALIZATION": 0.609,
+      "STATISTICS_EXPERIMENTATION": 0.47,
+      "ANALYTICS_BUSINESS": 0.624,
+      "PYTHON_ANALYTICS": 0.601
+    }
+  },
+  {
+    "user_id": "u_0463",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.2,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.404,
+      "DATA_ARCHITECTURE_MODELING": 0.524,
+      "BIG_DATA_CLOUD_TOOLS": 0.38,
+      "DATABASE_INTERNALS": 0.555,
+      "SYSTEM_ARCHITECTURE": 0.514
+    }
+  },
+  {
+    "user_id": "u_0250",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.261,
+      "EVALUATION_METRICS": 0.338,
+      "DATA_PREPROCESSING": 0.382,
+      "DEEP_LEARNING": 0.092,
+      "NLP": 0.05,
+      "TIME_SERIES": 0.149,
+      "MLOPS": 0.347
+    }
+  },
+  {
+    "user_id": "u_0229",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.7,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.32,
+      "EVALUATION_METRICS": 0.5,
+      "DATA_PREPROCESSING": 0.196,
+      "DEEP_LEARNING": 0.279,
+      "NLP": 0.395,
+      "TIME_SERIES": 0.541,
+      "MLOPS": 0.451
+    }
+  },
+  {
+    "user_id": "u_0246",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.6,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.252,
+      "EVALUATION_METRICS": 0.381,
+      "DATA_PREPROCESSING": 0.269,
+      "DEEP_LEARNING": 0.296,
+      "NLP": 0.308,
+      "TIME_SERIES": 0.113,
+      "MLOPS": 0.14
+    }
+  },
+  {
+    "user_id": "u_0212",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.226,
+      "EVALUATION_METRICS": 0.05,
+      "DATA_PREPROCESSING": 0.197,
+      "DEEP_LEARNING": 0.172,
+      "NLP": 0.075,
+      "TIME_SERIES": 0.268,
+      "MLOPS": 0.209
+    }
+  },
+  {
+    "user_id": "u_0130",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.9,
+    "skill_vector": {
+      "SQL_DATABASE": 0.502,
+      "BI_VISUALIZATION": 0.285,
+      "STATISTICS_EXPERIMENTATION": 0.352,
+      "ANALYTICS_BUSINESS": 0.421,
+      "PYTHON_ANALYTICS": 0.448
+    }
+  },
+  {
+    "user_id": "u_0163",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.5,
+    "skill_vector": {
+      "SQL_DATABASE": 0.521,
+      "BI_VISUALIZATION": 0.346,
+      "STATISTICS_EXPERIMENTATION": 0.321,
+      "ANALYTICS_BUSINESS": 0.319,
+      "PYTHON_ANALYTICS": 0.37
+    }
+  },
+  {
+    "user_id": "u_0224",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.3,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.405,
+      "EVALUATION_METRICS": 0.462,
+      "DATA_PREPROCESSING": 0.319,
+      "DEEP_LEARNING": 0.47,
+      "NLP": 0.389,
+      "TIME_SERIES": 0.05,
+      "MLOPS": 0.328
+    }
+  },
+  {
+    "user_id": "u_0042",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.5,
+    "skill_vector": {
+      "SQL_DATABASE": 0.228,
+      "BI_VISUALIZATION": 0.151,
+      "STATISTICS_EXPERIMENTATION": 0.376,
+      "ANALYTICS_BUSINESS": 0.293,
+      "PYTHON_ANALYTICS": 0.1
+    }
+  },
+  {
+    "user_id": "u_0279",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 4.1,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.527,
+      "EVALUATION_METRICS": 0.529,
+      "DATA_PREPROCESSING": 0.475,
+      "DEEP_LEARNING": 0.428,
+      "NLP": 0.426,
+      "TIME_SERIES": 0.404,
+      "MLOPS": 0.438
+    }
+  },
+  {
+    "user_id": "u_0022",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.589,
+      "BI_VISUALIZATION": 0.567,
+      "STATISTICS_EXPERIMENTATION": 0.614,
+      "ANALYTICS_BUSINESS": 0.632,
+      "PYTHON_ANALYTICS": 0.476
+    }
+  },
+  {
+    "user_id": "u_0435",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.375,
+      "DATA_ARCHITECTURE_MODELING": 0.481,
+      "BIG_DATA_CLOUD_TOOLS": 0.328,
+      "DATABASE_INTERNALS": 0.446,
+      "SYSTEM_ARCHITECTURE": 0.554
+    }
+  },
+  {
+    "user_id": "u_0069",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.7,
+    "skill_vector": {
+      "SQL_DATABASE": 0.269,
+      "BI_VISUALIZATION": 0.25,
+      "STATISTICS_EXPERIMENTATION": 0.228,
+      "ANALYTICS_BUSINESS": 0.195,
+      "PYTHON_ANALYTICS": 0.05
+    }
+  },
+  {
+    "user_id": "u_0228",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.7,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.385,
+      "EVALUATION_METRICS": 0.332,
+      "DATA_PREPROCESSING": 0.376,
+      "DEEP_LEARNING": 0.269,
+      "NLP": 0.104,
+      "TIME_SERIES": 0.05,
+      "MLOPS": 0.111
+    }
+  },
+  {
+    "user_id": "u_0152",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.5,
+    "skill_vector": {
+      "SQL_DATABASE": 0.427,
+      "BI_VISUALIZATION": 0.538,
+      "STATISTICS_EXPERIMENTATION": 0.54,
+      "ANALYTICS_BUSINESS": 0.695,
+      "PYTHON_ANALYTICS": 0.448
+    }
+  },
+  {
+    "user_id": "u_0370",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.6,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.25,
+      "DATA_ARCHITECTURE_MODELING": 0.215,
+      "BIG_DATA_CLOUD_TOOLS": 0.324,
+      "DATABASE_INTERNALS": 0.409,
+      "SYSTEM_ARCHITECTURE": 0.05
+    }
+  },
+  {
+    "user_id": "u_0218",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.355,
+      "EVALUATION_METRICS": 0.412,
+      "DATA_PREPROCESSING": 0.437,
+      "DEEP_LEARNING": 0.108,
+      "NLP": 0.05,
+      "TIME_SERIES": 0.465,
+      "MLOPS": 0.233
+    }
+  },
+  {
+    "user_id": "u_0155",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.3,
+    "skill_vector": {
+      "SQL_DATABASE": 0.593,
+      "BI_VISUALIZATION": 0.318,
+      "STATISTICS_EXPERIMENTATION": 0.401,
+      "ANALYTICS_BUSINESS": 0.503,
+      "PYTHON_ANALYTICS": 0.646
+    }
+  },
+  {
+    "user_id": "u_0178",
+    "role": "DS",
+    "user_type": "advanced",
+    "experience_years": 4.9,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.711,
+      "EVALUATION_METRICS": 0.906,
+      "DATA_PREPROCESSING": 0.748,
+      "DEEP_LEARNING": 0.724,
+      "NLP": 0.79,
+      "TIME_SERIES": 0.716,
+      "MLOPS": 0.629
+    }
+  },
+  {
+    "user_id": "u_0398",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.2,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.333,
+      "DATA_ARCHITECTURE_MODELING": 0.12,
+      "BIG_DATA_CLOUD_TOOLS": 0.266,
+      "DATABASE_INTERNALS": 0.259,
+      "SYSTEM_ARCHITECTURE": 0.085
+    }
+  },
+  {
+    "user_id": "u_0140",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.2,
+    "skill_vector": {
+      "SQL_DATABASE": 0.536,
+      "BI_VISUALIZATION": 0.44,
+      "STATISTICS_EXPERIMENTATION": 0.53,
+      "ANALYTICS_BUSINESS": 0.462,
+      "PYTHON_ANALYTICS": 0.526
+    }
+  },
+  {
+    "user_id": "u_0142",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.9,
+    "skill_vector": {
+      "SQL_DATABASE": 0.552,
+      "BI_VISUALIZATION": 0.689,
+      "STATISTICS_EXPERIMENTATION": 0.344,
+      "ANALYTICS_BUSINESS": 0.524,
+      "PYTHON_ANALYTICS": 0.377
+    }
+  },
+  {
+    "user_id": "u_0327",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.33,
+      "EVALUATION_METRICS": 0.337,
+      "DATA_PREPROCESSING": 0.529,
+      "DEEP_LEARNING": 0.334,
+      "NLP": 0.465,
+      "TIME_SERIES": 0.529,
+      "MLOPS": 0.213
+    }
+  },
+  {
+    "user_id": "u_0176",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 1.5,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.633,
+      "EVALUATION_METRICS": 0.765,
+      "DATA_PREPROCESSING": 0.616,
+      "DEEP_LEARNING": 0.653,
+      "NLP": 0.669,
+      "TIME_SERIES": 0.752,
+      "MLOPS": 0.635
+    }
+  },
+  {
+    "user_id": "u_0171",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.9,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.717,
+      "EVALUATION_METRICS": 0.734,
+      "DATA_PREPROCESSING": 0.788,
+      "DEEP_LEARNING": 0.55,
+      "NLP": 0.59,
+      "TIME_SERIES": 0.43,
+      "MLOPS": 0.718
+    }
+  },
+  {
+    "user_id": "u_0089",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.7,
+    "skill_vector": {
+      "SQL_DATABASE": 0.493,
+      "BI_VISUALIZATION": 0.313,
+      "STATISTICS_EXPERIMENTATION": 0.423,
+      "ANALYTICS_BUSINESS": 0.344,
+      "PYTHON_ANALYTICS": 0.405
+    }
+  },
+  {
+    "user_id": "u_0097",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.534,
+      "BI_VISUALIZATION": 0.552,
+      "STATISTICS_EXPERIMENTATION": 0.325,
+      "ANALYTICS_BUSINESS": 0.606,
+      "PYTHON_ANALYTICS": 0.52
+    }
+  },
+  {
+    "user_id": "u_0440",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.453,
+      "DATA_ARCHITECTURE_MODELING": 0.355,
+      "BIG_DATA_CLOUD_TOOLS": 0.319,
+      "DATABASE_INTERNALS": 0.501,
+      "SYSTEM_ARCHITECTURE": 0.213
+    }
+  },
+  {
+    "user_id": "u_0304",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 1.6,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.527,
+      "EVALUATION_METRICS": 0.546,
+      "DATA_PREPROCESSING": 0.581,
+      "DEEP_LEARNING": 0.379,
+      "NLP": 0.506,
+      "TIME_SERIES": 0.449,
+      "MLOPS": 0.539
+    }
+  },
+  {
+    "user_id": "u_0051",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.2,
+    "skill_vector": {
+      "SQL_DATABASE": 0.215,
+      "BI_VISUALIZATION": 0.158,
+      "STATISTICS_EXPERIMENTATION": 0.28,
+      "ANALYTICS_BUSINESS": 0.314,
+      "PYTHON_ANALYTICS": 0.228
+    }
+  },
+  {
+    "user_id": "u_0200",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 0.7,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.238,
+      "EVALUATION_METRICS": 0.238,
+      "DATA_PREPROCESSING": 0.312,
+      "DEEP_LEARNING": 0.225,
+      "NLP": 0.282,
+      "TIME_SERIES": 0.102,
+      "MLOPS": 0.226
+    }
+  },
+  {
+    "user_id": "u_0298",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.5,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.47,
+      "EVALUATION_METRICS": 0.487,
+      "DATA_PREPROCESSING": 0.389,
+      "DEEP_LEARNING": 0.519,
+      "NLP": 0.486,
+      "TIME_SERIES": 0.459,
+      "MLOPS": 0.394
+    }
+  },
+  {
+    "user_id": "u_0132",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.5,
+    "skill_vector": {
+      "SQL_DATABASE": 0.572,
+      "BI_VISUALIZATION": 0.467,
+      "STATISTICS_EXPERIMENTATION": 0.365,
+      "ANALYTICS_BUSINESS": 0.392,
+      "PYTHON_ANALYTICS": 0.467
+    }
+  },
+  {
+    "user_id": "u_0121",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.2,
+    "skill_vector": {
+      "SQL_DATABASE": 0.479,
+      "BI_VISUALIZATION": 0.287,
+      "STATISTICS_EXPERIMENTATION": 0.324,
+      "ANALYTICS_BUSINESS": 0.489,
+      "PYTHON_ANALYTICS": 0.493
+    }
+  },
+  {
+    "user_id": "u_0359",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.5,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.315,
+      "DATA_ARCHITECTURE_MODELING": 0.417,
+      "BIG_DATA_CLOUD_TOOLS": 0.515,
+      "DATABASE_INTERNALS": 0.289,
+      "SYSTEM_ARCHITECTURE": 0.233
+    }
+  },
+  {
+    "user_id": "u_0181",
+    "role": "DS",
+    "user_type": "advanced",
+    "experience_years": 6.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.833,
+      "EVALUATION_METRICS": 0.649,
+      "DATA_PREPROCESSING": 0.677,
+      "DEEP_LEARNING": 0.824,
+      "NLP": 0.718,
+      "TIME_SERIES": 0.713,
+      "MLOPS": 0.792
+    }
+  },
+  {
+    "user_id": "u_0371",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.407,
+      "DATA_ARCHITECTURE_MODELING": 0.21,
+      "BIG_DATA_CLOUD_TOOLS": 0.253,
+      "DATABASE_INTERNALS": 0.374,
+      "SYSTEM_ARCHITECTURE": 0.05
+    }
+  },
+  {
+    "user_id": "u_0038",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.306,
+      "BI_VISUALIZATION": 0.094,
+      "STATISTICS_EXPERIMENTATION": 0.207,
+      "ANALYTICS_BUSINESS": 0.313,
+      "PYTHON_ANALYTICS": 0.279
+    }
+  },
+  {
+    "user_id": "u_0161",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 3.9,
+    "skill_vector": {
+      "SQL_DATABASE": 0.591,
+      "BI_VISUALIZATION": 0.609,
+      "STATISTICS_EXPERIMENTATION": 0.476,
+      "ANALYTICS_BUSINESS": 0.608,
+      "PYTHON_ANALYTICS": 0.472
+    }
+  },
+  {
+    "user_id": "u_0005",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.1,
+    "skill_vector": {
+      "SQL_DATABASE": 0.652,
+      "BI_VISUALIZATION": 0.668,
+      "STATISTICS_EXPERIMENTATION": 0.535,
+      "ANALYTICS_BUSINESS": 0.726,
+      "PYTHON_ANALYTICS": 0.607
+    }
+  },
+  {
+    "user_id": "u_0094",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.1,
+    "skill_vector": {
+      "SQL_DATABASE": 0.565,
+      "BI_VISUALIZATION": 0.454,
+      "STATISTICS_EXPERIMENTATION": 0.532,
+      "ANALYTICS_BUSINESS": 0.673,
+      "PYTHON_ANALYTICS": 0.603
+    }
+  },
+  {
+    "user_id": "u_0305",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.325,
+      "EVALUATION_METRICS": 0.498,
+      "DATA_PREPROCESSING": 0.477,
+      "DEEP_LEARNING": 0.283,
+      "NLP": 0.308,
+      "TIME_SERIES": 0.629,
+      "MLOPS": 0.259
+    }
+  },
+  {
+    "user_id": "u_0189",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.3,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.722,
+      "EVALUATION_METRICS": 0.787,
+      "DATA_PREPROCESSING": 0.763,
+      "DEEP_LEARNING": 0.629,
+      "NLP": 0.575,
+      "TIME_SERIES": 0.638,
+      "MLOPS": 0.499
+    }
+  },
+  {
+    "user_id": "u_0375",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.7,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.452,
+      "DATA_ARCHITECTURE_MODELING": 0.404,
+      "BIG_DATA_CLOUD_TOOLS": 0.373,
+      "DATABASE_INTERNALS": 0.502,
+      "SYSTEM_ARCHITECTURE": 0.309
+    }
+  },
+  {
+    "user_id": "u_0454",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.7,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.357,
+      "DATA_ARCHITECTURE_MODELING": 0.489,
+      "BIG_DATA_CLOUD_TOOLS": 0.419,
+      "DATABASE_INTERNALS": 0.377,
+      "SYSTEM_ARCHITECTURE": 0.619
+    }
+  },
+  {
+    "user_id": "u_0095",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.512,
+      "BI_VISUALIZATION": 0.401,
+      "STATISTICS_EXPERIMENTATION": 0.208,
+      "ANALYTICS_BUSINESS": 0.359,
+      "PYTHON_ANALYTICS": 0.252
+    }
+  },
+  {
+    "user_id": "u_0469",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.8,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.531,
+      "DATA_ARCHITECTURE_MODELING": 0.347,
+      "BIG_DATA_CLOUD_TOOLS": 0.429,
+      "DATABASE_INTERNALS": 0.358,
+      "SYSTEM_ARCHITECTURE": 0.419
+    }
+  },
+  {
+    "user_id": "u_0293",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.2,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.448,
+      "EVALUATION_METRICS": 0.428,
+      "DATA_PREPROCESSING": 0.261,
+      "DEEP_LEARNING": 0.433,
+      "NLP": 0.449,
+      "TIME_SERIES": 0.337,
+      "MLOPS": 0.5
+    }
+  },
+  {
+    "user_id": "u_0341",
+    "role": "DE",
+    "user_type": "advanced",
+    "experience_years": 3.5,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.813,
+      "DATA_ARCHITECTURE_MODELING": 0.784,
+      "BIG_DATA_CLOUD_TOOLS": 0.845,
+      "DATABASE_INTERNALS": 0.871,
+      "SYSTEM_ARCHITECTURE": 0.648
+    }
+  },
+  {
+    "user_id": "u_0408",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.3,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.223,
+      "DATA_ARCHITECTURE_MODELING": 0.246,
+      "BIG_DATA_CLOUD_TOOLS": 0.236,
+      "DATABASE_INTERNALS": 0.238,
+      "SYSTEM_ARCHITECTURE": 0.212
+    }
+  },
+  {
+    "user_id": "u_0409",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.272,
+      "DATA_ARCHITECTURE_MODELING": 0.18,
+      "BIG_DATA_CLOUD_TOOLS": 0.163,
+      "DATABASE_INTERNALS": 0.173,
+      "SYSTEM_ARCHITECTURE": 0.151
+    }
+  },
+  {
+    "user_id": "u_0188",
+    "role": "DS",
+    "user_type": "advanced",
+    "experience_years": 6.7,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.694,
+      "EVALUATION_METRICS": 0.487,
+      "DATA_PREPROCESSING": 0.774,
+      "DEEP_LEARNING": 0.895,
+      "NLP": 0.911,
+      "TIME_SERIES": 0.765,
+      "MLOPS": 0.692
+    }
+  },
+  {
+    "user_id": "u_0335",
+    "role": "DE",
+    "user_type": "advanced",
+    "experience_years": 5.9,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.747,
+      "DATA_ARCHITECTURE_MODELING": 0.744,
+      "BIG_DATA_CLOUD_TOOLS": 0.733,
+      "DATABASE_INTERNALS": 0.674,
+      "SYSTEM_ARCHITECTURE": 0.75
+    }
+  },
+  {
+    "user_id": "u_0214",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.6,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.201,
+      "EVALUATION_METRICS": 0.438,
+      "DATA_PREPROCESSING": 0.124,
+      "DEEP_LEARNING": 0.124,
+      "NLP": 0.313,
+      "TIME_SERIES": 0.209,
+      "MLOPS": 0.146
+    }
+  },
+  {
+    "user_id": "u_0128",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 4.3,
+    "skill_vector": {
+      "SQL_DATABASE": 0.719,
+      "BI_VISUALIZATION": 0.471,
+      "STATISTICS_EXPERIMENTATION": 0.547,
+      "ANALYTICS_BUSINESS": 0.474,
+      "PYTHON_ANALYTICS": 0.478
+    }
+  },
+  {
+    "user_id": "u_0012",
+    "role": "DA",
+    "user_type": "advanced",
+    "experience_years": 8.3,
+    "skill_vector": {
+      "SQL_DATABASE": 0.743,
+      "BI_VISUALIZATION": 0.747,
+      "STATISTICS_EXPERIMENTATION": 0.649,
+      "ANALYTICS_BUSINESS": 0.711,
+      "PYTHON_ANALYTICS": 0.689
+    }
+  },
+  {
+    "user_id": "u_0007",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.5,
+    "skill_vector": {
+      "SQL_DATABASE": 0.692,
+      "BI_VISUALIZATION": 0.466,
+      "STATISTICS_EXPERIMENTATION": 0.524,
+      "ANALYTICS_BUSINESS": 0.664,
+      "PYTHON_ANALYTICS": 0.756
+    }
+  },
+  {
+    "user_id": "u_0443",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.357,
+      "DATA_ARCHITECTURE_MODELING": 0.375,
+      "BIG_DATA_CLOUD_TOOLS": 0.419,
+      "DATABASE_INTERNALS": 0.435,
+      "SYSTEM_ARCHITECTURE": 0.287
+    }
+  },
+  {
+    "user_id": "u_0247",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.255,
+      "EVALUATION_METRICS": 0.223,
+      "DATA_PREPROCESSING": 0.162,
+      "DEEP_LEARNING": 0.326,
+      "NLP": 0.462,
+      "TIME_SERIES": 0.08,
+      "MLOPS": 0.222
+    }
+  },
+  {
+    "user_id": "u_0397",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.7,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.264,
+      "DATA_ARCHITECTURE_MODELING": 0.421,
+      "BIG_DATA_CLOUD_TOOLS": 0.256,
+      "DATABASE_INTERNALS": 0.482,
+      "SYSTEM_ARCHITECTURE": 0.345
+    }
+  },
+  {
+    "user_id": "u_0426",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.333,
+      "DATA_ARCHITECTURE_MODELING": 0.455,
+      "BIG_DATA_CLOUD_TOOLS": 0.252,
+      "DATABASE_INTERNALS": 0.47,
+      "SYSTEM_ARCHITECTURE": 0.408
+    }
+  },
+  {
+    "user_id": "u_0346",
+    "role": "DE",
+    "user_type": "advanced",
+    "experience_years": 6.7,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.77,
+      "DATA_ARCHITECTURE_MODELING": 0.696,
+      "BIG_DATA_CLOUD_TOOLS": 0.852,
+      "DATABASE_INTERNALS": 0.813,
+      "SYSTEM_ARCHITECTURE": 0.514
+    }
+  },
+  {
+    "user_id": "u_0090",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.9,
+    "skill_vector": {
+      "SQL_DATABASE": 0.452,
+      "BI_VISUALIZATION": 0.421,
+      "STATISTICS_EXPERIMENTATION": 0.312,
+      "ANALYTICS_BUSINESS": 0.469,
+      "PYTHON_ANALYTICS": 0.532
+    }
+  },
+  {
+    "user_id": "u_0427",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.5,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.436,
+      "DATA_ARCHITECTURE_MODELING": 0.533,
+      "BIG_DATA_CLOUD_TOOLS": 0.519,
+      "DATABASE_INTERNALS": 0.33,
+      "SYSTEM_ARCHITECTURE": 0.551
+    }
+  },
+  {
+    "user_id": "u_0027",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.5,
+    "skill_vector": {
+      "SQL_DATABASE": 0.414,
+      "BI_VISUALIZATION": 0.327,
+      "STATISTICS_EXPERIMENTATION": 0.142,
+      "ANALYTICS_BUSINESS": 0.333,
+      "PYTHON_ANALYTICS": 0.182
+    }
+  },
+  {
+    "user_id": "u_0078",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.236,
+      "BI_VISUALIZATION": 0.221,
+      "STATISTICS_EXPERIMENTATION": 0.169,
+      "ANALYTICS_BUSINESS": 0.272,
+      "PYTHON_ANALYTICS": 0.275
+    }
+  },
+  {
+    "user_id": "u_0185",
+    "role": "DS",
+    "user_type": "advanced",
+    "experience_years": 5.2,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.795,
+      "EVALUATION_METRICS": 0.82,
+      "DATA_PREPROCESSING": 0.712,
+      "DEEP_LEARNING": 0.778,
+      "NLP": 0.7,
+      "TIME_SERIES": 0.699,
+      "MLOPS": 0.67
+    }
+  },
+  {
+    "user_id": "u_0263",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.479,
+      "EVALUATION_METRICS": 0.348,
+      "DATA_PREPROCESSING": 0.476,
+      "DEEP_LEARNING": 0.446,
+      "NLP": 0.641,
+      "TIME_SERIES": 0.434,
+      "MLOPS": 0.467
+    }
+  },
+  {
+    "user_id": "u_0208",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.188,
+      "EVALUATION_METRICS": 0.324,
+      "DATA_PREPROCESSING": 0.284,
+      "DEEP_LEARNING": 0.05,
+      "NLP": 0.05,
+      "TIME_SERIES": 0.218,
+      "MLOPS": 0.087
+    }
+  },
+  {
+    "user_id": "u_0183",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.6,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.748,
+      "EVALUATION_METRICS": 0.642,
+      "DATA_PREPROCESSING": 0.924,
+      "DEEP_LEARNING": 0.574,
+      "NLP": 0.646,
+      "TIME_SERIES": 0.567,
+      "MLOPS": 0.684
+    }
+  },
+  {
+    "user_id": "u_0096",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "SQL_DATABASE": 0.559,
+      "BI_VISUALIZATION": 0.609,
+      "STATISTICS_EXPERIMENTATION": 0.443,
+      "ANALYTICS_BUSINESS": 0.555,
+      "PYTHON_ANALYTICS": 0.531
+    }
+  },
+  {
+    "user_id": "u_0101",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 4.5,
+    "skill_vector": {
+      "SQL_DATABASE": 0.576,
+      "BI_VISUALIZATION": 0.393,
+      "STATISTICS_EXPERIMENTATION": 0.567,
+      "ANALYTICS_BUSINESS": 0.602,
+      "PYTHON_ANALYTICS": 0.543
+    }
+  },
+  {
+    "user_id": "u_0420",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.5,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.41,
+      "DATA_ARCHITECTURE_MODELING": 0.394,
+      "BIG_DATA_CLOUD_TOOLS": 0.401,
+      "DATABASE_INTERNALS": 0.404,
+      "SYSTEM_ARCHITECTURE": 0.357
+    }
+  },
+  {
+    "user_id": "u_0395",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.6,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.406,
+      "DATA_ARCHITECTURE_MODELING": 0.226,
+      "BIG_DATA_CLOUD_TOOLS": 0.31,
+      "DATABASE_INTERNALS": 0.347,
+      "SYSTEM_ARCHITECTURE": 0.224
+    }
+  },
+  {
+    "user_id": "u_0156",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.464,
+      "BI_VISUALIZATION": 0.571,
+      "STATISTICS_EXPERIMENTATION": 0.19,
+      "ANALYTICS_BUSINESS": 0.368,
+      "PYTHON_ANALYTICS": 0.427
+    }
+  },
+  {
+    "user_id": "u_0231",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 0.6,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.352,
+      "EVALUATION_METRICS": 0.41,
+      "DATA_PREPROCESSING": 0.318,
+      "DEEP_LEARNING": 0.308,
+      "NLP": 0.157,
+      "TIME_SERIES": 0.211,
+      "MLOPS": 0.17
+    }
+  },
+  {
+    "user_id": "u_0363",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.7,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.333,
+      "DATA_ARCHITECTURE_MODELING": 0.231,
+      "BIG_DATA_CLOUD_TOOLS": 0.498,
+      "DATABASE_INTERNALS": 0.329,
+      "SYSTEM_ARCHITECTURE": 0.05
+    }
+  },
+  {
+    "user_id": "u_0238",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.05,
+      "EVALUATION_METRICS": 0.239,
+      "DATA_PREPROCESSING": 0.26,
+      "DEEP_LEARNING": 0.139,
+      "NLP": 0.216,
+      "TIME_SERIES": 0.317,
+      "MLOPS": 0.05
+    }
+  },
+  {
+    "user_id": "u_0354",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.9,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.622,
+      "DATA_ARCHITECTURE_MODELING": 0.667,
+      "BIG_DATA_CLOUD_TOOLS": 0.664,
+      "DATABASE_INTERNALS": 0.604,
+      "SYSTEM_ARCHITECTURE": 0.716
+    }
+  },
+  {
+    "user_id": "u_0086",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 3.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.497,
+      "BI_VISUALIZATION": 0.419,
+      "STATISTICS_EXPERIMENTATION": 0.368,
+      "ANALYTICS_BUSINESS": 0.415,
+      "PYTHON_ANALYTICS": 0.371
+    }
+  },
+  {
+    "user_id": "u_0324",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.514,
+      "EVALUATION_METRICS": 0.641,
+      "DATA_PREPROCESSING": 0.337,
+      "DEEP_LEARNING": 0.375,
+      "NLP": 0.303,
+      "TIME_SERIES": 0.515,
+      "MLOPS": 0.549
+    }
+  },
+  {
+    "user_id": "u_0172",
+    "role": "DS",
+    "user_type": "advanced",
+    "experience_years": 4.5,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.7,
+      "EVALUATION_METRICS": 0.848,
+      "DATA_PREPROCESSING": 0.567,
+      "DEEP_LEARNING": 0.52,
+      "NLP": 0.624,
+      "TIME_SERIES": 0.837,
+      "MLOPS": 0.849
+    }
+  },
+  {
+    "user_id": "u_0394",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.193,
+      "DATA_ARCHITECTURE_MODELING": 0.267,
+      "BIG_DATA_CLOUD_TOOLS": 0.246,
+      "DATABASE_INTERNALS": 0.241,
+      "SYSTEM_ARCHITECTURE": 0.258
+    }
+  },
+  {
+    "user_id": "u_0154",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.476,
+      "BI_VISUALIZATION": 0.426,
+      "STATISTICS_EXPERIMENTATION": 0.477,
+      "ANALYTICS_BUSINESS": 0.436,
+      "PYTHON_ANALYTICS": 0.428
+    }
+  },
+  {
+    "user_id": "u_0314",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.5,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.522,
+      "EVALUATION_METRICS": 0.544,
+      "DATA_PREPROCESSING": 0.506,
+      "DEEP_LEARNING": 0.429,
+      "NLP": 0.355,
+      "TIME_SERIES": 0.773,
+      "MLOPS": 0.296
+    }
+  },
+  {
+    "user_id": "u_0039",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "SQL_DATABASE": 0.229,
+      "BI_VISUALIZATION": 0.28,
+      "STATISTICS_EXPERIMENTATION": 0.126,
+      "ANALYTICS_BUSINESS": 0.306,
+      "PYTHON_ANALYTICS": 0.226
+    }
+  },
+  {
+    "user_id": "u_0393",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.298,
+      "DATA_ARCHITECTURE_MODELING": 0.324,
+      "BIG_DATA_CLOUD_TOOLS": 0.342,
+      "DATABASE_INTERNALS": 0.169,
+      "SYSTEM_ARCHITECTURE": 0.327
+    }
+  },
+  {
+    "user_id": "u_0070",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "SQL_DATABASE": 0.339,
+      "BI_VISUALIZATION": 0.152,
+      "STATISTICS_EXPERIMENTATION": 0.358,
+      "ANALYTICS_BUSINESS": 0.304,
+      "PYTHON_ANALYTICS": 0.362
+    }
+  },
+  {
+    "user_id": "u_0107",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 4.2,
+    "skill_vector": {
+      "SQL_DATABASE": 0.532,
+      "BI_VISUALIZATION": 0.436,
+      "STATISTICS_EXPERIMENTATION": 0.262,
+      "ANALYTICS_BUSINESS": 0.381,
+      "PYTHON_ANALYTICS": 0.397
+    }
+  },
+  {
+    "user_id": "u_0349",
+    "role": "DE",
+    "user_type": "advanced",
+    "experience_years": 6.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.804,
+      "DATA_ARCHITECTURE_MODELING": 0.753,
+      "BIG_DATA_CLOUD_TOOLS": 0.764,
+      "DATABASE_INTERNALS": 0.79,
+      "SYSTEM_ARCHITECTURE": 0.542
+    }
+  },
+  {
+    "user_id": "u_0490",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.7,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.45,
+      "DATA_ARCHITECTURE_MODELING": 0.471,
+      "BIG_DATA_CLOUD_TOOLS": 0.489,
+      "DATABASE_INTERNALS": 0.523,
+      "SYSTEM_ARCHITECTURE": 0.412
+    }
+  },
+  {
+    "user_id": "u_0429",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.476,
+      "DATA_ARCHITECTURE_MODELING": 0.404,
+      "BIG_DATA_CLOUD_TOOLS": 0.431,
+      "DATABASE_INTERNALS": 0.507,
+      "SYSTEM_ARCHITECTURE": 0.263
+    }
+  },
+  {
+    "user_id": "u_0159",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 3.9,
+    "skill_vector": {
+      "SQL_DATABASE": 0.475,
+      "BI_VISUALIZATION": 0.473,
+      "STATISTICS_EXPERIMENTATION": 0.409,
+      "ANALYTICS_BUSINESS": 0.515,
+      "PYTHON_ANALYTICS": 0.328
+    }
+  },
+  {
+    "user_id": "u_0032",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.5,
+    "skill_vector": {
+      "SQL_DATABASE": 0.282,
+      "BI_VISUALIZATION": 0.187,
+      "STATISTICS_EXPERIMENTATION": 0.07,
+      "ANALYTICS_BUSINESS": 0.14,
+      "PYTHON_ANALYTICS": 0.153
+    }
+  },
+  {
+    "user_id": "u_0245",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.6,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.282,
+      "EVALUATION_METRICS": 0.37,
+      "DATA_PREPROCESSING": 0.275,
+      "DEEP_LEARNING": 0.112,
+      "NLP": 0.261,
+      "TIME_SERIES": 0.14,
+      "MLOPS": 0.433
+    }
+  },
+  {
+    "user_id": "u_0009",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.9,
+    "skill_vector": {
+      "SQL_DATABASE": 0.695,
+      "BI_VISUALIZATION": 0.475,
+      "STATISTICS_EXPERIMENTATION": 0.662,
+      "ANALYTICS_BUSINESS": 0.626,
+      "PYTHON_ANALYTICS": 0.596
+    }
+  },
+  {
+    "user_id": "u_0268",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.5,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.328,
+      "EVALUATION_METRICS": 0.315,
+      "DATA_PREPROCESSING": 0.275,
+      "DEEP_LEARNING": 0.286,
+      "NLP": 0.404,
+      "TIME_SERIES": 0.536,
+      "MLOPS": 0.242
+    }
+  },
+  {
+    "user_id": "u_0486",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.387,
+      "DATA_ARCHITECTURE_MODELING": 0.597,
+      "BIG_DATA_CLOUD_TOOLS": 0.489,
+      "DATABASE_INTERNALS": 0.591,
+      "SYSTEM_ARCHITECTURE": 0.539
+    }
+  },
+  {
+    "user_id": "u_0234",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.298,
+      "EVALUATION_METRICS": 0.115,
+      "DATA_PREPROCESSING": 0.321,
+      "DEEP_LEARNING": 0.181,
+      "NLP": 0.163,
+      "TIME_SERIES": 0.05,
+      "MLOPS": 0.294
+    }
+  },
+  {
+    "user_id": "u_0262",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.624,
+      "EVALUATION_METRICS": 0.661,
+      "DATA_PREPROCESSING": 0.506,
+      "DEEP_LEARNING": 0.591,
+      "NLP": 0.655,
+      "TIME_SERIES": 0.657,
+      "MLOPS": 0.658
+    }
+  },
+  {
+    "user_id": "u_0402",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.3,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.437,
+      "DATA_ARCHITECTURE_MODELING": 0.368,
+      "BIG_DATA_CLOUD_TOOLS": 0.382,
+      "DATABASE_INTERNALS": 0.386,
+      "SYSTEM_ARCHITECTURE": 0.267
+    }
+  },
+  {
+    "user_id": "u_0292",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.2,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.488,
+      "EVALUATION_METRICS": 0.623,
+      "DATA_PREPROCESSING": 0.512,
+      "DEEP_LEARNING": 0.352,
+      "NLP": 0.386,
+      "TIME_SERIES": 0.348,
+      "MLOPS": 0.383
+    }
+  },
+  {
+    "user_id": "u_0199",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.3,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.357,
+      "EVALUATION_METRICS": 0.379,
+      "DATA_PREPROCESSING": 0.077,
+      "DEEP_LEARNING": 0.3,
+      "NLP": 0.369,
+      "TIME_SERIES": 0.059,
+      "MLOPS": 0.436
+    }
+  },
+  {
+    "user_id": "u_0133",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 3.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.488,
+      "BI_VISUALIZATION": 0.338,
+      "STATISTICS_EXPERIMENTATION": 0.361,
+      "ANALYTICS_BUSINESS": 0.529,
+      "PYTHON_ANALYTICS": 0.479
+    }
+  },
+  {
+    "user_id": "u_0325",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.6,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.337,
+      "EVALUATION_METRICS": 0.383,
+      "DATA_PREPROCESSING": 0.44,
+      "DEEP_LEARNING": 0.464,
+      "NLP": 0.591,
+      "TIME_SERIES": 0.299,
+      "MLOPS": 0.441
+    }
+  },
+  {
+    "user_id": "u_0323",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.2,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.655,
+      "EVALUATION_METRICS": 0.451,
+      "DATA_PREPROCESSING": 0.757,
+      "DEEP_LEARNING": 0.442,
+      "NLP": 0.347,
+      "TIME_SERIES": 0.26,
+      "MLOPS": 0.495
+    }
+  },
+  {
+    "user_id": "u_0003",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.6,
+    "skill_vector": {
+      "SQL_DATABASE": 0.646,
+      "BI_VISUALIZATION": 0.453,
+      "STATISTICS_EXPERIMENTATION": 0.458,
+      "ANALYTICS_BUSINESS": 0.574,
+      "PYTHON_ANALYTICS": 0.554
+    }
+  },
+  {
+    "user_id": "u_0019",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 5.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.713,
+      "BI_VISUALIZATION": 0.657,
+      "STATISTICS_EXPERIMENTATION": 0.46,
+      "ANALYTICS_BUSINESS": 0.692,
+      "PYTHON_ANALYTICS": 0.681
+    }
+  },
+  {
+    "user_id": "u_0489",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 4.6,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.468,
+      "DATA_ARCHITECTURE_MODELING": 0.525,
+      "BIG_DATA_CLOUD_TOOLS": 0.414,
+      "DATABASE_INTERNALS": 0.599,
+      "SYSTEM_ARCHITECTURE": 0.527
+    }
+  },
+  {
+    "user_id": "u_0264",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.3,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.491,
+      "EVALUATION_METRICS": 0.668,
+      "DATA_PREPROCESSING": 0.434,
+      "DEEP_LEARNING": 0.417,
+      "NLP": 0.367,
+      "TIME_SERIES": 0.262,
+      "MLOPS": 0.38
+    }
+  },
+  {
+    "user_id": "u_0077",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "SQL_DATABASE": 0.27,
+      "BI_VISUALIZATION": 0.082,
+      "STATISTICS_EXPERIMENTATION": 0.1,
+      "ANALYTICS_BUSINESS": 0.168,
+      "PYTHON_ANALYTICS": 0.401
+    }
+  },
+  {
+    "user_id": "u_0254",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.484,
+      "EVALUATION_METRICS": 0.484,
+      "DATA_PREPROCESSING": 0.619,
+      "DEEP_LEARNING": 0.328,
+      "NLP": 0.398,
+      "TIME_SERIES": 0.751,
+      "MLOPS": 0.354
+    }
+  },
+  {
+    "user_id": "u_0315",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 4.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.571,
+      "EVALUATION_METRICS": 0.607,
+      "DATA_PREPROCESSING": 0.563,
+      "DEEP_LEARNING": 0.432,
+      "NLP": 0.406,
+      "TIME_SERIES": 0.666,
+      "MLOPS": 0.261
+    }
+  },
+  {
+    "user_id": "u_0352",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.77,
+      "DATA_ARCHITECTURE_MODELING": 0.596,
+      "BIG_DATA_CLOUD_TOOLS": 0.811,
+      "DATABASE_INTERNALS": 0.753,
+      "SYSTEM_ARCHITECTURE": 0.464
+    }
+  },
+  {
+    "user_id": "u_0472",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.592,
+      "DATA_ARCHITECTURE_MODELING": 0.507,
+      "BIG_DATA_CLOUD_TOOLS": 0.483,
+      "DATABASE_INTERNALS": 0.575,
+      "SYSTEM_ARCHITECTURE": 0.41
+    }
+  },
+  {
+    "user_id": "u_0144",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 4.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.489,
+      "BI_VISUALIZATION": 0.458,
+      "STATISTICS_EXPERIMENTATION": 0.373,
+      "ANALYTICS_BUSINESS": 0.42,
+      "PYTHON_ANALYTICS": 0.561
+    }
+  },
+  {
+    "user_id": "u_0450",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.9,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.499,
+      "DATA_ARCHITECTURE_MODELING": 0.433,
+      "BIG_DATA_CLOUD_TOOLS": 0.474,
+      "DATABASE_INTERNALS": 0.528,
+      "SYSTEM_ARCHITECTURE": 0.187
+    }
+  },
+  {
+    "user_id": "u_0067",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "SQL_DATABASE": 0.145,
+      "BI_VISUALIZATION": 0.351,
+      "STATISTICS_EXPERIMENTATION": 0.207,
+      "ANALYTICS_BUSINESS": 0.389,
+      "PYTHON_ANALYTICS": 0.063
+    }
+  },
+  {
+    "user_id": "u_0180",
+    "role": "DS",
+    "user_type": "advanced",
+    "experience_years": 3.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.767,
+      "EVALUATION_METRICS": 0.802,
+      "DATA_PREPROCESSING": 0.866,
+      "DEEP_LEARNING": 0.498,
+      "NLP": 0.768,
+      "TIME_SERIES": 0.659,
+      "MLOPS": 0.83
+    }
+  },
+  {
+    "user_id": "u_0134",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.513,
+      "BI_VISUALIZATION": 0.432,
+      "STATISTICS_EXPERIMENTATION": 0.491,
+      "ANALYTICS_BUSINESS": 0.473,
+      "PYTHON_ANALYTICS": 0.447
+    }
+  },
+  {
+    "user_id": "u_0145",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 4.7,
+    "skill_vector": {
+      "SQL_DATABASE": 0.462,
+      "BI_VISUALIZATION": 0.394,
+      "STATISTICS_EXPERIMENTATION": 0.45,
+      "ANALYTICS_BUSINESS": 0.523,
+      "PYTHON_ANALYTICS": 0.515
+    }
+  },
+  {
+    "user_id": "u_0407",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.6,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.214,
+      "DATA_ARCHITECTURE_MODELING": 0.243,
+      "BIG_DATA_CLOUD_TOOLS": 0.243,
+      "DATABASE_INTERNALS": 0.198,
+      "SYSTEM_ARCHITECTURE": 0.203
+    }
+  },
+  {
+    "user_id": "u_0281",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.387,
+      "EVALUATION_METRICS": 0.308,
+      "DATA_PREPROCESSING": 0.305,
+      "DEEP_LEARNING": 0.482,
+      "NLP": 0.634,
+      "TIME_SERIES": 0.795,
+      "MLOPS": 0.471
+    }
+  },
+  {
+    "user_id": "u_0270",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.7,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.485,
+      "EVALUATION_METRICS": 0.393,
+      "DATA_PREPROCESSING": 0.477,
+      "DEEP_LEARNING": 0.423,
+      "NLP": 0.419,
+      "TIME_SERIES": 0.362,
+      "MLOPS": 0.462
+    }
+  },
+  {
+    "user_id": "u_0467",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.9,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.497,
+      "DATA_ARCHITECTURE_MODELING": 0.402,
+      "BIG_DATA_CLOUD_TOOLS": 0.478,
+      "DATABASE_INTERNALS": 0.478,
+      "SYSTEM_ARCHITECTURE": 0.24
+    }
+  },
+  {
+    "user_id": "u_0209",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.419,
+      "EVALUATION_METRICS": 0.479,
+      "DATA_PREPROCESSING": 0.32,
+      "DEEP_LEARNING": 0.379,
+      "NLP": 0.298,
+      "TIME_SERIES": 0.189,
+      "MLOPS": 0.21
+    }
+  },
+  {
+    "user_id": "u_0146",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.44,
+      "BI_VISUALIZATION": 0.336,
+      "STATISTICS_EXPERIMENTATION": 0.258,
+      "ANALYTICS_BUSINESS": 0.394,
+      "PYTHON_ANALYTICS": 0.424
+    }
+  },
+  {
+    "user_id": "u_0433",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.3,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.509,
+      "DATA_ARCHITECTURE_MODELING": 0.579,
+      "BIG_DATA_CLOUD_TOOLS": 0.501,
+      "DATABASE_INTERNALS": 0.532,
+      "SYSTEM_ARCHITECTURE": 0.637
+    }
+  },
+  {
+    "user_id": "u_0278",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.3,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.392,
+      "EVALUATION_METRICS": 0.377,
+      "DATA_PREPROCESSING": 0.446,
+      "DEEP_LEARNING": 0.396,
+      "NLP": 0.364,
+      "TIME_SERIES": 0.524,
+      "MLOPS": 0.353
+    }
+  },
+  {
+    "user_id": "u_0342",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.3,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.631,
+      "DATA_ARCHITECTURE_MODELING": 0.721,
+      "BIG_DATA_CLOUD_TOOLS": 0.633,
+      "DATABASE_INTERNALS": 0.644,
+      "SYSTEM_ARCHITECTURE": 0.718
+    }
+  },
+  {
+    "user_id": "u_0466",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.7,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.545,
+      "DATA_ARCHITECTURE_MODELING": 0.409,
+      "BIG_DATA_CLOUD_TOOLS": 0.484,
+      "DATABASE_INTERNALS": 0.554,
+      "SYSTEM_ARCHITECTURE": 0.222
+    }
+  },
+  {
+    "user_id": "u_0318",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.3,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.541,
+      "EVALUATION_METRICS": 0.412,
+      "DATA_PREPROCESSING": 0.426,
+      "DEEP_LEARNING": 0.548,
+      "NLP": 0.621,
+      "TIME_SERIES": 0.513,
+      "MLOPS": 0.438
+    }
+  },
+  {
+    "user_id": "u_0018",
+    "role": "DA",
+    "user_type": "advanced",
+    "experience_years": 5.5,
+    "skill_vector": {
+      "SQL_DATABASE": 0.715,
+      "BI_VISUALIZATION": 0.578,
+      "STATISTICS_EXPERIMENTATION": 0.634,
+      "ANALYTICS_BUSINESS": 0.748,
+      "PYTHON_ANALYTICS": 0.871
+    }
+  },
+  {
+    "user_id": "u_0449",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.597,
+      "DATA_ARCHITECTURE_MODELING": 0.406,
+      "BIG_DATA_CLOUD_TOOLS": 0.47,
+      "DATABASE_INTERNALS": 0.595,
+      "SYSTEM_ARCHITECTURE": 0.222
+    }
+  },
+  {
+    "user_id": "u_0021",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 5.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.784,
+      "BI_VISUALIZATION": 0.55,
+      "STATISTICS_EXPERIMENTATION": 0.735,
+      "ANALYTICS_BUSINESS": 0.609,
+      "PYTHON_ANALYTICS": 0.71
+    }
+  },
+  {
+    "user_id": "u_0131",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 3.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.508,
+      "BI_VISUALIZATION": 0.32,
+      "STATISTICS_EXPERIMENTATION": 0.482,
+      "ANALYTICS_BUSINESS": 0.519,
+      "PYTHON_ANALYTICS": 0.528
+    }
+  },
+  {
+    "user_id": "u_0239",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.7,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.249,
+      "EVALUATION_METRICS": 0.199,
+      "DATA_PREPROCESSING": 0.345,
+      "DEEP_LEARNING": 0.125,
+      "NLP": 0.215,
+      "TIME_SERIES": 0.235,
+      "MLOPS": 0.069
+    }
+  },
+  {
+    "user_id": "u_0297",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.564,
+      "EVALUATION_METRICS": 0.825,
+      "DATA_PREPROCESSING": 0.586,
+      "DEEP_LEARNING": 0.405,
+      "NLP": 0.416,
+      "TIME_SERIES": 0.195,
+      "MLOPS": 0.405
+    }
+  },
+  {
+    "user_id": "u_0287",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.6,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.518,
+      "EVALUATION_METRICS": 0.603,
+      "DATA_PREPROCESSING": 0.243,
+      "DEEP_LEARNING": 0.739,
+      "NLP": 0.684,
+      "TIME_SERIES": 0.493,
+      "MLOPS": 0.424
+    }
+  },
+  {
+    "user_id": "u_0337",
+    "role": "DE",
+    "user_type": "advanced",
+    "experience_years": 3.5,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.827,
+      "DATA_ARCHITECTURE_MODELING": 0.746,
+      "BIG_DATA_CLOUD_TOOLS": 0.817,
+      "DATABASE_INTERNALS": 0.765,
+      "SYSTEM_ARCHITECTURE": 0.732
+    }
+  },
+  {
+    "user_id": "u_0301",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.5,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.35,
+      "EVALUATION_METRICS": 0.359,
+      "DATA_PREPROCESSING": 0.554,
+      "DEEP_LEARNING": 0.502,
+      "NLP": 0.583,
+      "TIME_SERIES": 0.645,
+      "MLOPS": 0.378
+    }
+  },
+  {
+    "user_id": "u_0150",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.653,
+      "BI_VISUALIZATION": 0.542,
+      "STATISTICS_EXPERIMENTATION": 0.433,
+      "ANALYTICS_BUSINESS": 0.559,
+      "PYTHON_ANALYTICS": 0.607
+    }
+  },
+  {
+    "user_id": "u_0204",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.375,
+      "EVALUATION_METRICS": 0.543,
+      "DATA_PREPROCESSING": 0.295,
+      "DEEP_LEARNING": 0.295,
+      "NLP": 0.263,
+      "TIME_SERIES": 0.225,
+      "MLOPS": 0.35
+    }
+  },
+  {
+    "user_id": "u_0388",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.3,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.209,
+      "DATA_ARCHITECTURE_MODELING": 0.34,
+      "BIG_DATA_CLOUD_TOOLS": 0.198,
+      "DATABASE_INTERNALS": 0.387,
+      "SYSTEM_ARCHITECTURE": 0.281
+    }
+  },
+  {
+    "user_id": "u_0399",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.416,
+      "DATA_ARCHITECTURE_MODELING": 0.322,
+      "BIG_DATA_CLOUD_TOOLS": 0.204,
+      "DATABASE_INTERNALS": 0.413,
+      "SYSTEM_ARCHITECTURE": 0.432
+    }
+  },
+  {
+    "user_id": "u_0191",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.6,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.604,
+      "EVALUATION_METRICS": 0.647,
+      "DATA_PREPROCESSING": 0.739,
+      "DEEP_LEARNING": 0.549,
+      "NLP": 0.632,
+      "TIME_SERIES": 0.48,
+      "MLOPS": 0.567
+    }
+  },
+  {
+    "user_id": "u_0202",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.41,
+      "EVALUATION_METRICS": 0.358,
+      "DATA_PREPROCESSING": 0.582,
+      "DEEP_LEARNING": 0.277,
+      "NLP": 0.257,
+      "TIME_SERIES": 0.194,
+      "MLOPS": 0.286
+    }
+  },
+  {
+    "user_id": "u_0419",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.6,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.546,
+      "DATA_ARCHITECTURE_MODELING": 0.406,
+      "BIG_DATA_CLOUD_TOOLS": 0.585,
+      "DATABASE_INTERNALS": 0.331,
+      "SYSTEM_ARCHITECTURE": 0.418
+    }
+  },
+  {
+    "user_id": "u_0015",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.647,
+      "BI_VISUALIZATION": 0.597,
+      "STATISTICS_EXPERIMENTATION": 0.726,
+      "ANALYTICS_BUSINESS": 0.728,
+      "PYTHON_ANALYTICS": 0.608
+    }
+  },
+  {
+    "user_id": "u_0056",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.274,
+      "BI_VISUALIZATION": 0.111,
+      "STATISTICS_EXPERIMENTATION": 0.182,
+      "ANALYTICS_BUSINESS": 0.21,
+      "PYTHON_ANALYTICS": 0.314
+    }
+  },
+  {
+    "user_id": "u_0076",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.276,
+      "BI_VISUALIZATION": 0.33,
+      "STATISTICS_EXPERIMENTATION": 0.124,
+      "ANALYTICS_BUSINESS": 0.332,
+      "PYTHON_ANALYTICS": 0.187
+    }
+  },
+  {
+    "user_id": "u_0285",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.1,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.598,
+      "EVALUATION_METRICS": 0.567,
+      "DATA_PREPROCESSING": 0.578,
+      "DEEP_LEARNING": 0.428,
+      "NLP": 0.453,
+      "TIME_SERIES": 0.409,
+      "MLOPS": 0.559
+    }
+  },
+  {
+    "user_id": "u_0040",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.5,
+    "skill_vector": {
+      "SQL_DATABASE": 0.431,
+      "BI_VISUALIZATION": 0.338,
+      "STATISTICS_EXPERIMENTATION": 0.05,
+      "ANALYTICS_BUSINESS": 0.296,
+      "PYTHON_ANALYTICS": 0.208
+    }
+  },
+  {
+    "user_id": "u_0392",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.307,
+      "DATA_ARCHITECTURE_MODELING": 0.257,
+      "BIG_DATA_CLOUD_TOOLS": 0.334,
+      "DATABASE_INTERNALS": 0.243,
+      "SYSTEM_ARCHITECTURE": 0.183
+    }
+  },
+  {
+    "user_id": "u_0461",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.9,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.487,
+      "DATA_ARCHITECTURE_MODELING": 0.57,
+      "BIG_DATA_CLOUD_TOOLS": 0.434,
+      "DATABASE_INTERNALS": 0.628,
+      "SYSTEM_ARCHITECTURE": 0.583
+    }
+  },
+  {
+    "user_id": "u_0258",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 4.5,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.591,
+      "EVALUATION_METRICS": 0.599,
+      "DATA_PREPROCESSING": 0.429,
+      "DEEP_LEARNING": 0.519,
+      "NLP": 0.427,
+      "TIME_SERIES": 0.581,
+      "MLOPS": 0.518
+    }
+  },
+  {
+    "user_id": "u_0179",
+    "role": "DS",
+    "user_type": "advanced",
+    "experience_years": 3.5,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.725,
+      "EVALUATION_METRICS": 0.713,
+      "DATA_PREPROCESSING": 0.796,
+      "DEEP_LEARNING": 0.683,
+      "NLP": 0.742,
+      "TIME_SERIES": 0.668,
+      "MLOPS": 0.677
+    }
+  },
+  {
+    "user_id": "u_0213",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 0.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.276,
+      "EVALUATION_METRICS": 0.191,
+      "DATA_PREPROCESSING": 0.415,
+      "DEEP_LEARNING": 0.197,
+      "NLP": 0.21,
+      "TIME_SERIES": 0.1,
+      "MLOPS": 0.183
+    }
+  },
+  {
+    "user_id": "u_0473",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.379,
+      "DATA_ARCHITECTURE_MODELING": 0.351,
+      "BIG_DATA_CLOUD_TOOLS": 0.375,
+      "DATABASE_INTERNALS": 0.41,
+      "SYSTEM_ARCHITECTURE": 0.373
+    }
+  },
+  {
+    "user_id": "u_0421",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.2,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.455,
+      "DATA_ARCHITECTURE_MODELING": 0.502,
+      "BIG_DATA_CLOUD_TOOLS": 0.597,
+      "DATABASE_INTERNALS": 0.449,
+      "SYSTEM_ARCHITECTURE": 0.378
+    }
+  },
+  {
+    "user_id": "u_0068",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "SQL_DATABASE": 0.259,
+      "BI_VISUALIZATION": 0.24,
+      "STATISTICS_EXPERIMENTATION": 0.18,
+      "ANALYTICS_BUSINESS": 0.311,
+      "PYTHON_ANALYTICS": 0.135
+    }
+  },
+  {
+    "user_id": "u_0100",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.7,
+    "skill_vector": {
+      "SQL_DATABASE": 0.552,
+      "BI_VISUALIZATION": 0.387,
+      "STATISTICS_EXPERIMENTATION": 0.375,
+      "ANALYTICS_BUSINESS": 0.401,
+      "PYTHON_ANALYTICS": 0.398
+    }
+  },
+  {
+    "user_id": "u_0477",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.9,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.585,
+      "DATA_ARCHITECTURE_MODELING": 0.731,
+      "BIG_DATA_CLOUD_TOOLS": 0.549,
+      "DATABASE_INTERNALS": 0.664,
+      "SYSTEM_ARCHITECTURE": 0.775
+    }
+  },
+  {
+    "user_id": "u_0098",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.7,
+    "skill_vector": {
+      "SQL_DATABASE": 0.599,
+      "BI_VISUALIZATION": 0.696,
+      "STATISTICS_EXPERIMENTATION": 0.457,
+      "ANALYTICS_BUSINESS": 0.597,
+      "PYTHON_ANALYTICS": 0.421
+    }
+  },
+  {
+    "user_id": "u_0197",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.215,
+      "EVALUATION_METRICS": 0.398,
+      "DATA_PREPROCESSING": 0.429,
+      "DEEP_LEARNING": 0.168,
+      "NLP": 0.259,
+      "TIME_SERIES": 0.484,
+      "MLOPS": 0.159
+    }
+  },
+  {
+    "user_id": "u_0340",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.9,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.64,
+      "DATA_ARCHITECTURE_MODELING": 0.574,
+      "BIG_DATA_CLOUD_TOOLS": 0.542,
+      "DATABASE_INTERNALS": 0.734,
+      "SYSTEM_ARCHITECTURE": 0.588
+    }
+  },
+  {
+    "user_id": "u_0289",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.3,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.579,
+      "EVALUATION_METRICS": 0.244,
+      "DATA_PREPROCESSING": 0.596,
+      "DEEP_LEARNING": 0.458,
+      "NLP": 0.446,
+      "TIME_SERIES": 0.402,
+      "MLOPS": 0.601
+    }
+  },
+  {
+    "user_id": "u_0319",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.3,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.389,
+      "EVALUATION_METRICS": 0.493,
+      "DATA_PREPROCESSING": 0.544,
+      "DEEP_LEARNING": 0.345,
+      "NLP": 0.37,
+      "TIME_SERIES": 0.5,
+      "MLOPS": 0.357
+    }
+  },
+  {
+    "user_id": "u_0458",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.502,
+      "DATA_ARCHITECTURE_MODELING": 0.667,
+      "BIG_DATA_CLOUD_TOOLS": 0.624,
+      "DATABASE_INTERNALS": 0.624,
+      "SYSTEM_ARCHITECTURE": 0.545
+    }
+  },
+  {
+    "user_id": "u_0125",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.509,
+      "BI_VISUALIZATION": 0.358,
+      "STATISTICS_EXPERIMENTATION": 0.418,
+      "ANALYTICS_BUSINESS": 0.412,
+      "PYTHON_ANALYTICS": 0.377
+    }
+  },
+  {
+    "user_id": "u_0243",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.209,
+      "EVALUATION_METRICS": 0.168,
+      "DATA_PREPROCESSING": 0.201,
+      "DEEP_LEARNING": 0.118,
+      "NLP": 0.194,
+      "TIME_SERIES": 0.484,
+      "MLOPS": 0.246
+    }
+  },
+  {
+    "user_id": "u_0043",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "SQL_DATABASE": 0.479,
+      "BI_VISUALIZATION": 0.364,
+      "STATISTICS_EXPERIMENTATION": 0.072,
+      "ANALYTICS_BUSINESS": 0.289,
+      "PYTHON_ANALYTICS": 0.391
+    }
+  },
+  {
+    "user_id": "u_0061",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.374,
+      "BI_VISUALIZATION": 0.4,
+      "STATISTICS_EXPERIMENTATION": 0.213,
+      "ANALYTICS_BUSINESS": 0.377,
+      "PYTHON_ANALYTICS": 0.323
+    }
+  },
+  {
+    "user_id": "u_0193",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.246,
+      "EVALUATION_METRICS": 0.339,
+      "DATA_PREPROCESSING": 0.29,
+      "DEEP_LEARNING": 0.187,
+      "NLP": 0.145,
+      "TIME_SERIES": 0.141,
+      "MLOPS": 0.071
+    }
+  },
+  {
+    "user_id": "u_0423",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.6,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.477,
+      "DATA_ARCHITECTURE_MODELING": 0.472,
+      "BIG_DATA_CLOUD_TOOLS": 0.42,
+      "DATABASE_INTERNALS": 0.416,
+      "SYSTEM_ARCHITECTURE": 0.499
+    }
+  },
+  {
+    "user_id": "u_0267",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.3,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.554,
+      "EVALUATION_METRICS": 0.438,
+      "DATA_PREPROCESSING": 0.474,
+      "DEEP_LEARNING": 0.408,
+      "NLP": 0.524,
+      "TIME_SERIES": 0.463,
+      "MLOPS": 0.678
+    }
+  },
+  {
+    "user_id": "u_0255",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.2,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.57,
+      "EVALUATION_METRICS": 0.544,
+      "DATA_PREPROCESSING": 0.559,
+      "DEEP_LEARNING": 0.51,
+      "NLP": 0.529,
+      "TIME_SERIES": 0.626,
+      "MLOPS": 0.515
+    }
+  },
+  {
+    "user_id": "u_0385",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.269,
+      "DATA_ARCHITECTURE_MODELING": 0.407,
+      "BIG_DATA_CLOUD_TOOLS": 0.224,
+      "DATABASE_INTERNALS": 0.363,
+      "SYSTEM_ARCHITECTURE": 0.469
+    }
+  },
+  {
+    "user_id": "u_0498",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 5.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.453,
+      "DATA_ARCHITECTURE_MODELING": 0.559,
+      "BIG_DATA_CLOUD_TOOLS": 0.503,
+      "DATABASE_INTERNALS": 0.431,
+      "SYSTEM_ARCHITECTURE": 0.592
+    }
+  },
+  {
+    "user_id": "u_0227",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.256,
+      "EVALUATION_METRICS": 0.302,
+      "DATA_PREPROCESSING": 0.234,
+      "DEEP_LEARNING": 0.195,
+      "NLP": 0.141,
+      "TIME_SERIES": 0.174,
+      "MLOPS": 0.287
+    }
+  },
+  {
+    "user_id": "u_0496",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.7,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.574,
+      "DATA_ARCHITECTURE_MODELING": 0.476,
+      "BIG_DATA_CLOUD_TOOLS": 0.567,
+      "DATABASE_INTERNALS": 0.544,
+      "SYSTEM_ARCHITECTURE": 0.471
+    }
+  },
+  {
+    "user_id": "u_0114",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.595,
+      "BI_VISUALIZATION": 0.566,
+      "STATISTICS_EXPERIMENTATION": 0.462,
+      "ANALYTICS_BUSINESS": 0.46,
+      "PYTHON_ANALYTICS": 0.384
+    }
+  },
+  {
+    "user_id": "u_0020",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 3.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.723,
+      "BI_VISUALIZATION": 0.659,
+      "STATISTICS_EXPERIMENTATION": 0.59,
+      "ANALYTICS_BUSINESS": 0.65,
+      "PYTHON_ANALYTICS": 0.755
+    }
+  },
+  {
+    "user_id": "u_0219",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.2,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.445,
+      "EVALUATION_METRICS": 0.404,
+      "DATA_PREPROCESSING": 0.384,
+      "DEEP_LEARNING": 0.402,
+      "NLP": 0.239,
+      "TIME_SERIES": 0.379,
+      "MLOPS": 0.281
+    }
+  },
+  {
+    "user_id": "u_0119",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.7,
+    "skill_vector": {
+      "SQL_DATABASE": 0.356,
+      "BI_VISUALIZATION": 0.567,
+      "STATISTICS_EXPERIMENTATION": 0.401,
+      "ANALYTICS_BUSINESS": 0.529,
+      "PYTHON_ANALYTICS": 0.35
+    }
+  },
+  {
+    "user_id": "u_0365",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.239,
+      "DATA_ARCHITECTURE_MODELING": 0.101,
+      "BIG_DATA_CLOUD_TOOLS": 0.177,
+      "DATABASE_INTERNALS": 0.1,
+      "SYSTEM_ARCHITECTURE": 0.166
+    }
+  },
+  {
+    "user_id": "u_0386",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.7,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.146,
+      "DATA_ARCHITECTURE_MODELING": 0.182,
+      "BIG_DATA_CLOUD_TOOLS": 0.138,
+      "DATABASE_INTERNALS": 0.168,
+      "SYSTEM_ARCHITECTURE": 0.164
+    }
+  },
+  {
+    "user_id": "u_0438",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.6,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.475,
+      "DATA_ARCHITECTURE_MODELING": 0.687,
+      "BIG_DATA_CLOUD_TOOLS": 0.632,
+      "DATABASE_INTERNALS": 0.55,
+      "SYSTEM_ARCHITECTURE": 0.643
+    }
+  },
+  {
+    "user_id": "u_0294",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 0.5,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.333,
+      "EVALUATION_METRICS": 0.341,
+      "DATA_PREPROCESSING": 0.35,
+      "DEEP_LEARNING": 0.348,
+      "NLP": 0.491,
+      "TIME_SERIES": 0.431,
+      "MLOPS": 0.365
+    }
+  },
+  {
+    "user_id": "u_0494",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.6,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.648,
+      "DATA_ARCHITECTURE_MODELING": 0.298,
+      "BIG_DATA_CLOUD_TOOLS": 0.553,
+      "DATABASE_INTERNALS": 0.43,
+      "SYSTEM_ARCHITECTURE": 0.221
+    }
+  },
+  {
+    "user_id": "u_0379",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.087,
+      "DATA_ARCHITECTURE_MODELING": 0.269,
+      "BIG_DATA_CLOUD_TOOLS": 0.206,
+      "DATABASE_INTERNALS": 0.179,
+      "SYSTEM_ARCHITECTURE": 0.183
+    }
+  },
+  {
+    "user_id": "u_0242",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.143,
+      "EVALUATION_METRICS": 0.057,
+      "DATA_PREPROCESSING": 0.25,
+      "DEEP_LEARNING": 0.345,
+      "NLP": 0.307,
+      "TIME_SERIES": 0.131,
+      "MLOPS": 0.129
+    }
+  },
+  {
+    "user_id": "u_0447",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.604,
+      "DATA_ARCHITECTURE_MODELING": 0.435,
+      "BIG_DATA_CLOUD_TOOLS": 0.496,
+      "DATABASE_INTERNALS": 0.607,
+      "SYSTEM_ARCHITECTURE": 0.288
+    }
+  },
+  {
+    "user_id": "u_0436",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.539,
+      "DATA_ARCHITECTURE_MODELING": 0.484,
+      "BIG_DATA_CLOUD_TOOLS": 0.536,
+      "DATABASE_INTERNALS": 0.403,
+      "SYSTEM_ARCHITECTURE": 0.452
+    }
+  },
+  {
+    "user_id": "u_0028",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.392,
+      "BI_VISUALIZATION": 0.171,
+      "STATISTICS_EXPERIMENTATION": 0.327,
+      "ANALYTICS_BUSINESS": 0.319,
+      "PYTHON_ANALYTICS": 0.349
+    }
+  },
+  {
+    "user_id": "u_0221",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.453,
+      "EVALUATION_METRICS": 0.28,
+      "DATA_PREPROCESSING": 0.341,
+      "DEEP_LEARNING": 0.24,
+      "NLP": 0.242,
+      "TIME_SERIES": 0.362,
+      "MLOPS": 0.399
+    }
+  },
+  {
+    "user_id": "u_0470",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.415,
+      "DATA_ARCHITECTURE_MODELING": 0.461,
+      "BIG_DATA_CLOUD_TOOLS": 0.449,
+      "DATABASE_INTERNALS": 0.377,
+      "SYSTEM_ARCHITECTURE": 0.518
+    }
+  },
+  {
+    "user_id": "u_0087",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.493,
+      "BI_VISUALIZATION": 0.367,
+      "STATISTICS_EXPERIMENTATION": 0.466,
+      "ANALYTICS_BUSINESS": 0.509,
+      "PYTHON_ANALYTICS": 0.305
+    }
+  },
+  {
+    "user_id": "u_0362",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.389,
+      "DATA_ARCHITECTURE_MODELING": 0.32,
+      "BIG_DATA_CLOUD_TOOLS": 0.361,
+      "DATABASE_INTERNALS": 0.392,
+      "SYSTEM_ARCHITECTURE": 0.205
+    }
+  },
+  {
+    "user_id": "u_0104",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 3.7,
+    "skill_vector": {
+      "SQL_DATABASE": 0.578,
+      "BI_VISUALIZATION": 0.485,
+      "STATISTICS_EXPERIMENTATION": 0.37,
+      "ANALYTICS_BUSINESS": 0.566,
+      "PYTHON_ANALYTICS": 0.668
+    }
+  },
+  {
+    "user_id": "u_0482",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.421,
+      "DATA_ARCHITECTURE_MODELING": 0.593,
+      "BIG_DATA_CLOUD_TOOLS": 0.415,
+      "DATABASE_INTERNALS": 0.588,
+      "SYSTEM_ARCHITECTURE": 0.631
+    }
+  },
+  {
+    "user_id": "u_0026",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "SQL_DATABASE": 0.307,
+      "BI_VISUALIZATION": 0.267,
+      "STATISTICS_EXPERIMENTATION": 0.148,
+      "ANALYTICS_BUSINESS": 0.307,
+      "PYTHON_ANALYTICS": 0.272
+    }
+  },
+  {
+    "user_id": "u_0308",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.535,
+      "EVALUATION_METRICS": 0.473,
+      "DATA_PREPROCESSING": 0.502,
+      "DEEP_LEARNING": 0.429,
+      "NLP": 0.334,
+      "TIME_SERIES": 0.627,
+      "MLOPS": 0.533
+    }
+  },
+  {
+    "user_id": "u_0168",
+    "role": "DS",
+    "user_type": "advanced",
+    "experience_years": 4.4,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.773,
+      "EVALUATION_METRICS": 0.66,
+      "DATA_PREPROCESSING": 0.798,
+      "DEEP_LEARNING": 0.723,
+      "NLP": 0.774,
+      "TIME_SERIES": 0.775,
+      "MLOPS": 0.794
+    }
+  },
+  {
+    "user_id": "u_0451",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.5,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.538,
+      "DATA_ARCHITECTURE_MODELING": 0.42,
+      "BIG_DATA_CLOUD_TOOLS": 0.478,
+      "DATABASE_INTERNALS": 0.497,
+      "SYSTEM_ARCHITECTURE": 0.375
+    }
+  },
+  {
+    "user_id": "u_0476",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.2,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.404,
+      "DATA_ARCHITECTURE_MODELING": 0.426,
+      "BIG_DATA_CLOUD_TOOLS": 0.393,
+      "DATABASE_INTERNALS": 0.58,
+      "SYSTEM_ARCHITECTURE": 0.303
+    }
+  },
+  {
+    "user_id": "u_0411",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.6,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.22,
+      "DATA_ARCHITECTURE_MODELING": 0.217,
+      "BIG_DATA_CLOUD_TOOLS": 0.234,
+      "DATABASE_INTERNALS": 0.156,
+      "SYSTEM_ARCHITECTURE": 0.26
+    }
+  },
+  {
+    "user_id": "u_0222",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.7,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.328,
+      "EVALUATION_METRICS": 0.299,
+      "DATA_PREPROCESSING": 0.246,
+      "DEEP_LEARNING": 0.369,
+      "NLP": 0.34,
+      "TIME_SERIES": 0.35,
+      "MLOPS": 0.301
+    }
+  },
+  {
+    "user_id": "u_0417",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.483,
+      "DATA_ARCHITECTURE_MODELING": 0.492,
+      "BIG_DATA_CLOUD_TOOLS": 0.349,
+      "DATABASE_INTERNALS": 0.418,
+      "SYSTEM_ARCHITECTURE": 0.612
+    }
+  },
+  {
+    "user_id": "u_0106",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.3,
+    "skill_vector": {
+      "SQL_DATABASE": 0.367,
+      "BI_VISUALIZATION": 0.551,
+      "STATISTICS_EXPERIMENTATION": 0.36,
+      "ANALYTICS_BUSINESS": 0.488,
+      "PYTHON_ANALYTICS": 0.3
+    }
+  },
+  {
+    "user_id": "u_0372",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.2,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.275,
+      "DATA_ARCHITECTURE_MODELING": 0.3,
+      "BIG_DATA_CLOUD_TOOLS": 0.228,
+      "DATABASE_INTERNALS": 0.338,
+      "SYSTEM_ARCHITECTURE": 0.161
+    }
+  },
+  {
+    "user_id": "u_0091",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.513,
+      "BI_VISUALIZATION": 0.376,
+      "STATISTICS_EXPERIMENTATION": 0.539,
+      "ANALYTICS_BUSINESS": 0.556,
+      "PYTHON_ANALYTICS": 0.246
+    }
+  },
+  {
+    "user_id": "u_0453",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.6,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.578,
+      "DATA_ARCHITECTURE_MODELING": 0.379,
+      "BIG_DATA_CLOUD_TOOLS": 0.544,
+      "DATABASE_INTERNALS": 0.383,
+      "SYSTEM_ARCHITECTURE": 0.421
+    }
+  },
+  {
+    "user_id": "u_0169",
+    "role": "DS",
+    "user_type": "advanced",
+    "experience_years": 4.5,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.803,
+      "EVALUATION_METRICS": 0.808,
+      "DATA_PREPROCESSING": 0.99,
+      "DEEP_LEARNING": 0.687,
+      "NLP": 0.82,
+      "TIME_SERIES": 0.71,
+      "MLOPS": 0.639
+    }
+  },
+  {
+    "user_id": "u_0241",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.5,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.301,
+      "EVALUATION_METRICS": 0.253,
+      "DATA_PREPROCESSING": 0.197,
+      "DEEP_LEARNING": 0.177,
+      "NLP": 0.107,
+      "TIME_SERIES": 0.05,
+      "MLOPS": 0.287
+    }
+  },
+  {
+    "user_id": "u_0403",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.064,
+      "DATA_ARCHITECTURE_MODELING": 0.251,
+      "BIG_DATA_CLOUD_TOOLS": 0.239,
+      "DATABASE_INTERNALS": 0.127,
+      "SYSTEM_ARCHITECTURE": 0.262
+    }
+  },
+  {
+    "user_id": "u_0049",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.5,
+    "skill_vector": {
+      "SQL_DATABASE": 0.269,
+      "BI_VISUALIZATION": 0.15,
+      "STATISTICS_EXPERIMENTATION": 0.166,
+      "ANALYTICS_BUSINESS": 0.21,
+      "PYTHON_ANALYTICS": 0.161
+    }
+  },
+  {
+    "user_id": "u_0105",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 3.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.606,
+      "BI_VISUALIZATION": 0.42,
+      "STATISTICS_EXPERIMENTATION": 0.348,
+      "ANALYTICS_BUSINESS": 0.472,
+      "PYTHON_ANALYTICS": 0.484
+    }
+  },
+  {
+    "user_id": "u_0207",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.3,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.259,
+      "EVALUATION_METRICS": 0.153,
+      "DATA_PREPROCESSING": 0.165,
+      "DEEP_LEARNING": 0.158,
+      "NLP": 0.141,
+      "TIME_SERIES": 0.212,
+      "MLOPS": 0.237
+    }
+  },
+  {
+    "user_id": "u_0248",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.317,
+      "EVALUATION_METRICS": 0.32,
+      "DATA_PREPROCESSING": 0.161,
+      "DEEP_LEARNING": 0.239,
+      "NLP": 0.217,
+      "TIME_SERIES": 0.388,
+      "MLOPS": 0.365
+    }
+  },
+  {
+    "user_id": "u_0201",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.254,
+      "EVALUATION_METRICS": 0.186,
+      "DATA_PREPROCESSING": 0.195,
+      "DEEP_LEARNING": 0.362,
+      "NLP": 0.39,
+      "TIME_SERIES": 0.331,
+      "MLOPS": 0.099
+    }
+  },
+  {
+    "user_id": "u_0063",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.2,
+    "skill_vector": {
+      "SQL_DATABASE": 0.463,
+      "BI_VISUALIZATION": 0.334,
+      "STATISTICS_EXPERIMENTATION": 0.402,
+      "ANALYTICS_BUSINESS": 0.302,
+      "PYTHON_ANALYTICS": 0.329
+    }
+  },
+  {
+    "user_id": "u_0478",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.3,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.352,
+      "DATA_ARCHITECTURE_MODELING": 0.325,
+      "BIG_DATA_CLOUD_TOOLS": 0.463,
+      "DATABASE_INTERNALS": 0.223,
+      "SYSTEM_ARCHITECTURE": 0.338
+    }
+  },
+  {
+    "user_id": "u_0148",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.1,
+    "skill_vector": {
+      "SQL_DATABASE": 0.522,
+      "BI_VISUALIZATION": 0.581,
+      "STATISTICS_EXPERIMENTATION": 0.546,
+      "ANALYTICS_BUSINESS": 0.699,
+      "PYTHON_ANALYTICS": 0.55
+    }
+  },
+  {
+    "user_id": "u_0147",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.9,
+    "skill_vector": {
+      "SQL_DATABASE": 0.526,
+      "BI_VISUALIZATION": 0.48,
+      "STATISTICS_EXPERIMENTATION": 0.454,
+      "ANALYTICS_BUSINESS": 0.636,
+      "PYTHON_ANALYTICS": 0.735
+    }
+  },
+  {
+    "user_id": "u_0226",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.407,
+      "EVALUATION_METRICS": 0.406,
+      "DATA_PREPROCESSING": 0.219,
+      "DEEP_LEARNING": 0.333,
+      "NLP": 0.368,
+      "TIME_SERIES": 0.149,
+      "MLOPS": 0.271
+    }
+  },
+  {
+    "user_id": "u_0422",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.583,
+      "DATA_ARCHITECTURE_MODELING": 0.475,
+      "BIG_DATA_CLOUD_TOOLS": 0.483,
+      "DATABASE_INTERNALS": 0.569,
+      "SYSTEM_ARCHITECTURE": 0.333
+    }
+  },
+  {
+    "user_id": "u_0485",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 5.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.594,
+      "DATA_ARCHITECTURE_MODELING": 0.423,
+      "BIG_DATA_CLOUD_TOOLS": 0.491,
+      "DATABASE_INTERNALS": 0.535,
+      "SYSTEM_ARCHITECTURE": 0.404
+    }
+  },
+  {
+    "user_id": "u_0492",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.2,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.477,
+      "DATA_ARCHITECTURE_MODELING": 0.447,
+      "BIG_DATA_CLOUD_TOOLS": 0.443,
+      "DATABASE_INTERNALS": 0.531,
+      "SYSTEM_ARCHITECTURE": 0.229
+    }
+  },
+  {
+    "user_id": "u_0452",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.5,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.45,
+      "DATA_ARCHITECTURE_MODELING": 0.471,
+      "BIG_DATA_CLOUD_TOOLS": 0.528,
+      "DATABASE_INTERNALS": 0.488,
+      "SYSTEM_ARCHITECTURE": 0.376
+    }
+  },
+  {
+    "user_id": "u_0110",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.2,
+    "skill_vector": {
+      "SQL_DATABASE": 0.719,
+      "BI_VISUALIZATION": 0.503,
+      "STATISTICS_EXPERIMENTATION": 0.464,
+      "ANALYTICS_BUSINESS": 0.522,
+      "PYTHON_ANALYTICS": 0.52
+    }
+  },
+  {
+    "user_id": "u_0295",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.5,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.448,
+      "EVALUATION_METRICS": 0.413,
+      "DATA_PREPROCESSING": 0.533,
+      "DEEP_LEARNING": 0.524,
+      "NLP": 0.599,
+      "TIME_SERIES": 0.264,
+      "MLOPS": 0.12
+    }
+  },
+  {
+    "user_id": "u_0441",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.7,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.45,
+      "DATA_ARCHITECTURE_MODELING": 0.712,
+      "BIG_DATA_CLOUD_TOOLS": 0.63,
+      "DATABASE_INTERNALS": 0.584,
+      "SYSTEM_ARCHITECTURE": 0.667
+    }
+  },
+  {
+    "user_id": "u_0122",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.7,
+    "skill_vector": {
+      "SQL_DATABASE": 0.498,
+      "BI_VISUALIZATION": 0.458,
+      "STATISTICS_EXPERIMENTATION": 0.34,
+      "ANALYTICS_BUSINESS": 0.444,
+      "PYTHON_ANALYTICS": 0.45
+    }
+  },
+  {
+    "user_id": "u_0266",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.503,
+      "EVALUATION_METRICS": 0.41,
+      "DATA_PREPROCESSING": 0.522,
+      "DEEP_LEARNING": 0.465,
+      "NLP": 0.291,
+      "TIME_SERIES": 0.477,
+      "MLOPS": 0.421
+    }
+  },
+  {
+    "user_id": "u_0170",
+    "role": "DS",
+    "user_type": "advanced",
+    "experience_years": 5.9,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.746,
+      "EVALUATION_METRICS": 0.745,
+      "DATA_PREPROCESSING": 0.764,
+      "DEEP_LEARNING": 0.592,
+      "NLP": 0.634,
+      "TIME_SERIES": 0.99,
+      "MLOPS": 0.86
+    }
+  },
+  {
+    "user_id": "u_0382",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.375,
+      "DATA_ARCHITECTURE_MODELING": 0.42,
+      "BIG_DATA_CLOUD_TOOLS": 0.409,
+      "DATABASE_INTERNALS": 0.426,
+      "SYSTEM_ARCHITECTURE": 0.294
+    }
+  },
+  {
+    "user_id": "u_0035",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.168,
+      "BI_VISUALIZATION": 0.104,
+      "STATISTICS_EXPERIMENTATION": 0.245,
+      "ANALYTICS_BUSINESS": 0.294,
+      "PYTHON_ANALYTICS": 0.27
+    }
+  },
+  {
+    "user_id": "u_0269",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.428,
+      "EVALUATION_METRICS": 0.489,
+      "DATA_PREPROCESSING": 0.655,
+      "DEEP_LEARNING": 0.489,
+      "NLP": 0.448,
+      "TIME_SERIES": 0.326,
+      "MLOPS": 0.184
+    }
+  },
+  {
+    "user_id": "u_0031",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.297,
+      "BI_VISUALIZATION": 0.156,
+      "STATISTICS_EXPERIMENTATION": 0.126,
+      "ANALYTICS_BUSINESS": 0.277,
+      "PYTHON_ANALYTICS": 0.232
+    }
+  },
+  {
+    "user_id": "u_0401",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.2,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.387,
+      "DATA_ARCHITECTURE_MODELING": 0.233,
+      "BIG_DATA_CLOUD_TOOLS": 0.441,
+      "DATABASE_INTERNALS": 0.201,
+      "SYSTEM_ARCHITECTURE": 0.159
+    }
+  },
+  {
+    "user_id": "u_0462",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.4,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.483,
+      "DATA_ARCHITECTURE_MODELING": 0.603,
+      "BIG_DATA_CLOUD_TOOLS": 0.454,
+      "DATABASE_INTERNALS": 0.599,
+      "SYSTEM_ARCHITECTURE": 0.657
+    }
+  },
+  {
+    "user_id": "u_0355",
+    "role": "DE",
+    "user_type": "advanced",
+    "experience_years": 6.5,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.707,
+      "DATA_ARCHITECTURE_MODELING": 0.754,
+      "BIG_DATA_CLOUD_TOOLS": 0.763,
+      "DATABASE_INTERNALS": 0.763,
+      "SYSTEM_ARCHITECTURE": 0.688
+    }
+  },
+  {
+    "user_id": "u_0383",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.376,
+      "DATA_ARCHITECTURE_MODELING": 0.234,
+      "BIG_DATA_CLOUD_TOOLS": 0.385,
+      "DATABASE_INTERNALS": 0.304,
+      "SYSTEM_ARCHITECTURE": 0.148
+    }
+  },
+  {
+    "user_id": "u_0011",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 3.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.666,
+      "BI_VISUALIZATION": 0.602,
+      "STATISTICS_EXPERIMENTATION": 0.481,
+      "ANALYTICS_BUSINESS": 0.61,
+      "PYTHON_ANALYTICS": 0.714
+    }
+  },
+  {
+    "user_id": "u_0174",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.5,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.684,
+      "EVALUATION_METRICS": 0.726,
+      "DATA_PREPROCESSING": 0.748,
+      "DEEP_LEARNING": 0.638,
+      "NLP": 0.611,
+      "TIME_SERIES": 0.579,
+      "MLOPS": 0.646
+    }
+  },
+  {
+    "user_id": "u_0343",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.4,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.687,
+      "DATA_ARCHITECTURE_MODELING": 0.68,
+      "BIG_DATA_CLOUD_TOOLS": 0.671,
+      "DATABASE_INTERNALS": 0.605,
+      "SYSTEM_ARCHITECTURE": 0.742
+    }
+  },
+  {
+    "user_id": "u_0116",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.1,
+    "skill_vector": {
+      "SQL_DATABASE": 0.499,
+      "BI_VISUALIZATION": 0.567,
+      "STATISTICS_EXPERIMENTATION": 0.334,
+      "ANALYTICS_BUSINESS": 0.58,
+      "PYTHON_ANALYTICS": 0.521
+    }
+  },
+  {
+    "user_id": "u_0364",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.2,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.341,
+      "DATA_ARCHITECTURE_MODELING": 0.327,
+      "BIG_DATA_CLOUD_TOOLS": 0.361,
+      "DATABASE_INTERNALS": 0.292,
+      "SYSTEM_ARCHITECTURE": 0.236
+    }
+  },
+  {
+    "user_id": "u_0062",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.3,
+    "skill_vector": {
+      "SQL_DATABASE": 0.293,
+      "BI_VISUALIZATION": 0.208,
+      "STATISTICS_EXPERIMENTATION": 0.184,
+      "ANALYTICS_BUSINESS": 0.221,
+      "PYTHON_ANALYTICS": 0.217
+    }
+  },
+  {
+    "user_id": "u_0232",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.344,
+      "EVALUATION_METRICS": 0.264,
+      "DATA_PREPROCESSING": 0.441,
+      "DEEP_LEARNING": 0.222,
+      "NLP": 0.135,
+      "TIME_SERIES": 0.518,
+      "MLOPS": 0.369
+    }
+  },
+  {
+    "user_id": "u_0265",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.451,
+      "EVALUATION_METRICS": 0.41,
+      "DATA_PREPROCESSING": 0.329,
+      "DEEP_LEARNING": 0.352,
+      "NLP": 0.273,
+      "TIME_SERIES": 0.574,
+      "MLOPS": 0.445
+    }
+  },
+  {
+    "user_id": "u_0225",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.332,
+      "EVALUATION_METRICS": 0.413,
+      "DATA_PREPROCESSING": 0.318,
+      "DEEP_LEARNING": 0.119,
+      "NLP": 0.147,
+      "TIME_SERIES": 0.112,
+      "MLOPS": 0.206
+    }
+  },
+  {
+    "user_id": "u_0313",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.526,
+      "EVALUATION_METRICS": 0.637,
+      "DATA_PREPROCESSING": 0.692,
+      "DEEP_LEARNING": 0.317,
+      "NLP": 0.31,
+      "TIME_SERIES": 0.271,
+      "MLOPS": 0.44
+    }
+  },
+  {
+    "user_id": "u_0357",
+    "role": "DE",
+    "user_type": "advanced",
+    "experience_years": 3.5,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.864,
+      "DATA_ARCHITECTURE_MODELING": 0.726,
+      "BIG_DATA_CLOUD_TOOLS": 0.825,
+      "DATABASE_INTERNALS": 0.923,
+      "SYSTEM_ARCHITECTURE": 0.574
+    }
+  },
+  {
+    "user_id": "u_0160",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.7,
+    "skill_vector": {
+      "SQL_DATABASE": 0.54,
+      "BI_VISUALIZATION": 0.565,
+      "STATISTICS_EXPERIMENTATION": 0.469,
+      "ANALYTICS_BUSINESS": 0.587,
+      "PYTHON_ANALYTICS": 0.52
+    }
+  },
+  {
+    "user_id": "u_0103",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 3.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.536,
+      "BI_VISUALIZATION": 0.332,
+      "STATISTICS_EXPERIMENTATION": 0.663,
+      "ANALYTICS_BUSINESS": 0.509,
+      "PYTHON_ANALYTICS": 0.47
+    }
+  },
+  {
+    "user_id": "u_0311",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.2,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.331,
+      "EVALUATION_METRICS": 0.335,
+      "DATA_PREPROCESSING": 0.423,
+      "DEEP_LEARNING": 0.245,
+      "NLP": 0.353,
+      "TIME_SERIES": 0.709,
+      "MLOPS": 0.398
+    }
+  },
+  {
+    "user_id": "u_0373",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.177,
+      "DATA_ARCHITECTURE_MODELING": 0.266,
+      "BIG_DATA_CLOUD_TOOLS": 0.155,
+      "DATABASE_INTERNALS": 0.302,
+      "SYSTEM_ARCHITECTURE": 0.311
+    }
+  },
+  {
+    "user_id": "u_0345",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.5,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.648,
+      "DATA_ARCHITECTURE_MODELING": 0.616,
+      "BIG_DATA_CLOUD_TOOLS": 0.682,
+      "DATABASE_INTERNALS": 0.662,
+      "SYSTEM_ARCHITECTURE": 0.551
+    }
+  },
+  {
+    "user_id": "u_0338",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.7,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.806,
+      "DATA_ARCHITECTURE_MODELING": 0.674,
+      "BIG_DATA_CLOUD_TOOLS": 0.721,
+      "DATABASE_INTERNALS": 0.764,
+      "SYSTEM_ARCHITECTURE": 0.48
+    }
+  },
+  {
+    "user_id": "u_0366",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.354,
+      "DATA_ARCHITECTURE_MODELING": 0.296,
+      "BIG_DATA_CLOUD_TOOLS": 0.361,
+      "DATABASE_INTERNALS": 0.312,
+      "SYSTEM_ARCHITECTURE": 0.266
+    }
+  },
+  {
+    "user_id": "u_0085",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.42,
+      "BI_VISUALIZATION": 0.354,
+      "STATISTICS_EXPERIMENTATION": 0.32,
+      "ANALYTICS_BUSINESS": 0.402,
+      "PYTHON_ANALYTICS": 0.42
+    }
+  },
+  {
+    "user_id": "u_0282",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.269,
+      "EVALUATION_METRICS": 0.353,
+      "DATA_PREPROCESSING": 0.34,
+      "DEEP_LEARNING": 0.332,
+      "NLP": 0.396,
+      "TIME_SERIES": 0.389,
+      "MLOPS": 0.159
+    }
+  },
+  {
+    "user_id": "u_0244",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 0.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.266,
+      "EVALUATION_METRICS": 0.112,
+      "DATA_PREPROCESSING": 0.364,
+      "DEEP_LEARNING": 0.19,
+      "NLP": 0.197,
+      "TIME_SERIES": 0.719,
+      "MLOPS": 0.255
+    }
+  },
+  {
+    "user_id": "u_0066",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "SQL_DATABASE": 0.24,
+      "BI_VISUALIZATION": 0.294,
+      "STATISTICS_EXPERIMENTATION": 0.127,
+      "ANALYTICS_BUSINESS": 0.438,
+      "PYTHON_ANALYTICS": 0.384
+    }
+  },
+  {
+    "user_id": "u_0065",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "SQL_DATABASE": 0.263,
+      "BI_VISUALIZATION": 0.263,
+      "STATISTICS_EXPERIMENTATION": 0.29,
+      "ANALYTICS_BUSINESS": 0.45,
+      "PYTHON_ANALYTICS": 0.364
+    }
+  },
+  {
+    "user_id": "u_0273",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.7,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.467,
+      "EVALUATION_METRICS": 0.48,
+      "DATA_PREPROCESSING": 0.495,
+      "DEEP_LEARNING": 0.38,
+      "NLP": 0.535,
+      "TIME_SERIES": 0.33,
+      "MLOPS": 0.544
+    }
+  },
+  {
+    "user_id": "u_0424",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.7,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.356,
+      "DATA_ARCHITECTURE_MODELING": 0.485,
+      "BIG_DATA_CLOUD_TOOLS": 0.312,
+      "DATABASE_INTERNALS": 0.462,
+      "SYSTEM_ARCHITECTURE": 0.464
+    }
+  },
+  {
+    "user_id": "u_0249",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.325,
+      "EVALUATION_METRICS": 0.342,
+      "DATA_PREPROCESSING": 0.325,
+      "DEEP_LEARNING": 0.204,
+      "NLP": 0.242,
+      "TIME_SERIES": 0.196,
+      "MLOPS": 0.269
+    }
+  },
+  {
+    "user_id": "u_0044",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.252,
+      "BI_VISUALIZATION": 0.309,
+      "STATISTICS_EXPERIMENTATION": 0.117,
+      "ANALYTICS_BUSINESS": 0.245,
+      "PYTHON_ANALYTICS": 0.05
+    }
+  },
+  {
+    "user_id": "u_0418",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.2,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.589,
+      "DATA_ARCHITECTURE_MODELING": 0.615,
+      "BIG_DATA_CLOUD_TOOLS": 0.659,
+      "DATABASE_INTERNALS": 0.621,
+      "SYSTEM_ARCHITECTURE": 0.688
+    }
+  },
+  {
+    "user_id": "u_0376",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.32,
+      "DATA_ARCHITECTURE_MODELING": 0.337,
+      "BIG_DATA_CLOUD_TOOLS": 0.426,
+      "DATABASE_INTERNALS": 0.285,
+      "SYSTEM_ARCHITECTURE": 0.127
+    }
+  },
+  {
+    "user_id": "u_0124",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.609,
+      "BI_VISUALIZATION": 0.553,
+      "STATISTICS_EXPERIMENTATION": 0.224,
+      "ANALYTICS_BUSINESS": 0.409,
+      "PYTHON_ANALYTICS": 0.384
+    }
+  },
+  {
+    "user_id": "u_0030",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.33,
+      "BI_VISUALIZATION": 0.346,
+      "STATISTICS_EXPERIMENTATION": 0.26,
+      "ANALYTICS_BUSINESS": 0.424,
+      "PYTHON_ANALYTICS": 0.246
+    }
+  },
+  {
+    "user_id": "u_0123",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 3.3,
+    "skill_vector": {
+      "SQL_DATABASE": 0.52,
+      "BI_VISUALIZATION": 0.283,
+      "STATISTICS_EXPERIMENTATION": 0.543,
+      "ANALYTICS_BUSINESS": 0.501,
+      "PYTHON_ANALYTICS": 0.497
+    }
+  },
+  {
+    "user_id": "u_0158",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.536,
+      "BI_VISUALIZATION": 0.419,
+      "STATISTICS_EXPERIMENTATION": 0.567,
+      "ANALYTICS_BUSINESS": 0.417,
+      "PYTHON_ANALYTICS": 0.276
+    }
+  },
+  {
+    "user_id": "u_0356",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.4,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.8,
+      "DATA_ARCHITECTURE_MODELING": 0.625,
+      "BIG_DATA_CLOUD_TOOLS": 0.763,
+      "DATABASE_INTERNALS": 0.743,
+      "SYSTEM_ARCHITECTURE": 0.538
+    }
+  },
+  {
+    "user_id": "u_0331",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.58,
+      "EVALUATION_METRICS": 0.514,
+      "DATA_PREPROCESSING": 0.583,
+      "DEEP_LEARNING": 0.508,
+      "NLP": 0.442,
+      "TIME_SERIES": 0.729,
+      "MLOPS": 0.497
+    }
+  },
+  {
+    "user_id": "u_0010",
+    "role": "DA",
+    "user_type": "advanced",
+    "experience_years": 7.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.818,
+      "BI_VISUALIZATION": 0.773,
+      "STATISTICS_EXPERIMENTATION": 0.566,
+      "ANALYTICS_BUSINESS": 0.728,
+      "PYTHON_ANALYTICS": 0.717
+    }
+  },
+  {
+    "user_id": "u_0251",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 1.7,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.428,
+      "EVALUATION_METRICS": 0.398,
+      "DATA_PREPROCESSING": 0.55,
+      "DEEP_LEARNING": 0.448,
+      "NLP": 0.437,
+      "TIME_SERIES": 0.405,
+      "MLOPS": 0.371
+    }
+  },
+  {
+    "user_id": "u_0166",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.44,
+      "BI_VISUALIZATION": 0.216,
+      "STATISTICS_EXPERIMENTATION": 0.374,
+      "ANALYTICS_BUSINESS": 0.36,
+      "PYTHON_ANALYTICS": 0.332
+    }
+  },
+  {
+    "user_id": "u_0307",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.1,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.609,
+      "EVALUATION_METRICS": 0.489,
+      "DATA_PREPROCESSING": 0.506,
+      "DEEP_LEARNING": 0.251,
+      "NLP": 0.12,
+      "TIME_SERIES": 0.431,
+      "MLOPS": 0.755
+    }
+  },
+  {
+    "user_id": "u_0001",
+    "role": "DA",
+    "user_type": "advanced",
+    "experience_years": 4.9,
+    "skill_vector": {
+      "SQL_DATABASE": 0.777,
+      "BI_VISUALIZATION": 0.693,
+      "STATISTICS_EXPERIMENTATION": 0.767,
+      "ANALYTICS_BUSINESS": 0.848,
+      "PYTHON_ANALYTICS": 0.695
+    }
+  },
+  {
+    "user_id": "u_0272",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 1.2,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.443,
+      "EVALUATION_METRICS": 0.503,
+      "DATA_PREPROCESSING": 0.35,
+      "DEEP_LEARNING": 0.426,
+      "NLP": 0.441,
+      "TIME_SERIES": 0.429,
+      "MLOPS": 0.414
+    }
+  },
+  {
+    "user_id": "u_0277",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 4.1,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.631,
+      "EVALUATION_METRICS": 0.705,
+      "DATA_PREPROCESSING": 0.493,
+      "DEEP_LEARNING": 0.369,
+      "NLP": 0.248,
+      "TIME_SERIES": 0.339,
+      "MLOPS": 0.606
+    }
+  },
+  {
+    "user_id": "u_0083",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.272,
+      "BI_VISUALIZATION": 0.145,
+      "STATISTICS_EXPERIMENTATION": 0.367,
+      "ANALYTICS_BUSINESS": 0.301,
+      "PYTHON_ANALYTICS": 0.138
+    }
+  },
+  {
+    "user_id": "u_0192",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.617,
+      "EVALUATION_METRICS": 0.679,
+      "DATA_PREPROCESSING": 0.652,
+      "DEEP_LEARNING": 0.676,
+      "NLP": 0.707,
+      "TIME_SERIES": 0.885,
+      "MLOPS": 0.631
+    }
+  },
+  {
+    "user_id": "u_0348",
+    "role": "DE",
+    "user_type": "advanced",
+    "experience_years": 3.5,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.833,
+      "DATA_ARCHITECTURE_MODELING": 0.775,
+      "BIG_DATA_CLOUD_TOOLS": 0.802,
+      "DATABASE_INTERNALS": 0.778,
+      "SYSTEM_ARCHITECTURE": 0.724
+    }
+  },
+  {
+    "user_id": "u_0474",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.392,
+      "DATA_ARCHITECTURE_MODELING": 0.49,
+      "BIG_DATA_CLOUD_TOOLS": 0.382,
+      "DATABASE_INTERNALS": 0.581,
+      "SYSTEM_ARCHITECTURE": 0.36
+    }
+  },
+  {
+    "user_id": "u_0400",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.332,
+      "DATA_ARCHITECTURE_MODELING": 0.414,
+      "BIG_DATA_CLOUD_TOOLS": 0.283,
+      "DATABASE_INTERNALS": 0.32,
+      "SYSTEM_ARCHITECTURE": 0.419
+    }
+  },
+  {
+    "user_id": "u_0320",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.7,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.62,
+      "EVALUATION_METRICS": 0.586,
+      "DATA_PREPROCESSING": 0.548,
+      "DEEP_LEARNING": 0.446,
+      "NLP": 0.494,
+      "TIME_SERIES": 0.433,
+      "MLOPS": 0.445
+    }
+  },
+  {
+    "user_id": "u_0153",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.5,
+    "skill_vector": {
+      "SQL_DATABASE": 0.57,
+      "BI_VISUALIZATION": 0.616,
+      "STATISTICS_EXPERIMENTATION": 0.426,
+      "ANALYTICS_BUSINESS": 0.585,
+      "PYTHON_ANALYTICS": 0.526
+    }
+  },
+  {
+    "user_id": "u_0055",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.206,
+      "BI_VISUALIZATION": 0.09,
+      "STATISTICS_EXPERIMENTATION": 0.323,
+      "ANALYTICS_BUSINESS": 0.32,
+      "PYTHON_ANALYTICS": 0.296
+    }
+  },
+  {
+    "user_id": "u_0260",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.5,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.546,
+      "EVALUATION_METRICS": 0.717,
+      "DATA_PREPROCESSING": 0.528,
+      "DEEP_LEARNING": 0.437,
+      "NLP": 0.441,
+      "TIME_SERIES": 0.634,
+      "MLOPS": 0.374
+    }
+  },
+  {
+    "user_id": "u_0092",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.2,
+    "skill_vector": {
+      "SQL_DATABASE": 0.545,
+      "BI_VISUALIZATION": 0.418,
+      "STATISTICS_EXPERIMENTATION": 0.443,
+      "ANALYTICS_BUSINESS": 0.455,
+      "PYTHON_ANALYTICS": 0.454
+    }
+  },
+  {
+    "user_id": "u_0257",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.1,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.483,
+      "EVALUATION_METRICS": 0.463,
+      "DATA_PREPROCESSING": 0.514,
+      "DEEP_LEARNING": 0.465,
+      "NLP": 0.525,
+      "TIME_SERIES": 0.395,
+      "MLOPS": 0.492
+    }
+  },
+  {
+    "user_id": "u_0431",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.515,
+      "DATA_ARCHITECTURE_MODELING": 0.584,
+      "BIG_DATA_CLOUD_TOOLS": 0.576,
+      "DATABASE_INTERNALS": 0.683,
+      "SYSTEM_ARCHITECTURE": 0.459
+    }
+  },
+  {
+    "user_id": "u_0002",
+    "role": "DA",
+    "user_type": "advanced",
+    "experience_years": 4.5,
+    "skill_vector": {
+      "SQL_DATABASE": 0.857,
+      "BI_VISUALIZATION": 0.788,
+      "STATISTICS_EXPERIMENTATION": 0.642,
+      "ANALYTICS_BUSINESS": 0.789,
+      "PYTHON_ANALYTICS": 0.667
+    }
+  },
+  {
+    "user_id": "u_0460",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.429,
+      "DATA_ARCHITECTURE_MODELING": 0.491,
+      "BIG_DATA_CLOUD_TOOLS": 0.365,
+      "DATABASE_INTERNALS": 0.571,
+      "SYSTEM_ARCHITECTURE": 0.291
+    }
+  },
+  {
+    "user_id": "u_0081",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.7,
+    "skill_vector": {
+      "SQL_DATABASE": 0.211,
+      "BI_VISUALIZATION": 0.123,
+      "STATISTICS_EXPERIMENTATION": 0.052,
+      "ANALYTICS_BUSINESS": 0.231,
+      "PYTHON_ANALYTICS": 0.154
+    }
+  },
+  {
+    "user_id": "u_0223",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.317,
+      "EVALUATION_METRICS": 0.163,
+      "DATA_PREPROCESSING": 0.331,
+      "DEEP_LEARNING": 0.134,
+      "NLP": 0.136,
+      "TIME_SERIES": 0.328,
+      "MLOPS": 0.38
+    }
+  },
+  {
+    "user_id": "u_0432",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.3,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.505,
+      "DATA_ARCHITECTURE_MODELING": 0.588,
+      "BIG_DATA_CLOUD_TOOLS": 0.485,
+      "DATABASE_INTERNALS": 0.628,
+      "SYSTEM_ARCHITECTURE": 0.477
+    }
+  },
+  {
+    "user_id": "u_0499",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.8,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.448,
+      "DATA_ARCHITECTURE_MODELING": 0.447,
+      "BIG_DATA_CLOUD_TOOLS": 0.328,
+      "DATABASE_INTERNALS": 0.481,
+      "SYSTEM_ARCHITECTURE": 0.54
+    }
+  },
+  {
+    "user_id": "u_0456",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.4,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.432,
+      "DATA_ARCHITECTURE_MODELING": 0.5,
+      "BIG_DATA_CLOUD_TOOLS": 0.339,
+      "DATABASE_INTERNALS": 0.5,
+      "SYSTEM_ARCHITECTURE": 0.628
+    }
+  },
+  {
+    "user_id": "u_0329",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.634,
+      "EVALUATION_METRICS": 0.687,
+      "DATA_PREPROCESSING": 0.581,
+      "DEEP_LEARNING": 0.359,
+      "NLP": 0.316,
+      "TIME_SERIES": 0.538,
+      "MLOPS": 0.557
+    }
+  },
+  {
+    "user_id": "u_0405",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.8,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.254,
+      "DATA_ARCHITECTURE_MODELING": 0.233,
+      "BIG_DATA_CLOUD_TOOLS": 0.152,
+      "DATABASE_INTERNALS": 0.299,
+      "SYSTEM_ARCHITECTURE": 0.272
+    }
+  },
+  {
+    "user_id": "u_0437",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 4.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.535,
+      "DATA_ARCHITECTURE_MODELING": 0.423,
+      "BIG_DATA_CLOUD_TOOLS": 0.546,
+      "DATABASE_INTERNALS": 0.484,
+      "SYSTEM_ARCHITECTURE": 0.441
+    }
+  },
+  {
+    "user_id": "u_0059",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.252,
+      "BI_VISUALIZATION": 0.217,
+      "STATISTICS_EXPERIMENTATION": 0.273,
+      "ANALYTICS_BUSINESS": 0.404,
+      "PYTHON_ANALYTICS": 0.344
+    }
+  },
+  {
+    "user_id": "u_0006",
+    "role": "DA",
+    "user_type": "advanced",
+    "experience_years": 3.6,
+    "skill_vector": {
+      "SQL_DATABASE": 0.719,
+      "BI_VISUALIZATION": 0.814,
+      "STATISTICS_EXPERIMENTATION": 0.589,
+      "ANALYTICS_BUSINESS": 0.704,
+      "PYTHON_ANALYTICS": 0.716
+    }
+  },
+  {
+    "user_id": "u_0284",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.409,
+      "EVALUATION_METRICS": 0.484,
+      "DATA_PREPROCESSING": 0.399,
+      "DEEP_LEARNING": 0.505,
+      "NLP": 0.723,
+      "TIME_SERIES": 0.235,
+      "MLOPS": 0.438
+    }
+  },
+  {
+    "user_id": "u_0129",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 3.3,
+    "skill_vector": {
+      "SQL_DATABASE": 0.507,
+      "BI_VISUALIZATION": 0.601,
+      "STATISTICS_EXPERIMENTATION": 0.456,
+      "ANALYTICS_BUSINESS": 0.53,
+      "PYTHON_ANALYTICS": 0.489
+    }
+  },
+  {
+    "user_id": "u_0271",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.6,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.455,
+      "EVALUATION_METRICS": 0.58,
+      "DATA_PREPROCESSING": 0.444,
+      "DEEP_LEARNING": 0.439,
+      "NLP": 0.518,
+      "TIME_SERIES": 0.495,
+      "MLOPS": 0.524
+    }
+  },
+  {
+    "user_id": "u_0240",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.264,
+      "EVALUATION_METRICS": 0.162,
+      "DATA_PREPROCESSING": 0.272,
+      "DEEP_LEARNING": 0.255,
+      "NLP": 0.157,
+      "TIME_SERIES": 0.249,
+      "MLOPS": 0.255
+    }
+  },
+  {
+    "user_id": "u_0406",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.3,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.372,
+      "DATA_ARCHITECTURE_MODELING": 0.249,
+      "BIG_DATA_CLOUD_TOOLS": 0.298,
+      "DATABASE_INTERNALS": 0.333,
+      "SYSTEM_ARCHITECTURE": 0.203
+    }
+  },
+  {
+    "user_id": "u_0196",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.343,
+      "EVALUATION_METRICS": 0.268,
+      "DATA_PREPROCESSING": 0.387,
+      "DEEP_LEARNING": 0.384,
+      "NLP": 0.251,
+      "TIME_SERIES": 0.05,
+      "MLOPS": 0.221
+    }
+  },
+  {
+    "user_id": "u_0198",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 0.6,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.202,
+      "EVALUATION_METRICS": 0.151,
+      "DATA_PREPROCESSING": 0.185,
+      "DEEP_LEARNING": 0.091,
+      "NLP": 0.173,
+      "TIME_SERIES": 0.125,
+      "MLOPS": 0.238
+    }
+  },
+  {
+    "user_id": "u_0033",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.2,
+    "skill_vector": {
+      "SQL_DATABASE": 0.257,
+      "BI_VISUALIZATION": 0.105,
+      "STATISTICS_EXPERIMENTATION": 0.235,
+      "ANALYTICS_BUSINESS": 0.26,
+      "PYTHON_ANALYTICS": 0.152
+    }
+  },
+  {
+    "user_id": "u_0306",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 1.6,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.447,
+      "EVALUATION_METRICS": 0.515,
+      "DATA_PREPROCESSING": 0.427,
+      "DEEP_LEARNING": 0.443,
+      "NLP": 0.406,
+      "TIME_SERIES": 0.436,
+      "MLOPS": 0.424
+    }
+  },
+  {
+    "user_id": "u_0488",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.9,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.48,
+      "DATA_ARCHITECTURE_MODELING": 0.532,
+      "BIG_DATA_CLOUD_TOOLS": 0.432,
+      "DATABASE_INTERNALS": 0.452,
+      "SYSTEM_ARCHITECTURE": 0.589
+    }
+  },
+  {
+    "user_id": "u_0459",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.6,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.492,
+      "DATA_ARCHITECTURE_MODELING": 0.459,
+      "BIG_DATA_CLOUD_TOOLS": 0.349,
+      "DATABASE_INTERNALS": 0.43,
+      "SYSTEM_ARCHITECTURE": 0.434
+    }
+  },
+  {
+    "user_id": "u_0430",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.7,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.463,
+      "DATA_ARCHITECTURE_MODELING": 0.398,
+      "BIG_DATA_CLOUD_TOOLS": 0.408,
+      "DATABASE_INTERNALS": 0.546,
+      "SYSTEM_ARCHITECTURE": 0.347
+    }
+  },
+  {
+    "user_id": "u_0079",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.165,
+      "BI_VISUALIZATION": 0.094,
+      "STATISTICS_EXPERIMENTATION": 0.078,
+      "ANALYTICS_BUSINESS": 0.05,
+      "PYTHON_ANALYTICS": 0.05
+    }
+  },
+  {
+    "user_id": "u_0057",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.2,
+    "skill_vector": {
+      "SQL_DATABASE": 0.188,
+      "BI_VISUALIZATION": 0.155,
+      "STATISTICS_EXPERIMENTATION": 0.204,
+      "ANALYTICS_BUSINESS": 0.211,
+      "PYTHON_ANALYTICS": 0.113
+    }
+  },
+  {
+    "user_id": "u_0025",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.6,
+    "skill_vector": {
+      "SQL_DATABASE": 0.74,
+      "BI_VISUALIZATION": 0.716,
+      "STATISTICS_EXPERIMENTATION": 0.477,
+      "ANALYTICS_BUSINESS": 0.632,
+      "PYTHON_ANALYTICS": 0.695
+    }
+  },
+  {
+    "user_id": "u_0047",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.283,
+      "BI_VISUALIZATION": 0.153,
+      "STATISTICS_EXPERIMENTATION": 0.196,
+      "ANALYTICS_BUSINESS": 0.233,
+      "PYTHON_ANALYTICS": 0.236
+    }
+  },
+  {
+    "user_id": "u_0253",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.1,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.46,
+      "EVALUATION_METRICS": 0.484,
+      "DATA_PREPROCESSING": 0.335,
+      "DEEP_LEARNING": 0.498,
+      "NLP": 0.438,
+      "TIME_SERIES": 0.49,
+      "MLOPS": 0.452
+    }
+  },
+  {
+    "user_id": "u_0261",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 1.2,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.582,
+      "EVALUATION_METRICS": 0.6,
+      "DATA_PREPROCESSING": 0.561,
+      "DEEP_LEARNING": 0.427,
+      "NLP": 0.187,
+      "TIME_SERIES": 0.562,
+      "MLOPS": 0.407
+    }
+  },
+  {
+    "user_id": "u_0071",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 3.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.509,
+      "BI_VISUALIZATION": 0.472,
+      "STATISTICS_EXPERIMENTATION": 0.247,
+      "ANALYTICS_BUSINESS": 0.439,
+      "PYTHON_ANALYTICS": 0.363
+    }
+  },
+  {
+    "user_id": "u_0387",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.6,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.283,
+      "DATA_ARCHITECTURE_MODELING": 0.37,
+      "BIG_DATA_CLOUD_TOOLS": 0.231,
+      "DATABASE_INTERNALS": 0.454,
+      "SYSTEM_ARCHITECTURE": 0.321
+    }
+  },
+  {
+    "user_id": "u_0428",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.6,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.526,
+      "DATA_ARCHITECTURE_MODELING": 0.776,
+      "BIG_DATA_CLOUD_TOOLS": 0.466,
+      "DATABASE_INTERNALS": 0.847,
+      "SYSTEM_ARCHITECTURE": 0.565
+    }
+  },
+  {
+    "user_id": "u_0205",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 0.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.339,
+      "EVALUATION_METRICS": 0.325,
+      "DATA_PREPROCESSING": 0.218,
+      "DEEP_LEARNING": 0.296,
+      "NLP": 0.242,
+      "TIME_SERIES": 0.127,
+      "MLOPS": 0.301
+    }
+  },
+  {
+    "user_id": "u_0299",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.2,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.53,
+      "EVALUATION_METRICS": 0.459,
+      "DATA_PREPROCESSING": 0.462,
+      "DEEP_LEARNING": 0.364,
+      "NLP": 0.281,
+      "TIME_SERIES": 0.337,
+      "MLOPS": 0.422
+    }
+  },
+  {
+    "user_id": "u_0220",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 0.6,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.397,
+      "EVALUATION_METRICS": 0.41,
+      "DATA_PREPROCESSING": 0.402,
+      "DEEP_LEARNING": 0.321,
+      "NLP": 0.225,
+      "TIME_SERIES": 0.114,
+      "MLOPS": 0.16
+    }
+  },
+  {
+    "user_id": "u_0300",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 1.9,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.535,
+      "EVALUATION_METRICS": 0.533,
+      "DATA_PREPROCESSING": 0.603,
+      "DEEP_LEARNING": 0.439,
+      "NLP": 0.477,
+      "TIME_SERIES": 0.445,
+      "MLOPS": 0.49
+    }
+  },
+  {
+    "user_id": "u_0135",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.7,
+    "skill_vector": {
+      "SQL_DATABASE": 0.482,
+      "BI_VISUALIZATION": 0.387,
+      "STATISTICS_EXPERIMENTATION": 0.416,
+      "ANALYTICS_BUSINESS": 0.469,
+      "PYTHON_ANALYTICS": 0.56
+    }
+  },
+  {
+    "user_id": "u_0276",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.1,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.555,
+      "EVALUATION_METRICS": 0.664,
+      "DATA_PREPROCESSING": 0.424,
+      "DEEP_LEARNING": 0.369,
+      "NLP": 0.303,
+      "TIME_SERIES": 0.428,
+      "MLOPS": 0.449
+    }
+  },
+  {
+    "user_id": "u_0475",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.8,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.43,
+      "DATA_ARCHITECTURE_MODELING": 0.516,
+      "BIG_DATA_CLOUD_TOOLS": 0.541,
+      "DATABASE_INTERNALS": 0.497,
+      "SYSTEM_ARCHITECTURE": 0.541
+    }
+  },
+  {
+    "user_id": "u_0127",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.527,
+      "BI_VISUALIZATION": 0.487,
+      "STATISTICS_EXPERIMENTATION": 0.373,
+      "ANALYTICS_BUSINESS": 0.547,
+      "PYTHON_ANALYTICS": 0.418
+    }
+  },
+  {
+    "user_id": "u_0493",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.373,
+      "DATA_ARCHITECTURE_MODELING": 0.576,
+      "BIG_DATA_CLOUD_TOOLS": 0.494,
+      "DATABASE_INTERNALS": 0.531,
+      "SYSTEM_ARCHITECTURE": 0.436
+    }
+  },
+  {
+    "user_id": "u_0442",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.6,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.582,
+      "DATA_ARCHITECTURE_MODELING": 0.566,
+      "BIG_DATA_CLOUD_TOOLS": 0.543,
+      "DATABASE_INTERNALS": 0.627,
+      "SYSTEM_ARCHITECTURE": 0.54
+    }
+  },
+  {
+    "user_id": "u_0074",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "SQL_DATABASE": 0.099,
+      "BI_VISUALIZATION": 0.175,
+      "STATISTICS_EXPERIMENTATION": 0.207,
+      "ANALYTICS_BUSINESS": 0.238,
+      "PYTHON_ANALYTICS": 0.05
+    }
+  },
+  {
+    "user_id": "u_0235",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.3,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.198,
+      "EVALUATION_METRICS": 0.05,
+      "DATA_PREPROCESSING": 0.229,
+      "DEEP_LEARNING": 0.412,
+      "NLP": 0.474,
+      "TIME_SERIES": 0.171,
+      "MLOPS": 0.121
+    }
+  },
+  {
+    "user_id": "u_0330",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 5.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.595,
+      "EVALUATION_METRICS": 0.388,
+      "DATA_PREPROCESSING": 0.641,
+      "DEEP_LEARNING": 0.339,
+      "NLP": 0.357,
+      "TIME_SERIES": 0.498,
+      "MLOPS": 0.704
+    }
+  },
+  {
+    "user_id": "u_0203",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 0.5,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.262,
+      "EVALUATION_METRICS": 0.41,
+      "DATA_PREPROCESSING": 0.224,
+      "DEEP_LEARNING": 0.05,
+      "NLP": 0.05,
+      "TIME_SERIES": 0.316,
+      "MLOPS": 0.126
+    }
+  },
+  {
+    "user_id": "u_0256",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.1,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.463,
+      "EVALUATION_METRICS": 0.721,
+      "DATA_PREPROCESSING": 0.513,
+      "DEEP_LEARNING": 0.403,
+      "NLP": 0.52,
+      "TIME_SERIES": 0.442,
+      "MLOPS": 0.22
+    }
+  },
+  {
+    "user_id": "u_0336",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.7,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.687,
+      "DATA_ARCHITECTURE_MODELING": 0.637,
+      "BIG_DATA_CLOUD_TOOLS": 0.513,
+      "DATABASE_INTERNALS": 0.796,
+      "SYSTEM_ARCHITECTURE": 0.596
+    }
+  },
+  {
+    "user_id": "u_0377",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.258,
+      "DATA_ARCHITECTURE_MODELING": 0.287,
+      "BIG_DATA_CLOUD_TOOLS": 0.375,
+      "DATABASE_INTERNALS": 0.225,
+      "SYSTEM_ARCHITECTURE": 0.223
+    }
+  },
+  {
+    "user_id": "u_0381",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.302,
+      "DATA_ARCHITECTURE_MODELING": 0.27,
+      "BIG_DATA_CLOUD_TOOLS": 0.331,
+      "DATABASE_INTERNALS": 0.334,
+      "SYSTEM_ARCHITECTURE": 0.147
+    }
+  },
+  {
+    "user_id": "u_0368",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.303,
+      "DATA_ARCHITECTURE_MODELING": 0.238,
+      "BIG_DATA_CLOUD_TOOLS": 0.35,
+      "DATABASE_INTERNALS": 0.338,
+      "SYSTEM_ARCHITECTURE": 0.079
+    }
+  },
+  {
+    "user_id": "u_0291",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.604,
+      "EVALUATION_METRICS": 0.588,
+      "DATA_PREPROCESSING": 0.46,
+      "DEEP_LEARNING": 0.516,
+      "NLP": 0.545,
+      "TIME_SERIES": 0.573,
+      "MLOPS": 0.613
+    }
+  },
+  {
+    "user_id": "u_0109",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.6,
+    "skill_vector": {
+      "SQL_DATABASE": 0.528,
+      "BI_VISUALIZATION": 0.534,
+      "STATISTICS_EXPERIMENTATION": 0.635,
+      "ANALYTICS_BUSINESS": 0.634,
+      "PYTHON_ANALYTICS": 0.447
+    }
+  },
+  {
+    "user_id": "u_0034",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.6,
+    "skill_vector": {
+      "SQL_DATABASE": 0.292,
+      "BI_VISUALIZATION": 0.116,
+      "STATISTICS_EXPERIMENTATION": 0.256,
+      "ANALYTICS_BUSINESS": 0.308,
+      "PYTHON_ANALYTICS": 0.359
+    }
+  },
+  {
+    "user_id": "u_0138",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.9,
+    "skill_vector": {
+      "SQL_DATABASE": 0.723,
+      "BI_VISUALIZATION": 0.488,
+      "STATISTICS_EXPERIMENTATION": 0.471,
+      "ANALYTICS_BUSINESS": 0.639,
+      "PYTHON_ANALYTICS": 0.698
+    }
+  },
+  {
+    "user_id": "u_0206",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.3,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.351,
+      "EVALUATION_METRICS": 0.281,
+      "DATA_PREPROCESSING": 0.399,
+      "DEEP_LEARNING": 0.252,
+      "NLP": 0.237,
+      "TIME_SERIES": 0.363,
+      "MLOPS": 0.393
+    }
+  },
+  {
+    "user_id": "u_0162",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.473,
+      "BI_VISUALIZATION": 0.578,
+      "STATISTICS_EXPERIMENTATION": 0.351,
+      "ANALYTICS_BUSINESS": 0.441,
+      "PYTHON_ANALYTICS": 0.413
+    }
+  },
+  {
+    "user_id": "u_0483",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.3,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.503,
+      "DATA_ARCHITECTURE_MODELING": 0.454,
+      "BIG_DATA_CLOUD_TOOLS": 0.391,
+      "DATABASE_INTERNALS": 0.563,
+      "SYSTEM_ARCHITECTURE": 0.501
+    }
+  },
+  {
+    "user_id": "u_0118",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.367,
+      "BI_VISUALIZATION": 0.292,
+      "STATISTICS_EXPERIMENTATION": 0.282,
+      "ANALYTICS_BUSINESS": 0.457,
+      "PYTHON_ANALYTICS": 0.319
+    }
+  },
+  {
+    "user_id": "u_0029",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.2,
+    "skill_vector": {
+      "SQL_DATABASE": 0.221,
+      "BI_VISUALIZATION": 0.117,
+      "STATISTICS_EXPERIMENTATION": 0.08,
+      "ANALYTICS_BUSINESS": 0.174,
+      "PYTHON_ANALYTICS": 0.196
+    }
+  },
+  {
+    "user_id": "u_0167",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 3.2,
+    "skill_vector": {
+      "SQL_DATABASE": 0.69,
+      "BI_VISUALIZATION": 0.561,
+      "STATISTICS_EXPERIMENTATION": 0.417,
+      "ANALYTICS_BUSINESS": 0.594,
+      "PYTHON_ANALYTICS": 0.646
+    }
+  },
+  {
+    "user_id": "u_0351",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.718,
+      "DATA_ARCHITECTURE_MODELING": 0.701,
+      "BIG_DATA_CLOUD_TOOLS": 0.734,
+      "DATABASE_INTERNALS": 0.68,
+      "SYSTEM_ARCHITECTURE": 0.649
+    }
+  },
+  {
+    "user_id": "u_0468",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.526,
+      "DATA_ARCHITECTURE_MODELING": 0.557,
+      "BIG_DATA_CLOUD_TOOLS": 0.605,
+      "DATABASE_INTERNALS": 0.435,
+      "SYSTEM_ARCHITECTURE": 0.52
+    }
+  },
+  {
+    "user_id": "u_0286",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 1.9,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.507,
+      "EVALUATION_METRICS": 0.517,
+      "DATA_PREPROCESSING": 0.638,
+      "DEEP_LEARNING": 0.36,
+      "NLP": 0.245,
+      "TIME_SERIES": 0.649,
+      "MLOPS": 0.357
+    }
+  },
+  {
+    "user_id": "u_0353",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.69,
+      "DATA_ARCHITECTURE_MODELING": 0.711,
+      "BIG_DATA_CLOUD_TOOLS": 0.747,
+      "DATABASE_INTERNALS": 0.705,
+      "SYSTEM_ARCHITECTURE": 0.592
+    }
+  },
+  {
+    "user_id": "u_0500",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.466,
+      "DATA_ARCHITECTURE_MODELING": 0.479,
+      "BIG_DATA_CLOUD_TOOLS": 0.378,
+      "DATABASE_INTERNALS": 0.543,
+      "SYSTEM_ARCHITECTURE": 0.531
+    }
+  },
+  {
+    "user_id": "u_0139",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.41,
+      "BI_VISUALIZATION": 0.38,
+      "STATISTICS_EXPERIMENTATION": 0.25,
+      "ANALYTICS_BUSINESS": 0.38,
+      "PYTHON_ANALYTICS": 0.313
+    }
+  },
+  {
+    "user_id": "u_0464",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.6,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.369,
+      "DATA_ARCHITECTURE_MODELING": 0.467,
+      "BIG_DATA_CLOUD_TOOLS": 0.438,
+      "DATABASE_INTERNALS": 0.364,
+      "SYSTEM_ARCHITECTURE": 0.483
+    }
+  },
+  {
+    "user_id": "u_0237",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.252,
+      "EVALUATION_METRICS": 0.304,
+      "DATA_PREPROCESSING": 0.37,
+      "DEEP_LEARNING": 0.196,
+      "NLP": 0.349,
+      "TIME_SERIES": 0.199,
+      "MLOPS": 0.22
+    }
+  },
+  {
+    "user_id": "u_0410",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.192,
+      "DATA_ARCHITECTURE_MODELING": 0.193,
+      "BIG_DATA_CLOUD_TOOLS": 0.174,
+      "DATABASE_INTERNALS": 0.22,
+      "SYSTEM_ARCHITECTURE": 0.248
+    }
+  },
+  {
+    "user_id": "u_0495",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.7,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.599,
+      "DATA_ARCHITECTURE_MODELING": 0.44,
+      "BIG_DATA_CLOUD_TOOLS": 0.393,
+      "DATABASE_INTERNALS": 0.578,
+      "SYSTEM_ARCHITECTURE": 0.453
+    }
+  },
+  {
+    "user_id": "u_0439",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.386,
+      "DATA_ARCHITECTURE_MODELING": 0.472,
+      "BIG_DATA_CLOUD_TOOLS": 0.412,
+      "DATABASE_INTERNALS": 0.367,
+      "SYSTEM_ARCHITECTURE": 0.565
+    }
+  },
+  {
+    "user_id": "u_0274",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.1,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.518,
+      "EVALUATION_METRICS": 0.639,
+      "DATA_PREPROCESSING": 0.344,
+      "DEEP_LEARNING": 0.54,
+      "NLP": 0.587,
+      "TIME_SERIES": 0.359,
+      "MLOPS": 0.59
+    }
+  },
+  {
+    "user_id": "u_0088",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "SQL_DATABASE": 0.396,
+      "BI_VISUALIZATION": 0.442,
+      "STATISTICS_EXPERIMENTATION": 0.268,
+      "ANALYTICS_BUSINESS": 0.334,
+      "PYTHON_ANALYTICS": 0.22
+    }
+  },
+  {
+    "user_id": "u_0412",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.8,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.317,
+      "DATA_ARCHITECTURE_MODELING": 0.351,
+      "BIG_DATA_CLOUD_TOOLS": 0.301,
+      "DATABASE_INTERNALS": 0.519,
+      "SYSTEM_ARCHITECTURE": 0.281
+    }
+  },
+  {
+    "user_id": "u_0312",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.6,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.351,
+      "EVALUATION_METRICS": 0.374,
+      "DATA_PREPROCESSING": 0.407,
+      "DEEP_LEARNING": 0.429,
+      "NLP": 0.566,
+      "TIME_SERIES": 0.544,
+      "MLOPS": 0.278
+    }
+  },
+  {
+    "user_id": "u_0037",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.6,
+    "skill_vector": {
+      "SQL_DATABASE": 0.253,
+      "BI_VISUALIZATION": 0.18,
+      "STATISTICS_EXPERIMENTATION": 0.144,
+      "ANALYTICS_BUSINESS": 0.3,
+      "PYTHON_ANALYTICS": 0.458
+    }
+  },
+  {
+    "user_id": "u_0332",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.1,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.561,
+      "EVALUATION_METRICS": 0.576,
+      "DATA_PREPROCESSING": 0.619,
+      "DEEP_LEARNING": 0.366,
+      "NLP": 0.354,
+      "TIME_SERIES": 0.295,
+      "MLOPS": 0.524
+    }
+  },
+  {
+    "user_id": "u_0350",
+    "role": "DE",
+    "user_type": "advanced",
+    "experience_years": 3.8,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.804,
+      "DATA_ARCHITECTURE_MODELING": 0.756,
+      "BIG_DATA_CLOUD_TOOLS": 0.833,
+      "DATABASE_INTERNALS": 0.697,
+      "SYSTEM_ARCHITECTURE": 0.731
+    }
+  },
+  {
+    "user_id": "u_0471",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.191,
+      "DATA_ARCHITECTURE_MODELING": 0.372,
+      "BIG_DATA_CLOUD_TOOLS": 0.331,
+      "DATABASE_INTERNALS": 0.296,
+      "SYSTEM_ARCHITECTURE": 0.297
+    }
+  },
+  {
+    "user_id": "u_0137",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 3.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.543,
+      "BI_VISUALIZATION": 0.564,
+      "STATISTICS_EXPERIMENTATION": 0.472,
+      "ANALYTICS_BUSINESS": 0.612,
+      "PYTHON_ANALYTICS": 0.429
+    }
+  },
+  {
+    "user_id": "u_0344",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.49,
+      "DATA_ARCHITECTURE_MODELING": 0.601,
+      "BIG_DATA_CLOUD_TOOLS": 0.51,
+      "DATABASE_INTERNALS": 0.59,
+      "SYSTEM_ARCHITECTURE": 0.626
+    }
+  },
+  {
+    "user_id": "u_0108",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "SQL_DATABASE": 0.382,
+      "BI_VISUALIZATION": 0.272,
+      "STATISTICS_EXPERIMENTATION": 0.382,
+      "ANALYTICS_BUSINESS": 0.383,
+      "PYTHON_ANALYTICS": 0.157
+    }
+  },
+  {
+    "user_id": "u_0182",
+    "role": "DS",
+    "user_type": "advanced",
+    "experience_years": 7.4,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.791,
+      "EVALUATION_METRICS": 0.763,
+      "DATA_PREPROCESSING": 0.988,
+      "DEEP_LEARNING": 0.656,
+      "NLP": 0.679,
+      "TIME_SERIES": 0.838,
+      "MLOPS": 0.804
+    }
+  },
+  {
+    "user_id": "u_0190",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.3,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.641,
+      "EVALUATION_METRICS": 0.56,
+      "DATA_PREPROCESSING": 0.699,
+      "DEEP_LEARNING": 0.791,
+      "NLP": 0.817,
+      "TIME_SERIES": 0.444,
+      "MLOPS": 0.522
+    }
+  },
+  {
+    "user_id": "u_0084",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.398,
+      "BI_VISUALIZATION": 0.322,
+      "STATISTICS_EXPERIMENTATION": 0.565,
+      "ANALYTICS_BUSINESS": 0.594,
+      "PYTHON_ANALYTICS": 0.337
+    }
+  },
+  {
+    "user_id": "u_0187",
+    "role": "DS",
+    "user_type": "advanced",
+    "experience_years": 10.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.817,
+      "EVALUATION_METRICS": 0.905,
+      "DATA_PREPROCESSING": 0.713,
+      "DEEP_LEARNING": 0.923,
+      "NLP": 0.86,
+      "TIME_SERIES": 0.631,
+      "MLOPS": 0.435
+    }
+  },
+  {
+    "user_id": "u_0326",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.335,
+      "EVALUATION_METRICS": 0.438,
+      "DATA_PREPROCESSING": 0.372,
+      "DEEP_LEARNING": 0.401,
+      "NLP": 0.474,
+      "TIME_SERIES": 0.387,
+      "MLOPS": 0.311
+    }
+  },
+  {
+    "user_id": "u_0233",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 0.7,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.265,
+      "EVALUATION_METRICS": 0.175,
+      "DATA_PREPROCESSING": 0.23,
+      "DEEP_LEARNING": 0.38,
+      "NLP": 0.47,
+      "TIME_SERIES": 0.471,
+      "MLOPS": 0.166
+    }
+  },
+  {
+    "user_id": "u_0455",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.4,
+      "DATA_ARCHITECTURE_MODELING": 0.498,
+      "BIG_DATA_CLOUD_TOOLS": 0.386,
+      "DATABASE_INTERNALS": 0.467,
+      "SYSTEM_ARCHITECTURE": 0.493
+    }
+  },
+  {
+    "user_id": "u_0448",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.3,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.344,
+      "DATA_ARCHITECTURE_MODELING": 0.497,
+      "BIG_DATA_CLOUD_TOOLS": 0.387,
+      "DATABASE_INTERNALS": 0.299,
+      "SYSTEM_ARCHITECTURE": 0.438
+    }
+  },
+  {
+    "user_id": "u_0052",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.6,
+    "skill_vector": {
+      "SQL_DATABASE": 0.374,
+      "BI_VISUALIZATION": 0.183,
+      "STATISTICS_EXPERIMENTATION": 0.266,
+      "ANALYTICS_BUSINESS": 0.257,
+      "PYTHON_ANALYTICS": 0.227
+    }
+  },
+  {
+    "user_id": "u_0479",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.554,
+      "DATA_ARCHITECTURE_MODELING": 0.518,
+      "BIG_DATA_CLOUD_TOOLS": 0.54,
+      "DATABASE_INTERNALS": 0.633,
+      "SYSTEM_ARCHITECTURE": 0.359
+    }
+  },
+  {
+    "user_id": "u_0445",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.8,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.519,
+      "DATA_ARCHITECTURE_MODELING": 0.338,
+      "BIG_DATA_CLOUD_TOOLS": 0.489,
+      "DATABASE_INTERNALS": 0.43,
+      "SYSTEM_ARCHITECTURE": 0.189
+    }
+  },
+  {
+    "user_id": "u_0149",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 3.5,
+    "skill_vector": {
+      "SQL_DATABASE": 0.613,
+      "BI_VISUALIZATION": 0.58,
+      "STATISTICS_EXPERIMENTATION": 0.527,
+      "ANALYTICS_BUSINESS": 0.609,
+      "PYTHON_ANALYTICS": 0.586
+    }
+  },
+  {
+    "user_id": "u_0396",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.48,
+      "DATA_ARCHITECTURE_MODELING": 0.391,
+      "BIG_DATA_CLOUD_TOOLS": 0.383,
+      "DATABASE_INTERNALS": 0.451,
+      "SYSTEM_ARCHITECTURE": 0.285
+    }
+  },
+  {
+    "user_id": "u_0117",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 3.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.499,
+      "BI_VISUALIZATION": 0.313,
+      "STATISTICS_EXPERIMENTATION": 0.507,
+      "ANALYTICS_BUSINESS": 0.45,
+      "PYTHON_ANALYTICS": 0.397
+    }
+  },
+  {
+    "user_id": "u_0339",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 4.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.586,
+      "DATA_ARCHITECTURE_MODELING": 0.573,
+      "BIG_DATA_CLOUD_TOOLS": 0.508,
+      "DATABASE_INTERNALS": 0.733,
+      "SYSTEM_ARCHITECTURE": 0.548
+    }
+  },
+  {
+    "user_id": "u_0024",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.5,
+    "skill_vector": {
+      "SQL_DATABASE": 0.742,
+      "BI_VISUALIZATION": 0.581,
+      "STATISTICS_EXPERIMENTATION": 0.724,
+      "ANALYTICS_BUSINESS": 0.77,
+      "PYTHON_ANALYTICS": 0.553
+    }
+  },
+  {
+    "user_id": "u_0036",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.366,
+      "BI_VISUALIZATION": 0.366,
+      "STATISTICS_EXPERIMENTATION": 0.325,
+      "ANALYTICS_BUSINESS": 0.384,
+      "PYTHON_ANALYTICS": 0.225
+    }
+  },
+  {
+    "user_id": "u_0361",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.219,
+      "DATA_ARCHITECTURE_MODELING": 0.365,
+      "BIG_DATA_CLOUD_TOOLS": 0.209,
+      "DATABASE_INTERNALS": 0.412,
+      "SYSTEM_ARCHITECTURE": 0.253
+    }
+  },
+  {
+    "user_id": "u_0099",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.6,
+    "skill_vector": {
+      "SQL_DATABASE": 0.556,
+      "BI_VISUALIZATION": 0.358,
+      "STATISTICS_EXPERIMENTATION": 0.423,
+      "ANALYTICS_BUSINESS": 0.446,
+      "PYTHON_ANALYTICS": 0.504
+    }
+  },
+  {
+    "user_id": "u_0296",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.651,
+      "EVALUATION_METRICS": 0.715,
+      "DATA_PREPROCESSING": 0.597,
+      "DEEP_LEARNING": 0.456,
+      "NLP": 0.507,
+      "TIME_SERIES": 0.314,
+      "MLOPS": 0.566
+    }
+  },
+  {
+    "user_id": "u_0186",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 1.5,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.6,
+      "EVALUATION_METRICS": 0.522,
+      "DATA_PREPROCESSING": 0.848,
+      "DEEP_LEARNING": 0.512,
+      "NLP": 0.517,
+      "TIME_SERIES": 0.357,
+      "MLOPS": 0.559
+    }
+  },
+  {
+    "user_id": "u_0317",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.2,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.576,
+      "EVALUATION_METRICS": 0.445,
+      "DATA_PREPROCESSING": 0.554,
+      "DEEP_LEARNING": 0.409,
+      "NLP": 0.371,
+      "TIME_SERIES": 0.533,
+      "MLOPS": 0.666
+    }
+  },
+  {
+    "user_id": "u_0322",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.9,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.39,
+      "EVALUATION_METRICS": 0.508,
+      "DATA_PREPROCESSING": 0.452,
+      "DEEP_LEARNING": 0.304,
+      "NLP": 0.356,
+      "TIME_SERIES": 0.563,
+      "MLOPS": 0.421
+    }
+  },
+  {
+    "user_id": "u_0425",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.5,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.428,
+      "DATA_ARCHITECTURE_MODELING": 0.364,
+      "BIG_DATA_CLOUD_TOOLS": 0.482,
+      "DATABASE_INTERNALS": 0.437,
+      "SYSTEM_ARCHITECTURE": 0.173
+    }
+  },
+  {
+    "user_id": "u_0151",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.538,
+      "BI_VISUALIZATION": 0.438,
+      "STATISTICS_EXPERIMENTATION": 0.477,
+      "ANALYTICS_BUSINESS": 0.596,
+      "PYTHON_ANALYTICS": 0.511
+    }
+  },
+  {
+    "user_id": "u_0283",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 4.6,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.452,
+      "EVALUATION_METRICS": 0.467,
+      "DATA_PREPROCESSING": 0.681,
+      "DEEP_LEARNING": 0.223,
+      "NLP": 0.127,
+      "TIME_SERIES": 0.417,
+      "MLOPS": 0.542
+    }
+  },
+  {
+    "user_id": "u_0041",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.202,
+      "BI_VISUALIZATION": 0.211,
+      "STATISTICS_EXPERIMENTATION": 0.267,
+      "ANALYTICS_BUSINESS": 0.33,
+      "PYTHON_ANALYTICS": 0.112
+    }
+  },
+  {
+    "user_id": "u_0194",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.2,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.173,
+      "EVALUATION_METRICS": 0.147,
+      "DATA_PREPROCESSING": 0.151,
+      "DEEP_LEARNING": 0.252,
+      "NLP": 0.225,
+      "TIME_SERIES": 0.427,
+      "MLOPS": 0.11
+    }
+  },
+  {
+    "user_id": "u_0064",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "SQL_DATABASE": 0.381,
+      "BI_VISUALIZATION": 0.171,
+      "STATISTICS_EXPERIMENTATION": 0.134,
+      "ANALYTICS_BUSINESS": 0.178,
+      "PYTHON_ANALYTICS": 0.05
+    }
+  },
+  {
+    "user_id": "u_0275",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 1.3,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.587,
+      "EVALUATION_METRICS": 0.541,
+      "DATA_PREPROCESSING": 0.497,
+      "DEEP_LEARNING": 0.54,
+      "NLP": 0.56,
+      "TIME_SERIES": 0.198,
+      "MLOPS": 0.611
+    }
+  },
+  {
+    "user_id": "u_0236",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 0.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.212,
+      "EVALUATION_METRICS": 0.257,
+      "DATA_PREPROCESSING": 0.322,
+      "DEEP_LEARNING": 0.294,
+      "NLP": 0.26,
+      "TIME_SERIES": 0.209,
+      "MLOPS": 0.094
+    }
+  },
+  {
+    "user_id": "u_0374",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.7,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.256,
+      "DATA_ARCHITECTURE_MODELING": 0.261,
+      "BIG_DATA_CLOUD_TOOLS": 0.199,
+      "DATABASE_INTERNALS": 0.206,
+      "SYSTEM_ARCHITECTURE": 0.471
+    }
+  },
+  {
+    "user_id": "u_0023",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.1,
+    "skill_vector": {
+      "SQL_DATABASE": 0.628,
+      "BI_VISUALIZATION": 0.722,
+      "STATISTICS_EXPERIMENTATION": 0.592,
+      "ANALYTICS_BUSINESS": 0.83,
+      "PYTHON_ANALYTICS": 0.608
+    }
+  },
+  {
+    "user_id": "u_0414",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.5,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.33,
+      "DATA_ARCHITECTURE_MODELING": 0.328,
+      "BIG_DATA_CLOUD_TOOLS": 0.414,
+      "DATABASE_INTERNALS": 0.22,
+      "SYSTEM_ARCHITECTURE": 0.412
+    }
+  },
+  {
+    "user_id": "u_0136",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.519,
+      "BI_VISUALIZATION": 0.395,
+      "STATISTICS_EXPERIMENTATION": 0.563,
+      "ANALYTICS_BUSINESS": 0.534,
+      "PYTHON_ANALYTICS": 0.559
+    }
+  },
+  {
+    "user_id": "u_0310",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.9,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.392,
+      "EVALUATION_METRICS": 0.292,
+      "DATA_PREPROCESSING": 0.467,
+      "DEEP_LEARNING": 0.417,
+      "NLP": 0.461,
+      "TIME_SERIES": 0.497,
+      "MLOPS": 0.382
+    }
+  },
+  {
+    "user_id": "u_0177",
+    "role": "DS",
+    "user_type": "advanced",
+    "experience_years": 4.7,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.758,
+      "EVALUATION_METRICS": 0.724,
+      "DATA_PREPROCESSING": 0.592,
+      "DEEP_LEARNING": 0.694,
+      "NLP": 0.806,
+      "TIME_SERIES": 0.808,
+      "MLOPS": 0.663
+    }
+  },
+  {
+    "user_id": "u_0434",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.9,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.547,
+      "DATA_ARCHITECTURE_MODELING": 0.497,
+      "BIG_DATA_CLOUD_TOOLS": 0.419,
+      "DATABASE_INTERNALS": 0.573,
+      "SYSTEM_ARCHITECTURE": 0.531
+    }
+  },
+  {
+    "user_id": "u_0184",
+    "role": "DS",
+    "user_type": "advanced",
+    "experience_years": 3.6,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.813,
+      "EVALUATION_METRICS": 0.778,
+      "DATA_PREPROCESSING": 0.909,
+      "DEEP_LEARNING": 0.687,
+      "NLP": 0.652,
+      "TIME_SERIES": 0.825,
+      "MLOPS": 0.819
+    }
+  },
+  {
+    "user_id": "u_0050",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.327,
+      "BI_VISUALIZATION": 0.163,
+      "STATISTICS_EXPERIMENTATION": 0.304,
+      "ANALYTICS_BUSINESS": 0.308,
+      "PYTHON_ANALYTICS": 0.33
+    }
+  },
+  {
+    "user_id": "u_0195",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.217,
+      "EVALUATION_METRICS": 0.445,
+      "DATA_PREPROCESSING": 0.116,
+      "DEEP_LEARNING": 0.247,
+      "NLP": 0.302,
+      "TIME_SERIES": 0.302,
+      "MLOPS": 0.18
+    }
+  },
+  {
+    "user_id": "u_0481",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.9,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.713,
+      "DATA_ARCHITECTURE_MODELING": 0.598,
+      "BIG_DATA_CLOUD_TOOLS": 0.659,
+      "DATABASE_INTERNALS": 0.753,
+      "SYSTEM_ARCHITECTURE": 0.321
+    }
+  },
+  {
+    "user_id": "u_0491",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 2.5,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.566,
+      "DATA_ARCHITECTURE_MODELING": 0.603,
+      "BIG_DATA_CLOUD_TOOLS": 0.461,
+      "DATABASE_INTERNALS": 0.665,
+      "SYSTEM_ARCHITECTURE": 0.609
+    }
+  },
+  {
+    "user_id": "u_0173",
+    "role": "DS",
+    "user_type": "advanced",
+    "experience_years": 7.9,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.873,
+      "EVALUATION_METRICS": 0.773,
+      "DATA_PREPROCESSING": 0.746,
+      "DEEP_LEARNING": 0.777,
+      "NLP": 0.767,
+      "TIME_SERIES": 0.444,
+      "MLOPS": 0.878
+    }
+  },
+  {
+    "user_id": "u_0391",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.6,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.214,
+      "DATA_ARCHITECTURE_MODELING": 0.21,
+      "BIG_DATA_CLOUD_TOOLS": 0.173,
+      "DATABASE_INTERNALS": 0.09,
+      "SYSTEM_ARCHITECTURE": 0.249
+    }
+  },
+  {
+    "user_id": "u_0111",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "SQL_DATABASE": 0.42,
+      "BI_VISUALIZATION": 0.357,
+      "STATISTICS_EXPERIMENTATION": 0.387,
+      "ANALYTICS_BUSINESS": 0.423,
+      "PYTHON_ANALYTICS": 0.35
+    }
+  },
+  {
+    "user_id": "u_0080",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.6,
+    "skill_vector": {
+      "SQL_DATABASE": 0.486,
+      "BI_VISUALIZATION": 0.238,
+      "STATISTICS_EXPERIMENTATION": 0.295,
+      "ANALYTICS_BUSINESS": 0.361,
+      "PYTHON_ANALYTICS": 0.591
+    }
+  },
+  {
+    "user_id": "u_0465",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.9,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.554,
+      "DATA_ARCHITECTURE_MODELING": 0.463,
+      "BIG_DATA_CLOUD_TOOLS": 0.564,
+      "DATABASE_INTERNALS": 0.602,
+      "SYSTEM_ARCHITECTURE": 0.367
+    }
+  },
+  {
+    "user_id": "u_0175",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 1.6,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.684,
+      "EVALUATION_METRICS": 0.712,
+      "DATA_PREPROCESSING": 0.826,
+      "DEEP_LEARNING": 0.456,
+      "NLP": 0.667,
+      "TIME_SERIES": 0.419,
+      "MLOPS": 0.646
+    }
+  },
+  {
+    "user_id": "u_0484",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.2,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.442,
+      "DATA_ARCHITECTURE_MODELING": 0.297,
+      "BIG_DATA_CLOUD_TOOLS": 0.317,
+      "DATABASE_INTERNALS": 0.558,
+      "SYSTEM_ARCHITECTURE": 0.23
+    }
+  },
+  {
+    "user_id": "u_0358",
+    "role": "DE",
+    "user_type": "advanced",
+    "experience_years": 6.4,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.771,
+      "DATA_ARCHITECTURE_MODELING": 0.74,
+      "BIG_DATA_CLOUD_TOOLS": 0.732,
+      "DATABASE_INTERNALS": 0.884,
+      "SYSTEM_ARCHITECTURE": 0.546
+    }
+  },
+  {
+    "user_id": "u_0082",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.9,
+    "skill_vector": {
+      "SQL_DATABASE": 0.234,
+      "BI_VISUALIZATION": 0.114,
+      "STATISTICS_EXPERIMENTATION": 0.383,
+      "ANALYTICS_BUSINESS": 0.333,
+      "PYTHON_ANALYTICS": 0.24
+    }
+  },
+  {
+    "user_id": "u_0413",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.235,
+      "DATA_ARCHITECTURE_MODELING": 0.166,
+      "BIG_DATA_CLOUD_TOOLS": 0.204,
+      "DATABASE_INTERNALS": 0.121,
+      "SYSTEM_ARCHITECTURE": 0.266
+    }
+  },
+  {
+    "user_id": "u_0389",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.7,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.184,
+      "DATA_ARCHITECTURE_MODELING": 0.223,
+      "BIG_DATA_CLOUD_TOOLS": 0.277,
+      "DATABASE_INTERNALS": 0.137,
+      "SYSTEM_ARCHITECTURE": 0.249
+    }
+  },
+  {
+    "user_id": "u_0004",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.633,
+      "BI_VISUALIZATION": 0.488,
+      "STATISTICS_EXPERIMENTATION": 0.756,
+      "ANALYTICS_BUSINESS": 0.668,
+      "PYTHON_ANALYTICS": 0.653
+    }
+  },
+  {
+    "user_id": "u_0446",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.481,
+      "DATA_ARCHITECTURE_MODELING": 0.656,
+      "BIG_DATA_CLOUD_TOOLS": 0.613,
+      "DATABASE_INTERNALS": 0.471,
+      "SYSTEM_ARCHITECTURE": 0.575
+    }
+  },
+  {
+    "user_id": "u_0415",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 1.5,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.299,
+      "DATA_ARCHITECTURE_MODELING": 0.284,
+      "BIG_DATA_CLOUD_TOOLS": 0.34,
+      "DATABASE_INTERNALS": 0.141,
+      "SYSTEM_ARCHITECTURE": 0.212
+    }
+  },
+  {
+    "user_id": "u_0143",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.471,
+      "BI_VISUALIZATION": 0.536,
+      "STATISTICS_EXPERIMENTATION": 0.524,
+      "ANALYTICS_BUSINESS": 0.496,
+      "PYTHON_ANALYTICS": 0.336
+    }
+  },
+  {
+    "user_id": "u_0302",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.9,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.486,
+      "EVALUATION_METRICS": 0.437,
+      "DATA_PREPROCESSING": 0.541,
+      "DEEP_LEARNING": 0.518,
+      "NLP": 0.474,
+      "TIME_SERIES": 0.392,
+      "MLOPS": 0.429
+    }
+  },
+  {
+    "user_id": "u_0230",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.35,
+      "EVALUATION_METRICS": 0.392,
+      "DATA_PREPROCESSING": 0.407,
+      "DEEP_LEARNING": 0.148,
+      "NLP": 0.108,
+      "TIME_SERIES": 0.239,
+      "MLOPS": 0.245
+    }
+  },
+  {
+    "user_id": "u_0113",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.413,
+      "BI_VISUALIZATION": 0.375,
+      "STATISTICS_EXPERIMENTATION": 0.25,
+      "ANALYTICS_BUSINESS": 0.387,
+      "PYTHON_ANALYTICS": 0.307
+    }
+  },
+  {
+    "user_id": "u_0215",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.2,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.262,
+      "EVALUATION_METRICS": 0.426,
+      "DATA_PREPROCESSING": 0.329,
+      "DEEP_LEARNING": 0.244,
+      "NLP": 0.434,
+      "TIME_SERIES": 0.149,
+      "MLOPS": 0.296
+    }
+  },
+  {
+    "user_id": "u_0487",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 3.4,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.531,
+      "DATA_ARCHITECTURE_MODELING": 0.397,
+      "BIG_DATA_CLOUD_TOOLS": 0.49,
+      "DATABASE_INTERNALS": 0.439,
+      "SYSTEM_ARCHITECTURE": 0.452
+    }
+  },
+  {
+    "user_id": "u_0360",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.211,
+      "DATA_ARCHITECTURE_MODELING": 0.251,
+      "BIG_DATA_CLOUD_TOOLS": 0.273,
+      "DATABASE_INTERNALS": 0.108,
+      "SYSTEM_ARCHITECTURE": 0.227
+    }
+  },
+  {
+    "user_id": "u_0333",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.1,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.584,
+      "EVALUATION_METRICS": 0.687,
+      "DATA_PREPROCESSING": 0.518,
+      "DEEP_LEARNING": 0.453,
+      "NLP": 0.349,
+      "TIME_SERIES": 0.402,
+      "MLOPS": 0.546
+    }
+  },
+  {
+    "user_id": "u_0367",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.8,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.433,
+      "DATA_ARCHITECTURE_MODELING": 0.221,
+      "BIG_DATA_CLOUD_TOOLS": 0.324,
+      "DATABASE_INTERNALS": 0.178,
+      "SYSTEM_ARCHITECTURE": 0.25
+    }
+  },
+  {
+    "user_id": "u_0102",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.3,
+    "skill_vector": {
+      "SQL_DATABASE": 0.411,
+      "BI_VISUALIZATION": 0.329,
+      "STATISTICS_EXPERIMENTATION": 0.293,
+      "ANALYTICS_BUSINESS": 0.559,
+      "PYTHON_ANALYTICS": 0.542
+    }
+  },
+  {
+    "user_id": "u_0288",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.5,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.544,
+      "EVALUATION_METRICS": 0.59,
+      "DATA_PREPROCESSING": 0.582,
+      "DEEP_LEARNING": 0.44,
+      "NLP": 0.422,
+      "TIME_SERIES": 0.437,
+      "MLOPS": 0.445
+    }
+  },
+  {
+    "user_id": "u_0014",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.714,
+      "BI_VISUALIZATION": 0.464,
+      "STATISTICS_EXPERIMENTATION": 0.634,
+      "ANALYTICS_BUSINESS": 0.701,
+      "PYTHON_ANALYTICS": 0.835
+    }
+  },
+  {
+    "user_id": "u_0309",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 4.0,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.558,
+      "EVALUATION_METRICS": 0.525,
+      "DATA_PREPROCESSING": 0.591,
+      "DEEP_LEARNING": 0.477,
+      "NLP": 0.426,
+      "TIME_SERIES": 0.374,
+      "MLOPS": 0.477
+    }
+  },
+  {
+    "user_id": "u_0259",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 1.6,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.438,
+      "EVALUATION_METRICS": 0.454,
+      "DATA_PREPROCESSING": 0.489,
+      "DEEP_LEARNING": 0.432,
+      "NLP": 0.514,
+      "TIME_SERIES": 0.218,
+      "MLOPS": 0.32
+    }
+  },
+  {
+    "user_id": "u_0120",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.3,
+    "skill_vector": {
+      "SQL_DATABASE": 0.517,
+      "BI_VISUALIZATION": 0.557,
+      "STATISTICS_EXPERIMENTATION": 0.436,
+      "ANALYTICS_BUSINESS": 0.545,
+      "PYTHON_ANALYTICS": 0.415
+    }
+  },
+  {
+    "user_id": "u_0112",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.1,
+    "skill_vector": {
+      "SQL_DATABASE": 0.512,
+      "BI_VISUALIZATION": 0.616,
+      "STATISTICS_EXPERIMENTATION": 0.203,
+      "ANALYTICS_BUSINESS": 0.62,
+      "PYTHON_ANALYTICS": 0.604
+    }
+  },
+  {
+    "user_id": "u_0048",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.392,
+      "BI_VISUALIZATION": 0.081,
+      "STATISTICS_EXPERIMENTATION": 0.358,
+      "ANALYTICS_BUSINESS": 0.118,
+      "PYTHON_ANALYTICS": 0.194
+    }
+  },
+  {
+    "user_id": "u_0016",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 1.4,
+    "skill_vector": {
+      "SQL_DATABASE": 0.729,
+      "BI_VISUALIZATION": 0.755,
+      "STATISTICS_EXPERIMENTATION": 0.562,
+      "ANALYTICS_BUSINESS": 0.712,
+      "PYTHON_ANALYTICS": 0.622
+    }
+  },
+  {
+    "user_id": "u_0017",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.719,
+      "BI_VISUALIZATION": 0.688,
+      "STATISTICS_EXPERIMENTATION": 0.637,
+      "ANALYTICS_BUSINESS": 0.692,
+      "PYTHON_ANALYTICS": 0.522
+    }
+  },
+  {
+    "user_id": "u_0217",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.3,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.181,
+      "EVALUATION_METRICS": 0.279,
+      "DATA_PREPROCESSING": 0.118,
+      "DEEP_LEARNING": 0.166,
+      "NLP": 0.31,
+      "TIME_SERIES": 0.141,
+      "MLOPS": 0.096
+    }
+  },
+  {
+    "user_id": "u_0303",
+    "role": "DS",
+    "user_type": "beginner",
+    "experience_years": 1.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.326,
+      "EVALUATION_METRICS": 0.2,
+      "DATA_PREPROCESSING": 0.381,
+      "DEEP_LEARNING": 0.272,
+      "NLP": 0.334,
+      "TIME_SERIES": 0.438,
+      "MLOPS": 0.349
+    }
+  },
+  {
+    "user_id": "u_0045",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.2,
+    "skill_vector": {
+      "SQL_DATABASE": 0.231,
+      "BI_VISUALIZATION": 0.051,
+      "STATISTICS_EXPERIMENTATION": 0.298,
+      "ANALYTICS_BUSINESS": 0.136,
+      "PYTHON_ANALYTICS": 0.142
+    }
+  },
+  {
+    "user_id": "u_0280",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 2.7,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.536,
+      "EVALUATION_METRICS": 0.501,
+      "DATA_PREPROCESSING": 0.599,
+      "DEEP_LEARNING": 0.46,
+      "NLP": 0.554,
+      "TIME_SERIES": 0.515,
+      "MLOPS": 0.456
+    }
+  },
+  {
+    "user_id": "u_0457",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 4.1,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.506,
+      "DATA_ARCHITECTURE_MODELING": 0.559,
+      "BIG_DATA_CLOUD_TOOLS": 0.414,
+      "DATABASE_INTERNALS": 0.683,
+      "SYSTEM_ARCHITECTURE": 0.499
+    }
+  },
+  {
+    "user_id": "u_0497",
+    "role": "DE",
+    "user_type": "intermediate",
+    "experience_years": 1.6,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.6,
+      "DATA_ARCHITECTURE_MODELING": 0.57,
+      "BIG_DATA_CLOUD_TOOLS": 0.428,
+      "DATABASE_INTERNALS": 0.566,
+      "SYSTEM_ARCHITECTURE": 0.685
+    }
+  },
+  {
+    "user_id": "u_0347",
+    "role": "DE",
+    "user_type": "advanced",
+    "experience_years": 4.0,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.838,
+      "DATA_ARCHITECTURE_MODELING": 0.627,
+      "BIG_DATA_CLOUD_TOOLS": 0.769,
+      "DATABASE_INTERNALS": 0.808,
+      "SYSTEM_ARCHITECTURE": 0.501
+    }
+  },
+  {
+    "user_id": "u_0053",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 1.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.4,
+      "BI_VISUALIZATION": 0.324,
+      "STATISTICS_EXPERIMENTATION": 0.34,
+      "ANALYTICS_BUSINESS": 0.343,
+      "PYTHON_ANALYTICS": 0.318
+    }
+  },
+  {
+    "user_id": "u_0378",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.9,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.305,
+      "DATA_ARCHITECTURE_MODELING": 0.147,
+      "BIG_DATA_CLOUD_TOOLS": 0.157,
+      "DATABASE_INTERNALS": 0.202,
+      "SYSTEM_ARCHITECTURE": 0.281
+    }
+  },
+  {
+    "user_id": "u_0072",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.5,
+    "skill_vector": {
+      "SQL_DATABASE": 0.189,
+      "BI_VISUALIZATION": 0.228,
+      "STATISTICS_EXPERIMENTATION": 0.219,
+      "ANALYTICS_BUSINESS": 0.151,
+      "PYTHON_ANALYTICS": 0.05
+    }
+  },
+  {
+    "user_id": "u_0115",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.7,
+    "skill_vector": {
+      "SQL_DATABASE": 0.423,
+      "BI_VISUALIZATION": 0.478,
+      "STATISTICS_EXPERIMENTATION": 0.362,
+      "ANALYTICS_BUSINESS": 0.492,
+      "PYTHON_ANALYTICS": 0.49
+    }
+  },
+  {
+    "user_id": "u_0126",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 2.0,
+    "skill_vector": {
+      "SQL_DATABASE": 0.369,
+      "BI_VISUALIZATION": 0.304,
+      "STATISTICS_EXPERIMENTATION": 0.351,
+      "ANALYTICS_BUSINESS": 0.506,
+      "PYTHON_ANALYTICS": 0.361
+    }
+  },
+  {
+    "user_id": "u_0141",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.8,
+    "skill_vector": {
+      "SQL_DATABASE": 0.502,
+      "BI_VISUALIZATION": 0.518,
+      "STATISTICS_EXPERIMENTATION": 0.326,
+      "ANALYTICS_BUSINESS": 0.541,
+      "PYTHON_ANALYTICS": 0.476
+    }
+  },
+  {
+    "user_id": "u_0380",
+    "role": "DE",
+    "user_type": "beginner",
+    "experience_years": 0.7,
+    "skill_vector": {
+      "DATA_PIPELINE": 0.274,
+      "DATA_ARCHITECTURE_MODELING": 0.164,
+      "BIG_DATA_CLOUD_TOOLS": 0.267,
+      "DATABASE_INTERNALS": 0.272,
+      "SYSTEM_ARCHITECTURE": 0.221
+    }
+  },
+  {
+    "user_id": "u_0013",
+    "role": "DA",
+    "user_type": "intermediate",
+    "experience_years": 2.1,
+    "skill_vector": {
+      "SQL_DATABASE": 0.725,
+      "BI_VISUALIZATION": 0.841,
+      "STATISTICS_EXPERIMENTATION": 0.42,
+      "ANALYTICS_BUSINESS": 0.805,
+      "PYTHON_ANALYTICS": 0.7
+    }
+  },
+  {
+    "user_id": "u_0058",
+    "role": "DA",
+    "user_type": "beginner",
+    "experience_years": 0.7,
+    "skill_vector": {
+      "SQL_DATABASE": 0.254,
+      "BI_VISUALIZATION": 0.178,
+      "STATISTICS_EXPERIMENTATION": 0.168,
+      "ANALYTICS_BUSINESS": 0.256,
+      "PYTHON_ANALYTICS": 0.09
+    }
+  },
+  {
+    "user_id": "u_0328",
+    "role": "DS",
+    "user_type": "intermediate",
+    "experience_years": 3.8,
+    "skill_vector": {
+      "ALGORITHM_THEORY": 0.574,
+      "EVALUATION_METRICS": 0.467,
+      "DATA_PREPROCESSING": 0.499,
+      "DEEP_LEARNING": 0.527,
+      "NLP": 0.544,
+      "TIME_SERIES": 0.422,
+      "MLOPS": 0.421
+    }
+  }
+]

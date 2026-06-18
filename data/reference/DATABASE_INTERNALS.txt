@@ -1,0 +1,44 @@
+# DATABASE_INTERNALS — Reference Document (Source: Gemini 2.5 Flash)
+
+## DATABASE_INTERNALS (Role: DE)
+
+### 1. ACID Properties
+
+The ACID properties are fundamental guarantees provided by a transaction in a relational database, ensuring data integrity and reliability.
+
+*   **Atomicity:** A transaction is treated as a single, indivisible unit of work. Either all operations within the transaction succeed and are committed, or if any operation fails, the entire transaction is rolled back, leaving the database state unchanged as if the transaction never occurred.
+    *   **Implementation:** Achieved primarily through Write-Ahead Logging (WAL) and undo logs. Before any data modification is written to disk, a record of the change (and how to undo it) is written to a durable log. If a crash occurs, the database uses the WAL to either complete (redo) committed transactions or revert (undo) uncommitted ones.
+    *   **Strong vs. Weak:** Strong candidates explain WAL and undo logs, detailing how they enable recovery and guarantee atomicity even during system failures. Weak candidates merely state "all or nothing."
+    *   **Pitfall:** Confusing atomicity with consistency. Atomicity ensures the *transaction* completes entirely or not at all; consistency ensures the *database state* remains valid.
+
+*   **Consistency:** A transaction brings the database from one valid state to another. All data must adhere to predefined rules, constraints (e.g., primary keys, foreign keys, check constraints), and business logic.
+    *   **Implementation:** Enforced by database schema constraints, triggers, and application-level validation. The database system prevents transactions that would violate these rules from being committed.
+    *   **Strong vs. Weak:** Strong candidates discuss how both database-level constraints and application logic contribute to maintaining consistency. Weak candidates often only mention constraints.
+    *   **Pitfall:** Confusing consistency with isolation. Consistency is about data validity; isolation is about concurrent transaction visibility.
+
+*   **Isolation:** Concurrent transactions execute without interfering with each other. The final state of the database after multiple concurrent transactions is the same as if they had executed serially, one after another.
+    *   **Implementation:** Achieved through concurrency control mechanisms like locking (row-level, table-level) and Multi-Version Concurrency Control (MVCC). MVCC allows readers to access older versions of data without blocking writers, improving concurrency.
+    *   **Strong vs. Weak:** Strong candidates detail MVCC (e.g., snapshots, read views) as a common implementation in modern databases, explaining its benefits over strict locking. Weak candidates only mention locks.
+    *   **Pitfall:** Not understanding that isolation levels are a trade-off between consistency and concurrency.
+
+*   **Durability:** Once a transaction is committed, its changes are permanent and survive any subsequent system failures (e.g., power outages, crashes).
+    *   **Implementation:** Achieved by writing committed transaction data to non-volatile storage (disk) and ensuring that the WAL records are also flushed to disk *before* the commit is acknowledged. Replication to other nodes further enhances durability.
+    *   **Strong vs. Weak:** Strong candidates explain the role of WAL in durability (data written to log *before* data pages are flushed) and discuss `fsync` or similar mechanisms. Weak candidates simply state "data is saved."
+    *   **Pitfall:** Not distinguishing between data written to in-memory buffers versus persistent storage.
+
+### 2. Transaction Isolation Levels
+
+Isolation levels define the degree to which one transaction's uncommitted changes are visible to other concurrent transactions. Lower isolation levels offer higher concurrency but risk data anomalies.
+
+*   **Anomalies:**
+    *   **Dirty Read (Read Uncommitted):** A transaction reads data written by another *uncommitted* transaction. If the second transaction rolls back, the first transaction has read invalid data.
+    *   **Non-Repeatable Read (Read Committed):** A transaction reads the same row twice and gets different values because another *committed* transaction modified that row between the two reads.
+    *   **Phantom Read (Repeatable Read):** A transaction re-executes a query returning a set of rows and gets a different set of rows because another *committed* transaction inserted or deleted rows matching the query predicate.
+
+*   **Levels (from lowest to highest isolation):**
+    *   **READ UNCOMMITTED:** Allows dirty reads, non-repeatable reads, and phantom reads. Highest concurrency, rarely used in practice due to data integrity risks.
+    *   **READ COMMITTED:** Prevents dirty reads. This is a common default (e.g., PostgreSQL, Oracle). It still suffers from non-repeatable reads and phantom reads.
+    *   **REPEATABLE READ:** Prevents dirty reads and non-repeatable reads. The data read by a transaction remains consistent throughout its duration. However, its handling of phantom reads varies: MySQL's InnoDB prevents phantom reads using "next-key locks," while PostgreSQL's MVCC-based `REPEATABLE READ` prevents phantom reads for *rows already read* but new rows matching a predicate can still appear in subsequent reads within the same transaction.
+    *   **SERIALIZABLE:** Highest isolation level. Prevents all anomalies (dirty reads, non-repeatable reads, phantom reads). Achieved via strict two-phase locking or Serializable Snapshot Isolation (SSI). Offers the strongest data consistency but significantly reduces concurrency.
+*   **Strong vs. Weak:** Strong candidates explain *how* each anomaly occurs, *why* a specific isolation level prevents/allows it, and discuss the performance trade-offs. They can articulate the nuances of `REPEATABLE READ` across different database systems. Weak candidates merely list the anomalies and levels without explaining the underlying mechanisms or implications.
+*   **Pitfall:** Misunderstanding the specific behavior of `REPEATABLE READ` in different database implementations regarding phantom reads. Not grasping the performance cost of higher isolation levels.

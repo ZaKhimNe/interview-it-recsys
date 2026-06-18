@@ -10,11 +10,11 @@ from pathlib import Path
 
 import streamlit as st
 
-from core.data_loader import load_question_bank, get_radar_profile_data
+from src.data.data_loader import load_question_bank, get_radar_profile_data
 
 ROOT_DIR     = Path(__file__).parent
-FRONTEND_DIR = ROOT_DIR / "frontend"
-STATIC_DIR   = ROOT_DIR / "static"
+FRONTEND_DIR = ROOT_DIR / "app" / "frontend"
+STATIC_DIR   = ROOT_DIR / "app" / "static"
 
 JSX_ORDER = [
     "state.jsx",
@@ -162,7 +162,7 @@ def get_project_data() -> dict:
 def prepare_static(project_data: dict):
     STATIC_DIR.mkdir(exist_ok=True)
 
-    src_assets = ROOT_DIR / "assets"
+    src_assets = ROOT_DIR / "app" / "assets"
     dst_assets = STATIC_DIR / "assets"
     dst_assets.mkdir(exist_ok=True)
     for img in src_assets.glob("*.png"):

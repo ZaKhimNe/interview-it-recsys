@@ -1,0 +1,1534 @@
+[
+  {
+    "question_id": "GEN_DA_BI_TOOLS_001",
+    "question_text": "Định nghĩa mối quan hệ (Relationship) trong Power BI là gì? Phân biệt hai loại Cardinality chính: One-to-Many và Many-to-Many.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "Mối quan hệ trong Power BI là liên kết giữa hai bảng dựa trên một hoặc nhiều cột chung (thường là khóa duy nhất), cho phép kết hợp dữ liệu và định nghĩa cách filter propagate giữa các bảng. **One-to-Many (1:M)**: một giá trị ở bảng một tương ứng với nhiều giá trị ở bảng nhiều—đây là loại phổ biến nhất và được khuyến nghị vì hiệu suất cao và tính rõ ràng. **Many-to-Many (M:M)**: nhiều giá trị ở cả hai bảng có thể khớp với nhau, thường gây nhập nhằng và yêu cầu bảng cầu nối (bridge table) hoặc xử lý đặc biệt. Ngoài cardinality, cần cân nhắc **cross-filter direction** (single vs. both) để kiểm soát cách filter lan truyền, và nên ưu tiên thiết kế star schema thay vì snowflake schema để tối ưu hiệu suất.",
+      "evaluation_points": [
+        "Định nghĩa đúng Relationship và mục đích của nó trong Power BI",
+        "Phân biệt rõ One-to-Many (phổ biến, hiệu suất cao) vs Many-to-Many (phức tạp, cần xử lý đặc biệt)",
+        "Giải thích khái niệm Cardinality và tầm quan trọng của nó",
+        "Nêu rõ cách xử lý Many-to-Many: bảng cầu nối (bridge table) hoặc role-playing dimensions",
+        "Hiểu về cross-filter direction (single vs. both) và tác động đến DAX context",
+        "Giải thích lợi ích của star schema trong Power BI (performance, simplicity)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_003",
+    "question_text": "Bạn đang làm việc với một báo cáo Power BI về doanh số bán hàng. Khi kéo trường 'SalesAmount' vào biểu đồ, kết quả hiển thị tổng doanh số gấp đôi so với dữ liệu thực tế. Nguyên nhân có thể là gì? Cách khắc phục? Hãy giải thích WHY.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân thường gặp:\n\n1. **Many-to-Many Relationship (chính)**: Nếu Orders và Products có quan hệ Many-to-Many mà không có bridge table (OrderDetails bị thiếu hoặc relationship config sai), Power BI sẽ tạo Cartesian product - mỗi dòng order được nhân với từng matching product. Ví dụ: 100 orders × 2 products = 200 rows, doanh số nhân đôi.\n\n2. **Sai Cardinality**: Relationship được set thành Many-to-Many thay vì One-to-Many, hoặc active/inactive relationship xử lý sai.\n\n3. **Duplicate trong source data**: Bảng fact hoặc dimension có dòng trùng lặp trước khi tạo relationship.\n\n**Cách khắc phục**:\n- **Kiểm tra relationship**: Mở Model view, xác nhận cardinality (1:* vs *:*) và direction filter\n- **Tạo bridge table**: Nếu thực sự Many-to-Many, tạo bảng cầu nối chuẩn\n- **SUMMARIZE trong DAX**: Tổng hợp dữ liệu ở level đúng trước khi visualize\n- **Deduplication**: Xóa duplicate rows trong source/ETL layer\n\n**WHY - Cơ chế**: Power BI's VertiPaq engine khi gặp many-to-many sẽ join ALL matching rows từ cả hai bảng, gây nhân đôi/nhân ba... giá trị measures. Star schema với 1:* relationships tránh được vấn đề này vì dữ liệu được organize theo granularity duy nhất của fact table.",
+      "evaluation_points": [
+        "Xác định đúng many-to-many relationship và Cartesian product là nguyên nhân chính",
+        "Giải thích rõ cơ chế: khi có quan hệ many-to-many không được quản lý, mỗi dòng trong fact table được nhân với số lượng dòng phù hợp từ bảng khác",
+        "Đề xuất giải pháp cụ thể: tạo bridge table, sử dụng SUMMARIZE, hoặc kiểm tra cardinality của relationship",
+        "Nhận diện các nguyên nhân khác: relationship bị inactive, sai direction filter, hoặc duplicate rows trong source data",
+        "Giải thích WHY cho từng giải pháp: bridge table tách riêng granularity, SUMMARIZE đảm bảo tính toán ở level đúng"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_005",
+    "question_text": "So sánh ưu và nhược điểm của việc sử dụng Calculated Column (DAX) so với bảng tính (Measure) trong Power BI khi tính toán tỷ lệ tăng trưởng doanh số theo tháng. Khi nào nên dùng cái nào?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "Calculated Column: tính toán static, lưu vào bộ nhớ, phù hợp với giá trị cố định (ví dụ: danh mục sản phẩm). Measure: tính động theo filter context, tiết kiệm bộ nhớ, phù hợp với tỷ lệ tăng trưởng (thay đổi theo filter). \n\nỨu điểm Measure: (1) Linh hoạt - tự động thích ứng với filter context trên dashboard; (2) Tiết kiệm dung lượng model; (3) Tái sử dụng được trong nhiều visual với filter khác nhau. Nhược điểm: khó debug hơn, phải hiểu rõ context transition.\n\nỨu điểm Calculated Column: dễ hiểu và debug. Nhược điểm: kém hiệu quả nếu dùng sai, làm tăng kích thước model, không thể thay đổi động theo filter.\n\nCho tỷ lệ tăng trưởng doanh số theo tháng: PHẢI DÙNG MEASURE vì cần so sánh giữa tháng khác nhau dựa trên filter context. Ví dụ:\nGrowthRate = DIVIDE([Sales Current Month], [Sales Previous Month] - 1)\n\nTrong đó Sales Previous Month được tính bằng CALCULATE để chuyển đổi context thời gian. Nếu dùng Calculated Column, giá trị sẽ cố định cho mỗi hàng và không thể lọc theo tháng được.",
+      "evaluation_points": [
+        "Giải thích rõ ràng về filter context vs row context: Calculated Column hoạt động trong row context (từng hàng), Measure hoạt động trong filter context (toàn bộ dữ liệu được filter)",
+        "Trình bày vai trò của CALCULATE function để chuyển đổi context trong Measure khi tính tỷ lệ tăng trưởng (so sánh tháng hiện tại với tháng trước)",
+        "Cung cấp ví dụ DAX cụ thể cho cả hai cách: VD Measure = DIVIDE([Current Month Sales], [Previous Month Sales]) - 1, và giải thích tại sao không thể dùng Calculated Column cho bài toán này",
+        "Nêu rõ trade-off về performance: Calculated Column làm tăng kích thước model (storage + RAM), Measure tăng CPU cost lúc query time; phù hợp với bộ dữ liệu nào",
+        "Đề cập khả năng tái sử dụng (reusability): Measure dễ dùng lại trong các visual khác nhau với các filter khác nhau, Calculated Column cố định cho một bảng"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_007",
+    "question_text": "Trong Tableau, bạn cần tạo một dashboard so sánh doanh số theo khu vực và sản phẩm. Hãy giải thích cách sử dụng Tính toán (Calculated Field) để tạo chỉ số 'Tỷ lệ đóng góp' (ví dụ: doanh số sản phẩm / tổng doanh số khu vực). Bạn sẽ dùng hàm nào và tại sao?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_TABLEAU"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU"
+    ],
+    "answers": {
+      "detailed": "Use a Calculated Field with SUM([Sales]) / TOTAL(SUM([Sales])) is the correct approach. TOTAL() calculates the sum across the entire partition (in this case, within each region) regardless of other dimensions on the view. Implementation: Create field 'Tỷ lệ đóng góp' = SUM([Sales]) / TOTAL(SUM([Sales])). Then configure it as a Table Calculation with Partition by [Region] and Address by [Product]. This ensures each product's sales is divided by its region's total sales. WINDOW_SUM() is not needed here—TOTAL() with correct partitioning already provides the desired windowed calculation. The key distinction: this is a table calculation (computed at visualization time, responsive to filters) rather than an aggregate calculation, making it ideal for dynamic dashboards. Set formatting to percentage for clarity.",
+      "evaluation_points": [
+        "Correctly identify TOTAL() as the primary function for calculating contribution ratio at the appropriate granularity level",
+        "Understand the difference between aggregate calculations (SUM([Sales])/TOTAL(SUM([Sales]))) and table calculations, and when each applies to this scenario",
+        "Properly configure Partition and Addressing: partition by [Region], address by [Product] to ensure ratio is calculated as (Product Sales / Region Total Sales)",
+        "Recognize that WINDOW_SUM() is unnecessary here since TOTAL() with correct addressing already handles the windowing needed; explain why simplicity matters",
+        "Explain filter context behavior: how the calculated field responds to dashboard filters on region, product, or time period"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_009",
+    "question_text": "Công ty bạn có một dashboard Tableau hiển thị doanh số theo ngày, nhưng khi người dùng chọn nhiều ngày từ filter, biểu đồ line chart hiển thị tổng doanh số tích lũy (cumulative) thay vì giá trị từng ngày. Bạn sẽ sử dụng loại tính toán nào (Table Calculation) để đạt được điều này? Giải thích cách thiết lập và một hạn chế khi dùng phương pháp này.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_TABLEAU"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU"
+    ],
+    "answers": {
+      "detailed": "Use Table Calculation: RUNNING_SUM(SUM([Sales])). Setup: Place SUM([Sales]) on Rows with Date on Columns, then convert to RUNNING_SUM table calculation. Set 'Compute using' = 'Date' (not 'Table across') to ensure cumulative sum follows chronological order. Critical limitation: When users filter non-contiguous dates (e.g., days 1, 3, 5), RUNNING_SUM calculates cumulatively across only the *displayed* rows, ignoring gaps. This produces incorrect cumulative values (e.g., day 5's sum includes only days 1, 3, 5—not a true running total from day 1). Better alternative: Use a Level of Detail calculation like {FIXED [Date]:SUM([Sales])} combined with a conditional aggregate that sums all sales up to and including the current date, which respects the actual date sequence regardless of filter selections.",
+      "evaluation_points": [
+        "Correctly identifies RUNNING_SUM as the table calculation function for cumulative sales",
+        "Accurately explains the 'Compute using' configuration (should specify 'Date' dimension for time-series ordering, not 'Table (across)')",
+        "Identifies the critical limitation: non-contiguous date filters break cumulative logic by computing across displayed rows, not actual date gaps",
+        "Provides a concrete alternative using LOD (e.g., SUMIF with DATERANGE or a FIXED LOD to anchor calculations) rather than vague reference",
+        "Explains why LOD is superior: it operates in data context, independent of filter selections"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_006",
+    "question_text": "Hãy giải thích sự khác biệt giữa hàm CALCULATE và hàm FILTER trong DAX của Power BI. Khi nào nên dùng hàm nào?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "CALCULATE là hàm thay đổi ngữ cảnh bộ lọc (filter context) trên toàn bộ biểu thức, cho phép áp dụng nhiều bộ lọc cùng lúc mà không ảnh hưởng đến hàng được đánh giá. FILTER là hàm trả về một bảng đã được lọc theo điều kiện được đánh giá trong row context, thường dùng làm đối số cho CALCULATE hoặc trong các phép tính phức tạp.\n\nDùng CALCULATE khi cần thay đổi ngữ cạnh bộ lọc toàn cục cho một biểu thức (ví dụ: tính Total Sales cho năm hiện tại bất kể slicer nào được chọn). Dùng FILTER khi cần lọc chi tiết từng hàng dựa trên điều kiện cụ thể, hoặc kết hợp với CALCULATE khi bộ lọc phức tạp (ví dụ: CALCULATE(SUM(Sales), FILTER(Products, Products[Category]=\"Electronics\" && Products[Price]>100))).\n\nLưu ý hiệu suất: FILTER có chi phí cao vì duyệt qua từng hàng, còn CALCULATE chỉ thay đổi bộ lọc nên tối ưu hơn.",
+      "evaluation_points": [
+        "Hiểu rõ khái niệm ngữ cảnh bộ lọc (filter context) và ngữ cảnh hàng (row context)",
+        "Giải thích được CALCULATE thay đổi ngữ cảnh bộ lọc, FILTER tạo bảng lọc và có thể đi kèm context transition",
+        "Đưa ví dụ minh họa cụ thể: CALCULATE dùng cho aggregation với bộ lọc tùy chỉnh (e.g., Total Sales YTD), FILTER dùng cho row-level filtering hoặc làm tham số trong CALCULATE",
+        "Giải thích được hiệu suất: FILTER thường đắt hơn vì duyệt qua từng hàng, CALCULATE tối ưu hơn khi chỉ cần thay đổi bộ lọc",
+        "Nhận biết được khi nào dùng FILTER(...) làm tham số của CALCULATE để kết hợp điều kiện phức tạp"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_008",
+    "question_text": "Bạn đang làm việc với một dataset bán hàng trong Power BI, có bảng 'Sales' (OrderDate, ProductID, Amount) và bảng 'Calendar' (Date, Year, Month). Bạn cần tạo một measure tính tổng doanh số của tháng trước so với tháng hiện tại, bất kể người dùng chọn bộ lọc nào trên dashboard. Hãy viết công thức DAX và giải thích cách hoạt động.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "The provided formula has a critical flaw in its logic. Here's a corrected explanation:\n\n**Corrected Formula (depends on requirement interpretation):**\n\nIf the goal is to show previous month's sales while respecting the user's month selection:\n```\nTotalSalesPrevMonth = CALCULATE(\n  SUM(Sales[Amount]),\n  PREVIOUSMONTH(Calendar[Date])\n)\n```\n\nIf the goal is to show a fixed comparison regardless of user filters:\n```\nTotalSalesPrevMonth = CALCULATE(\n  SUM(Sales[Amount]),\n  PREVIOUSMONTH(ALL(Calendar[Date])),\n  ALL(Calendar)\n)\n```\n\n**Why the original answer is problematic:**\nThe original formula uses `ALL(Calendar)` which removes *all* filters from the Calendar table before PREVIOUSMONTH executes. This means PREVIOUSMONTH has no context to determine which month is 'current'—it will either fail or return unexpected results. The correct pattern is to remove filters *selectively* (e.g., from columns other than Date) or to apply ALL only to the Date column itself.\n\n**Explanation of DAX mechanics:**\n- **CALCULATE:** Modifies filter context. It evaluates its expression (SUM) under a new filter environment defined by its filter arguments.\n- **PREVIOUSMONTH:** Returns dates from the previous month relative to the date context. It depends on having a date in the filter context to work correctly.\n- **ALL(Calendar):** Removes all filters on the Calendar table—use carefully; often better to use `ALL(Calendar[Year]), ALL(Calendar[Month])` if you want to preserve other filters.\n- **Context Transition:** CALCULATE transitions row context (if used inside a calculated column) to filter context, allowing DAX functions to work properly.\n- **Relationship:** The Sales and Calendar tables must have an active relationship on the date key for PREVIOUSMONTH to function.",
+      "evaluation_points": [
+        "Correctly use CALCULATE to modify filter context and explain its role in context transition",
+        "Understand when ALL() is appropriate vs. when to use specific column filters (ALL(Calendar) removes ALL calendar filters, which may be too aggressive if user filters by Year/Month)",
+        "Explain the distinction between filter context and row context, and why PREVIOUSMONTH requires a date table relationship",
+        "Identify the logical issue: ALL(Calendar) contradicts the requirement—it removes user filters entirely, making PREVIOUSMONTH unable to determine 'current' month from user selection; clarify whether the intent is to ignore dashboard filters or respect the selected month",
+        "Discuss alternative approaches: using OFFSET with MAX(Calendar[Date]) in filter context, or whether the requirement means 'always show current month vs. previous month' regardless of user selection"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_010",
+    "question_text": "Công ty bạn đang thiết kế một dashboard bán hàng trên Tableau với hai biểu đồ: biểu đồ cột (bar chart) hiển thị doanh thu theo tháng, và biểu đồ đường (line chart) hiển thị tỷ lệ tăng trưởng. Người dùng phàn nàn rằng khi họ lọc theo khu vực, biểu đồ cột cập nhật đúng, nhưng biểu đồ đường vẫn giữ nguyên giá trị. Hãy giải thích nguyên nhân và cách khắc phục.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_TABLEAU"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân: Biểu đồ đường có thể đang sử dụng một FIXED LOD expression để tính tỷ lệ tăng trưởng (ví dụ: {FIXED [Month]: SUM([Revenue])}). Vì FIXED LOD được tính tại data source level và độc lập với các dimension có trong view, nó sẽ bỏ qua bộ lọc dimension (như Region filter). Ngược lại, biểu đồ cột không dùng LOD hoặc dùng INCLUDE/EXCLUDE, nên nó tương tác bình thường với bộ lọc.\n\nCách khắc phục:\n1. Kiểm tra calculated field của biểu đồ đường: nếu dùng FIXED, chuyển sang INCLUDE (nếu muốn giữ region trong aggregation) hoặc EXCLUDE (nếu muốn tính growth độc lập với region nhưng vẫn filter theo region).\n2. Nếu FIXED là cần thiết, chuyển bộ lọc Region thành context filter thay vì dimension filter—context filters được áp dụng TRƯỚC LOD calculation, do đó sẽ ảnh hưởng cả FIXED expressions.\n3. Đảm bảo bộ lọc Region được áp dụng cho cả hai worksheets trong dashboard (kiểm tra filter configuration).\n4. Giải thích cho người dùng sự khác biệt: dimension filters (applied after LOD) không ảnh hưởng FIXED, nhưng context filters (applied before LOD) có ảnh hưởng.",
+      "evaluation_points": [
+        "Correctly identifies that FIXED LOD expressions compute independently of view dimensions and therefore ignore dimension filters (but not context filters)",
+        "Understands that dimension filters are applied AFTER LOD evaluation, making FIXED expressions immune to them—the key difference from INCLUDE/EXCLUDE",
+        "Can distinguish between context filters (applied before LOD calculation, affecting FIXED) and dimension filters (applied after, not affecting FIXED)",
+        "Proposes the correct remediation: replacing FIXED with INCLUDE or EXCLUDE depending on desired granularity, or converting the dimension filter to a context filter",
+        "Recognizes that dashboard-level filter application settings (e.g., which worksheets the filter targets) must be verified for consistent behavior across charts"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_012",
+    "question_text": "Bạn đang xây dựng một dashboard trên Power BI với nhiều trang (pages). Một số biểu đồ trên trang tổng quan cần hiển thị dữ liệu tổng hợp, nhưng khi người dùng click vào một điểm dữ liệu cụ thể, các biểu đồ khác trên cùng trang phải lọc theo điểm đó. Hãy trình bày cách bạn thiết lập mối quan hệ giữa các biểu đồ và các trang để đạt được điều này, đồng thời thảo luận về trade-off giữa việc sử dụng drill-through và cross-filtering.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "To achieve cross-filtering across multiple visuals on a dashboard, first ensure your data model is built as a star schema with clear relationships between fact and dimension tables. Cross-filtering works by leveraging these relationships: when a user clicks a data point, Power BI filters related tables based on relationship cardinality (typically 1:M from dimension to fact). Implementation: (1) Verify relationships exist with proper cardinality and single cross-filter direction by default; (2) Use Format > Edit Interactions to configure each visual's interaction—set to 'Filter' for driving visuals and choose which visuals respond; (3) Use 'Highlight' selectively for exploratory analysis without blocking other visuals. For drill-through: define drill-through fields on detail pages, allowing navigation with preserved filter context, but requires additional user action. Trade-offs: Cross-filtering is intuitive and performant for single-page exploration but can cause cascading filters that confuse users if relationships aren't clearly documented; bidirectional filtering should be avoided unless necessary due to performance costs. Drill-through provides focused, distraction-free detail analysis and better controls context, but adds navigation steps. Recommendation: Use cross-filtering on summary pages with well-designed relationships (1:M cardinality, unidirectional), and implement drill-through to detail pages for deep dives. Monitor performance with large datasets, as cross-filtering complexity increases with relationship count and data volume.",
+      "evaluation_points": [
+        "Explain how underlying data model relationships (cardinality and cross-filter direction) enable or constrain cross-filtering behavior",
+        "Describe the role of fact and dimension tables in supporting cross-filtering across multiple visuals",
+        "Discuss performance implications: cross-filtering impact on VertiPaq engine with large datasets vs. drill-through efficiency",
+        "Address bidirectional filtering risks and when to use single vs. both directions in relationships",
+        "Evaluate handling of many-to-many relationships if present in the dashboard's data model"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_014",
+    "question_text": "Bạn đang phát triển một dashboard Tableau với nguồn dữ liệu từ nhiều bảng (tables) có kích thước lớn (hàng triệu dòng). Người dùng yêu cầu tính toán tỷ lệ phần trăm đóng góp của từng sản phẩm trong từng khu vực so với tổng doanh thu toàn công ty, đồng thời dashboard phải load dưới 5 giây. Hãy thiết kế giải pháp tối ưu bao gồm: lựa chọn loại kết nối (live vs extract), sử dụng LOD expressions, và tối ưu hóa hiệu suất. Phân tích edge cases như khi có sản phẩm mới hoặc dữ liệu null.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_TABLEAU"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU"
+    ],
+    "answers": {
+      "detailed": "**Giải pháp tối ưu:**\n\n**1. Lựa chọn kết nối (Extract vs. Live):**\nDùng Extract thay vì Live vì:\n- Dữ liệu hàng triệu dòng: Extract nén và index dữ liệu, cho phép Tableau query nhanh chóng trên bộ nhớ.\n- Yêu cầu <5 giây: Live connection yêu cầu query trực tiếp từ source (có thể chậm với joins phức tạp).\n- Refresh schedule: thiết lập incremental refresh nightly để dữ liệu mới/null được cập nhật mà không phải full reload.\n\n**2. Data Model & LOD Strategy:**\nXây dựng star schema:\n- **Fact table:** OrderID, ProductID, RegionID, Revenue, Date.\n- **Dimension tables:** Product, Region, Company.\n- **Aggregate table (quan trọng):** Materialized tại (ProductID, RegionID) grain với pre-computed SUM(Revenue) và Company Total.\n\n**LOD Expression:**\n```\n{FIXED : SUM([Revenue])}\n```\nTính tổng doanh thu toàn công ty *độc lập* với Product/Region trong view.\n\n**Ratio Calculation:**\n```\nSUM([Revenue]) / SUM({FIXED : SUM([Revenue])})\n```\nCách này tính đúng: numerator là doanh thu Product+Region cụ thể, denominator là tổng company (không thay đổi với filter dimension).\n\n**Order of Operations (critical):**\n- Dimension filters (Product, Region): **không ảnh hưởng** FIXED LOD → tổng company vẫn là tổng toàn bộ.\n- Context filters: **ảnh hưởng** FIXED LOD → nếu user filter \"năm 2023\", FIXED sẽ tính tổng của năm 2023 chỉ.\n\n**3. Edge Cases:**\n- **Null Revenue:** `IFNULL([Revenue], 0)` trong fact table hoặc calculation.\n- **Sản phẩm mới:** FIXED LOD tự động nhập vào tính toán next refresh; không cần thay đổi formula.\n- **Division by zero:** Bảo vệ với `IF SUM({FIXED : SUM([Revenue])}) = 0 THEN 0 ELSE ... END`.\n\n**4. Performance Optimization:**\n- **Aggregate Table:** Pre-compute tại (Product, Region, Revenue_Sum) level → LOD chỉ truy cập aggregate table thay vì fact table.\n- **Indexing:** Index ProductID, RegionID trong data source để join nhanh.\n- **Calculated Fields:** Giới hạn số lượng; tuyến ưu tiên LOD trong calculation thay vì row-level calculations.\n- **Data Reduction:** Filter dữ liệu khi extract (ví dụ: chỉ lấy 2 năm gần nhất) nếu phù hợp.\n- **Performance Recorder:** Chạy trên published dashboard để xác định query bottleneck (filter, LOD, joins).\n\n**Kết quả:**\nDashboard load <5 giây, tỷ lệ % chính xác, xử lý null và sản phẩm mới tự động.",
+      "evaluation_points": [
+        "Correctly identifies FIXED LOD syntax and explains why it calculates company-wide total independent of view dimensions (Product, Region)",
+        "Justifies extract over live connection for the 5-second load requirement and explains impact on refresh latency vs. query performance",
+        "Articulates Tableau's order of operations: context filters affect FIXED LOD results, but dimension filters do not—and demonstrates awareness by noting LOD isn't affected 'trừ khi dùng context filter'",
+        "Proposes concrete edge case handling: IFNULL for null revenues, and discusses how FIXED LOD handles new products (seamlessly included without re-engineering)",
+        "Evaluates trade-off between pre-aggregated tables (faster but less flexible) vs. LOD expressions on raw data (flexible but resource-intensive for millions of rows)",
+        "Recommends materialized aggregate table at (Product, Region, Company) grain to pre-compute totals, reducing LOD computation at query time",
+        "Explains why a simple ratio formula `SUM([Revenue]) / SUM({FIXED : SUM([Revenue])})` works correctly in this context and doesn't double-aggregate"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_011",
+    "question_text": "Trong Power BI, hãy giải thích khái niệm 'Relationship' và sự khác biệt giữa một chiều (one-to-many) và nhiều chiều (many-to-many).",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "Relationship trong Power BI là mối liên kết giữa các bảng dựa trên cột khóa, cho phép tạo mô hình dữ liệu và định nghĩa cách filter lan truyền qua các bảng (filter context). One-to-many là dạng phổ biến nhất, nơi một giá trị từ bảng 'một' khớp với nhiều giá trị trong bảng 'nhiều' (ví dụ: một khách hàng có nhiều đơn hàng). Filter mặc định từ bảng dimension đến bảng fact theo hướng một chiều. Many-to-many phức tạp hơn, cho phép nhiều giá trị từ cả hai bảng khớp với nhau; nó thường yêu cầu bảng trung gian để tránh trùng lặp dữ liệu hoặc sử dụng mối quan hệ hai chiều (bidirectional), nhưng cần cẩn thận vì có thể gây ra sự mơ hồ trong filter context. Việc hiểu rõ loại relationship và hướng lọc giúp thiết kế mô hình hiệu quả, tránh lỗi tính toán, và tối ưu hóa hiệu suất (theo star schema design).",
+      "evaluation_points": [
+        "Giải thích đúng khái niệm Relationship và vai trò của nó trong mô hình dữ liệu",
+        "Phân biệt rõ one-to-many và many-to-many với ví dụ cụ thể",
+        "Giải thích hướng lọc (filter direction) và cách filter lan truyền qua các bảng",
+        "Thảo luận về lợi ích và thách thách của many-to-many (yêu cầu bảng trung gian hoặc mối quan hệ hai chiều)",
+        "Nhận xét về tác động đến hiệu suất mô hình khi sử dụng loại relationship khác nhau"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_013",
+    "question_text": "Trong Tableau, hãy giải thích chức năng 'Dashboard' và cách tạo một dashboard cơ bản từ các worksheet.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_TABLEAU"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU"
+    ],
+    "answers": {
+      "detailed": "Dashboard trong Tableau là một canvas tổng hợp nhiều worksheet (biểu đồ, bảng) và các đối tượng khác (bộ lọc, chú thích, tham số) để cung cấp cái nhìn tổng quan toàn diện. Để tạo dashboard cơ bản: (1) Kéo các worksheet từ thanh Sheets vào vùng Dashboard, (2) Sắp xếp và điều chỉnh kích thước bằng kéo thả, (3) Thêm bộ lọc (filters) hoặc hành động (actions) để tương tác. Điểm quan trọng: bộ lọc trên dashboard có thể liên kết với các worksheet để lọc dữ liệu đồng thời trên nhiều biểu đồ. Ví dụ thực tế: tạo sales overview dashboard với regional filter để người dùng xem doanh số, chi phí và lợi nhuận theo từng khu vực mà không cần chuyển tab. Dashboard giúp cải thiện trải nghiệm phân tích bằng cách hiển thị các metric liên quan cùng một lúc.",
+      "evaluation_points": [
+        "Định nghĩa chính xác Dashboard như một canvas tổng hợp nhiều worksheet và đối tượng",
+        "Mô tả đúng các bước tạo dashboard cơ bản (kéo worksheet, sắp xếp, thêm bộ lọc)",
+        "Giải thích cách bộ lọc trên dashboard tương tác với các worksheet được liên kết",
+        "Nhấn mạnh sự khác biệt giữa dashboard filters và worksheet filters",
+        "Cung cấp ít nhất một use case thực tế (ví dụ: sales overview dashboard với regional filters)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_015",
+    "question_text": "Hãy giải thích mục đích của hàm SUMX trong DAX (Power BI) và so sánh với hàm SUM thông thường.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "SUMX là hàm iterator trong DAX, dùng để tính tổng của một biểu thức được đánh giá trên từng hàng của một bảng. Nó hoạt động trong row context, cho phép thao tác phức tạp giữa các cột. Ví dụ: SUMX(Sales, Sales[Quantity] * Sales[Price]) tính tổng doanh thu bằng cách nhân Quantity và Price cho mỗi hàng, thứ mà SUM không thể làm. Ngược lại, SUM là hàm aggregate đơn giản chỉ cộng giá trị của một cột duy nhất trong filter context hiện tại. SUM được tối ưu hóa để xử lý nhanh chóng, trong khi SUMX có thể chậm hơn đáng kể khi xử lý nhiều triệu hàng vì nó phải đánh giá biểu thức cho từng dòng. Khi chọn hàm: dùng SUM cho tổng cột đơn giản (hiệu suất tốt), dùng SUMX khi cần tính toán phức tạp từng dòng (linh hoạt nhưng có chi phí hiệu suất). Tránh lạm dụng SUMX thay thế SUM vì ảnh hưởng tiêu cực đến hiệu suất.",
+      "evaluation_points": [
+        "Giải thích chính xác chức năng của SUMX như một hàm iterator và SUM như hàm aggregate đơn giản",
+        "Cung cấp ví dụ cụ thể và rõ ràng về trường hợp sử dụng (ví dụ: SUMX để tính doanh thu từng dòng vs. SUM cho tổng cột đơn)",
+        "Giải thích sự khác biệt về row context (SUMX) và filter context (SUM) trong DAX",
+        "Thảo luận về hàm ý hiệu suất: SUMX chậm hơn với dữ liệu lớn, SUM được tối ưu hóa cho aggregation",
+        "Đề cập đến trường hợp không nên dùng SUMX (ví dụ: tính tổng cột đơn giản) và khi SUM không đủ (ví dụ: tính toán phức tạp từng dòng)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_017",
+    "question_text": "Bạn đang làm việc với một dataset bán hàng có bảng Orders (OrderID, CustomerID, OrderDate, Amount) và bảng Customers (CustomerID, CustomerName, Region). Yêu cầu: tạo một report trong Power BI hiển thị tổng doanh thu theo từng Region, chỉ bao gồm các đơn hàng từ tháng trước. Hãy giải thích cách bạn xây dựng mô hình dữ liệu và viết measure DAX tương ứng.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "Establish a one-to-many relationship between Customers (primary key: CustomerID) and Orders (foreign key: CustomerID). Create a separate Date dimension table with a date column, and link it to Orders[OrderDate]. Then create a measure: RevenueLastMonth = CALCULATE(SUM(Orders[Amount]), DATESBETWEEN('Date'[Date], DATE(YEAR(TODAY()),MONTH(TODAY())-1,1), EOMONTH(TODAY(),-1))) or alternatively use PREVIOUSMONTH('Date'[Date]) if using the Date table's date column correctly. The measure uses CALCULATE to modify filter context, dynamically filtering for the previous month's orders. When Region is placed on rows, the relationship (Customers → Orders → Date) allows the measure to aggregate correctly by Region through filter propagation. This measure-based approach is preferred over a calculated column because it responds dynamically to filter changes and avoids storing redundant values for every row.",
+      "evaluation_points": [
+        "Correctly identify one-to-many relationship between Customers and Orders via CustomerID",
+        "Recognize the need for a separate Date dimension table and establish proper relationships (Orders[OrderDate] to Date[Date])",
+        "Write syntactically correct DAX measure using CALCULATE with proper filter context modification (e.g., CALCULATE(SUM(Orders[Amount]), MONTH(Orders[OrderDate])=MONTH(TODAY())-1, YEAR(Orders[OrderDate])=YEAR(TODAY())) or CALCULATE(SUM(Orders[Amount]), DATESBETWEEN(...)))",
+        "Explain how CALCULATE modifies filter context and why PREVIOUSMONTH/date functions require proper date table setup",
+        "Understand that measures are dynamic and respond to Region filter selections via relationships, while calculated columns would be static",
+        "Justify design choices: why a measure (not a calculated column) is appropriate for this time-based aggregation"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_019",
+    "question_text": "Bạn có một dashboard Tableau với vài worksheet hiển thị doanh số theo tháng. Một worksheet khác hiển thị top 10 sản phẩm bán chạy. Làm thế nào để tối ưu hiệu suất khi dashboard có hơn 10 triệu bản ghi và người dùng phàn nàn về tốc độ tải? Hãy phân tích các nguyên nhân tiềm ẩn và đề xuất giải pháp cụ thể, bao gồm cả việc sử dụng tính năng Extracts, Data Blending, và cấu trúc dữ liệu.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_TABLEAU"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân chính: (1) Live queries trên 10M+ bản ghi tạo latency cao, (2) LOD expressions (FIXED/INCLUDE/EXCLUDE) và table calculations tính toán lại với mỗi tương tác, (3) Dashboard filters tương tác trên tất cả data mà chưa được pre-aggregated, (4) Thiếu indexing ở database level. \n\nGiải pháp cụ thể: (a) EXTRACTS: Chuyển từ live connection sang extract, áp dụng row-level filtering (chỉ lấy 24 tháng gần nhất, lọc bỏ archived products). Lập lịch refresh hàng ngày, không phải real-time. (b) DATA BLENDING: Chỉ dùng nếu cần join nguồn khác nhau; blend ở mức tổng hợp (monthly revenue + top 10 products) thay vì chi tiết. Tuy nhiên, nếu có thể pre-aggregate trong warehouse, tốt hơn dùng extract đã filtered. (c) LOD OPTIMIZATION: Thay vì dùng LOD phức tạp (VD: {FIXED [Product]: SUM([Sales])}), pre-aggregate dữ liệu ở warehouse level nếu có thể. Nếu phải dùng LOD, chọn FIXED thay vì INCLUDE/EXCLUDE vì ít recalculation hơn. (d) DASHBOARD STRUCTURE: Giảm 10+ worksheet xuống 4-5 chính, dùng parameters để lọc (tháng, năm, danh mục) thay vì filter interactivity trên tất cả data. (e) DATA ACCELERATION (Tableau Server): Cho phép Tableau cache incremental aggregations; cần Tableau Server+. (f) Database optimization: Đảm bảo indexed columns (dates, product IDs), và denormalization trong warehouse nếu cần (VD: fact table có product category pre-joined). Kiểm tra query execution plan ở database.",
+      "evaluation_points": [
+        "Correctly identifies root causes: live queries on large datasets, complex calculations (LOD, table calcs), and interactive filters impacting performance",
+        "Proposes appropriate solutions (Extracts, data filtering, parameter controls) with clear rationale",
+        "Demonstrates understanding of Data Blending's aggregate-level combination vs. live queries, but should clarify when blending is preferable to pre-aggregated extracts",
+        "Should address specific LOD expression optimization: FIXED vs. INCLUDE/EXCLUDE trade-offs and when to pre-aggregate in source rather than use complex LOD",
+        "Missing quantifiable recommendations: extract refresh schedules, row-level filtering in extract, or specific metrics to monitor (query time, memory usage)",
+        "Should mention indexing strategies on underlying database and whether to denormalize/pre-aggregate in the data warehouse before Tableau extraction",
+        "Practical depth: explain parameter-driven filtering on extracts vs. dashboard-level filters to control aggregation scope"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_016",
+    "question_text": "Hãy giải thích sự khác biệt cơ bản giữa một measure và một calculated column trong Power BI DAX.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "Measure là công thức DAX được tính toán động dựa trên ngữ cảnh filter hiện tại (filter context) của báo cáo và không lưu trữ trong bảng dữ liệu—chỉ tính toán khi cần. Thường dùng cho tổng hợp (SUM, AVERAGE, COUNT) vì hiệu quả về bộ nhớ. Calculated column là cột được thêm vào bảng và tính toán tại thời điểm tải dữ liệu (row context), lưu trữ giá trị cố định cho từng hàng, tiêu tốn bộ nhớ và disk space. Nên dùng calculated column cho biến đổi hàng cố định (ví dụ: nối Full Name = First Name + Last Name, phân loại sản phẩm). Measure được ưu tiên cho tất cả các tính toán tổng hợp và các chỉ số KPI động, có thể sử dụng CALCULATE để thay đổi filter context khi cần.",
+      "evaluation_points": [
+        "Phân biệt được measure động và calculated column tĩnh",
+        "Giải thích được ngữ cảnh tính toán (filter context vs row context) và impact của measure đối với báo cáo",
+        "Nêu được trường hợp sử dụng điển hình cho từng loại và giải thích tại sao (ví dụ: Total Sales làm measure, Full Name làm calculated column)",
+        "Hiểu được hàm ý về bộ nhớ: calculated column tiêu tốn storage, measure tính toán on-demand",
+        "Nắm rõ khi nào dùng CALCULATE để thay đổi filter context trong measure"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_018",
+    "question_text": "Bạn đang thiết kế một báo cáo Power BI cho phòng Kinh doanh với 3 bảng: Sales (OrderID, ProductID, Revenue, Date), Products (ProductID, Category, Price), và Calendar (Date, Year, Quarter). Hãy giải thích cách bạn thiết lập mối quan hệ (relationship) giữa các bảng và lý do tại sao nên dùng mối quan hệ một-nhiều thay vì nhiều-nhiều.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "Thiết lập: Products[ProductID] (1) -> Sales[ProductID] (nhiều) và Calendar[Date] (1) -> Sales[Date] (nhiều). Mối quan hệ một-nhiều là tối ưu vì: (1) phản ánh cấu trúc dữ liệu thực tế (mỗi sản phẩm/ngày có nhiều giao dịch); (2) đảm bảo bộ lọc truyền chính xác từ dimension sang fact table mà không tạo hàng trùng lặp; (3) tối ưu bộ nhớ vì dimension không bị lặp lại. Mối quan hệ nhiều-nhiều nên tránh vì: (1) Power BI không biết rõ hướng bộ lọc nên gây nhập nhằng; (2) yêu cầu công thức DAX phức tạp hơn để kiểm soát bộ lọc; (3) hiệu suất giảm đáng kể, đặc biệt với dữ liệu lớn. Lưu ý: tuỳ vào chi tiết dữ liệu (ví dụ: Sales[Date] có thể là datetime trong khi Calendar[Date] là date), cần cân nhắc tạo cột khóa duy nhất hoặc bảng Calendar để đảm bảo không có null values trong relationship.",
+      "evaluation_points": [
+        "Xác định đúng các bảng dimension (Products, Calendar) và fact table (Sales)",
+        "Giải thích lợi ích của mối quan hệ một-nhiều: tránh dư thừa dữ liệu, đảm bảo bộ lọc truyền đúng chiều (từ dimension sang fact), và tối ưu bộ nhớ",
+        "Nêu được hạn chế của mối quan hệ nhiều-nhiều: dẫn đến nhập nhằng về hướng bộ lọc (ambiguous filter direction), hiệu suất kém, và khó bảo trì",
+        "Giải thích rõ rằng trong mối quan hệ một-nhiều, bộ lọc từ Products hoặc Calendar sẽ tự động lọc Sales, nhưng ngược lại không tự động xảy ra",
+        "Nhận biết rủi ro của cardinality: nếu nhầm lẫn hướng relationship (đảo ngược), sẽ gây ra lỗi bộ lọc và kết quả sai"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_020",
+    "question_text": "Trong Tableau, bạn cần tính tỷ lệ phần trăm doanh thu của từng sản phẩm so với tổng doanh thu toàn công ty, nhưng bộ lọc ngày (Date filter) đang được áp dụng trên dashboard. Hãy viết công thức Tableau (dùng LOD hoặc table calculation) và giải thích cách nó bỏ qua bộ lọc ngày.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_TABLEAU"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU"
+    ],
+    "answers": {
+      "detailed": "Công thức đúng: {FIXED [Product] : SUM([Revenue])} / {FIXED : SUM([Revenue])} để tính tỷ lệ phần trăm doanh thu từng sản phẩm so với tổng toàn công ty.\n\nGiải thích cơ chế: FIXED LOD tính toán độc lập với bộ lọc dimension (như ngày tháng khi được áp dụng như dimension filter). Theo thứ tự xử lý của Tableau, LOD expressions được đánh giá TRƯỚC bộ lọc dimension nhưng SAU context filters. Vì vậy, nếu date filter là dimension filter thông thường, FIXED LOD sẽ bỏ qua nó. Tuy nhiên, nếu bạn chuyển date filter thành context filter, FIXED LOD sẽ được ảnh hưởng.\n\nPhân biệt: Table calculation như WINDOW_SUM() sẽ tôn trọng TẤT CẢ các bộ lọc (bao gồm date filter), nên không phù hợp cho yêu cầu này. Chỉ FIXED LOD (không có dimension trong dấu ngoặc cho tổng toàn bộ) mới có thể bỏ qua bộ lọc ngày theo mặc định.",
+      "evaluation_points": [
+        "Correctly write the FIXED LOD formula: {FIXED [Product] : SUM([Revenue])} / {FIXED : SUM([Revenue])} to calculate product revenue percentage",
+        "Explain that FIXED LOD expressions are evaluated BEFORE dimension filters but AFTER context filters—a date filter is a context filter if set as such, otherwise it won't affect FIXED",
+        "Clarify the distinction: if the date filter is a standard dimension filter, FIXED LOD ignores it; if converted to context filter, FIXED LOD respects it",
+        "Compare FIXED LOD (correct approach here) vs. table calculation (WINDOW_SUM would NOT work—it respects all filters including date filters)",
+        "Demonstrate understanding that the denominator {FIXED : SUM([Revenue])} must have NO dimension specified to capture company-wide total unaffected by date filtering"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_022",
+    "question_text": "Công ty bạn có một dashboard Tableau theo dõi hiệu suất bán hàng theo khu vực. Người dùng phàn nàn rằng khi họ chọn một khu vực cụ thể, các biểu đồ khác (ví dụ: doanh thu theo tháng) không cập nhật đúng hoặc hiển thị sai số liệu. Hãy mô tả cách bạn debug vấn đề này và đề xuất giải pháp kiểm tra mối quan hệ giữa các sheet và filter.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_TABLEAU"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU"
+    ],
+    "answers": {
+      "detailed": "To debug this issue systematically: (1) First, verify the filter configuration by navigating to Dashboard > Actions > Filter action and confirm the region filter is applied to all target sheets and not filtered only to specific ones. (2) Check if a Context Filter is being used—Context Filters are applied before dimension filters in Tableau's order of operations, affecting LOD calculations differently. A missing Context Filter may cause FIXED LODs to behave unexpectedly. (3) Inspect each sheet's filter pills to ensure the region dimension is present and spelled identically across sheets (case-sensitive). (4) Use 'Show Underlying Data' to verify the data integrity—check for NULL region values or mismatched dimension names. (5) For the revenue-by-month chart, consider whether it needs a LOD expression like {FIXED [Month]: SUM([Revenue])} to preserve month-level calculations while responding to region context. (6) Test the filter action scope: ensure it targets all relevant sheets, not just a subset. (7) If issues persist, replace direct filter actions with a Parameter-based approach combined with LOD (e.g., {FIXED [Region, Month]: SUM([Revenue]) IF [Region] = [Region Parameter]}) for more granular control across multiple sheets. This ensures consistent filter behavior and prevents desynchronization.",
+      "evaluation_points": [
+        "Identify whether the issue stems from missing Filter Actions, incorrect Filter Action scope (which sheets are targets), or lack of Context Filter application",
+        "Explain the order of operations: Context filters are applied before dimension filters, which affects LOD calculations differently (e.g., FIXED LODs ignore dimension filters but respect context filters)",
+        "Demonstrate understanding of when to use LOD expressions (e.g., {FIXED [Region]: SUM([Revenue])} to create region-level aggregations that don't shift with other filter selections)",
+        "Verify data integrity issues: check for NULL values, mismatched dimension names across data sources, or case-sensitivity problems in region names",
+        "Distinguish between sheet-level filters (affect only one sheet) vs. dashboard-level filters (affect all sheets when properly configured)",
+        "Propose specific diagnostics: enable Show Underlying Data, check filter pills on each sheet, validate Dashboard > Actions configuration for all filter actions pointing to correct target sheets",
+        "Explain why Parameter-based filters with LOD might be superior to direct filter actions for complex multi-sheet scenarios"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_024",
+    "question_text": "Bạn đang thiết kế một dashboard Power BI cho một công ty thương mại điện tử với hàng triệu giao dịch. Dashboard cần hiển thị doanh thu theo giờ, tỷ lệ chuyển đổi, và số lượng đơn hàng theo sản phẩm. Hãy phân tích các vấn đề về hiệu suất có thể gặp (ví dụ: thời gian load lâu, bộ nhớ quá tải) và đề xuất ít nhất 3 kỹ thuật tối ưu (bao gồm sử dụng DirectQuery, incremental refresh, hoặc tối ưu DAX).",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "TOOL_POWER_BI",
+      "BI_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "**Vấn đề hiệu suất:** (1) Import mode với hàng triệu giao dịch gây quá tải bộ nhớ và thời gian refresh lâu; (2) Visuals hiển thị doanh thu theo giờ (high cardinality) với nhiều điểm dữ liệu làm chậm rendering; (3) Nếu tính tỷ lệ chuyển đổi bằng calculated column, dữ liệu được tính lặp lại mỗi hàng thay vì động. **Giải pháp tối ưu:** 1) **DirectQuery cho bảng Sales + Dual mode với aggregations:** Dùng DirectQuery để tránh nạp toàn bộ dữ liệu, đồng thời tạo aggregation table (ví dụ: doanh thu theo giờ, sản phẩm, khách hàng) ở chế độ Import để tăng tốc độ. Trade-off: DirectQuery yêu cầu backend database mạnh mẽ, query latency cao hơn Import, nhưng tiết kiệm bộ nhớ. 2) **Incremental refresh + Aggregations:** Load dữ liệu 1 năm gần nhất theo từng tháng, lưu trữ dữ liệu lịch sử có tính toán sẵn (fact table được tổng hợp theo ngày thay vì theo giờ). Trade-off: phức tạp hơn trong setup, cần storage bổ sung cho aggregations, nhưng giảm 70-80% kích thước model. 3) **Tối ưu DAX + Data model:** Sử dụng measures thay vì calculated columns cho doanh thu (SUM) và tỷ lệ chuyển đổi (DIVIDE(SUM(conversions), SUM(visits))); thiết kế star schema với bảng Dim_Date, Dim_Product, Dim_Customer riêng biệt để giảm cardinality của bảng fact; tránh SUMX, FILTER lồng nhau, dùng CALCULATE với filter tối thiểu. 4) **Thiết kế visual:** Giới hạn 4-5 visual/trang, dùng slicer cho giờ (single select), dùng drill-through thay vì hiển thị chi tiết tất cả, pagination cho bảng dữ liệu. **Recommend:** Hybrid approach = DirectQuery (Sales fact) + Aggregation table (hourly revenue pre-calculated ở Import mode) + Incremental refresh (1 năm gần nhất) + DAX đơn giản.",
+      "evaluation_points": [
+        "Correctly identifies performance bottlenecks (memory overload, slow visuals with high-granularity data like hourly revenue)",
+        "Proposes 3+ viable optimization techniques with concrete examples (DirectQuery, incremental refresh, DAX optimization, aggregation tables)",
+        "Explains trade-offs explicitly: DirectQuery reduces memory but increases query latency and requires backend capacity; Import mode is responsive but memory-intensive; hybrid approach with aggregations balances both",
+        "Discusses data model optimization: star schema design with separate dimension tables (Product, Date/Time) to reduce fact table cardinality and improve relationship efficiency",
+        "Addresses measure vs calculated column distinction: uses measures for doanh thu/tỷ lệ chuyển đổi (dynamic), avoids calculated columns for aggregations",
+        "Considers row-level security (RLS) impact on query performance and filter propagation in relationship chains",
+        "Evaluates visual design trade-offs: limiting visuals per page, using slicers with single-select defaults, implementing drill-through for hourly granularity instead of displaying all data at once"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_021",
+    "question_text": "Trong Power BI, DAX (Data Analysis Expressions) là gì và hãy giải thích sự khác biệt cơ bản giữa một calculated column và một measure?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "DAX là ngôn ngữ công thức trong Power BI dùng để tạo tính toán tùy chỉnh. Calculated column được tính toán ở cấp độ hàng (row context) và lưu trữ giá trị cho từng hàng trong bộ nhớ, làm tăng kích thước model. Measure được tính toán động dựa trên ngữ cảnh bộ lọc (filter context) mà không lưu trữ, được tính toán khi người dùng tương tác với report. Ví dụ: dùng calculated column cho 'Full Name' = [First Name] & ' ' & [Last Name], và dùng measure cho 'Total Sales' = SUM(Sales[Amount]) vì nó thay đổi theo bộ lọc. Measure thường ưu tiên hơn cho aggregation vì hiệu suất tốt hơn.",
+      "evaluation_points": [
+        "Định nghĩa chính xác DAX là ngôn ngữ công thức trong Power BI",
+        "Phân biệt rõ row context (calculated column) vs filter context (measure)",
+        "Giải thích hàm ý về bộ nhớ: calculated column tiêu tốn dung lượng model, measure không",
+        "Cung cấp ví dụ cụ thể khi nào dùng calculated column (ví dụ: Full Name từ First Name + Last Name) và khi nào dùng measure (ví dụ: Total Sales)",
+        "Hiểu về context transition và cách measure thay đổi theo tương tác người dùng trên report",
+        "Nêu rõ performance implication: calculated column được tính một lần khi refresh, measure được tính mỗi lần filter thay đổi"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_023",
+    "question_text": "Trong Tableau, hãy giải thích khái niệm dashboard và sự khác biệt giữa một worksheet và một dashboard?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_TABLEAU"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU"
+    ],
+    "answers": {
+      "detailed": "Worksheet là đơn vị cơ bản trong Tableau, chứa một biểu đồ, bảng hoặc hình ảnh duy nhất được tạo từ dữ liệu. Dashboard là một container tập hợp nhiều worksheet (và các đối tượng khác như text, images) được sắp xếp trên cùng một trang. Sự khác biệt chính là: (1) Worksheet là đơn lẻ, Dashboard là tập hợp; (2) Dashboard hỗ trợ tính năng tương tác (interactivity) như cross-filter và cross-highlight, cho phép người dùng lọc dữ liệu trên một worksheet và tự động cập nhật các worksheet khác; (3) Dashboard được thiết kế để cung cấp cái nhìn tổng quan toàn diện từ nhiều góc độ phân tích. Ngoài ra, dashboard còn hỗ trợ filters, parameters, và actions để tạo trải nghiệm phân tích tương tác cao.",
+      "evaluation_points": [
+        "Định nghĩa đúng worksheet là một biểu đồ/bảng đơn lẻ được tạo từ một nguồn dữ liệu.",
+        "Định nghĩa đúng dashboard là container chứa nhiều worksheet được sắp xếp trên cùng một trang.",
+        "Nêu được tính năng interactivity (tương tác) như cross-filter/cross-highlight giữa các worksheet.",
+        "Giải thích mục đích của dashboard: cung cấp cái nhìn tổng quan (overview) hoặc phân tích từ nhiều góc độ.",
+        "Có thể nêu thêm: dashboard hỗ trợ các tính năng như filters, parameters, actions để điều khiển nhiều worksheet cùng lúc."
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_025",
+    "question_text": "Trong Power BI, mối quan hệ (relationship) giữa các bảng có mấy loại chính? Hãy giải thích sự khác biệt giữa one-to-many và many-to-many?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "Power BI hỗ trợ bốn loại relationship chính: one-to-many, many-to-one, one-to-one và many-to-many.\n\n**One-to-many (phổ biến nhất):** Một giá trị ở bảng A (ví dụ: Category) tương ứng với nhiều giá trị ở bảng B (ví dụ: Products hoặc Transactions). Filter từ bảng A tự động lan truyền xuống bảng B (cross-filter direction = single). Đây là nền tảng của star schema.\n\n**Many-to-one:** Nhiều giá trị ở bảng A liên kết với một giá trị ở bảng B. Về mặt kỹ thuật, đây là một-nhiều từ góc độ của bảng B.\n\n**One-to-one:** Mỗi giá trị ở bảng A tương ứng với đúng một giá trị ở bảng B. Ít sử dụng, thường để gộp bảng hoặc tách thông tin nhạy cảm.\n\n**Many-to-many:** Cả hai bảng đều có giá trị trùng lặp (ví dụ: Employees - Projects, khi một nhân viên làm nhiều dự án và một dự án có nhiều nhân viên). Yêu cầu bảng cầu nối (bridge table) hoặc sử dụng many-to-many relationship (có hạn chế hiệu suất vì VertiPaq không tối ưu cho nó). Best practice: tránh many-to-many trực tiếp; sử dụng bảng trung gian để phân tách thành hai one-to-many relationships.",
+      "evaluation_points": [
+        "Kể đúng các loại relationship cơ bản (one-to-many, many-to-one, one-to-one, many-to-many).",
+        "Giải thích rõ one-to-many với hướng filter từ bảng cha sang bảng con (ví dụ: bộ lọc từ Category sang Transactions).",
+        "Giải thích many-to-many, bảng cầu nối (bridge table), và hạn chế hiệu suất trong VertiPaq engine.",
+        "Phân tích hướng cross-filter (single vs. both directions) và tác động đến filter context.",
+        "Đề cập đến best practice: ưu tiên star schema với one-to-many thay vì many-to-many khi có thể."
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_027",
+    "question_text": "Bạn đang làm việc với một dashboard bán hàng trong Tableau, cần tính tỷ lệ phần trăm đóng góp của từng sản phẩm so với tổng doanh thu toàn công ty. Hãy giải thích cách sử dụng table calculation (ví dụ: Percent of Total) và vì sao bạn chọn cách đó thay vì tạo calculated field thủ công?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_TABLEAU"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU"
+    ],
+    "answers": {
+      "detailed": "Sử dụng tính năng 'Percent of Total' trong Tableau bằng cách kéo measure doanh thu vào Rows, click chuột phải chọn Quick Table Calculation > Percent of Total. Điều này tự động tính tỷ lệ phần trăm dựa trên tổng của tất cả giá trị trong phạm vi hiển thị.\n\nLý do chọn table calculation thay vì calculated field thủ công:\n\n1. **Filter Context:** Table calculations evaluate *sau* khi filter được áp dụng, nên mẫu số (tổng) luôn phản ánh dữ liệu hiển thị. Nếu dùng calculated field với công thức SUM([Sales])/TOTAL(SUM([Sales])), mẫu số sẽ là tổng toàn bộ dữ liệu gốc, không thay đổi theo filter—điều này là sai lầm phổ biến.\n\n2. **Linh hoạt Hướng Tính:** Table calculation cho phép thay đổi hướng (theo hàng, cột, pane) chỉ bằng vài click mà không cần viết lại công thức. Điều này rất hữu ích khi layout dashboard thay đổi.\n\n3. **Quản lý Context:** Viết công thức thủ công đòi hỏi hiểu sâu về context transition và sử dụng CALCULATE() để override filter context, phức tạp hơn nhiều. Table calculation tự động xử lý điều này.\n\n4. **Scope/Partitioning:** Với table calculation, bạn có thể dễ dàng chỉ định phân hoạch (ví dụ: tính % theo từng category riêng biệt) mà không cần viết công thức phức tạp.\n\nNhược điểm của calculated field thủ công: khó bảo trì, dễ sai lầm khi filter thay đổi, và không hỗ trợ linh hoạt thay đổi hướng tính.",
+      "evaluation_points": [
+        "Correctly describes the UI steps for applying Percent of Total table calculation",
+        "Explains that table calculations automatically adjust based on filter context (e.g., when filters are applied, the denominator recalculates to reflect only visible data)",
+        "Identifies that table calculations allow flexible direction changes (across, down, pane) without rewriting formulas",
+        "Compares to manual calculated field approach and notes the complexity of context management (e.g., the formula SUM([Sales])/TOTAL(SUM([Sales])) always uses global total, not filtered context)",
+        "Clarifies a critical distinction: table calculations evaluate in visualization context (post-filtering), while calculated fields evaluate in row/filter context (during data processing), making them unsuitable for dynamic percentage-of-total scenarios",
+        "Discusses scope/partitioning: table calculations allow partitioning by dimensions to reset calculations per group, whereas a manual calculated field would require complex CALCULATE() logic to achieve the same flexibility"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_029",
+    "question_text": "Bạn có một dashboard Power BI với dữ liệu bán hàng (bảng Sales, bảng Product, bảng Date). Stakeholder yêu cầu tính doanh thu tích lũy (running total) theo tháng, nhưng chỉ tính từ tháng đầu tiên có dữ liệu, và phải đảm bảo khi người dùng chọn bộ lọc (ví dụ: chỉ xem năm 2023), running total vẫn hiển thị chính xác (không bị reset). Hãy viết một measure DAX để giải quyết vấn đề này và giải thích các hàm sử dụng. Lưu ý: xử lý trường hợp dữ liệu không liên tục (có tháng không có doanh thu).",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "**Correct Approach with Critical Clarification:**\n\n```\nRunningTotal = \nVAR MaxDate = MAX(Date[Date])\nVAR MinDate = MIN(Date[Date])\nRETURN\nCALCULATE(\n    SUM(Sales[Amount]),\n    REMOVEFILTERS(Date),\n    Date[Date] >= MinDate,\n    Date[Date] <= MaxDate\n)\n```\n\n**Key Explanation:**\n- **REMOVEFILTERS(Date)** or **ALL(Date)** removes the date slicer filter, allowing the measure to \"look back\" to earlier periods.\n- **VAR MaxDate / MinDate** captures the current filter context's date range before ALL is applied.\n- **Date[Date] >= MinDate** ensures running total starts from the earliest date *in the current filter selection*, not the dataset's earliest date. This addresses the stakeholder's requirement: \"running total from the first month with data [in the filtered view].\"\n- **Date[Date] <= MaxDate** ensures cumulation only up to the current row's date.\n\n**Critical Distinction:**\nIf stakeholder wants running total to *always start from the dataset's first date* (even when user filters to 2023), use the simpler original approach. If they want running total to *respect the filter* (start from earliest date in selection), use the MinDate variable as shown.\n\n**Handling Discontinuous Data:**\nA complete calendar table (Date) ensures all months appear, so REMOVEFILTERS works correctly. Without it, gaps remain unrepresented.\n\n**Performance Consideration:**\nREMOVEFILTERS is generally more efficient than FILTER + ALL on large tables. Avoid FILTER(ALL(Date), ...) as it re-evaluates every row.",
+      "evaluation_points": [
+        "Correctly applies CALCULATE, ALL, and MAX functions with proper DAX syntax",
+        "Identifies the core challenge: distinguishing between filter context removal (ALL) and measure context isolation",
+        "Understands the role of a calendar table for handling discontinuous data",
+        "Should clarify that ALL(Date) removes ALL date filters, so running total will include data before the user's filter selection—candidates must acknowledge this trade-off and propose solutions (e.g., using ISONORAFTER or a separate filter column for 'data start date')",
+        "Should address the specific scenario: when user filters to 2023, should running total start from Jan 2023 or from the first month in the entire dataset? This determines whether ALL(Date) is appropriate or if a different approach (e.g., context variables capturing filter intent) is needed",
+        "Missing discussion of performance implications: ALL(Date) on large date tables can be expensive; consider whether REMOVEFILTERS or ALLEXCEPT would be more efficient",
+        "Should validate that Sales table relationships are preserved after removing Date filters, ensuring correct measure aggregation"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_026",
+    "question_text": "Bạn đang xây dựng một báo cáo Power BI cho bộ phận bán hàng. Họ yêu cầu một số liệu 'Doanh thu tích lũy theo thời gian' (Cumulative Revenue) có thể reset theo từng năm. Bạn sẽ viết công thức DAX như thế nào và giải thích cách thức hoạt động của nó trong ngữ cảnh filter context?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "Cumulative Revenue = CALCULATE(SUM(Sales[Revenue]), DATESYTD('Date'[Date])). This works by using CALCULATE to modify the filter context: it replaces the current date filter with a date range spanning from the first day of the current year to the selected date. DATESYTD automatically resets per year because it recognizes calendar year boundaries in the Date table. Key requirements: (1) a standalone Date table with a marked date column, (2) proper relationships between Sales and Date, and (3) understanding that DATESYTD modifies filter context rather than iterating row-by-row. For non-standard fiscal years, use DATESQTD or DATESBETWEEN with custom logic. This is a Measure (not a Calculated Column) because it must react dynamically to filter context changes—a Calculated Column would store static values and cannot reset based on year selection.",
+      "evaluation_points": [
+        "Correctly identifies DATESYTD as the appropriate time intelligence function and explains its role in resetting calculations annually",
+        "Explains how CALCULATE modifies filter context by replacing the date filter with a dynamic range (start of year to current date)",
+        "Discusses the requirement for a properly structured Date table with marked date column and discusses why this is essential",
+        "Addresses edge cases or alternatives (e.g., when DATESYTD might not work with non-standard calendars, or using DATESBETWEEN for more control)",
+        "Can differentiate this from a Calculated Column approach and explain why a Measure is superior (dynamic context-sensitivity vs. static storage)",
+        "Demonstrates understanding of row context vs. filter context and why CALCULATE is needed to transition between them"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_028",
+    "question_text": "Trong Tableau, khi bạn tạo một bảng tính với Measure Values và Measure Names, hãy giải thích sự khác biệt giữa việc kéo trực tiếp các measure vào Rows/Columns so với việc sử dụng 'Measure Values' shelf. Tình huống nào nên dùng cách nào?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_TABLEAU"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU"
+    ],
+    "answers": {
+      "detailed": "Measure Values là một shelf đặc biệt trong Tableau cho phép hiển thị nhiều measure cùng lúc trong một khung nhìn, với Measure Names làm tiêu đề cột/hàng, trong khi kéo trực tiếp measure vào Rows/Columns tạo ra các trục riêng biệt (thường dùng cho dual-axis charts). \n\nSử dụng Measure Values khi muốn tạo một bảng tóm tắt hoặc dashboard tổng hợp nhanh (e.g., bảng hiển thị Sales, Profit, Quantity cạnh nhau cho từng Segment), vì nó cấu trúc dữ liệu gọn gàng và dễ đọc; tuy nhiên sẽ giới hạn khả năng điều chỉnh từng measure độc lập (ví dụ: khó áp dụng định dạng khác nhau cho từng measure). Kéo trực tiếp measure vào Rows/Columns khi cần so sánh các measure trên các trục khác nhau (e.g., dual-axis chart với Sales trên trục Y trái và Profit Ratio trên trục Y phải), cho phép kiểm soát chi tiết từng trục và áp dụng các tính chất riêng, nhưng visual sẽ phức tạp hơn. Chọn Measure Values cho bảng/dashboard tổng hợp đơn giản; chọn kéo trực tiếp cho biểu đồ nâng cao cần tùy biến từng trục.",
+      "evaluation_points": [
+        "Phân biệt rõ khái niệm Measure Values shelf và Measure Names, cùng cơ chế hoạt động của chúng trong Tableau",
+        "Giải thích sự khác biệt về cấu trúc dữ liệu đầu ra: kéo trực tiếp tạo nhiều trục độc lập vs Measure Values tạo cấu trúc bảng unified",
+        "Đưa ra ví dụ cụ thể (e.g., so sánh Sales, Profit, Quantity trên cùng bảng vs trên các trục riêng trong biểu đồ kết hợp)",
+        "Giải thích ưu nhược điểm: kiểm soát trục chi tiết và so sánh trực tiếp vs linh hoạt tổng hợp; độ phức tạp visual vs dễ đọc",
+        "Phân tích khi nào dùng mỗi cách: Measure Values cho bảng tóm tắt/dashboard tổng hợp, kéo trực tiếp cho biểu đồ phức tạp/dual-axis"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_030",
+    "question_text": "Công ty bạn có dữ liệu bán hàng với bảng Orders (OrderID, CustomerID, OrderDate, Amount) và bảng Customers (CustomerID, CustomerName, City). Bạn cần tạo một báo cáo Power BI hiển thị tổng doanh thu theo thành phố, nhưng chỉ bao gồm các khách hàng đã mua hàng trong 30 ngày qua. Bạn sẽ thiết kế mối quan hệ (Relationship) giữa hai bảng và viết DAX measure như thế nào? Giải thích tại sao bạn chọn cách đó.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "Thiết lập relationship 1-nhiều từ Customers[CustomerID] đến Orders[CustomerID] với hướng lọc đơn chiều (single direction) từ Customers sang Orders. Điều này đảm bảo filter context từ City truyền xuống Amount mà không gây ra cross-filter ambiguity.\n\nMeasure: Revenue_Last30Days = CALCULATE(SUM(Orders[Amount]), FILTER(Orders, Orders[OrderDate] >= TODAY()-30)). Cách này linh hoạt nhưng chỉ thích hợp nếu logic thời gian đơn giản.\n\nBest practice: Tạo Date table riêng (DimDate) và thiết lập relationship từ Orders[OrderDate] đến DimDate[Date], sau đó dùng time intelligence function: Revenue_Last30Days = CALCULATE(SUM(Orders[Amount]), DATESINPERIOD(DimDate[Date], TODAY(), -30, DAY)). Lợi ích: hỗ trợ year-over-year comparisons, fiscal calendar, performance tối ưu hơn, và tuân theo star schema best practice. Lựa chọn phương pháp tùy thuộc vào độ phức tạp của yêu cầu phân tích thời gian.",
+      "evaluation_points": [
+        "Correctly identify relationship cardinality (1:many from Customers to Orders) and explain why 1:many is appropriate here",
+        "Explain filter direction: cross-filter direction should be single (from Customers to Orders) to allow City slicer to filter Orders, and discuss why bi-directional is NOT needed and could cause ambiguity",
+        "Compare two DAX approaches: FILTER(Orders, Orders[OrderDate] >= TODAY()-30) vs. DATESINPERIOD with a Date table; explain trade-offs (flexibility vs. performance, year-over-year comparisons, time intelligence functions)",
+        "Recognize when a separate Date table becomes necessary (e.g., fiscal calendars, holidays, complex time intelligence) and why it's a best practice for medium-to-large BI solutions",
+        "Identify potential performance issues: discuss whether to use a calculated column for date ranges vs. dynamic FILTER in measure, and when each is appropriate"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_032",
+    "question_text": "Bạn đang thiết kế một Dashboard trong Tableau để theo dõi hiệu suất bán hàng theo khu vực. Bạn muốn cho phép người dùng chọn một khu vực từ tham số (Parameter) và Dashboard tự động cập nhật để chỉ hiển thị dữ liệu của khu vực đó. Hãy mô tả các bước thực hiện, bao gồm việc tạo Parameter, Calculated Field và cách sử dụng chúng với Filters và Actions (nếu cần).",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_TABLEAU"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU"
+    ],
+    "answers": {
+      "detailed": "Bước 1: Tạo Parameter 'Select Region' kiểu String với danh sách các khu vực từ dữ liệu hoặc danh sách tĩnh.\n\nBước 2: Có hai cách tiếp cận:\n• CÁCH 1 (đơn giản): Tạo Calculated Field 'Region Filter' với công thức: [Region] = [Select Region]. Kéo vào Filters shelf, chọn True.\n• CÁCH 2 (tối ưu hơn - Tableau 2020.2+): Kéo Region trực tiếp vào Filters shelf → Edit Filter → chọn 'By Field Value' → chọn Parameter 'Select Region'. Phương pháp này hiệu suất tốt hơn vì không tạo calculated field cho mỗi hàng.\n\nBước 3: Thêm Parameter vào Dashboard dưới dạng Single Value List control hoặc Dropdown.\n\nBước 4 (Tùy chọn): Nếu muốn người dùng chọn region bằng cách click trên visualization thay vì dropdown, tạo Dashboard Action (Select → Parameter) liên kết sheet chứa region data với parameter.\n\nLưu ý quan trọng:\n• Parameter không tiêu thụ filter context như dimension filter thông thường\n• Cách 2 (filter-to-parameter binding) hiệu suất tốt hơn Cách 1 với dữ liệu lớn vì lọc ở mức database\n• Dashboard Action nên dùng khi có 2+ sheet cần đồng bộ region selection",
+      "evaluation_points": [
+        "Correctly creates Parameter (String type) with list of region values and explains it stores user selection",
+        "Correctly writes Calculated Field formula [Region] = [Select Region] as boolean condition and applies to Filters shelf with True selection",
+        "Explains parameter-calculated field interaction: parameter value changes → calculated field re-evaluates → filter updates dashboard dynamically",
+        "Identifies when Dashboard Actions are useful (e.g., clicking a viz element to set parameter value) vs. simple Parameter control",
+        "Discusses performance trade-offs: Calculated Field approach is simple but inefficient at scale; mentions alternative using native Region field with Filter-to-Parameter binding (Tableau 2020.2+) as more efficient",
+        "Clarifies that Parameters don't consume filter context like regular filters; they're static values that calculated fields reference",
+        "Explains why direct filter on Region field with Parameter binding is preferred over Calculated Field approach for enterprise dashboards"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_034",
+    "question_text": "Bạn đang làm việc với một dataset lớn (hàng chục triệu dòng) trong Tableau và cần tối ưu hiệu suất cho dashboard. Người dùng phàn nàn rằng việc tải trang và tương tác với bộ lọc rất chậm. Hãy đề xuất một chiến lược tối ưu toàn diện, bao gồm việc lựa chọn nguồn dữ liệu (Extract vs Live Connection), thiết kế dashboard (số lượng worksheet, loại biểu đồ), sử dụng tính năng Context Filter và Data Blending khi nào, và cách debug performance issues.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "TOOL_TABLEAU",
+      "BI_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU",
+      "BI_VISUALIZATION"
+    ],
+    "answers": {
+      "detailed": "Chiến lược tối ưu toàn diện: (1) **Live vs Extract Trade-off**: Chuyển sang Extract (Hyper format) vì dataset 10M+ dòng – Live Connection sẽ gửi query tới database mỗi lần filter thay đổi, gây bottleneck. Extract nén dữ liệu 10x, cho phép Tableau xử lý filter cục bộ. Cân nhắc refresh schedule (hàng giờ vs hàng ngày) dựa trên yêu cầu real-time. (2) **Dashboard Design**: Giới hạn <5 worksheet/dashboard, dùng biểu đồ đơn giản (bar, line, table) thay vì scatter plot hay geo map (render phức tạp). Chia dashboard thành multiple tabs để load incrementally. (3) **Context Filter Strategy**: Áp dụng Context Filter cho dimensions có high cardinality (date, user_id) – nó GIẢM số dòng trước khi các filter khác xử lý, chứ không chỉ ẩn dữ liệu. Ví dụ: Context Filter trên ngày làm dataset từ 10M xuống 500K, sau đó filter khác nhanh hơn. Tuy nhiên, Context Filter có cost riêng, dùng tối đa 1-2 cái. (4) **Data Blending**: Tránh nếu có thể – blending query mỗi source độc lập rồi aggregate, gây latency gấp đôi. Nếu cần combine data, dùng JOIN/UNION trong Extract trước khi import Tableau. Blending chỉ hợp lệ khi source khác nhau và không thể join upstream (ví dụ: CRM + Google Analytics). (5) **Debug với Performance Recorder**: Mở Performance Recorder, reload dashboard, kiểm tra: (a) Query time (database chậm?) → tối ưu Extract refresh hoặc upstream query; (b) Rendering time (client chậm?) → simplify visualizations. Nếu query time 5s + rendering 3s, vấn đề là database, không UI. (6) **Parameter + Set**: Thay thế dependent filter (A → B → C cascading filters) bằng Parameter + Set, giảm query từ 3 lần xuống 1 lần. (7) **Aggregate Table**: Tạo pre-aggregated table (tổng doanh thu theo ngày × region × sản phẩm), chỉ cần 100K dòng thay vì 10M. Trade-off: dữ liệu không thể drill-down tới chi tiết, nhưng dashboard load <1s thay vì 5s.",
+      "evaluation_points": [
+        "Clearly articulates the trade-off between Live Connection (real-time, lower latency for small queries, high compute cost) vs Extract/Hyper (upfront refresh cost, compression, faster interactive filtering for large datasets)",
+        "Explains WHY Context Filters reduce query load (they filter source data before dependent filters process it) vs regular filters, and identifies specific scenarios (Top N, date ranges on high-cardinality dimensions)",
+        "Discusses when Data Blending is appropriate vs harmful: blending on high-cardinality fields degrades performance; explains how blending queries each source independently then aggregates, causing unexpected results if not designed carefully",
+        "Demonstrates understanding of Performance Recorder output: distinguishes between query execution time (database bottleneck) vs rendering time (client-side visualization bottleneck) and corresponding solutions",
+        "Addresses aggregate table strategy with realistic constraints: how to pre-aggregate without creating maintenance burden, when it's justified vs over-engineering",
+        "Acknowledges trade-offs: Extract updates lag real-time data; removing complex visualizations impacts analytical depth; Context Filters can mask data quality issues if misused"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_031",
+    "question_text": "Trong Power BI, hãy giải thích sự khác biệt giữa hàm CALCULATE và hàm FILTER? Khi nào nên dùng mỗi loại?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "CALCULATE là hàm thay đổi ngữ cảnh bộ lọc (filter context transition) bằng cách áp dụng các bộ lọc mới lên toàn bộ tính toán, trả về một giá trị đã được tính lại trong ngữ cảnh mới; FILTER là hàm trả về một bảng được lọc dựa trên điều kiện trong row context. CALCULATE được dùng chủ yếu trong measure để tính các chỉ số động (ví dụ: doanh số năm hiện tại, so sánh năm trước) vì nó tính toán theo yêu cầu; FILTER được dùng khi cần lọc chi tiết một bảng (ví dụ: danh sách sản phẩm có giá > 100) hoặc khi lồng vào các hàm aggregation. Ví dụ: CALCULATE(SUM(Sales), Year(Date) = 2023) thay đổi filter context để chỉ tính tổng năm 2023, trong khi FILTER(Products, [Price] > 100) trả về bảng các sản phẩm thỏa điều kiện. Kết hợp cả hai: SUMPRODUCT(FILTER(Sales, [Region] = \"North\")) sử dụng FILTER để lọc bảng trong row context rồi aggregation.",
+      "evaluation_points": [
+        "Hiểu được CALCULATE thay đổi filter context (context transition) và FILTER thay đổi row context; phân biệt khi nào mỗi loại áp dụng",
+        "Giải thích được tại sao CALCULATE được dùng trong measure (tính toán động) còn FILTER trong biểu thức lọc bảng, và tác động đến hiệu suất (model size vs on-demand computation)",
+        "Cung cấp ví dụ cụ thể có so sánh: CALCULATE(SUM(Sales), YEAR(Date) = 2023) vs FILTER(Products, [Price] > 100) và trường hợp kết hợp như SUMPRODUCT(FILTER(...))",
+        "Nhận diện khi nào lồng FILTER vào CALCULATE cần thiết để thay đổi bộ lọc trên bảng được trả về"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_033",
+    "question_text": "Trong Tableau, sự khác biệt giữa Discrete (Rời rạc) và Continuous (Liên tục) là gì? Cho ví dụ về cách chúng ảnh hưởng đến dashboard.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_TABLEAU"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU"
+    ],
+    "answers": {
+      "detailed": "Discrete (màu xanh) chia dữ liệu thành các danh mục riên biệt (ví dụ: tháng, khu vực, sản phẩm) và tạo header hoặc phần tử riêng lẻ trên dashboard. Continuous (màu xanh lá) xử lý dữ liệu như dải liên tục (ví dụ: doanh số, nhiệt độ) và tạo trục tuyến tính. Trên dashboard: Discrete tạo ra các ô/cột riêng biệt (ví dụ: biểu đồ cột theo tháng T1, T2, T3), trong khi Continuous tạo trục liên tục cho phép vẽ đường xu hướng (ví dụ: doanh số theo thời gian). Ví dụ: nếu đặt Discrete Month trên Columns, Tableau tạo header tháng riêng; nếu đặt Continuous Sales trên Columns, Tableau tạo trục từ 0 đến giá trị max với tick marks liên tục. Việc chuyển đổi giữa hai loại ảnh hưởng đến cách sắp xếp, lọc và hiển thị dữ liệu.",
+      "evaluation_points": [
+        "Correctly identify that Discrete creates categorical headers/partitions while Continuous creates linear axes",
+        "Understand color coding in Tableau: Discrete fields are BLUE, Continuous fields are GREEN (answer incorrectly states both as shades of blue/green)",
+        "Explain how Discrete affects dashboard layout: creates separate columns/rows/marks; Continuous affects axis scaling and allows interpolation",
+        "Provide business scenarios: Discrete for Region/Product categories; Continuous for Sales amounts or time-series trends",
+        "Demonstrate impact on aggregation: Discrete typically shows COUNT or categorical grouping; Continuous enables SUM/AVG with trend lines",
+        "Understand that converting Discrete ↔ Continuous changes how filters and sorting behave on the dashboard"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_035",
+    "question_text": "Bạn đang làm việc cho một công ty bán lẻ và cần xây dựng báo cáo Power BI với yêu cầu: tính tổng doanh thu theo năm, nhưng chỉ hiển thị các sản phẩm có lợi nhuận trung bình trên 20% trong từng năm. Hãy giải thích cách bạn sử dụng DAX (bao gồm hàm nào và lý do) để đáp ứng yêu cầu này.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "Create the TotalRevenue measure: TotalRevenue = SUM(Sales[Revenue]). For filtering products by profit margin, use a calculated column on the Products table: ProductAvgProfit% = CALCULATE(SUM(Sales[Profit]) / SUM(Sales[Revenue]), ALL(Sales[Year])) or recalculate at product-year level. Then apply: RevenueFiltered = CALCULATE([TotalRevenue], FILTER(ALL(Products), [ProductAvgProfit%] > 0.20)). Alternatively, use SUMPRODUCT to avoid circular dependencies: RevenueByProductFiltered = SUMPRODUCT((Products[AvgProfitMargin] > 0.20) * CALCULATE(SUM(Sales[Revenue]), Sales[Product] = Products[Product], ALLEXCEPT(Sales, Sales[Year]))). The key is ensuring profit calculations happen at product-year granularity before filtering, avoiding measure references within FILTER predicates which can cause evaluation order issues.",
+      "evaluation_points": [
+        "Correctly identifies CALCULATE, FILTER, and ALL as necessary functions for conditional filtering",
+        "Correctly explains that FILTER(ALL) removes filter context to enable independent calculations",
+        "Must clarify that the profit threshold filter requires recalculating at product level within each year context, not using a measure reference in FILTER which creates circular dependency issues",
+        "Should specify using SUMPRODUCT or a helper calculated column alternative when measure-based filtering is needed, or restructure using CALCULATETABLE to filter Products table by profit criteria first",
+        "Needs to address the row context vs. filter context distinction: profit% calculation and filtering must align on the same granularity (product level)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_037",
+    "question_text": "Công ty bạn có dữ liệu bán hàng gồm bảng Orders (OrderID, Date, CustomerID, ProductID, Quantity) và bảng Products (ProductID, ProductName, Category). Bạn cần tạo dashboard trong Tableau để so sánh doanh số (Sales) giữa các danh mục sản phẩm theo từng quý, nhưng chỉ hiển thị 3 danh mục có tổng doanh số cao nhất trong năm hiện tại. Hãy giải thích cách bạn thiết kế và thực hiện điều này, bao gồm bất kỳ calculated field nào cần thiết.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_TABLEAU"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU"
+    ],
+    "answers": {
+      "detailed": "Join Orders and Products on ProductID in Tableau. Create a row-level calculated field Sales = [Quantity] * [Price] (assuming Price is in Products table). Create a calculated field Year = YEAR([Date]) and add a Year filter for the current year. To correctly isolate the Top 3 categories: (1) Create a FIXED LOD expression TopCategorySales = {FIXED [Category]: SUM([Sales])} to calculate each category's total sales independent of Quarter; (2) Create a second calculated field CategoryRank = RANK([TopCategorySales], 'desc'); (3) Place this rank on a filter and set it to <= 3. This ensures the Top 3 filtering happens at the category level before quarters are displayed. Then build the viz with Category (filtered) on Rows, Quarter on Columns, and SUM([Sales]) on Text. The FIXED LOD ensures category totals are computed before quarter context, avoiding incorrect Top N results.",
+      "evaluation_points": [
+        "Understand the need to JOIN Orders and Products tables on ProductID to access both Price and Category in Tableau",
+        "Recognize that RANK() as a table calculation is evaluated AFTER dimension filters, so a simple dimension filter on Rank <= 3 may not correctly isolate Top 3 categories; instead, use a FIXED LOD expression like {FIXED [Category]: SUM([Sales])} to calculate category-level totals independent of Quarter context, then RANK those fixed values",
+        "Demonstrate awareness of filter order of operations: context filters (Year) execute first, then dimension filters, then LOD calculations, then table calculations, explaining why the filtering strategy matters",
+        "Clarify that the calculated field for Sales should be row-level (Quantity * Price) if Price exists in the source, or aggregate (SUM) only when intentionally creating an aggregate measure for display",
+        "Design the dashboard explicitly: Place Category (filtered to Top 3) on Rows, Quarter on Columns, and SUM([Sales]) on Text, ensuring the Top 3 constraint applies at the category level across all quarters shown"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_039",
+    "question_text": "Bạn đang xây dựng một dashboard Power BI cho phòng kinh doanh với dữ liệu từ nhiều nguồn (SQL Server, Excel, API). Dữ liệu có kích thước lớn (hàng triệu bản ghi) và yêu cầu tính toán các chỉ số phức tạp (ví dụ: tổng doanh thu theo tháng, lợi nhuận trung bình theo sản phẩm). Tuy nhiên, dashboard hiện tại chạy rất chậm (thời gian load > 10 giây) và stakeholder phàn nàn. Hãy đề xuất các kỹ thuật tối ưu hiệu suất cụ thể, bao gồm cách xử lý dữ liệu ETL, thiết lập mô hình dữ liệu (star schema), và sử dụng DAX hiệu quả. Cần giải thích trade-off của từng giải pháp.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "TOOL_POWER_BI",
+      "BI_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "1. **ETL & Data Preparation**: Transform multiple sources into star schema within Power Query/ETL pipeline. For the Orders fact table, keep only necessary columns (OrderID, ProductID, CustomerID, DateID, Revenue, Quantity, Cost). For dimension tables, denormalize slightly to avoid snowflaking (e.g., Product table includes Category, Subcategory directly). Filter out historical/irrelevant data at source (e.g., cancelled orders). Consider SQL Server indexed views for pre-aggregation by Date-Product to reduce initial load. Trade-off: Higher ETL complexity and storage, but significantly faster Power BI refresh and runtime queries.\n\n2. **Data Model Design (Star Schema)**: Structure with Orders fact table (containing foreign keys to Date, Product, Customer) and normalized dimension tables. Define relationships with clear cardinality: Product-to-Orders is 1:Many, Customer-to-Orders is 1:Many. Use single-direction cross-filtering (dimensions filter fact table, not reverse) to prevent ambiguity and performance degradation. For complex scenarios like Products appearing in multiple Categories (many-to-many), use a bridge table (ProductCategory) with two 1:M relationships instead of direct many-to-many. Avoid bi-directional filtering unless explicitly needed for role-playing dimensions (e.g., separate DateOrdered and DateShipped dimensions filtering the same Orders table). Trade-off: Requires more upfront modeling effort, but dramatically improves DAX calculation speed and prevents filter ambiguity.\n\n3. **DAX Optimization**: Replace FILTER-heavy measures with CALCULATE using simple column filters (e.g., `CALCULATE(SUM(Orders[Revenue]), Product[Category]=\"Electronics\")` instead of `SUMX(FILTER(Products, Products[Category]=\"Electronics\"), ...)`). Use VAR to cache expensive calculations and avoid re-evaluation within the same measure. For revenue-by-month calculation: `VAR RevenueByMonth = ADDCOLUMNS(CALENDAR(MIN(Date[Date]), MAX(Date[Date])), \"Revenue\", CALCULATE(SUM(Orders[Revenue])))` to iterate once, not per-row. Avoid row-context iteration (implicit SUMX) by using explicit aggregations. Trade-off: Steeper DAX learning curve, but 3-5x performance improvement on complex measures.\n\n4. **Aggregation Tables**: Create summary tables pre-aggregated by Date (month) and Product (Revenue, Cost, Quantity). Use Power BI aggregations feature to redirect queries from fact table to summary table automatically. Refresh fact table daily, summary table weekly if business tolerance allows slight delay. This reduces query granularity without losing detail when needed. Trade-off: Adds storage and maintenance complexity; loses real-time analytics at daily level.\n\n5. **DirectQuery vs. Import**: For 10M+ rows, use Import mode with aggregations (hybrid approach) rather than pure DirectQuery. Pure DirectQuery blocks most DAX functions (no RANKX, no context transitions) and forces all queries back to SQL Server, worsening performance for complex measures. If DirectQuery is required, push aggregation logic to indexed SQL views. Trade-off: DirectQuery ensures data freshness but cripples analytical flexibility.\n\n6. **Incremental Refresh**: Implement incremental refresh on fact table to load only new/modified records since last refresh, reducing ETL time from 30min to 2min. Requires adding RangeStart/RangeEnd parameters in Power Query. Trade-off: Requires careful handling of updates; not suitable if historical corrections are frequent.",
+      "evaluation_points": [
+        "Demonstrates understanding of star schema structure (fact vs. dimension tables) and explains why it's optimal for VertiPaq engine",
+        "Specifies relationship cardinality (1:M) and cross-filter direction, explaining why bi-directional filtering should be avoided or used cautiously and the performance impact",
+        "Addresses handling of many-to-many relationships (e.g., Products-to-Categories) using bridge tables or DAX workarounds, not just simple 1:M relationships",
+        "Discusses role-playing dimensions (e.g., multiple date dimensions for different business logic) when modeling complex requirements like DateOrdered vs. DateShipped",
+        "Identifies specific DAX anti-patterns beyond FILTER: nested CALCULATE, row-by-row iteration without VAR caching, context transition issues, and uses CALCULATE with simple filters as alternative",
+        "Explains materialization/aggregation tables strategy with specific metrics (pre-aggregate by Date-Product combinations) and when to refresh them vs. real-time trade-off",
+        "Considers source-level optimization (SQL Server views/indexed views for pre-aggregation) before Power BI layer optimization",
+        "Addresses incremental refresh strategy for fact tables to reduce ETL overhead while maintaining performance",
+        "Evaluates DirectQuery limitations (no DAX functions, limited transformations, slower complex measures) versus Import mode with aggregations as a middle ground"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_036",
+    "question_text": "Trong Power BI, mối quan hệ (Relationship) giữa các bảng dữ liệu có những loại nào? Hãy giải thích ngắn gọn sự khác biệt giữa One-to-Many và Many-to-Many.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "Power BI hỗ trợ các loại mối quan hệ: One-to-Many (1:N), Many-to-One (N:1), One-to-One (1:1), và Many-to-Many (N:N). \n\n**One-to-Many (1:N):** Phổ biến nhất, khi một bản ghi trong bảng chính tương ứng với nhiều bản ghi trong bảng liên quan. Ví dụ: một khách hàng có nhiều đơn hàng. Hướng lọc mặc định là từ bảng chiều (một) sang bảng sự kiện (nhiều), cho phép lọc hiệu quả từ khách hàng xuống đơn hàng.\n\n**Many-to-Many (N:N):** Xảy ra khi cả hai bảng đều có nhiều bản ghi tương ứng nhau. Ví dụ: bảng sản phẩm và bảng danh mục sản phẩm (một sản phẩm có thể thuộc nhiều danh mục). Power BI xử lý bằng cách tạo bảng cầu nối (bridge table) ngầm hoặc dùng mối quan hệ hai chiều. Lưu ý: Many-to-Many có thể làm phức tạp mô hình và ảnh hưởng đến hiệu suất nếu không thiết kế hợp lý.",
+      "evaluation_points": [
+        "Kể đúng ít nhất 2 loại mối quan hệ (1:N, N:1, 1:1, N:N)",
+        "Giải thích rõ One-to-Many và Many-to-Many với sự khác biệt về cardinality và cách Power BI xử lý chúng",
+        "Đưa ví dụ minh họa cụ thể cho từng loại mối quan hệ",
+        "Giải thích hướng lọc (filter direction) và tác động đến hiệu suất mô hình dữ liệu",
+        "Nhận xét về trường hợp sử dụng và giới hạn của Many-to-Many (ảnh hưởng đến tối ưu hóa mô hình)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_038",
+    "question_text": "Bạn đang làm một dashboard cho phòng Sales, yêu cầu tính tổng doanh thu theo từng tháng và so sánh với cùng kỳ năm trước (YoY Growth). Trong Power BI, bạn sẽ viết DAX measure như thế nào? Giải thích cách hàm SAMEPERIODLASTYEAR hoạt động.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "Create measures:\n\nTotal Revenue = SUM(Orders[Revenue])\n\nTotal Revenue LY = CALCULATE([Total Revenue], SAMEPERIODLASTYEAR('Date'[Date]))\n\nYoY Growth % = DIVIDE([Total Revenue] - [Total Revenue LY], [Total Revenue LY], 0)\n\nSAMEPERIODLASTYEAR works by intelligently shifting the date filter context backward exactly one year while preserving the same period structure (same month/day within that year). It requires: (1) a continuous Date table marked as a date table, (2) an active relationship between Orders and the Date table, and (3) data spanning at least two complete years. The function operates within CALCULATE's modified filter context—CALCULATE removes existing date filters and applies the year-shifted date filter in their place.\n\nKey considerations: Handle missing prior-year data using IFERROR or DIVIDE with blank parameter; ensure the Date table has no gaps; consider using DATEADD as an alternative if the Date table structure is irregular; validate that month/quarter comparisons work correctly across year boundaries. Performance-wise, SAMEPERIODLASTYEAR can be expensive on large datasets due to context transition, so consider data model optimization (e.g., aggregation tables) if needed.",
+      "evaluation_points": [
+        "Correctly construct the DAX syntax for YoY measure using CALCULATE and SAMEPERIODLASTYEAR",
+        "Explain how CALCULATE modifies filter context and how SAMEPERIODLASTYEAR shifts the date context backward by one year while maintaining the same period structure",
+        "Identify prerequisites: continuous Date table with proper data types, active relationship between Orders and Date table, and complete historical data",
+        "Discuss potential pitfalls: handling missing data for prior year periods (e.g., new products), edge cases at year boundaries, and performance implications of CALCULATE context transition",
+        "Demonstrate awareness of alternative approaches: DATEADD function or year-over-year comparison using column-based filtering, and when each is appropriate"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_040",
+    "question_text": "Công ty bạn có dữ liệu bán hàng với các trường: Region, Product, Sales, Date. Bạn cần tạo một Tableau dashboard hiển thị top 5 sản phẩm bán chạy nhất theo từng Region. Hãy giải thích cách bạn sử dụng LOD (Level of Detail) để thực hiện điều này, và so sánh với phương pháp dùng Filter action.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_TABLEAU"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU"
+    ],
+    "answers": {
+      "detailed": "Solution using LOD: Create two calculated fields: (1) 'Sales_by_Product_Region' = {FIXED [Region], [Product]: SUM([Sales])} to aggregate sales at region-product level, independent of view filters. (2) 'Product_Rank' = RANK(Sales_by_Product_Region, DESC) within Region partition to rank products within each region. Place Region on Rows, Product on Columns, Sales on Text/Size, and apply a filter where Product_Rank <= 5. This works because FIXED LOD is evaluated before dimension filters, ensuring consistent ranking regardless of other view filters. Comparison with Filter Action: A Filter action can highlight top 5 from a selected region in one sheet and update another sheet. However, this approach has limitations: (1) Filter actions only affect the target sheet at view level, not the underlying calculation, (2) requires manual selection interaction, (3) cannot simultaneously display top 5 for all regions without multiple actions or complex parameter setup. The LOD approach is superior for this use case because it automatically computes and displays top 5 per region for all regions simultaneously, performs computation at data source level (better for large datasets), and requires no user interaction or dashboard actions.",
+      "evaluation_points": [
+        "Correctly uses FIXED LOD syntax to compute sales at Region-Product granularity independent of view dimensions",
+        "Accurately explains that LOD expressions are evaluated before dimension filters, preventing incorrect filtering issues",
+        "Provides complete ranking approach: must create a second calculated field like {FIXED [Region]: RANK(SUM([Sales]), DESC)} to rank products within each region, then filter where rank <= 5",
+        "Clearly distinguishes that Filter actions work at view-level only and cannot dynamically identify top 5 per region without complex workarounds",
+        "Explains performance advantage: LOD computations happen at data source level before aggregation, while Filter actions require post-aggregation filtering"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_042",
+    "question_text": "Bạn đang thiết kế một dashboard Power BI với nguồn dữ liệu lớn (hàng triệu dòng). Dashboard chạy rất chậm do nhiều measure DAX phức tạp và visual tương tác. Hãy đề xuất ít nhất 3 chiến lược tối ưu hiệu năng, tập trung vào việc cải thiện tốc độ load và render. Giải thích lý do từng chiến lược có hiệu quả.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "1. **Tối ưu mô hình dữ liệu theo Star Schema:** Tổ chức data thành Fact tables (chứa measures định lượng) và Dim tables (chứa attributes mô tả), giảm cardinality bằng cách gộp cột không cần thiết (ví dụ: DateTime → Date). Dùng Relationships thay vì merged queries để tận dụng khả năng filter propagation của Power BI. Điều này giảm kích thước model, tăng tốc độ filter và join operations. 2. **Import Mode với Aggregation Tables:** Dùng Import Mode để nén dữ liệu trong bộ nhớ (nhanh hơn DirectQuery 10-100x). Tạo Aggregation Tables (bảng tổng hợp cấp cao) để trả lời các truy vấn phổ biến mà không cần scan toàn bộ Fact Table. Ví dụ: tạo bảng Sales by Month-Product-Region thay vì Query toàn bộ hàng triệu dòng. 3. **Tối ưu DAX Measures với VAR và Context Awareness:** Dùng biến VAR để cache kết quả trung gian, tránh tính toán lặp lại. Tối ưu CALCULATE để hiểu rõ filter context vs. row context, tránh context transition không cần thiết. Ví dụ: `VAR TotalSales = CALCULATE(SUM(Sales[Amount]), ALL(Dim_Date))` tính một lần rồi reuse. 4. **Giảm số lượng visual phức tạp và dùng Drill-through:** Thay vì hiển thị 20 visuals tương tác trên 1 trang (mỗi visual = 1 DAX query), dùng 5-7 visuals chính với Drill-through để chi tiết. Mỗi visual tương tác gây trigger lại tất cả measures, nên giảm số lượng giúp giảm query load. 5. **Sử dụng Performance Analyzer để xác định bottleneck:** Mở Performance Analyzer (View tab) để đo lường thời gian DAX evaluation, Direct Query execution, và rendering của từng visual. Xác định measure chậm nhất (có thể tốn >50% thời gian) và tối ưu trước. Lặp lại sau mỗi thay đổi. Chiến lược này hiệu quả vì chỉ ra đúng vị trí vấn đề thay vì optimize mù mờ.",
+      "evaluation_points": [
+        "Identifies at least 3 concrete optimization strategies with clear performance rationale",
+        "Demonstrates understanding of Import vs. DirectQuery trade-offs and when each applies",
+        "Explains how data model design (star schema, relationships, cardinality reduction) impacts query performance",
+        "Discusses caching mechanisms (VAR in DAX) and their effectiveness",
+        "Mentions Performance Analyzer as a diagnostic tool with specific methodology",
+        "Addresses aggregation tables or query folding as advanced techniques for large datasets",
+        "Explains filter context propagation and its impact on measure evaluation efficiency"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_043",
+    "question_text": "Hãy giải thích khái niệm 'relationship' trong Power BI và sự khác biệt giữa one-to-many và many-to-many. Cho ví dụ cụ thể.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_POWER_BI"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI"
+    ],
+    "answers": {
+      "detailed": "Relationship trong Power BI là kết nối giữa các bảng dựa trên cột chung, cho phép tính toán cross-filter và định nghĩa cách dữ liệu được join. **One-to-many (1:*)**: một giá trị trong bảng cha tương ứng với nhiều giá trị trong bảng con (ví dụ: bảng Customer và bảng Sales, mỗi khách hàng có nhiều đơn hàng). Đây là loại relationship phổ biến nhất và hoạt động tốt trong Power BI. **Many-to-many (*:*)**: nhiều giá trị ở cả hai bảng (ví dụ: bảng Product và bảng Customer qua bảng Order, một sản phẩm được mua bởi nhiều khách hàng và một khách hàng mua nhiều sản phẩm). Power BI hỗ trợ many-to-many nhưng cần xử lý cẩn thận vì có thể gây ra duplicate values và results không chính xác. Giải pháp tốt nhất là sử dụng bảng trung gian (bridge/intermediate table) hoặc dual relationships. Ngoài ra, cần hiểu rõ filter direction (một chiều hoặc hai chiều) vì nó ảnh hưởng đến cách filter propagate giữa các bảng trong visualization.",
+      "evaluation_points": [
+        "Định nghĩa chính xác relationship và các loại cardinality (1:1, 1:*, *:*)",
+        "Phân biệt rõ one-to-many và many-to-many với ví dụ thực tế minh họa",
+        "Giải thích hướng filter propagation (filter direction) và tác động đến cross-filter behavior",
+        "Nhận diện vấn đề với many-to-many relationship trong Power BI và cách xử lý (bridge table/intermediate table hoặc dual relationships)",
+        "Hiểu rõ active vs. inactive relationships và khi nào sử dụng"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_045",
+    "question_text": "Trong Tableau, hãy giải thích sự khác biệt giữa 'calculated field' và 'table calculation'. Cho ví dụ minh họa khi nào dùng từng loại.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "BI_VISUALIZATION",
+      "TOOL_TABLEAU"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU"
+    ],
+    "answers": {
+      "detailed": "Calculated field và table calculation là hai khái niệm khác nhau trong Tableau:\n\n**Calculated Field** (3 loại):\n- Row-level: Tính toán trên từng hàng dữ liệu (ví dụ: Discount_Amount = [Sales] * 0.1)\n- Aggregate: Tính toán dựa trên tập hợp dữ liệu (ví dụ: Profit_Margin = SUM([Profit])/SUM([Sales]))\n- Được lưu trữ trong data source, có thể tái sử dụng trên nhiều sheet\n\n**Table Calculation**:\n- Tính toán dựa trên kết quả đã được tổng hợp trong view hiện tại\n- Phụ thuộc vào cấu trúc bảng, thứ tự hàng, và filter context của visualization\n- Ví dụ: Running Total = RUNNING_SUM(SUM([Sales])), Percent of Total, Rank\n- Không thể tái sử dụng giữa các sheet khác nhau\n\n**Khi nào dùng**:\n- Calculated field: Cần tạo metric cố định, sử dụng lại nhiều lần, hoặc filter trên metric\n- Table calculation: Cần tính toán động theo context visualization, như ranking, percent của tổng, hoặc moving averages",
+      "evaluation_points": [
+        "Distinguish between three types: row-level calculated fields (e.g., Profit Ratio = [Profit]/[Sales] per row), aggregate calculated fields (e.g., SUM([Profit])/SUM([Sales])), and table calculations (e.g., RUNNING_SUM, PERCENT_OF_TOTAL)",
+        "Explain storage difference: calculated fields are computed at query time and stored in context, while table calculations are computed post-aggregation based on view structure",
+        "Provide accurate examples: row-level (e.g., Discount_Amount = [Sales] * [Discount_Rate]), aggregate (e.g., Profit_Margin = SUM([Profit])/SUM([Sales])), table calculation (e.g., Running_Total = RUNNING_SUM(SUM([Sales])))",
+        "Clarify use cases: calculated fields for reusable metrics across sheets; table calculations for ranking, percentiles, or trend analysis specific to visualization context",
+        "Explain filter context: calculated fields can use all data source fields for filtering; table calculations are limited to fields already in the view"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_047",
+    "question_text": "Bạn đang xây dựng một dashboard Power BI cho bộ phận tài chính với dữ liệu từ nhiều nguồn (SQL Server, Excel). Yêu cầu tính toán các chỉ số như doanh thu tích lũy (YTD) và tỷ lệ tăng trưởng so với cùng kỳ năm trước (YoY). Dữ liệu có kích thước lớn và dashboard hiện tại load chậm. Hãy thiết kế mô hình dữ liệu (bao gồm star schema và bảng ngày) và viết các measure DAX cho YTD Sales và YoY Growth. Giải thích lý do chọn cách triển khai và tối ưu hiệu suất.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "TOOL_POWER_BI",
+      "BI_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "TOOL_POWER_BI",
+      "BI_VISUALIZATION"
+    ],
+    "answers": {
+      "detailed": "Thiết kế star schema: Bảng fact Sales (Amount, Quantity, SalesDate) liên kết với bảng dimension Date (1:M), Customer (1:M), Product (1:M), bảng Product có thể liên kết với Category (1:M). Bảng Date phải có cột Date, Year, Month, Quarter, MonthName, và đánh dấu là date table bằng MARK AS DATE TABLE để Power BI nhận diện. Tất cả relationship từ dimension đến fact table dùng single cross-filter direction (default).\n\nMeasure YTD Sales: CALCULATE(SUM(Sales[Amount]), DATESYTD(Date[Date])) - DATESYTD chỉ hoạt động đúng khi Date table được mark chính thức.\n\nMeasure YoY Growth: VAR CurrentSales = SUM(Sales[Amount]) VAR PreviousSales = CALCULATE(SUM(Sales[Amount]), SAMEPERIODLASTYEAR(Date[Date])) RETURN DIVIDE(CurrentSales - PreviousSales, PreviousSales, 0). Dùng VAR để tránh tính toán lặp và tăng readability.\n\nTối ưu hiệu suất: (1) Import mode thay DirectQuery vì dữ liệu lớn nhưng ổn định, giảm network round-trips; (2) Tắt auto date/time hierarchy để tránh bảng date tự động không tối ưu; (3) Nếu fact table lớn (>100M rows), tạo aggregation table theo Month để tăng tốc queries; (4) Đảm bảo foreign key columns (Customer_ID, Product_ID, Date_ID) trong Sales table không null; (5) Từ SQL Server và Excel, xử lý trong Power Query: lọc dữ liệu không cần thiết, merge data sources trước load vào model, định nghĩa data type rõ ràng để tránh implicit conversion overhead.",
+      "evaluation_points": [
+        "Star schema design with explicit cardinality definitions (Date:Sales = 1:M, Product:Sales = 1:M, Customer:Sales = 1:M) and single cross-filter direction from dimensions to fact table",
+        "DAX syntax correctness AND explanation of why DATESYTD and SAMEPERIODLASTYEAR require a proper date table marked with MARK AS DATE TABLE",
+        "Performance optimization strategy: compare import vs. DirectQuery trade-offs (import mode for aggregations but memory cost; DirectQuery for real-time but query folding limitations), explain when to use aggregation tables, and justify disabling auto date/time hierarchy",
+        "Handling of relationship edge cases: non-null key constraints, handling missing dates in sparse date tables, bi-directional filter risks if added",
+        "Multi-source data strategy: addressing SQL Server + Excel consolidation challenges (data type consistency, refresh scheduling, incremental loads) and their impact on model performance"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_BI_TOOLS_049",
+    "question_text": "Bạn đang xây dựng một dashboard Tableau để theo dõi hiệu suất bán hàng theo khu vực và sản phẩm. Dữ liệu có hàng triệu bản ghi và yêu cầu tính toán các chỉ số như doanh thu tích lũy, % thay đổi so với tháng trước, và ranking sản phẩm. Dashboard chạy chậm khi người dùng tương tác với filter. Hãy thiết kế giải pháp tối ưu hiệu suất bằng cách kết hợp các kỹ thuật: extract, data blending, context filter, và table calculations. Giải thích trade-off của từng kỹ thuật và đề xuất cách triển khai cụ thể.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "TOOL_TABLEAU",
+      "BI_VISUALIZATION"
+    ],
+    "skill_tags": [
+      "TOOL_TABLEAU",
+      "BI_VISUALIZATION"
+    ],
+    "answers": {
+      "detailed": "Giải pháp tối ưu: 1. **Extract với Pre-Aggregation**: Tạo extract ở mức Region × Product × Month (không row-level) để giảm kích thước 90-95% và tăng tốc độ tính toán. Trade-off: mất độ chi tiết row-level, không thể drill-down dưới tháng. 2. **Data Blending cân trọng**: Blend Sales extract với Target data (từ nguồn khác) tại mức Region × Product × Month để tránh non-additive issues. Nếu blend ở row-level, doanh thu tích lũy sẽ sai do double-counting. Trade-off: chỉ có thể filter trên primary source (Sales), không thể filter trực tiếp trên Target. 3. **Context Filter cho Region**: Đặt Region làm context filter để Tableau lọc trước, giảm dữ liệu vào các filter tiếp theo từ hàng triệu xuống hàng ngàn. Trade-off: context filter chạy độc lập nên initial load có thể chậm nếu dữ liệu Region quá lớn; dùng khi Region thường được lọc. 4. **Table Calculations cho KPI động**: Dùng RUNNING_SUM([Revenue]) cho doanh thu tích lũy, LOOKUP([Revenue], -1) cho % thay đổi tháng trước, RANK() cho ranking sản phẩm. Đặt chúng trên Measure Shelf hoặc Row Shelf (không Dimension) để tính toán sau khi filter. Trade-off: không được lưu trữ, phải tính lại mỗi lần query; nếu sắp xếp sai shelf sẽ có kết quả sai. Triển khai cụ thể: (a) Tạo extract hàng tuần với incremental refresh; (b) Thiết kế 3 worksheets (Sales Trend, Product Ranking, Region Comparison) mỗi cái dùng context filter Region riêng; (c) Dashboard actions kết nối Region slicer để update tất cả sheets; (d) Monitor extract size và query time qua Tableau Server admin views.",
+      "evaluation_points": [
+        "Identify the appropriate granularity for extract aggregation (pre-aggregate to Region × Product × Month level vs. row-level) and explain why this reduces computation load",
+        "Explain data blending trade-offs specifically: when to blend Sales with Target data, why this creates non-additive issues with running totals, and how to mitigate (e.g., blend at aggregate level vs. row level)",
+        "Distinguish between context filter placement strategy: why Region as context filter executes first to reduce data scope before cumulative calculations, but acknowledge the initial processing cost and when to avoid it (e.g., if Region filter is rarely changed)",
+        "Demonstrate understanding of table calculations vs. calculated fields: explain why RUNNING_SUM and RANK are table calculations (not stored, filter-friendly) while % change and cumulative revenue require careful placement (dimension shelf vs. measure shelf) to avoid incorrect results",
+        "Propose a specific extract refresh strategy (incremental vs. full) and performance monitoring approach (query time, extract size, filter response latency)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  }
+]

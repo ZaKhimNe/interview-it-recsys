@@ -1,0 +1,51 @@
+# NLP — Reference Document (Source: Gemini 2.5 Flash)
+
+## Text Preprocessing
+
+**Tokenization:** The process of splitting raw text into smaller units called tokens. These tokens can be words, subwords, or characters.
+*   **Strong Candidate:** Discusses various tokenization strategies (whitespace, punctuation-based, regex), handling of contractions, specific tokenizers like WordPiece, BPE (Byte-Pair Encoding), or SentencePiece for subword tokenization, and their importance for handling out-of-vocabulary (OOV) words or morphologically rich languages. Mentions the impact of tokenization choices on vocabulary size and model performance.
+*   **Weak Candidate:** Simply states "splitting text into words."
+*   **Pitfall:** Overlooking the nuances of language-specific tokenization or the benefits of subword tokenization in modern NLP.
+
+**Stemming vs. Lemmatization:** Both aim to reduce words to a base or root form.
+*   **Stemming:** A heuristic process that chops off suffixes from words, often resulting in non-dictionary words. Examples: Porter, Snowball stemmers.
+    *   **Strong Candidate:** Explains it's rule-based, faster, and useful when speed is critical, but acknowledges its lower accuracy and potential to produce non-words (e.g., "automat" from "automatic").
+*   **Lemmatization:** A more sophisticated process that uses vocabulary and morphological analysis to return the canonical base form (lemma) of a word, which is always a dictionary word. Examples: WordNet Lemmatizer.
+    *   **Strong Candidate:** Highlights its reliance on part-of-speech (POS) tagging for context-aware reduction, leading to higher accuracy but slower processing.
+*   **Distinction:** Stemming is faster, less accurate, and produces non-words; Lemmatization is slower, more accurate, and produces valid words, requiring linguistic knowledge.
+*   **Pitfall:** Confusing the two or not understanding their trade-offs in terms of speed, accuracy, and output quality.
+
+**Stop Words:** Common words (e.g., "the," "a," "is") that carry little semantic meaning and are often removed to reduce noise and dimensionality in text data.
+*   **Strong Candidate:** Discusses the context-dependency of stop words (e.g., "apple" might be a stop word in a fruit dataset but critical in tech news), the need for domain-specific stop word lists, and their impact on sparse representations like BoW/TF-IDF.
+*   **Weak Candidate:** Lists a few common examples without discussing context.
+
+**Normalization:** The process of converting text into a standard, canonical form. This includes lowercasing, removing punctuation, handling numbers, and standardizing spellings.
+*   **Strong Candidate:** Explains the importance of Unicode normalization, regex-based cleaning for specific patterns, and how it reduces feature space and improves consistency for downstream tasks.
+*   **Pitfall:** Not considering the impact of over-normalization (e.g., removing numbers crucial for a financial analysis task).
+
+## Bag of Words (BoW)
+
+**Definition:** A simple, sparse representation of text that describes the occurrence of words within a document. It involves creating a vocabulary of all unique words in the corpus and then representing each document as a vector where each dimension corresponds to a word in the vocabulary, and the value is the frequency of that word in the document. The order of words is disregarded.
+*   **Strong Candidate:** Discusses the creation of n-grams (e.g., bigrams, trigrams) to capture some local context, the issues of high dimensionality and sparsity, the "curse of dimensionality," and methods to manage vocabulary size (e.g., `min_df`, `max_df`, `max_features`). Acknowledges its fundamental limitation: loss of word order and semantic context.
+*   **Weak Candidate:** "It's just counting words."
+*   **Pitfall:** Not understanding that BoW inherently loses word order information, which is crucial for many NLP tasks.
+
+## TF-IDF
+
+**Definition:** Term Frequency-Inverse Document Frequency is a numerical statistic that reflects how important a word is to a document in a corpus. It's a product of two terms:
+*   **Term Frequency (TF):** Measures how frequently a term appears in a document. Higher TF indicates higher importance within that specific document.
+*   **Inverse Document Frequency (IDF):** Measures how rare or common a term is across the entire corpus. It's the logarithmically scaled inverse fraction of the documents that contain the term. Rare terms have a high IDF, common terms have a low IDF.
+*   **Formula & Weighting:** TF-IDF = TF * IDF. The weighting scheme effectively down-weights very common words (e.g., stop words) that appear in many documents and up-weights words that are unique or specific to a particular document.
+*   **Strong Candidate:** Explains the rationale behind IDF (to penalize ubiquitous terms and highlight discriminative ones), discusses different variants of TF (e.g., raw count, binary, log-normalized) and IDF (e.g., smooth IDF, probabilistic IDF), and its applications in information retrieval, document similarity, and text classification.
+*   **Weak Candidate:** Can state the formula but struggles to explain *why* IDF is used.
+*   **Pitfall:** Not understanding that TF-IDF, while powerful for weighting, still operates on the BoW principle and doesn't capture semantic relationships or word order.
+
+## Word Embeddings
+
+**Definition:** Dense, low-dimensional vector representations of words that capture semantic and syntactic relationships. Words with similar meanings or contexts are mapped to nearby points in the vector space.
+
+**Word2Vec (CBOW vs. Skip-gram):** Neural network-based models for learning word embeddings.
+*   **CBOW (Continuous Bag of Words):** Predicts the current word based on its surrounding context words.
+    *   **Strong Candidate:** Explains it's efficient for large datasets and generally performs well for frequent words.
+*   **Skip-gram:** Predicts the surrounding context words given the current word.
+    *   **Strong Candidate:** Highlights its effectiveness for smaller datasets and ability to capture better representations for rare words and more nuanced semantic relationships.

@@ -1,0 +1,56 @@
+# DEEP_LEARNING — Reference Document (Source: Gemini 2.5 Flash)
+
+## DEEP_LEARNING (Role: Data Scientist)
+
+This competency assesses a candidate's foundational and practical understanding of deep learning concepts, architectures, and training methodologies. A strong candidate demonstrates not just definitional knowledge but also the intuition behind *why* certain techniques are used, their trade-offs, and how they impact model performance and generalization.
+
+---
+
+## Neural Network Fundamentals
+
+*   **Forward Pass:** The process where input data traverses the network layers, undergoing weighted sums and activation functions, to produce an output prediction. A strong candidate can articulate this as a series of matrix multiplications and non-linear transformations, highlighting vectorization for efficiency. A weak answer might simply state "data goes through the network."
+*   **Backpropagation:** The algorithm used to efficiently compute the gradients of the loss function with respect to all network parameters (weights and biases) by propagating the error backwards from the output layer to the input layer. This is crucial for updating parameters during training. A strong candidate explains its reliance on the chain rule and how gradients are accumulated layer by layer. A weak answer might vaguely mention "adjusting weights based on error."
+*   **Chain Rule:** A fundamental calculus rule for differentiating composite functions. In backpropagation, it allows the gradient of the loss with respect to a parameter in an early layer to be computed by multiplying the gradients of successive layers. A strong candidate can illustrate its application, e.g., `dL/dW = (dL/dA) * (dA/dZ) * (dZ/dW)`, where L is loss, A is activation, Z is pre-activation, and W is weight. A weak candidate might only mention it as a "math rule."
+*   **Activation Functions (ReLU/Sigmoid/Tanh/Softmax):** Non-linear functions applied to the output of each neuron, introducing the necessary non-linearity for neural networks to learn complex patterns.
+    *   **Sigmoid:** Squashes values to [0,1], often used in binary classification output layers. Pitfall: Suffers from vanishing gradients in hidden layers, making deep networks hard to train.
+    *   **Tanh:** Squashes values to [-1,1], zero-centered, generally preferred over sigmoid for hidden layers as it helps with gradient flow. Still susceptible to vanishing gradients.
+    *   **ReLU (Rectified Linear Unit):** `max(0, x)`. Computationally efficient and mitigates vanishing gradients. Pitfall: "Dying ReLU" problem where neurons can become inactive if their input is always negative. A strong candidate discusses its piecewise linear nature and its advantages in deep networks.
+    *   **Softmax:** Converts a vector of arbitrary real values into a probability distribution, where values sum to 1. Essential for multi-class classification output layers. A strong candidate explains its role in interpreting model outputs as class probabilities.
+
+---
+
+## Convolutional Neural Networks (CNNs)
+
+*   **Convolution Operation:** A mathematical operation where a learnable filter (kernel) slides across an input feature map, performing element-wise multiplication and summation to produce a new feature map. This extracts local features like edges, textures, or patterns. A strong candidate details concepts like stride, padding, and the role of multiple channels/filters. A weak answer might just say "it finds features."
+*   **Pooling (Max/Average):** Downsampling operations that reduce the spatial dimensions of feature maps, reducing computational cost, memory usage, and providing a degree of translation invariance.
+    *   **Max Pooling:** Selects the maximum value within a filter's receptive field, emphasizing the most salient features.
+    *   **Average Pooling:** Computes the average value, providing a smoother downsampling.
+    A strong candidate discusses the trade-offs: max pooling for robust feature detection, average pooling for preserving more background information, and their role in reducing overfitting.
+*   **Receptive Field:** The region in the input image that a particular neuron in a higher layer "sees" or is influenced by. It grows with network depth due to successive convolutions and pooling operations. A strong candidate relates this to the hierarchical feature learning in CNNs, where early layers capture local features and deeper layers combine these into more abstract, global features.
+*   **Architectures:**
+    *   **VGG:** Characterized by its uniform architecture, using small (3x3) convolutional filters repeatedly to increase depth. Emphasized the importance of depth but suffered from vanishing gradients and high computational cost.
+    *   **ResNet (Residual Networks) with Skip Connections:** Introduced "skip connections" (or residual connections) that allow the input of a block to be added directly to its output. This addresses the degradation problem in very deep networks by enabling identity mapping and facilitating gradient flow, making it easier to train deeper models. A strong candidate explains *how* skip connections help gradients propagate and prevent performance degradation.
+    *   **EfficientNet:** A family of models that systematically scales network depth, width, and resolution using a compound coefficient. It achieves state-of-the-art performance with significantly fewer parameters and FLOPs than previous models. A strong candidate understands the concept of compound scaling for optimal efficiency.
+
+---
+
+## RNN/LSTM Gating/GRU
+
+*   **Recurrent Neural Networks (RNNs):** Neural networks designed to process sequential data by maintaining an internal "hidden state" that captures information from previous steps in the sequence. Pitfall: Prone to vanishing/exploding gradients over long sequences, making them struggle with long-term dependencies.
+*   **LSTM (Long Short-Term Memory):** An advanced RNN architecture that addresses the vanishing gradient problem by introducing a "cell state" and three gating mechanisms (input, forget, output gates). These gates regulate the flow of information into and out of the cell state, allowing LSTMs to selectively remember or forget information over long sequences. A strong candidate can describe the role of each gate in managing the cell state.
+*   **GRU (Gated Recurrent Unit):** A simplified version of LSTM that combines the cell state and hidden state, and uses fewer gates (update and reset gates). GRUs offer a good balance between performance and computational efficiency, often performing comparably to LSTMs on many tasks while having fewer parameters. A strong candidate discusses the trade-offs between LSTM's expressiveness and GRU's efficiency.
+
+---
+
+## Optimization
+
+*   **SGD Momentum:** An optimization technique that accelerates Stochastic Gradient Descent (SGD) by adding a fraction of the previous update vector to the current update. This helps the optimizer overcome local minima, navigate flat regions, and dampen oscillations in directions of high curvature, leading to faster and more stable convergence. A strong candidate explains how it builds "velocity" in consistent gradient directions.
+*   **Adam (Adaptive Moment Estimation):** An adaptive learning rate optimization algorithm that computes individual adaptive learning rates for different parameters. It combines the benefits of momentum (using past gradients to accelerate) and RMSprop (scaling learning rates based on the average of squared gradients). Adam is generally robust to hyperparameter choices and performs well across a wide range of deep learning tasks. A strong candidate can explain its use of first and second moment estimates of gradients.
+*   **Learning Rate Scheduling:** Strategies to dynamically adjust the learning rate during training, rather than keeping it constant. Common schedules include step decay, exponential decay, and cosine annealing. The goal is to allow for larger steps early in training to quickly approach the optimum, then smaller steps later for fine-tuning and better convergence. A strong candidate explains *why* this is beneficial (e.g., avoiding overshooting, escaping saddle points).
+*   **Warmup:** A learning rate scheduling technique where the learning rate is gradually increased from a very small value to the initial learning rate over the first few training steps or epochs. This helps stabilize training, especially when using large batch sizes or deep networks with Adam-like optimizers, preventing large, erratic gradient updates early on when parameters are randomly initialized.
+
+---
+
+## Regularization
+
+*   **Dropout Probability:** A regularization technique where, during training, a random fraction of neurons' outputs are set to zero at each update. This prevents neurons

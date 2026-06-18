@@ -1,0 +1,106 @@
+# STATISTICS_EXPERIMENTATION — Reference Document (Source: Gemini 2.5 Flash)
+
+## Competency: STATISTICS_EXPERIMENTATION (Role: Data Analyst)
+
+This document outlines key statistical and experimental design competencies expected of a Data Analyst. A strong candidate demonstrates not just definitional knowledge but also a deep understanding of practical application, assumptions, limitations, and the ability to interpret results in a business context.
+
+## Descriptive Statistics
+
+**Definition:** Methods used to summarize and describe the main features of a dataset.
+
+*   **Mean:** The arithmetic average of a dataset.
+    *   *Distinction:* Sensitive to outliers.
+    *   *Practical Detail:* Best for symmetrically distributed data. A strong candidate understands its limitations and when to use alternatives.
+*   **Median:** The middle value in an ordered dataset.
+    *   *Distinction:* Robust to outliers.
+    *   *Practical Detail:* Preferred for skewed distributions (e.g., income, house prices) where the mean would be misleading.
+*   **Mode:** The most frequently occurring value in a dataset.
+    *   *Distinction:* Applicable to all data types (nominal, ordinal, interval, ratio).
+    *   *Practical Detail:* Useful for categorical data or identifying peaks in multimodal distributions.
+*   **Standard Deviation (SD):** A measure of the average amount of variability or dispersion around the mean.
+    *   *Distinction:* Expressed in the same units as the data, making it directly interpretable.
+    *   *Practical Detail:* A smaller SD indicates data points are closer to the mean.
+*   **Variance:** The average of the squared differences from the mean.
+    *   *Distinction:* SD is the square root of variance. Variance is in squared units, making it less intuitive for direct interpretation but mathematically convenient.
+    *   *Practical Detail:* Used in many statistical tests (e.g., ANOVA).
+*   **Skewness:** A measure of the asymmetry of the probability distribution of a real-valued random variable about its mean.
+    *   *Distinction:* Positive skew (right-skewed) means the tail is longer on the right; negative skew (left-skewed) means the tail is longer on the left.
+    *   *Practical Detail:* Indicates if the mean is being pulled by extreme values. A strong candidate can explain how skewness impacts the relationship between mean, median, and mode.
+    *   *Pitfall:* Weak candidates may only define it without explaining its implications for central tendency measures.
+
+## Probability Distributions
+
+**Definition:** A mathematical function that describes the likelihood of different possible outcomes in an experiment.
+
+*   **Normal Distribution (Gaussian):** A symmetric, bell-shaped distribution where the mean, median, and mode are equal.
+    *   *Distinction:* Characterized by its mean ($\mu$) and standard deviation ($\sigma$). Many natural phenomena approximate this distribution.
+    *   *Practical Detail:* Crucial for inferential statistics due to the Central Limit Theorem. A strong candidate understands its assumptions and the role of the CLT in justifying its use for sample means.
+*   **Binomial Distribution:** Describes the number of successes in a fixed number of independent Bernoulli trials.
+    *   *Distinction:* Discrete distribution for binary outcomes (success/failure) over a fixed number of trials (n), with a constant probability of success (p).
+    *   *Practical Detail:* Ideal for modeling conversion rates, A/B test outcomes (e.g., clicks, purchases).
+*   **Poisson Distribution:** Describes the number of events occurring in a fixed interval of time or space, given a constant average rate ($\lambda$) and independent occurrences.
+    *   *Distinction:* Discrete distribution for rare events.
+    *   *Practical Detail:* Useful for modeling website visits per minute, customer service calls per hour, or defects per product. A strong candidate can differentiate it from Binomial by the nature of the "trials" (fixed interval vs. fixed count).
+
+## Hypothesis Testing Fundamentals
+
+**Definition:** A statistical method used to make inferences about a population parameter based on sample data.
+
+*   **Null Hypothesis ($H_0$):** A statement of no effect or no difference. The hypothesis to be tested.
+*   **Alternative Hypothesis ($H_1$ or $H_A$):** A statement that contradicts the null hypothesis, suggesting an effect or difference.
+*   **P-value Interpretation:** The probability of observing data as extreme as, or more extreme than, the sample data, *assuming the null hypothesis is true*.
+    *   *Strong Candidate:* Correctly states that a low p-value (typically < $\alpha$) leads to rejecting $H_0$, indicating the observed data is unlikely under $H_0$.
+    *   *Weak Candidate/Pitfall:* Misinterprets p-value as the probability that the null hypothesis is true, or the probability of making a mistake. It is *not* a measure of effect size.
+*   **Confidence Intervals (CI):** A range of values, derived from sample statistics, that is likely to contain the true population parameter with a certain level of confidence (e.g., 95%).
+    *   *Practical Detail:* Provides a range of plausible values for the parameter. If a 95% CI for a difference in means does not include zero, it suggests a statistically significant difference at the 0.05 level. A strong candidate uses CIs to complement p-values, providing both significance and an estimate of the effect's magnitude.
+
+## Specific Hypothesis Tests
+
+**Definition:** Statistical procedures chosen based on data type, number of groups, and research question.
+
+*   **T-test:** Used to compare the means of two groups.
+    *   *Types:* Independent samples t-test (unrelated groups), Paired samples t-test (related groups).
+    *   *Assumptions:* Data is continuous, approximately normally distributed, and (for independent samples) equal variances (though Welch's t-test can relax this).
+    *   *Practical Detail:* A strong candidate knows when to use each type and can discuss the impact of violating assumptions.
+*   **Chi-square Test ($\chi^2$):** Used for categorical data.
+    *   *Types:* Goodness-of-fit (compares observed frequencies to expected frequencies in a single categorical variable), Test of Independence (examines the relationship between two categorical variables).
+    *   *Assumptions:* Expected cell counts are sufficiently large (typically > 5).
+    *   *Practical Detail:* Common for analyzing survey responses or A/B test results where the outcome is categorical (e.g., click/no-click).
+*   **ANOVA (Analysis of Variance):** Used to compare the means of three or more groups.
+    *   *Distinction:* Extends the t-test to multiple groups, controlling the Type I error rate.
+    *   *Practical Detail:* If ANOVA indicates a significant difference, post-hoc tests (e.g., Tukey HSD) are needed to determine *which* specific group pairs differ. A strong candidate understands that ANOVA itself doesn't identify specific differences.
+
+## A/B Testing Design and Pitfalls
+
+**Definition:** A randomized controlled experiment comparing two versions (A and B) of a product, feature, or marketing campaign to determine which performs better.
+
+*   **Design Principles:**
+    *   **Randomization:** Ensures groups are comparable and minimizes bias.
+    *   **Sample Size Calculation (Power Analysis):** Determines the minimum sample size needed to detect a statistically significant effect of a given magnitude with a specified power. A strong candidate can explain the components (alpha, beta/power, effect size) and why it's critical *before* starting an experiment.
+    *   **Defining Metrics:** Clearly identifying the primary (Overall Evaluation Criterion - OEC) and secondary metrics.
+*   **Pitfalls:**
+    *   **Novelty Effect/Change Aversion:** Initial user behavior might be atypical due to the newness of the feature.
+    *   **Selection Bias:** Non-random assignment of users to groups.
+    *   **Simpson's Paradox:** Trends appearing in subgroups reverse when groups are combined, due to a lurking confounding variable.
+    *   **Insufficient Sample Size:** Leads to underpowered tests, missing real effects (Type II error).
+    *   **Running Tests for Too Short/Long:** Too short risks novelty effects; too long risks external factors influencing results.
+    *   **Ignoring Multiple Testing:** Running many tests without correction inflates Type I error.
+    *   *Strong Candidate:* Can identify these pitfalls in hypothetical scenarios and propose mitigation strategies.
+
+## Statistical Significance vs. Practical Significance
+
+**Definition:** Two distinct but equally important aspects of interpreting experimental results.
+
+*   **Statistical Significance:** Indicates that an observed effect is unlikely to have occurred by random chance, given the null hypothesis. Determined by p-value and alpha level.
+*   **Practical Significance (Effect Size):** Refers to the magnitude and real-world importance of an observed effect.
+    *   *Distinction:* A statistically significant result might have a very small effect size, making it practically insignificant for the business. Conversely, a practically significant effect might not be statistically significant if the sample size is too small.
+    *   *Practical Detail:* A strong candidate always considers both. They can articulate that a 0.1% increase in conversion might be statistically significant but practically irrelevant for a small product, while a 0.1% increase for a massive platform could be hugely impactful. They might use metrics like Cohen's d or relative lift to quantify practical significance.
+
+## Multiple Testing Correction
+
+**Definition:** Methods used to adjust the significance level ($\alpha$) when performing multiple hypothesis tests simultaneously, to control the family-wise error rate (FWER).
+
+*   **Bonferroni Correction:** A conservative method that divides the desired family-wise alpha level by the number of tests performed.
+    *   *Mechanism:* If you perform 'N' tests, the new significance level for each individual test becomes $\alpha / N$.
+    *   *Practical Detail:* While simple, it can be overly conservative, increasing the chance of Type II errors (failing to detect a real effect).
+    *   *Strong Candidate:* Recognizes the problem of inflated Type I error rate when running multiple tests (e.g., A/B testing multiple metrics or segments) and can explain *why* correction is needed. They can apply Bonferroni and discuss its trade-offs, potentially mentioning other methods like Benjamini-Hochberg for controlling the False Discovery Rate (FDR).

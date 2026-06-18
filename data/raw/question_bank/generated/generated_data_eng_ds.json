@@ -1,0 +1,1398 @@
+[
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_001",
+    "question_text": "Feature Engineering là gì? Hãy kể tên 3 kỹ thuật cơ bản trong Feature Engineering.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "FEATURE_ENGINEERING"
+    ],
+    "skill_tags": [
+      "FEATURE_ENGINEERING"
+    ],
+    "answers": {
+      "detailed": "Feature Engineering là quá trình chuyển đổi và tạo các đặc trưng từ dữ liệu thô để làm tăng hiệu suất của mô hình machine learning. Ba kỹ thuật cơ bản: (1) **Tạo feature mới** - khai thác thông tin từ dữ liệu có sẵn, ví dụ tách năm/tháng/ngày từ timestamp hoặc tính tỉ lệ giữa hai feature để khắp phục các mối quan hệ phi tuyến; (2) **Scaling/Normalization** - đưa các feature về cùng tỷ lệ (Min-Max Scaling, Standardization) để tránh bias từ feature có giá trị lớn hơn; (3) **Xử lý missing values** - thay thế giá trị thiếu bằng mean (nhanh nhưng nhạy cảm với outliers), median (robust với dữ liệu skewed), hoặc mode (cho dữ liệu categorical). Lựa chọn phương pháp phụ thuộc vào bản chất dữ liệu và mục tiêu mô hình.",
+      "evaluation_points": [
+        "Định nghĩa đúng Feature Engineering là quá trình chuyển đổi dữ liệu thô thành đặc trưng phù hợp cho mô hình",
+        "Kể được ít nhất 3 kỹ thuật cơ bản khác nhau (tạo feature mới, scaling, xử lý missing values)",
+        "Giải thích mục đích của mỗi kỹ thuật (ví dụ: scaling giúp đưa các feature về cùng scale, xử lý missing values giúp dữ liệu đầy đủ hơn)",
+        "Phân biệt giữa các phương pháp xử lý missing values (mean vs median vs mode) và khi nào dùng từng phương pháp",
+        "Hiểu rằng Feature Engineering ảnh hưởng trực tiếp đến hiệu suất của mô hình machine learning"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_003",
+    "question_text": "One-hot encoding và Label encoding khác nhau như thế nào? Khi nào nên dùng mỗi loại?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "ENCODING_TECHNIQUES"
+    ],
+    "skill_tags": [
+      "ENCODING_TECHNIQUES"
+    ],
+    "answers": {
+      "detailed": "One-hot encoding tạo ra m cột nhị phân cho mỗi giá trị của biến categorical (m là số giá trị unique), trong khi Label encoding gán mỗi giá trị một số nguyên duy nhất (0, 1, 2,...). \n\n**Khi nào dùng One-hot encoding:**\n- Biến categorical nominal (không có thứ tự): màu sắc, quốc gia, loại sản phẩm\n- Mô hình tuyến tính (Linear Regression, Logistic Regression): tránh áp đặt quan hệ thứ tự giả tạo\n- Nhược điểm: tăng số chiều (dimensionality curse), không phù hợp với high-cardinality features\n\n**Khi nào dùng Label encoding:**\n- Biến categorical ordinal (có thứ tự): mức độ thỏa mãn (thấp=1, trung bình=2, cao=3), học vấn (cấp 1, cấp 2, cấp 3)\n- Tree-based models (Random Forest, XGBoost, Decision Trees): các mô hình này có thể xử lý Label encoding tốt vì tự động xác định ngưỡng phân chia\n- Tiết kiệm bộ nhớ và tính toán\n- Lưu ý: với mô hình tuyến tính và biến nominal, Label encoding sẽ gây hiểu lầm vì mô hình học quan hệ toán học giả tạo",
+      "evaluation_points": [
+        "Giải thích đúng cơ chế: One-hot encoding tạo m cột nhị phân cho m giá trị; Label encoding gán 0, 1, 2,... cho các giá trị",
+        "Phân biệt rõ ràng giữa nominal (không có thứ tự) và ordinal (có thứ tự) + hậu quả của việc sử dụng sai loại encoding",
+        "Nhận diện vấn đề 'curse of dimensionality' khi One-hot encoding với high-cardinality features (ví dụ: ZIP code, product ID)",
+        "Giải thích tại sao Label encoding gây hiểu lầm cho mô hình: mô hình có thể học quan hệ toán học giả tạo giữa các giá trị (ví dụ: giả định 3 > 2 > 1)",
+        "Đưa ra ví dụ cụ thể: One-hot cho 'màu sắc' (xanh/đỏ/vàng); Label encoding cho 'mức độ thỏa mãn' (thấp=1, trung bình=2, cao=3)",
+        "Nhắc đến hybrid approach: tree-based models (Random Forest, XGBoost) có thể xử lý Label encoding cho nominal features tốt hơn"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_005",
+    "question_text": "Bạn đang làm việc với một bộ dữ liệu phân loại khách hàng có tỷ lệ churn (rời bỏ) rất thấp, chỉ 2%. Bạn cần xây dựng mô hình dự đoán churn. Hãy so sánh ưu nhược điểm của việc sử dụng SMOTE và random undersampling để xử lý mất cân bằng. Khi nào bạn chọn SMOTE thay vì undersampling?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "skill_tags": [
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "answers": {
+      "detailed": "SMOTE creates synthetic minority samples via interpolation between k-nearest neighbors, preserving data while increasing minority class representation. Random undersampling removes majority class samples randomly, reducing dataset size but risking information loss. For a 2% churn dataset, SMOTE is preferred when minority class samples are diverse and well-structured (typically >100 samples), avoiding overfitting and information loss. Undersampling suits very large datasets (>1M rows) where computational efficiency is critical. However, with only 2% churn, SMOTE risks creating synthetic overlaps in high-dimensional space, so careful k-value tuning is essential. Consider hybrid approaches (SMOTETomek, SMOTEENN) combining both techniques, and always validate using stratified cross-validation with F1-score/AUROC rather than accuracy alone to ensure balanced performance across both classes.",
+      "evaluation_points": [
+        "Correctly explain SMOTE mechanism (interpolation between k-nearest neighbors) vs undersampling (random removal)",
+        "Analyze trade-offs: SMOTE preserves data but may create artificial overlapping samples in high-dimensional space; undersampling loses information but reduces class imbalance more drastically",
+        "Discuss when to choose SMOTE: sufficient minority class samples (typically >100), well-separated clusters, lower-dimensional data; choose undersampling when dataset is very large (>1M) or minority class samples are extremely sparse",
+        "Address potential issues: SMOTE with 2% churn rate requires careful k-value tuning to avoid over-synthesis; undersampling may severely impact model performance if majority class contains critical patterns",
+        "Mention evaluation strategy: use stratified k-fold cross-validation, monitor both minority and majority class performance (not just accuracy), consider AUROC/F1-score over accuracy",
+        "Consider hybrid approach: combine SMOTE with undersampling (SMOTETomek, SMOTEENN) for 2% churn scenario to balance both benefits"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_007",
+    "question_text": "Bạn có một bộ dữ liệu với 1 triệu dòng, gồm 50 features numeric và 20 features categorical (mỗi categorical có từ 10 đến 1000 giá trị). Mô hình dự kiến là Logistic Regression. Feature engineering cần tạo thêm 10 features từ tương tác giữa các biến. Hãy thiết kế pipeline xử lý dữ liệu để tránh overfitting và đảm bảo hiệu suất. Đặc biệt, bạn sẽ xử lý các categorical có nhiều giá trị (high cardinality) như thế nào để không làm tăng số chiều quá mức?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "ENCODING_TECHNIQUES",
+      "FEATURE_ENGINEERING"
+    ],
+    "skill_tags": [
+      "FEATURE_ENGINEERING",
+      "ENCODING_TECHNIQUES"
+    ],
+    "answers": {
+      "detailed": "Pipeline: (1) Create missing value indicators for features with >5% missingness (important signal for Logistic Regression), then impute numeric features with median (robust to outliers in large datasets) and categorical with mode. (2) Apply feature scaling (StandardScaler) only to numeric features after imputation. (3) For high-cardinality categorical features (10-1000 values), use target encoding with smoothing (e.g., m-estimate: smoothing_value / (count + smoothing)) rather than one-hot encoding to avoid curse of dimensionality. Feature hashing is an alternative if target encoding risks overfitting on rare categories. (4) Apply SelectKBest on numeric features to identify top 10 most informative features, then create interaction features (degree=2) only from these 10 selected features—this produces ~55 interactions instead of 1275, significantly reducing overfitting risk. (5) Apply L2 regularization (Ridge) in Logistic Regression with hyperparameter tuning via cross-validation (GridSearchCV on C parameter). L2 is preferred over L1 for Logistic Regression when feature interpretability is needed. (6) Use stratified k-fold cross-validation (k=5 or 10) to ensure robust evaluation and prevent data leakage by fitting all transformers on training folds only. (7) Monitor for multicollinearity among interaction features using VIF or correlation matrix. Expected final feature count: ~50 numeric (scaled) + 20 categorical (target encoded) + 55 interactions = 125 features, manageable for Logistic Regression without excessive regularization.",
+      "evaluation_points": [
+        "Explains why target encoding with smoothing is preferred over one-hot encoding for high-cardinality features and discusses the smoothing parameter's role in preventing target leakage",
+        "Justifies the choice of median imputation for numeric features and acknowledges how missing value indicators can capture information, especially for Logistic Regression",
+        "Discusses the computational cost and effectiveness trade-off of feature hashing vs target encoding given the dataset size (1M rows) and feature space",
+        "Clarifies the order of operations (fit scaling/encoding on train set only before creating interactions) to prevent data leakage during cross-validation",
+        "Explains why SelectKBest should be applied before interaction features to avoid creating uninformative interaction terms and the impact on model interpretability",
+        "Discusses the choice of L2 regularization over L1 and how to tune the regularization strength (C parameter) to balance bias-variance, particularly given 80 features expanding to potentially 100+ after interactions",
+        "Addresses potential multicollinearity issues when creating polynomial interactions and how to monitor this"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_009",
+    "question_text": "Khi xử lý dữ liệu mất cân bằng (imbalanced data) trong bài toán phân loại nhị phân, bạn gặp trường hợp precision rất cao nhưng recall rất thấp. Bạn đã thử SMOTE và điều chỉnh threshold. Hãy phân tích nguyên nhân có thể và đề xuất giải pháp kỹ thuật để cải thiện recall mà không làm giảm precision quá nhiều.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "skill_tags": [
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân: (1) Dữ liệu lớp thiểu số có thể bị nhiễu hoặc không đại diện đầy đủ, mô hình học các mẫu không tiêu biểu. (2) SMOTE tạo mẫu tổng hợp bằng nội suy, dễ gây overlapping với lớp đa số nếu ranh giới phức tạp. (3) Loss function không cân bằng hoặc threshold mặc định quá cao, khiến mô hình có bias dự đoán lớp đa số. (4) Mô hình có capacity không đủ để học đặc trưng phân biệt lớp thiểu số.\n\nGiải pháp kỹ thuật: (1) **Cost-sensitive learning**: Dùng class_weight='balanced' hoặc tùy chỉnh cost ratio dựa trên chi phí kinh doanh—tăng phạt cho false negative lớp thiểu số. Hiểu rằng điều này sẽ làm giảm precision nhưng mục tiêu là tối ưu hóa một metric cân bằng như F-beta (beta > 1). (2) **ADASYN thay SMOTE**: ADASYN tập trung sinh mẫu ở vùng ranh giới khó phân loại thay vì toàn bộ vùng thiểu số, giảm overlapping và noise. (3) **Ensemble methods**: Random Forest hoặc XGBoost với balanced subsampling hoặc scale_pos_weight, nhưng cần biết trade-off là giảm dữ liệu hiệu quả trên mỗi tree. (4) **Threshold tuning dựa Precision-Recall curve**: Vẽ PR curve để tìm ngưỡng tối ưu mà precision vẫn ở mức chấp nhận được (không phải ROC curve, vì ROC che dấu vấn đề ở dữ liệu imbalanced). Chọn threshold dựa trên business cost: false positive vs false negative. (5) **Kiểm tra chất lượng dữ liệu**: Phân tích tính nhiễu của lớp thiểu số, kiểm tra feature distributions—nếu lớp thiểu số có feature overlap cao với lớp đa số, vấn đề không giải quyết được chỉ bằng resampling. (6) **Thu thập dữ liệu thực**: Nếu khả thi, thêm mẫu lớp thiểu số thực sẽ hiệu quả hơn SMOTE. (7) **Metric chính**: Thay vì chỉ nhìn precision/recall riêng lẻ, dùng F1, F-beta (hoặc PR-AUC) làm metric đánh giá chính để hướng tối ưu hóa.",
+      "evaluation_points": [
+        "Explains WHY cost-sensitive learning works (penalizes false negatives to shift decision boundary) and acknowledges the potential cost of reduced precision",
+        "Distinguishes between SMOTE and ADASYN mechanisms: SMOTE interpolates between neighbors while ADASYN focuses on harder-to-learn examples, with clear trade-offs for this specific scenario",
+        "Discusses Precision-Recall curve interpretation and explains why ROC curve is insufficient for imbalanced data (threshold shift affects both metrics differently)",
+        "Addresses the assumption/limitation that ensemble methods with balanced subsampling reduce effective training data per tree, impacting model capacity",
+        "Proposes diagnostic steps before proposing solutions: analyze minority class noise levels, examine feature distributions between classes, check if high precision is due to extreme threshold bias",
+        "Mentions evaluation metric choice itself: suggests using F1-score, F-beta (beta > 1 to weight recall), or PR-AUC as primary metrics rather than accuracy to guide optimization",
+        "Acknowledges the fundamental trade-off: improving recall typically requires lowering decision threshold, which inherently risks precision degradation—proposes domain-specific threshold based on business cost of false positives vs false negatives"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_006",
+    "question_text": "Hãy định nghĩa feature engineering là gì? Tại sao nó quan trọng trong quy trình phát triển mô hình Machine Learning?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "FEATURE_ENGINEERING"
+    ],
+    "skill_tags": [
+      "FEATURE_ENGINEERING"
+    ],
+    "answers": {
+      "detailed": "Feature engineering là quá trình biến đổi dữ liệu thô thành các đặc trưng (features) có ý nghĩa và phù hợp với mô hình Machine Learning. Nó quan trọng vì chất lượng features thường quyết định hiệu suất mô hình hơn cả việc lựa chọn thuật toán.\n\nTầm quan trọng: Dữ liệu thô thường chứa nhiễu, thiếu giá trị, scale không đồng nhất hoặc không capture được các mối quan hệ quan trọng. Feature engineering tốt giúp mô hình học các pattern hiệu quả hơn, cải thiện độ chính xác, giảm overfitting, và tăng khả năng diễn giải.\n\nVí dụ cụ thể:\n- Tách datetime: Từ cột 'timestamp' tách thành 'day', 'month', 'year', 'day_of_week' để capture tính mùa vụ hoặc chu kỳ hàng tuần\n- Polynomial features: Tạo x² từ x để capture quan hệ phi tuyến giữa features\n- Scaling/Normalization: Chuẩn hóa features về cùng scale (0-1 hoặc mean=0, std=1) để thuật toán học tập hiệu quả\n- Interaction features: Tạo feature mới từ tích hoặc tỉ số của hai features nếu domain knowledge cho thấy chúng tương tác\n\nTuy nhiên, feature engineering là sự cân bằng: quá ít features → underfitting, quá nhiều features → overfitting và tăng computational cost. Nên sử dụng domain knowledge kết hợp với kỹ thuật thống kê để lựa chọn features phù hợp.",
+      "evaluation_points": [
+        "Định nghĩa chính xác feature engineering là biến đổi dữ liệu thô thành đặc trưng có ý nghĩa phù hợp với mô hình",
+        "Giải thích tầm quan trọng liên quan đến mối quan hệ: chất lượng features ảnh hưởng trực tiếp đến hiệu suất mô hình hơn cả lựa chọn thuật toán",
+        "Đưa ví dụ cụ thể và giải thích lý do: tách datetime (ngày/tháng/năm để capture mùa vụ), polynomial features (để capture quan hệ phi tuyến), normalization (để cân bằng scale giữa features)",
+        "Nhận thức về trade-off: feature engineering tốn thời gian nhưng ROI cao; quá nhiều features có thể dẫn đến overfitting, quá ít có thể dẫn đến underfitting",
+        "Nhấn mạnh domain knowledge: feature engineering hiệu quả nhất khi kết hợp kiến thức về miền dữ liệu chứ không chỉ kỹ thuật thống kê"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_008",
+    "question_text": "Bạn đang làm việc với một bộ dữ liệu khách hàng có biến mục tiêu nhị phân (mua hàng/không mua hàng), trong đó chỉ có 5% khách hàng mua hàng. Bạn sẽ áp dụng những kỹ thuật nào để xử lý mất cân bằng dữ liệu? Hãy so sánh ưu và nhược điểm của ít nhất hai phương pháp.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "skill_tags": [
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "answers": {
+      "detailed": "Các kỹ thuật xử lý mất cân bằng dữ liệu: 1) **Oversampling (Random + SMOTE)**: Tăng số mẫu lớp thiểu số bằng nhân bản ngẫu nhiên hoặc tạo mẫu tổng hợp qua SMOTE (nội suy k-NN). Ưu điểm: không mất thông tin, giữ đủ dữ liệu huấn luyện. Nhược điểm: Random Oversampling dễ overfit (copy exact samples), SMOTE có thể tạo nhiễu nếu ranh giới class không rõ ràng. 2) **Undersampling**: Giảm mẫu lớp đa số. Ưu điểm: giảm thời gian, tránh overfit từ lặp lại. Nhược điểm: mất thông tin quan trọng từ lớp đa số, rủi ro cao nếu dữ liệu sẵn ít. 3) **Hybrid (SMOTE + ENN hoặc SMOTE + Tomek)**: Kết hợp oversampling lớp thiểu số + undersampling lớp đa số, thường tốt nhất. **Khuyến nghị**: Với 5% positive class, ưu tiên SMOTE + selective undersampling hoặc cost-sensitive learning (điều chỉnh class weights trong mô hình). **Quan trọng**: Luôn tách train-test TRƯỚC cân bằng để tránh data leakage. Dùng stratified k-fold cross-validation và đánh giá bằng F1-score, precision-recall curve, ROC-AUC thay vì accuracy.",
+      "evaluation_points": [
+        "Liệt kê ít nhất 2 kỹ thuật xử lý mất cân bằng với cơ chế hoạt động cụ thể (oversampling, undersampling, hybrid methods)",
+        "So sánh rõ ưu và nhược điểm của từng kỹ thuật, đặc biệt về tác động đến bias-variance tradeoff",
+        "Nhận diện vấn đề quan trọng: khi áp dụng oversampling/undersampling, phải tách train-test TRƯỚC khi cân bằng để tránh data leakage",
+        "Đề cập đến lựa chọn metric phù hợp (precision, recall, F1-score, ROC-AUC) thay vì chỉ accuracy khi dữ liệu mất cân bằng",
+        "Đưa ra khuyến nghị contextual: với 5% positive class, nên xem xét SMOTE + undersampling hoặc cost-sensitive learning hơn là các phương pháp đơn lẻ",
+        "Nên đề cập đến stratified k-fold cross-validation để đảm bảo giữ tỷ lệ class trong mỗi fold"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_010",
+    "question_text": "Bạn có một cột dữ liệu categorical với 50 giá trị khác nhau (ví dụ: mã sản phẩm). Hãy giải thích cách bạn sẽ mã hóa (encode) cột này cho mô hình hồi quy logistic và cho mô hình tree-based như Random Forest. Tại sao bạn chọn các phương pháp khác nhau?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "ENCODING_TECHNIQUES"
+    ],
+    "skill_tags": [
+      "ENCODING_TECHNIQUES"
+    ],
+    "answers": {
+      "detailed": "Với hồi quy logistic (linear model), phải tránh Label Encoding vì nó giả định thứ tự giữa các danh mục. Nên dùng One-Hot Encoding hoặc Target Encoding. One-Hot tạo 50 cột nhị phân (high dimensionality, sparsity, multicollinearity risk cho linear model), trong khi Target Encoding thay thế bằng trung bình mục tiêu (giảm chiều nhưng phải cảnh báo data leakage – cần dùng cross-validation hoặc stratified approach). Với Random Forest (tree-based), Label Encoding có thể dùng được nhưng không tối ưu vì tạo quá nhiều splits trong cây, dễ overfit. Target Encoding hoặc Frequency Encoding hiệu quả hơn vì giữ thông tin tương đối quan trọng mà giảm số lượng branch. One-Hot với 50 giá trị cũng có thể dùng được nếu dữ liệu đủ lớn, nhưng không cần thiết. Trước khi encoding, nên xem xét grouping rare categories để giảm cardinality. Tóm lại: Logistic → Target hoặc One-Hot (ưu tiên Target); Tree-based → Target hoặc Frequency (tránh Label với cardinality cao).",
+      "evaluation_points": [
+        "Recognizes that logistic regression requires encoding that avoids imposing ordinal relationships (One-Hot or Target Encoding appropriate)",
+        "Understands tree-based models are order-agnostic and can work with ordinal encoding, but acknowledges high cardinality (50 categories) creates practical challenges",
+        "Explains dimensionality trade-off: One-Hot creates 50 features (curse of dimensionality for linear models), while Target/Frequency encoding reduces to 1 feature",
+        "Identifies data leakage risk in Target Encoding and proposes mitigation (cross-validation/stratified approach)",
+        "Discusses when each method is suboptimal: One-Hot with 50 categories for logistic regression increases sparsity and multicollinearity; Label Encoding for tree-based models with high cardinality can create excessive splits and overfit",
+        "Mentions cardinality reduction strategies (grouping rare categories, domain knowledge) as preliminary step before encoding",
+        "For logistic regression, acknowledges Target Encoding as preferable to One-Hot due to dimensionality but requires careful handling of target leakage"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_012",
+    "question_text": "Công ty bạn có một pipeline xử lý dữ liệu cho mô hình dự đoán giá nhà. Dữ liệu gồm các biến số (diện tích, số phòng) và biến categorical (quận, loại nhà). Bạn nhận thấy có 10% giá trị missing ở cột 'diện tích'. Bạn sẽ xử lý như thế nào? Hãy so sánh các phương pháp imputation và giải thích cách chọn.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "DATA_PREPROCESSING"
+    ],
+    "answers": {
+      "detailed": "Các phương pháp imputation chính: 1) **Mean/Median Imputation**: Thay bằng trung bình/trung vị. Đơn giản và nhanh, nhưng làm giảm phương sai, tuyến tính hóa phân phối, và giảm ước lượng sai số tiêu chuẩn. Trung vị tốt hơn nếu dữ liệu diện tích có outlier hoặc skew. Chỉ phù hợp khi missing là MCAR (Missing Completely At Random). 2) **KNN Imputation**: Tìm K hàng xóm gần nhất (dựa trên số phòng, quận) và lấy trung vị diện tích của họ. Bảo tồn tương quan đa biến tốt hơn, nhưng đắt tính toán, cần feature scaling trước, và nhạy với outlier. 3) **Regression Imputation**: Xây mô hình dự đoán diện tích từ số phòng, quận, loại nhà. Tận dụng tương quan logic, nhưng có nguy cơ underestimate phương sai và overfit. 4) **Multiple Imputation (MICE)**: Tạo m bộ dữ liệu imputed, train m mô hình, kết hợp dự đoán. Xử lý MNAR tốt nhất, nhưng phức tạp.\n\n**Quyết định**: Trước tiên, kiểm tra cơ chế missing: Nếu missing diện tích độc lập với các biến khác (MCAR), **median imputation** là đủ (10% không quá cao). Nếu missing tương quan với quận (VD: nhà nhỏ ở ngoại thành không ghi diện tích), sử dụng **KNN imputation** với K=5-10 sau khi chuẩn hóa features. Nếu dữ liệu >100K hàng, cân nhắc **regression imputation** để cân bằng độ chính xác vs. tốc độ. Có thể thêm **indicator variable** (is_area_missing=1) nếu EDA cho thấy missingness có liên hệ với giá nhà (MNAR).",
+      "evaluation_points": [
+        "Identifies and explains at least 3 imputation methods with trade-offs (simplicity vs. accuracy, bias vs. variance)",
+        "Analyzes the missingness mechanism (MCAR, MAR, MNAR) and its impact on method selection - e.g., if missing area values correlate with neighborhood type (MAR), justify why mean imputation is inappropriate",
+        "Proposes a concrete decision path: e.g., 'Start with median imputation for MCAR assumption, but if EDA shows missingness correlates with other features, switch to KNN with scaled features'",
+        "Discusses whether to create a missingness indicator variable and when it would be valuable (e.g., if missing area data suggests unmeasured property factors)",
+        "Considers practical constraints: dataset size, dimensionality, computational budget, and interpretability requirements in the choice"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_014",
+    "question_text": "Bạn đang phát triển một mô hình phát hiện gian lận giao dịch với tỷ lệ mất cân bằng cực kỳ cao (0.1% gian lận). Bạn đã thử SMOTE nhưng hiệu suất trên tập validation không cải thiện. Hãy đề xuất và giải thích ít nhất hai cách tiếp cận khác để cải thiện mô hình, bao gồm cả cách điều chỉnh thuật toán và cách xử lý dữ liệu.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "skill_tags": [
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "answers": {
+      "detailed": "Khi SMOTE không hiệu quả với imbalanced ratio cực cao (0.1%), có thể thử: 1) Cost-sensitive learning: Điều chỉnh class_weight trong XGBoost, LightGBM hoặc Logistic Regression để phạt lỗi dương tính giả (false negatives) cao hơn lỗi âm tính giả. Cách này tránh overfit từ oversampling và bảo toàn phân phối dữ liệu gốc. 2) Undersampling thông minh: Sử dụng Tomek Links hoặc Edited Nearest Neighbors (ENN) để loại bỏ mẫu đa số gần biên, tăng cách biệt rõ ràng. Nếu dữ liệu quá lớn, random undersampling + stratification cũng hợp lý. 3) Threshold tuning: Thay vì dùng decision boundary 0.5, điều chỉnh ngưỡng dựa trên PR curve hoặc ROC curve để optimize recall/precision theo business goal (ví dụ: detect 80% fraud với acceptable false positive rate). 4) Hybrid approach: Kết hợp SMOTE + ENN hoặc cost-sensitive learning + threshold tuning để cân bằng giữa sinh dữ liệu tổng hợp và chi phí learning. Validation strategy: Dùng stratified k-fold cross-validation, đảm bảo resampling/scaling chỉ trên train fold, không leak vào validation. Đánh giá bằng precision, recall, F1-score, ROC-AUC, PR-AUC thay vì accuracy để capture minority class performance chính xác.",
+      "evaluation_points": [
+        "Đề xuất ít nhất 2 phương pháp riêng biệt (cost-sensitive learning, undersampling thông minh, threshold tuning, v.v.)",
+        "Giải thích cụ thể lý do SMOTE thất bại trong ngữ cảnh này (mẫu tổng hợp gây noise, high-dimensional feature space, hoặc class imbalance quá cực đoan)",
+        "Đề cập đến data leakage risk: đảm bảo resampling/scaling chỉ áp dụng trên training set, không trên validation/test set",
+        "Nêu rõ stratified k-fold cross-validation để tránh random splits bias và độ đo evaluation đúng (precision, recall, F1-score, ROC-AUC, PR-AUC)",
+        "Thảo luận về threshold tuning (điều chỉnh decision boundary thay vì 0.5) để balance precision-recall trade-off theo business requirement",
+        "Xem xét hybrid approaches (SMOTE + ENN, cost-sensitive + threshold tuning) để maximize effectiveness"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_011",
+    "question_text": "Feature engineering là gì? Hãy cho ví dụ về một kỹ thuật feature engineering cơ bản và giải thích tại sao nó quan trọng trong quy trình xây dựng mô hình.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "FEATURE_ENGINEERING"
+    ],
+    "skill_tags": [
+      "FEATURE_ENGINEERING"
+    ],
+    "answers": {
+      "detailed": "Feature engineering là quá trình chuyển đổi dữ liệu thô thành các đặc trưng (features) phù hợp để huấn luyện mô hình machine learning. Nó bao gồm các bước như tạo biến mới từ dữ liệu hiện có, chuẩn hóa, mã hóa biến categorical, hoặc trích xuất thông tin có ý nghĩa. \n\nVí dụ: Từ cột 'ngày sinh' có thể tạo ra feature 'tuổi' bằng cách lấy năm hiện tại trừ năm sinh. Feature 'tuổi' này thường có mối quan hệ phi tuyến tính mạnh hơn với biến mục tiêu so với 'năm sinh' thô, giúp mô hình học các mẫu ý nghĩa hơn.\n\nKỹ thuật này quan trọng vì: (1) Mô hình học được các mẫu có ý nghĩa hơn, tăng độ chính xác; (2) Giảm overfitting bằng cách loại bỏ thông tin nhiễu; (3) Giảm kích thước dữ liệu và chi phí tính toán. Tuy nhiên, feature engineering quá phức tạp có thể dẫn đến overfitting, do đó cần cân bằng giữa chất lượng feature và tính đơn giản.",
+      "evaluation_points": [
+        "Định nghĩa chính xác feature engineering và phân biệt với data preprocessing",
+        "Đưa ra ví dụ cụ thể, dễ hiểu và giải thích cơ chế tạo feature (tính toán hoặc biến đổi)",
+        "Giải thích được tại sao feature này cải thiện mô hình (ví dụ: tuổi có mối quan hệ phi tuyến với target hơn năm sinh)",
+        "Nhận thức về trade-off giữa độ phức tạp của feature engineering và khả năng generalization",
+        "Nên đề cập các kỹ thuật khác như normalization, encoding categorical variables, hoặc handling missing values như một phần của feature engineering"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_013",
+    "question_text": "Data preprocessing là gì? Nêu ít nhất hai bước tiền xử lý dữ liệu phổ biến và mục đích của chúng.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "DATA_PREPROCESSING"
+    ],
+    "answers": {
+      "detailed": "Data preprocessing là quá trình làm sạch, biến đổi và chuẩn bị dữ liệu thô trước khi đưa vào mô hình, nhằm đảm bảo chất lượng dữ liệu và hiệu suất mô hình. Hai bước phổ biến: (1) Xử lý giá trị thiếu (missing values): Có thể điền bằng mean/median (đơn giản nhưng giảm variance và distort correlations), mode cho categorical, hoặc loại bỏ dòng. Cần chọn median thay vì mean khi dữ liệu có outliers hoặc skewed. KNN imputation là phương pháp tiên tiến hơn nhưng đắt về chi phí tính toán. (2) Chuẩn hóa dữ liệu (normalization/standardization): Min-Max scaling [0,1] hoặc standardization (Z-score) đưa các feature về cùng thang đo, giúp mô hình hội tụ nhanh hơn và tránh feature có thang đo lớn chi phối. Cần feature scaling trước khi áp dụng các thuật toán distance-based như KNN, SVM.",
+      "evaluation_points": [
+        "Định nghĩa đúng data preprocessing và vai trò của nó trong ML pipeline",
+        "Liệt kê ít nhất hai bước cụ thể với ví dụ cụ thể",
+        "Giải thích mục đích của mỗi bước",
+        "Hiểu rõ trade-offs: ví dụ mean imputation giảm variance vs. median imputation phù hợp hơn với dữ liệu skewed; normalization vs. standardization khi nào áp dụng",
+        "Nhận biết các giả định và hạn chế: mean imputation có thể distort correlations, cần feature scaling trước KNN imputation",
+        "Đề cập đến các phương pháp tiên tiến (KNN imputation, multiple imputation) và khi nào nên sử dụng thay vì mean/median",
+        "Thảo luận về impact trên data distribution, standard errors, và hiệu suất mô hình"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_015",
+    "question_text": "Khi nào bạn sử dụng One-Hot Encoding thay vì Label Encoding? Cho ví dụ minh họa.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "ENCODING_TECHNIQUES"
+    ],
+    "skill_tags": [
+      "ENCODING_TECHNIQUES"
+    ],
+    "answers": {
+      "detailed": "One-Hot Encoding phù hợp với biến phân loại không có thứ tự (nominal), như 'màu sắc' (đỏ, xanh, vàng), vì nó tạo vector nhị phân tránh áp đặt quan hệ thứ tự. Label Encoding dùng cho biến có thứ tự (ordinal), như 'trình độ học vấn' (thấp, trung bình, cao), nơi số nguyên giữ được thông tin thứ bậc.\n\nVí dụ: Mã hóa 'màu sắc' bằng Label Encoding sẽ gán đỏ=1, xanh=2, vàng=3, khiến mô hình hiểu sai rằng 'vàng' lớn hơn 'xanh' và có quan hệ toán học giữa các giá trị.\n\nTuy nhiên, One-Hot Encoding có nhược điểm: (1) Gây ra multicollinearity (dummy variable trap) - các cột nhị phân có tương quan tuyến tính hoàn hảo, do đó cần loại bỏ một cột tham chiếu; (2) Tăng chiều dữ liệu (curse of dimensionality) khi có nhiều categories, làm chậm model và tăng overfitting; (3) Tree-based models (Random Forest, XGBoost) xử lý tốt Label Encoding và không cần One-Hot, trong khi linear models (Logistic Regression) yêu cầu One-Hot để tránh sai lệch.",
+      "evaluation_points": [
+        "Phân biệt rõ nominal và ordinal variables",
+        "Đưa ra ví dụ phù hợp cho mỗi loại",
+        "Giải thích hậu quả nếu dùng sai encoding",
+        "Thảo luận vấn đề multicollinearity với One-Hot Encoding (dummy variable trap)",
+        "Nhận xét về curse of dimensionality khi có nhiều categories",
+        "Đề cập đến model-specific considerations (tree-based vs linear models)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_017",
+    "question_text": "Bạn đang làm việc với một bộ dữ liệu phân loại khách hàng có tỷ lệ churn rất thấp (chỉ 2%). Hãy thiết kế một pipeline xử lý imbalance data cho bài toán này, bao gồm các bước từ tiền xử lý đến đánh giá mô hình. Phân tích ưu nhược điểm của ít nhất hai kỹ thuật khác nhau và giải thích cách bạn chọn kỹ thuật phù hợp.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "skill_tags": [
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "answers": {
+      "detailed": "**Comprehensive Pipeline for Imbalanced Classification (2% Churn Rate):**\n\n**(1) Preprocessing Phase:**\n- **Missing Value Handling:** For numerical features, use median imputation (more robust than mean for skewed distributions typical in financial/customer data) or KNN imputation if data relationships are strong. For categorical features, use mode imputation. Avoid mean imputation due to outlier sensitivity.\n- **Feature Scaling:** Apply StandardScaler or RobustScaler (preferred if outliers exist) before any imbalance technique, especially critical if using KNN-based imputation or SMOTE.\n- **Categorical Encoding:** Use one-hot encoding for low-cardinality features, target encoding for high-cardinality to preserve information.\n\n**(2) Imbalance Handling - Two Main Approaches:**\n\n**SMOTE (Synthetic Minority Over-sampling):**\n- *Pros:* Preserves original data distribution; generates synthetic samples in feature space; reduces overfitting compared to simple oversampling.\n- *Cons:* Generates noise if minority class samples are in overlapping regions; computationally expensive; requires feature scaling beforehand.\n- *Best for:* Medium-sized datasets (10K-100K samples) where data quality is good and feature relationships are interpretable.\n\n**Random Under-sampling:**\n- *Pros:* Computationally fast; reduces training time; no synthetic data generation.\n- *Cons:* Loses majority class information; increases bias risk; only viable if majority class is very large (here: 98% are negatives, so 500K+ negatives in typical dataset).\n- *Best for:* Large datasets with abundant majority class samples.\n\n**Class-Weight Approach (Alternative):**\n- Assign higher misclassification cost to minority class via `class_weight='balanced'` in Logistic Regression/Random Forest.\n- *Pros:* No data modification; preserves original distribution; computationally efficient.\n- *Cons:* May not fully address imbalance if class ratio is extreme (98:2); less effective with some algorithms.\n\n**(3) Selection Rationale for This Scenario:**\nGiven 2% churn rate, recommend **SMOTE + class_weight ensemble approach:**\n- SMOTE handles extreme imbalance while preserving feature relationships post-scaling.\n- Combine with ensemble methods (Random Forest, Gradient Boosting) using `class_weight='balanced'` for dual mitigation.\n- This hybrid approach outperforms single techniques in practice for extreme imbalance.\n\n**(4) Model Training:**\n- Use Logistic Regression (baseline with class_weight) and Random Forest/XGBoost (with class_weight + SMOTE preprocessing).\n- Apply stratified K-fold cross-validation (preserve class distribution in each fold).\n\n**(5) Evaluation (Critical for Imbalanced Data):**\n- *Reject:* Accuracy (misleading for imbalanced data—97.98% accuracy if predicting all negatives).\n- *Prioritize:* \n  - **Precision & Recall:** Balance false positives vs. false negatives based on business cost.\n  - **F1-Score:** Harmonic mean of precision/recall.\n  - **AUC-ROC & PR-AUC:** ROC-AUC less sensitive to class imbalance; PR-AUC (Precision-Recall) is more appropriate for extreme imbalance.\n  - **Confusion Matrix:** Explicitly show true positives, false negatives (cost of missing churners).\n\n**(6) Validation Strategy:**\nCompare SMOTE vs. Under-sampling via nested cross-validation:\n- Outer loop: stratified K-fold for final performance estimation.\n- Inner loop: hyperparameter tuning and technique selection via F1/AUC metrics.\n- Select technique with highest AUC-ROC and acceptable precision-recall trade-off for business thresholds.\n\n**Conclusion:** Hybrid SMOTE + class-weight + stratified CV + AUC-focused evaluation maximizes imbalance handling for extreme ratios.",
+      "evaluation_points": [
+        "Comprehensively describes preprocessing pipeline including missing value handling strategy (mean/median/KNN imputation), feature scaling necessity, and categorical encoding rationale",
+        "Analyzes at least two imbalance techniques with explicit trade-offs: SMOTE (data distribution preservation vs. noise generation risk) vs. Under-sampling (information loss) vs. class_weight approach (computational efficiency vs. potential bias)",
+        "Explains why specific techniques are chosen based on dataset characteristics (2% churn rate, dataset size, feature dimensionality) and business context (cost of false negatives vs. false positives)",
+        "Demonstrates understanding of proper cross-validation strategy for imbalanced data (stratified K-fold) and appropriate metrics (precision, recall, F1, AUC-ROC, PR-AUC) rather than accuracy",
+        "Discusses preprocessing-imbalance interaction: e.g., KNN imputation requires feature scaling before SMOTE; data quality issues can amplify synthetic sample noise",
+        "Proposes validation approach comparing techniques empirically with clear success criteria"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_019",
+    "question_text": "Công ty bạn có một pipeline feature engineering tự động cho dữ liệu thời gian thực (real-time). Bạn phát hiện feature 'interaction_score' (tích của hai biến) đang bị rò rỉ dữ liệu (data leakage) do tính toán trên toàn bộ dataset trước khi tách train/test. Làm thế nào để debug và sửa lỗi này? Thiết kế lại pipeline để tránh leakage trong tương lai, bao gồm xử lý windowing và validation phù hợp.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "FEATURE_ENGINEERING"
+    ],
+    "skill_tags": [
+      "FEATURE_ENGINEERING"
+    ],
+    "answers": {
+      "detailed": "Debug: (1) Kiểm tra code tính feature, phát hiện dùng toàn bộ dữ liệu (ví dụ: df['interaction'] = df['A'] * df['B'] trước split). (2) So sánh phân phối feature giữa train và test, kiểm tra correlation với target trên train vs. test—leakage thường gây ra hiệu ứng lớn không giải thích được. (3) Xác định loại leakage: temporal (dữ liệu tương lai) hay statistical (fit trên toàn bộ dữ liệu). \n\nSửa: (a) Tính feature TRONG pipeline sau split; sử dụng sklearn's ColumnTransformer kết hợp Pipeline để đảm bảo fit chỉ trên train data. (b) Cho dữ liệu chuỗi thời gian: dùng TimeSeriesSplit hoặc expanding window validation (mỗi fold: train={t1...tk}, test={tk+1...tm}). (c) Real-time: thiết kế sliding window (ví dụ: 30 ngày lookback), tính interaction_score dựa CHỈ trên dữ liệu quá khứ, không bao gồm điểm dữ liệu hiện tại.\n\nValidation & Monitoring: (1) Expanding window cross-validation để kiểm tra feature stability qua các thời kỳ. (2) Monitor feature distribution shift qua time (ví dụ: KL divergence giữa train window và production window gần đây). (3) Track feature importance stability—nếu importance tăng đột ngột, cảnh báo leakage. (4) Kiểm tra correlation giữa interaction_score và target trên validation set—nếu cao bất thường, điều tra. (5) Setup alerting nếu prediction performance degradation đột ngột xảy ra, có thể do leakage trong dữ liệu mới.",
+      "evaluation_points": [
+        "Xác định chính xác nguyên nhân data leakage (temporal leakage vs. statistical leakage từ việc fit trên toàn bộ dữ liệu)",
+        "Giải thích chi tiết cách TimeSeriesSplit hoặc expanding window cross-validation ngăn chặn leakage trong dữ liệu chuỗi thời gian",
+        "Đề xuất cơ chế feature stabilization/validation để phát hiện drift trong production (ví dụ: so sánh distribution của feature qua time windows)",
+        "Thảo luận trade-off giữa độ chính xác feature (dùng dữ liệu lịch sử dài hơn) vs. tính khả thi real-time (latency, computational cost)",
+        "Mô tả cụ thể cách implement sliding window với lookback period và làm thế nào để handle edge cases (ví dụ: cold start)",
+        "Đề xuất monitoring metrics để phát hiện feature leakage trong production (ví dụ: feature importance shift, unexpected high correlation)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_016",
+    "question_text": "Feature Engineering và Feature Selection khác nhau như thế nào? Cho ví dụ minh họa.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "FEATURE_ENGINEERING"
+    ],
+    "skill_tags": [
+      "FEATURE_ENGINEERING"
+    ],
+    "answers": {
+      "detailed": "Feature Engineering là quá trình tạo ra các đặc trưng mới hoặc biến đổi các đặc trưng hiện có từ dữ liệu thô nhằm cải thiện hiệu suất mô hình. Ví dụ: từ ngày tháng, ta có thể tách ra 'ngày trong tuần', 'mùa', hoặc tính 'số ngày kể từ một sự kiện'. Feature Selection là quá trình chọn ra tập con các feature quan trọng nhất từ tập feature hiện có, loại bỏ những feature không cần thiết, nhiễu hoặc tương quan cao. Ví dụ: dùng correlation matrix để loại bỏ các feature tương quan cao (multicollinearity), hoặc dùng feature importance từ mô hình tree-based để chọn top-K features. Feature Engineering nhằm tạo tín hiệu mạnh hơn và là quá trình sáng tạo, yêu cầu hiểu biết domain; Feature Selection nhằm giảm overfitting, giảm complexity mô hình, và cải thiện interpretability.",
+      "evaluation_points": [
+        "Phân biệt rõ khái niệm: Feature Engineering (tạo mới/biến đổi features) vs Feature Selection (chọn lọc từ features hiện có)",
+        "Đưa ra ít nhất một ví dụ cụ thể cho mỗi khái niệm (Feature Engineering: tách date thành day-of-week/season; Feature Selection: correlation matrix, feature importance)",
+        "Giải thích mục đích: Feature Engineering cải thiện hiệu suất mô hình bằng cách tạo tín hiệu mạnh hơn; Feature Selection giảm overfitting, giảm dimensionality, và cải thiện interpretability",
+        "Đề cập đến các phương pháp thực hành: Feature Engineering (domain knowledge, statistical transformations); Feature Selection (correlation-based, model-based như feature importance, wrapper methods)",
+        "Nhận thức về trade-offs: Feature Engineering tốn thời gian manual nhưng có thể tạo impact lớn; Feature Selection giúp giảm complexity và overfitting nhưng có thể loại mất thông tin hữu ích"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_018",
+    "question_text": "Bạn đang xử lý dữ liệu khách hàng với 2 feature categorical: 'Loại khách hàng' (VIP, Thường, Mới) và 'Khu vực' (Bắc, Trung, Nam). Hãy so sánh One-Hot Encoding và Label Encoding cho 2 feature này, và đề xuất phương pháp phù hợp cho mô hình hồi quy logistic.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "ENCODING_TECHNIQUES"
+    ],
+    "skill_tags": [
+      "ENCODING_TECHNIQUES"
+    ],
+    "answers": {
+      "detailed": "One-Hot Encoding tạo ra các cột nhị phân cho mỗi giá trị danh mục, tránh áp đặt thứ tự giả tạo giữa các lớp. Label Encoding gán số nguyên (0,1,2) theo tuần tự, điều này gây hiểu lầm cho mô hình hồi quy logistic vì nó sẽ hiểu nhầm VIP > Thường > Mới có quan hệ tuyến tính, trong khi thực tế chúng chỉ là các danh mục độc lập không có thứ tự.\n\nDo đó, One-Hot Encoding là phương pháp phù hợp hơn cho cả 2 feature này. Tuy nhiên, khi sử dụng One-Hot Encoding, cần chú ý đến dummy variable trap (multicollinearity): nếu có 3 danh mục, chỉ cần tạo 2 cột (bỏ một cột làm tham chiếu/baseline) vì cột còn lại có thể suy ra từ hai cột kia. Ví dụ, với 'Loại khách hàng', tạo 2 cột: is_VIP và is_Thường (bỏ is_Mới làm baseline).\n\nNgoài ra, cần kiểm tra xem có giá trị thiếu trong các feature categorical không; nếu có, phải xử lý trước khi encoding (ví dụ: impute bằng mode hoặc tạo danh mục riêng cho missing values).",
+      "evaluation_points": [
+        "Giải thích được ưu nhược điểm của One-Hot và Label Encoding (One-Hot tránh thứ tự giả tạo, Label Encoding gây áp đặt thứ tự không có thực).",
+        "Chỉ ra vì sao One-Hot phù hợp hơn cho hồi quy logistic: mô hình tuyến tính không nên giả định thứ tự hoặc khoảng cách giữa các danh mục.",
+        "Đề cập đến dummy variable trap (multicollinearity) khi sử dụng One-Hot Encoding và giải thích cách khắc phục (bỏ một cột tham chiếu/baseline).",
+        "Đánh giá về độ phức tạp tính toán: One-Hot tăng số feature nhưng cần thiết cho tính chính xác; có thể xem xét số lượng danh mục.",
+        "Xem xét cơ chế mất dữ liệu: nếu có giá trị thiếu trong các feature categorical, cần xử lý trước khi encoding."
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_020",
+    "question_text": "Công ty có một bài toán phân loại gian lận với dữ liệu mất cân bằng nghiêm trọng (tỉ lệ 1:1000). Bạn đã thử dùng Random Forest với class_weight='balanced' nhưng recall vẫn thấp. Hãy so sánh 3 kỹ thuật xử lý mất cân bằng: Oversampling (SMOTE), Undersampling (RandomUnderSampler), và kết hợp cả hai (SMOTEENN). Phân tích trade-off giữa chúng và đề xuất cách tiếp cận tối ưu cho bài toán này.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "skill_tags": [
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "answers": {
+      "detailed": "SMOTE creates synthetic minority samples by interpolating K-nearest neighbors, increasing recall but risking overfitting and noise if minority class is sparse or high-dimensional. Undersampling removes majority samples, reducing training time and overfitting risk, but discards potentially valuable information—problematic with extreme imbalance (1:1000) where information loss is severe. SMOTEENN combines SMOTE oversampling with Edited Nearest Neighbors (removing noisy borderline samples), improving synthetic data quality at higher computational cost.\n\nFor 1:1000 imbalance, pure undersampling would discard ~99.9% of majority data; pure SMOTE may create overlapping synthetic samples if minority class is dispersed. SMOTEENN is preferable, but should be paired with:\n\n1. **BalancedRandomForest or XGBRFClassifier** with adjusted scale_pos_weight, not just standard Random Forest with class_weight='balanced'—these natively handle imbalance better.\n\n2. **Stratified k-fold cross-validation** to prevent data leakage (apply SMOTEENN *within* each fold, post-split).\n\n3. **Cost-sensitive threshold tuning**: adjust decision threshold on validation set using precision-recall trade-offs, explicitly modeling business cost (false negatives in fraud = high cost).\n\n4. **Evaluation metrics**: F2-score or custom cost matrices, not just precision-recall curves—quantify business impact.\n\nProposed pipeline: Stratified split → SMOTEENN (K=5-10, nearest_neighbors=5) on training fold → BalancedRandomForest → threshold optimization on validation set → evaluate on held-out test set using F2 and AUC-PR.",
+      "evaluation_points": [
+        "Explain why stratified k-fold cross-validation is critical when evaluating imbalanced datasets, preventing data leakage and ensuring reliable performance estimates.",
+        "Discuss cost-sensitive learning (adjusting class weights or thresholds) as a complementary strategy, not just SMOTE variants—especially relevant when recall is prioritized in fraud detection.",
+        "For extreme imbalance (1:1000), justify SMOTEENN choice quantitatively: specify K-neighbors for SMOTE generation, explain Edited Nearest Neighbors threshold, and mention monitoring minority class generation quality.",
+        "Address the trade-off between synthetic data quality and computational cost: SMOTE + ensemble methods increase training time; compare against threshold tuning on decision boundaries.",
+        "Evaluate using F-beta score (β>1) or custom cost matrices reflecting business impact (cost of false negatives vs false positives in fraud), not just precision-recall curves.",
+        "Mention potential data leakage: sampling must occur *after* train-test split to avoid synthetic samples influencing validation."
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_022",
+    "question_text": "Bạn đang làm việc với dữ liệu chuỗi thời gian bán hàng, trong đó có feature 'Ngày' (datetime), 'Doanh số' (số thực), và 'Sản phẩm' (categorical với 5000 giá trị). Hãy đề xuất quy trình preprocessing và feature engineering để huấn luyện mô hình dự báo doanh số. Giải thích tại sao bạn chọn các bước đó, đặc biệt là cách xử lý feature 'Sản phẩm' với số lượng giá trị lớn.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "DATA_PREPROCESSING"
+    ],
+    "answers": {
+      "detailed": "Quy trình: (1) Xử lý missing: điền doanh số bằng median **theo từng sản phẩm** (không global median) để bảo toàn mô hình bán hàng riêng biệt của mỗi sản phẩm, kết hợp tạo missing indicator nếu missing pattern có tính thông tin. (2) Feature engineering từ 'Ngày': tách thành 'ngày trong tuần', 'tháng', 'quý', các biến chỉ báo ngày lễ/sự kiện. Quan trọng: tạo temporal features như 'lag doanh số 7/30 ngày' (capture autocorrelation) và 'rolling mean 30 ngày' (smooth trends), đảm bảo không bị data leakage bằng cách tính từ quá khứ. (3) Xử lý 'Sản phẩm' (5000 giá trị): **One-Hot Encoding không khả thi** (tạo 5000 cột sparse, tăng memory, training chậm). **Target Encoding** tối ưu: thay mỗi sản phẩm bằng mean doanh số của nó, tuy nhiên phải áp dụng **Laplace smoothing** (ví dụ: (count*target_mean + smoothing_strength*global_mean)/(count+smoothing_strength)) để tránh overfitting trên sản phẩm hiếm. **Cảnh báo:** phải thực hiện Target Encoding trên train set, fit mapping trước, rồi apply trên test set (tránh target leakage). Nếu sản phẩm có phân phối đuôi dài (few bestsellers, many rare products), **Count Encoding** (tần suất xuất hiện) có thể bổ sung. (4) Chuẩn hóa: **StandardScaler** cho các feature số sau khi tách, fit trên train set. (5) Validation strategy: **temporal cross-validation** (train trên tháng t-2, t-1, validate trên t) thay vì random split để đánh giá khả năng dự báo thực tế. Lý do: Target Encoding giữ thông tin predictive (doanh số theo sản phẩm), Count Encoding giữ popularity signal, cả hai tránh curse of dimensionality mà vẫn capture high-cardinality information.",
+      "evaluation_points": [
+        "Explains why median imputation by product is preferred over global median (preserves product-specific patterns) and discusses the missing indicator creation",
+        "Demonstrates understanding of temporal feature engineering (lag/rolling features) for time series and justifies why these capture autocorrelation better than static features",
+        "Critically compares One-Hot vs Target Encoding vs Count Encoding: acknowledges One-Hot's sparsity curse, explains when Target Encoding risks data leakage if not done properly with cross-validation, and when Count Encoding is appropriate (long-tail distributions)",
+        "Discusses smoothing in Target Encoding with concrete reasoning (e.g., Laplace smoothing formula) and explains why it prevents high-cardinality categories with few samples from overfitting",
+        "Addresses potential pitfalls: target leakage risk in Target Encoding, temporal data leakage (ensuring lag features don't peek into future), and the importance of fitting all transformations on train set only",
+        "Mentions validation strategy for time series (temporal cross-validation, not random split) to ensure model robustness on future unseen periods"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_024",
+    "question_text": "Bạn được giao thiết kế pipeline preprocessing cho dữ liệu huấn luyện mô hình phát hiện bất thường trong giao dịch tài chính, với các vấn đề sau: (1) 30% missing values ở feature 'Số tiền', (2) outliers cực đoan (có giao dịch 1 tỷ USD do lỗi nhập liệu), (3) feature categorical 'Loại giao dịch' có 200 giá trị nhưng phân phối đuôi dài (80% thuộc 5 loại, 20% còn lại rất hiếm). Hãy trình bày chi tiết cách xử lý từng vấn đề, bao gồm cách bạn kiểm tra và đánh giá hiệu quả của từng bước. Đặc biệt, đề xuất cách xử lý outliers mà không làm mất thông tin về giao dịch bất thường thật sự (fraud).",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "DATA_PREPROCESSING"
+    ],
+    "answers": {
+      "detailed": "Pipeline đề xuất: \n\n(1) Missing values (30% ở 'Số tiền'): Tránh mean imputation vì outliers gây bias. Dùng grouped median imputation theo 'Loại giao dịch' (preserves distribution within groups) hoặc MICE, kèm theo indicator feature 'is_missing_amount'. Kiểm tra: so sánh KS-statistic hoặc Jensen-Shannon divergence của phân phối trước/sau theo nhóm transaction type; validation trên fold độc lập để tránh data leakage.\n\n(2) Outliers - Phân biệt lỗi vs fraud thật: Đây là vấn đề criticality cao. Không loại bỏ ngay mà: (a) Dùng Isolation Forest để assign anomaly score cho mỗi transaction. (b) Tạo percentile-based flag (VD: >99.9% = potential_error), nhưng không loại bỏ. (c) Thay vào đó, tạo features: 'high_value_transaction' (bool) và 'normalized_amount' (log-transform hoặc Winsorization at 99th percentile). (d) Thử 3 pipeline variants: (i) giữ nguyên outliers, (ii) Winsorize, (iii) flag + transform. (e) Đánh giá trên hold-out test set với manual review của borderline cases (99.5-99.9%) để kiểm tra xem 1 tỷ USD có thực sự là lỗi hay fraud pattern. So sánh AUC, precision-recall, và false negative rate trên fraudulent subset riêng.\n\n(3) High-cardinality categorical (200 giá trị, 80% concentrated, 20% rare): Gộp rare categories (< 2-5% frequency) thành 'Other', sau đó dùng Target Encoding với smoothing (global_mean * (1-smoothing) + group_mean * smoothing, smoothing ~0.1-0.5). Tính encoding parameters chỉ từ training fold để tránh leakage; apply lên validation/test fold. Đánh giá: so sánh One-Hot Encoding baseline vs Target Encoding qua cross-validation stratified by fraud label, kiểm tra feature importance của categorical features.\n\nValidation toàn pipeline: Stratified K-Fold CV, đảm bảo mỗi fold giữ tỷ lệ fraud/non-fraud; tính metrics riêng biệt cho high-value vs normal transactions để phát hiện bias trong preprocessing.",
+      "evaluation_points": [
+        "Explicitly define evaluation metrics for each preprocessing step (e.g., KS-statistic or Jensen-Shannon divergence for distribution comparison before/after imputation; AUC-PR for anomaly detection thresholds)",
+        "Clarify the anomaly detection validation strategy: hold-out test set with manual review of borderline cases (e.g., 99.5-99.9% percentile transactions) to distinguish genuine fraud from data entry errors, with precision/recall trade-off analysis",
+        "Explain data leakage prevention in detail: Target Encoding parameters (smoothing, global mean) must be computed only on training fold; grouped median imputation stratified by training fold to avoid test information leakage",
+        "Propose A/B testing framework: compare pipeline performance with outliers flagged/removed/transformed (log-scale, Winsorization at 99th percentile) using stratified cross-validation on both fraudulent and non-fraudulent subsets separately",
+        "Address the core tension: propose creating a 'high_value_transaction' flag feature to preserve extreme values as signals rather than treating them as pure errors, then let the model learn their fraud propensity"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_021",
+    "question_text": "Imbalanced Data là gì? Hãy nêu ít nhất hai phương pháp cơ bản để xử lý mất cân bằng dữ liệu.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "skill_tags": [
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "answers": {
+      "detailed": "Imbalanced Data là tình trạng các lớp trong bộ dữ liệu có số lượng mẫu chênh lệch lớn, thường gặp trong phát hiện gian lận (fraud detection), chẩn đoán bệnh hiếm, phát hiện anomaly. Ví dụ: dataset với 99% lớp âm tính và 1% lớp dương tính.\n\nHai phương pháp cơ bản:\n(1) Random Oversampling: Nhân bản ngẫu nhiên mẫu lớp thiểu số để cân bằng. Ưu điểm: đơn giản, không mất thông tin. Hạn chế: gây overfitting do mẫu trùng lặp, tăng độ phức tạp tính toán.\n(2) Random Undersampling: Loại bỏ ngẫu nhiên mẫu lớp đa số. Ưu điểm: giảm kích thước dữ liệu, nhanh hơn. Hạn chế: mất thông tin quan trọng từ lớp đa số, giảm khả năng học model.\n\nPhương pháp nâng cao: SMOTE (Synthetic Minority Over-sampling Technique) tạo mẫu tổng hợp dựa trên KNN, tránh overfitting hơn. Nên sử dụng metrics phù hợp như F1-score hay ROC-AUC thay vì Accuracy khi đánh giá model.",
+      "evaluation_points": [
+        "Định nghĩa chính xác Imbalanced Data và cung cấp ví dụ minh họa thực tế",
+        "Nêu được ít nhất 2 phương pháp cơ bản (Random Oversampling/Undersampling) với cơ chế hoạt động",
+        "Phân tích chi tiết hạn chế của từng phương pháp: overfitting từ nhân bản, mất thông tin từ loại bỏ, và tác động đến model performance",
+        "Nhận biết sự khác biệt giữa phương pháp thống kê đơn giản và phương pháp nâng cao (SMOTE, Stratified Sampling)",
+        "Đề xuất metrics đánh giá phù hợp cho dữ liệu mất cân bằng (F1-score, Precision-Recall, ROC-AUC thay vì Accuracy)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_026",
+    "question_text": "Bạn đang xây dựng pipeline xử lý dữ liệu cho bài toán phát hiện giao dịch gian lận, với tỷ lệ gian lận chỉ 0.1%. Ngoài SMOTE, hãy trình bày ít nhất 3 kỹ thuật xử lý mất cân bằng khác, và giải thích cách kết hợp chúng trong một pipeline thực tế để tránh data leakage.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "skill_tags": [
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "answers": {
+      "detailed": "Ba kỹ thuật ngoài SMOTE: (1) ADASYN (Adaptive Synthetic Sampling): sinh mẫu tổng hợp dựa trên mức độ khó học (density-based), nếu vùng có ít mẫu minority thì sinh nhiều mẫu hơn. Chi phí cao hơn SMOTE nhưng tập trung vào vùng quyết định khó. (2) Tomek Links: loại bỏ cặp mẫu (majority-minority) nằm liền kề nhau - làm sạch biên giới, giảm nhiễu. (3) Balanced Random Forest: mỗi cây được train trên undersampled majority class + toàn bộ minority class, tự động xử lý bất cân bằng mà không mất thông tin.\n\nPipeline tránh data leakage:\n1. Chia train/test TRƯỚC (80/20 stratified)\n2. Trên train set: dùng stratified k-fold (5 fold)\n3. Trong mỗi fold:\n   - Feature scaling (fit trên training fold, apply trên val fold)\n   - Resampling (SMOTE + Tomek Links hoặc ADASYN chỉ trên training fold)\n   - Model training\n   - Evaluate trên val fold (không resampled)\n4. Final evaluation trên test set nguyên bản (không resampled)\n\nKết hợp kỹ thuật: SMOTETomek (oversampling + cleaning) hoặc pipeline hai giai đoạn SMOTE -> Random Undersampling để cân bằng chi phí tính toán. Nếu dùng tree-based model: Balanced Random Forest + threshold adjustment thay vì resampling.\n\nMetric đánh giá: ROC-AUC, PR-AUC, F1-score (không dùng accuracy). Hyperparameter: sampling_strategy (bao nhiêu % oversampling), k_neighbors trong SMOTE/ADASYN (thường 5-7), random_state để reproducibility.",
+      "evaluation_points": [
+        "Nêu được ít nhất 3 kỹ thuật ngoài SMOTE với định nghĩa rõ ràng và use case phù hợp cho bài toán phát hiện gian lận",
+        "Giải thích các trade-off: ADASYN vs SMOTE (chi phí tính toán, độ khó học), Tomek Links vs Random Undersampling (mất thông tin), và tác động của mỗi kỹ thuật lên recall/precision trong bối cảnh lớp hiếm",
+        "Thiết kế pipeline đúng: chia train/test TRƯỚC, áp dụng resampling chỉ trên training data trong cross-validation fold, không resampling validation/test set",
+        "Đề xuất kết hợp kỹ thuật có lý do: SMOTETomek (kết hợp oversampling + cleaning biên giới), Balanced Random Forest, hoặc pipeline two-stage (SMOTE + undersampling)",
+        "Sử dụng stratified k-fold cross-validation và chỉ định rõ metric đánh giá: ROC-AUC, PR-AUC, F1-score (không dùng accuracy) do lớp bất cân bằng cực độ",
+        "Tránh data leakage: không dùng target khi làm feature scaling/encoding, không tính thống kê (mean/std) trên toàn dataset trước khi chia, không resampling trước split",
+        "Thảo luận về hyperparameter tuning: số neighbors K trong KNN resampling, ngưỡng loại bỏ trong Tomek Links, sampling_strategy (bao nhiêu % oversampling)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_028",
+    "question_text": "Bạn đang debug một pipeline feature engineering: sau khi áp dụng MinMaxScaler và One-Hot Encoding cho dữ liệu categorical, mô hình logistic regression cho accuracy rất cao nhưng precision thấp. Dữ liệu có tỷ lệ positive 5%. Hãy phân tích nguyên nhân tiềm ẩn và đề xuất các bước kiểm tra, sửa lỗi (bao gồm xử lý imbalance và encoding).",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "FEATURE_ENGINEERING"
+    ],
+    "skill_tags": [
+      "DATA_PREPROCESSING",
+      "FEATURE_ENGINEERING"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân tiềm ẩn: (1) **Class imbalance**: Với 5% positive samples, mô hình Logistic Regression thiên về lớp đa số (negative), dẫn đến high accuracy nhưng low precision—accuracy cao là giả tạo vì model dự đoán hầu hết samples là negative. (2) **One-Hot Encoding risks**: Nếu categorical features có high cardinality, One-Hot Encoding tạo sparse, high-dimensional feature space, gây overfitting trên Logistic Regression và mất thông tin về mối quan hệ giữa categories. (3) **MinMaxScaler suboptimal**: Nếu dữ liệu chứa outliers, MinMaxScaler bị outliers chi phối, làm méo mó phạm vi scaling. Điều này ảnh hưởng tới magnitude của logistic regression coefficients và hiệu quả của regularization.\n\n**Các bước kiểm tra (Debugging):** (1) Tính Confusion Matrix, Precision, Recall, F1-score để xác định model có bias tới lớp negative. (2) Kiểm tra feature distribution sau encoding: tính sparsity, phát hiện zero-variance features. (3) Phân tích feature importance hoặc coefficients để see nếu một số features dominant. (4) Áp dụng stratified k-fold cross-validation để đảm bảo class distribution consistent. (5) Check data leakage: nếu encoding/scaling dùng toàn bộ dataset thay vì training set.\n\n**Các bước sửa lỗi:** (1) **Xử lý imbalance**: Dùng SMOTE (Synthetic Minority Oversampling) hoặc class_weight='balanced' trong Logistic Regression; adjust decision threshold dựa trên business requirements. (2) **Thay đổi encoding**: Thay One-Hot Encoding bằng target encoding (mean encoding per category) hoặc ordinal encoding nếu categories có thứ tự—giảm dimensionality và preserve statistical relationships. (3) **Regularization**: Áp dụng L1 (Lasso) hoặc L2 (Ridge) penalty; tune hyperparameter C (inverse of regularization strength) qua cross-validation. (4) **Scaling**: Thay MinMaxScaler bằng RobustScaler (dùng median/IQR) hoặc StandardScaler (dùng mean/std) nếu outliers presence, kết hợp với regularization để tối ưu hóa penalty effectiveness.",
+      "evaluation_points": [
+        "Identifies class imbalance as root cause of high accuracy but low precision (accuracy paradox with 5% positive rate)",
+        "Analyzes One-Hot Encoding risks: sparse features, curse of dimensionality, and logistic regression's susceptibility to overfitting on high-cardinality categorical variables",
+        "Questions appropriateness of MinMaxScaler in presence of outliers; suggests robust alternatives (RobustScaler, StandardScaler) and explains impact on logistic regression coefficients",
+        "Proposes diagnostic methods: confusion matrix analysis, feature importance inspection, cross-validation strategy, and data leakage checks",
+        "Recommends multi-faceted fixes: SMOTE/class_weight for imbalance, target encoding/ordinal encoding for categorical features, and L1/L2 regularization to prevent overfitting",
+        "Distinguishes between evaluation metrics: clarifies why accuracy is misleading for imbalanced data and why precision/recall/F1 are more appropriate",
+        "Considers feature scaling's relationship to regularization: MinMaxScaler vs StandardScaler impact on penalty effectiveness in logistic regression",
+        "Strong candidate discusses trade-offs: computational cost of SMOTE, interpretability loss with target encoding, and hyperparameter tuning strategy for regularization strength"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_025",
+    "question_text": "Hãy giải thích khái niệm Feature Engineering và cho ví dụ về một kỹ thuật Feature Engineering cơ bản.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "FEATURE_ENGINEERING"
+    ],
+    "skill_tags": [
+      "FEATURE_ENGINEERING"
+    ],
+    "answers": {
+      "detailed": "Feature Engineering là quá trình sử dụng domain knowledge để biến đổi dữ liệu thô thành các đặc trưng (features) có ý nghĩa hơn, từ đó cải thiện hiệu suất và interpretability của mô hình máy học. Quá trình này không tự động mà phụ thuộc vào sự hiểu biết về bài toán cụ thể.\n\nVí dụ cơ bản:\n1. **Trích xuất từ timestamp**: Từ cột 'ngày bắt đầu làm việc', tính toán 'số năm kinh nghiệm' = (ngày hiện tại - ngày bắt đầu)/365. Lý do: mô hình có thể học rằng kinh nghiệm lâu năm tương quan với lương hoặc hiệu suất công việc.\n2. **Tách thành nhiều features**: Từ cột 'ngày', tách thành 'ngày trong tuần', 'tháng', 'năm' để capture các mẫu seasonal hoặc weekly patterns.\n3. **Ví dụ khác**: Từ cột 'địa chỉ', có thể tạo feature 'là_thành_phố' (binary) hoặc 'khoảng_cách_tới_trung_tâm' nếu đó là yếu tố quan trọng với target variable.\n\nFeature Engineering khác với Feature Selection: Engineering là tạo features mới, còn Selection là chọn features quan trọng từ những features có sẵn.",
+      "evaluation_points": [
+        "Giải thích đúng khái niệm Feature Engineering là quá trình biến đổi dữ liệu thô thành features có ý nghĩa hơn với mục đích cải thiện hiệu suất mô hình.",
+        "Đưa ra ít nhất một ví dụ cụ thể (trích xuất từ timestamp hoặc biến đổi tính toán) và giải thích lý do ví dụ đó cải thiện hiệu suất.",
+        "Nhận biết được rằng Feature Engineering yêu cầu domain knowledge và không phải là quá trình tự động.",
+        "Nêu được ít nhất một khía cạnh khác của Feature Engineering như: binning/discretization, polynomial features, normalization, hoặc handling categorical variables.",
+        "Trình bày rõ ràng logic đằng sau việc tạo feature mới, không chỉ liệt kê các ví dụ."
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_027",
+    "question_text": "Nêu sự khác biệt chính giữa Label Encoding và One-Hot Encoding? Khi nào nên dùng mỗi loại?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "ENCODING_TECHNIQUES"
+    ],
+    "skill_tags": [
+      "ENCODING_TECHNIQUES"
+    ],
+    "answers": {
+      "detailed": "Label Encoding gán mỗi giá trị categorical một số nguyên duy nhất (ví dụ: 'Đỏ'=1, 'Xanh'=2, 'Vàng'=3). One-Hot Encoding tạo ra các cột nhị phân (0/1) cho mỗi giá trị, trong đó mỗi hàng chỉ có đúng một cột bằng 1.\n\nQuy tắc chọn:\n- ORDINAL (có thứ tự): Dùng Label Encoding vì thứ tự có ý nghĩa thực tế (ví dụ: 'Nhỏ'=1 < 'Vừa'=2 < 'Lớn'=3 phản ánh chính xác mối quan hệ)\n- NOMINAL (không có thứ tự): Dùng One-Hot Encoding vì Label Encoding sẽ tạo quan hệ thứ tự giả tạo (ví dụ: 'Đỏ'=1 không nhất thiết nhỏ hơn 'Xanh'=2)\n\nLưu ý thực tiễn:\n- Tree-based models (Decision Trees, Random Forest) có thể xử lý Label Encoding tốt hơn vì không bị ảnh hưởng bởi thứ tự giả tạo\n- Distance-based models (KNN, SVM) và linear models yêu cầu One-Hot Encoding để tránh sai lệch\n- One-Hot Encoding tăng chiều dữ liệu: với k giá trị, tạo ra k-1 cột (hoặc k cột tuỳ cấu hình) → cần cẩn thận với 'curse of dimensionality'",
+      "evaluation_points": [
+        "Giải thích rõ cơ chế của từng phương pháp (Label Encoding: ánh xạ giá trị → số nguyên; One-Hot Encoding: tạo ma trận nhị phân)",
+        "Phân biệt rõ giữa dữ liệu ordinal vs nominal và lý do chọn phương pháp tương ứng",
+        "Nhận diện vấn đề tiềm ẩn: Label Encoding có thể tạo ra quan hệ thứ tự giả tạo trong dữ liệu nominal (tree-based models có thể nhạy hơn)",
+        "Thảo luận về trade-off: One-Hot Encoding tránh khái niệm thứ tự nhưng tăng chiều dữ liệu (curse of dimensionality) và multicollinearity",
+        "Xem xét ảnh hưởng của từng phương pháp trên các loại mô hình khác nhau (tree-based vs distance-based models)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_031",
+    "question_text": "Bạn đang làm việc với một bộ dữ liệu khách hàng có cột 'thu nhập' bị thiếu 30% giá trị và có phân phối lệch (skewed). Hãy so sánh ưu nhược điểm của việc điền giá trị thiếu bằng mean, median, và mô hình dự đoán (ví dụ: KNN Imputer) trong tình huống này. Bạn chọn phương pháp nào? Tại sao?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "DATA_PREPROCESSING"
+    ],
+    "answers": {
+      "detailed": "Với phân phối lệch (skewed) và tỷ lệ thiếu 30%, cần cân nhắc kỹ lưỡng:\n\n**Mean Imputation:** Nhạy cảm với outliers trong dữ liệu skewed, làm lệch thêm phân phối gốc, giảm variance và underestimate standard errors. Không phù hợp trong trường hợp này.\n\n**Median Imputation:** Robust hơn với outliers, không bị ảnh hưởng bởi tail của phân phối skewed. Đơn giản, nhanh, và bảo toàn tính chất univariate của feature. Tuy nhiên, bỏ qua relationships giữa income và các feature khác (age, job type, etc.).\n\n**KNN Imputation:** Tận dụng cấu trúc dữ liệu bằng cách tìm các quan sát tương tự, dự báo income dựa trên neighbors. Giữ được feature relationships tốt hơn và có thể chính xác hơn. Nhưng đòi hỏi feature scaling trước, chi phí tính toán cao (nhất là với 30% missing), và có risk overfitting với K nhỏ.\n\n**Lựa chọn:** Bắt đầu với **Median** vì nó cân bằng tốt giữa robustness (phù hợp skewed data), tốc độ, và đơn giản trong implementation. Tuy nhiên, nên so sánh với **KNN Imputation** qua validation framework (cross-validation trên downstream task như classification/regression) để kiểm chứng nếu dữ liệu có feature relationships mạnh. Nếu KNN tăng performance đáng kể và chi phí tính toán chấp nhận được, thì nên xem xét thay thế.",
+      "evaluation_points": [
+        "Phân tích chi tiết ưu nhược điểm của từng phương pháp: mean (distort distribution, reduce variance), median (robust to outliers but ignores feature relationships), KNN (preserve structure but computational cost and scaling requirements)",
+        "Giải thích tại sao median phù hợp với dữ liệu skewed: non-parametric, unaffected by extreme values, maintains univariate distribution better",
+        "Nhận diện khi nào KNN Imputer là lựa chọn tốt hơn: khi có feature relationship mạnh, khi chi phí tính toán chấp nhận được, hoặc khi precision quan trọng hơn tốc độ",
+        "Thảo luận ngưỡng tỷ lệ thiếu (30%) và impact của nó: không quá cao để KNN bị bias, không quá thấp để bỏ qua",
+        "Đề xuất strategy so sánh: validation framework (cross-validation, comparison metrics) để kiểm chứng chọn lựa thay vì quyết định duy nhất"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_033",
+    "question_text": "Trong một bài toán phân loại nhị phân, lớp thiểu số chỉ chiếm 5% dữ liệu. Bạn đã thử SMOTE nhưng mô hình vẫn bị overfit. Hãy giải thích nguyên nhân có thể và đề xuất ít nhất hai cách khắc phục (ví dụ: kết hợp undersampling, sử dụng thuật toán khác, hoặc điều chỉnh tham số).",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "skill_tags": [
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "answers": {
+      "detailed": "Overfit sau SMOTE thường do: (1) SMOTE tạo mẫu tổng hợp trong khoảng nội suy giữa các mẫu thiểu số, khiến mô hình học ranh giới quyết định quá phức tạp và không tổng quát; (2) Mẫu tổng hợp có thể bị ảnh hưởng bởi mẫu nhiễu, dẫn đến học các điểm dị thường; (3) Lớp thiểu số chỉ 5% làm cho mô hình dễ overfit trên mẫu tổng hợp. \n\nGiải pháp: (1) HYBRID RESAMPLING - Kết hợp SMOTE với undersampling (SMOTEENN, SMOTETomek) để vừa tăng mẫu thiểu số vừa loại bỏ mẫu nhiễu và đặc biệt là mẫu tổng hợp sai; (2) ALGORITHMIC SOLUTION - Dùng Random Forest/XGBoost với scale_pos_weight hoặc class_weight='balanced' để mô hình tự điều chỉnh mức độ penalize lỗi trên lớp thiểu số mà không phụ thuộc oversampling; (3) REGULARIZATION TUNING - Tăng regularization (L1/L2 trong Logistic Regression, max_depth/min_samples_leaf trong Tree-based, dropout trong Neural Networks) để giảm độ phức tạp mô hình. \n\nĐánh giá overfit: dùng precision-recall hoặc F1-score trên validation set độc lập (không dùng accuracy do imbalanced data). Chọn giải pháp dựa trên kích thước dữ liệu, chiều không gian, và yêu cầu độ trễ dự đoán.",
+      "evaluation_points": [
+        "Giải thích nguyên nhân overfit cụ thể: SMOTE tạo mẫu tổng hợp trong khoảng nội suy giữa các mẫu gốc, có thể khiến mô hình học các ranh giới quyết định quá phức tạp hoặc không tổng quát hóa tốt trên dữ liệu mới.",
+        "Đề xuất ít nhất hai giải pháp khác nhau với reasoning rõ ràng (ví dụ: hybrid resampling vs. algorithmic solutions vs. hyperparameter tuning) và hiểu được trade-offs của từng cách (chi phí tính toán, mất dữ liệu, độ phức tạp mô hình).",
+        "Thể hiện tư duy phân tích: liên kết nguyên nhân → giải pháp, lựa chọn dựa trên đặc điểm bài toán (kích thước dữ liệu, chiều không gian, loại thuật toán).",
+        "Xác định các chỉ số đánh giá phù hợp (precision-recall, F1-score, ROC-AUC trên validation set độc lập) thay vì chỉ dùng accuracy để phát hiện overfit trong bài toán imbalanced.",
+        "Nêu rõ điều kiện áp dụng từng giải pháp: SMOTEENN khi có nhiễu; class_weight khi dữ liệu đủ lớn; regularization cao khi mô hình có độ phức tạp cao."
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_030",
+    "question_text": "Trong quá trình xử lý dữ liệu categorical, bạn so sánh và chọn lựa giữa One-Hot Encoding và Label Encoding khi nào? Giải thích ưu nhược điểm của từng phương pháp trong bối cảnh mô hình Decision Tree so với Linear Regression.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "ENCODING_TECHNIQUES"
+    ],
+    "skill_tags": [
+      "ENCODING_TECHNIQUES"
+    ],
+    "answers": {
+      "detailed": "One-Hot Encoding creates binary columns for each category, suitable for Linear Regression because it avoids imposing artificial ordinal relationships. However, it introduces multicollinearity (dummy variable trap) and sparsity with high-cardinality features. Label Encoding assigns integers sequentially, causing Linear Regression to incorrectly interpret categorical variables as ordinal/continuous, biasing coefficient estimates. For Decision Trees, Label Encoding works well since trees split based on feature values, not magnitudes, making the encoding itself value-neutral for split quality. The key trade-off: One-Hot Encoding increases dimensionality (curse of dimensionality with many categories and sparse data), while Label Encoding is memory-efficient but unsuitable for Linear models. Practical guidance: Use One-Hot Encoding for Linear Regression with low-to-moderate cardinality (<10 categories); use Label Encoding for tree-based models or when cardinality is high (>50 categories). For high-cardinality nominal features in Linear models, consider target encoding or frequency encoding as alternatives to avoid both multicollinearity and excessive dimensionality.",
+      "evaluation_points": [
+        "Explain why One-Hot Encoding introduces multicollinearity in Linear Regression (dummy variable trap) and how this affects model interpretation and coefficient stability",
+        "Discuss how Label Encoding creates an artificial ordinal relationship that Linear Regression interprets as continuous, potentially biasing coefficient estimates",
+        "Clarify that Decision Trees make splits based on feature values, not their magnitude, so Label Encoding doesn't inherently cause suboptimal splits—the encoding only affects interpretability, not tree structure quality",
+        "Analyze the curse of dimensionality: One-Hot Encoding with high cardinality can degrade model performance due to increased sparsity and memory usage, not just dimensional increase",
+        "Recommend specific thresholds or heuristics for choosing between methods (e.g., One-Hot for <10 categories with Linear models, Label Encoding for tree-based models or high-cardinality features)",
+        "Mention alternative techniques like target encoding or ordinal encoding for high-cardinality nominal features to address limitations of both methods"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_032",
+    "question_text": "Bạn đang làm việc với một tập dữ liệu có tỷ lệ mất cân bằng giữa các lớp (class imbalance) rất cao, ví dụ 99% lớp 0 và 1% lớp 1. Bạn đã thử dùng SMOTE để oversampling nhưng kết quả mô hình vẫn bị overfit. Hãy đề xuất và so sánh ít nhất hai phương pháp xử lý imbalance khác (không dùng SMOTE) và giải thích cách chúng giúp giảm overfit.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "skill_tags": [
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "answers": {
+      "detailed": "Two alternative methods: (1) **Random Undersampling** of majority class: reduces class 0 data to balance classes, prevents overfitting by eliminating redundant majority samples, but risks losing critical decision boundary information—especially problematic in small datasets. Suitable when majority class is very large (>100k samples). (2) **Class Weights in Loss Function**: assigns higher penalty for misclassifying minority class during training, preserves all data distribution, maintains model's learning capacity, but doesn't prevent feature-space overfitting. More robust than undersampling for small datasets. **To reduce overfit further**: (3) **ADASYN** over SMOTE—generates synthetic samples near decision boundaries only (where model struggles), avoiding noise-prone region oversampling that SMOTE causes. (4) **Balanced Ensemble Methods** (Balanced Random Forest, EasyEnsemble)—combine undersampling with ensemble learning to retain diversity while reducing individual trees' variance. **Evaluation strategy**: (a) use stratified k-fold cross-validation to detect generalization gap, (b) monitor both AUC-ROC and precision-recall curves (more informative for imbalanced data than accuracy), (c) plot learning curves to confirm reduced overfitting, (d) compare F1-score stability across folds. Trade-off: undersampling is fastest but loses data; class weights preserve information but require careful threshold tuning; ADASYN/ensembles are more computationally expensive but offer best generalization.",
+      "evaluation_points": [
+        "Clearly distinguish why SMOTE specifically caused overfitting (synthetic samples in high-dimensional space, data leakage between train/test) versus how alternative methods mitigate this",
+        "Quantitatively compare methods: undersampling's information loss (how much? which samples lost?) vs. class weights' computational efficiency vs. ADASYN's sample quality",
+        "Evaluate model selection: explain when to use each method given dataset size, feature dimensionality, and computational constraints",
+        "Demonstrate practical implementation: show how to properly implement class_weight in loss function and compare threshold tuning on precision-recall curve vs. default 0.5",
+        "Assess overfitting reduction rigorously: require metrics beyond confusion matrix (e.g., AUC-ROC, F1-score stability across folds, learning curves) to validate reduced generalization gap",
+        "Address hybrid strategies: can undersampling + class weights + cross-validation outperform single methods? When is ensemble balancing (Balanced Random Forest) preferable?"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_034",
+    "question_text": "Khi thực hiện feature engineering cho dữ liệu chuỗi thời gian, bạn cần tạo các lag features và rolling statistics. Hãy giải thích làm thế nào để xử lý vấn đề data leakage khi tạo các feature này, đặc biệt là khi sử dụng cross-validation? Cho ví dụ cụ thể.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "FEATURE_ENGINEERING"
+    ],
+    "skill_tags": [
+      "FEATURE_ENGINEERING"
+    ],
+    "answers": {
+      "detailed": "Data leakage xảy ra khi feature chứa thông tin từ tương lai, vi phạm giả định temporal dependency. Đối với time series feature engineering:\n\n**Lag Features:** Tạo từ dữ liệu quá khứ (ví dụ: lag_1 = giá trị hôm trước), không gây leakage nếu tính đúng. Cần xử lý NaN ở đầu chuỗi.\n\n**Rolling Statistics:** Phải tính trên cửa sổ trước thời điểm dự đoán. Lỗi phổ biến: tính rolling_mean(7 ngày) trên toàn bộ dữ liệu rồi mới split → sẽ bao gồm thông tin từ tương lai.\n\n**Cross-Validation:** Bắt buộc dùng TimeSeriesSplit thay vì KFold:\n- KFold: validation set có thể ở quá khứ, training set ở tương lai → leakage\n- TimeSeriesSplit: training set luôn ở quá khứ, validation set ở tương lai → đúng quy luật temporal\n\n**Ví dụ cụ thể:**\n```\nWrong: df['rolling_mean_7'] = df['price'].rolling(7).mean()  # Tính trước split\ntrain_X, test_X = train_test_split(df)  # Dữ liệu tương lai rò rỉ vào training\n\nCorrect: Tính lag_1, lag_7 trước (quá khứ), sau đó:\nfor train_idx, val_idx in TimeSeriesSplit(n_splits=5).split(df):\n    train_X = df.iloc[train_idx]\n    val_X = df.iloc[val_idx]\n    train_X['rolling_mean_7'] = train_X['price'].rolling(7).mean()\n    val_X['rolling_mean_7'] = val_X['price'].rolling(7).mean()\n```\n\nĐiểm chìa khóa: rolling statistics được tính riêng lẻ cho train/validation, không bao gồm dữ liệu từ tập kia.",
+      "evaluation_points": [
+        "Xác định đúng nguyên nhân data leakage từ lag/rolling features và giải thích tại sao lag features không gây leakage (chỉ dùng quá khứ) trong khi rolling statistics có thể gây leakage nếu tính sai.",
+        "Giải thích chi tiết cơ chế TimeSeriesSplit: tại sao nó đảm bảo training set luôn ở quá khứ so với validation set, và so sánh với KFold/StratifiedKFold.",
+        "Đưa ra ví dụ cụ thể với code hoặc pseudo-code minh họa: cách tính lag features và rolling statistics đúng cách, sau đó áp dụng TimeSeriesSplit.",
+        "Thảo luận các edge cases: xử lý NaN ở đầu chuỗi thời gian (do lag features không có giá trị quá khứ), và xác định thời điểm bắt đầu training set hợp lệ.",
+        "Nêu ra các lỗi phổ biến: tính rolling statistics trên toàn bộ dữ liệu trước khi split (dẫn đến leakage), hoặc sử dụng KFold thay vì TimeSeriesSplit."
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_036",
+    "question_text": "Bạn đang thiết kế một pipeline preprocessing cho dữ liệu hỗn hợp (numeric, categorical, text) với hơn 10 triệu dòng, yêu cầu xử lý real-time dưới 100ms cho mỗi request. Dữ liệu có outliers và missing values. Thiết kế kiến trúc pipeline, chọn công cụ (Spark, Pandas, NumPy, ...), và giải thích cách tối ưu từng bước, bao gồm encoding cho high-cardinality categorical features (hàng nghìn unique values) và scaling. Đồng thời, nêu cách xử lý edge case khi dữ liệu đầu vào có giá trị categorical mới chưa từng xuất hiện trong training.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "ENCODING_TECHNIQUES"
+    ],
+    "skill_tags": [
+      "DATA_PREPROCESSING",
+      "ENCODING_TECHNIQUES"
+    ],
+    "answers": {
+      "detailed": "Kiến trúc: Sử dụng Spark Streaming cho ingestion với micro-batching (tuning batch interval để vừa đạt <100ms latency vừa tận dụng vectorization), hoặc Kafka + lightweight processing layer (Ray/Faust) nếu latency yêu cầu khắt khe hơn. Training: full-batch Spark; inference: vectorized NumPy/Pandas batch hoặc model serving framework (e.g., MLflow, KServe). \n\nHigh-cardinality categorical: (1) Hashing trick (FeatureHasher, hash size ~2^18) để giảm chiều với collision xác suất thấp, phù hợp khi interpretability không quan trọng; (2) Target encoding với smoothing (Laplace/empirical Bayes) để tránh overfitting khi cardinality cao, nhưng phải tính trên training data riêng biệt để tránh leakage. Chọn dựa trên: cardinality mức độ (>10k ưu tiên hashing), model type (tree-based → hashing, linear → target encoding), và interpretability yêu cầu. \n\nMissing values: (1) Numeric: median nếu có outliers (robust hơn mean), hoặc interpolation nếu dữ liệu time-series; (2) Categorical: thêm category 'unknown' trong encoder, không bỏ qua. Outliers: IQR cắt tại Q1-1.5*IQR và Q3+1.5*IQR, hoặc winsorization nếu cần giữ phân phối tail. \n\nScaling: sử dụng StandardScaler với mean/std precomputed từ training data, lưu trữ constants trong registry (e.g., Redis, config file) để tái sử dụng inference. Để online incremental scaling (nếu cần): Welford's algorithm tính mean/variance streaming-safe. \n\nXử lý categorical mới (OOV): (1) Fallback 'unknown' nếu encoding dùng mapper; (2) Nếu hashing, OOV tự động hash thành vector mới (không vấn đề); (3) Log và alert khi OOV xuất hiện để trigger model retraining. \n\nTối ưu: (a) Vectorized ops (Pandas/NumPy, tránh apply loops); (b) Cache bất biến (scaling params, encoders); (c) Feature compute trong Spark trước broadcast; (d) Profiling mỗi stage (read I/O, transform, serialize) để xác định병목. Kiểm chứng <100ms: benchmark end-to-end trên P95/P99 latency với batch size tiêu biểu, không chỉ average.",
+      "evaluation_points": [
+        "Justifies choice between Spark Streaming vs batch processing for 100ms latency constraint and explains why micro-batching is suitable",
+        "Articulates trade-offs of hashing trick (collision risk, interpretability loss) vs target encoding (data leakage risk if not handled properly) for high-cardinality features, with conditional recommendations based on use case",
+        "Explains the choice between median vs interpolation for numeric missing values given the presence of outliers—does candidate justify median as more robust and mention impact on downstream scaling?",
+        "Demonstrates understanding of incremental/online scaling (mean/variance computation) for streaming data and explains how to prevent data leakage between training and inference",
+        "Discusses the 'unknown' fallback strategy rigor: does candidate address out-of-vocabulary (OOV) handling in hashing, potential model bias, and monitoring drift when new categories emerge?",
+        "Proposes concrete performance validation: benchmarks for each preprocessing step, memory footprint analysis for vectorized ops, and latency profiling (e.g., P95/P99) rather than just stating 'under 100ms achieved'",
+        "Addresses state management and caching strategy: where are scaling parameters (mean/std), encoder vocabularies, and statistics stored? How is cache invalidation handled?"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_023",
+    "question_text": "Hãy giải thích sự khác nhau giữa One-Hot Encoding và Label Encoding? Khi nào nên dùng mỗi loại?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "ENCODING_TECHNIQUES"
+    ],
+    "skill_tags": [
+      "ENCODING_TECHNIQUES"
+    ],
+    "answers": {
+      "detailed": "One-Hot Encoding biến mỗi category thành một cột nhị phân (0/1) riêng biệt, không giả định thứ tự giữa các category. Label Encoding gán mỗi category một số nguyên (0,1,2,...), tạo ra thứ tự giả định.\n\nSử dụng One-Hot Encoding cho biến categorical nominal (không có thứ tự tự nhiên) như màu sắc, quốc gia, thành phố. Ưu điểm: phù hợp với mô hình linear (Linear Regression, Logistic Regression) vì không giới thiệu thứ tự giả định. Nhược điểm: tạo ra 'curse of dimensionality' khi có nhiều categories (ví dụ: 1000 cities → 1000 cột), làm tăng độ phức tạp tính toán và overfitting.\n\nSử dụng Label Encoding cho biến ordinal có thứ tự rõ ràng (cấp độ: thấp=0, trung bình=1, cao=2) hoặc khi làm việc với tree-based models (Random Forest, XGBoost) vì chúng không bị ảnh hưởng bởi thứ tự giả định. Ưu điểm: không tăng số cột, tiết kiệm bộ nhớ. Nhược điểm: các mô hình linear sẽ diễn giải sai, giả định có mối quan hệ tuyến tính giữa các giá trị.\n\nLựa chọn công cụ khác: Target Encoding hoặc Mean Encoding cho categorical biến với nhiều unique values, hoặc Ordinal Encoding cho nominal variables trong tree-based models nếu muốn giảm dimensionality.",
+      "evaluation_points": [
+        "Phân biệt rõ cách hoạt động của One-Hot và Label Encoding",
+        "Giải thích vấn đề 'curse of dimensionality' khi dùng One-Hot Encoding với nhiều categories",
+        "Phân tích ảnh hưởng của mỗi phương pháp đối với các loại mô hình (linear vs tree-based)",
+        "Đưa ra ví dụ cụ thể khi nào nên dùng loại nào",
+        "Thảo luận các giải pháp thay thế (Target Encoding, Ordinal Encoding) cho trường hợp đặc biệt"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_035",
+    "question_text": "Bạn đang làm việc với dữ liệu khách hàng có cột 'gender' (male/female) và 'education' (high school/bachelor/master/PhD). Hãy so sánh các phương pháp encoding: One-Hot Encoding, Label Encoding, và Target Encoding cho hai cột này. Trong tình huống nào bạn nên dùng Target Encoding thay vì One-Hot? Giải thích rủi ro của Target Encoding và cách giảm thiểu.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "ENCODING_TECHNIQUES"
+    ],
+    "skill_tags": [
+      "ENCODING_TECHNIQUES"
+    ],
+    "answers": {
+      "detailed": "One-Hot Encoding: Creates binary columns for each category, preserving nominal relationships without introducing artificial ordering. Suitable for 'gender' (male/female). Disadvantage: High dimensionality ('curse of dimensionality') and sparsity with many categories; creates multicollinearity in linear models. Label Encoding: Assigns integers (0, 1, 2, ...). Appropriate ONLY for ordinal features like 'education' where inherent ranking exists (high school < bachelor < master < PhD). Risk: Introduces artificial ordering and distance assumptions (e.g., gap between high school and bachelor treated equal to bachelor and master) when applied to nominal features; tree-based models are robust to this, but linear/distance-based models are not. Target Encoding: Replaces categories with aggregate target statistics (e.g., average purchase rate per education level). Use when: (1) High cardinality (>10 categories, e.g., zip_code), (2) Ordinal/nominal with strong target correlation, (3) Modeling interpretability is valuable. For this dataset, Target Encoding is unnecessary for 'gender' (binary) and 'education' (4 ordinal categories), but becomes critical if analyzing regional data with hundreds of locations. Critical Risks: (1) Data Leakage—computing target statistics on entire dataset inflates validation performance; statistics computed on 'education=bachelor' include instances from test set. (2) High-Frequency Bias—common categories have stable encodings; rare categories have unstable, noisy encodings prone to overfitting. Mitigation Strategies: (1) **Proper Train/Validation Split**: Compute target encoding statistics ONLY on training fold; apply pre-computed values to validation/test. Use K-fold cross-validation: in each fold, compute encoding on (K-1) folds, apply to held-out fold. (2) **Additive Smoothing (Regularization)**: Use formula `encoded_value = (count * target_mean + m * global_mean) / (count + m)`, where 'm' is smoothing strength. Higher 'm' → more shrinkage toward global mean (reduces variance for rare categories); lower 'm' → more reliance on empirical mean. Select 'm' based on category frequency; rule of thumb: 'm' = ratio of minimum category count to average count. (3) **Holdout Validation**: Reserve a separate holdout set before any encoding computation to assess true generalization. (4) **Mechanism of Missingness**: Distinguish whether missingness is MCAR (Missing Completely At Random), MAR (Missing At Random), or MNAR (Missing Not At Random). If MNAR (e.g., customers with low income more likely to skip education field), Target Encoding may capture spurious signal rather than true predictive power. In such cases, combine with indicator variables to explicitly model missingness. (5) **Model Interaction**: Target Encoding is most beneficial for linear models (reduces dimensionality without information loss) and logistic regression. Tree-based models (XGBoost, Random Forest) naturally handle high cardinality and may overfit if target encoding eliminates variance they rely on for splits. Evaluate model performance with and without Target Encoding.",
+      "evaluation_points": [
+        "Distinguish between ordinal (education) and nominal (gender) encoding requirements, and explain why Label Encoding risks introducing artificial ordering assumptions for non-ordinal categorical features used in tree-based vs linear models",
+        "Identify data leakage risk in Target Encoding: explain how using target statistics computed on the entire dataset during training leads to optimistic bias, and why proper train/validation/test split during encoding computation is critical (not just cross-validation mention)",
+        "Compare smoothing strategies quantitatively: explain the formula for additive smoothing (e.g., encoded_value = (count * target_mean + m * global_mean) / (count + m)) and discuss how to select the smoothing parameter 'm' based on category frequency and dataset size",
+        "Discuss the interaction between Target Encoding and downstream model type: clarify when Target Encoding is beneficial (linear models, low-cardinality issues) versus detrimental (tree-based models that can naturally handle high cardinality), and contrast with One-Hot Encoding's impact on model interpretability and multicollinearity",
+        "Address the mechanism of missingness: explain how to handle missing categories in Target Encoding (separate encoding, global mean, or exclusion) and validate that the encoding doesn't introduce spurious correlations unrelated to true predictive signal"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_037",
+    "question_text": "Công ty bạn có một hệ thống phát hiện gian lận giao dịch với tỷ lệ positive (gian lận) chỉ 0.1%. Bạn đang sử dụng Random Forest và nhận thấy mô hình có recall rất thấp (15%) dù accuracy cao (99.9%). Hãy thiết kế một pipeline xử lý imbalanced data để cải thiện recall lên ít nhất 70% mà không làm giảm precision quá nhiều (giới hạn precision giảm không quá 10% so với baseline). Bao gồm: (1) Các kỹ thuật resampling bạn sẽ thử và giải thích lý do chọn, (2) Cách đánh giá mô hình (metrics và validation strategy), (3) Cách tối ưu threshold và điều chỉnh mô hình (ví dụ: class_weight, cost-sensitive learning) để đạt mục tiêu.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "skill_tags": [
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "answers": {
+      "detailed": "Pipeline: (1) Resampling Strategy: Apply SMOTE (Synthetic Minority Over-sampling Technique) on training data only to generate synthetic minority samples via k-NN interpolation, preserving feature relationships better than random oversampling. Combine with Tomek Links to remove borderline majority samples, reducing class overlap and improving separability. Consider SMOTETomek (SMOTE + ENN) as alternative for severe class imbalance. Avoid pure undersampling as it discards majority information; use if data volume permits stratified undersampling post-SMOTE. (2) Validation & Evaluation: Use Stratified K-Fold (k=5) ensuring minority class ratio maintained per fold—critical to prevent fold-wise skew that invalidates metrics. Apply SMOTE only within training fold, never on validation/test sets (prevent leakage). Primary metrics: Precision-Recall Curve (better than ROC for imbalanced data), F1-score, and separately track Recall and Precision. Secondary: Matthews Correlation Coefficient (balanced for all class sizes). Avoid accuracy as primary metric. (3) Threshold & Model Optimization: Plot PR curve on validation set; select operating point balancing recall ≥70% with precision loss ≤10%. Compare threshold selection methods: (a) Youden's Index (sensitivity+specificity-1) on validation ROC, (b) Cost-based threshold using business penalty ratio (cost of false positive alert vs. missed fraud), (c) F1-optimized threshold. Set class_weight='balanced' in Random Forest to auto-weight samples inversely to class frequency, forcing splits to minimize minority misclassification. Apply cost-sensitive learning via sample_weight parameter if class costs differ. Grid-search hyperparameters (max_depth, n_estimators, min_samples_leaf) on validation set to avoid threshold overfitting. Expected outcome: Recall ~70%, Precision ~85-90% (5-10% drop acceptable), validated on held-out test set with same minority proportion. Monitor for overfitting: compare train vs. validation metrics—large gap suggests SMOTE overfitting.",
+      "evaluation_points": [
+        "Justifies SMOTE over random oversampling with specific reasoning (synthetic generation preserves feature relationships) and acknowledges when SMOTE may fail (high-dimensional data, severe imbalance)",
+        "Explains why Tomek Links + ENN combination works better than standalone undersampling: removes borderline/noisy samples rather than losing majority information indiscriminately",
+        "Articulates the precision-recall trade-off explicitly: why recall improvement from 15%→70% will necessarily cost precision, and quantifies acceptable loss (10%) given business context (fraud detection penalty)",
+        "Demonstrates understanding of stratified K-Fold's necessity: prevents data leakage where minority class samples concentrate in specific folds, invalidating evaluation",
+        "Compares threshold optimization methods beyond Youden's index: discusses ROC curve analysis, PR curve selection point, and cost-matrix-based threshold to align with business costs (false positive fraud alert vs. missed fraud)",
+        "Explains class_weight='balanced' mechanism in Random Forest: adjusts sample weights inversely to class frequency, forcing the model to penalize minority misclassification during tree splitting",
+        "Specifies validation strategy for imbalanced data: separate test set with stratification, no data leakage during SMOTE (apply only to training fold, not validation/test), and why this prevents overly optimistic metrics",
+        "Identifies and mitigates common pitfalls: SMOTE overfitting on training set, threshold tuning on validation set to avoid optimization bias on test set, monitoring both per-class and aggregate metrics"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_038",
+    "question_text": "Hãy định nghĩa Feature Engineering và giải thích tại sao nó quan trọng trong quy trình Data Science. Cho một ví dụ cụ thể về kỹ thuật Feature Engineering cho dữ liệu thời gian.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "FEATURE_ENGINEERING"
+    ],
+    "skill_tags": [
+      "FEATURE_ENGINEERING"
+    ],
+    "answers": {
+      "detailed": "Feature Engineering là quá trình thiết kế và xây dựng những đặc trưng (features) mới từ dữ liệu thô, giúp mô hình học máy học hiệu quả hơn. Nó quan trọng vì dữ liệu thô thường thiếu thông tin cần thiết, và những features tốt có thể cải thiện độ chính xác, giảm overfitting, và tăng khả năng tổng quát hóa của mô hình.\n\nVí dụ với dữ liệu thời gian: từ timestamp, bạn có thể trích xuất hour_of_day (0-23), day_of_week (Mon-Sun), is_weekend, month, quarter, hoặc time_since_last_event. Những features này nắm bắt được patterns theo thời gian (ví dụ: lưu lượng cao vào giờ cao điểm).\n\nKỹ thuật khác bao gồm: normalization/scaling (cho numerical features), encoding (one-hot, label encoding cho categorical), binning (chuyển continuous thành categories), polynomial features (tạo interactions), hoặc domain-specific aggregations (moving averages, lag features). Chọn kỹ thuật phù hợp dựa trên đặc điểm dữ liệu và mục tiêu mô hình để tránh over-engineering hay multicollinearity.",
+      "evaluation_points": [
+        "Định nghĩa đúng Feature Engineering như quá trình biến đổi dữ liệu thô thành features có ý nghĩa",
+        "Giải thích được tầm quan trọng: cải thiện khả năng mô hình học, tăng độ chính xác, và giảm độ phức tạp",
+        "Cung cấp ví dụ cụ thể về time-series feature extraction (hour, day-of-week, time-since-event)",
+        "Nêu được các kỹ thuật khác như binning, normalization/scaling, encoding categorical variables, hoặc polynomial features",
+        "So sánh giữa các phương pháp và khi nào sử dụng từng kỹ thuật dựa trên đặc điểm dữ liệu",
+        "Nhận diện rủi ro: over-engineering, multicollinearity, hoặc curse of dimensionality"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_040",
+    "question_text": "Giải thích sự khác biệt giữa One-Hot Encoding và Label Encoding. Khi nào nên dùng mỗi loại? Cho ví dụ minh họa.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "ENCODING_TECHNIQUES"
+    ],
+    "skill_tags": [
+      "ENCODING_TECHNIQUES"
+    ],
+    "answers": {
+      "detailed": "One-Hot Encoding chuyển mỗi giá trị category thành vector nhị phân, mỗi cột đại diện một category với giá trị 0 hoặc 1. Ví dụ: color=[Red, Blue, Green] → [1,0,0], [0,1,0], [0,0,1]. Phù hợp cho biến nominal (không có thứ tự tự nhiên) như màu sắc, quốc gia, loại sản phẩm.\n\nLabel Encoding gán mỗi category một số nguyên duy nhất. Ví dụ: education=[Tiểu học, Trung học, Đại học] → [0, 1, 2]. Phù hợp cho biến ordinal (có thứ tự tự nhiên) như trình độ học vấn, rating (1-5 sao).\n\nSai lầm thường gặp: Dùng Label Encoding cho nominal data tạo ra quan hệ thứ tự giả (false ordering), làm mô hình học sai rằng Red < Blue < Green, gây bias và giảm độ chính xác.\n\nTrade-off quan trọng: One-Hot Encoding tăng số cột (dimensionality curse, sparse matrix), Label Encoding tiết kiệm bộ nhớ nhưng có rủi ro sai hiểu.\n\nLựa chọn theo mô hình: Tree-based models (Random Forest, XGBoost) xử lý Label Encoding tốt; Linear/distance-based models (Logistic Regression, KNN) nên dùng One-Hot Encoding.",
+      "evaluation_points": [
+        "Phân biệt rõ One-Hot Encoding (nominal/unordered) vs Label Encoding (ordinal/ordered) với định nghĩa chính xác",
+        "Giải thích hậu quả của sai sử dụng: Label Encoding trên nominal data tạo false ordinal relationships gây bias",
+        "Thảo luận trade-off thực tế: One-Hot Encoding tăng dimensionality (curse of dimensionality, sparse data) vs Label Encoding tiết kiệm không gian nhưng có rủi ro",
+        "Xem xét ngữ cảnh mô hình: tree-based models (xử lý Label Encoding tốt hơn), linear/distance-based models (One-Hot Encoding tốt hơn)",
+        "Cung cấp ví dụ code/đầu ra cụ thể cho cả hai phương pháp (ví dụ: color categories [Red, Blue, Green])",
+        "Đề cập các kỹ thuật xử lý vấn đề dimensionality của One-Hot: dropping first category, target encoding"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_042",
+    "question_text": "Bạn đang xây dựng mô hình dự đoán khách hàng rời bỏ (churn) với dữ liệu mất cân bằng tỉ lệ 1:100 (churn:non-churn). Bạn đã thử dùng Logistic Regression với class_weight='balanced' nhưng precision và recall đều thấp. Hãy so sánh 3 kỹ thuật xử lý mất cân bằng: Oversampling (SMOTE), Undersampling (RandomUnderSampler), và kết hợp cả hai (SMOTEENN). Phân tích trade-off và đề xuất cách tiếp cận phù hợp.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "skill_tags": [
+      "IMBALANCED_DATA_HANDLING"
+    ],
+    "answers": {
+      "detailed": "SMOTE generates synthetic minority samples via k-nearest neighbors interpolation, increasing sample count while preserving data distribution—but risks amplifying noise if outliers exist in minority class. Undersampling randomly removes majority samples, reducing computational cost and overfitting risk, but discards potentially valuable information and may hurt model performance on majority class. SMOTEENN combines both: SMOTE generates synthetic samples, then Edited Nearest Neighbors removes noisy samples, balancing coverage and noise reduction—more robust but computationally expensive.\n\nCritical trade-offs: (1) SMOTE can overfit on small minority sets and amplify outlier patterns; (2) Undersampling loses information, especially problematic with 1:100 ratio where severe undersampling is needed; (3) SMOTEENN mitigates both but requires careful hyperparameter tuning.\n\nWhy class_weight='balanced' likely failed: it adjusts decision boundaries but doesn't create new minority samples, so the model still struggles with minority class representation in feature space. Additionally, with extreme imbalance (1:100), the threshold remains biased toward majority class—threshold tuning is needed.\n\nRecommended approach: (1) Apply resampling ONLY to training set (split first) to avoid data leakage; (2) Use stratified k-fold cross-validation; (3) Start with SMOTE + threshold tuning for interpretability, escalate to SMOTEENN if performance plateaus; (4) Evaluate via AUC-ROC and PR-AUC (not accuracy/precision alone); (5) Combine with ensemble methods (Random Forest, XGBoost) which handle imbalance better; (6) Monitor minority class recall and precision separately to avoid trading one for the other blindly.",
+      "evaluation_points": [
+        "Explains the root cause of why class_weight='balanced' underperformed (e.g., still biased toward majority class decision boundary, needs threshold tuning)",
+        "Discusses data leakage risk: where/when to apply resampling (only on training set, not test set) and proper cross-validation strategy",
+        "Justifies metric choice: why AUC-ROC/PR-AUC is more appropriate than accuracy/precision/recall alone for imbalanced data evaluation",
+        "Provides concrete guidance on when to use each technique: data size thresholds, computational constraints, and dimensionality considerations",
+        "Mentions hyperparameter tuning for SMOTE (k_neighbors, sampling_strategy) and how outliers affect synthetic sample quality"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_044",
+    "question_text": "Công ty của bạn có dữ liệu khách hàng với nhiều biến category, bao gồm cả biến có tần suất thấp (low-cardinality) và cao (high-cardinality). Bạn cần chọn phương pháp encoding phù hợp. Hãy so sánh Target Encoding và One-Hot Encoding trong tình huống này. Giải thích tại sao Target Encoding có thể gây overfitting và cách khắc phục.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PREPROCESSING",
+      "ENCODING_TECHNIQUES"
+    ],
+    "skill_tags": [
+      "ENCODING_TECHNIQUES"
+    ],
+    "answers": {
+      "detailed": "One-Hot Encoding tạo m cột từ m categories, phù hợp với low-cardinality (tránh sparse matrix và multicollinearity) nhưng không hiệu quả với high-cardinality (ví dụ: zip code có hàng nghìn giá trị → ma trận quá thưa). Target Encoding thay thế category bằng trung bình target, giảm chiều dữ liệu hiệu quả và nắm bắt relationship với target, nhưng dễ overfitting vì:\n1. Data leakage: sử dụng thông tin target khi encoding → mô hình \"nhìn thấy\" target trước\n2. High variance trên categories hiếm: ước lượng trung bình từ mẫu nhỏ không ổn định\n\nKhắc phục:\n- K-fold cross-validation: tính target encoding trên fold khác (chỉ dùng (k-1) folds) để tránh leakage, sau đó áp dụng cho fold kiểm tra\n- Smoothing: công thức m/(m+n) * global_mean + n/(m+n) * category_mean, với m là smoothing parameter (điều chỉnh tỷ trọng global vs category mean), n là số mẫu trong category\n- Đánh giá: categories hiếm (n nhỏ) sẽ gần global mean, tránh overfitting\n\nLựa chọn phương pháp: One-Hot cho low-cardinality và interpretability quan trọng; Target Encoding (+ smoothing + CV) cho high-cardinality; Binary/Frequency Encoding cho trường hợp trung gian hoặc khi tài nguyên tính toán hạn chế.",
+      "evaluation_points": [
+        "So sánh được ưu nhược điểm của Target Encoding và One-Hot Encoding (dimensionality, interpretability, computational cost)",
+        "Giải thích chi tiết cơ chế gây overfitting của Target Encoding: data leakage (sử dụng target info), overfitting đặc biệt trên categories hiếm với mẫu nhỏ",
+        "Đưa ra cách khắc phục cụ thể: k-fold cross-validation (tách train/test cho mỗi fold), smoothing formula m/(m+n) * global_mean + n/(m+n) * category_mean",
+        "Thảo luận khi nào nên dùng Target Encoding vs One-Hot vs các phương pháp khác (binary encoding, frequency encoding) theo tình huống",
+        "Nhận thức về rủi ro của Target Encoding trên high-cardinality features (nhiều categories với mẫu nhỏ → ước lượng không ổn định)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_DATA_ENG_DS_046",
+    "question_text": "Bạn đang làm việc với dữ liệu bán hàng có nhiều giá trị thiếu (missing values) ở các biến số và category. Hãy so sánh 3 phương pháp xử lý: imputation bằng mean/median, imputation bằng mô hình (ví dụ: KNN), và xóa hàng (listwise deletion). Khi nào nên dùng mỗi phương pháp? Cho ví dụ về tình huống mà imputation sai có thể gây bias.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_PREPROCESSING"
+    ],
+    "skill_tags": [
+      "DATA_PREPROCESSING"
+    ],
+    "answers": {
+      "detailed": "Mean/median imputation nhanh, phù hợp khi dữ liệu thiếu hoàn toàn ngẫu nhiên (MCAR) và tỉ lệ thấp (<5%). Median tốt hơn mean cho dữ liệu skewed vì ít bị ảnh hưởng outliers. Tuy nhiên, cả hai đều giảm variance, làm giảm standard errors giả tạo, và có thể bóp méo tương quan giữa các biến. KNN imputation dùng K-nearest neighbors để dự đoán, chính xác hơn vì leverages feature similarity và bảo tồn cấu trúc dữ liệu tốt hơn, nhưng tốn thời gian tính toán (đặc biệt với dữ liệu lớn) và yêu cầu feature scaling trước. Listwise deletion đơn giản nhưng mất đáng kể thông tin, chỉ chấp nhận được khi tỉ lệ thiếu rất thấp (<3%) và dữ liệu thiếu hoàn toàn ngẫu nhiên (MCAR). Ví dụ bias: imputation bằng mean cho 'thu nhập' khi dữ liệu thiếu không ngẫu nhiên (MNAR—ví dụ: người giàu không trả lời survey) sẽ gây sai lệch xuống dưới giá trị thực, làm model underestimate mối quan hệ giữa thu nhập và hành vi mua hàng. Tương tự, mean imputation cho 'tuổi' khi người lớn tuổi bỏ qua câu hỏi sẽ làm tổng thể bị trẻ hóa. Lựa chọn phương pháp phụ thuộc vào: (1) cơ chế thiếu (MCAR/MAR/MNAR), (2) tỉ lệ % thiếu, (3) loại biến (số vs category), và (4) yêu cầu tính toán.",
+      "evaluation_points": [
+        "So sánh được ưu nhược điểm của 3 phương pháp (tốc độ, độ chính xác, mất mát thông tin)",
+        "Phân biệt rõ MCAR vs MNAR vs MAR và ảnh hưởng của chúng đến lựa chọn phương pháp",
+        "Xác định điều kiện sử dụng: tỉ lệ % thiếu, loại dữ liệu, cấu trúc dữ liệu và tính toán",
+        "Thảo luận ảnh hưởng lên variance, correlations, và standard errors của mỗi phương pháp",
+        "Đưa ra ví dụ cụ thể về bias do imputation sai (MNAR case: missing not at random)",
+        "Nhấn mạnh tầm quan trọng của feature scaling trước KNN imputation",
+        "Giải thích khi nào listwise deletion chấp nhận được (thiếu hoàn toàn ngẫu nhiên và tỉ lệ rất thấp)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  }
+]

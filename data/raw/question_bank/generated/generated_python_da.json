@@ -1,0 +1,2204 @@
+[
+  {
+    "question_id": "GEN_DA_PYTHON_DA_001",
+    "question_text": "Trong Pandas, sự khác biệt giữa phương thức `loc[]` và `iloc[]` là gì? Đưa ra ví dụ cụ thể.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "`loc[]` truy cập dữ liệu dựa trên nhãn (label-based), trong khi `iloc[]` truy cập dựa trên chỉ số nguyên (integer position). \n\nVí dụ: \n- `df.loc[0, 'column']` lấy giá trị tại hàng có nhãn là 0 và cột 'column'\n- `df.iloc[0, 1]` lấy giá trị tại hàng đầu tiên (vị trí 0) và cột thứ hai (vị trí 1)\n\nSự khác biệt quan trọng khi slicing:\n- `df.loc[0:2, :]` lấy từ hàng nhãn 0 đến 2 (inclusive cả hai đầu)\n- `df.iloc[0:2, :]` lấy từ vị trí 0 đến 1 (exclusive end, giống Python slicing)\n\nNên dùng `loc`/`iloc` thay vì chained indexing (`df['col'][row_index]`) để tránh `SettingWithCopyWarning` khi cập nhật dữ liệu: `df.loc[0, 'col'] = value` an toàn hơn `df['col'][0] = value`.",
+      "evaluation_points": [
+        "Hiểu rõ `loc` dùng nhãn, `iloc` dùng chỉ số nguyên",
+        "Phân biệt được trường hợp sử dụng đúng và tại sao nên dùng `loc`/`iloc` thay vì chained indexing như `df['col'][row_index]` để tránh `SettingWithCopyWarning`",
+        "Giải thích sự khác biệt giữa inclusive slicing (cả hai đầu) với `loc` và exclusive end với `iloc`",
+        "Đưa ra ví dụ minh họa chính xác cho cả single element access, slicing, và boolean indexing"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_003",
+    "question_text": "Bạn đang làm việc với DataFrame chứa dữ liệu bán hàng gồm các cột: 'date', 'product', 'revenue', 'quantity'. Làm thế nào để tính doanh thu trung bình theo từng sản phẩm, chỉ với các ngày trong tháng 6/2024? Giải thích lý do chọn phương pháp của bạn.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Trước tiên, đảm bảo cột 'date' có dtype datetime bằng `df['date'] = pd.to_datetime(df['date'])` nếu cần. Sau đó, lọc dữ liệu theo tháng 6/2024: `df_filtered = df[(df['date'] >= '2024-06-01') & (df['date'] <= '2024-06-30')]`. Cuối cùng, dùng `groupby` để nhóm theo 'product' và tính trung bình doanh thu: `result = df_filtered.groupby('product')['revenue'].mean()`. Phương pháp này tối ưu vì: (1) `groupby` xử lý nhanh trên DataFrame lớn so với vòng lặp; (2) dễ mở rộng bằng `agg()` để thêm các thống kê khác cùng lúc (ví dụ `.agg({'revenue': ['mean', 'count', 'std']})`); (3) tự động xử lý NaN values trong mean(). Nếu cần nhiều số liệu, có thể dùng `named_agg` để có tên cột rõ ràng hơn.",
+      "evaluation_points": [
+        "Correctly filters data using boolean indexing with logical operators",
+        "Properly applies groupby() with single column and mean() aggregation",
+        "Understands groupby performance advantages over loops and knows when groupby is preferred",
+        "Recognizes that 'date' column dtype matters: should verify it's datetime, not string, for robust date comparisons",
+        "Could discuss using pd.to_datetime() for date conversion if dtype inference fails",
+        "Knows when to use alternative approaches (e.g., dt.month filtering for datetime objects: df[df['date'].dt.month == 6])",
+        "Understands that groupby returns a Series here; could enhance with named_agg or agg() for multiple metrics (e.g., mean, count, std simultaneously)",
+        "Recognizes that this approach naturally handles missing/null values (NaN handling in mean())"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_005",
+    "question_text": "So sánh `merge()` và `join()` trong Pandas. Khi nào nên dùng `merge()` thay vì `join()`? Đưa ra ví dụ thực tế.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "`merge()` và `join()` đều kết hợp DataFrames nhưng có sự khác biệt cơ bản: `merge()` là column-based (mặc định), `join()` là index-based (mặc định). \n\n**Khi dùng `merge()`:** (1) Join theo cột cụ thể thay vì index - `df1.merge(df2, on='customer_id', how='left')`, (2) Xử lý multiple join keys - `df1.merge(df2, left_on=['cust_id', 'date'], right_on=['id', 'order_date'])`, (3) Cần validate duplicate keys - `df1.merge(df2, on='id', validate='one_to_one')`, (4) Yêu cầu kiểm soát chi tiết. \n\n**Khi dùng `join()`:** (1) Join theo index nhanh chóng - `df1.join(df2)`, (2) Kết hợp nhiều DataFrames - `df1.join([df2, df3])`, (3) Index đã có ý nghĩa (time series, categorical). \n\n**Ví dụ thực tế:** Dữ liệu khách hàng có `customer_id` là cột, không phải index → dùng `merge()`. Dữ liệu time series có date là index → dùng `join()`. \n\n**Lưu ý:** Cả hai đều cần xử lý overlapping columns bằng `suffixes=('_left', '_right')`, và cả hai có `how` parameter (inner/left/right/outer). Khi join theo index, `join()` nhanh hơn vì không cần tìm kiếm cột.",
+      "evaluation_points": [
+        "Phân biệt được `merge()` là column-based (mặc định) và `join()` là index-based (mặc định), nhưng cả hai đều linh hoạt được thông qua tham số",
+        "Giải thích khi nào dùng `merge()`: join theo cột, xử lý duplicate keys, cần `validate` parameter, hoặc nhiều join keys phức tạp",
+        "Giải thích khi nào dùng `join()`: join theo index nhanh chóng, kết hợp nhiều DataFrames cùng lúc (có thể join danh sách DataFrames)",
+        "Xử lý overlapping column names bằng `suffixes` parameter trong cả `merge()` và `join()`",
+        "Đề cập đến hiệu suất: `join()` theo index thường nhanh hơn `merge()` khi index đã được sắp xếp/indexed",
+        "Cảnh báo: không xử lý duplicate keys có thể dẫn đến Cartesian product không mong muốn"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_007",
+    "question_text": "Bạn có DataFrame chứa dữ liệu khách hàng, trong đó cột 'purchase_amount' có nhiều giá trị null. Hãy trình bày các cách xử lý giá trị thiếu và giải thích ưu nhược điểm của từng cách, đồng thời đề xuất cách phù hợp cho phân tích doanh thu.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_ANALYTICS"
+    ],
+    "answers": {
+      "detailed": "**Phương pháp xử lý giá trị null cho 'purchase_amount':**\n\n**(1) Xóa hàng null (`dropna()`)** - Ưu: Đơn giản, không biến dạo dữ liệu. Nhược: Mất thông tin khách hàng, giảm cỡ mẫu. Phù hợp: tỷ lệ null < 2%.\n\n**(2) Điền bằng trung bình toàn cục (`fillna(df['purchase_amount'].mean())`)** - Ưu: Nhanh, bảo toàn kích thước mẫu. Nhược: Giảm phương sai, dễ bị ảnh hưởng outlier, làm méo phân phối. Không phù hợp cho doanh thu.\n\n**(3) Điền bằng trung vị toàn cục (`fillna(df['purchase_amount'].median())`)** - Ưu: Ít nhạy outlier hơn, bảo toàn trung tâm phân phối. Nhược: Vẫn không phản ánh sự khác biệt theo nhóm khách hàng. Chấp nhận được nếu null ngẫu nhiên.\n\n**(4) Điền bằng thống kê theo nhóm (groupby) - **KHUYẾN NGHỊ**:**\n```python\ndf['purchase_amount'] = df.groupby('customer_segment')['purchase_amount'].transform(\n    lambda x: x.fillna(x.median())\n)\n```\nỨu: Bảo toàn cấu trúc doanh thu theo từng phân khúc, tránh bias khi doanh thu khác nhau giữa nhóm. Tốt nhất cho phân tích doanh thu.\n\n**(5) Điền bằng forward/backward fill** - Phù hợp chuỗi thời gian (không áp dụng ở đây nếu không có yếu tố thời gian).\n\n**Lựa chọn cho phân tích doanh thu:** Nếu tỷ lệ null < 2%, xóa. Nếu 2-10%, dùng trung vị theo nhóm (segment, region). Nếu > 10%, cần điều tra nguyên nhân null trước—có thể chỉ ra sai sót dữ liệu hoặc cần mô hình phức tạp hơn. Luôn flag giá trị imputed để phân tích độ nhạy.",
+      "evaluation_points": [
+        "List at least 3 common null-handling methods with correct pandas syntax (`dropna()`, `fillna()`, `interpolate()`, etc.)",
+        "Analyze pros/cons of each method: data loss, statistical impact (variance, distribution), bias introduction, and computational efficiency",
+        "Justify selection based on data characteristics: null percentage, revenue distribution (skewness/outliers), business context (missing = truly absent vs. unrecorded), and downstream analysis requirements",
+        "Demonstrate awareness of grouped imputation: filling nulls using group-specific statistics (e.g., by customer segment or time period) rather than global statistics—critical for revenue analysis to preserve segment-level patterns",
+        "Discuss preservation of data integrity: avoiding `SettingWithCopyWarning` when applying conditional fills; understanding how null handling affects aggregations and KPI calculations",
+        "Consider alternative approaches: domain-specific imputation (e.g., forward-fill for time-series revenue), flagging imputed values for sensitivity analysis, or building models that handle missingness explicitly"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_009",
+    "question_text": "Bạn có DataFrame lớn (hàng triệu dòng) với các cột: 'user_id', 'event_time', 'revenue'. Bạn cần tính tổng doanh thu theo từng user trong 7 ngày gần nhất. Viết code tối ưu bằng Pandas, giải thích cách xử lý edge cases (ví dụ: user không có giao dịch trong 7 ngày, dữ liệu event_time không theo thứ tự) và đề xuất cải tiến nếu dùng NumPy hoặc thư viện khác.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_ANALYTICS"
+    ],
+    "answers": {
+      "detailed": "**Clarification on requirement:** The phrase '7 ngày gần nhất' typically means summing revenue from transactions within the last 7 calendar days, not the last 7 rows. The provided answer uses `rolling(window=7)` which sums the last 7 rows regardless of timestamps.\n\n**Correct Pandas approach for time-based window:**\n```python\ndf['event_time'] = pd.to_datetime(df['event_time'])\ndf = df.sort_values(['user_id', 'event_time']).reset_index(drop=True)\n\n# For each row, sum revenue in the last 7 days\ndf['revenue_7d'] = df.groupby('user_id').apply(\n    lambda group: group.set_index('event_time')['revenue'].rolling('7D').sum(),\n    include_groups=False\n).reset_index(level=0, drop=True)\n```\n\nOr more efficiently (Pandas >= 1.5):\n```python\ndf['revenue_7d'] = df.groupby('user_id')['revenue'].transform(\n    lambda x: x.rolling(window='7D', on=df.loc[x.index, 'event_time']).sum()\n)\n```\n\n**Edge case handling:**\n1. **Users with no transactions in 7 days:** Returns NaN; fill with 0 using `fillna(0)` if business logic requires it.\n2. **Unsorted data:** Sorting by user_id and event_time is mandatory for correctness (not just performance). Verify with `assert df.sort_values(['user_id', 'event_time']).equals(df)`.\n3. **Uneven time intervals:** Time-based rolling inherently handles this; count-based rolling does not.\n\n**Performance optimization:**\nFor million-row datasets, Pandas rolling can be slow. Consider:\n- **Polars:** `df.with_columns(pl.col('revenue').rolling_sum(window_size=7, by='user_id').over(pl.col('event_time').dt.truncate('1d')))` (faster and more intuitive)\n- **DuckDB:** SQL window functions with `RANGE BETWEEN INTERVAL '7 days'` offer superior performance\n- **NumPy:** Not suitable—lacks native datetime windowing; would require manual loop implementation\n- **Numba JIT compilation:** Viable for custom aggregations but adds complexity\n\n**Trade-off summary:** Pandas is adequate for <10M rows; use Polars or DuckDB for larger datasets or stricter latency requirements.",
+      "evaluation_points": [
+        "Correctly distinguish between rolling window by row count vs. time-based rolling window (7 days as a time duration, not 7 rows)",
+        "Properly use `rolling(window='7D', on='event_time')` for calendar-day-based aggregation or implement time-based filtering with `df[df['event_time'] >= df['event_time'] - pd.Timedelta(days=7)]` for each point in time",
+        "Handle edge case where users have no transactions in last 7 days by explicitly returning 0 (not NaN) and explaining `min_periods` behavior",
+        "Address unsorted data impact on correctness (not just performance) and demonstrate sort verification",
+        "Compare performance trade-offs: grouped rolling with `transform` vs. time-based filtering approaches for million-row datasets",
+        "Discuss NumPy optimization limitations (NumPy lacks native datetime awareness) and recommend appropriate alternatives like Polars or DuckDB for time-windowed aggregations on large datasets"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_006",
+    "question_text": "Bạn có một DataFrame chứa dữ liệu bán hàng hàng ngày của một cửa hàng trong nhiều tháng, với các cột: 'date' (datetime), 'revenue' (float), 'quantity' (int). Hãy viết code sử dụng Pandas để tính tổng doanh thu và tổng số lượng bán ra cho mỗi tuần trong năm. Giải thích tại sao bạn chọn cách xử lý đó thay vì dùng vòng lặp for.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Sử dụng pd.Grouper hoặc resample() để gộp theo tuần, sau đó dùng groupby().agg(). Ví dụ:\n\n```python\ndf['date'] = pd.to_datetime(df['date'])\nresult = df.groupby(pd.Grouper(key='date', freq='W')).agg({\n    'revenue': 'sum',\n    'quantity': 'sum'\n})\n```\n\nHoặc với named_agg để có cột output rõ ràng:\n```python\nresult = df.groupby(pd.Grouper(key='date', freq='W')).agg(\n    total_revenue=('revenue', 'sum'),\n    total_quantity=('quantity', 'sum')\n)\n```\n\nAlternative sử dụng isocalendar():\n```python\nresult = df.groupby(df['date'].dt.isocalendar()['week']).agg(...)\n```\n\nTại sao không dùng vòng lặp for:\n1. **Hiệu năng:** Vectorization của Pandas/NumPy xử lý tại cấp C, không qua interpreter Python như for-loop\n2. **Code ngắn gọn:** Một dòng thay vì 10+ dòng với vòng lặp\n3. **Quản lý index:** Pandas tự động giữ nguyên cấu trúc index/cột; for-loop dễ gây lỗi\n4. **Readability:** Cách Pandas là idiomatic và dễ maintain",
+      "evaluation_points": [
+        "Correctly uses pd.Grouper with freq='W' or resample() for time-based grouping, demonstrating understanding of datetime indexing",
+        "Applies agg() with dictionary syntax to perform multiple aggregations on different columns simultaneously (named_agg preferred for clarity)",
+        "Explains vectorization advantage: operations execute at C-level rather than Python interpreter, avoiding per-row overhead",
+        "Distinguishes between pd.Grouper (flexible, works with non-index columns) vs. resample() (requires DatetimeIndex) vs. dt.isocalendar() (for ISO week numbers) and when to use each",
+        "Strong candidate discusses memory efficiency and code readability; weak candidate only provides basic syntax without understanding time-frequency aliasing or handling edge cases (partial weeks, timezone awareness)",
+        "Recognizes that groupby().agg() returns properly labeled output, whereas manual loops require index/column management"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_008",
+    "question_text": "Bạn đang làm việc với một DataFrame có cột 'category' (categorical) và 'value' (numeric). Hãy viết code sử dụng NumPy và Pandas để tính trung bình của 'value' cho mỗi category, nhưng chỉ sử dụng NumPy cho phần tính toán thống kê (không dùng groupby.mean()). Giải thích cách bạn ánh xạ category sang số và xử lý NaN.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "answers": {
+      "detailed": "Use pd.factorize() to convert categories to integer codes (0, 1, 2, ...) while preserving order. Handle NaN by either: (1) removing rows with NaN in category or value columns before factorization, or (2) treating NaN values as zero with fillna(0), depending on whether they should contribute to the mean. Use np.bincount(codes, weights=df['value']) to compute per-category sums and np.bincount(codes) to count observations per category, then divide sums by counts. Example:\n\n```python\n# Remove NaN rows\ndf_clean = df.dropna(subset=['category', 'value'])\ncodes, uniques = pd.factorize(df_clean['category'])\n\n# Calculate sums and counts\nsums = np.bincount(codes, weights=df_clean['value'])\ncounts = np.bincount(codes)\nmeans = sums / counts\nresult = pd.DataFrame({'category': uniques, 'mean_value': means})\n```\n\nNote: np.bincount() requires non-negative integer indices and doesn't handle negative codes, so ensure factorize output starts at 0. This approach is generally slower than groupby.mean() for most datasets but useful for understanding low-level aggregation mechanics. Verify correctness: `assert np.allclose(result.set_index('category')['mean_value'], df_clean.groupby('category')['value'].mean())`",
+      "evaluation_points": [
+        "Correctly use pd.factorize() to map categorical values to numeric codes and explain why this preserves category order",
+        "Apply np.bincount() with weights parameter for aggregation and explain why it requires non-negative integer indices",
+        "Demonstrate proper NaN handling: distinguish between removing NaN rows entirely vs. treating them as zero, and explain the semantic difference for mean calculation",
+        "Verify the approach produces identical results to groupby.mean() and discuss performance tradeoffs (NumPy-based approach vs. optimized Pandas groupby)",
+        "Handle edge cases: empty groups, all-NaN groups, and multiple NaN representations (np.nan, None, pd.NA)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_010",
+    "question_text": "Công ty bạn có một DataFrame chứa thông tin nhân viên: 'employee_id', 'department', 'salary', 'hire_date'. Hãy viết code sử dụng Pandas để tìm ra top 3 nhân viên có mức lương cao nhất trong mỗi phòng ban. Giải thích tại sao bạn chọn phương pháp đó thay vì sắp xếp toàn bộ DataFrame.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Sử dụng `df.groupby('department')['salary'].nlargest(3)` hoặc `df.sort_values('salary', ascending=False).groupby('department').head(3)`. \n\nPhương pháp groupby().nlargest() tối ưu vì:\n- Độ phức tạp: O(n log k) thay vì O(n log n) khi sort toàn bộ\n- Chỉ sắp xếp trong từng nhóm nhỏ, không cần sắp xếp toàn bộ DataFrame\n- Tiết kiệm bộ nhớ khi làm việc với dữ liệu lớn\n\nLưu ý xử lý index: `nlargest()` trả về MultiIndex (department, salary), cần `reset_index()` nếu muốn cột thường. Nếu muốn giữ toàn bộ thông tin nhân viên, dùng: `df.sort_values('salary', ascending=False).groupby('department').head(3)` hoặc `df.loc[df.groupby('department')['salary'].nlargest(3).index]`.",
+      "evaluation_points": [
+        "Correctly identifies groupby().nlargest() as the optimal approach and explains O(n log k) vs O(n log n) complexity tradeoff",
+        "Understands that nlargest operates within each group independently, avoiding full DataFrame sort",
+        "Recognizes the need to handle index structure post-groupby (reset_index, drop_level, or keep_index as appropriate)",
+        "Can discuss alternative valid approaches (e.g., sort_values().groupby().head(3), rank() within groups) and their tradeoffs",
+        "Demonstrates awareness that nlargest returns a MultiIndex when used on grouped Series and how to manage it cleanly",
+        "Explains why row-wise apply on full DataFrame would be inefficient compared to groupby aggregation methods"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_012",
+    "question_text": "Bạn có hai DataFrame: df_orders (cột 'order_id', 'customer_id', 'amount') và df_customers (cột 'customer_id', 'region'). Hãy viết code sử dụng Pandas để tính tổng doanh thu theo region, nhưng chỉ tính những khách hàng có tổng đơn hàng > 1000. Giải thích cách bạn kết hợp dữ liệu và áp dụng điều kiện lọc.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "answers": {
+      "detailed": "Use merge to combine df_orders and df_customers on customer_id (inner join ensures only matched records). Then apply groupby with either: (1) agg path: groupby('customer_id')['amount'].sum(), filter with boolean indexing df[df['total'] > 1000], then groupby('region').sum(); or (2) transform path: use transform('sum') to add customer totals while preserving all rows, filter with boolean indexing, then groupby('region').sum(). The transform approach is preferred because it avoids intermediate aggregation and maintains clarity. Alternatively, use groupby().filter() which is more readable: df_merged.groupby('customer_id').filter(lambda x: x['amount'].sum() > 1000).groupby('region')['amount'].sum(). Explain why transform preserves original row structure, enabling efficient filtering before final aggregation, whereas separate agg operations require reassembly.",
+      "evaluation_points": [
+        "Correctly uses merge/join to combine DataFrames on customer_id with appropriate join type (inner vs left)",
+        "Understands and applies groupby aggregation followed by filtering: groupby('customer_id').sum() then boolean indexing vs groupby('customer_id').filter() for cleaner filtering",
+        "Demonstrates knowledge of transform: explains why transform preserves row count and enables filtering before final aggregation, making it more efficient than separate groupby operations",
+        "Recognizes the performance hierarchy: optimized groupby aggregation > transform > apply, and chooses appropriate method for the task",
+        "Correctly applies boolean indexing or filter() method to remove customers with total_amount <= 1000 before final regional aggregation",
+        "Final groupby(region).sum() correctly aggregates filtered data to produce revenue by region",
+        "Discusses potential pitfalls: using apply instead of transform/agg (slower), incorrect join type causing data loss or duplication, filtering at wrong stage in pipeline"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_014",
+    "question_text": "Bạn có một mảng NumPy 2D với kích thước lớn (hàng triệu phần tử) và cần tính trung bình theo từng cột, nhưng loại bỏ các giá trị ngoại lai (outliers) dựa trên IQR. Hãy viết code sử dụng NumPy và Pandas để thực hiện việc này một cách hiệu quả. Giải thích trade-off giữa việc dùng NumPy thuần và Pandas.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_ANALYTICS"
+    ],
+    "answers": {
+      "detailed": "**NumPy Approach (Efficient for large datasets):**\n```python\nimport numpy as np\n\ndef filter_outliers_numpy(arr):\n    # arr shape: (n_rows, n_cols)\n    q1 = np.percentile(arr, 25, axis=0)\n    q3 = np.percentile(arr, 75, axis=0)\n    iqr = q3 - q1\n    lower_bound = q1 - 1.5 * iqr\n    upper_bound = q3 + 1.5 * iqr\n    \n    # Boolean mask per element\n    mask = (arr >= lower_bound) & (arr <= upper_bound)\n    \n    # Column-wise mean, excluding outliers\n    col_means = np.array([np.mean(arr[mask[:, i], i]) for i in range(arr.shape[1])])\n    return col_means\n```\n\n**Pandas Approach (More readable):**\n```python\nimport pandas as pd\n\ndef filter_outliers_pandas(arr):\n    df = pd.DataFrame(arr)\n    q1 = df.quantile(0.25)\n    q3 = df.quantile(0.75)\n    iqr = q3 - q1\n    mask = (df >= q1 - 1.5*iqr) & (df <= q3 + 1.5*iqr)\n    return df[mask].mean()\n```\n\n**Trade-offs:**\n- **NumPy:** ~3-5x faster, minimal memory overhead, best for raw computation; requires manual column handling\n- **Pandas:** ~15-20% memory overhead (index + metadata), easier syntax and debugging, better for exploratory work; slower on million-row datasets due to Series creation during quantile() calls\n- **Recommendation:** For millions of elements, use NumPy with explicit vectorization; use Pandas if subsequent groupby/transform operations are needed",
+      "evaluation_points": [
+        "Correctly compute Q1, Q3, and IQR using np.percentile() or pd.quantile() with per-column granularity",
+        "Implement efficient boolean indexing or masking that preserves column-wise filtering (not row-wise removal which may be incorrect for this use case)",
+        "Provide concrete working code demonstrating both NumPy and Pandas approaches with clear syntax",
+        "Analyze memory overhead: NumPy preserves original array structure; Pandas DataFrame adds index/column metadata overhead (~20-30% more memory)",
+        "Discuss vectorization: NumPy operations are fully vectorized; Pandas describe() involves intermediate Series creation, slower for repeated operations",
+        "Address whether to remove outlier rows entirely or replace with NaN—clarify the intended output shape",
+        "Explain performance trade-off: NumPy ~2-5x faster for raw computation on millions of rows, but Pandas easier to debug and maintain; for production pipelines with millions of elements, NumPy is preferable unless groupby operations are needed"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_011",
+    "question_text": "Trong Pandas, sự khác biệt chính giữa phương thức `loc` và `iloc` là gì? Hãy cho ví dụ minh họa.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "`loc` dùng để truy xuất dữ liệu dựa trên nhãn (label) của index hoặc cột, ví dụ: `df.loc[0:2, 'A']` lấy các hàng có nhãn index từ 0 đến 2 và cột 'A'. Trong khi đó, `iloc` dùng để truy xuất dựa trên vị trí số nguyên (integer position), ví dụ: `df.iloc[0:2, 0]` lấy 2 hàng đầu tiên và cột đầu tiên. \n\nSự khác biệt quan trọng:\n1. **Inclusive vs Exclusive**: `loc` bao gồm cả điểm cuối (inclusive), còn `iloc` thì không (exclusive). Ví dụ với DataFrame có index ['A', 'B', 'C']: `df.loc['A':'C']` lấy cả 3 hàng, nhưng `df.iloc[0:3]` cũng lấy 3 hàng vì end=3 là exclusive.\n2. **Nhãn vs Vị trí**: Khi index không phải là số nguyên liên tiếp (ví dụ: ngày tháng hoặc mã ID), `loc` vẫn hoạt động đúng, nhưng `iloc` chỉ dùng vị trí số thứ tự.\n3. **Cập nhật an toàn**: Luôn sử dụng `loc`/`iloc` thay vì chained indexing (`df['A'][0]`) để tránh SettingWithCopyWarning khi gán giá trị mới.",
+      "evaluation_points": [
+        "Giải thích rõ `loc` dùng nhãn, `iloc` dùng vị trí số nguyên.",
+        "Đưa ra ví dụ cụ thể phân biệt hai phương thức với dữ liệu thực tế (ví dụ: index không phải là 0,1,2,...).",
+        "Nêu điểm khác biệt về hành vi slice (inclusive/exclusive) và giải thích tại sao điều này quan trọng.",
+        "Giải thích tại sao tránh chained indexing như `df['A'][0]` và sử dụng `loc`/`iloc` để tránh SettingWithCopyWarning.",
+        "Đề cập đến khi nào dùng `loc` vs `iloc` trong thực tế (ví dụ: khi index có ý nghĩa như ngày tháng hoặc mã ID)."
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_013",
+    "question_text": "Bạn đang làm việc với DataFrame chứa dữ liệu bán hàng, có cột 'ngay' (datetime), 'doanh_thu' (float) và 'khu_vuc' (string). Hãy viết code Pandas để tính tổng doanh thu theo từng khu vực trong tháng 1 năm 2024. Giải thích tại sao bạn chọn cách làm đó.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Code mẫu: `df['ngay'] = pd.to_datetime(df['ngay']); df_filtered = df[(df['ngay'].dt.year == 2024) & (df['ngay'].dt.month == 1)]; result = df_filtered.groupby('khu_vuc')['doanh_thu'].sum()`. Cách làm này sử dụng dt accessor để lọc theo năm và tháng một cách trực quan và hiệu quả, sau đó groupby và sum để tổng hợp. Lý do chọn: (1) dt accessor tối ưu hơn so với chuyển đổi string hoặc sử dụng apply; (2) groupby là phương pháp chuẩn cho aggregation và dễ mở rộng cho nhiều khu_vuc; (3) đơn giản hơn resample khi chỉ cần lọc tháng cụ thể chứ không cần chuỗi thời gian. Lưu ý: nên đảm bảo 'ngay' là dtype datetime64; nếu cần reset index hoặc xử lý NaN, có thể thêm `.reset_index()` hoặc `.fillna(0)` tùy yêu cầu.",
+      "evaluation_points": [
+        "Correctly uses dt accessor (dt.year, dt.month) for datetime filtering rather than string conversion—demonstrates understanding of datetime optimization.",
+        "Applies groupby().sum() appropriately for aggregation; understands this returns a Series indexed by 'khu_vuc'.",
+        "Explains reasoning: mentions dt accessor efficiency and groupby as standard practice; acknowledges resample as alternative but justifies groupby choice.",
+        "Strong candidate would also discuss: alternative approaches (e.g., pd.Timestamp for range filtering), handling of NaN values in doanh_thu, or resetting index if a DataFrame output is needed.",
+        "Weak candidate would only write groupby().sum() without justifying datetime filtering method or understanding the performance implications of different approaches.",
+        "Pitfall: Not converting 'ngay' to datetime dtype first (assuming it's already datetime); not considering whether resample() might be preferable for time-series analysis.",
+        "Edge case awareness: What if 'ngay' contains timezone info? What if there are missing values in 'doanh_thu'? Should the result be sorted or reset index?"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_015",
+    "question_text": "Công ty có DataFrame chứa dữ liệu nhân viên với cột 'luong' và 'phong_ban'. Bạn muốn chuẩn hóa (standardize) cột lương theo phòng ban (trừ trung bình và chia cho độ lệch chuẩn trong từng phòng) để phân tích tương quan. Viết code NumPy và Pandas để thực hiện. So sánh ưu nhược điểm giữa dùng Pandas groupby + transform và dùng vòng lặp for.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_ANALYTICS"
+    ],
+    "answers": {
+      "detailed": "**Pandas Solution:** `df['luong_chuan'] = df.groupby('phong_ban')['luong'].transform(lambda x: (x - x.mean()) / x.std())` is optimal because `transform()` returns a Series matching the original DataFrame size, preserving row alignment—unlike `agg()` which would return one value per group. **NumPy Alternative:** Use `np.unique()` with a loop: `for dept in np.unique(df['phong_ban']): mask = df['phong_ban'] == dept; df.loc[mask, 'luong_chuan'] = (df.loc[mask, 'luong'] - df.loc[mask, 'luong'].mean()) / df.loc[mask, 'luong'].std()`. **Comparison:** Pandas transform is 10-100x faster on medium-large datasets due to optimized C-level grouping and vectorization; loop is more flexible but slower and prone to indexing errors. Pandas has minimal overhead for typical data sizes (100K+ rows); choose loop only when custom group logic is truly complex. **Edge cases to handle:** std=0 causes division by zero; use `fillna()` or conditional logic; ensure dtype consistency post-normalization.",
+      "evaluation_points": [
+        "Correctly uses groupby().transform() and explains why it returns same-sized output (critical distinction from agg)",
+        "Demonstrates understanding that transform is preferred over apply for group-wise normalization due to performance and output shape",
+        "Provides working NumPy alternative (e.g., using np.unique or direct indexing) with explicit loop comparison",
+        "Discusses performance trade-offs: vectorized Pandas transform >> loop-based approach; acknowledges overhead is minimal for medium datasets",
+        "Explains memory efficiency: Pandas groupby optimizations vs manual loop memory management",
+        "Identifies edge cases: handling NaN values, groups with std=0, dtype preservation across standardization"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_017",
+    "question_text": "Bạn có DataFrame chứa 2 cột: 'A' và 'B' với giá trị số. Hãy viết một hàm Python sử dụng NumPy để tính ma trận tương quan Pearson giữa A và B, và kiểm tra xem có giá trị null nào không. Nếu có null, hãy xử lý bằng cách loại bỏ chúng trước khi tính. Giải thích cách bạn xử lý edge case khi cả hai cột đều có độ lệch chuẩn bằng 0.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_ANALYTICS"
+    ],
+    "answers": {
+      "detailed": "def pearson_corr(df):\n    \"\"\"Calculate Pearson correlation between columns A and B, handling nulls and edge cases.\"\"\"\n    # Method 1: Using dropna() - preserves DataFrame structure\n    clean_df = df[['A', 'B']].dropna()\n    \n    if len(clean_df) < 2:\n        return np.nan  # Insufficient data\n    \n    a_clean = clean_df['A'].values\n    b_clean = clean_df['B'].values\n    \n    # Check for zero variance (edge case)\n    std_a = np.std(a_clean, ddof=1)  # Sample std\n    std_b = np.std(b_clean, ddof=1)\n    \n    if std_a == 0 or std_b == 0:\n        # Correlation is undefined when one variable has no variation\n        # Return np.nan (mathematically correct) rather than 0\n        return np.nan\n    \n    # Calculate Pearson correlation using NumPy\n    corr_matrix = np.corrcoef(a_clean, b_clean)\n    return corr_matrix[0, 1]\n    \n    # Alternative using scipy for direct computation:\n    # from scipy.stats import pearsonr\n    # return pearsonr(a_clean, b_clean)[0]",
+      "evaluation_points": [
+        "Correctly identifies and removes null values using boolean masking or pandas dropna() method",
+        "Properly uses np.corrcoef() and correctly extracts the correlation coefficient from the returned matrix [0,1]",
+        "Explicitly handles edge case when std=0 (zero variance) and justifies choice between returning np.nan (mathematically undefined) vs 0 (practically undefined)",
+        "Validates minimum sample size after null removal (n >= 2) to avoid computational errors",
+        "Considers alternative approaches: pandas.corr(), scipy.stats.pearsonr(), or manual calculation using covariance/std to demonstrate understanding",
+        "Discusses when to use .dropna() vs boolean masking and implications for DataFrame index alignment"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_019",
+    "question_text": "Bạn cần tối ưu hóa một pipeline xử lý DataFrame lớn (10 triệu dòng) gồm các bước: lọc theo điều kiện, groupby với nhiều hàm aggregate, và merge với DataFrame khác. Hãy thiết kế giải pháp sử dụng Pandas và NumPy để giảm thiểu thời gian xử lý. Phân tích các bottleneck tiềm ẩn (ví dụ: memory, vectorization) và đề xuất cách tối ưu (ví dụ: sử dụng categorical data, chunking, hoặc thay thế bằng NumPy). Đưa ra ví dụ code cụ thể cho ít nhất một kỹ thuật tối ưu.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "answers": {
+      "detailed": "Giải pháp tối ưu hóa pipeline 10M dòng:\n\n**1. BOTTLENECK ANALYSIS:**\n- Memory: Dữ liệu categorical không nén có thể chiếm 8 bytes/giá trị; chuyển sang category giảm xuống 1-2 bytes\n- Vectorization: `apply()` chậm hơn 10-100x so với vectorized operations\n- Merge: Không có index phù hợp → Cartesian product nếu khóa không unique; dtype mismatch → cost so sánh cao\n\n**2. KỸ THUẬT TỐI ƯU:**\n\n**Kỹ thuật A - Categorical dtype:**\n```python\n# Giảm memory: 8 bytes → ~1-2 bytes per value\ndf['group_col'] = df['group_col'].astype('category')\ndf['cat_feature'] = df['cat_feature'].astype('category')\n\nresult = df.groupby('group_col', observed=True).agg({\n    'value': ['sum', 'mean', 'count']\n})\n# observed=True: skip unused categories, tăng tốc 20-30%\n```\n\n**Kỹ thuật B - Select columns before merge:**\n```python\n# Chỉ giữ cột cần thiết, giảm memory footprint\ndf_filtered = df[['key_col', 'group_col', 'value_col']].copy()\ndf_filtered = df_filtered[df_filtered['value_col'] > threshold]\n\n# Ensure dtypes align for merge\ndf_filtered['key_col'] = df_filtered['key_col'].astype('int32')\nother_df['key_col'] = other_df['key_col'].astype('int32')\n\nresult = df_filtered.merge(other_df, on='key_col', how='left', validate='m:1')\n# validate='m:1': phát hiện khóa không unique → tránh Cartesian product bất ngờ\n```\n\n**Kỹ thuật C - NumPy vectorization:**\n```python\n# Thay vì df.apply(lambda x: ...), dùng np.where\n# Trước (chậm): df['new_col'] = df.apply(lambda x: x['a'] * x['b'] if x['c'] > 10 else 0, axis=1)\n# Sau (nhanh, 50-100x faster):\ndf['new_col'] = np.where(df['c'] > 10, df['a'] * df['b'], 0)\n```\n\n**Kỹ thuật D - Chunking cho dữ liệu quá lớn:**\n```python\nchunks = []\nfor chunk in pd.read_csv('large_file.csv', chunksize=100000):\n    chunk = chunk[chunk['value'] > threshold]  # Lọc\n    chunk_result = chunk.groupby('group').agg({'val': ['sum', 'mean']})\n    chunks.append(chunk_result)\n\nfinal_result = pd.concat(chunks).groupby(level=0).agg({'val': ['sum', 'mean']})\n```\n\n**3. ĐO LƯỜNG HIỆU SUẤT:**\n```python\nimport time\nstart = time.time()\ndf.memory_usage(deep=True).sum() / 1e9  # GB\nend = time.time()\nprint(f'Time: {end-start:.2f}s, Memory: {df.memory_usage(deep=True).sum()/1e9:.2f}GB')\n```\n\n**Trade-offs:**\n- Categorical: Tiết kiệm memory nhưng cột trở immutable, phù hợp cho stable data\n- Chunking: Chậm hơn full load (thêm I/O) nhưng tiết kiệm RAM, thích hợp khi RAM < dữ liệu\n- NumPy: Nhanh nhất nhưng chỉ cho phép phép toán đơn giản, không thay thế được groupby phức tạp",
+      "evaluation_points": [
+        "Identifies specific memory bottlenecks: categorical dtype reduction (60-80% savings for low-cardinality columns), and unnecessary column retention during merge operations",
+        "Distinguishes between optimization techniques with clear trade-offs: categorical (fast groupby, immutable after creation), chunking (memory efficient but slower I/O), NumPy vectorization (speed gain 10-100x for simple ops vs apply)",
+        "Demonstrates understanding of merge-specific optimizations: sorting on join keys before merge, using `validate` parameter to catch data quality issues, and index-based joins when applicable",
+        "Provides quantitative performance analysis or explains how to measure: memory profiling with `memory_usage()`, timing comparisons, or discusses when each technique provides diminishing returns",
+        "Considers data type alignment in merge operations and demonstrates awareness of dtype mismatches causing performance degradation",
+        "Explains the difference between `agg` (faster, vectorized) vs `apply` (slower, row-wise) and when `transform` is preferable for same-sized output",
+        "Addresses the `observed=True` parameter in categorical groupby to skip unused categories and improve performance"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_016",
+    "question_text": "Hãy giải thích sự khác biệt giữa Series và DataFrame trong Pandas?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Series là cấu trúc dữ liệu 1 chiều với index rõ ràng, tương tự như dictionary hoặc mảng có nhãn. DataFrame là cấu trúc dữ liệu 2 chiều, tương tự bảng (table), bao gồm nhiều Series chia sẻ cùng một index (hàng). Khác với NumPy array, DataFrame và Series có thể chứa các kiểu dữ liệu khác nhau (heterogeneous) và có nhãn rõ ràng cho cả hàng (row index) và cột (column labels). DataFrame thường được tạo từ: dict của Series, list của dict, NumPy array, hoặc đọc từ file (CSV, Excel, SQL). Ví dụ: `pd.Series([1, 2, 3], index=['a', 'b', 'c'])` tạo Series; `pd.DataFrame({'col1': [1, 2], 'col2': [3, 4]})` tạo DataFrame từ dict.",
+      "evaluation_points": [
+        "Giải thích đúng Series là 1 chiều, DataFrame là 2 chiều",
+        "Nêu được mối quan hệ DataFrame bao gồm nhiều Series chia sẻ cùng index",
+        "Phân biệt rõ Series và DataFrame có thể chứa các kiểu dữ liệu khác nhau (heterogeneous) vs NumPy array đồng nhất",
+        "Giải thích vai trò của index (row và column labels) trong việc gán nhãn có ý nghĩa",
+        "Cung cấp ví dụ minh họa cụ thể (tạo Series, tạo DataFrame từ dict/list, hoặc từ file CSV)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_018",
+    "question_text": "Bạn đang làm việc với dataset doanh số bán hàng có cột 'ngay' (datetime) và 'doanh_so' (float). Hãy viết code Pandas để tính tổng doanh số theo tháng và thêm cột 'thang' mới. Giải thích tại sao bạn chọn phương pháp đó thay vì dùng vòng lặp?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "answers": {
+      "detailed": "Code: df['thang'] = df['ngay'].dt.to_period('M'); doanh_so_theo_thang = df.groupby('thang')['doanh_so'].sum(). Lý do chọn groupby vì nó vectorized (sử dụng C backend của Pandas), không lặp từng hàng trong Python, xử lý hiệu quả với dữ liệu lớn. Thêm vào đó, có thể dùng pd.Grouper(freq='M') hoặc resample('M').sum() làm alternative cho chuỗi thời gian. Quan trọng kiểm tra NaT hoặc giá trị null trước khi tính toán để tránh lỗi.",
+      "evaluation_points": [
+        "Correctly uses dt.to_period('M') to extract month from datetime column and creates new 'thang' column",
+        "Properly applies groupby().sum() aggregation and explains vectorization advantage over loops (C-optimized code, memory efficiency)",
+        "Understands that groupby returns a GroupBy object requiring aggregation function; distinguishes between agg/sum/transform/apply and their performance implications",
+        "Discusses handling of missing values or edge cases (e.g., NaT in datetime, null doanh_so values) and their impact on aggregation",
+        "Compares alternative datetime grouping approaches: pd.Grouper(freq='M') or df.set_index('ngay').resample('M').sum() and explains trade-offs",
+        "Weak answer: Only states 'groupby is faster' without explaining vectorization or knowing alternative aggregation methods"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_020",
+    "question_text": "So sánh hai cách xử lý missing data trong Pandas: dropna() và fillna(). Trong tình huống phân tích dữ liệu khách hàng có 10% giá trị thiếu ở cột 'tuoi', bạn sẽ chọn cách nào và tại sao?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "answers": {
+      "detailed": "dropna() xóa toàn bộ hàng có NaN, đơn giản nhưng mất 10% dữ liệu có thể gây mất đại diện và giảm độ tin cậy phân tích. fillna() điền giá trị thay thế giữ kích thước mẫu nhưng có rủi ro giới thiệu bias. Với 10% thiếu ở cột 'tuoi', nên dùng fillna(median) vì: (1) tuổi thường có outliers làm mean bị lệch, median robust hơn; (2) giữ 100% sample size; (3) 10% là mức chấp nhận được. Tuy nhiên, cần kiểm tra trước bằng df['tuoi'].describe(), visualize phân phối, và xác nhận missing data không có pattern (MCAR). Nếu missing data có pattern hệ thống (ví dụ: tuổi khách hàng cao tuổi thường không khai báo), cân nhắc fillna(df['tuoi'].median()) kết hợp tạo flag cột để tracking. Với dữ liệu time-series, có thể dùng interpolate() thay thế.",
+      "evaluation_points": [
+        "Giải thích đúng ưu nhược điểm dropna() (mất dữ liệu, đơn giản) vs fillna() (giữ kích thước mẫu, có bias tiềm ẩn)",
+        "Lựa chọn fillna với median thay vì mean/mode và giải thích lý do liên quan đến outliers trong dữ liệu tuổi",
+        "Nhấn mạnh cần kiểm tra phân phối dữ liệu (skewness, outliers) trước khi quyết định phương pháp điền",
+        "Đánh giá tác động: 10% missing data có thể chấp nhận với fillna() nhưng cần xem xét ngữ cảnh phân tích (correlation analysis, modeling assumptions)",
+        "Thảo luận về phương pháp nâng cao: forward/backward fill (time-series), interpolation(), hay KNN imputation cho trường hợp phức tạp hơn"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_022",
+    "question_text": "Công ty có DataFrame chứa dữ liệu giao dịch với cột 'ma_khach_hang' và 'so_tien'. Bạn cần tính trung bình số tiền mỗi khách hàng, nhưng DataFrame có nhiều dòng trùng lặp (duplicate rows) do lỗi nhập liệu. Hãy viết code xử lý và giải thích các bước?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "answers": {
+      "detailed": "Step 1: Analyze duplicates before removing. Use df.duplicated(subset=['ma_khach_hang', 'so_tien']) to identify which rows are duplicated. Step 2: Determine the root cause—are they exact duplicates (data entry error) or legitimate repeated transactions? Step 3a: If exact duplicates (same customer ID AND same amount due to entry error), use df.drop_duplicates(subset=['ma_khach_hang', 'so_tien'], keep='first') to retain only the first occurrence. Step 3b: If different amounts per customer are expected, skip drop_duplicates. Step 4: Apply groupby: df.groupby('ma_khach_hang')['so_tien'].mean() to calculate average spending per customer. Key distinction: drop_duplicates is only needed if the SAME transaction was recorded multiple times. If a customer has multiple different transactions, groupby handles this naturally—duplicates here actually represent real transactions and should not be removed. Use keep='first' to preserve the earliest record if deduplication is necessary. Consider adding a validation step: df.groupby('ma_khach_hang').size() to check transactions per customer, helping determine if duplicates are data quality issues or legitimate patterns.",
+      "evaluation_points": [
+        "Correctly identifies that drop_duplicates(subset=['ma_khach_hang', 'so_tien'], keep='first') removes exact duplicate transactions, but explains when this is truly necessary versus optional based on business logic",
+        "Distinguishes between complete row duplicates (same customer ID and amount) versus duplicate customer IDs across different transactions—only the latter requires groupby, not drop_duplicates",
+        "Explains that groupby.mean() naturally handles multiple transactions per customer without requiring drop_duplicates first, unless duplicate detection itself is a data quality metric",
+        "Discusses the validate parameter in groupby context to detect unexpected duplicate patterns or uses df.duplicated() to analyze duplicates before deciding on remediation strategy",
+        "Addresses edge cases: what if the same customer legitimately has multiple identical transactions? Shows how to validate assumptions about duplicates (e.g., checking timestamps or transaction IDs) before removing data"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_024",
+    "question_text": "Bạn có DataFrame 5 triệu dòng cần tính tổng lũy tích (cumulative sum) theo nhóm và xử lý edge case khi có giá trị NaN. Code hiện tại dùng vòng lặp for chạy rất chậm. Hãy thiết kế giải pháp tối ưu bằng Pandas/NumPy, giải thích cách xử lý NaN và lý do chọn phương pháp? Thêm vào đó, nếu dữ liệu không fit vào RAM, bạn làm thế nào?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "answers": {
+      "detailed": "Tối ưu hóa: Sử dụng `df.groupby('nhom')['gia_tri'].cumsum(skipna=True)` thay vì vòng lặp. Đây là phương pháp vectorized chạy ở mức C, tốc độ nhanh hơn vòng lặp Python hàng chục lần.\n\n**Xử lý NaN:** Khi skipna=True (mặc định), giá trị NaN được coi là 0 trong tính toán nhưng vẫn giữ NaN ở output position đó, đảm bảo shape không thay đổi. Nếu cần bỏ qua hoàn toàn, dùng fillna(0) trước hoặc skipna=False nếu muốn dừng tại NaN.\n\n**Lưu ý quan trọng:** Cumsum theo nhóm đòi hỏi dữ liệu phải được sắp xếp theo 'nhom' trước. Nếu chưa sort, kết quả sẽ sai. Thêm `df.sort_values('nhom')` trước groupby.\n\n**Out-of-core (dữ liệu > RAM):**\n1. **Chunk-based:** `pd.read_csv(chunksize=50000)` có giới hạn—cumsum cần state từ chunk trước, nên phải tự lưu state (state = {nhom: last_cumsum_value}) và truyền sang chunk tiếp theo. Phức tạp và dễ lỗi.\n2. **Dask (recommended):** `dask.dataframe.read_csv() → groupby().cumsum()` xử lý tự động các partition, giữ nguyên group integrity, và tính toán song song. Không cần lo state management.\n3. **SQL database:** Nếu dữ liệu gốc ở DB, dùng `pd.read_sql()` + `ORDER BY nhom` để áp dụng window function `SUM(gia_tri) OVER (PARTITION BY nhom ORDER BY <row_order>)` trực tiếp, tránh load vào RAM.\n\n**Kiểm tra memory:** `df.memory_usage(deep=True).sum()` để xác định bottleneck. Nếu có nhiều int64/float64, chuyển xuống int32/float32 nếu phạm vi cho phép. Dùng `df.info()` kiểm tra dtype.\n\n**Validation:** Test trên sample nhỏ (e.g. df.head(1000)) và so sánh với kết quả vòng lặp để xác nhận đúng trước apply full dataset.",
+      "evaluation_points": [
+        "Correctly identifies df.groupby('nhom')['gia_tri'].cumsum(skipna=True) as the vectorized solution and explains why it outperforms loops (vectorization, C-level operations)",
+        "Explains NaN handling: skipna=True means NaN values are treated as 0 in cumsum calculation but preserve NaN in output at those positions, maintaining shape consistency",
+        "Demonstrates understanding of data ordering: recognizes that cumsum within groups requires data to be sorted by group, and discusses sort implications for performance",
+        "Proposes chunked reading strategy with pd.read_csv(chunksize=X), but critically evaluates the challenge: cumsum requires previous chunk state, necessitating a stateful approach or Dask",
+        "Discusses Dask.dataframe.groupby().cumsum() as superior for out-of-core, explaining how it handles partitions and maintains group integrity across partitions",
+        "Addresses memory profiling: mentions df.memory_usage(deep=True) to identify bottlenecks and dtype optimization (e.g., int64→int32, float64→float32)",
+        "Considers validation: proposes spot-checking results against small in-memory subset to verify correctness before processing full dataset"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_021",
+    "question_text": "Hãy giải thích sự khác biệt giữa loc và iloc trong Pandas khi truy cập dữ liệu từ DataFrame.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "loc dùng truy cập dữ liệu dựa trên nhãn (label-based indexing), trong khi iloc dùng dựa trên chỉ số vị trí nguyên (integer-based indexing). Khác biệt quan trọng: loc **bao gồm cả end label** (inclusive), còn iloc **không bao gồm end position** (exclusive, giống Python slicing). Ví dụ: df.loc[0] lấy hàng có nhãn index là 0 (bất kể vị trí); df.iloc[0] lấy hàng đầu tiên (vị trí 0). Với slicing: df.loc[0:2] lấy nhãn 0, 1, 2; df.iloc[0:2] lấy vị trí 0, 1 (không lấy 2). Trường hợp index không nguyên (ví dụ index=['a', 'b', 'c']): iloc[1] luôn lấy hàng thứ 2, nhưng loc['b'] lấy hàng có nhãn 'b'. Điểm quan trọng: luôn dùng loc/iloc thay vì chained indexing (df['col'][0]) để tránh SettingWithCopyWarning, đảm bảo tính toàn vẹn dữ liệu.",
+      "evaluation_points": [
+        "Hiểu đúng loc là label-based, iloc là integer-based indexing",
+        "Giải thích tính chất inclusive/exclusive: loc bao gồm cả end label, iloc không bao gồm end position (như Python slicing)",
+        "Đưa ra ví dụ minh họa cụ thể với index không liên tục hoặc không nguyên (ví dụ: index=['a', 'b', 'c'])",
+        "Nhận thức về SettingWithCopyWarning: tại sao tránh chained indexing (df['col'][row_index]) và ưu tiên loc/iloc",
+        "Hiểu khi nào dùng loc vs iloc và lý do chọn lựa (semantic clarity, safety)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_025",
+    "question_text": "Làm thế nào để xử lý giá trị thiếu (missing values) trong Pandas DataFrame? Hãy kể tên 3 phương pháp phổ biến.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Ba phương pháp phổ biến: (1) dropna() - xóa hàng/cột chứa giá trị thiếu (nhanh nhưng mất dữ liệu, thích hợp khi thiếu ít); (2) fillna() - điền các giá trị thay thế như mean, median cho số, mode cho hạng mục (bảo toàn dữ liệu nhưng có thể làm sai lệch phân phối); (3) interpolate() - nội suy giá trị dựa trên xu hướng (tốt cho dữ liệu chuỗi thời gian). Lưu ý: sử dụng isna() để phát hiện trước, tham số inplace=True để sửa đổi tại chỗ, axis/subset để chỉ định hàng/cột cụ thể.",
+      "evaluation_points": [
+        "Correctly names 3 valid methods (dropna, fillna, interpolate)",
+        "Explains each method's purpose clearly and concisely",
+        "Discusses trade-offs: data loss (dropna) vs. data integrity (fillna/interpolate)",
+        "Mentions strategy selection: fillna with mean/median for numerical, mode for categorical; interpolate for time-series",
+        "References inplace parameter and subset parameters (axis, subset) for targeted operations",
+        "Bonus: Mentions detectna() for identifying missing values before handling"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_027",
+    "question_text": "Bạn đang làm phân tích dữ liệu bán hàng cho một công ty thương mại điện tử. Bạn có DataFrame 'sales' gồm các cột: 'order_date', 'product_id', 'quantity', 'revenue'. Hãy giải thích cách tính doanh thu trung bình theo từng tháng (monthly average revenue) bằng Pandas và thảo luận về trade-off giữa groupby và pivot_table trong trường hợp này.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Đầu tiên, chuyển 'order_date' thành datetime type bằng pd.to_datetime(). Sau đó, tạo cột 'month' bằng dt.to_period('M') hoặc dt.strftime('%Y-%m'). Tính doanh thu trung bình theo tháng:\n\n```python\nsales['order_date'] = pd.to_datetime(sales['order_date'])\nsales['month'] = sales['order_date'].dt.to_period('M')\nmonthly_avg = sales.groupby('month')['revenue'].mean()\n```\n\n**Groupby vs Pivot_table trade-off:**\n- **Groupby**: Nhanh hơn, linh hoạt hơn, hỗ trợ method chaining, tốt cho aggregation đơn giản. Kết quả trả về Series (có index là month). Phù hợp khi chỉ cần một phép tính.\n- **Pivot_table**: Tốt hơn cho multi-dimensional summaries (ví dụ: doanh thu trung bình theo tháng AND product_id). Trả về DataFrame 2D với hàng/cột rõ ràng. Hỗ trợ fill_value và aggfunc linh hoạt.\n\nNếu cần bảng đa chiều: `sales.pivot_table(values='revenue', index='month', columns='product_id', aggfunc='mean')`\n\n**Lưu ý hiệu năng:** Với dữ liệu lớn, groupby nhanh hơn pivot_table. Ngoài ra, có thể dùng `resample('MS')` nếu dữ liệu đã được set_index theo time-series.",
+      "evaluation_points": [
+        "Correctly convert 'order_date' to datetime type and extract month using dt.to_period('M') or dt.strftime('%Y-%m')",
+        "Implement groupby aggregation with proper syntax: groupby('month')['revenue'].mean() and explain why this returns a Series",
+        "Compare groupby vs pivot_table: groupby is more efficient for simple aggregations and allows method chaining; pivot_table is better for multi-dimensional summaries (e.g., by month AND product_id with fill_value handling)",
+        "Discuss performance implications: groupby typically faster for single aggregation; pivot_table adds overhead but provides cleaner reshaping for cross-tabulation scenarios",
+        "Address potential pitfalls: NaN handling (use skipna parameter), numeric vs categorical month representation, and whether to reset_index() for downstream operations",
+        "Consider alternative approaches: resampling with dt.resample('MS') for time-series data (more appropriate if data is time-indexed) versus groupby for flexibility with multiple grouping columns"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_029",
+    "question_text": "Bạn có DataFrame 'df' với 10 triệu dòng và 50 cột. Bạn cần thực hiện tính toán: với mỗi nhóm dựa trên cột 'category', tính trung bình cột 'value' và thêm kết quả vào DataFrame gốc dưới dạng cột mới 'group_mean'. Hãy trình bày cách tối ưu performance bằng Pandas/NumPy, bao gồm xử lý các edge case như tồn tại giá trị NaN hoặc lỗi bộ nhớ (memory error).",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "answers": {
+      "detailed": "Optimal approach: (1) **Use transform() instead of groupby + merge**: `df['group_mean'] = df.groupby('category')['value'].transform('mean')`. This avoids creating intermediate DataFrames and performs in-place assignment, preserving original row order without O(n) merge overhead. (2) **Handle NaN strategically**: By default, groupby with skipna=True excludes NaN in calculations (correct behavior). However, if 'category' column contains NaN, these rows won't match any group—decide whether to fillna('Unknown') or dropna() beforehand. (3) **Optimize dtype before processing**: Convert float64 to float32 (50% memory savings): `df['value'] = df['value'].astype('float32')`. Keep only necessary columns: `df = df[['category', 'value']]` to reduce memory footprint from 50 columns. (4) **For memory errors on 10M rows**: (a) If data is from file, use `pd.read_csv(..., dtype={'value': 'float32'}, usecols=['category', 'value'], chunksize=1000000)` and process in chunks, applying transform per chunk with a pre-computed global group means dictionary, or (b) Use Dask: `import dask.dataframe as dd; ddf = dd.read_csv(...); ddf['group_mean'] = ddf.groupby('category')['value'].transform('mean'); df = ddf.compute()`. (5) **Validate**: Ensure 'category' column has no NaN before groupby; check for duplicate keys if merge was originally intended. (6) **Performance verification**: Use `memory_profiler` to confirm memory reduction; `time` to validate O(n) linear scaling.",
+      "evaluation_points": [
+        "Correctly identifies transform() as superior to groupby().merge() for memory efficiency and performance (avoids intermediate DataFrame creation)",
+        "Demonstrates understanding of skipna=True default behavior and when explicit NaN handling (fillna vs dropna) is necessary before groupby",
+        "Provides concrete dtype optimization strategy (float32 vs float64) with quantified memory savings reasoning",
+        "Discusses chunking strategy with validation that transform semantics remain correct across chunks, or correctly recommends Dask for true distributed computation",
+        "Addresses potential pitfall: ensuring join key ('category') has no NaN values that could cause silent data loss in groupby",
+        "Explains performance hierarchy: vectorized groupby.transform > apply > manual loops, with benchmarking considerations for 10M rows",
+        "Discusses alternative approaches (e.g., pre-sorted groupby, numba JIT compilation) and their trade-offs for extremely large datasets"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_026",
+    "question_text": "Trong Pandas, sự khác biệt chính giữa phương thức loc và iloc là gì? Hãy cho ví dụ minh họa.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "loc truy xuất dữ liệu dựa trên nhãn (label) của index hoặc cột, trong khi iloc truy xuất dựa trên vị trí số nguyên (integer position). Ví dụ: df.loc[0:2] lấy các hàng có nhãn index từ 0 đến 2 (bao gồm cả 2), df.iloc[0:2] lấy các hàng ở vị trí 0,1 (không bao gồm 2). Một sự khác biệt quan trọng khác là loc hỗ trợ boolean indexing và truy cập multi-axis như df.loc[0:2, 'col1':'col3']. Nên sử dụng loc/iloc thay vì chained indexing (df['col'][0]) để tránh SettingWithCopyWarning và đảm bảo tính toàn vẹn của dữ liệu khi cập nhật.",
+      "evaluation_points": [
+        "Giải thích đúng loc dùng label, iloc dùng integer position",
+        "Nêu được sự khác biệt về inclusive/exclusive (loc bao gồm end, iloc không)",
+        "Đưa ví dụ cụ thể và chính xác",
+        "Hiểu khi nào nên dùng loc vs iloc để tránh SettingWithCopyWarning",
+        "Có thể minh họa multi-axis selection (loc với cả row và column labels)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_030",
+    "question_text": "Bạn có một DataFrame chứa dữ liệu bán hàng gồm các cột: 'Ngay', 'SanPham', 'SoLuong', 'DonGia'. Hãy viết code Pandas để tính tổng doanh thu (SoLuong * DonGia) theo từng sản phẩm. Giải thích tại sao bạn chọn phương pháp đó thay vì dùng vòng lặp for.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Code: df['DoanhThu'] = df['SoLuong'] * df['DonGia']; df_grouped = df.groupby('SanPham')['DoanhThu'].sum().reset_index(). Lý do chọn phương pháp này: (1) Vectorized operations (df['SoLuong'] * df['DonGia']) nhanh hơn vòng lặp for vì tận dụng optimizations của NumPy/Pandas, (2) groupby().sum() là optimized aggregation function nhanh hơn apply() (3) reset_index() chuyển Series result thành DataFrame với index thích hợp. Không dùng for vì hiệu năng kém, code dài, khó đọc. Phương pháp thay thế: df.pivot_table(index='SanPham', values='DoanhThu', aggfunc='sum') nhưng groupby + reset_index rõ ràng hơn về intent.",
+      "evaluation_points": [
+        "Viết đúng code tính doanh thu và groupby aggregation",
+        "Giải thích được ưu điểm của vectorized operations so với vòng lặp for (hiệu năng, memory efficiency)",
+        "Hiểu rõ groupby trả về DataFrameGroupBy object và cần aggregation function để tạo output",
+        "Nêu rõ tại sao dùng sum() thay vì apply() hoặc transform() trong trường hợp này (performance, output shape)",
+        "Biết tác dụng của reset_index() trong việc chuyển đổi result thành DataFrame với index bình thường",
+        "Nêu được các phương pháp thay thế (ví dụ: pivot_table hoặc assign + groupby) và so sánh"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_032",
+    "question_text": "Một công ty có DataFrame chứa dữ liệu nhân viên với cột 'Ten', 'PhongBan', 'Luong'. Bạn cần tìm 3 phòng ban có lương trung bình cao nhất. Sử dụng Pandas để giải quyết. So sánh ưu nhược điểm giữa dùng nlargest() và sắp xếp thủ công.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_ANALYTICS"
+    ],
+    "answers": {
+      "detailed": "Code: `df.groupby('PhongBan')['Luong'].mean().nlargest(3).reset_index()`. \n\n**Comparison:**\n\n**nlargest():** Uses heap sort internally (O(N log K) complexity where K=3), making it optimal for selecting a small number of top items from large datasets. It avoids sorting the entire series, reducing memory usage and computation time. Less flexible for secondary sorting or further transformations.\n\n**sort_values():** Performs full sort (O(N log N)), simpler to understand and debug, and allows chaining multiple operations (e.g., secondary sort by department name). Easier to explain to non-technical stakeholders but wastes computation when only top K values are needed.\n\n**Trade-off:** For large datasets with fixed K, nlargest() is preferred. For small data or when complete ordering is needed, sort_values().head(3) is clearer. Always use reset_index() after aggregation to restore proper DataFrame structure with labeled columns.",
+      "evaluation_points": [
+        "Correctly uses groupby('PhongBan')['Luong'].mean() to aggregate by department and calculates mean salary",
+        "Properly applies nlargest(3) to retrieve top 3 departments without full sorting",
+        "Explains the algorithmic advantage: nlargest uses heap sort O(N log K) vs sort_values O(N log N) for full sort",
+        "Understands when to use each method: nlargest for top-K selection, sort_values for complete ordering or secondary sorting",
+        "Can explain trade-offs: nlargest is performant but less flexible; sort_values offers clarity and enables chained operations (e.g., secondary sort by department name)",
+        "Recognizes the importance of reset_index() to convert aggregated Series back to DataFrame with proper column labels",
+        "Optional: demonstrates awareness of alternative approaches using sort_values().head(3) and relative readability trade-offs",
+        "Optional: discusses handling ties in average salary and their impact on result consistency"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_034",
+    "question_text": "Bạn có một DataFrame lớn (hàng triệu dòng) với cột 'NgayGio' (datetime) và 'GiaTri'. Hãy thiết kế pipeline xử lý để tính giá trị trung bình động (rolling mean) với window 7 ngày, đồng thời xử lý các edge case: dữ liệu thiếu ngày, dữ liệu trùng lặp, và cải thiện hiệu năng. Viết code minh họa.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "answers": {
+      "detailed": "Pipeline: (1) **Sort and deduplicate**: `df.sort_values('NgayGio').drop_duplicates(subset='NgayGio', keep='last')` — ensures one value per date and preserves most recent if conflicts exist. (2) **Set datetime index**: `df.set_index('NgayGio')` — required for time-based rolling window and resampling operations. (3) **Handle missing dates**: Use `df.resample('D').asfreq()` to create daily records with NaN, then `interpolate(method='linear')` or `fillna(method='ffill')` depending on domain (e.g., forward-fill for stock prices, linear interpolation for continuous sensors). Trade-off: resample adds memory; choose based on data gaps frequency. (4) **Rolling mean**: `df['RollingMean'] = df['GiaTri'].rolling(window='7D', min_periods=1).mean()` — window='7D' uses time-based windows (handles irregular spacing post-resample); min_periods=1 avoids NaN on initial rows but consider domain requirements. (5) **Performance optimization**: For millions of rows, profile before optimizing—native `.rolling()` is already vectorized (C-level). Avoid `.apply(custom_func)` which is slow; instead use `.transform()` if returning same-sized groups. If memory-bound, consider chunking by year/month, computing rolling per chunk, and concatenating. NumPy rolling views add complexity without significant gain for this use case. (6) **Edge cases**: Explicitly document missing data strategy (ffill vs. interpolate affects mean calculation); duplicates policy must match business logic (last timestamp vs. max value); validate that rolling window doesn't bleed across logical boundaries (e.g., year-end gaps).",
+      "evaluation_points": [
+        "Correctly identifies and handles duplicates with explicit policy (keep='last') and explains rationale for choice",
+        "Demonstrates understanding of datetime-based rolling windows ('7D') vs. integer-based windows, and explains min_periods trade-off",
+        "Explains the difference between resample().asfreq() (introduces NaN) vs. interpolate() methods and when each is appropriate for the use case",
+        "Discusses performance implications: chunking overhead vs. memory usage, vectorized rolling vs. apply(), and whether setting datetime index is necessary for rolling operations",
+        "Addresses strong candidate knowledge: uses named aggregations if multiple rolling metrics needed, considers ffill/bfill strategy for missing values based on domain logic, and explains SettingWithCopyWarning risks when modifying grouped data",
+        "Identifies weak candidate pattern: using df.apply() with custom rolling logic instead of native .rolling(), or missing the fact that .rolling() operates on sorted data and doesn't auto-handle gaps"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_031",
+    "question_text": "Trong Pandas, sự khác biệt chính giữa DataFrame và Series là gì? Hãy cho một ví dụ minh họa cách tạo từng loại từ danh sách Python.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Series là cấu trúc dữ liệu một chiều (1D) với một trục duy nhất (index), giống như một cột. DataFrame là cấu trúc hai chiều (2D) với hai trục (index cho hàng và columns cho cột), giống như một bảng. Khác với NumPy array, DataFrame có thể chứa các cột với dtype khác nhau (heterogeneous data types). Ví dụ: import pandas as pd; series = pd.Series([1,2,3], index=['a','b','c']); df = pd.DataFrame({'A':[1,2,3],'B':[4.5,5.5,6.5]}). Có thể tối ưu bộ nhớ bằng cách chỉ định dtype: df = pd.DataFrame({'A':pd.array([1,2,3], dtype='int32'),'B':pd.array([4.5,5.5,6.5], dtype='float32')})",
+      "evaluation_points": [
+        "Định nghĩa đúng Series là 1D, DataFrame là 2D",
+        "Phân biệt được vai trò index trong Series và column/index trong DataFrame",
+        "Nhận ra DataFrame có thể chứa các cột với dtype khác nhau (heterogeneous), không giống NumPy array",
+        "Đưa ví dụ tạo đúng cú pháp Pandas từ danh sách Python",
+        "Giải thích tầm quan trọng của index parameter và cách nó ảnh hưởng đến các thao tác sau",
+        "Đề cập đến khả năng tối ưu hóa bộ nhớ thông qua dtype specification khi tạo DataFrame"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_033",
+    "question_text": "Bạn đang làm việc với DataFrame chứa cột 'sales' và 'date'. Hãy viết code Pandas để tính doanh thu trung bình theo từng tháng, đồng thời giải thích tại sao bạn chọn phương pháp đó thay vì dùng vòng lặp for.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Code: `df['date'] = pd.to_datetime(df['date'])` → converts to datetime dtype for proper date operations; `df.groupby(df['date'].dt.month)['sales'].mean()` or `df.groupby(df['date'].dt.to_period('M'))['sales'].mean()` → groups by month and calculates mean for each group; `reset_index()` → converts grouped Series back to DataFrame. Why groupby over loops: (1) Vectorized operations executed at C-level are 10-100x faster than Python loops, (2) Code is concise, readable, and maintainable, (3) Groupby handles missing data gracefully by default (skipna=True), (4) Scales efficiently with large datasets. Alternative: `df.set_index('date').resample('M')['sales'].mean()` if time-series operations are needed later.",
+      "evaluation_points": [
+        "Correctly converts 'date' column to datetime dtype using pd.to_datetime()",
+        "Properly extracts month component using dt.month accessor (understanding of dt namespace)",
+        "Applies groupby() with single key and appropriate aggregation function (mean)",
+        "Uses reset_index() to convert grouped result back to DataFrame format with proper column structure",
+        "Explains vectorization advantage: groupby operations are optimized at C-level, avoiding Python loop overhead",
+        "Understands code readability and maintainability benefits of groupby vs loops",
+        "Bonus depth: Can mention alternative approaches (dt.to_period('M'), resample) and when they might be preferred",
+        "Bonus depth: Explains the difference between groupby().mean() output (Series/DataFrame) and reset_index() necessity for downstream operations"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_035",
+    "question_text": "Công ty có DataFrame chứa dữ liệu khách hàng với cột 'age' và 'income'. Bạn nhận thấy có 5% giá trị thiếu (NaN) ở cột 'age'. Hãy so sánh ít nhất hai chiến lược xử lý (ví dụ: loại bỏ, điền giá trị trung bình) và giải thích ưu nhược điểm của từng phương pháp trong bối cảnh phân tích dữ liệu.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Công ty nên so sánh các chiến lược sau:\n\n**Chiến lược 1: Loại bỏ hàng có NaN (dropna)**\n```python\ndf_clean = df.dropna(subset=['age'])\n```\n- Ưu: Không biến dạo dữ liệu gốc, đảm bảo tính toàn vẹn; phù hợp nếu cơ chế thiếu dữ liệu là ngẫu nhiên (MCAR)\n- Nhược: Mất 5% dữ liệu (~5% dòng); có thể làm mất thông tin có giá trị nếu tập dữ liệu nhỏ; có nguy cơ giảm độ tin cậy mô hình\n\n**Chiến lược 2: Điền giá trị trung bình (mean imputation)**\n```python\ndf['age_filled'] = df['age'].fillna(df['age'].mean())\n```\n- Ưu: Giữ nguyên kích thước mẫu; tính toán đơn giản\n- Nhược: Giảm phương sai, gây bias nếu dữ liệu thiếu không ngẫu nhiên (MAR/MNAR); ảnh hưởng độ lệch phân phối; nếu 'age' lệch (skewed), mean không đại diện tốt\n\n**Chiến lược 3: Điền giá trị trung vị (median imputation)**\n```python\ndf['age_filled'] = df['age'].fillna(df['age'].median())\n```\n- Ưu: Tốt hơn mean khi dữ liệu lệch; ít nhạy cảm với outliers\n- Nhược: Vẫn giảm phương sai nhưng ít bias hơn mean\n\n**Chiến lược 4: Imputation dựa trên nhóm (Group-based imputation)**\n```python\ndf['age_filled'] = df.groupby('income')['age'].transform(lambda x: x.fillna(x.mean()))\n```\n- Ưu: Khai thác mối quan hệ giữa 'age' và 'income'; cải thiện chất lượng imputation; phù hợp với MAR\n- Nhược: Phức tạp hơn; yêu cầu giả định rằng 'age' phụ thuộc vào nhóm 'income'\n\n**Khuyến cáo:**\n- Kiểm tra phân phối: `df['age'].hist()` và `df['age'].skew()` để chọn mean vs. median\n- Nếu 5% là nhỏ và dữ liệu có mối quan hệ rõ ràng giữa 'age' và 'income', dùng group-based imputation hoặc median\n- Nếu 5% là lớn hoặc cơ chế thiếu ngẫu nhiên, dropna là an toàn nhất\n- Luôn ghi lại phương pháp xử lý để có tính toàn vẹn phân tích",
+      "evaluation_points": [
+        "Đưa ra ít nhất 2-3 chiến lược xử lý cụ thể (dropna, fillna với mean/median, interpolate, hoặc imputation dựa trên nhóm)",
+        "Phân tích ảnh hưởng đến kích thước mẫu, phương sai, độ lệch và các chỉ số thống kê quan trọng cho phân tích sau này",
+        "Xem xét ngữ cảnh kinh doanh: nếu 5% dữ liệu thiếu là chấp nhận được, liệu có nên loại bỏ hay không? Tác động đến độ tin cậy mô hình?",
+        "Đề xuất giải pháp tối ưu dựa trên: (1) phân phối của 'age', (2) mối quan hệ với 'income', (3) kích thước tập dữ liệu, (4) mục đích phân tích (mô hình hồi quy vs. mô tả thống kê)",
+        "Nên kiểm tra cơ chế thiếu dữ liệu (MCAR, MAR, MNAR) để chọn phương pháp phù hợp",
+        "Sử dụng `pd.isna().sum()` để xác minh và `df.dropna(subset=['age'])` hoặc `df['age'].fillna()` cú pháp chính xác"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_037",
+    "question_text": "Cho DataFrame chứa cột 'product', 'region', và 'revenue'. Hãy viết code Pandas để tìm top 2 sản phẩm có doanh thu cao nhất mỗi vùng, đồng thời giải thích cách xử lý nếu có nhiều sản phẩm cùng doanh thu (tie).",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Code: `df.groupby('region').apply(lambda x: x.nlargest(2, 'revenue')).reset_index(drop=True)`\n\n**Tie Handling:**\n- `keep='first'` (default): Returns first occurrence if multiple products share same revenue rank\n- `keep='last'`: Returns last occurrence\n- `keep='all'`: Returns ALL products with tied revenue (output may exceed 2 rows per region)\n\nFor deterministic handling with ties, sort secondarily before groupby: `df.sort_values('product').groupby('region').apply(lambda x: x.nlargest(2, 'revenue'))` to ensure consistent product selection when revenues match.\n\n**Why nlargest > sort_values+head:**\nThe `nlargest()` method uses partial sorting (O(n log k) where k=2), avoiding the O(n log n) cost of full sorting. For large datasets with many regions, this difference becomes significant.\n\n**Alternative (Pandas 1.5+):** `df.groupby('region', as_index=False).nlargest(2, 'revenue')` combines groupby and nlargest more directly, avoiding the need for reset_index().",
+      "evaluation_points": [
+        "Correctly uses groupby().apply() with nlargest() to retrieve top 2 products per region",
+        "Understands nlargest parameters: keep='first' (default, deterministic first occurrence), keep='last', and keep='all' (returns all tied rows, potentially exceeding 2 results)",
+        "Recognizes that nlargest is more efficient than sort_values().head(2) because it uses partial sorting (quickselect algorithm) rather than full sorting",
+        "Addresses tie-handling strategy: if deterministic results are required despite ties, proposes secondary sort key (e.g., product name) before groupby or within lambda",
+        "Explains that reset_index(drop=True) is necessary because groupby().apply() preserves original indices, requiring cleanup for clean output",
+        "Aware of alternative approaches: groupby().nlargest(2) (direct method in newer pandas) vs groupby().apply(lambda x: x.nlargest(2)) and their subtle differences in behavior"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_039",
+    "question_text": "Bạn có DataFrame kích thước 10 triệu dòng với cột 'user_id', 'event_time', 'event_type' (click/view/purchase) và 'amount'. Hãy thiết kế giải pháp tối ưu để tính tổng doanh thu (amount) trung bình của mỗi user trong 7 ngày gần nhất, biết rằng dữ liệu có timestamp và có thể có user lên tới 1 triệu. Viết code Pandas/NumPy và đề xuất cải tiến nếu dữ liệu không fit memory.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "answers": {
+      "detailed": "**Basic Solution:** Convert event_time to datetime, filter last 7 days using `df[df['event_time'] >= df['event_time'].max() - pd.Timedelta(days=7)]`, then `df_filtered.groupby('user_id')['amount'].mean()`. \n\n**Performance Optimization for 10M rows:** (1) Convert dtypes: `df['user_id'] = df['user_id'].astype('category')` and `df['event_type'] = df['event_type'].astype('category')` to reduce memory by 50-70%; use `int32` for amounts if range permits. (2) Filter before groupby using `.query('event_time >= @cutoff_date')` or boolean indexing (benchmark both). (3) For file I/O, use `pd.read_csv(..., chunksize=100000, dtype={...})` to process incrementally, accumulating sums and counts per user to compute final mean. \n\n**Out-of-Memory Strategy:** (1) **Dask**: `ddf = dd.read_csv(...); result = ddf[ddf['event_time'] >= cutoff].groupby('user_id')['amount'].mean().compute()` – automatic partitioning and lazy evaluation. (2) **Spark**: Use PySpark for distributed groupby aggregation across clusters. (3) **Parquet partitioning**: Store by date partition; load only last 7 days of partitions before aggregating. \n\n**Edge Cases & Refinement:** Handle timezone-aware timestamps before filtering. Filter out null amounts using `.dropna(subset=['amount'])` before aggregation. If rolling calculations are needed per user (time-series smoothing), sort by user_id + event_time, then use numpy boolean masks or `groupby().transform()` for group-wise operations maintaining original shape. Validate that timezone conversions don't shift date boundaries.",
+      "evaluation_points": [
+        "Correctly implements basic logic: datetime conversion, 7-day filtering, groupby().mean() aggregation",
+        "Identifies dtype optimization (category, int32/int64 trade-offs) and demonstrates understanding of memory footprint reduction",
+        "Proposes chunking strategy with pd.read_csv(chunksize=...) and discusses incremental aggregation patterns to handle out-of-memory scenarios",
+        "Recommends appropriate distributed solutions (Dask or Spark) with explanation of when each is suitable; mentions Parquet as columnar storage for selective partition loading",
+        "Addresses edge cases: handles timezone-aware datetimes, null/missing amounts, duplicate timestamps per user within the 7-day window",
+        "For rolling window optimization, demonstrates either: (1) sorting by user_id + event_time then using numpy cumsum/masking, or (2) explaining why groupby().apply() with custom logic may be necessary if dates are non-uniform",
+        "Discusses query() vs boolean indexing trade-offs and when .query() provides actual performance gains (string parsing overhead for simple conditions)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_036",
+    "question_text": "Trong Pandas, sự khác biệt chính giữa Series và DataFrame là gì?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Series là cấu trúc dữ liệu một chiều (1D), giống như một cột trong bảng, với nhãn chỉ mục (index) để xác định từng phần tử. DataFrame là cấu trúc dữ liệu hai chiều (2D), giống như một bảng với nhiều cột, trong đó mỗi cột là một Series. Sự khác biệt chính: (1) DataFrame có thể chứa nhiều kiểu dữ liệu khác nhau giữa các cột, trong khi Series thường chỉ chứa một kiểu dữ liệu; (2) Cả hai đều có index (nhãn hàng), nhưng DataFrame còn có columns (nhãn cột); (3) Series phù hợp cho dữ liệu 1D và phép toán vec-tơ, DataFrame phù hợp cho phân tích dữ liệu dạng bảng và đa chiều.",
+      "evaluation_points": [
+        "Định nghĩa đúng Series là 1D, DataFrame là 2D",
+        "Nhấn mạnh DataFrame bao gồm nhiều Series (mỗi cột là một Series)",
+        "Giải thích rằng DataFrame có thể chứa nhiều kiểu dữ liệu khác nhau, trong khi Series thường là một kiểu dữ liệu",
+        "Đề cập đến vai trò của index (nhãn chỉ mục) trong cả hai cấu trúc và cách nó ảnh hưởng đến thao tác dữ liệu",
+        "Hiểu khi nào nên sử dụng Series (dữ liệu 1D, phép toán vec-tơ) vs DataFrame (dữ liệu dạng bảng, phân tích đa chiều)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_038",
+    "question_text": "Bạn đang làm việc với DataFrame chứa dữ liệu bán hàng gồm các cột: 'ngay', 'san_pham', 'so_luong', 'gia'. Hãy giải thích cách tính tổng doanh thu theo từng sản phẩm và sắp xếp kết quả giảm dần. Tại sao bạn chọn phương pháp đó thay vì dùng vòng lặp?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Tạo cột 'doanh_thu' = df['so_luong'] * df['gia'] (vectorized), sau đó dùng df.groupby('san_pham')['doanh_thu'].sum().sort_values(ascending=False). Phương pháp vectorized nhanh hơn vòng lặp vì: (1) Pandas/NumPy tối ưu hóa ở mức C, (2) tránh overhead Python từ mỗi lần lặp, (3) xử lý hiệu quả bộ nhớ. So với vòng lặp (for loop qua từng sản phẩm), groupby-agg là idiom Pandas chuẩn, dễ đọc, và có thể mở rộng cho nhiều metrics cùng lúc dùng .agg({'doanh_thu': 'sum', 'so_luong': 'mean'}).",
+      "evaluation_points": [
+        "Correctly creates 'doanh_thu' column via vectorized multiplication (so_luong * gia) rather than loops",
+        "Applies groupby('san_pham') to split data by product and understands it returns a GroupBy object requiring aggregation",
+        "Uses .sum() aggregation function and chains .sort_values(ascending=False) for descending order",
+        "Explains vectorization benefits: C-level optimization, reduced Python overhead, and memory efficiency",
+        "Can discuss alternative aggregations (e.g., mean revenue per product) and when to use .agg() for multiple metrics",
+        "Understands why direct indexing (df[df['san_pham']=='X']['doanh_thu'].sum() in a loop) is inefficient",
+        "Recognizes that groupby-agg preserves index structure better than iterative approaches for downstream operations"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_040",
+    "question_text": "Bạn có DataFrame lớn (10 triệu dòng) với cột 'thoi_gian' dạng string. Bạn cần chuyển sang datetime, tính số ngày từ một mốc cố định, và lọc các dòng trong 30 ngày gần nhất. Thiết kế pipeline xử lý tối ưu, phân tích trade-off giữa các phương pháp (dùng pd.to_datetime, date parsing tùy chỉnh, hay chia chunk).",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "**Optimal Pipeline:**\n\n1) **Smart I/O with dtype hints:** Use `pd.read_csv(file, dtype={'thoi_gian': 'object'}, parse_dates=['thoi_gian'], infer_datetime_format=True)`. Pre-specifying dtype='object' prevents intermediate type conversions. With a known format, use explicit `format='%Y-%m-%d'` instead of infer_datetime_format for 2-3x speedup.\n\n2) **Vectorized datetime arithmetic:** `df['so_ngay'] = (df['thoi_gian'] - fixed_anchor).dt.days` leverages NumPy under the hood, vastly outperforming apply/map.\n\n3) **Efficient filtering:** Use `df_filtered = df[df['so_ngay'] <= 30].copy()` or `df.query('so_ngay <= 30')` with explicit copy to avoid SettingWithCopyWarning.\n\n**Trade-off Analysis:**\n\n| Method | Speed | Memory | Use Case |\n|--------|-------|--------|----------|\n| **pd.to_datetime + infer_datetime_format=True** | Medium (unless format specified) | Moderate | Unknown/mixed formats; infer_datetime_format=True helps (auto-detects format after first 1000 rows) |\n| **pd.to_datetime with explicit format** | Fast (2-3x improvement) | Moderate | Known, consistent date format; preferred for 10M rows |\n| **Custom strptime in apply** | Very slow (100-1000x slower than vectorized) | Low | Only if format is extremely non-standard; avoid for large datasets |\n| **Chunking** | Variable | Low | When memory < (10M × avg_row_bytes); process chunks sequentially and concatenate |\n\n**Memory Calculation:** 10M rows with typical DataFrame overhead ≈ 500MB-1GB. If available RAM < 2GB, implement chunking (e.g., `chunksize=100000`). Otherwise, use full vectorization.\n\n**Recommendation:** For 10M rows with standard datetime format → use `parse_dates=['thoi_gian'], format='%Y-%m-%d'` at read time. Skip chunking unless memory-constrained. Always prefer vectorized `.dt` accessor over apply.",
+      "evaluation_points": [
+        "Demonstrates awareness of dtype inference and explicit dtype specification (e.g., dtype={'thoi_gian': 'object'} before conversion) to minimize memory footprint during I/O",
+        "Explains the performance difference between pd.to_datetime with infer_datetime_format=True vs. format parameter (explicit format is faster when known), and why this matters at 10M rows",
+        "Articulates when chunking is necessary: calculates memory impact (10M rows × column size) and proposes chunking strategy (size, processing order) only when memory constraints exist",
+        "Compares vectorized operations (dt accessor) vs. custom apply/map for datetime arithmetic, explaining 100x+ performance difference and when each is appropriate",
+        "Discusses using query() or boolean indexing efficiency: df.query('so_ngay <= 30') vs. df[df['so_ngay'] <= 30], and copy-on-write behavior implications",
+        "Identifies potential pitfall: converting to datetime but not setting as index when appropriate for time-series filtering, missing optimization opportunity"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_042",
+    "question_text": "Bạn gặp lỗi 'SettingWithCopyWarning' khi gán giá trị cho một cột mới trong DataFrame con được lọc. Hãy debug: phân tích nguyên nhân, đưa ra 3 cách sửa lỗi (dùng .copy(), .loc, hoặc .assign()), và so sánh hiệu năng giữa chúng với DataFrame 1 triệu dòng.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "**Nguyên nhân:** SettingWithCopyWarning xảy ra vì chained indexing (`df[df['col'] > 0]['new_col'] = value`) tạo ra một view có tính chất ambiguous—Pandas không chắc liệu thao tác ảnh hưởng đến bản sao hay bản gốc, có khả năng dẫn đến silent failures.\n\n**3 cách sửa lỗi:**\n\n1) **`.copy()`**: `df_filtered = df[df['col'] > 0].copy(); df_filtered['new_col'] = value` — Tạo bản sao rõ ràng, loại bỏ ambiguity. An toàn nhưng tốn O(n) memory.\n\n2) **`.loc[]` (Single-stage indexing)**: `df.loc[df['col'] > 0, 'new_col'] = value` — Thao tác trực tiếp trên bản gốc mà không qua view trung gian. Không warning, không copy memory thêm.\n\n3) **`.assign()` (Functional)**: `df_new = df.assign(new_col=np.where(df['col'] > 0, value, np.nan))` — Tạo DataFrame mới, không mutate bản gốc. Immutable approach, an toàn nhưng luôn tạo bản sao toàn bộ.\n\n**So sánh hiệu năng (1M rows):**\n- **.loc[]**: ~10-50ms, 0 memory overhead, nhanh nhất vì in-place operations\n- **.copy()**: ~100-200ms + memory spike (phụ thuộc % filtered rows, có thể +500MB nếu filter 50%), tốn kém nhất\n- **.assign()**: ~200-300ms, O(n) memory mới, chậm nhất do tạo DataFrame mới hoàn toàn\n\n**Khuyến cáo:** Ưu tiên `.loc[]` cho in-place modifications trên DataFrames gốc; dùng `.copy()` chỉ khi DataFrame filtered được dùng độc lập lâu dài; `.assign()` cho pipelines functional hoặc khi cần bảo vệ immutability.",
+      "evaluation_points": [
+        "Correctly diagnoses SettingWithCopyWarning: chained indexing creates a view whose mutability is ambiguous, risking silent data corruption",
+        "Evaluates all 3 solutions: .copy() (explicit but memory-intensive), .loc[] (direct on original, no view ambiguity), .assign() (returns new DataFrame, functional approach)",
+        "Demonstrates understanding of when each method applies: .copy() for filtered DataFrames used independently, .loc[] for in-place modifications on original, .assign() for immutable workflows",
+        "Provides empirical performance metrics on 1M rows: memory overhead of .copy(), execution time comparison (ideally with benchmarking code), and trade-offs between safety vs. performance",
+        "Explains the root mechanism: why .loc[] avoids the warning (single-stage indexing) versus chained indexing (ambiguous view semantics)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_044",
+    "question_text": "Công ty có dữ liệu giao dịch 500GB cần phân tích xu hướng theo tháng. Bạn chỉ có máy 16GB RAM. Thiết kế giải pháp dùng Pandas và NumPy để xử lý, bao gồm: đọc dữ liệu dạng chunk, tính trung bình động 3 tháng, và xử lý missing values. Giải thích cách bạn chọn kích thước chunk và xử lý edge case khi chunk cuối thiếu dữ liệu.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_PANDAS",
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "**Chunking Strategy:** Calculate chunksize based on memory footprint, not row count. If each transaction record (~100-200 bytes with columns), aim for chunks ~2-4GB when loaded (leaving headroom for processing). Use `dtypes` inspection to estimate: `df_sample.memory_usage(deep=True).sum()`. Test with small sample first.\n\n**Critical: Rolling Window Continuity.** Standard `rolling(3).mean()` applied per-chunk produces incorrect values at chunk boundaries. Solution: Read overlapping chunks (e.g., 2-month overlap) or cache the last 2 months of processed data to compute rolling means correctly at boundaries. This ensures smooth transitions across chunks.\n\n**Missing Value Handling:** Avoid global `fillna(mean)` on chunks (biased per chunk). Instead: (1) If missing is random, use `interpolate(method='linear')` within each chunk after sorting by date, (2) If systematic, flag and exclude, or (3) Use forward-fill for time-series data. Document the strategy chosen.\n\n**Intermediate Result Aggregation:** Don't concatenate all chunks in memory. Instead, stream results: compute rolling means per chunk (with overlap), write to parquet or HDF5, then aggregate final monthly trends from disk. Use `pd.read_csv(..., chunksize=..., iterator=True)` for true streaming.\n\n**Edge Case - Final Chunk:** If <3 months remain, `min_periods=1` computes rolling mean on available data (valid). However, validate the result is meaningful (not overly sparse). For strict requirements, flag results with <3 data points separately.\n\n**Avoid:** Global `joblib` parallelization without coordination (breaks rolling window continuity). Use it only for embarrassingly parallel tasks (e.g., independent monthly aggregations after rolling means are computed).",
+      "evaluation_points": [
+        "Chunking strategy: justify chunksize calculation based on DataFrame memory footprint (dtypes, not just row count), estimate overhead, and validate against 16GB constraint with safety margin",
+        "Rolling window continuity: explain how to preserve state across chunks (e.g., maintain last 2 months from previous chunk to compute accurate 3-month rolling mean) and avoid boundary artifacts",
+        "Intermediate aggregation: design for combining chunk results without reloading all data (e.g., streaming aggregation vs. storing intermediate CSVs); trade-offs between accuracy and memory",
+        "Missing value strategy: justify choice between fillna(mean), interpolate(), or forward-fill based on data characteristics (e.g., seasonal data); explain why mean of entire dataset may be biased across chunks",
+        "Edge cases: handling final chunk with <3 months of data, detecting temporal gaps within chunks, and validating result consistency"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_041",
+    "question_text": "Hàm groupby() trong Pandas dùng để làm gì? Hãy cho ví dụ cơ bản về cách sử dụng để tính trung bình cộng của một cột số liệu.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Hàm groupby() dùng để nhóm dữ liệu dựa trên một hoặc nhiều cột, sau đó áp dụng các phép tính tổng hợp lên các nhóm đó. Ví dụ cơ bản: df.groupby('category')['value'].mean() sẽ tính trung bình cột 'value' cho mỗi nhóm trong 'category'. Lưu ý rằng groupby() trả về một GroupBy object và phải kết hợp với hàm tổng hợp (mean, sum, count, v.v.) để có kết quả cuối cùng. Có thể mở rộng với nhiều cột: df.groupby(['category', 'region'])['value'].mean() hoặc nhiều phép tính: df.groupby('category')['value'].agg(['mean', 'sum']).",
+      "evaluation_points": [
+        "Giải thích đúng mục đích của groupby() (nhóm dữ liệu và áp dụng hàm tổng hợp)",
+        "Đưa ra ví dụ cụ thể với cú pháp chính xác: df.groupby('col')['val'].mean()",
+        "Hiểu được rằng groupby() trả về GroupBy object cần kết hợp với hàm tổng hợp (mean, sum, count, etc.)",
+        "Có thể mở rộng với nhiều cột groupby hoặc nhiều phép tính (ví dụ: df.groupby(['col1', 'col2'])['val'].agg(['mean', 'sum']))"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_043",
+    "question_text": "NumPy array và Python list khác nhau như thế nào? Hãy nêu ít nhất 2 điểm khác biệt quan trọng.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_ANALYTICS"
+    ],
+    "answers": {
+      "detailed": "NumPy array và Python list khác nhau ở các điểm quan trọng sau: (1) **Kiểu dữ liệu**: NumPy array có kiểu dữ liệu đồng nhất (tất cả phần tử cùng dtype), giúp tối ưu hóa bộ nhớ và tốc độ xử lý; list Python có thể chứa nhiều kiểu dữ liệu khác nhau. (2) **Hiệu suất tính toán**: NumPy hỗ trợ vectorization - các phép toán được thực thi ở cấp C nên nhanh hơn list đáng kể; list phải dùng vòng lặp Python chậm hơn. (3) **Bộ nhớ**: NumPy array tiết kiệm bộ nhớ vì lưu trữ compacted với dtype cố định, trong khi list lưu trữ con trỏ đến các object Python riêng lẻ. (4) **Broadcasting**: NumPy support broadcast operations giữa arrays có shape khác nhau; list không hỗ trợ. Ví dụ: `arr * 2` (vectorized) vs `[x * 2 for x in lst]` (loop).",
+      "evaluation_points": [
+        "Nói được sự khác biệt về kiểu dữ liệu (đồng nhất vs không đồng nhất) và lý do tại sao điều này quan trọng",
+        "Đề cập hiệu suất tính toán (vector hóa vs vòng lặp) với ví dụ cụ thể hoặc so sánh tốc độ",
+        "Giải thích tác động đến bộ nhớ và cách NumPy array tiết kiệm bộ nhớ hơn list",
+        "Hiểu được các phép toán NumPy (broadcasting, vectorized operations) không khả dụng trực tiếp với list",
+        "Liên hệ với ứng dụng thực tế trong pandas DataFrame (dựa trên NumPy arrays)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_045",
+    "question_text": "Bạn đang làm dự án phân tích dữ liệu doanh thu theo tháng. DataFrame có cột 'date' dạng string 'YYYY-MM-DD' và cột 'revenue'. Hãy dùng Pandas để tính tổng doanh thu theo tháng. Giải thích tại sao bạn chọn cách đó thay vì dùng vòng lặp?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Convert the 'date' column to datetime using pd.to_datetime(df['date']), then extract the month using dt.to_period('M') or dt.strftime('%Y-%m'). Apply groupby('month')['revenue'].sum() to aggregate. This approach is superior to loops because: (1) Pandas operations are vectorized and implemented in optimized C code rather than Python loops; (2) it's more readable and maintainable; (3) groupby internally uses efficient hash-based aggregation. Alternative approaches like pivot_table() or resample() could also work depending on the data structure. Note: handle potential NaT values from failed datetime conversions and consider whether to_period (for time series operations) or strftime (for simple month labels) fits the use case better.",
+      "evaluation_points": [
+        "Correctly converts string 'date' column to datetime type using pd.to_datetime() and explains why this is necessary",
+        "Uses dt accessor to extract temporal components (dt.to_period('M')) and understands alternative methods (dt.strftime('%Y-%m'), dt.year/dt.month combination)",
+        "Applies groupby().sum() correctly and could discuss performance implications of groupby vs. alternative approaches (pivot_table, resample)",
+        "Articulates vectorization benefits over loops with specific reference to Pandas' underlying NumPy optimization and avoiding Python-level iteration",
+        "Considers potential issues: handling NaT values in datetime conversion, timezone awareness, and whether to_period vs. strftime is more appropriate for downstream operations"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_047",
+    "question_text": "Công ty có DataFrame chứa dữ liệu khách hàng với cột 'age' có giá trị null và outlier. Bạn sẽ dùng Pandas để xử lý như thế nào? So sánh ưu nhược điểm của việc xóa null, điền giá trị trung bình, và điền giá trị trung vị.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "PYTHON_ANALYTICS"
+    ],
+    "answers": {
+      "detailed": "Use df.isnull().sum() and df.describe() to detect nulls and identify outliers via IQR or z-score methods. Dropna risks losing information (especially problematic if >5% missing). Mean imputation is sensitive to outliers—if outliers exist, they inflate the mean, skewing the imputed values. Median is more robust to outliers but still assumes data is Missing Completely At Random (MCAR). For better results: (1) Detect and handle outliers separately (e.g., IQR method) before imputation, (2) Consider interpolation for time-series data, (3) Use domain knowledge (e.g., age groups, customer segments) for more sophisticated imputation, (4) For ML pipelines, fit imputation only on training data to prevent data leakage. Example: df['age'].fillna(df['age'].median(), inplace=True). Choose median as baseline, but investigate the reason for nulls and outliers first—they often contain signal about data quality or customer behavior.",
+      "evaluation_points": [
+        "Demonstrate practical detection of null values and basic statistical summary methods (df.isnull().sum(), df.describe())",
+        "Compare trade-offs of dropna, mean, and median imputation with explicit consideration of outlier detection methods (IQR, z-score) and their impact on each strategy",
+        "Discuss advanced imputation techniques (interpolation, forward/backward fill, domain-specific logic) and when they're appropriate vs. simple mean/median",
+        "Show code implementation using fillna() with different parameters and explain the importance of applying imputation on training data only to avoid data leakage",
+        "Articulate the relationship between missing data mechanism (MCAR, MAR, MNAR) and imputation strategy selection"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_PYTHON_DA_049",
+    "question_text": "Bạn có DataFrame lớn (10 triệu dòng) cần merge với một DataFrame khác theo cột 'id', nhưng 'id' có nhiều giá trị trùng và không đồng nhất kiểu dữ liệu. Hãy thiết kế giải pháp tối ưu về bộ nhớ và thời gian, bao gồm xử lý lỗi tiềm ẩn, sử dụng Pandas/NumPy.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "**Solution:**\n\n1. **Type Consistency & Validation:**\n   - Convert 'id' to consistent dtype: `df1['id'] = pd.to_numeric(df1['id'], errors='coerce')` or `df1['id'].astype(str).str.strip()`\n   - Check mismatches: `df1['id'].dtype == df2['id'].dtype` before merge; mismatches cause silent join failures\n   - Handle NaN: `df1['id'] = df1['id'].fillna(-1)` to prevent losing rows\n\n2. **Duplicate Key Detection:**\n   - Use `validate='m:1'` or `'1:m'` in `pd.merge()` to raise error on unexpected Cartesian products\n   - Check duplicates: `df1[df1['id'].duplicated(keep=False)].shape[0]` before merge\n   - Remove unnecessary duplicates: `df1 = df1.drop_duplicates(subset=['id'], keep='first')` only if business logic permits\n\n3. **Memory Optimization:**\n   - Convert 'id' to category if cardinality << 10M: `df1['id'] = df1['id'].astype('category')`\n   - Reduce other columns' dtypes: use `int32` instead of `int64`, `float32` instead of `float64`\n   - Example: `df1 = df1.astype({'id': 'category', 'value': 'float32'})`\n\n4. **Merge Strategy:**\n   - Use `how='inner'` to reduce output size if full outer join not required\n   - Set index on join key for both: `df1.set_index('id').join(df2.set_index('id'), how='inner', lsuffix='_l', rsuffix='_r')`\n   - Benchmark `pd.merge()` vs index-based join: index join often faster for large datasets\n\n5. **Chunked Processing (if applicable):**\n   - If reading from file: `for chunk in pd.read_csv('file.csv', chunksize=100000): merge_chunk(chunk)`\n   - For in-memory merge of 10M rows: chunking adds overhead; only use if data doesn't fit in RAM\n\n6. **Error Handling & Validation:**\n   - Verify row count: `len(result) <= len(df1)` for inner/left joins\n   - Check for unexpected NaN: `result[result.isnull().any(axis=1)].shape[0]`\n   - Log merge statistics: `print(f'Merged {len(result)} rows from {len(df1)} + {len(df2)}')`\n\n**Example Code:**\n```python\nimport pandas as pd\nimport numpy as np\n\n# Prepare data\ndf1['id'] = pd.to_numeric(df1['id'], errors='coerce').fillna(-1).astype('int64')\ndf2['id'] = df2['id'].astype('int64')\n\n# Validate\nassert df1['id'].dtype == df2['id'].dtype, 'ID dtype mismatch'\n\n# Merge with validation\nresult = pd.merge(df1, df2, on='id', how='inner', validate='m:1')\n\n# Verify\nprint(f'Result: {len(result)} rows, Memory: {result.memory_usage(deep=True).sum() / 1e9:.2f} GB')\n```",
+      "evaluation_points": [
+        "Explicitly convert 'id' to consistent dtype (int64 or string) with error handling for invalid values; explain why type mismatch causes silent join failures",
+        "Identify and handle duplicate keys before merge using validate='1:1', '1:m', or 'm:1' parameter to detect unintended Cartesian products",
+        "Propose memory optimization: use category dtype for 'id' if cardinality is low relative to 10M rows; demonstrate with `df['id'].astype('category')`",
+        "Demonstrate proper deduplication strategy: decide between dropping true duplicates with `drop_duplicates(subset=['id'])` vs. aggregating/keeping valid duplicates based on business logic",
+        "Compare performance of pd.merge() + set_index() vs. direct merge; explain when to use sorted merge (`sort=True`) and potential index benefits",
+        "Address chunked processing: clarify when chunksize is applicable (e.g., reading from file) vs. in-memory merge optimization; show concrete example",
+        "Implement error handling: handle NaN/None in join key with `fillna()`, validate row counts before/after merge, and use `.info()` to confirm dtype alignment"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_PYTHON_DA_001",
+    "question_text": "Trong Pandas, phương thức `apply()` khác gì so với `applymap()`? Cho ví dụ minh họa.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "`apply()` dùng để áp dụng hàm lên từng dòng hoặc cột của DataFrame (axis=0 cho cột, axis=1 cho dòng), trả về kết quả có kích thước tương ứng với số cột/dòng. `applymap()` chỉ áp dụng lên từng phần tử riên lẻ của DataFrame (element-wise), trả về DataFrame có cùng hình dạng. Ngoài ra, `Series.map()` dùng cho Series với từng phần tử. Ví dụ: `df.apply(lambda x: x.max() - x.min(), axis=0)` tính khoảng giá trị mỗi cột; `df.applymap(lambda x: x**2)` bình phương mỗi giá trị; `series.map(lambda x: x.upper())` để Series chuỗi. Lưu ý: Vectorized operations (NumPy/Pandas) nhanh nhất, tiếp theo map/applymap, sau đó apply—nên ưu tiên vectorized khi có thể.",
+      "evaluation_points": [
+        "Phân biệt rõ phạm vi áp dụng: apply() cho cột/dòng vs applymap() cho từng phần tử vs map() cho Series",
+        "Đưa ra ví dụ minh họa đúng cú pháp và giải thích output của mỗi phương thức",
+        "Nhận biết trường hợp dùng applymap thay vì apply (khi cần xử lý độc lập từng ô, không phụ thuộc cột/dòng)",
+        "Thảo luận về hiệu suất: vectorized operations > map/applymap > apply, và khi nào nên tránh dùng apply",
+        "Biết được Series.map() dùng cho Series (1D), không phải DataFrame"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_PYTHON_DA_003",
+    "question_text": "NumPy array khác Python list ở điểm nào? Cho ví dụ về cách tạo NumPy array từ list và tính trung bình của nó.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "LANG_PYTHON",
+      "PYTHON_ANALYTICS"
+    ],
+    "skill_tags": [
+      "LANG_PYTHON"
+    ],
+    "answers": {
+      "detailed": "NumPy array khác Python list ở các điểm: (1) Kiểu dữ liệu đồng nhất (homogeneous) - tất cả phần tử cùng type, trong khi list có thể chứa nhiều type khác nhau; (2) Lưu trữ trong contiguous memory block nên truy cập nhanh hơn; (3) Hỗ trợ vectorization và broadcasting, cho phép thực hiện phép toán element-wise mà không cần loop. Cách tạo: `arr = np.array([1, 2, 3])` hoặc chỉ định dtype: `np.array([1, 2, 3], dtype=np.int32)`. Tính trung bình: `np.mean(arr)` hoặc `arr.mean()`. Ví dụ so sánh hiệu suất: NumPy cho phép `arr * 2` trực tiếp (tất cả phần tử nhân 2), trong khi Python list cần `[x * 2 for x in lst]`.",
+      "evaluation_points": [
+        "Nêu được sự khác biệt về kiểu dữ liệu đồng nhất (homogeneous) vs. Python list (heterogeneous) và tác động đến hiệu suất",
+        "Viết code tạo array và tính mean đúng, đặc biệt có thể chỉ định dtype để tối ưu bộ nhớ",
+        "Giải thích được lợi ích của vector hóa và broadcasting so với vòng lặp trong ngữ cảnh phân tích dữ liệu",
+        "Hiểu rõ sự khác biệt về bộ nhớ (contiguous memory block) và khả năng thực hiện các phép toán element-wise mà không cần loop"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_PYTHON_DA_005",
+    "question_text": "Lệnh nào trong Pandas dùng để xem 5 dòng đầu tiên của DataFrame và lệnh nào để xem thông tin tổng quan về kiểu dữ liệu các cột?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Dùng `df.head()` để xem 5 dòng đầu tiên (mặc định), có thể dùng `df.head(n)` với n là số dòng cụ thể. Dùng `df.info()` để xem thông tin tổng quan: số dòng, số cột, kiểu dữ liệu từng cột, số giá trị non-null, và dung lượng bộ nhớ. Ngoài ra, `df.dtypes` chỉ hiển thị kiểu dữ liệu mà không có thông tin null. Các lệnh này rất hữu ích để phát hiện lỗi kiểu dữ liệu, giá trị null bị bỏ sót, và tối ưu hóa bộ nhớ. Có thể dùng thêm `df.describe()` để xem thống kê mô tả (cho cột số) hoặc `df.shape` để kiểm tra kích thước nhanh.",
+      "evaluation_points": [
+        "Correctly identifies df.head() for viewing first 5 rows and df.info() for overview of data types and null counts",
+        "Understands parameterization: df.head(n) allows custom row count specification",
+        "Explains practical value of df.info(): detecting missing values (null counts), identifying data type mismatches, and memory usage",
+        "Distinguishes between df.info() (comprehensive overview) and df.dtypes (dtype-only output), showing nuanced understanding of tool selection",
+        "Bonus: Mentions df.describe() for statistical summaries (numeric columns only) or df.shape to quickly check dimensions"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_PYTHON_DA_007",
+    "question_text": "Làm thế nào để lọc các dòng trong DataFrame có giá trị cột 'age' lớn hơn 25? Viết cú pháp và giải thích.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Cú pháp: `df[df['age'] > 25]`. Đây là boolean indexing: tạo Series boolean từ điều kiện `df['age'] > 25`, sau đó dùng Series đó để lọc dòng. Kết quả trả về DataFrame mới chỉ gồm các dòng thỏa mãn.\n\nVí dụ kết hợp nhiều điều kiện:\n- `df[(df['age'] > 25) & (df['salary'] > 50000)]` (AND)\n- `df[(df['age'] > 25) | (df['experience'] > 5)]` (OR)\n- `df[~(df['age'] > 25)]` (NOT - phủ định)\n\nLưu ý: Cách viết tương đương rõ ràng hơn là `df.loc[df['age'] > 25]`, sử dụng .loc[] để chỉ rõ mục đích filtering trên nhãn hàng, giúp tránh SettingWithCopyWarning trong các bước xử lý tiếp theo.",
+      "evaluation_points": [
+        "Viết đúng cú pháp lọc cơ bản sử dụng boolean indexing với []",
+        "Giải thích được cơ chế boolean indexing: tạo Series boolean rồi dùng để lọc dòng",
+        "Biết cách kết hợp nhiều điều kiện sử dụng & (AND), | (OR), ~ (NOT) thay vì 'and'/'or'",
+        "Nhận biết được khi nào nên dùng .loc[] để cải thiện tính rõ ràng (ví dụ: df.loc[df['age'] > 25])",
+        "Hiểu được sự khác biệt giữa [] và .loc[] trong bối cảnh filtering"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_PYTHON_DA_009",
+    "question_text": "Bạn đang làm việc với DataFrame chứa 10 triệu dòng dữ liệu giao dịch. Bạn cần tính tổng doanh thu theo từng ngày, nhưng dữ liệu có nhiều giá trị null ở cột 'revenue' và cột 'date' lưu dưới dạng string. Hãy thiết kế pipeline xử lý tối ưu (bao gồm xử lý null, chuyển đổi kiểu, groupby) và giải thích tại sao cách làm đó hiệu quả hơn dùng vòng lặp. Đồng thời, nếu gặp lỗi 'MemoryError' khi thực hiện groupby, bạn sẽ xử lý thế nào?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "LANG_PYTHON",
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS",
+      "LANG_PYTHON"
+    ],
+    "answers": {
+      "detailed": "Pipeline (optimized order): 1) Use `pd.read_csv(..., usecols=['date', 'revenue'], dtype={'revenue': 'float32'})` to load only necessary columns and reduce dtype size. 2) Convert date early: `df['date'] = pd.to_datetime(df['date'])` (keep as datetime64, not `.dt.date`). 3) Handle nulls appropriately: `df = df.dropna(subset=['date', 'revenue'])` to ensure data integrity (don't fill revenue with 0 as it distorts sums). 4) Groupby: `df.groupby(df['date'].dt.date)['revenue'].sum()` OR better yet `df.set_index('date').resample('D')['revenue'].sum()` for date resampling (faster for time-series). Vectorization benefit: Pandas/NumPy use C-level operations on contiguous memory blocks, avoiding Python loop overhead—typically 10–100x faster. For MemoryError: (a) Chunking with accumulation—read in chunks, maintain a dictionary of date→sum pairs, avoid repeated concatenation. (b) Dtype optimization—use float32 instead of float64, reducing memory by 50%. (c) Consider Dask DataFrames if data exceeds available RAM consistently. (d) Use DuckDB or SQLite for SQL-based aggregation without loading entire dataset into memory. Explain trade-offs: chunking adds I/O latency; Dask adds complexity but handles out-of-core elegantly.",
+      "evaluation_points": [
+        "Correctly identify that `dropna(subset=['date','revenue'])` is preferable to `fillna(0)` for revenue to avoid distorting aggregates, and justify the choice based on business logic",
+        "Understand the difference between `.dt.date` (returns Python date object, slower) versus keeping as datetime64 for groupby (vectorized, faster) and explain performance trade-offs",
+        "Demonstrate knowledge of dtype optimization before reading (e.g., `dtype={'revenue': 'float32'}` vs `float64`) to reduce memory footprint by 50%",
+        "Explain chunking strategy in detail: accumulate sums in a dictionary or Series rather than concatenating DataFrames repeatedly, which is O(n²) in memory",
+        "Discuss Dask or other distributed frameworks as appropriate for 10M rows, and when chunking alone is insufficient",
+        "Address the MemoryError root cause: whether it's peak memory during groupby aggregation (sort overhead) or result storage, and propose targeted solutions",
+        "Consider alternative approaches like `resample()` if date is properly formatted, or using SQL/DuckDB for larger-than-memory datasets"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_PYTHON_DA_006",
+    "question_text": "Trong Pandas, sự khác biệt chính giữa Series và DataFrame là gì? Hãy cho ví dụ minh họa cách tạo một Series từ một list và một DataFrame từ một dictionary.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "LANG_PYTHON",
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "LANG_PYTHON"
+    ],
+    "answers": {
+      "detailed": "Series là cấu trúc dữ liệu một chiều (1D) có hai thành phần chính: dữ liệu và index; giống như một cột trong Excel. DataFrame là cấu trúc hai chiều (2D) gồm nhiều Series, mỗi cột là một Series; giống như bảng tính. Khác biệt quan trọng: Series chứa một kiểu dữ liệu duy nhất, còn DataFrame có thể chứa nhiều kiểu dữ liệu khác nhau ở các cột khác nhau. Ví dụ tạo Series từ list: `pd.Series([1,2,3], index=['a','b','c'])`. Ví dụ tạo DataFrame từ dict: `pd.DataFrame({'A':[1,2,3],'B':[4,5,6]})` hoặc từ list of dicts: `pd.DataFrame([{'A':1,'B':4},{'A':2,'B':5}])`. Nên sử dụng Series khi làm việc với dữ liệu một chiều (cột đơn), DataFrame khi cần nhiều cột hoặc dữ liệu tabular.",
+      "evaluation_points": [
+        "Phân biệt được Series (1D) và DataFrame (2D) với các ví dụ trực quan",
+        "Đưa ra ví dụ tạo Series từ list và hiểu được role của index",
+        "Đưa ra ví dụ tạo DataFrame từ dictionary of lists (hoặc list of dictionaries)",
+        "Hiểu được sự khác biệt về kiểu dữ liệu: Series chứa một kiểu dữ liệu, DataFrame có thể chứa nhiều kiểu khác nhau",
+        "Có thể giải thích khi nào nên sử dụng Series vs DataFrame (single column vs tabular data)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_PYTHON_DA_008",
+    "question_text": "Hãy giải thích cách sử dụng hàm `groupby()` trong Pandas để tính tổng doanh số bán hàng theo từng khu vực từ DataFrame `sales` có các cột: 'Khu vực', 'Sản phẩm', 'Doanh số'.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "LANG_PYTHON",
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "LANG_PYTHON"
+    ],
+    "answers": {
+      "detailed": "Dùng `sales.groupby('Khu vực')['Doanh số'].sum()` để nhóm theo cột 'Khu vực' và tính tổng cột 'Doanh số'. Kết quả trả về Series với index là các khu vực. Để mở rộng: có thể dùng `sales.groupby('Khu vực').agg({'Doanh số': 'sum'})` để trả về DataFrame, hoặc `sales.groupby('Khu vực')['Doanh số'].agg(['sum', 'count'])` để tính multiple aggregations cùng lúc. Ngoài ra, named_agg() có thể dùng để đặt tên cột rõ ràng khi có nhiều phép tính.",
+      "evaluation_points": [
+        "Biết sử dụng groupby() với cột phân loại và column selection",
+        "Hiểu được cấu trúc của DataFrameGroupBy object và khi nào cần gọi aggregation function",
+        "Giải thích được vì sao kết quả là Series với index là các khu vực",
+        "Có thể mở rộng: multiple aggregations (e.g., sum AND count), multiple groupby columns, hoặc named_agg() để đặt tên cột rõ ràng",
+        "Hiểu sự khác biệt giữa groupby().agg() vs groupby().apply() về performance"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_PYTHON_DA_012",
+    "question_text": "Bạn đang làm việc với DataFrame `orders` chứa dữ liệu đơn hàng gồm cột 'Ngày' (datetime) và 'Giá trị'. Hãy tính tổng giá trị đơn hàng theo từng tháng. Giải thích tại sao bạn chọn cách đó thay vì dùng vòng lặp?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "LANG_PYTHON",
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "LANG_PYTHON"
+    ],
+    "answers": {
+      "detailed": "Convert 'Ngày' to datetime: `orders['Ngày'] = pd.to_datetime(orders['Ngày'])`. Then use **resample**: `orders.set_index('Ngày').resample('M')['Giá trị'].sum()` (sets datetime as index for time-based resampling). Alternatively, **groupby**: `orders['Tháng'] = orders['Ngày'].dt.to_period('M'); orders.groupby('Tháng')['Giá trị'].sum()`. **Why avoid loops**: Pandas operations use vectorized NumPy operations (compiled C code), processing entire arrays at once. Loops execute Python bytecode for each row, with slow element access and memory overhead. For 1M rows, loops are 10-100x slower. **Resample vs. groupby trade-off**: Resample handles time-series gaps/alignment better; groupby is more flexible for non-datetime grouping. Choose resample when working with time-indexed data, groupby when datetime is a column. Both leverage vectorization.",
+      "evaluation_points": [
+        "Correctly converts 'Ngày' to datetime type and applies resample or groupby with period extraction",
+        "Demonstrates understanding of when resample (time-series on datetime index) vs. groupby (flexible grouping) is appropriate, and trade-offs between them",
+        "Articulates vectorization advantage with concrete reasoning (element-wise operations in C vs. Python loop overhead), not just 'faster'",
+        "Handles edge cases: ensures datetime index is set correctly for resample, addresses potential NaT or missing dates, verifies output column names and data types",
+        "Explains why 'M' (month-end) vs. 'MS' (month-start) matters and validates result accuracy"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_PYTHON_DA_014",
+    "question_text": "Bạn có DataFrame `df` kích thước 10 triệu dòng với cột 'A' (số nguyên) và 'B' (số thực). Cần tính trung bình cột 'B' theo từng nhóm của 'A', nhưng có 30% giá trị cột 'B' bị thiếu (NaN). Hãy thiết kế giải pháp hiệu quả để xử lý, bao gồm cách xử lý missing data và tối ưu performance. Phân tích trade-off giữa các phương pháp như dropna, fillna với mean/median, hoặc dùng interpolation.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "LANG_PYTHON",
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "LANG_PYTHON"
+    ],
+    "answers": {
+      "detailed": "**Solution:** 1) Inspect missing: `df.isna().sum()` and `df.groupby('A')['B'].apply(lambda x: x.isna().sum())` to understand missing distribution across groups. 2) **Trade-off Analysis:** \n- **dropna()**: Fastest (vectorized), but loses 30% of data; risk unbalanced groups, especially if missingness is non-random (MNAR). Valid only if MCAR assumption holds.\n- **fillna(median by group)**: Use `df['B'] = df.groupby('A')['B'].transform(lambda x: x.fillna(x.median()))` to leverage vectorized transform (returns same size as original group). Median preferred over mean to reduce outlier influence. Preserves N but introduces artificial values, slightly flattening within-group variance.\n- **interpolation**: Only suitable if data has time/order dependency. For categorical grouping by 'A', interpolation is semantically invalid and slower (loop-based).\n3) **Performance Optimization:** Use `transform()` (vectorized) instead of `apply()` (generally slower for 10M rows). For final aggregation: `df.groupby('A')['B'].mean()` post-imputation. If further acceleration needed, use `numba.jit` on custom aggregation only if pandas native methods hit memory/CPU limits.\n4) **Validation:** Post-imputation, compare group statistics (mean, std, count) to identify bias; use KS-test or visual inspection (boxplot) to confirm no distribution distortion. Document imputation method in final report.\n5) **Recommended approach for 10M rows:** fillna with group median + vectorized groupby().mean(), balancing data retention with computational efficiency.",
+      "evaluation_points": [
+        "Correctly distinguishes between `transform()` (returns same-sized result for imputation) vs `agg()` (returns one value per group) in the context of fillna within groups",
+        "Articulates specific trade-offs: dropna reduces sample size and may create imbalanced groups; fillna with median preserves N but introduces artificial values that flatten distribution; interpolation assumes ordering (inappropriate for categorical grouping)",
+        "Proposes vectorized operations over loops and mentions numba for acceleration, demonstrating performance awareness for 10M row dataset",
+        "Should validate imputation impact: compare mean/median before-after, check group size distribution post-dropna, and discuss whether missing data is MCAR/MNAR (affects choice validity)",
+        "Consider mentioning `validate` parameter in subsequent merges if this imputed data joins with other tables, and potential dtype implications when using fillna"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_PYTHON_DA_011",
+    "question_text": "Trong Pandas, sự khác biệt chính giữa .loc và .iloc để truy cập dữ liệu trong DataFrame là gì? Hãy cho một ví dụ.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "LANG_PYTHON",
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "LANG_PYTHON",
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": ".loc dùng để truy cập dữ liệu dựa trên nhãn (label) của index và cột, còn .iloc dựa trên vị trí số nguyên (integer index). Ví dụ: df.loc['a', 'col1'] lấy giá trị tại hàng có index là 'a' và cột 'col1'; df.iloc[0, 1] lấy giá trị tại hàng đầu tiên và cột thứ hai. Lưu ý quan trọng: .loc[start:end] bao gồm cả nhãn end (inclusive), trong khi .iloc[start:end] không bao gồm vị trí end (exclusive). Nên dùng .loc/.iloc thay vì chained indexing df['col'][row] để tránh SettingWithCopyWarning và đảm bảo data integrity. Ví dụ boolean indexing: df.loc[df['col1'] > 5, 'col2'] để lấy dữ liệu có điều kiện.",
+      "evaluation_points": [
+        "Giải thích đúng .loc dùng nhãn, .iloc dùng vị trí số",
+        "Đưa ra ví dụ minh họa rõ ràng với cụ thể các trường hợp",
+        "Phân biệt được trường hợp dùng sai dẫn đến lỗi",
+        "Hiểu rõ hành vi inclusive/exclusive slicing: .loc[start:end] bao gồm cả end, .iloc[start:end] không bao gồm end",
+        "Giải thích tại sao nên dùng .loc/.iloc thay vì chained indexing df['col'][row] để tránh SettingWithCopyWarning",
+        "Biết được khi nào sử dụng boolean indexing với .loc cho các điều kiện phức tạp"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_PYTHON_DA_015",
+    "question_text": "Bạn đang làm việc với một DataFrame chứa dữ liệu bán hàng gồm các cột: 'ngay', 'san_pham', 'so_luong', 'gia'. Hãy tính tổng doanh thu (so_luong * gia) cho mỗi sản phẩm, và chỉ hiển thị top 3 sản phẩm có doanh thu cao nhất. Giải thích tại sao bạn chọn cách đó thay vì dùng vòng lặp for.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "LANG_PYTHON",
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "LANG_PYTHON",
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Create a 'doanh_thu' column using vectorized multiplication: df['doanh_thu'] = df['so_luong'] * df['gia']. Then use df.groupby('san_pham')['doanh_thu'].sum() to aggregate total revenue per product. Finally, apply sort_values(ascending=False).head(3) to get the top 3. This approach is superior to loops because: (1) Pandas vectorization operations are C-optimized, not interpreted Python; (2) it processes the entire array simultaneously rather than iterating row-by-row; (3) it avoids Python interpreter overhead and memory inefficiency of loop accumulation; (4) it's more readable and maintainable. For large datasets (millions of rows), vectorized operations are orders of magnitude faster. The groupby().sum() correctly handles multiple transactions per product across all dates by aggregating them into a single revenue total per product.",
+      "evaluation_points": [
+        "Correctly creates revenue column using vectorized multiplication (df['so_luong'] * df['gia'])",
+        "Properly applies groupby('san_pham') with sum() aggregation to calculate total revenue per product",
+        "Uses sort_values(ascending=False) and head(3) to extract top 3 products efficiently",
+        "Explains vectorization advantage: C-optimized operations vs Python loop overhead for large datasets",
+        "Demonstrates understanding that groupby().sum() returns same-size grouped result, suitable for this aggregation (not transform needed)",
+        "Can explain why explicit assignment df['doanh_thu'] = ... is preferable to inline calculation in groupby for code readability and reusability",
+        "Considers whether multiple transactions per product-date exist and confirms groupby handles this correctly"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_PYTHON_DA_017",
+    "question_text": "Bạn nhận được một DataFrame lớn (hàng triệu dòng) chứa dữ liệu log từ hệ thống, với các cột 'timestamp', 'user_id', 'action', 'value'. Có khoảng 5% giá trị thiếu (NaN) ở cột 'value'. Hãy đề xuất và triển khai giải pháp xử lý missing values tối ưu về hiệu năng, biết rằng dữ liệu 'value' có phân phối lệch (skewed). Giải thích lựa chọn của bạn.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "LANG_PYTHON",
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "LANG_PYTHON",
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "For a large skewed dataset with 5% missing values in 'value', median imputation is the optimal choice because it's robust to outliers and preserves the distribution better than mean, especially with skew. Implementation: median = df['value'].median() (O(n), computed once); then df['value'].fillna(median, inplace=True) or df['value'] = np.where(df['value'].isna(), median, df['value']) for faster assignment. This avoids iteration overhead and sklearn overhead. However, the choice depends on context: (1) If NaN indicates missing events, consider dropping rows; (2) If temporal coherence matters (log data), forward-fill by timestamp or user_id may be better; (3) For relationships with other columns, KNN imputation preserves multivariate structure but costs more computation. Trade-offs: mean is faster but distorts skewed data; mode suits categorical; interpolation assumes temporal continuity. For production, validate post-imputation (check median, quantiles, domain logic) and document the imputation rationale for audit trails.",
+      "evaluation_points": [
+        "Correctly identifies median as robust choice for skewed distributions vs. mean, explaining why mean would distort the imputation",
+        "Demonstrates understanding of computational complexity (O(n) for both median calculation and fillna) and avoids inefficient loop-based solutions",
+        "Compares multiple imputation approaches with trade-offs: mean (fast but unsuitable for skew), median (robust), mode (categorical/discrete), forward-fill (temporal coherence), and advanced methods (KNN/iterative imputation)",
+        "Recognizes domain context: for log data, considers whether NaN represents missing events (drop), system errors (median), or user inactivity (forward-fill by timestamp)",
+        "Addresses memory efficiency and inplace vs. copy trade-offs for million-row datasets, and discusses when sklearn's SimpleImputer overhead is justified (e.g., complex pipelines, reproducibility)",
+        "Validates imputation quality: discusses distributional checks (comparing pre/post median, quantiles) and domain validation (do imputed values make sense in business context)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_PYTHON_DA_019",
+    "question_text": "Bạn có DataFrame gồm cột 'ngay' (datetime) và 'doanh_thu'. Hãy tính doanh thu trung bình động (rolling average) với cửa sổ 7 ngày. Tuy nhiên, dữ liệu có nhiều ngày bị thiếu (không có dòng). Làm thế nào để đảm bảo rolling average chỉ tính trên các ngày thực tế, và xử lý các khoảng trống dữ liệu? Đưa ra giải pháp bằng Pandas.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "LANG_PYTHON",
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "LANG_PYTHON",
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "To handle rolling averages with missing data in a time-series DataFrame:\n\n**Approach 1 (Caution Required):**\n```python\ndf.set_index('ngay', inplace=True)\ndf = df.resample('D').sum()  # Fills gaps with 0 revenue\ndf['rolling_avg'] = df['doanh_thu'].rolling(window=7, min_periods=1).mean()\n```\n⚠️ **Pitfall:** This artificially adds 0-revenue days, distorting the rolling average. Use only if missing data truly means \"zero revenue.\"\n\n**Approach 2 (Correct for Missing Data):**\n```python\ndf.set_index('ngay', inplace=True)\ndf = df.resample('D').asfreq()  # Fill with NaN, not 0\ndf['rolling_avg'] = df['doanh_thu'].rolling(window=7, min_periods=1).mean()\n```\nThis preserves the distinction between \"no data\" (NaN) and \"zero revenue.\"\n\n**Approach 3 (Calculate Only on Actual Data Points):**\n```python\ndf.set_index('ngay', inplace=True)\ndf['rolling_avg'] = df.groupby(pd.Grouper(freq='D'))['doanh_thu'].transform(\n    lambda x: x.rolling(window=7, min_periods=3).mean() if len(x) > 0 else np.nan\n)\n```\nOr manually verify that rolling windows contain at least K actual observations (not just calendar days).\n\n**Key Evaluation:**\n- **Strong Candidate:** Explains the resample pitfall (artificially introduced zeros), distinguishes between `sum()` vs. `asfreq()`, and discusses when to use groupby().rolling() for data-point-aware calculations.\n- **Weak Candidate:** Blindly applies resample().sum() without considering its impact on rolling calculations or acknowledging that it creates fake data points.",
+      "evaluation_points": [
+        "Understanding that resample('D').sum() fills gaps with 0, which artificially inflates or distorts rolling averages when data is genuinely missing (not zero revenue)",
+        "Recognizing that rolling(window=7, min_periods=1) computes across calendar days, not actual data points—a critical distinction when gaps exist",
+        "Proposing alternative approaches: (1) groupby().rolling() to count only actual observations, (2) resampling with forward-fill/interpolation, or (3) manual calculation using a custom function to enforce 'only calculate if N actual days exist'",
+        "Explaining the index requirement: datetime index is essential for resample to work, and the consequences of not setting it",
+        "Demonstrating awareness that 'closed' and 'label' parameters in rolling control window alignment but don't solve the missing-data problem—they still operate on calendar positions",
+        "Providing concrete code showing the pitfall: resample with sum=0 vs. resample with mean/ffill vs. groupby().rolling() for correctness"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_PYTHON_DA_016",
+    "question_text": "Hãy giải thích sự khác biệt giữa Series và DataFrame trong Pandas, và cho ví dụ cụ thể khi nào nên dùng mỗi loại?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Series là cấu trúc dữ liệu 1 chiều với index, chứa các phần tử cùng kiểu dữ liệu, tương tự một cột trong bảng tính. DataFrame là cấu trúc 2 chiều, giống bảng tính với nhiều hàng và cột, có thể chứa nhiều Series có các kiểu dữ liệu khác nhau. Khác với NumPy arrays, cả Series và DataFrame đều có index (hàng) và columns (cột) được gắn nhãn rõ ràng, giúp truy cập dữ liệu dễ dàng hơn. Ví dụ: dùng Series để lưu nhiệt độ từng ngày (một cột dữ liệu), dùng DataFrame để lưu bảng khách hàng với các cột tên, tuổi, địa chỉ, email vì chúng liên quan đến nhau. Index có vai trò quan trọng trong phép toán—khi join hoặc merge hai DataFrame, index được sử dụng để khớp dữ liệu.",
+      "evaluation_points": [
+        "Định nghĩa đúng Series (1D) và DataFrame (2D) với labeled axes",
+        "Phân biệt rõ ràng: Series là tập hợp các phần tử có cùng kiểu dữ liệu, DataFrame có thể chứa các cột với kiểu dữ liệu khác nhau",
+        "Giải thích vai trò của index trong cả Series và DataFrame và tầm quan trọng của nó trong các phép toán",
+        "Đưa ví dụ thực tế: Series cho dữ liệu đơn chiều (giá trị nhiệt độ), DataFrame cho dữ liệu dạng bảng (khách hàng với nhiều thuộc tính)",
+        "Phân biệt khi nào sử dụng mỗi loại: Series cho phép tính trên một cột đơn lẻ, DataFrame khi cần làm việc với nhiều cột có liên quan",
+        "Đề cập đến sự khác biệt với các cấu trúc khác: khác NumPy array vì có labels rõ ràng, khác dict vì có hàng và cột có tên"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_PYTHON_DA_020",
+    "question_text": "Làm thế nào để loại bỏ các dòng trùng lặp (duplicate rows) trong một DataFrame Pandas dựa trên một cột cụ thể? Viết code minh họa?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Sử dụng phương thức drop_duplicates() với tham số subset để loại bỏ các dòng trùng lặp dựa trên cột cụ thể. Ví dụ cơ bản:\n\n```python\nimport pandas as pd\n\n# Loại bỏ dòng trùng lặp, giữ lại dòng đầu tiên\ndf_cleaned = df.drop_duplicates(subset=['column_name'], keep='first')\n\n# Giữ lại dòng cuối cùng\ndf_cleaned = df.drop_duplicates(subset=['column_name'], keep='last')\n\n# Xóa tất cả dòng trùng (bao gồm cả dòng đầu tiên)\ndf_cleaned = df.drop_duplicates(subset=['column_name'], keep=False)\n\n# Chỉnh sửa trực tiếp DataFrame (không tạo bản sao)\ndf.drop_duplicates(subset=['column_name'], keep='first', inplace=True)\n```\n\nTham số quan trọng:\n- `subset`: Danh sách cột để xác định sự trùng lặp (mặc định xét tất cả cột)\n- `keep`: 'first'|'last'|False - quyết định dòng nào được giữ lại\n- `inplace`: Nếu True, sửa đổi DataFrame trực tiếp thay vì trả về bản sao\n\nLưu ý: NaN được coi là các giá trị duy nhất riêng biệt theo mặc định.",
+      "evaluation_points": [
+        "Correctly identifies drop_duplicates() method and subset parameter syntax",
+        "Understands keep parameter options ('first', 'last', False) and their implications",
+        "Demonstrates handling duplicates across single or multiple columns",
+        "Recognizes inplace parameter to modify DataFrame in-place versus returning a copy",
+        "Discusses performance considerations and alternative approaches (e.g., using groupby for custom logic)",
+        "Properly handles edge cases such as NaN values in comparison (consider keep_nan behavior)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_PYTHON_DA_022",
+    "question_text": "Bạn đang làm việc với một DataFrame chứa dữ liệu giao dịch tài chính 10 triệu dòng, cần tính tổng doanh thu theo từng ngày và từng danh mục sản phẩm. Hãy thiết kế giải pháp tối ưu về hiệu năng, so sánh giữa dùng groupby, pivot_table, và vòng lặp for. Phân tích các edge case như dữ liệu thiếu (NaN) hoặc bộ nhớ không đủ?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Với dữ liệu lớn, groupby là tối ưu nhất vì nó sử dụng vectorized operations (C-level execution) thay vì Python loop overhead. Cụ thể: `df.groupby(['date', 'category'])['revenue'].sum().reset_index()`. Pivot_table tạo cấu trúc cross-tabulated với số cột = số danh mục duy nhất, khiến bộ nhớ tăng O(n_categories) và chậm hơn; vòng lặp for chậy nhất do Python GIL. Để xử lý edge case: (1) NaN - nếu NaN = không có giao dịch, dùng `fillna(0)` trước groupby; nếu NaN = dữ liệu không xác định, dùng `dropna()` để loại. (2) Bộ nhớ không đủ - đọc file chunked: `pd.read_csv(..., chunksize=100000)` rồi groupby từng chunk và concat kết quả, hoặc dùng dask: `dask.dataframe.read_csv()` với lazy evaluation. (3) Tối ưu dtype: chuyển category sang categorical (`df['category'] = df['category'].astype('category')`) giảm 80-90% bộ nhớ. Nếu cần join kết quả lại dữ liệu gốc, dùng `merge(..., validate='many_to_one')` để phát hiện duplicate keys.",
+      "evaluation_points": [
+        "Explain why groupby is vectorized and how it avoids Python-level iteration overhead compared to for loops",
+        "Articulate the difference between groupby aggregation (returns reduced shape) vs transform (returns original shape) and when each is appropriate",
+        "Demonstrate understanding of NaN handling specifics: explain when to use fillna(0) vs dropna() based on business logic and revenue interpretation",
+        "Quantify memory optimization: discuss dtype conversion (e.g., category dtype reduction percentage, int32 vs int64 tradeoffs) and chunked reading strategies with concrete dask.dataframe example",
+        "Compare pivot_table performance degradation: explain why it creates a cross-tabulated structure that scales poorly with unique combinations vs groupby's linear scaling",
+        "Address validate parameter in merge context if joining aggregated results back to original data, or discuss index-based operations for efficiency"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_PYTHON_DA_024",
+    "question_text": "Công ty có một DataFrame chứa dữ liệu log server với cột timestamp (dạng string), status_code, response_time. Bạn cần tính phân vị 95 (95th percentile) của response_time theo từng status_code trong mỗi khung giờ 1 giờ. Tuy nhiên, dữ liệu có nhiều timestamp không hợp lệ và response_time có outlier cực lớn. Hãy viết code Pandas xử lý toàn bộ pipeline từ làm sạch đến tính toán, và giải thích cách debug nếu kết quả sai?",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Pipeline: 1) Convert timestamp using pd.to_datetime(df['timestamp'], errors='coerce'); log rows with NaT (df[df['timestamp'].isna()].shape[0]). Drop NaT rows: df = df.dropna(subset=['timestamp']). 2) Handle outliers by IQR method (Q1, Q3 = df['response_time'].quantile([0.25, 0.75]); IQR = Q3-Q1; upper_bound = Q3 + 1.5*IQR) OR cap at 99.9th percentile (upper_bound = df['response_time'].quantile(0.999)). Document method choice and rows removed. 3) Create hourly bucket: df['hour'] = df['timestamp'].dt.floor('H'). 4) Apply groupby aggregation: result = df.groupby(['status_code', 'hour'])['response_time'].quantile(0.95).reset_index(name='p95_response_time'). Note: quantile() with groupby returns Series indexed by groups; reset_index() converts to DataFrame with one row per (status_code, hour) pair. 5) Debug: (a) Verify data flow: print(df.shape) after each step; (b) Check conversion: print(df['timestamp'].dtype, df['timestamp'].isna().sum()); (c) Inspect outliers: print(df['response_time'].describe()) pre/post filtering; (d) Validate quantile calculation: manually compute for one group using np.percentile(df[df['status_code']==X]['response_time'], 95) and compare with grouped result; (e) Check for timezone issues: if timestamps are timezone-aware, ensure dt.floor('H') preserves timezone (use tz_localize/tz_convert if needed); (f) Examine edge cases: print(df.groupby(['status_code', 'hour']).size()) to identify groups with <20 samples (unreliable percentiles). If results diverge, verify groupby keys have no NaNs and that filtering didn't remove all data for some groups.",
+      "evaluation_points": [
+        "Correctly uses pd.to_datetime(errors='coerce') and validates data loss with shape comparisons before/after cleaning",
+        "Implements outlier handling with explicit choice justification (IQR vs percentile capping) and documents decision rationale",
+        "Demonstrates understanding of groupby aggregation: explains why .quantile(0.95) returns scalar per group and output shape expectations",
+        "Distinguishes between agg (for single output per group) vs transform (for same-sized output) and applies correctly here",
+        "Debug methodology includes: (1) row count tracking through each pipeline step, (2) data type verification post-conversion, (3) timezone awareness when using dt.floor('H'), (4) manual percentile verification using numpy.percentile on filtered subsets, (5) checking for duplicates/NaNs in groupby keys",
+        "Handles edge cases: empty groups after filtering, single-value groups where percentile is undefined, timezone-aware timestamps"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DS_PYTHON_DA_021",
+    "question_text": "Trong Pandas, phương thức nào dùng để loại bỏ các hàng hoặc cột có giá trị thiếu (missing values) trong DataFrame? Hãy giải thích cách sử dụng và các tham số chính.",
+    "roles": {
+      "primary": "DS",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "PYTHON_ANALYTICS",
+      "PYTHON_PANDAS"
+    ],
+    "skill_tags": [
+      "PYTHON_PANDAS"
+    ],
+    "answers": {
+      "detailed": "Phương thức `dropna()` trong Pandas được dùng để loại bỏ các hàng hoặc cột có giá trị thiếu (NaN). Tham số chính: `axis=0` (mặc định) xóa hàng, `axis=1` xóa cột; `how='any'` (mặc định) xóa nếu có ít nhất 1 NaN, `how='all'` chỉ xóa nếu tất cả đều NaN; `thresh` yêu cầu số lượng giá trị không NaN tối thiểu để giữ hàng/cột; `subset` chỉ xét trên các cột cụ thể; `inplace=False` tạo bản sao mới, `inplace=True` thay đổi trực tiếp DataFrame.\n\nVí dụ: `df.dropna(axis=0, how='any')` xóa bất kỳ hàng nào có ít nhất một NaN; `df.dropna(subset=['col1', 'col2'], thresh=1)` chỉ xét cột col1 và col2, giữ lại hàng nếu có ít nhất 1 giá trị không NaN. Lưu ý: dropna() có thể dẫn đến mất dữ liệu, nên cân nhắc các phương pháp thay thế như fillna() hoặc interpolation() tùy theo bối cảnh phân tích. Khi sử dụng `inplace=True`, luôn chắc chắn rằng bạn muốn sửa đổi dữ liệu gốc để tránh các vấn đề SettingWithCopyWarning khi kết hợp với các hoạt động khác.",
+      "evaluation_points": [
+        "Knows dropna() method and basic functionality (removing rows/columns with NaN)",
+        "Understands axis parameter (0 for rows, 1 for columns) and how parameter (any vs all)",
+        "Explains thresh parameter and subset parameter use cases with examples",
+        "Strong candidate: Discusses performance implications (dropna vs fillna tradeoff), demonstrates understanding of inplace parameter risks (modifying views vs copies), and knows when to use subset for conditional removal on specific columns only",
+        "Strong candidate: Can articulate when dropna() is appropriate vs alternative strategies like fillna() or interpolation, and understands the data loss implications",
+        "Weak candidate: Only mentions basic axis/how without understanding practical implications or alternative approaches",
+        "Pitfall: Misunderstanding that inplace=True modifies the original DataFrame while inplace=False returns a new copy; not considering downstream SettingWithCopyWarning issues when chaining operations after dropna()"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  }
+]

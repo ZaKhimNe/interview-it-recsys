@@ -1,0 +1,33 @@
+# BIG_DATA_CLOUD_TOOLS — Reference Document (Source: Gemini 2.5 Flash)
+
+## BIG_DATA_CLOUD_TOOLS Competency Reference (Role: Data Engineer)
+
+This document outlines key technical competencies in Big Data and Cloud Tools, focusing on areas critical for a Senior Data Engineer. Strong candidates demonstrate not just knowledge of definitions but also a deep understanding of practical implications, performance characteristics, and architectural trade-offs.
+
+## Apache Spark
+
+### RDD vs DataFrame vs Dataset
+-   **RDD (Resilient Distributed Dataset)**: The foundational, low-level abstraction in Spark, representing an immutable, fault-tolerant, distributed collection of objects. RDDs are untyped, requiring manual schema management and serialization/deserialization, which can incur performance overhead.
+    -   *Strong Candidate*: Explains RDD's fine-grained control, lineage graph for fault tolerance, and use cases for unstructured data or highly custom transformations, while acknowledging its lack of built-in optimization and type safety.
+    -   *Weak Candidate*: States RDDs are "old" without understanding their fundamental role or specific use cases.
+-   **DataFrame**: A distributed collection of data organized into named columns, conceptually equivalent to a table in a relational database. Built on RDDs, DataFrames are typed (schema enforced at runtime) and leverage Spark's Catalyst Optimizer for query plan optimization and Tungsten for efficient memory management.
+    -   *Strong Candidate*: Details how DataFrames provide a higher-level API, enable SQL-like operations, and benefit from Catalyst's logical and physical plan optimizations, leading to significant performance gains over RDDs for structured and semi-structured data.
+    -   *Weak Candidate*: Simply calls it "a table in Spark."
+-   **Dataset**: An extension of DataFrame that provides compile-time type safety for JVM languages (Scala/Java). Datasets combine the benefits of RDDs (type safety, object-oriented programming) with DataFrames (Catalyst Optimizer, Tungsten). They use Encoders to efficiently serialize/deserialize JVM objects to/from Spark's internal Tungsten format.
+    -   *Strong Candidate*: Articulates the trade-off between compile-time type safety (Dataset) and runtime flexibility (DataFrame for Python/R), and when to choose each abstraction based on language, performance needs, and data structure.
+    -   *Weak Candidate*: Merely states it's "a typed DataFrame."
+-   **Key Distinction**: RDDs are untyped and low-level; DataFrames are schematized and optimized; Datasets add compile-time type safety for JVM languages.
+
+### Lazy Evaluation, Transformations vs Actions
+-   **Lazy Evaluation**: Spark operations are not executed immediately. Instead, they build a Directed Acyclic Graph (DAG) of transformations. Execution is deferred until an action is called.
+    -   *Strong Candidate*: Connects lazy evaluation directly to the Catalyst Optimizer's ability to analyze and optimize the entire query plan before execution, minimizing I/O and computation.
+-   **Transformations**: Operations that create a new RDD/DataFrame/Dataset from an existing one (e.g., `map`, `filter`, `join`). They are lazy and build the logical execution plan.
+-   **Actions**: Operations that trigger the execution of the DAG and return a result to the driver program or write data to an external storage (e.g., `count`, `collect`, `saveAsTextFile`). They are eager.
+-   **Key Distinction**: Transformations define *what* to compute; Actions trigger *when* to compute.
+-   **Pitfall**: Not understanding that `collect()` on a large dataset can cause OutOfMemory errors on the driver.
+
+### Wide vs Narrow Transformations, Shuffle Operations
+-   **Narrow Transformation**: Each input partition contributes to at most one output partition. No data movement (shuffle) across the network is required (e.g., `map`, `filter`, `union`).
+-   **Wide Transformation**: Input partitions contribute to multiple output partitions, necessitating a data shuffle across the network (e.g., `groupByKey`, `reduceByKey`, `sortByKey`, `join` without broadcast).
+    -   *Strong Candidate*: Identifies wide transformations as a primary performance bottleneck due to network I/O, disk I/O (shuffle spill), and serialization/deserialization overhead.
+-   **Shuffle Operations**: The process of redistributing data across partitions, typically involving writing intermediate data to

@@ -1,0 +1,4180 @@
+{
+  "questions": [
+    {
+      "question_id": "DS_GH_001",
+      "question_text": "What is supervised machine learning?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "Supervised learning is a type of machine learning in which our algorithms are trained using well-labeled training data, and machines predict the output based on that data. Labeled data indicates that the input data has already been tagged with the appropriate output. Basically, it is the task of learning a function that maps the input set and returns an output. Some of its examples are: Linear Regression, Logistic Regression, KNN, etc.\n\nk-Nearest Neighbors(KNN):Looking at the k closest labeled data points",
+        "evaluation_points": [
+          "Supervised learning is a type of machine learning in which our algorithms are trained using well-labeled training data, and machines predict the output based on that data.",
+          "Labeled data indicates that the input data has already been tagged with the appropriate output.",
+          "Basically, it is the task of learning a function that maps the input set and returns an output."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_002",
+      "question_text": "What is regression? Which models can you use to solve a regression problem?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_LINEAR_REGRESSION"
+      ],
+      "answers": {
+        "detailed": "Regression is a part of supervised ML. Regression models investigate the relationship between a dependent (target) and independent variable (s) (predictor).\nHere are some common regression models\n\n- *Linear Regression* establishes a linear relationship between target and predictor (s). It predicts a numeric value and has a shape of a straight line.\n- *Polynomial Regression* has a regression equation with the power of independent variable more than 1. It is a curve that fits into the data points.\n- *Ridge Regression* helps when predictors are highly correlated (multicollinearity problem). It penalizes the squares of regression coefficients but doesn’t allow the coefficients to reach zeros (uses L2 regularization).\n- *Lasso Regression* penalizes the absolute values of regression coefficients and allows some of the coefficients to reach absolute zero (thereby allowing feature selection).",
+        "evaluation_points": [
+          "Regression is a part of supervised ML.",
+          "Regression models investigate the relationship between a dependent (target) and independent variable (s) (predictor).",
+          "Here are some common regression models\n\n- *Linear Regression* establishes a linear relationship between target and predictor (s)."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_003",
+      "question_text": "What is linear regression? When do we use it?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "CODING",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_LINEAR_REGRESSION"
+      ],
+      "answers": {
+        "detailed": "Linear regression is a model that assumes a linear relationship between the input variables (X) and the single output variable (y).\n\nWith a simple equation:\n\n```\ny = B0 + B1*x1 + ... + Bn * xN\n```\n\nB is regression coefficients, x values are the independent (explanatory) variables  and y is dependent variable.\n\nThe case of one explanatory variable is called simple linear regression. For more than one explanatory variable, the process is called multiple linear regression.\n\nSimple linear regression:\n\n```\ny = B0 + B1*x1\n```\n\nMultiple linear regression:\n\n```\ny = B0 + B1*x1 + ... + Bn * xN\n```",
+        "evaluation_points": [
+          "Linear regression is a model that assumes a linear relationship between the input variables (X) and the single output variable (y).",
+          "With a simple equation:\n\n\n\nB is regression coefficients, x values are the independent (explanatory) variables  and y is dependent variable.",
+          "The case of one explanatory variable is called simple linear regression."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_004",
+      "question_text": "What are the main assumptions of linear regression? ⭐",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_LINEAR_REGRESSION"
+      ],
+      "answers": {
+        "detailed": "There are several assumptions of linear regression. If any of them is violated, model predictions and interpretation may be worthless or misleading.\n\n1.",
+        "evaluation_points": [
+          "There are several assumptions of linear regression.",
+          "If any of them is violated, model predictions and interpretation may be worthless or misleading."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_005",
+      "question_text": "Linear relationship",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_LINEAR_REGRESSION"
+      ],
+      "answers": {
+        "detailed": "between features and target variable.\n2.",
+        "evaluation_points": [
+          "between features and target variable."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_006",
+      "question_text": "What is overfitting?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "EVALUATION_METRICS"
+      ],
+      "skill_tags": [
+        "EVAL_CROSS_VALIDATION"
+      ],
+      "answers": {
+        "detailed": "When your model perform very well on your training set but can't generalize the test set, because it adjusted a lot to the training set.",
+        "evaluation_points": [
+          "When your model perform very well on your training set but can't generalize the test set, because it adjusted a lot to the training set."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_007",
+      "question_text": "How to validate your models?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "EVALUATION_METRICS"
+      ],
+      "skill_tags": [
+        "EVAL_CROSS_VALIDATION"
+      ],
+      "answers": {
+        "detailed": "One of the most common approaches is splitting data into train, validation and test parts.\nModels are trained on train data, hyperparameters (for example early stopping) are selected based on the validation data, the final measurement is done on test dataset.\nAnother approach is cross-validation: split dataset into K folds and each time train models on training folds and measure the performance on the validation folds.\nAlso you could combine these approaches: make a test/holdout dataset and do cross-validation on the rest of the data. The final quality is measured on test dataset.",
+        "evaluation_points": [
+          "One of the most common approaches is splitting data into train, validation and test parts.",
+          "Models are trained on train data, hyperparameters (for example early stopping) are selected based on the validation data, the final measurement is done on test dataset.",
+          "Another approach is cross-validation: split dataset into K folds and each time train models on training folds and measure the performance on the validation folds."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_008",
+      "question_text": "Why do we need to split our data into three parts: train, validation, and test?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "EVALUATION_METRICS"
+      ],
+      "skill_tags": [
+        "EVAL_CROSS_VALIDATION"
+      ],
+      "answers": {
+        "detailed": "The training set is used to fit the model, i.e. to train the model with the data. The validation set is then used to provide an unbiased evaluation of a model while fine-tuning hyperparameters. This improves the generalization of the model. Finally, a test data set which the model has never \"seen\" before should be used for the final evaluation of the model. This allows for an unbiased evaluation of the model. The evaluation should never be performed on the same data that is used for training. Otherwise the model performance would not be representative.",
+        "evaluation_points": [
+          "The training set is used to fit the model, i.e.",
+          "to train the model with the data.",
+          "The validation set is then used to provide an unbiased evaluation of a model while fine-tuning hyperparameters."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_009",
+      "question_text": "Can you explain how cross-validation works?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "EVALUATION_METRICS"
+      ],
+      "skill_tags": [
+        "EVAL_CROSS_VALIDATION"
+      ],
+      "answers": {
+        "detailed": "Cross-validation is the process to separate your total training set into two subsets: training and validation set, and evaluate your model to choose the hyperparameters. But you do this process iteratively, selecting different training and validation set, in order to reduce the bias that you would have by selecting only one validation set.",
+        "evaluation_points": [
+          "Cross-validation is the process to separate your total training set into two subsets: training and validation set, and evaluate your model to choose the hyperparameters.",
+          "But you do this process iteratively, selecting different training and validation set, in order to reduce the bias that you would have by selecting only one validation set."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_010",
+      "question_text": "What is K-fold cross-validation?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "EVALUATION_METRICS"
+      ],
+      "skill_tags": [
+        "EVAL_CROSS_VALIDATION"
+      ],
+      "answers": {
+        "detailed": "K fold cross validation is a method of cross validation where we select a hyperparameter k. The dataset is now divided into k parts. Now, we take the 1st part as validation set and remaining k-1 as training set. Then we take the 2nd part as validation set and remaining k-1 parts as training set. Like this, each part is used as validation set once and the remaining k-1 parts are taken together and used as training set.\nIt should not be used in a time series data.",
+        "evaluation_points": [
+          "K fold cross validation is a method of cross validation where we select a hyperparameter k.",
+          "The dataset is now divided into k parts.",
+          "Now, we take the 1st part as validation set and remaining k-1 as training set."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_011",
+      "question_text": "How do we choose K in K-fold cross-validation? What’s your favorite K?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "EVALUATION_METRICS"
+      ],
+      "skill_tags": [
+        "EVAL_CROSS_VALIDATION"
+      ],
+      "answers": {
+        "detailed": "There are two things to consider while deciding K: the number of models we get and the size of validation set. We do not want the number of models to be too less, like 2 or 3. At least 4 models give a less biased decision on the metrics. On the other hand, we would want the dataset to be at least 20-25% of the entire data. So that at least a ratio of 3:1 between training and validation set is maintained. \nI tend to use 4 for small datasets and 5 for large ones as K.",
+        "evaluation_points": [
+          "There are two things to consider while deciding K: the number of models we get and the size of validation set.",
+          "We do not want the number of models to be too less, like 2 or 3.",
+          "At least 4 models give a less biased decision on the metrics."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_012",
+      "question_text": "What is classification? Which models would you use to solve a classification problem?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_CLASSIFICATION"
+      ],
+      "answers": {
+        "detailed": "Classification problems are problems in which our prediction space is discrete, i.e. there is a finite number of values the output variable can be. Some models which can be used to solve classification problems are: logistic regression, decision tree, random forests, multi-layer perceptron, one-vs-all, amongst others.",
+        "evaluation_points": [
+          "Classification problems are problems in which our prediction space is discrete, i.e.",
+          "there is a finite number of values the output variable can be.",
+          "Some models which can be used to solve classification problems are: logistic regression, decision tree, random forests, multi-layer perceptron, one-vs-all, amongst others."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_013",
+      "question_text": "What is logistic regression? When do we need to use it?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_CLASSIFICATION"
+      ],
+      "answers": {
+        "detailed": "Logistic regression is a Machine Learning algorithm that is used for binary classification. You should use logistic regression when your Y variable takes only two values, e.g. True and False, \"spam\" and \"not spam\", \"churn\" and \"not churn\" and so on. The variable is said to be a \"binary\" or \"dichotomous\".",
+        "evaluation_points": [
+          "Logistic regression is a Machine Learning algorithm that is used for binary classification.",
+          "You should use logistic regression when your Y variable takes only two values, e.g.",
+          "True and False, \"spam\" and \"not spam\", \"churn\" and \"not churn\" and so on."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_014",
+      "question_text": "Is logistic regression a linear model? Why?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_CLASSIFICATION"
+      ],
+      "answers": {
+        "detailed": "Yes, Logistic Regression is considered a generalized linear model because the outcome always depends on the sum of the inputs and parameters. Or in other words, the output cannot depend on the product (or quotient, etc.) of its parameters.",
+        "evaluation_points": [
+          "Yes, Logistic Regression is considered a generalized linear model because the outcome always depends on the sum of the inputs and parameters.",
+          "Or in other words, the output cannot depend on the product (or quotient, etc.) of its parameters."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_015",
+      "question_text": "What is sigmoid? What does it do?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_CLASSIFICATION"
+      ],
+      "answers": {
+        "detailed": "A sigmoid function is a type of activation function, and more specifically defined as a squashing function. Squashing functions limit the output to a range between 0 and 1, making these functions useful in the prediction of probabilities.\n\nSigmod(x) = 1/(1+e^{-x})",
+        "evaluation_points": [
+          "A sigmoid function is a type of activation function, and more specifically defined as a squashing function.",
+          "Squashing functions limit the output to a range between 0 and 1, making these functions useful in the prediction of probabilities.",
+          "Sigmod(x) = 1/(1+e^{-x})"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_016",
+      "question_text": "How do we evaluate classification models?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_CLASSIFICATION"
+      ],
+      "answers": {
+        "detailed": "Depending on the classification problem, we can use the following evaluation metrics:\n\n1. Accuracy\n2. Precision\n3. Recall\n4. F1 Score\n5. Logistic loss (also known as Cross-entropy loss)\n6. Jaccard similarity coefficient score",
+        "evaluation_points": [
+          "Depending on the classification problem, we can use the following evaluation metrics:\n\n1.",
+          "Logistic loss (also known as Cross-entropy loss)\n6.",
+          "Jaccard similarity coefficient score"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_017",
+      "question_text": "What happens to our linear regression model if we have three columns in our data: x, y, z  —  and z is a sum of x and y? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_REGULARIZATION"
+      ],
+      "answers": {
+        "detailed": "We would not be able to perform the regression. Because z is linearly dependent on x and y so when performing the regression $`{X}^{T}{X}`$ would be a singular (not invertible) matrix.",
+        "evaluation_points": [
+          "We would not be able to perform the regression.",
+          "Because z is linearly dependent on x and y so when performing the regression $`{X}^{T}{X}`$ would be a singular (not invertible) matrix."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_018",
+      "question_text": "What happens to our linear regression model if the column z in the data is a sum of columns x and y and some random noise? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_REGULARIZATION"
+      ],
+      "answers": {
+        "detailed": "It creates a situation known as multicollinearity. Multicollinearity occurs when two or more independent variables in a regression model are highly correlated, leading to issues in the estimation of the regression coefficients. The issue arises because the variables X and Y will be highly correlated, making it difficult for the model to distinguish the individual effects of X and Y on the dependent variable Z. To address it, feature selection, PCA or regularization techniques (L2) may be used.",
+        "evaluation_points": [
+          "It creates a situation known as multicollinearity.",
+          "Multicollinearity occurs when two or more independent variables in a regression model are highly correlated, leading to issues in the estimation of the regression coefficients.",
+          "The issue arises because the variables X and Y will be highly correlated, making it difficult for the model to distinguish the individual effects of X and Y on the dependent variable Z."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_019",
+      "question_text": "What is regularization? Why do we need it?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_REGULARIZATION"
+      ],
+      "answers": {
+        "detailed": "Regularization is used to reduce overfitting in machine learning models. It helps the models to generalize well and make them robust to outliers and noise in the data.",
+        "evaluation_points": [
+          "Regularization is used to reduce overfitting in machine learning models.",
+          "It helps the models to generalize well and make them robust to outliers and noise in the data."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_020",
+      "question_text": "Which regularization techniques do you know? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_REGULARIZATION"
+      ],
+      "answers": {
+        "detailed": "There are mainly two types of regularization,\n1. L1 Regularization (Lasso regularization) - Adds the sum of absolute values of the coefficients to the cost function. $`\\lambda\\sum_{i=1}^{n} \\left | w_i \\right |`$\n2. L2 Regularization (Ridge regularization) - Adds the sum of squares of coefficients to the cost function. $`\\lambda\\sum_{i=1}^{n} {w_{i}}^{2}`$\n\n* Where $`\\lambda`$ determines the amount of regularization.",
+        "evaluation_points": [
+          "There are mainly two types of regularization,\n1.",
+          "L1 Regularization (Lasso regularization) - Adds the sum of absolute values of the coefficients to the cost function.",
+          "$`\\lambda\\sum_{i=1}^{n} \\left | w_i \\right |`$\n2."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_021",
+      "question_text": "What is feature selection? Why do we need it?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "DATA_PREPROCESSING"
+      ],
+      "skill_tags": [
+        "FEATURE_ENGINEERING"
+      ],
+      "answers": {
+        "detailed": "Feature Selection is a method used to select the relevant features for the model to train on. We need feature selection to remove the irrelevant features which leads the model to under-perform.",
+        "evaluation_points": [
+          "Feature Selection is a method used to select the relevant features for the model to train on.",
+          "We need feature selection to remove the irrelevant features which leads the model to under-perform."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_022",
+      "question_text": "Is feature selection important for linear models? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "DATA_PREPROCESSING"
+      ],
+      "skill_tags": [
+        "FEATURE_ENGINEERING"
+      ],
+      "answers": {
+        "detailed": "Yes, It is. It can make model performance better through selecting the most importance features and remove irrelevant features in order to make a prediction and it can also avoid overfitting, underfitting and bias-variance tradeoff.",
+        "evaluation_points": [
+          "It can make model performance better through selecting the most importance features and remove irrelevant features in order to make a prediction and it can also avoid overfitting, underfitting and bias-variance tradeoff."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_023",
+      "question_text": "Which feature selection techniques do you know? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "DATA_PREPROCESSING"
+      ],
+      "skill_tags": [
+        "FEATURE_ENGINEERING"
+      ],
+      "answers": {
+        "detailed": "Here are some of the feature selections:\n- Principal Component Analysis\n- Neighborhood Component Analysis\n- ReliefF Algorithm",
+        "evaluation_points": [
+          "Here are some of the feature selections:\n- Principal Component Analysis\n- Neighborhood Component Analysis\n- ReliefF Algorithm"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_024",
+      "question_text": "Can we use L1 regularization for feature selection? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "DATA_PREPROCESSING"
+      ],
+      "skill_tags": [
+        "FEATURE_ENGINEERING"
+      ],
+      "answers": {
+        "detailed": "Yes, because the nature of L1 regularization will lead to sparse coefficients of features. Feature selection can be done by keeping only features with non-zero coefficients.",
+        "evaluation_points": [
+          "Yes, because the nature of L1 regularization will lead to sparse coefficients of features.",
+          "Feature selection can be done by keeping only features with non-zero coefficients."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_025",
+      "question_text": "Can we use L2 regularization for feature selection? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "DATA_PREPROCESSING"
+      ],
+      "skill_tags": [
+        "FEATURE_ENGINEERING"
+      ],
+      "answers": {
+        "detailed": "No, Because L2 regularization does not make the weights zero but only makes them very very small. L2 regularization can be used to solve multicollinearity since it stabilizes the model.",
+        "evaluation_points": [
+          "No, Because L2 regularization does not make the weights zero but only makes them very very small.",
+          "L2 regularization can be used to solve multicollinearity since it stabilizes the model."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_026",
+      "question_text": "What are the decision trees?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_DECISION_TREE"
+      ],
+      "answers": {
+        "detailed": "This is a type of supervised learning algorithm that is mostly used for classification problems. Surprisingly, it works for both categorical and continuous dependent variables. \n\nIn this algorithm, we split the population into two or more homogeneous sets. This is done based on most significant attributes/ independent variables to make as distinct groups as possible.\n\nA decision tree is a flowchart-like tree structure, where each internal node (non-leaf node) denotes a test on an attribute, each branch represents an outcome of the test, and each leaf node (or terminal node) holds a value for the target variable.\n\nVarious techniques : like Gini, Information Gain, Chi-square, entropy.",
+        "evaluation_points": [
+          "This is a type of supervised learning algorithm that is mostly used for classification problems.",
+          "Surprisingly, it works for both categorical and continuous dependent variables.",
+          "In this algorithm, we split the population into two or more homogeneous sets."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_027",
+      "question_text": "How do we train decision trees? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_DECISION_TREE"
+      ],
+      "answers": {
+        "detailed": "1. Start at the root node.\n2. For each variable X, find the set S_1 that minimizes the sum of the node impurities in the two child nodes and choose the split {X*,S*} that gives the minimum over all X and S.\n3. If a stopping criterion is reached, exit. Otherwise, apply step 2 to each child node in turn.",
+        "evaluation_points": [
+          "Start at the root node.",
+          "For each variable X, find the set S_1 that minimizes the sum of the node impurities in the two child nodes and choose the split {X*,S*} that gives the minimum over all X and S.",
+          "If a stopping criterion is reached, exit."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_028",
+      "question_text": "What are the main parameters of the decision tree model?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_DECISION_TREE"
+      ],
+      "answers": {
+        "detailed": "* maximum tree depth\n* minimum samples per leaf node\n* impurity criterion",
+        "evaluation_points": [
+          "* maximum tree depth\n* minimum samples per leaf node\n* impurity criterion"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_029",
+      "question_text": "How do we handle categorical variables in decision trees? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_DECISION_TREE"
+      ],
+      "answers": {
+        "detailed": "Some decision tree algorithms can handle categorical variables out of the box, others cannot. However, we can transform categorical variables, e.g. with a binary or a one-hot encoder.",
+        "evaluation_points": [
+          "Some decision tree algorithms can handle categorical variables out of the box, others cannot.",
+          "However, we can transform categorical variables, e.g.",
+          "with a binary or a one-hot encoder."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_030",
+      "question_text": "What are the benefits of a single decision tree compared to more complex models? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_DECISION_TREE"
+      ],
+      "answers": {
+        "detailed": "* easy to implement\n* fast training\n* fast inference\n* good explainability",
+        "evaluation_points": [
+          "* easy to implement\n* fast training\n* fast inference\n* good explainability"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_031",
+      "question_text": "What is random forest?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_ENSEMBLE"
+      ],
+      "answers": {
+        "detailed": "Random Forest is a machine learning method for regression and classification which is composed of many decision trees. Random Forest belongs to a larger class of ML algorithms called ensemble methods (in other words, it involves the combination of several models to solve a single prediction problem).",
+        "evaluation_points": [
+          "Random Forest is a machine learning method for regression and classification which is composed of many decision trees.",
+          "Random Forest belongs to a larger class of ML algorithms called ensemble methods (in other words, it involves the combination of several models to solve a single prediction problem)."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_032",
+      "question_text": "Why do we need randomization in random forest? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_ENSEMBLE"
+      ],
+      "answers": {
+        "detailed": "Random forest in an extension of the",
+        "evaluation_points": [
+          "Random forest in an extension of the"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_033",
+      "question_text": "What are the main parameters of the random forest model? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_ENSEMBLE"
+      ],
+      "answers": {
+        "detailed": "- `max_depth`: Longest Path between root node and the leaf\n- `min_sample_split`: The minimum number of observations needed to split a given node\n- `max_leaf_nodes`: Conditions the splitting of the tree and hence, limits the growth of the trees\n- `min_samples_leaf`: minimum number of samples in the leaf node\n- `n_estimators`: Number of trees\n- `max_sample`: Fraction of original dataset given to any individual tree in the given model\n- `max_features`: Limits the maximum number of features provided to trees in random forest model",
+        "evaluation_points": [
+          "- `max_depth`: Longest Path between root node and the leaf\n- `min_sample_split`: The minimum number of observations needed to split a given node\n- `max_leaf_nodes`: Conditions the splitting of the tree and hence, limits the growth of the trees\n- `min_samples_leaf`: minimum number of samples in the leaf node\n- `n_estimators`: Number of trees\n- `max_sample`: Fraction of original dataset given to any individual tree in the given model\n- `max_features`: Limits the maximum number of features provided to trees in random forest model"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_034",
+      "question_text": "How do we select the depth of the trees in random forest? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_ENSEMBLE"
+      ],
+      "answers": {
+        "detailed": "The greater the depth, the greater amount of information is extracted from the tree, however, there is a limit to this, and the algorithm even if defensive against overfitting may learn complex features of noise present in data and as a result, may overfit on noise. Hence, there is no hard thumb rule in deciding the depth, but literature suggests a few tips on tuning the depth of the tree to prevent overfitting:\n\n- limit the maximum depth of a tree\n- limit the number of test nodes\n- limit the minimum number of objects at a node required to split\n- do not split a node when, at least, one of the resulting subsample sizes is below a given threshold\n- stop developing a node if it does not sufficiently improve the fit.",
+        "evaluation_points": [
+          "The greater the depth, the greater amount of information is extracted from the tree, however, there is a limit to this, and the algorithm even if defensive against overfitting may learn complex features of noise present in data and as a result, may overfit on noise.",
+          "Hence, there is no hard thumb rule in deciding the depth, but literature suggests a few tips on tuning the depth of the tree to prevent overfitting:\n\n- limit the maximum depth of a tree\n- limit the number of test nodes\n- limit the minimum number of objects at a node required to split\n- do not split a node when, at least, one of the resulting subsample sizes is below a given threshold\n- stop developing a node if it does not sufficiently improve the fit."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_035",
+      "question_text": "What is gradient boosting trees? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_ENSEMBLE"
+      ],
+      "answers": {
+        "detailed": "Gradient boosting is a machine learning technique for regression and classification problems, which produces a prediction model in the form of an ensemble of weak prediction models, typically decision trees.",
+        "evaluation_points": [
+          "Gradient boosting is a machine learning technique for regression and classification problems, which produces a prediction model in the form of an ensemble of weak prediction models, typically decision trees."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_036",
+      "question_text": "What’s the difference between random forest and gradient boosting? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_ENSEMBLE"
+      ],
+      "answers": {
+        "detailed": "1. Random Forests builds each tree independently while Gradient Boosting builds one tree at a time.\n   2. Random Forests combine results at the end of the process (by averaging or \"majority rules\") while Gradient Boosting combines     results along the way.",
+        "evaluation_points": [
+          "Random Forests builds each tree independently while Gradient Boosting builds one tree at a time.",
+          "Random Forests combine results at the end of the process (by averaging or \"majority rules\") while Gradient Boosting combines     results along the way."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_037",
+      "question_text": "Is it possible to parallelize training of a gradient boosting model? How to do it? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_ENSEMBLE"
+      ],
+      "answers": {
+        "detailed": "Yes, different frameworks provide different options to make training faster, using GPUs to speed up the process by making it highly parallelizable.For example, for XGBoost tree_method = 'gpu_hist' option makes training faster by use of GPUs.",
+        "evaluation_points": [
+          "Yes, different frameworks provide different options to make training faster, using GPUs to speed up the process by making it highly parallelizable.For example, for XGBoost tree_method = 'gpu_hist' option makes training faster by use of GPUs."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_038",
+      "question_text": "Feature importance in gradient boosting trees  —  what are possible options? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_ENSEMBLE"
+      ],
+      "answers": {
+        "detailed": "With CatBoost you can use implemented method get_feature_importance for getting SHAP values. https://arxiv.org/abs/1905.04610v1\n\nIt allows to understand how excluding features helps to provide better results. Higher value is better.\n\nAlso you can add random noise column to your data (with normal distribution), calculate feature importance and exclude all features below noise importance.",
+        "evaluation_points": [
+          "With CatBoost you can use implemented method get_feature_importance for getting SHAP values.",
+          "https://arxiv.org/abs/1905.04610v1\n\nIt allows to understand how excluding features helps to provide better results.",
+          "Higher value is better."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_039",
+      "question_text": "Which hyper-parameter tuning strategies (in general) do you know? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "EVALUATION_METRICS"
+      ],
+      "skill_tags": [
+        "ML_HYPERPARAMETER_TUNING"
+      ],
+      "answers": {
+        "detailed": "There are several strategies for hyper-tuning but I would argue that the three most popular nowadays are the following:\n* Grid Search is an exhaustive approach such that for each hyper-parameter, the user needs to manually give a list of values for the algorithm to try. After these values are selected, grid search then evaluates the algorithm using each and every combination of hyper-parameters and returns the combination that gives the optimal result (i.e. lowest MAE). Because grid search evaluates the given algorithm using all combinations, it's easy to see that this can be quite computationally expensive and can lead to sub-optimal results specifically since the user needs to specify specific values for these hyper-parameters, which is prone for error and requires domain knowledge.\n\n* Random Search is similar to grid search but differs in the sense that rather than specifying which values to try for each hyper-parameter, an upper and lower bound of values for each hyper-parameter is given instead. With uniform probability, random values within these bounds are then chosen and similarly, the best combination is returned to the user. Although this seems less intuitive, no domain knowledge is necessary and theoretically much more of the parameter space can be explored.\n\n* In a completely different framework, Bayesian Optimization is thought of as a more statistical way of optimization and is commonly used when using neural networks, specifically since one evaluation of a neural network can be computationally costly. In numerous research papers, this method heavily outperforms Grid Search and Random Search and is currently used on the Google Cloud Platform as well as AWS. Because an in-depth explanation requires a heavy background in bayesian statistics and gaussian processes (and maybe even some game theory), a \"simple\" explanation is that a much simpler/faster acquisition function intelligently chooses (using a surrogate function such as probability of improvement or GP-UCB) which hyper-parameter values to try on the computationally expensive, original algorithm. Using the result of the initial combination of values on the expensive/original function, the acquisition function takes the result of the expensive/original algorithm into account and uses it as its prior knowledge to again come up with another set of hyper-parameters to choose during the next iteration. This process continues either for a specified number of iterations or for a specified amount of time and similarly the combination of hyper-parameters that performs the best on the expensive/original algorithm is chosen.",
+        "evaluation_points": [
+          "There are several strategies for hyper-tuning but I would argue that the three most popular nowadays are the following:\n* Grid Search is an exhaustive approach such that for each hyper-parameter, the user needs to manually give a list of values for the algorithm to try.",
+          "After these values are selected, grid search then evaluates the algorithm using each and every combination of hyper-parameters and returns the combination that gives the optimal result (i.e.",
+          "Because grid search evaluates the given algorithm using all combinations, it's easy to see that this can be quite computationally expensive and can lead to sub-optimal results specifically since the user needs to specify specific values for these hyper-parameters, which is prone for error and requires domain knowledge."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_040",
+      "question_text": "What’s the difference between grid search parameter tuning strategy and random search? When to use one or another? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "EVALUATION_METRICS"
+      ],
+      "skill_tags": [
+        "ML_HYPERPARAMETER_TUNING"
+      ],
+      "answers": {
+        "detailed": "For specifics, refer to the above answer.",
+        "evaluation_points": [
+          "For specifics, refer to the above answer."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_041",
+      "question_text": "What kind of problems neural nets can solve?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "DEEP_LEARNING"
+      ],
+      "skill_tags": [
+        "DL_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "Neural nets are good at solving non-linear problems. Some good examples are problems that are relatively easy for humans (because of experience, intuition, understanding, etc), but difficult for traditional regression models: speech recognition, handwriting recognition, image identification, etc.",
+        "evaluation_points": [
+          "Neural nets are good at solving non-linear problems.",
+          "Some good examples are problems that are relatively easy for humans (because of experience, intuition, understanding, etc), but difficult for traditional regression models: speech recognition, handwriting recognition, image identification, etc."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_042",
+      "question_text": "How does a usual fully-connected feed-forward neural network work? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "DEEP_LEARNING"
+      ],
+      "skill_tags": [
+        "DL_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "In a usual fully-connected feed-forward network, each neuron receives input from every element of the previous layer and thus the receptive field of a neuron is the entire previous layer. They are usually used to represent feature vectors for input data in classification problems but can be expensive to train because of the number of computations involved.",
+        "evaluation_points": [
+          "In a usual fully-connected feed-forward network, each neuron receives input from every element of the previous layer and thus the receptive field of a neuron is the entire previous layer.",
+          "They are usually used to represent feature vectors for input data in classification problems but can be expensive to train because of the number of computations involved."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_043",
+      "question_text": "Why do we need activation functions?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "DEEP_LEARNING"
+      ],
+      "skill_tags": [
+        "DL_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "The main idea of using neural networks is to learn complex nonlinear functions. If we are not using an activation function in between different layers of a neural network, we are just stacking up multiple linear layers one on top of another and this leads to learning a linear function. The Nonlinearity comes only with the activation function, this is the reason we need activation functions.",
+        "evaluation_points": [
+          "The main idea of using neural networks is to learn complex nonlinear functions.",
+          "If we are not using an activation function in between different layers of a neural network, we are just stacking up multiple linear layers one on top of another and this leads to learning a linear function.",
+          "The Nonlinearity comes only with the activation function, this is the reason we need activation functions."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_044",
+      "question_text": "What are the problems with sigmoid as an activation function? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "DEEP_LEARNING"
+      ],
+      "skill_tags": [
+        "DL_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "The derivative of the sigmoid function for large positive or negative numbers is almost zero. From this comes the problem of vanishing gradient — during the backpropagation our net will not learn (or will learn drastically slow). One possible way to solve this problem is to use ReLU activation function.",
+        "evaluation_points": [
+          "The derivative of the sigmoid function for large positive or negative numbers is almost zero.",
+          "From this comes the problem of vanishing gradient — during the backpropagation our net will not learn (or will learn drastically slow).",
+          "One possible way to solve this problem is to use ReLU activation function."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_045",
+      "question_text": "What is ReLU? How is it better than sigmoid or tanh? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "DEEP_LEARNING"
+      ],
+      "skill_tags": [
+        "DL_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "ReLU is an abbreviation for Rectified Linear Unit. It is an activation function which has the value 0 for all negative values and the value f(x) = x for all positive values. The ReLU has a simple activation function which makes it fast to compute and while the sigmoid and tanh activation functions saturate at higher values, the ReLU has a potentially infinite activation, which addresses the problem of vanishing gradients.",
+        "evaluation_points": [
+          "ReLU is an abbreviation for Rectified Linear Unit.",
+          "It is an activation function which has the value 0 for all negative values and the value f(x) = x for all positive values.",
+          "The ReLU has a simple activation function which makes it fast to compute and while the sigmoid and tanh activation functions saturate at higher values, the ReLU has a potentially infinite activation, which addresses the problem of vanishing gradients."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_046",
+      "question_text": "How we can initialize the weights of a neural network? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "DEEP_LEARNING"
+      ],
+      "skill_tags": [
+        "DL_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "Proper initialization of weight matrix in neural network is very necessary.\nSimply we can say there are two ways for initializations.\n   1. Initializing weights with zeroes.\n      Setting weights to zero makes your network no better than a linear model. It is important to note that setting biases to 0 will not create any troubles as non zero weights take care of breaking the symmetry and even if bias is 0, the values in every neuron are still different.  \n   2. Initializing weights randomly.\n      Assigning random values to weights is better than just 0 assignment. \n* a) If weights are initialized with very high values the term np.dot(W,X)+b becomes significantly higher and if an activation function like sigmoid() is applied, the function maps its value near to 1 where the slope of gradient changes slowly and learning takes a lot of time.\n* b) If weights are initialized with low values it gets mapped to 0, where the case is the same as above. This problem is often referred to as the vanishing gradient.",
+        "evaluation_points": [
+          "Proper initialization of weight matrix in neural network is very necessary.",
+          "Simply we can say there are two ways for initializations.",
+          "Initializing weights with zeroes."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_047",
+      "question_text": "What if we set all the weights of a neural network to 0? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "DEEP_LEARNING"
+      ],
+      "skill_tags": [
+        "DL_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "If all the weights of a neural network are set to zero, the output of each connection is same (W*x = 0). This means the gradients which are backpropagated to each connection in a layer is same. This means all the connections/weights learn the same thing, and the model never converges.",
+        "evaluation_points": [
+          "If all the weights of a neural network are set to zero, the output of each connection is same (W*x = 0).",
+          "This means the gradients which are backpropagated to each connection in a layer is same.",
+          "This means all the connections/weights learn the same thing, and the model never converges."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_048",
+      "question_text": "What regularization techniques for neural nets do you know? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "DEEP_LEARNING"
+      ],
+      "skill_tags": [
+        "DL_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "* L1 Regularization - Defined as the sum of absolute values of the individual parameters. The L1 penalty causes a subset of the weights to become zero, suggesting that the corresponding features may safely be discarded. \n* L2 Regularization - Defined as the sum of square of individual parameters. Often supported by regularization hyperparameter alpha. It results in weight decay. \n* Data Augmentation - This requires some fake data to be created as a part of training set. \n* Drop Out : This is most effective regularization technique for neural nets. Few random nodes in each layer is deactivated in forward pass. This allows the algorithm to train on different set of nodes in each iterations.",
+        "evaluation_points": [
+          "* L1 Regularization - Defined as the sum of absolute values of the individual parameters.",
+          "The L1 penalty causes a subset of the weights to become zero, suggesting that the corresponding features may safely be discarded.",
+          "* L2 Regularization - Defined as the sum of square of individual parameters."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_049",
+      "question_text": "What is dropout? Why is it useful? How does it work? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "DEEP_LEARNING"
+      ],
+      "skill_tags": [
+        "DL_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "Dropout is a technique that at each training step turns off each neuron with a certain probability of *p*. This way at each iteration we train only *1-p* of neurons, which forces the network not to rely only on the subset of neurons for feature representation. This leads to regularizing effects that are controlled by the hyperparameter *p*.",
+        "evaluation_points": [
+          "Dropout is a technique that at each training step turns off each neuron with a certain probability of *p*.",
+          "This way at each iteration we train only *1-p* of neurons, which forces the network not to rely only on the subset of neurons for feature representation.",
+          "This leads to regularizing effects that are controlled by the hyperparameter *p*."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_050",
+      "question_text": "What is backpropagation? How does it work? Why do we need it? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "The Backpropagation algorithm looks for the minimum value of the error function in weight space using a technique called the delta rule or gradient descent. \nThe weights that minimize the error function is then considered to be a solution to the learning problem. \n\nWe need backpropogation because,\n* Calculate the error – How far is your model output from the actual output.\n* Minimum Error – Check whether the error is minimized or not.\n* Update the parameters – If the error is huge then, update the parameters (weights and biases). After that again check the error.  \nRepeat the process until the error becomes minimum.\n* Model is ready to make a prediction – Once the error becomes minimum, you can feed some inputs to your model and it will produce the output.",
+        "evaluation_points": [
+          "The Backpropagation algorithm looks for the minimum value of the error function in weight space using a technique called the delta rule or gradient descent.",
+          "The weights that minimize the error function is then considered to be a solution to the learning problem.",
+          "We need backpropogation because,\n* Calculate the error – How far is your model output from the actual output."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_051",
+      "question_text": "Which optimization techniques for training neural nets do you know? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "* Gradient Descent\n* Stochastic Gradient Descent\n* Mini-Batch Gradient Descent(best among gradient descents)\n* Nesterov Accelerated Gradient\n* Momentum\n* Adagrad \n* AdaDelta\n* Adam(best one. less time, more efficient)",
+        "evaluation_points": [
+          "* Gradient Descent\n* Stochastic Gradient Descent\n* Mini-Batch Gradient Descent(best among gradient descents)\n* Nesterov Accelerated Gradient\n* Momentum\n* Adagrad \n* AdaDelta\n* Adam(best one.",
+          "less time, more efficient)"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_052",
+      "question_text": "How do we use SGD (stochastic gradient descent) for training a neural net? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "SGD approximates the expectation with few randomly selected samples (instead of the full data). In comparison to batch gradient descent, we can efficiently approximate the expectation in large data sets using SGD. For neural networks this reduces the training time a lot even considering that it will converge later as the random sampling adds noise to the gradient descent.",
+        "evaluation_points": [
+          "SGD approximates the expectation with few randomly selected samples (instead of the full data).",
+          "In comparison to batch gradient descent, we can efficiently approximate the expectation in large data sets using SGD.",
+          "For neural networks this reduces the training time a lot even considering that it will converge later as the random sampling adds noise to the gradient descent."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_053",
+      "question_text": "What’s the learning rate?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "The learning rate is an important hyperparameter that controls how quickly the model is adapted to the problem during the training. It can be seen as the \"step width\" during the parameter updates, i.e. how far the weights are moved into the direction of the minimum of our optimization problem.",
+        "evaluation_points": [
+          "The learning rate is an important hyperparameter that controls how quickly the model is adapted to the problem during the training.",
+          "It can be seen as the \"step width\" during the parameter updates, i.e.",
+          "how far the weights are moved into the direction of the minimum of our optimization problem."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_054",
+      "question_text": "What happens when the learning rate is too large? Too small?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "A large learning rate can accelerate the training. However, it is possible that we \"shoot\" too far and miss the minimum of the function that we want to optimize, which will not result in the best solution. On the other hand, training with a small learning rate takes more time but it is possible to find a more precise minimum. The downside can be that the solution is stuck in a local minimum, and the weights won't update even if it is not the best possible global solution.",
+        "evaluation_points": [
+          "A large learning rate can accelerate the training.",
+          "However, it is possible that we \"shoot\" too far and miss the minimum of the function that we want to optimize, which will not result in the best solution.",
+          "On the other hand, training with a small learning rate takes more time but it is possible to find a more precise minimum."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_055",
+      "question_text": "How we can use neural nets for computer vision? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "Neural nets used in the area of computer vision are generally Convolutional Neural Networks(CNN's). You can learn about convolutions below. It appears that convolutions are quite powerful when it comes to working with images and videos due to their ability to extract and learn complex features. Thus CNN's are a go-to method for any problem in computer vision.",
+        "evaluation_points": [
+          "Neural nets used in the area of computer vision are generally Convolutional Neural Networks(CNN's).",
+          "You can learn about convolutions below.",
+          "It appears that convolutions are quite powerful when it comes to working with images and videos due to their ability to extract and learn complex features."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_056",
+      "question_text": "What’s a convolutional layer? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "The idea of the convolutional layer is the assumption that the information needed for making a decision often is spatially close and thus, it only takes the weighted sum over nearby inputs. It also assumes that the networks’ kernels can be reused for all nodes, hence the number of weights can be drastically reduced. To counteract only one feature being learnt per layer, multiple kernels are applied to the input which creates parallel channels in the output. Consecutive layers can also be stacked to allow the network to find more high-level features.",
+        "evaluation_points": [
+          "The idea of the convolutional layer is the assumption that the information needed for making a decision often is spatially close and thus, it only takes the weighted sum over nearby inputs.",
+          "It also assumes that the networks’ kernels can be reused for all nodes, hence the number of weights can be drastically reduced.",
+          "To counteract only one feature being learnt per layer, multiple kernels are applied to the input which creates parallel channels in the output."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_057",
+      "question_text": "Why do we actually need convolutions? Can’t we use fully-connected layers for that? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "A fully-connected layer needs one weight per inter-layer connection, which means the number of weights which needs to be computed quickly balloons as the number of layers and nodes per layer is increased.",
+        "evaluation_points": [
+          "A fully-connected layer needs one weight per inter-layer connection, which means the number of weights which needs to be computed quickly balloons as the number of layers and nodes per layer is increased."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_058",
+      "question_text": "What’s pooling in CNN? Why do we need it? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "Pooling is a technique to downsample the feature map. It allows layers which receive relatively undistorted versions of the input to learn low level features such as lines, while layers deeper in the model can learn more abstract features such as texture.",
+        "evaluation_points": [
+          "Pooling is a technique to downsample the feature map.",
+          "It allows layers which receive relatively undistorted versions of the input to learn low level features such as lines, while layers deeper in the model can learn more abstract features such as texture."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_059",
+      "question_text": "How does max pooling work? Are there other pooling techniques? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "Max pooling is a technique where the maximum value of a receptive field is passed on in the next feature map. The most commonly used receptive field is 2 x 2 with a stride of 2, which means the feature map is downsampled from N x N to N/2 x N/2. Receptive fields larger than 3 x 3 are rarely employed as too much information is lost. \n\nOther pooling techniques include:\n\n* Average pooling, the output is the average value of the receptive field.\n* Min pooling, the output is the minimum value of the receptive field.\n* Global pooling, where the receptive field is set to be equal to the input size, this means the output is equal to a scalar and can be used to reduce the dimensionality of the feature map.",
+        "evaluation_points": [
+          "Max pooling is a technique where the maximum value of a receptive field is passed on in the next feature map.",
+          "The most commonly used receptive field is 2 x 2 with a stride of 2, which means the feature map is downsampled from N x N to N/2 x N/2.",
+          "Receptive fields larger than 3 x 3 are rarely employed as too much information is lost."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_060",
+      "question_text": "How can we use machine learning for text classification? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "NLP"
+      ],
+      "skill_tags": [
+        "NLP_TEXT_CLASSIFICATION"
+      ],
+      "answers": {
+        "detailed": "Machine learning classification algorithms predict a class based on a numerical feature representation. This means that in order to use machine learning for text classification, we need to extract numerical features from our text data first before we can apply machine learning algorithms. Common approaches to extract numerical features from text data are bag of words, N-grams or word embeddings.",
+        "evaluation_points": [
+          "Machine learning classification algorithms predict a class based on a numerical feature representation.",
+          "This means that in order to use machine learning for text classification, we need to extract numerical features from our text data first before we can apply machine learning algorithms.",
+          "Common approaches to extract numerical features from text data are bag of words, N-grams or word embeddings."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_061",
+      "question_text": "What is bag of words? How we can use it for text classification? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "NLP"
+      ],
+      "skill_tags": [
+        "NLP_TEXT_CLASSIFICATION"
+      ],
+      "answers": {
+        "detailed": "Bag of Words is a representation of text that describes the occurrence of words within a document. The order or structure of the words is not considered. For text classification, we look at the histogram of the words within the text and consider each word count as a feature.",
+        "evaluation_points": [
+          "Bag of Words is a representation of text that describes the occurrence of words within a document.",
+          "The order or structure of the words is not considered.",
+          "For text classification, we look at the histogram of the words within the text and consider each word count as a feature."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_062",
+      "question_text": "What are the advantages and disadvantages of bag of words? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "NLP"
+      ],
+      "skill_tags": [
+        "NLP_TEXT_CLASSIFICATION"
+      ],
+      "answers": {
+        "detailed": "Advantages:\n1. Simple to understand and implement.\n\nDisadvantages:\n1. The vocabulary requires careful design, most specifically in order to manage the size, which impacts the sparsity of the document representations.\n2. Sparse representations are harder to model both for computational reasons (space and time complexity) and also for information reasons\n3. Discarding word order ignores the context, and in turn meaning of words in the document. Context and meaning can offer a lot to the model, that if modeled could tell the difference between the same words differently arranged (“this is interesting” vs “is this interesting”), synonyms (“old bike” vs “used bike”).",
+        "evaluation_points": [
+          "Simple to understand and implement.",
+          "The vocabulary requires careful design, most specifically in order to manage the size, which impacts the sparsity of the document representations.",
+          "Sparse representations are harder to model both for computational reasons (space and time complexity) and also for information reasons\n3."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_063",
+      "question_text": "What are N-grams? How can we use them? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "NLP"
+      ],
+      "skill_tags": [
+        "NLP_TEXT_CLASSIFICATION"
+      ],
+      "answers": {
+        "detailed": "The function to tokenize into consecutive sequences of words is called n-grams. It can be used to find out N most co-occurring words (how often word X is followed by word Y) in a given sentence.",
+        "evaluation_points": [
+          "The function to tokenize into consecutive sequences of words is called n-grams.",
+          "It can be used to find out N most co-occurring words (how often word X is followed by word Y) in a given sentence."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_064",
+      "question_text": "How large should be N for our bag of words when using N-grams? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "NLP"
+      ],
+      "skill_tags": [
+        "NLP_TEXT_CLASSIFICATION"
+      ],
+      "answers": {
+        "detailed": "Answer here",
+        "evaluation_points": []
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_065",
+      "question_text": "What is TF-IDF? How is it useful for text classification? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "NLP"
+      ],
+      "skill_tags": [
+        "NLP_TEXT_CLASSIFICATION"
+      ],
+      "answers": {
+        "detailed": "Term Frequency (TF) is a scoring of the frequency of the word in the current document. Inverse Document Frequency(IDF) is a scoring of how rare the word is across documents. It is used in scenario where highly recurring words may not contain as much informational content as the domain specific words. For example, words like “the” that are frequent across all documents therefore need to be less weighted. The TF-IDF score highlights words that are distinct (contain useful information) in a given document.",
+        "evaluation_points": [
+          "Term Frequency (TF) is a scoring of the frequency of the word in the current document.",
+          "Inverse Document Frequency(IDF) is a scoring of how rare the word is across documents.",
+          "It is used in scenario where highly recurring words may not contain as much informational content as the domain specific words."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_066",
+      "question_text": "Which model would you use for text classification with bag of words features? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "NLP"
+      ],
+      "skill_tags": [
+        "NLP_TEXT_CLASSIFICATION"
+      ],
+      "answers": {
+        "detailed": "1. Bag Of Words model\n2. Word2Vec Embeddings\n3. fastText Embeddings\n4. Convolutional Neural Networks (CNN)\n5. Long Short-Term Memory (LSTM)\n6. Bidirectional Encoder Representations from Transformers (BERT)",
+        "evaluation_points": [
+          "Bag Of Words model\n2.",
+          "Word2Vec Embeddings\n3.",
+          "fastText Embeddings\n4."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_067",
+      "question_text": "Would you prefer gradient boosting trees model or logistic regression when doing text classification with bag of words? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "NLP"
+      ],
+      "skill_tags": [
+        "NLP_TEXT_CLASSIFICATION"
+      ],
+      "answers": {
+        "detailed": "Usually logistic regression is better because bag of words creates a matrix with large number of columns. For a huge number of columns logistic regression is usually faster than gradient boosting trees.",
+        "evaluation_points": [
+          "Usually logistic regression is better because bag of words creates a matrix with large number of columns.",
+          "For a huge number of columns logistic regression is usually faster than gradient boosting trees."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_068",
+      "question_text": "What are word embeddings? Why are they useful? Do you know Word2Vec? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "NLP"
+      ],
+      "skill_tags": [
+        "NLP_TEXT_CLASSIFICATION"
+      ],
+      "answers": {
+        "detailed": "Word Embeddings are vector representations for words. Each word is mapped to one vector, this vector tries to capture some characteristics of the word, allowing similar words to have similar vector representations.  \nWord Embeddings helps in capturing the inter-word semantics and represents it in real-valued vectors.  \n\nWord2Vec is a method to construct such an embedding. It takes a text corpus as input and outputs a set of vectors which represents words in that corpus.  \n\nIt can be generated using two methods:\n\n- Common Bag of Words (CBOW)\n- Skip-Gram",
+        "evaluation_points": [
+          "Word Embeddings are vector representations for words.",
+          "Each word is mapped to one vector, this vector tries to capture some characteristics of the word, allowing similar words to have similar vector representations.",
+          "Word Embeddings helps in capturing the inter-word semantics and represents it in real-valued vectors."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_069",
+      "question_text": "Do you know any other ways to get word embeddings?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EXPERT",
+      "difficulty_score": 9,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "NLP"
+      ],
+      "skill_tags": [
+        "NLP_TEXT_CLASSIFICATION"
+      ],
+      "answers": {
+        "detailed": "- GloVe\n- BERT",
+        "evaluation_points": []
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_070",
+      "question_text": "If you have a sentence with multiple words, you may need to combine multiple word embeddings into one. How would you do it? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "NLP"
+      ],
+      "skill_tags": [
+        "NLP_TEXT_CLASSIFICATION"
+      ],
+      "answers": {
+        "detailed": "Approaches ranked from simple to more complex:\n\n1. Take an average over all words\n2. Take a weighted average over all words. Weighting can be done by inverse document frequency (idf part of tf-idf).\n3. Use ML model like LSTM or Transformer.",
+        "evaluation_points": [
+          "Approaches ranked from simple to more complex:\n\n1.",
+          "Take an average over all words\n2.",
+          "Take a weighted average over all words."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_071",
+      "question_text": "Would you prefer gradient boosting trees model or logistic regression when doing text classification with embeddings? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "NLP"
+      ],
+      "skill_tags": [
+        "NLP_TEXT_CLASSIFICATION"
+      ],
+      "answers": {
+        "detailed": "Gradient boosting trees (GBTs) are generally a better choice than logistic regression for text classification with embeddings. This is because GBTs are able to learn more complex relationships between the features in the data, including the features extracted from the embeddings.\n\nLogistic regression is a linear model, which means that it can only learn linear relationships between the features. This can be a limitation for text classification, where the relationships between the features are often complex and non-linear.\n\nGBTs, on the other hand, are able to learn non-linear relationships between the features by combining multiple decision trees. This allows GBTs to learn more complex patterns in the data, which can lead to better performance on text classification tasks.\n\nIn addition, GBTs are more robust to outliers and noise in the data than logistic regression. This can be important for text classification tasks, where the data can be noisy and imbalanced.\n\nOverall, GBTs are a better choice than logistic regression for text classification with embeddings, especially when the data is noisy or imbalanced. However, it is important to consider the computational cost and interpretability of GBTs before using them.",
+        "evaluation_points": [
+          "Gradient boosting trees (GBTs) are generally a better choice than logistic regression for text classification with embeddings.",
+          "This is because GBTs are able to learn more complex relationships between the features in the data, including the features extracted from the embeddings.",
+          "Logistic regression is a linear model, which means that it can only learn linear relationships between the features."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_072",
+      "question_text": "How can you use neural nets for text classification?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EXPERT",
+      "difficulty_score": 9,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "NLP"
+      ],
+      "skill_tags": [
+        "NLP_TEXT_CLASSIFICATION"
+      ],
+      "answers": {
+        "detailed": "Here is a general overview of how to use neural nets for text classification:\n\nPreprocess the text: This includes cleaning the text by removing stop words, punctuation, and other irrelevant symbols. It may also involve converting the text to lowercase and stemming or lemmatizing the words.\nRepresent the text as a vector: This can be done using a variety of methods, such as one-hot encoding or word embeddings.\nBuild the neural net: The neural net architecture will depend on the specific text classification task. However, a typical architecture will include an embedding layer, one or more hidden layers, and an output layer.\nTrain the neural net: The neural net is trained by feeding it labeled examples of text data. The neural net will learn to adjust its parameters in order to minimize the loss function, which is typically the cross-entropy loss function.\nEvaluate the neural net: Once the neural net is trained, it can be evaluated on a held-out test set to assess its performance.\nHere are some specific examples of how neural nets can be used for text classification:\nSentiment analysis, Spam detection, Topic classification, Language identification\n\nNeural nets have achieved state-of-the-art results on many text classification tasks. However, they can be computationally expensive to train and deploy.",
+        "evaluation_points": [
+          "Here is a general overview of how to use neural nets for text classification:\n\nPreprocess the text: This includes cleaning the text by removing stop words, punctuation, and other irrelevant symbols.",
+          "It may also involve converting the text to lowercase and stemming or lemmatizing the words.",
+          "Represent the text as a vector: This can be done using a variety of methods, such as one-hot encoding or word embeddings."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_073",
+      "question_text": "How can we use CNN for text classification?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EXPERT",
+      "difficulty_score": 9,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "NLP"
+      ],
+      "skill_tags": [
+        "NLP_TEXT_CLASSIFICATION"
+      ],
+      "answers": {
+        "detailed": "Here are some specific examples of how CNNs can be used for text classification:\n\nSentiment analysis: CNNs can be used to classify text as positive, negative, or neutral sentiment. This is a common task in social media analysis and customer service.\nSpam detection: CNNs can be used to classify emails as spam or not spam. This is a common task in email filtering systems.\nTopic classification: CNNs can be used to classify text documents into different topics. This is a common task in news and social media analysis.\nLanguage identification: CNNs can be used to identify the language of a text document. This is a common task in translation systems.",
+        "evaluation_points": [
+          "Here are some specific examples of how CNNs can be used for text classification:\n\nSentiment analysis: CNNs can be used to classify text as positive, negative, or neutral sentiment.",
+          "This is a common task in social media analysis and customer service.",
+          "Spam detection: CNNs can be used to classify emails as spam or not spam."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_074",
+      "question_text": "What is unsupervised learning?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_CLUSTERING"
+      ],
+      "answers": {
+        "detailed": "Unsupervised learning aims to detect patterns in data where no labels are given.",
+        "evaluation_points": [
+          "Unsupervised learning aims to detect patterns in data where no labels are given."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_075",
+      "question_text": "What is clustering? When do we need it?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_CLUSTERING"
+      ],
+      "answers": {
+        "detailed": "Clustering algorithms group objects such that similar feature points are put into the same groups (clusters) and dissimilar feature points are put into different clusters.",
+        "evaluation_points": [
+          "Clustering algorithms group objects such that similar feature points are put into the same groups (clusters) and dissimilar feature points are put into different clusters."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_076",
+      "question_text": "Do you know how K-means works? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_CLUSTERING"
+      ],
+      "answers": {
+        "detailed": "1. Partition points into k subsets.\n2. Compute the seed points as the new centroids of the clusters of the current partitioning.\n3. Assign each point to the cluster with the nearest seed point.\n4. Go back to step 2 or stop when the assignment does not change.",
+        "evaluation_points": [
+          "Partition points into k subsets.",
+          "Compute the seed points as the new centroids of the clusters of the current partitioning.",
+          "Assign each point to the cluster with the nearest seed point."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_077",
+      "question_text": "How to select K for K-means? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_CLUSTERING"
+      ],
+      "answers": {
+        "detailed": "* Domain knowledge, i.e. an expert knows the value of k\n* Elbow method: compute the clusters for different values of k, for each k, calculate the total within-cluster sum of square, plot the sum according to the number of clusters and use the band as the number of clusters.\n* Average silhouette method: compute the clusters for different values of k, for each k, calculate the average silhouette of observations, plot the silhouette according to the number of clusters and select the maximum as the number of clusters.",
+        "evaluation_points": [
+          "* Domain knowledge, i.e.",
+          "an expert knows the value of k\n* Elbow method: compute the clusters for different values of k, for each k, calculate the total within-cluster sum of square, plot the sum according to the number of clusters and use the band as the number of clusters.",
+          "* Average silhouette method: compute the clusters for different values of k, for each k, calculate the average silhouette of observations, plot the silhouette according to the number of clusters and select the maximum as the number of clusters."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_078",
+      "question_text": "What are the other clustering algorithms do you know? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_CLUSTERING"
+      ],
+      "answers": {
+        "detailed": "* k-medoids: Takes the most central point instead of the mean value as the center of the cluster. This makes it more robust to noise.\n* Agglomerative Hierarchical Clustering (AHC): hierarchical clusters combining the nearest clusters starting with each point as its own cluster.\n* DIvisive ANAlysis Clustering (DIANA): hierarchical clustering starting with one cluster containing all points and splitting the clusters until each point describes its own cluster.\n* Density-Based Spatial Clustering of Applications with Noise (DBSCAN): Cluster defined as maximum set of density-connected points.",
+        "evaluation_points": [
+          "* k-medoids: Takes the most central point instead of the mean value as the center of the cluster.",
+          "This makes it more robust to noise.",
+          "* Agglomerative Hierarchical Clustering (AHC): hierarchical clusters combining the nearest clusters starting with each point as its own cluster."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_079",
+      "question_text": "What is the curse of dimensionality? Why do we care about it? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "DATA_PREPROCESSING"
+      ],
+      "skill_tags": [
+        "ML_DIMENSIONALITY_REDUCTION"
+      ],
+      "answers": {
+        "detailed": "Data in only one dimension is relatively tightly packed. Adding a dimension stretches the points across that dimension, pushing them further apart. Additional dimensions spread the data even further making high dimensional data extremely sparse. We care about it, because it is difficult to use machine learning in sparse spaces.",
+        "evaluation_points": [
+          "Data in only one dimension is relatively tightly packed.",
+          "Adding a dimension stretches the points across that dimension, pushing them further apart.",
+          "Additional dimensions spread the data even further making high dimensional data extremely sparse."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_080",
+      "question_text": "Do you know any dimensionality reduction techniques? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "DATA_PREPROCESSING"
+      ],
+      "skill_tags": [
+        "ML_DIMENSIONALITY_REDUCTION"
+      ],
+      "answers": {
+        "detailed": "* Singular Value Decomposition (SVD)\n* Principal Component Analysis (PCA)\n* Linear Discriminant Analysis (LDA)\n* T-distributed Stochastic Neighbor Embedding (t-SNE)\n* Autoencoders\n* Fourier and Wavelet Transforms",
+        "evaluation_points": [
+          "* Singular Value Decomposition (SVD)\n* Principal Component Analysis (PCA)\n* Linear Discriminant Analysis (LDA)\n* T-distributed Stochastic Neighbor Embedding (t-SNE)\n* Autoencoders\n* Fourier and Wavelet Transforms"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_081",
+      "question_text": "What’s singular value decomposition? How is it typically used for machine learning? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "DATA_PREPROCESSING"
+      ],
+      "skill_tags": [
+        "ML_DIMENSIONALITY_REDUCTION"
+      ],
+      "answers": {
+        "detailed": "* Singular Value Decomposition (SVD) is a general matrix decomposition method that factors a matrix X into three matrices L (left singular values), Σ (diagonal matrix) and R^T (right singular values).\n* For machine learning, Principal Component Analysis (PCA) is typically used. It is a special type of SVD where the singular values correspond to the eigenvectors and the values of the diagonal matrix are the squares of the eigenvalues. We use these features as they are statistically descriptive.\n* Having calculated the eigenvectors and eigenvalues, we can use the Kaiser-Guttman criterion, a scree plot or the proportion of explained variance to determine the principal components (i.e. the final dimensionality) that are useful for dimensionality reduction.",
+        "evaluation_points": [
+          "* Singular Value Decomposition (SVD) is a general matrix decomposition method that factors a matrix X into three matrices L (left singular values), Σ (diagonal matrix) and R^T (right singular values).",
+          "* For machine learning, Principal Component Analysis (PCA) is typically used.",
+          "It is a special type of SVD where the singular values correspond to the eigenvectors and the values of the diagonal matrix are the squares of the eigenvalues."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_082",
+      "question_text": "What is the ranking problem? Which models can you use to solve them? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "Answer here",
+        "evaluation_points": []
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_083",
+      "question_text": "What are good unsupervised baselines for text information retrieval? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "Answer here",
+        "evaluation_points": []
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_084",
+      "question_text": "How would you evaluate your ranking algorithms? Which offline metrics would you use? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "Answer here",
+        "evaluation_points": []
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_085",
+      "question_text": "What is precision and recall at k? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "Precision at k and recall at k are evaluation metrics for ranking algorithms. Precision at k shows the share of relevant items in the first *k* results of the ranking algorithm. And Recall at k indicates the share of relevant items returned in top *k* results out of all correct answers for a given query.\n\nExample:\nFor a search query \"Car\" there are 3 relevant products in your shop. Your search algorithm returns 2 of those relevant products in the first 5 search results.\nPrecision at 5 = # num of relevant products in search result / k = 2/5 = 40%\nRecall at 5 = # num of relevant products in search result / # num of all relevant products = 2/3 = 66.6%",
+        "evaluation_points": [
+          "Precision at k and recall at k are evaluation metrics for ranking algorithms.",
+          "Precision at k shows the share of relevant items in the first *k* results of the ranking algorithm.",
+          "And Recall at k indicates the share of relevant items returned in top *k* results out of all correct answers for a given query."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_086",
+      "question_text": "What is mean average precision at k? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "Answer here",
+        "evaluation_points": []
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_087",
+      "question_text": "What is a recommender system?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_RECOMMENDER"
+      ],
+      "answers": {
+        "detailed": "Recommender systems are software tools and techniques that provide suggestions for items that are most likely of interest to a particular user.",
+        "evaluation_points": [
+          "Recommender systems are software tools and techniques that provide suggestions for items that are most likely of interest to a particular user."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_088",
+      "question_text": "What are good baselines when building a recommender system? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_RECOMMENDER"
+      ],
+      "answers": {
+        "detailed": "* A good recommer system should give relevant and personalized information.\n* It should not recommend items the user knows well or finds easily.\n* It should make diverse suggestions.\n* A user should explore new items.",
+        "evaluation_points": [
+          "* A good recommer system should give relevant and personalized information.",
+          "* It should not recommend items the user knows well or finds easily.",
+          "* It should make diverse suggestions."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_089",
+      "question_text": "What is collaborative filtering? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_RECOMMENDER"
+      ],
+      "answers": {
+        "detailed": "* Collaborative filtering is the most prominent approach to generate recommendations.\n* It uses the wisdom of the crowd, i.e. it gives recommendations based on the experience of others.\n* A recommendation is calculated as the average of other experiences.\n* Say we want to give a score that indicates how much user u will like an item i. Then we can calculate it with the experience of N other users U as r_ui = 1/N * sum(v in U) r_vi.\n* In order to rate similar experiences with a higher weight, we can introduce a similarity between users that we use as a multiplier for each rating.\n* Also, as users have an individual profile, one user may have an average rating much larger than another user, so we use normalization techniques (e.g. centering or Z-score normalization) to remove the users' biases.\n* Collaborative filtering does only need a rating matrix as input and improves over time. However, it does not work well on sparse data, does not work for cold starts (see below) and usually tends to overfit.",
+        "evaluation_points": [
+          "* Collaborative filtering is the most prominent approach to generate recommendations.",
+          "* It uses the wisdom of the crowd, i.e.",
+          "it gives recommendations based on the experience of others."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_090",
+      "question_text": "How we can incorporate implicit feedback (clicks, etc) into our recommender systems? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ML_RECOMMENDER"
+      ],
+      "answers": {
+        "detailed": "In comparison to explicit feedback, implicit feedback datasets lack negative examples. For example, explicit feedback can be a positive or a negative rating, but implicit feedback may be the number of purchases or clicks. One popular approach to solve this problem is named weighted alternating least squares (wALS) [Hu, Y., Koren, Y., & Volinsky, C. (2008, December). Collaborative filtering for implicit feedback datasets. In Data Mining, 2008. ICDM'08. Eighth IEEE International Conference on (pp. 263-272). IEEE.]. Instead of modeling the rating matrix directly, the numbers (e.g. amount of clicks) describe the strength in observations of user actions. The model tries to find latent factors that can be used to predict the expected preference of a user for an item.",
+        "evaluation_points": [
+          "In comparison to explicit feedback, implicit feedback datasets lack negative examples.",
+          "For example, explicit feedback can be a positive or a negative rating, but implicit feedback may be the number of purchases or clicks.",
+          "One popular approach to solve this problem is named weighted alternating least squares (wALS) [Hu, Y., Koren, Y., & Volinsky, C."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_091",
+      "question_text": "What is a time series?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "TIME_SERIES"
+      ],
+      "skill_tags": [
+        "TS_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "A time series is a set of observations ordered in time usually collected at regular intervals.",
+        "evaluation_points": [
+          "A time series is a set of observations ordered in time usually collected at regular intervals."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_092",
+      "question_text": "How is time series different from the usual regression problem?",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "EASY",
+      "difficulty_score": 2,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "TIME_SERIES"
+      ],
+      "skill_tags": [
+        "TS_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "The principle behind causal forecasting is that the value that has to be predicted is dependant on the input features (causal factors). In time series forecasting, the to be predicted value is expected to follow a certain pattern over time.",
+        "evaluation_points": [
+          "The principle behind causal forecasting is that the value that has to be predicted is dependant on the input features (causal factors).",
+          "In time series forecasting, the to be predicted value is expected to follow a certain pattern over time."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_093",
+      "question_text": "Which models do you know for solving time series problems? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "TIME_SERIES"
+      ],
+      "skill_tags": [
+        "TS_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "* Simple Exponential Smoothing: approximate the time series with an exponential function\n* Trend-Corrected Exponential Smoothing (Holt‘s Method): exponential smoothing that also models the trend\n* Trend- and Seasonality-Corrected Exponential Smoothing (Holt-Winter‘s Method): exponential smoothing that also models trend and seasonality\n* Time Series Decomposition: decomposed a time series into the four components trend, seasonal variation, cycling variation and irregular component\n* Autoregressive models: similar to multiple linear regression, except that the dependent variable y_t depends on its own previous values rather than other independent variables.\n* Deep learning approaches (RNN, LSTM, etc.)",
+        "evaluation_points": [
+          "* Simple Exponential Smoothing: approximate the time series with an exponential function\n* Trend-Corrected Exponential Smoothing (Holt‘s Method): exponential smoothing that also models the trend\n* Trend- and Seasonality-Corrected Exponential Smoothing (Holt-Winter‘s Method): exponential smoothing that also models trend and seasonality\n* Time Series Decomposition: decomposed a time series into the four components trend, seasonal variation, cycling variation and irregular component\n* Autoregressive models: similar to multiple linear regression, except that the dependent variable y_t depends on its own previous values rather than other independent variables.",
+          "* Deep learning approaches (RNN, LSTM, etc.)"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_094",
+      "question_text": "If there’s a trend in our series, how we can remove it? And why would we want to do it? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "TIME_SERIES"
+      ],
+      "skill_tags": [
+        "TS_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "We can explicitly model the trend (and/or seasonality) with approaches such as Holt's Method or Holt-Winter's Method. We want to explicitly model the trend to reach the stationarity property for the data. Many time series approaches require stationarity. Without stationarity,the interpretation of the results of these analyses is problematic [Manuca, Radu & Savit, Robert. (1996). Stationarity and nonstationarity in time series analysis. Physica D: Nonlinear Phenomena. 99. 134-161. 10.1016/S0167-2789(96)00139-X. ].",
+        "evaluation_points": [
+          "We can explicitly model the trend (and/or seasonality) with approaches such as Holt's Method or Holt-Winter's Method.",
+          "We want to explicitly model the trend to reach the stationarity property for the data.",
+          "Many time series approaches require stationarity."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_095",
+      "question_text": "You have a series with only one variable “y” measured at time t. How do predict “y” at time t+1? Which approaches would you use? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "TIME_SERIES"
+      ],
+      "skill_tags": [
+        "TS_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "We want to look at the correlation between different observations of y. This measure of correlation is called autocorrelation. Autoregressive models are multiple regression models where the time-lag series of the original time series are treated like multiple independent variables.",
+        "evaluation_points": [
+          "We want to look at the correlation between different observations of y.",
+          "This measure of correlation is called autocorrelation.",
+          "Autoregressive models are multiple regression models where the time-lag series of the original time series are treated like multiple independent variables."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_096",
+      "question_text": "You have a series with a variable “y” and a set of features. How do you predict “y” at t+1? Which approaches would you use? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "TIME_SERIES"
+      ],
+      "skill_tags": [
+        "TS_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "Given the assumption that the set of features gives a meaningful causation to y, a causal forecasting approach such as linear regression or multiple nonlinear regression might be useful. In case there is a lot of data and the explainability of the results is not a high priority, we can also consider deep learning approaches.",
+        "evaluation_points": [
+          "Given the assumption that the set of features gives a meaningful causation to y, a causal forecasting approach such as linear regression or multiple nonlinear regression might be useful.",
+          "In case there is a lot of data and the explainability of the results is not a high priority, we can also consider deep learning approaches."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_097",
+      "question_text": "What are the problems with using trees for solving time series problems? ‍",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "THEORY",
+      "skill_groups": [
+        "TIME_SERIES"
+      ],
+      "skill_tags": [
+        "TS_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "Random Forest models are not able to extrapolate time series data and understand increasing/decreasing trends. It will provide us with average data points if the validation data has values greater than the training data points.",
+        "evaluation_points": [
+          "Random Forest models are not able to extrapolate time series data and understand increasing/decreasing trends.",
+          "It will provide us with average data points if the validation data has values greater than the training data points."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DA_GH_098",
+      "question_text": "The number of active ads.",
+      "roles": {
+        "primary": "DA",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "SQL_DATABASE"
+      ],
+      "skill_tags": [
+        "SQL_FUNDAMENTALS",
+        "SQL_JOIN",
+        "SQL_AGGREGATION"
+      ],
+      "answers": {
+        "detailed": "The number of active ads.\n\n```sql\nSELECT count(*) FROM Ads WHERE status = 'active';\n```\n\n<br/>",
+        "evaluation_points": [
+          "The number of active ads."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DA_GH_099",
+      "question_text": "All active campaigns. A campaign is active if there’s at least one active ad.",
+      "roles": {
+        "primary": "DA",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "SQL_DATABASE"
+      ],
+      "skill_tags": [
+        "SQL_FUNDAMENTALS",
+        "SQL_JOIN",
+        "SQL_AGGREGATION"
+      ],
+      "answers": {
+        "detailed": "All active campaigns. A campaign is active if there’s at least one active ad.\n\n```sql\nSELECT DISTINCT a.campaign_id\nFROM Ads AS a\nWHERE a.status = 'active';\n```\n\n<br/>",
+        "evaluation_points": [
+          "All active campaigns.",
+          "A campaign is active if there’s at least one active ad."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DA_GH_100",
+      "question_text": "The number of active campaigns.",
+      "roles": {
+        "primary": "DA",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "SQL_DATABASE"
+      ],
+      "skill_tags": [
+        "SQL_FUNDAMENTALS",
+        "SQL_JOIN",
+        "SQL_AGGREGATION"
+      ],
+      "answers": {
+        "detailed": "The number of active campaigns.\n\n```sql\nSELECT COUNT(DISTINCT a.campaign_id)\nFROM Ads AS a\nWHERE a.status = 'active';\n```\n\n<br/>",
+        "evaluation_points": [
+          "The number of active campaigns."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DA_GH_101",
+      "question_text": "The number of events per each ad — broken down by event type.",
+      "roles": {
+        "primary": "DA",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "SQL_DATABASE"
+      ],
+      "skill_tags": [
+        "SQL_FUNDAMENTALS",
+        "SQL_JOIN",
+        "SQL_AGGREGATION"
+      ],
+      "answers": {
+        "detailed": "The number of events per each ad — broken down by event type.\n\n<img src=\"img/sql_4_example.png\" />\n\n```sql\nSELECT e.ad_id, e.event_type, count(*) as \"count\"\nFROM Events AS e\nGROUP BY e.ad_id, e.event_type\nORDER BY e.ad_id, \"count\" DESC;\n```\n\n<br/>",
+        "evaluation_points": [
+          "The number of events per each ad — broken down by event type."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DA_GH_102",
+      "question_text": "The number of events over the last week per each active ad — broken down by event type and date (most recent first).",
+      "roles": {
+        "primary": "DA",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "SQL_DATABASE"
+      ],
+      "skill_tags": [
+        "SQL_FUNDAMENTALS",
+        "SQL_JOIN",
+        "SQL_AGGREGATION"
+      ],
+      "answers": {
+        "detailed": "The number of events over the last week per each active ad — broken down by event type and date (most recent first).\n\n<img src=\"img/sql_5_example.png\" />\n\n```sql\nSELECT a.ad_id, e.event_type, e.date, count(*) as \"count\"\nFROM Ads AS a\n  JOIN Events AS e\n      ON a.ad_id = e.ad_id\nWHERE a.status = 'active'\n   AND e.date >= DATEADD(week, -1, GETDATE())\nGROUP BY a.ad_id, e.event_type, e.date\nORDER BY e.date ASC, \"count\" DESC;\n```\n\n<br/>",
+        "evaluation_points": [
+          "The number of events over the last week per each active ad — broken down by event type and date (most recent first)."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DA_GH_103",
+      "question_text": "The number of events per campaign — by event type.",
+      "roles": {
+        "primary": "DA",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "SQL_DATABASE"
+      ],
+      "skill_tags": [
+        "SQL_FUNDAMENTALS",
+        "SQL_JOIN",
+        "SQL_AGGREGATION"
+      ],
+      "answers": {
+        "detailed": "The number of events per campaign — by event type.\n\n<img src=\"img/sql_6_example.png\" />\n\n\n```sql\nSELECT a.campaign_id, e.event_type, count(*) as count\nFROM Ads AS a\n  INNER JOIN Events AS e\n    ON a.ad_id = e.ad_id\nGROUP BY a.campaign_id, e.event_type\nORDER BY a.campaign_id, \"count\" DESC\n```\n\n<br/>",
+        "evaluation_points": [
+          "The number of events per campaign — by event type."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DA_GH_104",
+      "question_text": "The number of events over the last week per each campaign and event type — broken down by date (most recent first).",
+      "roles": {
+        "primary": "DA",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "SQL_DATABASE"
+      ],
+      "skill_tags": [
+        "SQL_FUNDAMENTALS",
+        "SQL_JOIN",
+        "SQL_AGGREGATION"
+      ],
+      "answers": {
+        "detailed": "The number of events over the last week per each campaign and event type — broken down by date (most recent first).\n\n<img src=\"img/sql_7_example.png\" />\n\n```sql\n-- for Postgres\n\nSELECT a.campaign_id AS camp_id, e.event_type, e.date, count(*)\nFROM Ads AS a\n  INNER JOIN Events AS e\n    ON a.ad_id = e.ad_id\nWHERE e.date >= DATEADD(week, -1, GETDATE())\nGROUP BY a.campaign_id, e.event_type, e.date\nORDER BY a.campaign_id, e.date DESC, \"count\" DESC;\n```\n\n<br/>",
+        "evaluation_points": [
+          "The number of events over the last week per each campaign and event type — broken down by date (most recent first)."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DA_GH_105",
+      "question_text": "CTR (click-through rate) for each ad. CTR = number of clicks / number of impressions.",
+      "roles": {
+        "primary": "DA",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "SQL_DATABASE"
+      ],
+      "skill_tags": [
+        "SQL_FUNDAMENTALS",
+        "SQL_JOIN",
+        "SQL_AGGREGATION"
+      ],
+      "answers": {
+        "detailed": "CTR (click-through rate) for each ad. CTR = number of clicks / number of impressions.\n\n<img src=\"img/sql_8_example.png\" />\n\n```sql\n-- for Postgres\n\nSELECT impressions_clicks_table.ad_id,\n       (impressions_clicks_table.clicks * 100 / impressions_clicks_table.impressions)::FLOAT || '%' AS CTR\nFROM\n  (\n  SELECT e.ad_id,\n         SUM(CASE e.event_type WHEN 'impression' THEN 1 ELSE 0 END) impressions,\n         SUM(CASE e.event_type WHEN 'click' THEN 1 ELSE 0 END) clicks\n  FROM Events AS e\n  GROUP BY e.ad_id\n  ) AS impressions_clicks_table\nORDER BY impressions_clicks_table.ad_id;\n```\n\n<br/>",
+        "evaluation_points": [
+          "CTR (click-through rate) for each ad.",
+          "CTR = number of clicks / number of impressions."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DA_GH_106",
+      "question_text": "CVR (conversion rate) for each ad. CVR = number of conversions / number of clicks.",
+      "roles": {
+        "primary": "DA",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "SQL_DATABASE"
+      ],
+      "skill_tags": [
+        "SQL_FUNDAMENTALS",
+        "SQL_JOIN",
+        "SQL_AGGREGATION"
+      ],
+      "answers": {
+        "detailed": "CVR (conversion rate) for each ad. CVR = number of conversions / number of clicks.\n\n<img src=\"img/sql_9_example.png\" />\n\n```sql\n-- for Postgres\n\nSELECT conversions_clicks_table.ad_id,\n       (conversions_clicks_table.conversions * 100 / conversions_clicks_table.clicks)::FLOAT || '%' AS CVR\nFROM\n  (\n  SELECT e.ad_id,\n         SUM(CASE e.event_type WHEN 'conversion' THEN 1 ELSE 0 END) conversions,\n         SUM(CASE e.event_type WHEN 'click' THEN 1 ELSE 0 END) clicks\n  FROM Events AS e\n  GROUP BY e.ad_id\n  ) AS conversions_clicks_table\nORDER BY conversions_clicks_table.ad_id;\n```\n\n<br/>",
+        "evaluation_points": [
+          "CVR (conversion rate) for each ad.",
+          "CVR = number of conversions / number of clicks."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DA_GH_107",
+      "question_text": "CTR and CVR for each ad broken down by day and hour (most recent first).",
+      "roles": {
+        "primary": "DA",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "SQL_DATABASE"
+      ],
+      "skill_tags": [
+        "SQL_FUNDAMENTALS",
+        "SQL_JOIN",
+        "SQL_AGGREGATION"
+      ],
+      "answers": {
+        "detailed": "CTR and CVR for each ad broken down by day and hour (most recent first).\n\n<img src=\"img/sql_10_example.png\" />\n\n\n```sql\n-- for Postgres\n\nSELECT conversions_clicks_table.ad_id,\n       conversions_clicks_table.date,\n       conversions_clicks_table.hour,\n       (impressions_clicks_table.clicks * 100 / impressions_clicks_table.impressions)::FLOAT || '%' AS CTR,\n       (conversions_clicks_table.conversions * 100 / conversions_clicks_table.clicks)::FLOAT || '%' AS CVR\nFROM\n  (\n  SELECT e.ad_id, e.date, e.hour,\n         SUM(CASE e.event_type WHEN 'conversion' THEN 1 ELSE 0 END) conversions,\n         SUM(CASE e.event_type WHEN 'click' THEN 1 ELSE 0 END) clicks,\n         SUM(CASE e.event_type WHEN 'impression' THEN 1 ELSE 0 END) impressions\n  FROM Events AS e\n  GROUP BY e.ad_id, e.date, e.hour\n  ) AS conversions_clicks_table\nORDER BY conversions_clicks_table.ad_id, conversions_clicks_table.date DESC, conversions_clicks_table.hour DESC, \"CTR\" DESC, \"CVR\" DESC;\n```\n\n<br/>",
+        "evaluation_points": [
+          "CTR and CVR for each ad broken down by day and hour (most recent first)."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DA_GH_108",
+      "question_text": "CTR for each ad broken down by source and day",
+      "roles": {
+        "primary": "DA",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "SQL_DATABASE"
+      ],
+      "skill_tags": [
+        "SQL_FUNDAMENTALS",
+        "SQL_JOIN",
+        "SQL_AGGREGATION"
+      ],
+      "answers": {
+        "detailed": "CTR for each ad broken down by source and day\n\n<img src=\"img/sql_11_example.png\" />\n\n\n```sql\n-- for Postgres\n\nSELECT conversions_clicks_table.ad_id,\n       conversions_clicks_table.date,\n       conversions_clicks_table.source,\n       (impressions_clicks_table.clicks * 100 / impressions_clicks_table.impressions)::FLOAT || '%' AS CTR\nFROM\n  (\n  SELECT e.ad_id, e.date, e.source,\n         SUM(CASE e.event_type WHEN 'click' THEN 1 ELSE 0 END) clicks,\n         SUM(CASE e.event_type WHEN 'impression' THEN 1 ELSE 0 END) impressions\n  FROM Events AS e\n  GROUP BY e.ad_id, e.date, e.source\n  ) AS conversions_clicks_table\nORDER BY conversions_clicks_table.ad_id, conversions_clicks_table.date DESC, conversions_clicks_table.source, \"CTR\" DESC;\n```\n\n<br/>",
+        "evaluation_points": [
+          "CTR for each ad broken down by source and day"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_109",
+      "question_text": "FizzBuzz",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "PYTHON_ANALYTICS"
+      ],
+      "skill_tags": [
+        "PYTHON_PANDAS",
+        "PYTHON_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": "Print numbers from 1 to 100\n\n* If it’s a multiplier of 3, print “Fizz”\n* If it’s a multiplier of 5, print “Buzz”\n* If both 3 and 5 — “Fizz Buzz\"\n* Otherwise, print the number itself\n\nExample of output: 1, 2, Fizz, 4, Buzz, Fizz, 7, 8, Fizz, Buzz, 11, Fizz, 13, 14, Fizz Buzz, 16, 17, Fizz, 19, Buzz, Fizz, 22, 23, Fizz, Buzz, 26, Fizz, 28, 29, Fizz Buzz, 31, 32, Fizz, 34, Buzz, Fizz, ...\n\n```python\nfor i in range(1, 101):\n    if i % 3 == 0 and i % 5 == 0:\n        print('Fizz Buzz')\n    elif i % 3 == 0:\n        print('Fizz')\n    elif i % 5 == 0:\n        print('Buzz')\n    else:\n        print(i)\n```\n\n<br/>",
+        "evaluation_points": [
+          "Print numbers from 1 to 100\n\n* If it’s a multiplier of 3, print “Fizz”\n* If it’s a multiplier of 5, print “Buzz”\n* If both 3 and 5 — “Fizz Buzz\"\n* Otherwise, print the number itself\n\nExample of output: 1, 2, Fizz, 4, Buzz, Fizz, 7, 8, Fizz, Buzz, 11, Fizz, 13, 14, Fizz Buzz, 16, 17, Fizz, 19, Buzz, Fizz, 22, 23, Fizz, Buzz, 26, Fizz, 28, 29, Fizz Buzz, 31, 32, Fizz, 34, Buzz, Fizz, ..."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_110",
+      "question_text": "Factorial",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "PYTHON_ANALYTICS"
+      ],
+      "skill_tags": [
+        "PYTHON_PANDAS",
+        "PYTHON_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": ". Calculate a factorial of a number\n\n* `factorial(5)` = 5! = 1 * 2 * 3 * 4 * 5 = 120\n* `factorial(10)` = 10! = 1 * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 = 3628800\n\n```python\ndef factorial(n):\n    result = 1\n    for i in range(2, n + 1):\n        result *= i\n    return result\n```\n\nWe can also write this function using recursion:\n\n```python\ndef factorial(n: int):\n    if n == 0 or n == 1:\n        return 1\n    else:\n        return n * factorial(n - 1)\n```\n\n\n<br/>",
+        "evaluation_points": [
+          "Calculate a factorial of a number\n\n* `factorial(5)` = 5!",
+          "= 1 * 2 * 3 * 4 * 5 = 120\n* `factorial(10)` = 10!",
+          "= 1 * 2 * 3 * 4 * 5 * 6 * 7 * 8 * 9 * 10 = 3628800\n\n\n\nWe can also write this function using recursion:"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_111",
+      "question_text": ". Compute the mean of number in a list",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "PYTHON_ANALYTICS"
+      ],
+      "skill_tags": [
+        "PYTHON_PANDAS",
+        "PYTHON_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": ". Compute the mean of number in a list\n\n* `mean([4, 36, 45, 50, 75]) = 42`\n* `mean([]) = NaN` (use `float('NaN')`)\n\n<img src=\"img/formula_mean.png\" />\n\n```python\ndef mean(numbers):\n    if len(numbers) > 0:\n        return sum(numbers) / len(numbers)\n    return float('NaN')\n```\n\n<br/>",
+        "evaluation_points": [
+          "Compute the mean of number in a list\n\n* `mean([4, 36, 45, 50, 75]) = 42`\n* `mean([]) = NaN` (use `float('NaN')`)"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_112",
+      "question_text": ". Calculate the standard deviation of elements in a list.",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "PYTHON_ANALYTICS"
+      ],
+      "skill_tags": [
+        "PYTHON_PANDAS",
+        "PYTHON_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": ". Calculate the standard deviation of elements in a list.\n\n* `std([1, 2, 3, 4]) = 1.29`\n* `std([1]) = NaN` (use `float('NaN')`)\n* `std([]) = NaN`\n\n<img src=\"img/formula_std.png\" />\n\n```python\nfrom math import sqrt\nfrom statistics import mean\n\ndef std_dev(numbers):\n    if len(numbers) > 1:\n        avg = mean(numbers)\n        var = sum((i - avg) ** 2 for i in numbers) / (len(numbers) - 1)\n        std = sqrt(var)\n        return std\n    return float('NaN')\n```\n\n<br/>",
+        "evaluation_points": [
+          "Calculate the standard deviation of elements in a list.",
+          "* `std([1, 2, 3, 4]) = 1.29`\n* `std([1]) = NaN` (use `float('NaN')`)\n* `std([]) = NaN`"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_113",
+      "question_text": ". Calculate the RMSE (root mean squared error) of a model. The function takes in two lists: one with actual values, one with predictions.",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "PYTHON_ANALYTICS"
+      ],
+      "skill_tags": [
+        "PYTHON_PANDAS",
+        "PYTHON_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": ". Calculate the RMSE (root mean squared error) of a model. The function takes in two lists: one with actual values, one with predictions.\n\n* `rmse([1, 2], [1, 2]) = 0`\n* `rmse([1, 2, 3], [3, 2, 1]) = 1.63`\n\n<img src=\"img/formula_rmse.png\" />\n\n```python\nimport math\n\ndef rmse(y_true, y_pred):\n    assert len(y_true) == len(y_pred), 'different sizes of the arguments'\n    squares = sum((x - y)**2 for x, y in zip(y_true, y_pred))\n    return math.sqrt(squares / len(y_true))\n```\n\n<br/>",
+        "evaluation_points": [
+          "Calculate the RMSE (root mean squared error) of a model.",
+          "The function takes in two lists: one with actual values, one with predictions.",
+          "* `rmse([1, 2], [1, 2]) = 0`\n* `rmse([1, 2, 3], [3, 2, 1]) = 1.63`"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_114",
+      "question_text": "Remove duplicates",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "PYTHON_ANALYTICS"
+      ],
+      "skill_tags": [
+        "PYTHON_PANDAS",
+        "PYTHON_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": ". Remove duplicates in list. The list is not sorted and the order of elements from the original list should be preserved.\n\n* `[1, 2, 3, 1]` ⇒ `[1, 2, 3]`\n* `[1, 3, 2, 1, 5, 3, 5, 1, 4]` ⇒ `[1, 3, 2, 5, 4]`\n\n```python\ndef remove_duplicates(lst):\n    new_list = []\n    mentioned_values = set()\n    for elem in lst:\n        if elem not in mentioned_values:\n            new_list.append(elem)\n            mentioned_values.add(elem)\n    return new_list\n\n# The above solution checks the values into a set and it is O(1) efficient using\n# a few of lines.\n# A shorter solution follows: it is O(n^2) but can be fine when lst has no \"too\n# many elements\" - the quantity depends by the running box.\ndef remove_duplicates2(lst):\n    new_list = []\n    for elem in lst:\n        if elem not in new_list:\n            new_list.append(elem)\n    return new_list\n```\n\n<br/>",
+        "evaluation_points": [
+          "Remove duplicates in list.",
+          "The list is not sorted and the order of elements from the original list should be preserved.",
+          "* `[1, 2, 3, 1]` ⇒ `[1, 2, 3]`\n* `[1, 3, 2, 1, 5, 3, 5, 1, 4]` ⇒ `[1, 3, 2, 5, 4]`"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_115",
+      "question_text": "Count",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "PYTHON_ANALYTICS"
+      ],
+      "skill_tags": [
+        "PYTHON_PANDAS",
+        "PYTHON_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": ". Count how many times each element in a list occurs.\n\n`[1, 3, 2, 1, 5, 3, 5, 1, 4]` ⇒  \n* 1: 3 times\n* 2: 1 time\n* 3: 2 times\n* 4: 1 time\n* 5: 2 times\n\n```python\nnumbers = [1, 3, 2, 1, 5, 3, 5, 1, 4]\ncounter = dict()\nfor elem in numbers:\n    counter[elem] = counter.get(elem, 0) + 1\n```\nor\n```python\nfrom collections import Counter\n\nnumbers = [1, 3, 2, 1, 5, 3, 5, 1, 4]\ncounter = Counter(numbers)\n```\n\n<br/>",
+        "evaluation_points": [
+          "Count how many times each element in a list occurs.",
+          "`[1, 3, 2, 1, 5, 3, 5, 1, 4]` ⇒  \n* 1: 3 times\n* 2: 1 time\n* 3: 2 times\n* 4: 1 time\n* 5: 2 times\n\n\nor"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_116",
+      "question_text": "Palindrome",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "PYTHON_ANALYTICS"
+      ],
+      "skill_tags": [
+        "PYTHON_PANDAS",
+        "PYTHON_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": ". Is string a palindrome? A palindrome is a word which reads the same backward as forwards.\n\n* “ololo” ⇒ Yes\n* “cafe” ⇒ No\n\n```python\ndef is_palindrome(s):\n    return s == s[::-1]\n```\nor\n```python\ndef is_palindrome(s):\n    for i in range(len(s) // 2):\n        if s[i] != s[-i - 1]:\n            return False\n    return True\n```\n\n<br/>",
+        "evaluation_points": [
+          "Is string a palindrome?",
+          "A palindrome is a word which reads the same backward as forwards.",
+          "* “ololo” ⇒ Yes\n* “cafe” ⇒ No\n\n\nor"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_117",
+      "question_text": "Counter",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "PYTHON_ANALYTICS"
+      ],
+      "skill_tags": [
+        "PYTHON_PANDAS",
+        "PYTHON_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": ". We have a list with identifiers of form “id-SITE”. Calculate how many ids we have per site.\n\n<img src=\"img/counter_1.png\" />\n\n```python\ndef counter(lst):\n    ans = {}\n    for i in lst:\n        site = i[-2:]\n        ans[site] = ans.get(site, 0) + 1\n    return ans\n```\n\n<br/>",
+        "evaluation_points": [
+          "We have a list with identifiers of form “id-SITE”.",
+          "Calculate how many ids we have per site."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_118",
+      "question_text": "Top counter",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "PYTHON_ANALYTICS"
+      ],
+      "skill_tags": [
+        "PYTHON_PANDAS",
+        "PYTHON_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": ". We have a list with identifiers of form “id-SITE”. Show the top 3 sites. You can break ties in any way you want.\n\n<img src=\"img/counter_2_top.png\" />\n\n```python\ndef top_counter(lst):\n    site_dict = counter(lst)  # using last problem's solution\n    top_keys = sorted(site_dict, reverse=True, key=site_dict.get)[:3]\n    return {key: site_dict[key] for key in top_keys}\n```\n\n<br/>",
+        "evaluation_points": [
+          "We have a list with identifiers of form “id-SITE”.",
+          "Show the top 3 sites.",
+          "You can break ties in any way you want."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_119",
+      "question_text": ". Implement RLE (run-length encoding): encode each character by the number of times it appears consecutively.",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "PYTHON_ANALYTICS"
+      ],
+      "skill_tags": [
+        "PYTHON_PANDAS",
+        "PYTHON_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": ". Implement RLE (run-length encoding): encode each character by the number of times it appears consecutively.\n\n* `'aaaabbbcca'` ⇒ `[('a', 4), ('b', 3), ('c', 2), ('a', 1)]`\n* (note that there are two groups of 'a')\n\n```python\ndef rle(s):\n    ans, cur, num = [], None, 0\n    for i in range(len(s)):\n        if i == 0:\n            cur, num = s[i], 1\n        elif cur != s[i]:\n            ans.append((cur, num))\n            cur, num = s[i], 1\n        else:\n            num += 1\n        if i == len(s) - 1:\n            ans.append((cur, num))\n    return ans\n```\n\nUsing itertools.groupby\n```python\nimport itertools\n\ndef rle(s):\n    return [(l, len(list(g))) for l, g in itertools.groupby(s)]\n```\n\n<br/>",
+        "evaluation_points": [
+          "Implement RLE (run-length encoding): encode each character by the number of times it appears consecutively.",
+          "* `'aaaabbbcca'` ⇒ `[('a', 4), ('b', 3), ('c', 2), ('a', 1)]`\n* (note that there are two groups of 'a')\n\n\n\nUsing itertools.groupby"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_120",
+      "question_text": "Jaccard",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "PYTHON_ANALYTICS"
+      ],
+      "skill_tags": [
+        "PYTHON_PANDAS",
+        "PYTHON_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": ". Calculate the Jaccard similarity between two sets: the size of intersection divided by the size of union.\n\n* `jaccard({'a', 'b', 'c'}, {'a', 'd'}) = 1 / 4`\n\n<img src=\"img/formula_jaccard.png\" />\n\n```python\ndef jaccard(a, b):\n    return len(a & b) / len(a | b)\n```\n\n<br/>",
+        "evaluation_points": [
+          "Calculate the Jaccard similarity between two sets: the size of intersection divided by the size of union.",
+          "* `jaccard({'a', 'b', 'c'}, {'a', 'd'}) = 1 / 4`"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_121",
+      "question_text": ". Given a collection of already tokenized texts, calculate the IDF (inverse document frequency) of each token.",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "PYTHON_ANALYTICS"
+      ],
+      "skill_tags": [
+        "PYTHON_PANDAS",
+        "PYTHON_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": ". Given a collection of already tokenized texts, calculate the IDF (inverse document frequency) of each token.\n\n* input example: `[['interview', 'questions'], ['interview', 'answers']]`\n\n<img src=\"img/formula_idf_1.png\" />\n\nWhere:\n\n* t is the token,\n* n(t) is the number of documents that t occurs in,\n* N is the total number of documents\n\n```python\nfrom math import log10\n\ndef idf1(docs):\n    docs = [set(doc) for doc in docs]\n    n_tokens = {}\n    for doc in docs:\n        for token in doc:\n            n_tokens[token] = n_tokens.get(token, 0) + 1\n    ans = {}\n    for token in n_tokens:\n        ans[token] = log10(len(docs) / (1 + n_tokens[token]))\n    return ans\n```\n\n```python\nimport math\n\ndef idf2(docs):\n    n_docs = len(docs)\n\n    docs = [set(doc) for doc in docs]\n    all_tokens = set.union(*docs)\n\n    idf_coefficients = {}\n    for token in all_tokens:\n        n_docs_w_token = sum(token in doc for doc in docs)\n        idf_c = math.log10(n_docs / (1 + n_docs_w_token))\n        idf_coefficients[token] = idf_c\n\n    return idf_coefficients\n```\n\n<br/>",
+        "evaluation_points": [
+          "Given a collection of already tokenized texts, calculate the IDF (inverse document frequency) of each token.",
+          "* input example: `[['interview', 'questions'], ['interview', 'answers']]`\n\n\n\nWhere:\n\n* t is the token,\n* n(t) is the number of documents that t occurs in,\n* N is the total number of documents"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_122",
+      "question_text": ". Given a collection of already tokenized texts, find the PMI (pointwise mutual information) of each pair of tokens. Return top 10 pairs according to PMI.",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "PYTHON_ANALYTICS"
+      ],
+      "skill_tags": [
+        "PYTHON_PANDAS",
+        "PYTHON_FUNDAMENTALS"
+      ],
+      "answers": {
+        "detailed": ". Given a collection of already tokenized texts, find the PMI (pointwise mutual information) of each pair of tokens. Return top 10 pairs according to PMI.\n\n* input example: `[['interview', 'questions'], ['interview', 'answers']]`\n\nPMI is used for finding collocations in text — things like “New York” or “Puerto Rico”. For two consecutive words, the PMI between them is:\n\n<img src=\"img/formula_pmi_1.png\" />\n\nThe higher the PMI, the more likely these two tokens form a collection. We can estimate PMI by counting:\n\n<img src=\"img/formula_pmi_2.png\" />\n\nWhere:\n* N is the total number of tokens in the text,\n* c(t1, t2) is the number of times t1 and t2 appear together,\n* c(t1) and c(t2) — the number of times they appear separately.\n\n```python\nimport math\n\ndef pmi(docs):\n    n_pairs = {}\n    n_tokens = {}\n\n    docs = [tuple(doc) for doc in docs]\n    for doc in docs:\n        for token in doc:\n            n_tokens[token] = n_tokens.get(token, 0) + 1\n\n        n_pairs[doc] = n_pairs.get(doc, 0) + 1\n        ans = {}\n        for pair in n_pairs:\n            ans[pair] = math.log2(n_pairs[pair] * (sum(n_tokens.values())) / (n_tokens[pair[0]] * n_tokens[pair[1]]))\n\n        srt = sorted(ans.items(), key=lambda x: x[1], reverse=True)[:10]\n\n    return srt\n```\n\n\n<br/>",
+        "evaluation_points": [
+          "Given a collection of already tokenized texts, find the PMI (pointwise mutual information) of each pair of tokens.",
+          "Return top 10 pairs according to PMI.",
+          "* input example: `[['interview', 'questions'], ['interview', 'answers']]`\n\nPMI is used for finding collocations in text — things like “New York” or “Puerto Rico”."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_123",
+      "question_text": "Two sum",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ALGORITHM_DS",
+        "ALGORITHM_SEARCHING"
+      ],
+      "answers": {
+        "detailed": ". Given an array and a number N, return True if there are numbers A, B in the array such that A + B = N. Otherwise, return False.\n\n* `[1, 2, 3, 4], 5` ⇒ `True`\n* `[3, 4, 6], 6` ⇒ `False`\n\nBrute force, O(n<sup>2</sup>):\n\n```python\ndef two_sum(numbers, target):\n    n = len(numbers)\n\n    for i in range(n):\n        for j in range(i + 1, n):\n            if numbers[i] + numbers[j] == target:\n                return True\n\n    return False\n```\n\nLinear, O(n):\n\n```python\ndef two_sum(numbers, target):\n    index = {num: i for (i, num) in enumerate(numbers)}\n\n    n = len(numbers)\n\n    for i in range(n):\n        a = numbers[i]\n        b = target - a\n\n        if b in index:\n            j = index[b]\n            if i != j:\n                return True\n\n    return False\n```\n\nUsing itertools.combinations\n```python\nfrom itertools import combinations\n\ndef two_sum(numbers, target):\n    for elem in combinations(numbers, 2):\n        if elem[0] + elem[1] == target:\n            return True\n    return False\n```\n\n\n<br/>",
+        "evaluation_points": [
+          "Given an array and a number N, return True if there are numbers A, B in the array such that A + B = N.",
+          "Otherwise, return False.",
+          "* `[1, 2, 3, 4], 5` ⇒ `True`\n* `[3, 4, 6], 6` ⇒ `False`\n\nBrute force, O(n2):\n\n\n\nLinear, O(n):\n\n\n\nUsing itertools.combinations"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_124",
+      "question_text": "Fibonacci",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ALGORITHM_DS",
+        "ALGORITHM_SEARCHING"
+      ],
+      "answers": {
+        "detailed": ". Return the n-th Fibonacci number, which is computed using this formula:\n\n* F(0) = 0\n* F(1) = 1\n* F(n) = F(n-1) + F(n-2)\n* The sequence is: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...\n\n```python\ndef fibonacci1(n):\n    '''naive, complexity = O(2 ** n)'''\n    if n == 0 or n == 1:\n        return n\n    else:\n        return fibonacci1(n - 1) + fibonacci1(n - 2)\n```\n\n```python\ndef fibonacci2(n):\n    '''dynamic programming, complexity = O(n)'''\n    base1, base2 = 0, 1\n    for i in range(n):\n        base1, base2 = base2, base1 + base2\n    return base1\n```\n\n```python\ndef fibonacci3(n):\n    '''matrix multiplication, complexity = O(log(n))'''\n    def mx_mul(m1, m2):\n        ans = [[0 for i in range(len(m2[0]))] for j in range(len(m1))]\n        for i in range(len(m1)):\n            for j in range(len(m2[0])):\n                for k in range(len(m2)):\n                    ans[i][j] += m1[i][k] * m2[k][j]\n        return ans\n    def pow(a, b):\n        ans = [[1, 0], [0, 1]]\n        while b > 0:\n            if b % 2 == 1:\n                ans = mx_mul(ans, a)\n            a = mx_mul(a, a)\n            b //= 2\n        return ans\n    ans = mx_mul(pow([[1, 1], [1, 0]], n), [[1], [0]])[1][0]\n    return ans\n```\n\nMemoization with a dictionary\n\n```python\nmemo = {0: 0, 1: 1}\n\ndef fibonacci4(n):\n    '''Top down + memorization (dictionary), complexity = O(n)'''\n    if n not in memo:\n        memo[n] = fibonacci4(n-1) + fibonacci4(n-2)\n    return memo[n]\n```\n\nMemoization with `lru_cache`\n\n```python\nfrom functools import lru_cache\n\n@lru_cache()\ndef fibonacci4(n):\n    if n == 0 or n == 1:\n        return n\n    return fibonacci4(n - 1) + fibonacci4(n - 2)\n```\n\n```python\ndef fibonacci5(n):\n    '''Top down + memorization (list), complexity = O(n) '''\n     if n == 1:\n        return 1\n    dic = [-1 for i in range(n)]\n    dic[0], dic[1] = 1, 2\n    def helper(n, dic):\n        if dic[n] < 0:\n            dic[n] = helper(n-1, dic) + helper(n-2, dic)\n        return dic[n]\n    return helper(n-1, dic)\n```\n\n\n\n<br/>",
+        "evaluation_points": [
+          "Return the n-th Fibonacci number, which is computed using this formula:\n\n* F(0) = 0\n* F(1) = 1\n* F(n) = F(n-1) + F(n-2)\n* The sequence is: 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...",
+          "Memoization with a dictionary\n\n\n\nMemoization with `lru_cache`"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_125",
+      "question_text": "Most frequent outcome",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ALGORITHM_DS",
+        "ALGORITHM_SEARCHING"
+      ],
+      "answers": {
+        "detailed": ". We have two dice of different sizes (D1 and D2). We roll them and sum their face values. What are the most probable outcomes?\n\n* 6, 6 ⇒ [7]\n* 2, 4 ⇒ [3, 4, 5]\n\n```python\ndef most_frequent_outcome(d1, d2):\n    len_ans = abs(d1 - d2) + 1\n    mi = min(d1, d2)\n    ans = [mi + i for i in range(1, len_ans + 1)]\n    return ans\n```\n\n<br/>",
+        "evaluation_points": [
+          "We have two dice of different sizes (D1 and D2).",
+          "We roll them and sum their face values.",
+          "What are the most probable outcomes?"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_126",
+      "question_text": "Reverse a linked list",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ALGORITHM_DS",
+        "ALGORITHM_SEARCHING"
+      ],
+      "answers": {
+        "detailed": ". Write a function for reversing a linked list.\n\n* The definition of a list node: `Node(value, next)`\n* Example: `a -> b -> c` ⇒ `c -> b -> a`\n\n```python\ndef reverse_ll(head):\n    if head.next is not None:\n        last = None\n        point = head\n        while point is not None:\n            point.next, point, last = last, point.next, point\n```\n\n<br/>",
+        "evaluation_points": [
+          "Write a function for reversing a linked list.",
+          "* The definition of a list node: `Node(value, next)`\n* Example: `a -> b -> c` ⇒ `c -> b -> a`"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_127",
+      "question_text": "Flip a binary tree",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ALGORITHM_DS",
+        "ALGORITHM_SEARCHING"
+      ],
+      "answers": {
+        "detailed": ". Write a function for rotating a binary tree.\n\n* The definition of a tree node: `Node(value, left, right)`\n\n<img src=\"img/flip_binary_tree.png\" />\n\n```python\ndef flip_bt(head):\n    if head is not None:\n        head.left, head.right = head.right, head.left\n        flip_bt(head.left)\n        flip_bt(head.right)\n```\n\n<br/>",
+        "evaluation_points": [
+          "Write a function for rotating a binary tree.",
+          "* The definition of a tree node: `Node(value, left, right)`"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_128",
+      "question_text": "Binary search",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ALGORITHM_DS",
+        "ALGORITHM_SEARCHING"
+      ],
+      "answers": {
+        "detailed": ". Return the index of a given number in a sorted array or -1 if it’s not there.\n\n* `[1, 4, 6, 10], 4` ⇒ `1`\n* `[1, 4, 6, 10], 3` ⇒ `-1`\n\n```python\ndef binary_search(lst, num):\n    left, right = -1, len(lst)\n    while right - left > 1:\n        mid = (left + right) // 2\n        if lst[mid] >= num:\n            right = mid\n        else:\n            left = mid\n    if right < 0 or right >= len(lst) or lst[right] != num:\n        return -1\n    else:\n        return right\n```\n\n<br/>",
+        "evaluation_points": [
+          "Return the index of a given number in a sorted array or -1 if it’s not there.",
+          "* `[1, 4, 6, 10], 4` ⇒ `1`\n* `[1, 4, 6, 10], 3` ⇒ `-1`"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_129",
+      "question_text": "Deduplication",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ALGORITHM_DS",
+        "ALGORITHM_SEARCHING"
+      ],
+      "answers": {
+        "detailed": ". Remove duplicates from a sorted array.\n\n* `[1, 1, 1, 2, 3, 4, 4, 4, 5, 6, 6]` ⇒ `[1, 2, 3, 4, 5, 6]`\n\n```python\ndef deduplication1(lst):\n    '''manual'''\n    ans = []\n    last = None\n    for i in lst:\n        if last != i:\n            ans.append(i)\n            last = i\n    return ans\n\ndef deduplication2(lst):\n    # order is not guaranteed unless call sorted(list(set(lst))) to sort again\n    return list(set(lst))\n```\n\n<br/>",
+        "evaluation_points": [
+          "Remove duplicates from a sorted array.",
+          "* `[1, 1, 1, 2, 3, 4, 4, 4, 5, 6, 6]` ⇒ `[1, 2, 3, 4, 5, 6]`"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_130",
+      "question_text": "Intersection",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ALGORITHM_DS",
+        "ALGORITHM_SEARCHING"
+      ],
+      "answers": {
+        "detailed": ". Return the intersection of two sorted arrays.\n\n* `[1, 2, 4, 6, 10], [2, 4, 5, 7, 10]` ⇒ `[2, 4, 10]`\n\n```python\ndef intersection1(lst1, lst2):\n    '''reserves duplicates'''\n    ans = []\n    p1, p2 = 0, 0\n    while p1 < len(lst1) and p2 < len(lst2):\n        if lst1[p1] == lst2[p2]:\n            ans.append(lst1[p1])\n            p1, p2 = p1 + 1, p2 + 1\n        elif lst1[p1] < lst2[p2]:\n            p1 += 1\n        else:\n            p2 += 1\n    return ans\n\ndef intersection2(lst1, lst2):\n    '''removes duplicates'''\n    # order is not guaranteed unless call sorted(...) to sort again\n    return list(set(lst1) & set(lst2))\n```\n\n<br/>",
+        "evaluation_points": [
+          "Return the intersection of two sorted arrays.",
+          "* `[1, 2, 4, 6, 10], [2, 4, 5, 7, 10]` ⇒ `[2, 4, 10]`"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_131",
+      "question_text": "Union",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ALGORITHM_DS",
+        "ALGORITHM_SEARCHING"
+      ],
+      "answers": {
+        "detailed": ". Return the union of two sorted arrays.\n\n* `[1, 2, 4, 6, 10], [2, 4, 5, 7, 10]` ⇒ `[1, 2, 4, 5, 6, 7, 10]`\n\n```python\ndef union1(lst1, lst2):\n    '''reserves duplicates'''\n    ans = []\n    p1, p2 = 0, 0\n    while p1 < len(lst1) or p2 < len(lst2):\n        if lst1[p1] == lst2[p2]:\n            ans.append(lst1[p1])\n            p1, p2 = p1 + 1, p2 + 1\n        elif lst1[p1] < lst2[p2]:\n            ans.append(lst1[p1])\n            p1 += 1\n        else:\n            ans.append(lst2[p2])\n            p2 += 1\n    return ans\n\ndef union2(lst1, lst2):\n    '''removes duplicates'''\n    # order is not guaranteed unless call sorted(...) to sort again\n    return list(set(lst1) | set(lst2))\n```\n\n<br/>",
+        "evaluation_points": [
+          "Return the union of two sorted arrays.",
+          "* `[1, 2, 4, 6, 10], [2, 4, 5, 7, 10]` ⇒ `[1, 2, 4, 5, 6, 7, 10]`"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_132",
+      "question_text": "Addition",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ALGORITHM_DS",
+        "ALGORITHM_SEARCHING"
+      ],
+      "answers": {
+        "detailed": ". Implement the addition algorithm from school. Suppose we represent numbers by a list of integers from 0 to 9:\n\n* 12 is `[1, 2]`\n* 1000 is `[1, 0, 0, 0]`\n\nImplement the “+” operation for this representation\n\n* `[1, 1] + [1]` ⇒ `[1, 2]`\n* `[9, 9] + [2]` ⇒ `[1, 0, 1]`\n\n```python\ndef addition(lst1, lst2):\n    def list_to_int(lst):\n        ans, base = 0, 1\n        for i in lst[::-1]:\n            ans += i * base\n            base *= 10\n        return ans\n    val = list_to_int(lst1) + list_to_int(lst2)\n    ans = [int(i) for i in str(val)]\n    return ans\n\n# another solution without int() and str() should be helpful\ndef addition2(lst1, lst2):\n    if len(lst2) == 0 or lst2 == [0]:\n        return lst1[:]\n    elif len(lst1) == 0:\n        return lst2[:]\n    # lst1, lst2 not empty\n    digit1, lst1rest = lst1[-1], lst1[:-1]\n    digit2, lst2rest = lst2[-1], lst2[:-1]\n    digit, remainder = divmod(digit1 + digit2, 10)\n    lst = addition2(\n        addition2(lst1rest, [digit]),  # recursively add digit to lst1\n        lst2rest)  # and then continue to add lst2\n    ans = lst + [remainder]  # add the remainder as last digit\n    return ans\n```\n\n<br/>",
+        "evaluation_points": [
+          "Implement the addition algorithm from school.",
+          "Suppose we represent numbers by a list of integers from 0 to 9:\n\n* 12 is `[1, 2]`\n* 1000 is `[1, 0, 0, 0]`\n\nImplement the “+” operation for this representation\n\n* `[1, 1] + [1]` ⇒ `[1, 2]`\n* `[9, 9] + [2]` ⇒ `[1, 0, 1]`"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_133",
+      "question_text": "Sort by custom alphabet",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ALGORITHM_DS",
+        "ALGORITHM_SEARCHING"
+      ],
+      "answers": {
+        "detailed": ". You’re given a list of words and an alphabet (e.g. a permutation of Latin alphabet). You need to use this alphabet to order words in the list.\n\nExample:\n\n* Words: `['home', 'oval', 'cat', 'egg', 'network', 'green']`\n* Dictionary: `'bcdfghijklmnpqrstvwxzaeiouy'`\n\nOutput:\n\n* `['cat', 'green', 'home', 'network', 'egg', 'oval']`\n\n```python\ndef sort_by_custom_alphabet(dictionary, words):\n    words = sorted(words, key = lambda word: [dictionary.index(c) for c in word])\n    return words\n```\n\n<br/>",
+        "evaluation_points": [
+          "You’re given a list of words and an alphabet (e.g.",
+          "a permutation of Latin alphabet).",
+          "You need to use this alphabet to order words in the list."
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_134",
+      "question_text": "Check if a tree is a binary search tree",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ALGORITHM_DS",
+        "ALGORITHM_SEARCHING"
+      ],
+      "answers": {
+        "detailed": ". In BST, the element in the root is:\n\n* Greater than or equal to the numbers on the left\n* Less than or equal to the number on the right\n* The definition of a tree node: `Node(value, left, right)`\n\n```python\ndef check_is_bst(head, min_val=None, max_val=None):\n    \"\"\"Check whether binary tree is binary search tree\n\n    Aside of the obvious node.left.val <= node.val <= node.right.val have to be\n    fulfilled, we also have to make sure that there is NO SINGLE leaves in the\n    left part of node have more value than the current node.\n    \"\"\"\n    check_val = True\n    check_left = True\n    check_right = True\n\n    if min_val:\n        check_val = check_val and (head.val >= min_val)\n        min_new = min(min_val, head.val)\n    else:\n        min_new = head.val\n\n    if max_val:\n        check_val = check_val and (head.val <= max_val)\n        max_new = max(max_val, head.val)\n    else:\n        max_new = head.val\n\n    if head.left:\n        check_left = check_is_bst(head.left, min_val, max_new)\n\n    if head.right:\n        check_right = check_is_bst(head.right, min_new, max_val)\n\n    return check_val and check_left and check_right\n```\n\n<br/>",
+        "evaluation_points": [
+          "In BST, the element in the root is:\n\n* Greater than or equal to the numbers on the left\n* Less than or equal to the number on the right\n* The definition of a tree node: `Node(value, left, right)`"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_135",
+      "question_text": "Maximum Sum Contiguous Subarray",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ALGORITHM_DS",
+        "ALGORITHM_SEARCHING"
+      ],
+      "answers": {
+        "detailed": ". You are given an array `A` of length `N`, you have to find the largest possible sum of an Subarray, of array `A`.  \n* `[-2, 1, -3, 4, -1, 2, 1, -5, 4]` gives `6` as largest sum (from the subarray `[4, -1, 2, -1]`\n\n```python\nfrom sys import maxsize\ndef max_sum_subarr(list1, size):\n      \"\"\"Use Kadane's Algorithm for a optimal solution\n      Time Complexity: O(n)\n      Desciption: Use one variable for current sum, and one for Overall sum at an index.\n                  So here, the global_max will keep on updating the max sum at any index-1,\n                  and curr_max will check the max value at an index.\n                  And finally after iterating through the list, return the value of global_max variable which contains Maximum sum.\n      \"\"\"\n    curr_max=list1[0]\n    global_max=list1[0]\n    for each in range(1, size):\n        curr_max = max(list1[each], curr_max+list1[each])\n        global_max = max(global_max, curr_max)\n    return global_max\n\nn = int(input())         \nlist1 = []\nfor i in range(0,n):\n    num = int(input())\n    list1.append(num)\n\nprint(max_sum_subarr(list1, len(list1)))\n```\n\n<br/>",
+        "evaluation_points": [
+          "You are given an array `A` of length `N`, you have to find the largest possible sum of an Subarray, of array `A`.",
+          "* `[-2, 1, -3, 4, -1, 2, 1, -5, 4]` gives `6` as largest sum (from the subarray `[4, -1, 2, -1]`"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_136",
+      "question_text": "Three sum",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ALGORITHM_DS",
+        "ALGORITHM_SEARCHING"
+      ],
+      "answers": {
+        "detailed": ". Given an array, and a target value, find all possible combinations of three distinct numbers such that the sum of these three distinct numbers is equal to the target value.\n\nExample:\n\n    Input: [12, 3, 1, 2, -6, 5, -8, 6], 0\n    Output: [[-8, 2, 6], [-8, 3, 5], [-6, 1, 5]]\n\n```python\ndef threeSum(array, target):\n    array.sort()\n    triplets = []\n    \n    for i in range(len(array) - 2):\n        left = i + 1\n        right = len(array) - 1\n        while left < right:\n            currentSum = array[i] + array[left] + array[right]\n            if currentSum == target:\n                triplets.append([array[i], array[left], array[right]])\n                left += 1\n                right -= 1\n            elif currentSum > target:\n                right -= 1\n            elif currentSum < target:\n                left += 1\n    return triplets\n```",
+        "evaluation_points": [
+          "Given an array, and a target value, find all possible combinations of three distinct numbers such that the sum of these three distinct numbers is equal to the target value.",
+          "Example:\n\n    Input: [12, 3, 1, 2, -6, 5, -8, 6], 0\n    Output: [[-8, 2, 6], [-8, 3, 5], [-6, 1, 5]]"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    },
+    {
+      "question_id": "DS_GH_137",
+      "question_text": "Find Duplicate in array",
+      "roles": {
+        "primary": "DS",
+        "secondary": []
+      },
+      "difficulty_label": "MEDIUM",
+      "difficulty_score": 5,
+      "question_type": "CODING",
+      "skill_groups": [
+        "ALGORITHM_THEORY"
+      ],
+      "skill_tags": [
+        "ALGORITHM_DS",
+        "ALGORITHM_SEARCHING"
+      ],
+      "answers": {
+        "detailed": "Given and array, find all duplicated value in the array\n\nExample:\n  \n   input: [1,2,3,4,3,4,5]\n   output: [3,4]\n   \n```python\na = [1,2,3,4,3,4,5]\n\ndef duplicates(a):\n   seen = set()\n   duplicated = set()\n   for i in a:\n      if i in seen:\n         duplicated.add(i)\n      else:\n         seen.add(i)\n   return duplicated\n```",
+        "evaluation_points": [
+          "Given and array, find all duplicated value in the array\n\nExample:\n  \n   input: [1,2,3,4,3,4,5]\n   output: [3,4]"
+        ]
+      },
+      "metadata": {
+        "language": "en",
+        "source": "alexeygrigorev/data-science-interviews",
+        "version": "v1.0",
+        "created_at": "2026-06-14"
+      }
+    }
+  ]
+}

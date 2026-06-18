@@ -1,0 +1,1875 @@
+[
+  {
+    "question_id": "GEN_DE_DATABASES_001",
+    "question_text": "Bạn đang thiết kế lại cơ sở dữ liệu cho một hệ thống thương mại điện tử có 10 triệu sản phẩm, 50 triệu người dùng và 200 triệu đơn hàng. Hệ thống hiện tại đang chậm khi truy vấn báo cáo doanh thu theo tháng. Bảng `orders` có cấu trúc: `id (PK, bigint)`, `user_id (FK)`, `product_id (FK)`, `quantity`, `unit_price`, `total_price`, `status`, `created_at`. Bạn được yêu cầu chọn chiến lược indexing và scaling phù hợp. Hãy đề xuất và giải thích chi tiết: (1) Bạn sẽ dùng clustered index hay non-clustered index cho bảng `orders`? Vì sao? (2) Bạn sẽ thêm index nào để tối ưu truy vấn báo cáo theo tháng? (3) Nếu bảng `orders` đạt 1 tỷ dòng, bạn sẽ chọn sharding (partitioning ngang) dựa trên trường nào? Phân tích trade-off khi chọn shard key là `user_id` so với `created_at`.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_INTERNALS",
+      "DATABASE_INDEXING",
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "(1) **Clustered index on `created_at`:** Optimizes range-scan reporting queries (sequential I/O, excellent cache locality) but degrades PRIMARY KEY (`id`) point lookups, which now require a non-clustered index + RID lookup or full table scan. Trade-off analysis: if monthly reporting dominates (70%+ of queries), clustered on `created_at` is justified; if user-facing, low-latency `id`-based queries are critical (e.g., order status checks), consider **heap storage + non-clustered `(id)` index + separate covering index `(created_at, status, total_price)`** to avoid clustered index fragmentation and optimize both access patterns. Measure actual workload before deciding. (2) **Filtered composite index `(created_at, status, total_price) WHERE status='completed'`:** Covers revenue reporting queries; the filter reduces index size by 30-40% (dead records excluded), improves cardinality estimation, and lowers write overhead during INSERT/UPDATE on orders. If reporting also joins with `product_id` for category breakdowns, extend to `(created_at, status, product_id, total_price)` or maintain a separate filtered index on category. (3) **Sharding by `created_at` (monthly partitions):** Concentrates same-month data in one partition, enabling **partition pruning** where queries like `WHERE created_at='2024-01' AND status='completed'` scan only ~83M rows instead of 1B (~8.3% I/O reduction). Write hot-spot risk: all 200M new orders/month flow to current partition, causing lock contention, WAL flush bottleneck, and uneven shard load. Mitigation: read replicas on historical partitions, async archival to cold storage. **Sharding by `user_id`:** Distributes writes evenly across shards (50M users → balanced load), enabling efficient user-scoped queries (`WHERE user_id=X`), but monthly revenue reports require **fan-out to all shards**, expensive aggregation at application layer, and complex cross-shard ORDER BY. Trade-off: write hot-spot eliminated, read complexity increased. **Recommended hybrid:** Time-series partitioning (`created_at` by month) for OLTP `orders` table + **separate OLAP store** (materialized view, ClickHouse, or TimescaleDB) refreshed via CDC/WAL log mining. This decouples report latency from transactional writes, eliminates sharding complexity, and achieves best-of-both: balanced OLTP writes and fast OLAP reads. Accept eventual consistency (data lag of 5-60 seconds) for aggregated reports if acceptable per SLA. (4) **Isolation level consideration:** Monthly revenue reports should use READ COMMITTED or REPEATABLE READ to avoid dirty reads from uncommitted transactions; higher isolation levels (SERIALIZABLE) would serialize writes, exacerbating the `created_at` hot-spot. Balance consistency with throughput.",
+      "evaluation_points": [
+        "Explain why clustered index on `created_at` is NOT universally optimal: clarify that it makes PRIMARY KEY (`id`) lookups slower (requiring non-clustered index or table scan), and discuss whether the workload is report-heavy or id-lookup-heavy; strong candidates justify the trade-off with workload profiling or propose a heap + non-clustered index strategy as an alternative",
+        "Analyze transaction isolation implications: monthly revenue reports require READ COMMITTED or REPEATABLE READ consistency; discuss whether dirty reads from uncommitted transactions are acceptable (affecting accuracy) and how isolation level choice impacts lock contention and reporting latency—weak candidates ignore isolation entirely",
+        "Detail partition pruning mechanics: explain how a query optimizer eliminates partitions when filtering `WHERE created_at BETWEEN '2024-01-01' AND '2024-01-31'` on a monthly partition scheme, reducing I/O from scanning 1 billion rows to scanning ~83 million rows (~8.3% of data); quantify the performance gain concretely",
+        "Evaluate hot-shard mitigation for `created_at` partitioning: discuss write amplification on current-month partition (CPU, lock contention, WAL flush overhead) and propose solutions (read replicas for reporting, write buffer with async archival, or ledger-based partitioning where recent data goes to a fast tier)",
+        "Compare materialized view + OLAP approach against sharding: clarify that offloading to separate store eliminates sharding complexity but introduces eventual consistency (data lag) and synchronization cost; strong candidates discuss staleness SLAs, incremental refresh strategies (CDC, WAL), and when OLTP-only sharding is preferable"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_002",
+    "question_text": "Bạn đang làm việc với một hệ thống cơ sở dữ liệu PostgreSQL có bảng `orders` với 500 triệu bản ghi, kích thước ~200GB. Bảng có cột `order_date` (timestamp) và `customer_id` (bigint). Hiện tại, bảng chỉ có một B-tree index trên `order_date`. Có một truy vấn báo cáo chạy chậm: `SELECT customer_id, COUNT(*) FROM orders WHERE order_date >= '2024-01-01' AND order_date < '2024-06-01' GROUP BY customer_id HAVING COUNT(*) > 5;`. Hãy thiết kế lại chiến lược indexing và scaling để tối ưu truy vấn này, bao gồm việc đề xuất một giải pháp cho vấn đề hotspot khi ghi dữ liệu mới với timestamp tăng dần.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DATABASE_INDEXING",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_INTERNALS",
+      "DATABASE_INDEXING",
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "The answer correctly identifies the core problem: range scan efficiency vs. aggregation cost. Enhanced approach: (1) **Composite index (order_date, customer_id):** Enables index-only scan, but monotonically increasing timestamps cause write hotspots—rightmost B-tree leaf nodes experience constant contention and splits. Under heavy concurrent writes, this creates lock contention and performance degradation despite query optimization. (2) **BRIN index:** Superior for time-series data with natural clustering. Reduces index size from ~40GB (B-tree) to ~2-5MB by storing min/max ranges per 128-page blocks. Avoids write hotspots since BRIN doesn't update on every insert, only when a block range changes. Trade-off: requires sequential access patterns; random order queries degrade to full table scans. (3) **Range partitioning by month:** Eliminates the write hotspot entirely by distributing new inserts across partition-specific index structures. Partition pruning skips irrelevant months; partition-wise aggregation groups within each partition before merging results, reducing memory/CPU. (4) **Horizontal sharding:** For extreme scale, shard by customer_id across multiple PostgreSQL instances, distributing write load. Requires application routing layer. (5) **Materialized view:** Refresh nightly; ensure refresh transaction uses REPEATABLE READ to capture consistent snapshot, preventing phantom-read anomalies where new orders appear mid-refresh. (6) **Isolation consideration:** The query itself tolerates READ COMMITTED since GROUP BY aggregates eventual state; however, if materialized views require point-in-time consistency, use REPEATABLE READ for the refresh transaction.",
+      "evaluation_points": [
+        "Composite index (order_date, customer_id) analysis: explain why it enables index-only scan, quantify the hotspot problem (right-page contention during monotonic inserts), and discuss the trade-off between query optimization and write performance degradation",
+        "BRIN vs B-tree trade-off: BRIN effectiveness depends on data ordering; clarify why BRIN reduces index size (~1-2MB vs ~40GB for B-tree) and avoids leaf-node hotspots, but may require sequential scan for out-of-order data or loose clustering; discuss maintenance_work_mem tuning",
+        "Partitioning strategy: explain how range partitioning on order_date enables partition pruning (reducing scanned blocks), partition-wise aggregation avoiding cross-partition shuffles, and how partitions eliminate the write hotspot by distributing inserts across multiple index ranges rather than a single B-tree leaf",
+        "Sharding/horizontal scaling: clarify that customer_id-based sharding distributes write load but requires application-level routing logic; contrast with PostgreSQL native partitioning (single instance, logical separation) vs true sharding (multiple instances, operational complexity)",
+        "Materialized view consistency: address that materialized views improve query latency but introduce staleness; discuss refresh frequency trade-offs, transaction isolation levels (does the refresh query need SERIALIZABLE to ensure consistent aggregates?), and whether incremental materialization is feasible",
+        "Concurrency and isolation: does the GROUP BY HAVING query require REPEATABLE READ to prevent phantom reads during concurrent inserts, or is READ COMMITTED sufficient since aggregates are eventually consistent?"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_003",
+    "question_text": "Bạn đang thiết kế một hệ thống báo cáo thời gian thực cho một nền tảng thương mại điện tử với hàng triệu đơn hàng mỗi ngày. Cơ sở dữ liệu hiện tại sử dụng PostgreSQL. Bạn cần tối ưu truy vấn tổng hợp doanh thu theo giờ trên bảng orders có 500 triệu bản ghi. Hãy giải thích chiến lược indexing bạn sẽ áp dụng, bao gồm lựa chọn loại index, cấu trúc index và cách bạn tránh các vấn đề về write amplification?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "I will use a combination of BRIN indexing, partial indexing, and table partitioning to balance query performance with write amplification:\n\n(1) **BRIN Index on created_at:** BRIN (Block Range Index) is optimal for time-ordered data, storing summaries of column values per block range rather than individual row pointers. This reduces index size by 10-100x vs. B-Tree and dramatically lowers write amplification during high-volume inserts. However, BRIN assumes data is naturally sorted; if orders are inserted randomly or from distributed sources, performance degrades—in such cases, a B-Tree on (created_at, order_id) is preferable.\n\n(2) **Partial Index on (created_at, total_amount) WHERE status='completed':** Index only completed orders to reduce maintenance cost. When new orders arrive, they bypass this index until completion, avoiding per-row index updates for pending orders. This cuts index write overhead proportionally to the fraction of completed orders.\n\n(3) **Time-based Table Partitioning (e.g., daily):** Partition orders by created_at into hot (today/current month) and cold (historical) partitions. This isolates INSERT/UPDATE operations to the hot partition, enabling:\n   - Independent index maintenance without blocking historical queries\n   - Faster bulk inserts to the hot partition with indexes temporarily disabled\n   - Selective index strategies (BRIN for cold, B-Tree for hot if insertion order is random)\n\n(4) **Materialized Views with Incremental Refresh:** Create a materialized view `revenue_by_hour` with hourly aggregates. Refresh only the last N hours (where new data arrives) using incremental aggregation, avoiding full recomputation. This is viable if 1-2 minute staleness is acceptable; for real-time needs, use columnar storage (e.g., TimescaleDB hyperfunction) or a separate append-only event log with periodic rollup.\n\n(5) **Write Amplification Mitigation:**\n   - Use BRIN instead of B-Tree on naturally sequential columns\n   - Disable indexes during bulk inserts to `orders`, then rebuild once: avoids per-row index updates but requires careful scheduling (e.g., rebuild during low-traffic windows)\n   - Leverage PostgreSQL's HOT (Heap-Only Tuples) by avoiding updates to indexed columns; instead, use immutable inserts with status changes in a separate table\n   - Monitor index bloat with `pg_stat_user_indexes` and vacuum/analyze regularly\n\n**Trade-offs:** BRIN is space-efficient but slower for point lookups; partial indexes require predicate maintenance; materialized views introduce staleness. Partitioning adds complexity but enables independent optimization per partition.",
+      "evaluation_points": [
+        "Understand trade-offs between B-Tree and BRIN indexing: B-Tree is general-purpose with O(log n) lookup but higher write amplification; BRIN is optimized for sorted/sequential data with lower write overhead but slower point lookups—candidate should explain why BRIN suits time-ordered data",
+        "Explain how partial indexing reduces write amplification: only maintaining indexes on relevant rows (e.g., status='completed') decreases maintenance cost during INSERT/UPDATE on the full table; discuss the cost of maintaining the filter predicate",
+        "Justify materialized views vs. incremental aggregation: materialized views trade freshness for query speed and reduced computation; candidate should discuss refresh strategy, staleness tolerance, and when incremental aggregation (e.g., append-only logs with periodic rollup) is better",
+        "Address concurrency and isolation concerns: partitioning by date isolates write operations (hot vs. cold partitions), reducing lock contention; candidate should mention isolation levels and how partitioning enables independent maintenance without blocking ongoing writes",
+        "Discuss bulk insert optimization: explain why disabling indexes during bulk inserts reduces write amplification, but clarify the need for subsequent index rebuild and its trade-off with query availability during the rebuild window",
+        "Acknowledge limitations: BRIN works well only on naturally ordered data; if orders are inserted out-of-sequence or shuffled by distributed sources, BRIN effectiveness drops significantly"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_005",
+    "question_text": "So sánh chiến lược database scaling theo chiều ngang (horizontal scaling) sử dụng sharding với chiến lược read replicas. Trong tình huống một ứng dụng social media có tỷ lệ đọc/ghi 80:20 và yêu cầu consistency mạnh cho phần feed chính, bạn sẽ chọn phương pháp nào và tại sao? Hãy giải thích các trade-off liên quan đến consistency, availability và độ phức tạp vận hành.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "For a social media feed with 80:20 read-write ratio and strong consistency requirements, I would use **read replicas as the primary strategy**, but with nuances: (1) **Replication Strategy:** Use synchronous replication for writes to the primary instance to guarantee strong consistency (linearizable reads on primary). Route read-heavy queries (non-critical feeds) to asynchronous read replicas with acceptable replication lag. This hybrid approach preserves strong consistency for critical operations (e.g., like/comment writes, user's own feed) while leveraging read replicas for non-critical reads. (2) **Consistency Trade-off:** Synchronous replication ensures durability and consistency but increases write latency (all replicas must acknowledge). Asynchronous replication improves write throughput and availability but risks stale reads. For social media, consider time-bounded replication lag (e.g., <100ms) acceptable for non-critical reads. (3) **Why not pure sharding?** Sharding by user_id enables write scale but introduces: cross-shard queries (e.g., global feed aggregation), distributed transactions (complex and costly), and shard-key reshuffling challenges. It's better suited for write-heavy workloads, not read-heavy ones. (4) **Operational Complexity:** Read replicas require monitoring replication lag and handling replica failures/promotion; sharding requires sophisticated shard routing logic, consistent hashing, and distributed query coordination. Read replicas are operationally simpler. (5) **Recommendation:** Start with read replicas + synchronous replication for critical consistency; use caching (Redis) on read replicas to further reduce latency. Introduce sharding only if write bottleneck emerges, using a combination (shard by user_id for write isolation + read replicas per shard for read scaling).",
+      "evaluation_points": [
+        "Clarify what 'strong consistency' means in the context of read replicas (e.g., eventual consistency vs. strong/linearizable consistency) and explain the technical mechanisms (synchronous vs. asynchronous replication, read-your-writes guarantees)",
+        "Distinguish between replication lag implications: synchronous replication ensures immediate consistency but increases write latency and availability risk; asynchronous replication improves availability but risks stale reads, which contradicts the stated 'strong consistency' requirement",
+        "Explain the hybrid approach: use read replicas for non-critical reads (e.g., follower feeds) while routing critical writes and consistency-sensitive reads to the primary instance; clarify when this is acceptable for social media feeds",
+        "For sharding: detail how sharding handles consistency better for write-heavy scenarios, but acknowledge the shard-key design pitfalls and cross-shard join complexity that may make it poor choice here despite high read volume",
+        "Assess operational complexity: read replicas require monitoring replication lag and handling replica failures; sharding requires consistent hashing, resharding logic, and distributed transaction management",
+        "Clarify the CAP theorem trade-off: read replicas with async replication sacrifice consistency for availability; synchronous replication sacrifices availability for consistency"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_007",
+    "question_text": "Bạn đang debug một truy vấn chậm trên MySQL: SELECT * FROM orders WHERE order_date BETWEEN '2024-01-01' AND '2024-12-31' ORDER BY total_amount DESC LIMIT 10. Bảng orders có 100 triệu bản ghi, index trên order_date và total_amount riêng biệt. Truy vấn mất 45 giây. Hãy phân tích nguyên nhân và đề xuất ít nhất 2 cách tối ưu khác nhau, giải thích cách mỗi cách hoạt động ở mức database internals.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INTERNALS"
+    ],
+    "answers": {
+      "detailed": "**Root Cause Analysis:**\nMySQL uses a single index (likely order_date) to filter 100 million rows into potentially millions of results. Since ORDER BY total_amount has no index support, MySQL performs a expensive filesort operation: it materializes all filtered rows into a sort buffer (limited by sort_buffer_size), spills to disk if necessary, and performs external merge sort—causing massive I/O overhead. With 45 seconds for just 10 rows, this suggests millions of rows match the date range.\n\n**Solution 1: Composite Index (order_date, total_amount)**\nCreate: `CREATE INDEX idx_order_date_amount ON orders(order_date, total_amount DESC);`\n\nMechanism: B-Tree structure stores leaf nodes ordered first by order_date, then by total_amount. MySQL performs a range scan on order_date (filters rows efficiently) and reads total_amount values already sorted in descending order within each date partition. The index itself provides the LIMIT 10 rows without filesystem sort. Database internals: one sequential scan through index leaf nodes, no spill to disk, eliminates filesort entirely.\n\n**Solution 2: Covering Index (order_date, total_amount, all SELECT columns)**\nCreate: `CREATE INDEX idx_covering ON orders(order_date, total_amount DESC, id, ...);`\n\nMechanism: Index leaf nodes contain all columns needed for the result set, eliminating random I/O table lookups. After range-scanning on order_date and extracting top 10 by total_amount, MySQL reads complete rows from index pages (sequential I/O) rather than seeking back to table storage (random I/O). Reduces page fault rate from O(n) table accesses to O(1) index accesses.\n\n**Solution 3: Alternative - Query Restructuring (conditional)**\nIf total_amount is low-cardinality: `SELECT * FROM orders WHERE total_amount >= (SELECT total_amount FROM orders ORDER BY total_amount DESC LIMIT 10 OFFSET 9) AND order_date BETWEEN '2024-01-01' AND '2024-12-31' LIMIT 10;`\n\nThis reverses filtering order (use total_amount index first to find top candidates, then filter by date), but only if total_amount index is highly selective.\n\n**Validation:** Use EXPLAIN to confirm index choice and absence of filesort; monitor slow query log to verify execution time improvement after indexing.",
+      "evaluation_points": [
+        "Correctly diagnoses that MySQL cannot use a single index to satisfy both WHERE (order_date) and ORDER BY (total_amount) efficiently, leading to expensive filesort",
+        "Explains composite index mechanism: demonstrates understanding that B-Tree leaf nodes are ordered first by order_date, then total_amount, enabling range scan + sort in index order without additional sort pass",
+        "Defines covering index and articulates its benefit: eliminates random I/O table lookups (table access after index lookup) by storing all required columns in index leaf nodes, reducing page faults",
+        "Discusses filesort mechanics: recognizes that without index support for ORDER BY, MySQL must materialize all filtered rows (potentially millions) into sort buffer/disk, causing I/O bottleneck",
+        "Considers query rewriting trade-offs: acknowledges the subquery approach's limitation (filtering after sorting defeats optimization) and when it works (if total_amount cardinality is low)",
+        "Missing: alternative solutions like table partitioning by order_date or query result caching; no discussion of EXPLAIN output to validate index choice; no mention of sort_buffer_size tuning"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_009",
+    "question_text": "Bạn đang thiết kế một hệ thống database cho ứng dụng IoT với 10 triệu thiết bị ghi dữ liệu mỗi giây (write-heavy, không có update). Dữ liệu cần được truy vấn theo thời gian thực trong 24 giờ gần nhất và lưu trữ lịch sử 5 năm. Hãy thiết kế chiến lược database scaling và indexing để đáp ứng yêu cầu này. Phân tích cách xử lý write bottleneck, lựa chọn cơ sở dữ liệu (SQL hay NoSQL), và cơ chế nén dữ liệu lịch sử. Đề xuất kiến trúc cụ thể và giải thích tại sao nó phù hợp.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "Tôi đề xuất kiến trúc hybrid: (1) Write layer: Dùng time-series database như TimescaleDB (SQL) hoặc InfluxDB (NoSQL) với automatic partitioning theo time và device_id. Dùng batching (1000 records/batch) và async writes qua message queue (Kafka) để giảm write pressure. (2) Hot data (24h): In-memory cache (Redis) với TTL, lưu dữ liệu dạng sorted set theo timestamp. (3) Cold data (5 năm): Nén dữ liệu bằng columnar storage (Parquet) trên S3, với partitioning theo tháng và device_id. Index: Dùng BRIN index trên timestamp cho hot data, và bitmap index cho device_id. Write bottleneck giải quyết bằng sharding theo device_id hash, mỗi shard xử lý 1M thiết bị.\n\nVề ACID properties: TimescaleDB sử dụng Write-Ahead Logging (WAL) để đảm bảo atomicity—khi crash, dữ liệu được redo hoặc undo từ WAL, đảm bảo transaction hoàn toàn hoặc không hoàn toàn. Consistency được duy trì qua schema constraints và triggers. Tuy nhiên, async writes qua Kafka tạo ra lag giữa khi dữ liệu được ghi vào Kafka và khi commit vào DB—điều này là trade-off: giảm write latency nhưng tăng risk data loss nếu Kafka broker crash trước khi dữ liệu được persist vào TimescaleDB. Để giảm thiểu, cấu hình Kafka với replication factor ≥3 và acks=all. Redis cũng cần durability strategy (RDB snapshots hoặc AOF) hoặc chấp nhận mất dữ liệu 24h gần nhất khi crash.\n\nSQL (TimescaleDB) phù hợp hơn NoSQL vì cần truy vấn phức tạp (aggregation) và có sẵn continuous aggregates để pre-aggregate dữ liệu, đồng thời đảm bảo ACID guarantees tốt hơn.",
+      "evaluation_points": [
+        "Thiết kế kiến trúc phân tầng rõ ràng (hot/cold) và giải thích lý do chọn công nghệ",
+        "Xử lý write bottleneck qua batching, sharding và async processing",
+        "Đề xuất cơ chế nén và lưu trữ lịch sử hiệu quả về chi phí",
+        "Phân tích ACID guarantees trong kiến trúc hybrid: cách Kafka + async writes ảnh hưởng đến atomicity, cơ chế đảm bảo consistency giữa hot (Redis) và cold (S3) data layers",
+        "Giải thích Write-Ahead Logging (WAL) strategy trong TimescaleDB để đảm bảo durability khi xảy ra sự cố, đặc biệt với high-throughput writes",
+        "Trả lời về data loss risk: làm sao đảm bảo không mất dữ liệu nếu Redis/Kafka crash; rõ ràng đánh đổi (trade-off) giữa latency và durability"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_011",
+    "question_text": "Bạn đang tối ưu một hệ thống PostgreSQL có bảng logs với 1 tỷ bản ghi, thường xuyên thực hiện truy vấn: SELECT user_id, COUNT(*) FROM logs WHERE created_at > NOW() - INTERVAL '7 days' GROUP BY user_id ORDER BY COUNT(*) DESC LIMIT 100. Hiện tại truy vấn mất 30 giây dù đã có index trên created_at. Hãy phân tích tại sao index không hiệu quả, đề xuất ít nhất 3 giải pháp khác nhau (bao gồm cả thay đổi schema và sử dụng tính năng PostgreSQL nâng cao), và giải thích cơ chế hoạt động của từng giải pháp ở mức database internals (bao gồm cả caching và query planning).",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INTERNALS"
+    ],
+    "answers": {
+      "detailed": "Index trên created_at không hiệu quả vì: (1) Index scan vẫn phải đọc toàn bộ rows trong khoảng thời gian (có thể 100M rows), gây random I/O. (2) GROUP BY user_id yêu cầu sort/hash toàn bộ kết quả. Giải pháp: (1) Partial index + covering index: CREATE INDEX idx_logs_recent ON logs(user_id, created_at) WHERE created_at > NOW() - INTERVAL '7 days' - index này chỉ lưu rows 7 ngày, và B-Tree sắp xếp theo user_id, cho phép index-only scan cho COUNT và ORDER BY. Cần refresh index định kỳ (cron job) vì WHERE condition cố định. (2) Materialized view: CREATE MATERIALIZED VIEW daily_stats AS SELECT user_id, DATE(created_at) as day, COUNT(*) as cnt FROM logs GROUP BY user_id, day - refresh mỗi giờ, truy vấn trực tiếp từ MV. (3) PG partitioning + BRIN: Partition theo ngày, mỗi partition có BRIN index trên created_at. Truy vấn chỉ scan 7 partitions. Kết hợp với pg_aggregate để pre-compute. Caching: Dùng pg_buffercache để warm up buffer pool cho hot partitions, và query plan sẽ ưu tiên seq scan nếu partition đủ nhỏ.",
+      "evaluation_points": [
+        "Phân tích được limitation của index đơn giản trong GROUP BY và range scan",
+        "Đề xuất giải pháp partial index và materialized view với hiểu biết về internals",
+        "Áp dụng partitioning và BRIN để tối ưu I/O và query planning"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_008",
+    "question_text": "Bạn đang thiết kế một hệ thống giao dịch ngân hàng với bảng `transactions` có 50 triệu dòng. Bảng thường xuyên bị truy vấn theo `user_id`, `transaction_date`, và `status`. Hãy so sánh ưu nhược điểm của việc sử dụng B-Tree index composite trên (user_id, transaction_date) so với hai index riêng lẻ trên từng cột. Trong tình huống nào bạn sẽ chọn composite index?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "Composite index (user_id, transaction_date) is optimal when the majority of queries filter by both columns (e.g., \"find user 123's transactions in Q4\") because B-Tree indexes leverage prefix matching—the database seeks directly to user_id=123, then scans only matching transaction_date values, avoiding expensive bitmap merges required by two separate indexes. However, this choice has critical trade-offs:\n\n**When composite is superior:** Workload dominated by (user_id, transaction_date) predicates; write volume is moderate; table fits in cache with composite index. The index supports index-only scans if status is added as a covering column, eliminating table I/O entirely.\n\n**When composite fails:** Queries filtering by transaction_date alone cannot use the index (first column is user_id), forcing full table scans. If status filtering is common without user_id, composite becomes a liability. Two separate indexes allow the optimizer to choose the most selective one or use index intersection.\n\n**Banking system specifics:** High write throughput (deposits, withdrawals) means composite index maintenance cost rises. Ensure transaction isolation levels (READ_COMMITTED or SERIALIZABLE) don't conflict with index lock contention. If the table is already partitioned by user_id, composite indexing becomes less critical since each partition is smaller and faster to scan.\n\n**Recommendation:** Profile actual workload query distribution. If >70% of queries use (user_id, transaction_date) together, use composite + consider covering status. If queries are mixed, use two separate indexes with cost-based optimizer relying on index intersection. For a 50M-row banking table, also evaluate whether partitioning by user_id or date reduces reliance on complex indexing strategies.",
+      "evaluation_points": [
+        "Explain B-Tree composite index structure: how prefix matching enables seek operations on (user_id, transaction_date) but not transaction_date alone without user_id",
+        "Analyze the three-dimensional trade-off: index size overhead, write performance cost (INSERTs/UPDATEs to transactions table), and read performance gains for specific query patterns",
+        "Discuss query patterns quantitatively: what percentage of queries must be (user_id + transaction_date) vs. transaction_date-only or user_id-only to justify composite vs. dual indexes",
+        "Address banking system consistency & atomicity concerns: whether composite index choice impacts transaction isolation levels, lock contention during high-concurrency writes, or consistency guarantees",
+        "Evaluate covering index strategy: adding status to composite as (user_id, transaction_date, status) to enable index-only scans, eliminating table lookups",
+        "Consider partitioning/sharding implications: in a 50M-row banking table, discuss if composite index becomes less critical if table is partitioned by user_id",
+        "Identify failure scenarios: what happens during index rebuild on a production banking system; does composite index choice affect recovery time or ACID compliance?"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_010",
+    "question_text": "Công ty bạn có một cơ sở dữ liệu PostgreSQL đơn node xử lý 10.000 giao dịch mỗi giây, nhưng đang gặp vấn đề về latency tăng cao do lock contention trên một vài bảng hot. Bạn được giao nhiệm vụ scaling database. Hãy so sánh hai hướng tiếp cận: vertical scaling (nâng cấp hardware) và horizontal scaling (sharding). Phân tích ưu nhược điểm của mỗi phương án, và đề xuất giải pháp cụ thể cho tình huống này, bao gồm cả cách xử lý lock contention.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "Vertical scaling (increased CPU, RAM, SSD) is simple and requires no architectural changes, but has physical limits, high costs, and doesn't fundamentally solve lock contention—more hardware just allows marginal throughput gains before hitting the same bottleneck. Horizontal scaling via sharding distributes data and workload across multiple nodes, reducing contention per node, but introduces significant complexity: shard key selection (e.g., user_id ensures most queries hit one shard), routing logic, potential cross-shard transactions, and JOIN operations across shards become costly.\n\nTo address lock contention systematically:\n1. **Diagnosis:** Identify which tables/columns are hot using PostgreSQL's `pg_locks` and `pg_stat_statements`. Understand if contention is from row-level (UPDATE/DELETE) or table-level locks.\n2. **Pre-scaling optimizations (highest ROI):**\n   - Reduce transaction duration: optimize slow queries, add indexes, break long transactions into smaller ones\n   - Adjust isolation level: if not required, use READ COMMITTED (PostgreSQL default) instead of REPEATABLE READ to shorten lock hold times\n   - Batch writes: combine multiple small writes into fewer, larger transactions\n   - Denormalize or use materialized views to avoid updating the same hot table repeatedly\n   - Connection pooling (PgBouncer) to manage contention at the session level\n3. **If optimization insufficient, apply sharding:** User-based sharding (user_id as shard key) is ideal if most queries/transactions are user-scoped; it minimizes cross-shard operations and distributed transaction complexity.\n4. **Implementation challenges:** Manage shard-aware routing, handle schema migrations across shards, ensure fair load distribution (avoid shard skew), and plan for shard rebalancing as data grows unevenly.\n\nRecommendation: Start with profiling and query optimization (lowest cost, often resolves 60-70% of contention), then apply connection pooling and isolation tuning. Only proceed to sharding if single-node optimization plateaus and business growth justifies operational overhead.",
+      "evaluation_points": [
+        "Distinguish between different lock types in PostgreSQL (row-level vs. table-level locks, shared vs. exclusive) and explain how each contributes to contention on 'hot' tables",
+        "Discuss PostgreSQL-specific isolation levels (READ COMMITTED vs. REPEATABLE READ vs. SERIALIZABLE) and how isolation level choice affects lock hold times and contention severity",
+        "Address intermediate solutions before sharding: connection pooling, batch processing, lock timeout tuning, denormalization, or materialized views to reduce write contention on specific columns",
+        "Evaluate shard key choice comprehensively: explain why user_id works (locality, minimal cross-shard queries) and discuss failure modes (skewed distribution, future queries that don't filter by user_id)",
+        "Explain operational complexity: distributed transaction handling, shard rebalancing, handling shard-aware routing logic, and monitoring/debugging across multiple instances"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_012",
+    "question_text": "Bạn đang tuning một database MySQL gặp phải hiện tượng 'index fragmentation' trên bảng có 100 triệu dòng với index B-Tree trên cột `created_at`. Query range (ví dụ WHERE created_at BETWEEN '2023-01-01' AND '2023-01-31') chậm dần theo thời gian mặc dù số lượng dòng trả về không đổi. Giải thích nguyên nhân gây ra fragmentation, cách phát hiện, và các biện pháp khắc phục (bao gồm cả rebuild index và các lựa chọn thay thế).",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INTERNALS"
+    ],
+    "answers": {
+      "detailed": "Index fragmentation in B-Tree indexes occurs when leaf pages become physically non-contiguous on disk due to repeated INSERT/UPDATE/DELETE operations, increasing random I/O and reducing cache locality. For a monotonically increasing `created_at` column, fragmentation commonly results from:\n\n**Root Causes:**\n- DELETE operations on old rows (e.g., purging historical data) creating holes in leaf pages\n- UPDATE operations on indexed columns causing page rebalancing\n- With 100M rows, a large index tree has many leaf pages; deletions scattered across pages leave them underutilized, forcing more page reads during range scans\n\n**Detection Methods:**\n1. **information_schema queries:** Use `SELECT * FROM information_schema.INNODB_SYS_INDEXES WHERE TABLE_ID=...` to inspect index stats (note: limited metrics in standard views)\n2. **Percona tools:** `pt-duplicate-key-checker` and `pt-index-usage` can identify fragmentation; alternatively, use `ANALYZE TABLE` followed by querying the Data_free column\n3. **Custom metrics:** Calculate leaf_page_fragmentation = (total_leaf_pages - pages_with_data) / total_leaf_pages\n4. **Query performance:** Baseline latency of range queries; if latency increases despite constant row count and no schema changes, fragmentation is likely culprit\n\n**Remediation Strategies:**\n1. **OPTIMIZE TABLE / ALTER TABLE ENGINE=InnoDB:**\n   - Pros: Directly rebuilds all indexes, compact storage, fully eliminates fragmentation\n   - Cons: Requires full table lock in standard InnoDB (MySQL 5.7+); ALGORITHM=INPLACE with LOCK=NONE available but still resource-intensive; significant downtime for 100M rows\n   - Timeline: Can take hours for 100M rows\n\n2. **Online Schema Change (pt-online-schema-change):**\n   - Pros: Minimizes lock window, triggers OPTIMIZE via new table rebuild\n   - Cons: Requires extra disk space (copy of entire table), slower than OPTIMIZE alone\n\n3. **Partitioning by `created_at` (RANGE or RANGE COLUMNS):**\n   - Pros: Isolates insert/delete zones to specific partitions; old partitions can be dropped or archived without fragmentation overhead; new data always goes to active partition with high page density\n   - Cons: Requires application awareness (partition pruning in WHERE clause); adds complexity; range queries spanning multiple partitions may see performance variance\n   - Example: `PARTITION BY RANGE (YEAR(created_at))` with separate partitions per year/month\n\n4. **Index Strategy Review:**\n   - If PRIMARY KEY is already on `created_at`, the secondary index may be redundant; InnoDB's clustered index (primary key) stores all columns and is immune to fragmentation for sequential scans\n   - If `created_at` is not the PRIMARY KEY, consider making it so (if access patterns allow), enabling table-level sequential I/O for range queries\n\n5. **Compression and ROW_FORMAT:**\n   - Set `ROW_FORMAT=COMPRESSED` to increase logical pages per physical page, reducing fragmentation impact\n   - Trade-off: CPU overhead for compression/decompression\n\n6. **Proactive Maintenance:**\n   - Schedule periodic `OPTIMIZE TABLE` during maintenance windows (e.g., monthly)\n   - Monitor fragmentation metrics and trigger rebuilds at thresholds (e.g., >20% fragmentation)\n\n**Recommended Approach for Your Case:**\n- **Short-term:** Analyze if the index is necessary (PRIMARY KEY check); if so, run `OPTIMIZE TABLE` during low-traffic window\n- **Long-term:** Implement RANGE partitioning by month/year on `created_at` to prevent fragmentation accumulation; combine with a retention policy (DROP old partitions)\n- **Validate:** Use EXPLAIN to confirm the range query uses the index post-optimization; if optimizer degrades to table scan, investigate statistics staleness with `ANALYZE TABLE`",
+      "evaluation_points": [
+        "Explain B-Tree page structure and how physical vs. logical fragmentation differ in InnoDB",
+        "Demonstrate knowledge of fragmentation metrics: page_free_percent, leaf_page_fragmentation from INNODB_CCC or pt-duplicate-key-checker, and how to measure actual impact on query performance",
+        "Discuss why range queries on monotonically increasing `created_at` are particularly affected: scanning leaf nodes requires sequential I/O, fragmentation breaks this pattern",
+        "Compare rebuild methods with trade-offs: ALTER TABLE ENGINE=InnoDB (full table lock, safe but long downtime) vs. OPTIMIZE TABLE (varies by MySQL version, may use ALGORITHM=INPLACE in 5.7+) vs. online DDL with pt-online-schema-change",
+        "Explain partitioning strategy in detail: RANGE PARTITION BY YEAR/MONTH on `created_at` allows dropping old partitions and reduces fragmentation by isolating insert/delete zones",
+        "Discuss alternative optimization: consider if the secondary index is necessary if PRIMARY KEY is already on `created_at`; clustered index locality may eliminate fragmentation entirely",
+        "Address fillfactor concept: MySQL InnoDB doesn't directly support FILLFACTOR like PostgreSQL, but can use ROW_FORMAT and compression settings to manage page utilization",
+        "Evaluate query plan changes post-fragmentation: use EXPLAIN to confirm range scan still uses the index efficiently, or if query optimizer degrades to table scan"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_014",
+    "question_text": "Bạn đang thiết kế một hệ thống phân tích thời gian thực cho dữ liệu IoT với 1 triệu thiết bị, mỗi giây ghi 1 bản ghi vào bảng `sensor_data` (gồm device_id, timestamp, value, region). Yêu cầu truy vấn: (1) lấy dữ liệu theo device_id và khoảng thời gian, (2) tổng hợp theo region trong 1 giờ. Hãy thiết kế chiến lược indexing và partitioning để tối ưu cả hai loại truy vấn trên. Phân tích trade-off giữa query performance và chi phí lưu trữ, bao gồm cả cách xử lý write-heavy workload.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_SCALING",
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "With 1M writes/sec, design must balance write throughput against query optimization. **Partitioning Strategy:** Use time-based range partitioning (e.g., daily or hourly) to reduce partition size and contention. Daily partitions (~86B rows/day) enable efficient drop-old-data policies and allow queries to prune irrelevant partitions, reducing full-table scans. Trade-off: queries spanning multiple dates require partition merging, increasing complexity. **Indexing Strategy:** Create composite index (device_id, timestamp) on each partition to optimize query (1) with minimal write amplification (single index entry per insert). For query (2), avoid eager indexing on (region, timestamp) given write cost; instead, use pre-aggregation: maintain a materialized table (region, hour, count/sum/avg) refreshed hourly via batch job. This trades staleness (1-hour lag) for 3600x query speedup and reduced index maintenance overhead. **Write Optimization:** Implement write buffering (e.g., Kafka) with batching (1000-5000 rows/batch) and use bulk insert protocols (e.g., COPY in PostgreSQL) to amortize write costs across multiple rows. Ensure atomicity via Write-Ahead Logging (WAL): each batch commit is durable even on crash. **Storage Trade-off:** Without indexes: ~86GB/day (raw row storage). With composite index: ~95-100GB/day (+10-15% overhead but enables sub-second device_id+time range lookups). Materialized view adds ~5GB/hour of aggregates but eliminates real-time full-table scans. **Concrete Stack:** Use TimescaleDB (PostgreSQL extension optimized for time-series) with automatic chunking, or ClickHouse for columnar compression (~80% reduction vs. row-store, ideal for aggregation); configure hypertable compression to archive old partitions into compressed format, reducing active storage by 70% while maintaining query access.",
+      "evaluation_points": [
+        "Partition strategy: Explain why time-based partitioning (daily/hourly) reduces write contention and enables efficient data retention policies; discuss trade-offs with query complexity across partitions",
+        "Index design for write-heavy workload: Justify why composite index (device_id, timestamp) is optimal for query (1) while minimizing write amplification; explain when a secondary index on (region, timestamp) is justified despite write costs, or why pre-aggregation is preferable",
+        "Atomicity & Write-Ahead Logging (WAL): Discuss how batch inserts via buffer (Kafka) maintain atomicity and how WAL ensures durability during 1M writes/sec; explain the relationship between batch size and write throughput vs. latency",
+        "Pre-aggregation implementation: Compare materialized views vs. incremental aggregation tables; discuss staleness tolerance, refresh frequency, and storage overhead (e.g., hourly region aggregates reduce raw data scan by 3600x but require maintenance)",
+        "Storage optimization: Quantify compression gains (columnar vs. row-oriented); estimate storage footprint with/without indexes (e.g., daily partition ~86GB raw, 10GB indexed); discuss TTL/archival strategy for old partitions",
+        "Write performance metrics: Explain how to measure and optimize write latency under 1M rows/sec (e.g., batch size tuning, connection pooling, network I/O saturation); identify bottlenecks (CPU, I/O, network) and mitigation strategies"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_016",
+    "question_text": "Bạn đang debug một hệ thống database PostgreSQL gặp hiện tượng 'query plan thay đổi đột ngột' dẫn đến performance degradation. Một query đơn giản (SELECT * FROM orders WHERE customer_id = 123 AND order_date > '2024-01-01') trước đây chạy 10ms, nay chạy 5 giây, mặc dù dữ liệu không tăng đột biến. Hãy phân tích các nguyên nhân có thể: (a) stale statistics, (b) index corruption, (c) parameter sniffing, (d) lock contention. Đề xuất các bước kiểm tra và khắc phục cụ thể, bao gồm cách force một query plan hoặc điều chỉnh database configuration.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INTERNALS"
+    ],
+    "answers": {
+      "detailed": "Stale statistics is the most likely culprit: PostgreSQL's query planner relies on pg_stat_* tables; if table distribution changed (e.g., new customer_id values or date ranges), the planner may drastically misestimate rows, choosing a sequential scan instead of an index scan or vice versa.\n\n**Diagnostic workflow:**\n1. **EXPLAIN (ANALYZE, BUFFERS)** the query twice (cold and warm cache) to compare actual rows vs. estimated rows; a 100x mismatch signals bad statistics.\n2. **Check last_analyze** via `SELECT schemaname, tablename, last_analyze FROM pg_stat_user_tables WHERE tablename='orders'`; if it's weeks old and data distribution changed, that's the root cause.\n3. **Run ANALYZE orders** to force refresh statistics. Re-run EXPLAIN to see if the plan improves.\n4. **Verify index integrity** via `REINDEX INDEX index_name` or `amcheck` extension if you suspect corruption (rare but possible after hardware failure).\n5. **Check for lock contention** via `SELECT * FROM pg_locks WHERE NOT granted` or enable auto_explain to log slow queries with context.\n\n**Remediation:**\n- **Root cause fix:** If stale statistics: increase `default_statistics_target` (e.g., ALTER DATABASE mydb SET default_statistics_target = 1000) for columns with skewed distributions (customer_id, order_date); use `ALTER TABLE orders ALTER COLUMN customer_id SET STATISTICS 500`.\n- **Extended statistics** (PostgreSQL 10+): `CREATE STATISTICS s1 (dependencies) ON customer_id, order_date FROM orders` if columns are correlated.\n- **Temporary workaround:** Disable seq scan (`SET enable_seqscan = off`) or use `pg_hint_plan` extension to force index usage, but this masks the real problem.\n- **Configuration tuning:** Adjust `random_page_cost` (default 4.0) if the planner underestimates index cost on SSD hardware (try 1.0-1.5).\n- **Monitor:** Enable `log_min_duration_statement` and `auto_explain` to catch similar issues proactively; query `pg_stat_statements` to track plan changes over time.\n\nParameter sniffing is not a concern in PostgreSQL (unlike SQL Server); prepared statements have fixed plans but use generic estimates, not sniffed values. Lock contention is unlikely to cause 50x slowdown for a simple SELECT unless there's a heavy write load—check `pg_stat_activity` for blocking queries.",
+      "evaluation_points": [
+        "Correctly identifies stale statistics as the most likely culprit and explains the mechanism (inaccurate row estimates leading to suboptimal plan choices)",
+        "Demonstrates understanding of PostgreSQL-specific tools: EXPLAIN (ANALYZE, BUFFERS) for actual vs. estimated rows/costs, pg_stat_user_tables for last_analyze timestamp, and amcheck for index integrity validation",
+        "Provides concrete diagnostic workflow: check plan with EXPLAIN, verify statistics freshness, run ANALYZE, then validate index integrity—in the correct logical order",
+        "Distinguishes parameter sniffing as a non-issue in PostgreSQL (unlike SQL Server) but correctly notes prepared statements can have fixed plans; discusses trade-offs of plan forcing (pg_hint_plan or enable_seqscan toggle) vs. fixing root cause",
+        "Addresses lock contention accurately as unlikely the primary cause here (would show in pg_locks/wait events, not execution time for a simple SELECT); demonstrates this won't cause 50x slowdown",
+        "Suggests tuning knobs with context: default_statistics_target for skewed distributions, random_page_cost for index cost modeling, and extended statistics for correlated columns—shows understanding of when each applies",
+        "Strong answer but could further emphasize: (1) checking actual query plan changes via pg_stat_statements or auto_explain, (2) validating hardware/filesystem changes (ALTER SYSTEM SET shared_buffers may be relevant), (3) distinguishing between soft (statistics) vs. hard (corruption) problems and their remediation priority"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_013",
+    "question_text": "Hãy giải thích khái niệm Clustered Index và cho biết nó khác gì so với Non-Clustered Index?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "Clustered Index là loại index xác định thứ tự vật lý của dữ liệu trên đĩa—mỗi bảng chỉ có một Clustered Index duy nhất. Leaf pages của Clustered Index chứa actual data rows được sắp xếp theo cột index key. Non-Clustered Index là B-tree riêng biệt chứa index keys và row locators (RID hoặc bookmark) trỏ đến hàng dữ liệu thực tế hoặc Clustered Index entry; mỗi bảng có thể có nhiều Non-Clustered Index.\n\nSự khác biệt chính:\n1. **Leaf node structure:** Clustered Index leaf pages = actual data rows; Non-Clustered Index leaf pages = index key + locator\n2. **Thứ tự lưu trữ:** Clustered Index quyết định thứ tự vật lý trên đĩa, Non-Clustered Index là bảng tra cứu logic\n3. **Covering queries:** Non-Clustered Index có thể cover query nếu chứa tất cả cột cần, tránh bookmark lookup\n4. **Performance:** Clustered Index tối ưu range queries, nhưng INSERT/UPDATE/DELETE phải duy trì thứ tự vật lý (cost cao); Non-Clustered Index hỗ trợ nhiều lookups nhưng cần bookmark lookup khi không cover",
+      "evaluation_points": [
+        "Định nghĩa chính xác Clustered Index và tính duy nhất của nó trên mỗi bảng",
+        "Giải thích cơ chế lưu trữ vật lý: Clustered Index xác định thứ tự sắp xếp của data pages trên đĩa, Non-Clustered Index là B-tree riêng biệt với con trỏ RID hoặc bookmark",
+        "Phân biệt rõ leaf node: Clustered Index có leaf pages chứa actual data rows, Non-Clustered Index leaf pages chứa index keys + row locators",
+        "Hiểu được vấn đề covering index: Non-Clustered Index có thể cover query nếu chứa tất cả cột cần thiết, tránh cần phải tìm kiếm Clustered Index",
+        "Phân tích ưu nhược điểm: Clustered Index giúp range queries nhanh nhưng chỉ có 1, Non-Clustered Index hỗ trợ nhiều lookups nhưng cần bookmark lookup khi không cover",
+        "Thảo luận performance trade-off: INSERT/UPDATE/DELETE trên Clustered Index đắt hơn vì phải duy trì thứ tự vật lý"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_015",
+    "question_text": "Database scaling là gì? Hãy so sánh hai phương pháp chính: Vertical Scaling và Horizontal Scaling.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "Database scaling là quá trình mở rộng khả năng xử lý của cơ sở dữ liệu khi tải (load) tăng. **Vertical Scaling (Scale Up):** Nâng cấp phần cứng của một server duy nhất (thêm RAM, CPU, SSD). Ưu điểm: dễ triển khai, không cần thay đổi logic ứng dụng, tránh được vấn đề consistency. Nhược điểm: có giới hạn vật lý, chi phí tăng theo cấp số nhân, là single point of failure, downtime khi nâng cấp. **Horizontal Scaling (Scale Out):** Thêm nhiều server vào hệ thống và phân tán dữ liệu qua sharding (phân chia dữ liệu theo khóa như range-based, hash-based) hoặc replication (sao chép toàn bộ hoặc từng phần dữ liệu). Ưu điểm: khả năng mở rộng gần như vô hạn, tính sẵn sàng cao (high availability), chia tải. Nhược điểm: phức tạp trong quản lý, vấn đề consistency giữa các node (eventual consistency vs. strong consistency), network latency, khó xử lý truy vấn cross-shard. **Áp dụng:** Vertical scaling phù hợp với ứng dụng OLAP, dữ liệu không quá lớn, hoặc giai đoạn startup. Horizontal scaling thích hợp cho ứng dụng OLTP với traffic cao (social media, e-commerce), dữ liệu khổng lồ, yêu cầu high availability. Trong thực tế, nhiều hệ thống sử dụng hybrid approach: master-slave replication + sharding.",
+      "evaluation_points": [
+        "Định nghĩa chính xác hai phương pháp scaling và khác biệt cơ bản giữa chúng",
+        "Giải thích chi tiết về ưu điểm (chi phí, độ phức tạp, khả năng mở rộng) và nhược điểm (độ trễ, chi phí, giới hạn) của mỗi phương pháp",
+        "Thảo luận về các thách thức cụ thể của horizontal scaling: data consistency, network latency, sharding strategy (range-based, hash-based, directory-based) và các vấn đề như hot keys hoặc uneven distribution",
+        "Thảo luận về các thách thức của vertical scaling: single point of failure, giới hạn phần cứng, downtime trong quá trình nâng cấp",
+        "Đưa ra ví dụ cụ thể về workload phù hợp cho từng phương pháp (ví dụ: OLTP vs. OLAP, traffic patterns)",
+        "Nêu các chiến lược hybrid hoặc kết hợp cả hai phương pháp trong thực tế"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_017",
+    "question_text": "Bạn đang thiết kế index cho bảng 'transactions' trong PostgreSQL có 100 triệu bản ghi, với các truy vấn thường xuyên lọc theo `user_id` và `created_at`. Hãy so sánh trade-off giữa Composite Index trên (user_id, created_at) và hai Single Column Index riêng biệt?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "Composite Index (user_id, created_at) is optimal for queries filtering on both columns simultaneously because PostgreSQL uses tree navigation: it prunes by user_id first, then performs efficient range scan on created_at within that subset, reducing I/O significantly. Two Single Column Indexes can trigger BitmapAnd (intersecting bitmaps), which works but requires scanning both indexes and merging results—slower for combined filters. **Trade-offs:** Composite Index uses less total disk space than two separate indexes (one B-tree vs. two), accelerates queries filtering on both or user_id first, but is *useless* for queries filtering only on created_at (violates leftmost-prefix rule in B-trees). Single indexes are more flexible across diverse query patterns and have lower write overhead per index, but queries combining both columns pay coordination cost. **At 100M records scale:** composite index is strongly preferred if >80% of workload queries both columns; otherwise, consider a partial index on created_at for recent transactions or INCLUDE clause (PostgreSQL 11+) to avoid table lookups. Validate choice via EXPLAIN ANALYZE on representative queries.",
+      "evaluation_points": [
+        "Explain composite index column ordering: why (user_id, created_at) works but (created_at, user_id) may not, considering selectivity and query predicates",
+        "Quantify trade-offs: storage overhead of composite vs. single indexes at scale (100M records); impact on INSERT/UPDATE performance due to index maintenance",
+        "Analyze PostgreSQL-specific mechanisms: when planner chooses BitmapAnd vs. composite index scan, explain index-only scans potential with INCLUDE clause as alternative",
+        "Discuss query patterns: differentiate scenarios—queries filtering only on user_id alone, only on created_at alone, and combined—and which index strategy serves each best",
+        "Address maintenance and flexibility: cost of adding/dropping indexes in production; explain how partial indexes or partitioning might complement indexing strategy"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_019",
+    "question_text": "Công ty bạn có một database MySQL đang gặp vấn đề về hiệu năng do số lượng kết nối đồng thời tăng đột biến. Hãy đề xuất các giải pháp scaling và optimization cụ thể để giải quyết vấn đề này, bao gồm cả việc sử dụng connection pooling và replication.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "Để giải quyết vấn đề kết nối đồng thời, áp dụng: (1) Connection Pooling - tái sử dụng kết nối thông qua pool (ví dụ HikariCP), cấu hình max pool size = (core_count × 2) + spare_connections, điều chỉnh connection timeout và idle timeout để tránh exhaustion và leak. Giảm overhead khởi tạo TCP handshake và authentication. (2) Read Replication - master-slave architecture: master xử lý writes, slaves xử lý reads, giảm tải master. Tuy nhiên cần lưu ý replication lag (eventual consistency) và đảm bảo ứng dụng chịu được read stale data. (3) Query Optimization - phân tích explain plan, thêm index trên columns dùng trong WHERE/JOIN, tránh full table scan. (4) Caching Layer - Redis/Memcached cho dữ liệu ít thay đổi, giảm query đến DB. Cần strategy invalidation (TTL, event-driven). (5) Vertical Scaling - tăng RAM/CPU nếu single node chưa bão hòa. (6) Horizontal Scaling/Sharding - nếu data quá lớn, chia dữ liệu theo sharding key. Monitor bằng Prometheus: connection pool utilization, query latency, replication lag, cache hit ratio để điều chỉnh linh hoạt.",
+      "evaluation_points": [
+        "Giải thích được cách connection pooling giảm overhead tạo kết nối và tác động đến hiệu năm (connection lifecycle, thread overhead)",
+        "Mô tả chi tiết mô hình master-slave replication, bao gồm replication lag, consistency guarantees (eventual consistency), và khi nào dữ liệu stale là chấp nhận được",
+        "Phân tích trade-off giữa các giải pháp: vertical scaling vs horizontal scaling, read replicas vs sharding, caching invalidation complexity",
+        "Giải thích các vấn đề tiềm ẩn: connection pool saturation khiến connection timeout, replica lag trong high-write scenarios, cache inconsistency với dữ liệu thay đổi nhanh",
+        "Đề xuất monitoring metrics cụ thể: connection pool utilization, query latency, replication lag, cache hit ratio để đánh giá hiệu quả từng giải pháp"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_021",
+    "question_text": "Bạn có một bảng 'logs' trong PostgreSQL với 1 tỷ bản ghi, cột `log_time` (timestamp) được index. Truy vấn `SELECT * FROM logs WHERE log_time BETWEEN '2025-01-01' AND '2025-01-31' ORDER BY log_time LIMIT 100` chạy rất chậm mặc dù đã có index. Hãy phân tích nguyên nhân tiềm ẩn và đề xuất giải pháp performance tuning chi tiết.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INTERNALS"
+    ],
+    "answers": {
+      "detailed": "**Root Causes Analysis:**\n\n1. **Random I/O from Heap Fragmentation:** PostgreSQL uses heap tables without clustered indexes. Even with a B-tree index on `log_time`, the index returns heap pointers (TIDs). Fetching 1 billion matching rows' data from the heap causes random I/O because data is unordered on disk. For a 1-month range in a 1-billion-row table, millions of rows may match, requiring millions of random page accesses.\n\n2. **Sequential Scan vs. Index Scan Trade-off:** The query planner may choose a sequential scan if it estimates the date range covers >5-10% of the table, making sequential I/O cheaper than random I/O from index lookups.\n\n3. **LIMIT Doesn't Stop Early:** The query requests LIMIT 100 but must still scan the entire `log_time` BETWEEN range and sort before limiting. The index may support ordering, but only if used via an Index-Only Scan (IOS), which requires all needed columns in the index.\n\n4. **Stale Statistics & VACUUM Bloat:** Missing ANALYZE or index bloat from high insert rate can cause planner miscalculations.\n\n**Detailed Solutions:**\n\n1. **Use BRIN Index (Block Range Index):**\n   - BRIN is superior for `log_time` because data is naturally sequential (time-ordered inserts). BRIN uses 1-2% of B-tree storage and has much faster scans for large ranges.\n   - Caveat: BRIN assumes data correlation; if logs are inserted out-of-order by application timestamp, BRIN degrades to sequential scan.\n   - Command: `CREATE INDEX idx_log_time_brin ON logs USING BRIN (log_time) WITH (pages_per_range=128);`\n   - Evaluate with: `EXPLAIN (ANALYZE, BUFFERS) SELECT...` to confirm index selection and buffer hits.\n\n2. **Create Composite Index for Index-Only Scan:**\n   - If `SELECT *` needs other columns, include them: `CREATE INDEX idx_logs_covering ON logs (log_time, user_id, message, ...) INCLUDE (columns);` (PostgreSQL 11+).\n   - This allows IOS, avoiding heap access entirely. Trade-off: larger index, slower writes.\n\n3. **Table Partitioning by Time:**\n   - Partition by month: `CREATE TABLE logs_2025_01 PARTITION OF logs FOR VALUES FROM ('2025-01-01') TO ('2025-02-01');`\n   - Partition pruning eliminates scanning other months automatically. For a 1-billion-row table, partitions reduce effective scan size by 12x.\n   - Maintenance overhead: create new partitions monthly, manage retention policies.\n\n4. **Optimize Query Pattern:**\n   - If possible, use streaming/cursor to fetch 100 at a time with `OFFSET`, or use keyset pagination (WHERE log_time > last_log_time LIMIT 100) to avoid sorting all results.\n   - Rewrite: `SELECT * FROM logs WHERE log_time >= '2025-01-01' AND log_time < '2025-02-01' ORDER BY log_time LIMIT 100;` (remove BETWEEN, use half-open range for clarity).\n\n5. **Maintenance:**\n   - Run `ANALYZE logs;` to update planner statistics.\n   - Regular `VACUUM` (or `VACUUM ANALYZE`) to reclaim space and update visibility map for IOS.\n   - Monitor index bloat: `SELECT * FROM pgstattuple_approx('idx_log_time_brin');`\n\n**Verification:** Use `EXPLAIN (ANALYZE, BUFFERS, VERBOSE)` to confirm:\n   - Index type used (Bitmap Index Scan, Index-Only Scan, or BRIN Scan)\n   - Actual rows scanned vs. rows returned (if huge difference, partitioning helps)\n   - Buffer hits vs. disk reads (random I/O cost)",
+      "evaluation_points": [
+        "Correctly identify that PostgreSQL lacks true clustered indexes and explain heap table organization with B-tree indexes causing random I/O",
+        "Distinguish between BRIN (Block Range Index) applicability: suitable for large sequential datasets but requires careful consideration of correlation and block density; explain when BRIN outperforms B-tree vs. when it doesn't",
+        "Demonstrate understanding of EXPLAIN ANALYZE output: identify sequential vs. index scans, actual vs. estimated rows, and how to detect full-range scans despite LIMIT",
+        "Propose partitioning strategy with concrete trade-offs: partition by month/week to prune partitions early, but discuss maintenance overhead and query planning complexity",
+        "Explain index-only scan prerequisites: visibility map, heap access avoidance, and how composite indexes reduce page accesses; discuss the cost of maintaining additional index columns",
+        "Mention statistics accuracy (ANALYZE) and query planner miscalculations as potential causes of suboptimal plan selection"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_018",
+    "question_text": "Clustered Index là gì? Hãy cho biết sự khác biệt chính giữa Clustered Index và Non-Clustered Index.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "Clustered Index xác định thứ tự lưu trữ vật lý của dữ liệu trên ổ đĩa—leaf nodes của Clustered Index chứa chính các trang dữ liệu thực tế. Mỗi bảng chỉ có một Clustered Index vì dữ liệu chỉ có thể được sắp xếp theo một cách vật lý. Non-Clustered Index là cấu trúc riêng biệt với leaf nodes chứa các con trỏ (row locator hoặc clustered key) trỏ đến dữ liệu, có thể có nhiều trên một bảng. Clustered Index thường nhanh hơn cho range queries và full table scans nhờ vào sắp xếp vật lý và I/O liên tiếp; Non-Clustered Index cung cấp nhiều đường truy cập nhưng yêu cầu bước lookup bổ sung (bookmark lookup). Thường thì khóa chính (Primary Key) mặc định là Clustered Index trong hầu hết RDBMS.",
+      "evaluation_points": [
+        "Understand that Clustered Index physically determines data storage order on disk (leaf nodes contain actual data pages)",
+        "Know that each table can have only one Clustered Index (because data can only be sorted one way physically)",
+        "Distinguish storage mechanisms: Clustered Index stores data in leaf nodes vs. Non-Clustered Index stores pointers/row locators",
+        "Explain performance trade-offs: Clustered Index excels at range queries and full table scans due to physical ordering; Non-Clustered Index enables multiple access paths but requires additional lookup (bookmark lookup or key lookup)",
+        "Recognize that the primary key is typically the Clustered Index by default in most RDBMS, but this can be changed",
+        "Strong candidates discuss I/O efficiency: Clustered Index reduces disk I/O for range queries because related data is physically adjacent; Non-Clustered Index may incur random I/O"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_020",
+    "question_text": "Database Scaling theo chiều dọc (Vertical Scaling) và chiều ngang (Horizontal Scaling) khác nhau như thế nào? Cho ví dụ cụ thể.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "Vertical Scaling là nâng cấp phần cứng (CPU, RAM, ổ cứng, I/O) trên một máy chủ duy nhất, ví dụ: nâng RAM từ 32GB lên 128GB hoặc thay SSD nhanh hơn. Horizontal Scaling là thêm nhiều máy chủ để phân tải dữ liệu và truy vấn, ví dụ: sử dụng sharding để chia dữ liệu theo key trên nhiều node, hoặc replication để phân tán đọc.\n\nVertical Scaling ưu điểm: đơn giản (không cần thay đổi application logic), chi phí ban đầu thấp, không có vấn đề consistency phức tạp. Nhược điểm: có giới hạn vật lý (không thể nâng cấp vô hạn), single point of failure, downtime khi nâng cấp.\n\nHorizontal Scaling ưu điểm: mở rộng tuyến tính (thêm node = thêm capacity), high availability, fault tolerance. Nhược điểm: phức tạp hơn (cần handle data consistency, network latency, distributed transactions), tăng chi phí vận hành, khó debug.",
+      "evaluation_points": [
+        "Phân biệt rõ Vertical Scaling (nâng cấp phần cứng một máy) vs Horizontal Scaling (thêm nhiều máy)",
+        "Cung cấp ví dụ cụ thể cho mỗi loại (e.g., RAM upgrade vs sharding/replication)",
+        "Hiểu ưu điểm: Vertical đơn giản, chi phí thấp ban đầu; Horizontal có khả năng mở rộng tuyến tính",
+        "Hiểu nhược điểm: Vertical có giới hạn phần cứng và single point of failure; Horizontal tăng độ phức tạp (data consistency, network latency, distributed transactions)",
+        "Nhận biết trường hợp sử dụng: Vertical cho ứng dụng nhỏ/trung bình; Horizontal cho hệ thống lớn cần high availability"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_022",
+    "question_text": "Bạn đang thiết kế một hệ thống báo cáo cho công ty thương mại điện tử với 10 triệu đơn hàng mỗi ngày. Bảng orders có cột customer_id, order_date, total_amount. Truy vấn báo cáo thường lọc theo customer_id và order_date. Hãy đề xuất chiến lược indexing tối ưu và giải thích tại sao?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "Nên tạo composite index trên (customer_id, order_date) vì cả hai cột đều xuất hiện trong WHERE clause với tần suất cao. Thứ tự cột quan trọng: customer_id trước vì có selectivity cao (lọc nhanh số lượng hàng lớn), order_date sau để hỗ trợ range query theo ngày và sort operations mà không cần secondary sort. Tránh index riêng lẻ vì sẽ buộc database phải chọn một index hoặc merge từ nhiều index, cả hai đều tốn kém. Nếu truy vấn thường lấy total_amount, tạo covering index (customer_id, order_date) INCLUDE (total_amount) để tránh lookup thêm vào clustered index, giảm đáng kể I/O. Cân nhắc trade-off: với 10 triệu đơn/ngày, mỗi index tăng overhead cho INSERT/UPDATE/DELETE; có thể xem xét partitioning bảng theo order_date hoặc materialized view nếu báo cáo không cần real-time.",
+      "evaluation_points": [
+        "Đề xuất composite index (customer_id, order_date) với thứ tự cột chính xác",
+        "Giải thích được lý do thứ tự: customer_id có selectivity cao, order_date hỗ trợ range query và sort operations",
+        "Nhận ra composite index tránh được index merge/multiple index lookups inefficient",
+        "Xem xét covering index với INCLUDE (total_amount) để tối ưu I/O và tránh clustered index lookups",
+        "Đánh giá các yếu tố: tần suất truy vấn theo customer_id vs order_date, và liệu có truy vấn riêng lẻ trên từng cột",
+        "Xem xét maintenance cost (insert/update/delete overhead) vs query benefit với 10 triệu đơn hàng/ngày",
+        "Đề cập chiến lược partitioning hoặc materialized view cho báo cáo nếu cần tối ưu hơn"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_024",
+    "question_text": "Công ty bạn đang mở rộng hệ thống database từ 1 server lên 3 server để xử lý 100 triệu giao dịch mỗi ngày. Hãy so sánh hai chiến lược: Read Replicas và Sharding. Trong tình huống nào bạn chọn Read Replicas? Khi nào Sharding là bắt buộc?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "Read Replicas phù hợp khi workload chủ yếu là đọc (ví dụ: 80% đọc, 20% ghi), dữ liệu nhỏ (<500GB) và cần đơn giản. Tuy nhiên, cần lưu ý replication lag: replicas trả về dữ liệu stale, vi phạm strong consistency. Sharding bắt buộc khi: (1) dữ liệu vượt khả năng của một node (>2TB), hoặc (2) write throughput vượt quá capacity của primary node. Trade-off chính: Read Replicas dễ triển khai (master-slave setup) nhưng không giải quyết write bottleneck và cần xử lý eventual consistency; Sharding phức tạp (shard key selection, hot shard risk, cross-shard joins khó khăn, resharding downtime) nhưng scale được cả đọc và ghi. ACID implications: Read Replicas duy trì ACID trên primary nhưng reads từ replicas có consistency yếu hơn; Sharding đòi hỏi distributed transactions (2PC overhead hoặc saga pattern) làm giảm atomicity guarantee. Cho 100M giao dịch/ngày với workload write-heavy, Sharding là bắt buộc.",
+      "evaluation_points": [
+        "Correctly identifies workload characteristics (read/write ratio) as primary decision factor and quantifies thresholds (80% read, 500GB, 2TB)",
+        "Explains fundamental limitation of Read Replicas: cannot scale write throughput, only read capacity",
+        "Identifies key Sharding complexity: shard key selection, hot shard problem, and resharding overhead",
+        "Discusses replication lag implications: Read Replicas may return stale data (violates strong consistency), requiring understanding of eventual consistency trade-offs",
+        "Analyzes ACID property impacts: Read Replicas maintain isolation/consistency on primary but replicas may lag; Sharding requires distributed transaction handling (2PC, saga pattern) affecting atomicity",
+        "Considers operational complexity: monitoring, failover strategy, cross-shard queries in Sharding scenarios"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_026",
+    "question_text": "Hệ thống database của bạn đang bị chậm nghiêm trọng do full table scan trên bảng transactions (500 triệu dòng). Bạn đã thêm index trên cột transaction_date, nhưng truy vấn lọc theo transaction_date và user_id vẫn chạy chậm. Làm thế nào để debug và tối ưu? Đề xuất giải pháp cụ thể, bao gồm phân tích execution plan và chiến lược indexing.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INTERNALS"
+    ],
+    "answers": {
+      "detailed": "Chạy EXPLAIN ANALYZE để kiểm tra: (1) Index có được sử dụng không? Nếu không, kiểm tra selectivity của transaction_date (nếu quá nhiều dòng trùng nhau, query planner có thể chọn full scan do chi phí thấp hơn). (2) Nếu index được dùng, kiểm tra scan type (Index Scan vs. Index Seek) và rows returned vs. rows estimated—nếu chênh lệch lớn, cardinality estimation kém. (3) Kiểm tra predicate pushdown: cả hai điều kiện (transaction_date AND user_id) có được áp dụng ở index level không?\n\nGiải pháp cụ thể: (1) **Composite index**: Tạo index (user_id, transaction_date) vì user_id thường có selectivity cao hơn transaction_date—lead column nên lọc tối đa dòng sớm nhất. (2) **Covering index**: Thêm INCLUDE (các cột SELECT cần) để tránh table lookup đến heap/clustered index, ví dụ: CREATE INDEX idx_user_date ON transactions(user_id, transaction_date) INCLUDE (amount, status). (3) **Partitioning**: Nếu dữ liệu lịch sử lớn (500M dòng), partition theo transaction_date (ví dụ: theo tháng/quý) để query planner pruning partition không cần quét, giảm I/O và giải phóng cache. Trade-off: phức tạp bảo trì, cross-partition queries chậm hơn, cần monitoring distribution. (4) **Kiểm tra thống kê**: ANALYZE/UPDATE STATISTICS để query planner có cardinality chính xác. Kiểm tra hiệu năng sau mỗi thay đổi bằng EXPLAIN ANALYZE hoặc metrics (execution time, rows scanned).",
+      "evaluation_points": [
+        "Correctly interpret EXPLAIN ANALYZE output: identify whether index is used, scan type (index scan vs. index seek), rows estimated vs. actual (indicates cardinality estimation issues), and whether predicate pushdown is effective",
+        "Explain selectivity analysis: user_id selectivity likely higher than transaction_date (many transactions per day); composite index order matters—lead column should maximize early filtering",
+        "Justify covering index choice: reduces table lookups (RID lookups in SQL Server or heap access in PostgreSQL), demonstrating understanding of storage engine mechanics",
+        "Address partitioning trade-offs explicitly: (a) reduces partition scan scope and improves query pruning, (b) adds complexity for cross-partition queries, (c) requires consideration of data skew and maintenance overhead",
+        "Distinguish between query optimization layers: index strategy (logical plan), execution strategy (physical plan), and data organization (partitioning)",
+        "Consider alternative: if user_id selectivity is very high, consider index on (user_id, transaction_date) vs. filtering order and when index skip scan might apply"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_023",
+    "question_text": "Hãy định nghĩa và phân biệt Clustered Index và Non-Clustered Index trong cơ sở dữ liệu quan hệ.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "Clustered Index sắp xếp và lưu trữ dữ liệu vật lý theo thứ tự của cột index—leaf nodes chứa toàn bộ row data, mỗi bảng chỉ có một clustered index (thường là primary key). Non-Clustered Index tạo cấu trúc riêng biệt (B-tree) chứa key và con trỏ tới clustered index key hoặc RID, cho phép nhiều non-clustered index trên một bảng. Clustered index nhanh hơn cho truy vấn dải và scan vì dữ liệu đã được sắp xếp vật lý, nhưng insert/update phát sinh chi phí cao do cần reorg/defragment dữ liệu vật lý. Non-clustered index cung cấp linh hoạt nhưng thêm overhead do key lookup (ngoài trừ covering query). Lựa chọn clustered index nên dựa trên pattern truy vấn dominant và tần suất modify.",
+      "evaluation_points": [
+        "Giải thích rõ clustered index là cấu trúc vật lý của bảng (leaf nodes chứa toàn bộ row data), không phải chỉ sắp xếp dữ liệu",
+        "Phân biệt non-clustered index sử dụng cấu trúc riêng biệt (B-tree) với con trỏ trỏ đến clustered index hoặc RID, không phải trực tiếp tới hàng dữ liệu",
+        "Giải thích hiệu ứng của clustered index key trong non-clustered index (covering queries, key lookup)",
+        "Nêu chi tiết chi phí của clustered index trên insert/update: reorg/defragmentation, not just tái sắp xếp đơn giản",
+        "Thảo luận trade-off: clustered index tốt cho range query và scan nhưng tệ với random insert/update; non-clustered index flexibility nhưng thêm overhead lookup",
+        "So sánh hành vi giữa các hệ quản trị cơ sở dữ liệu (SQL Server, MySQL InnoDB, PostgreSQL) về clustered index"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_025",
+    "question_text": "Bạn đang làm việc với bảng orders có 10 triệu dòng, thường xuyên truy vấn theo customer_id và order_date. Hãy giải thích tại sao composite index (customer_id, order_date) lại hiệu quả hơn hai index riêng lẻ, và nêu trade-off khi thêm index này.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "Composite index (customer_id, order_date) is more efficient because it leverages **index selectivity**: the database performs an index seek on customer_id (highly selective), then efficiently scans the contiguous order_date range within the same B-tree structure. This avoids the cost of two independent index lookups followed by merge operations, which would require additional disk I/O and CPU to correlate results. The key advantage is that both filter conditions are resolved in a single traversal.\n\nTrade-offs include:\n- **Write overhead:** INSERT/UPDATE operations must maintain both columns in the B-tree, increasing write latency and causing index fragmentation, especially during bulk operations.\n- **Storage cost:** The composite index consumes significantly more space than either single-column index, competing with other indexes and data pages in the buffer pool.\n- **Query specificity:** This index only optimizes queries filtering on customer_id first (or both columns). Queries filtering only on order_date cannot use this composite index and would require a separate index, making this design unsuitable if query patterns are mixed.\n- **Leading column constraint:** Removing or reordering columns changes the index's effectiveness; the order matters for selectivity.\n\nDecision: Create this composite index if most queries follow the (customer_id, order_date) pattern; otherwise, evaluate separate indexes or a covering index strategy.",
+      "evaluation_points": [
+        "Explain index selectivity: why (customer_id, order_date) is ordered—filtering on customer_id first narrows the search space before scanning order_date, vs. merging results from two independent indexes",
+        "Articulate the 'leading column' constraint: why queries filtering only on order_date cannot use this composite index effectively, requiring a separate index if such queries are common",
+        "Identify when two separate indexes might be preferable: if query patterns vary significantly (e.g., frequent searches on customer_id alone vs. order_date alone), or if UPDATE operations on customer_id are very frequent",
+        "Discuss storage and write-path trade-offs more concretely: composite indexes increase index fragmentation during bulk inserts/updates and consume more buffer pool memory, potentially impacting concurrent workloads",
+        "Mention covering index potential: whether adding additional columns (e.g., amount, status) to the composite index could enable index-only scans and further improve read performance"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_027",
+    "question_text": "Công ty của bạn có một bảng logs với 100 triệu dòng, insert liên tục 1000 dòng/giây, và cần truy vấn theo timestamp. Clustered index trên timestamp gây ra vấn đề gì? Đề xuất giải pháp tối ưu và giải thích cách hoạt động.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DATABASE_INDEXING"
+    ],
+    "skill_tags": [
+      "DATABASE_INTERNALS",
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "Clustered index on timestamp creates a 'hot spot' and page split problem: all new inserts append sequentially to the rightmost leaf page, causing severe contention, repeated page splits, and excessive I/O. Since the page fills quickly with 1000 inserts/sec, the storage engine must constantly allocate new pages and restructure the index, generating high WAL (Write-Ahead Logging) activity and lock contention.\n\nProposed solutions:\n\n1) **Hash partitioning by timestamp range** (e.g., modulo operation on millisecond component): Distribute inserts across N physical partitions with independent clustered indexes. Each partition absorbs ~1000/N inserts/sec, reducing individual page split frequency and parallelizing WAL writes across multiple log buffers. Trade-off: range queries spanning timestamps must scan multiple partitions; query complexity increases.\n\n2) **Non-clustered index on timestamp + clustered index on identity column**: Insert sequentially on an auto-incrementing identity (no hot spot), maintain non-clustered index on timestamp for fast timestamp-based queries. Trade-off: timestamp range queries require non-clustered index seeks (potentially slower than clustered); slightly higher storage overhead.\n\n3) **Reverse key index** (Oracle/PostgreSQL): Store timestamp bytes reversed in index to scatter sequential values across leaf pages. Trade-off: loses sort order, breaking efficient range scans; reverse transformation adds CPU overhead.\n\nThe partitioning approach is optimal here: it naturally spreads WAL writes and lock contention, enabling near-linear scale with partition count while maintaining query efficiency within partitions.",
+      "evaluation_points": [
+        "Identify hot spot problem: sequential inserts always target the rightmost leaf page of clustered index, causing contention, page splits, and I/O bottlenecks",
+        "Explain page split mechanism: when rightmost page fills, new allocations cause structural reorganization, generating expensive logging and lock waits",
+        "Propose at least one viable solution with clear mechanism (partitioning strategy, index design, or reverse key approach)",
+        "Compare trade-offs: query complexity vs. insert performance, consistency of range scans, administrative overhead",
+        "Advanced: Discuss WAL/undo log implications—how sequential inserts on clustered index generate high logging activity compared to distributed writes; explain why partitioning reduces WAL contention by spreading writes across multiple log buffers"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_029",
+    "question_text": "Bạn cần scale một hệ thống giao dịch ngân hàng (ACID) từ 1000 TPS lên 10000 TPS. Phân tích ưu nhược điểm của Vertical Scaling, Read Replicas, và Sharding. Chọn giải pháp phù hợp nhất và giải thích cách triển khai để duy trì consistency.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "Vertical scaling has physical limits (~100K TPS typically) and becomes cost-prohibitive. Read replicas reduce read load but don't address write bottlenecks (replication lag causes stale reads, problematic for banking). Sharding distributes both reads and writes but introduces distributed transaction complexity and consistency challenges.\n\nSharding is most appropriate for banking at 10K TPS scale. Implementation strategy:\n\n1) **Shard Key Selection:** Use customer_id to co-locate related data and minimize cross-shard transactions. This ensures most account operations are single-shard (fast, ACID-guaranteed).\n\n2) **Isolation & Consistency:** For banking, transactions must maintain strong consistency (SERIALIZABLE or at minimum READ COMMITTED with application-level conflict prevention). In distributed systems, this is expensive:\n   - Within a shard: enforce SERIALIZABLE isolation using row-level locks\n   - Cross-shard transactions: unavoidable for inter-account transfers. Options:\n     a) 2PC: Blocks during prepare phase, high latency, vulnerable to network failures → not ideal for banking\n     b) Saga Pattern: Eventually consistent, requires compensation logic and idempotency keys → acceptable for transfers with careful design\n     c) Preferred: Design business logic to avoid cross-shard transactions (e.g., customer wallets in single shard)\n\n3) **Consistency Mechanisms:** Use synchronous replication (e.g., quorum writes) for shards to prevent data loss during failover. CockroachDB's Serializable Snapshot Isolation (SSI) or PostgreSQL with multi-node replication provides strong ACID guarantees across shards.\n\n4) **Distributed Consensus:** Use Raft/Paxos for shard leader election and metadata management to handle network partitions gracefully. Define RPO (Recovery Point Objective) ≈0 and RTO ≈ seconds for banking compliance.\n\n5) **Monitoring:** Implement alerting for replication lag, cross-shard transaction rates, and transaction abort rates.\n\nThis approach maintains ACID by minimizing cross-shard operations while accepting the operational complexity trade-off necessary for banking-grade reliability.",
+      "evaluation_points": [
+        "Correctly identifies that sharding is most suitable for 10x TPS growth in banking, with clear reasoning on why vertical scaling and read replicas alone are insufficient",
+        "Explains shard key selection (customer_id) to minimize cross-shard transactions and the trade-off between scalability and transaction complexity",
+        "Details distributed transaction patterns (2PC vs Saga) and their consistency guarantees, but should clarify that 2PC blocks during prepare phase (availability risk) while Saga is eventually consistent",
+        "Mentions distributed consensus (Raft/Paxos) for metadata but should explicitly address: (1) how to maintain ACID properties across shards (isolation levels in distributed context), (2) the impact of network partitions on consistency vs availability, (3) why banking requires strong consistency and how to achieve it (e.g., synchronous replication, quorum reads)",
+        "Should discuss specific isolation level implications: does sharding require SERIALIZABLE isolation (expensive) or can READ COMMITTED suffice with proper application-level controls? How does Vitess/CockroachDB enforce isolation across shards?",
+        "Missing discussion of failover, recovery, and monitoring strategies critical for banking systems (RPO/RTO requirements)",
+        "Should acknowledge the operational complexity increase and when to consider hybrid approaches (e.g., sharding only hot data, keeping warm/cold data replicated)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_031",
+    "question_text": "Một truy vấn SQL chạy chậm trên bảng 50 triệu dòng. Phân tích execution plan phát hiện 'Index Scan' thay vì 'Index Seek'. Hãy debug nguyên nhân và đề xuất các bước tối ưu cụ thể, bao gồm cả việc kiểm tra statistics và cấu trúc index.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DATABASE_INDEXING"
+    ],
+    "skill_tags": [
+      "DATABASE_INTERNALS",
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân Index Scan thay vì Index Seek: 1) Điều kiện WHERE không sargable (ví dụ: WHERE YEAR(date) = 2023 thay vì WHERE date >= '2023-01-01' AND date < '2024-01-01'). 2) Statistics lỗi thời làm optimizer ước lượng sai selectivity, dẫn tới sai lựa chọn execution plan. 3) Index thiếu column phủ (covering index) dẫn đến RID/Key lookup nhiều. 4) Index bị fragmentation cao (>30%) làm scan inefficient. Các bước tối ưu theo thứ tự: 1) Kiểm tra statistics: sp_helpstats table_name, sau đó UPDATE STATISTICS [table] WITH FULLSCAN hoặc AUTO_STATS. 2) Kiểm tra DMV sys.dm_db_index_physical_stats để diagnose fragmentation và rebuild nếu >30%. 3) Viết lại query sử dụng điều kiện sargable để optimizer có thể seek. 4) Thêm covering index bao gồm tất cả column trong SELECT/WHERE/JOIN để tránh lookup. 5) So sánh execution plan trước/sau tối ưu. 6) Chỉ dùng hint index nếu optimizer vẫn sai lựa chọn sau khi tối ưu query.",
+      "evaluation_points": [
+        "Correctly identifies non-sargable predicates as a primary cause of Index Scan and provides concrete examples",
+        "Demonstrates understanding of statistics' role in query optimizer decision-making and selectivity estimation",
+        "Proposes systematic optimization approach with clear priority ordering (statistics → query rewrite → covering index → fragmentation)",
+        "Includes practical verification steps (UPDATE STATISTICS, fragmentation checking with DMVs, execution plan comparison)",
+        "Explains covering index benefits (reducing bookmark lookups) and when index hints should be applied as last resort",
+        "Could strengthen by mentioning specific DMV queries (sys.dm_db_index_physical_stats) to diagnose fragmentation and outdated statistics"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_028",
+    "question_text": "Clustered Index và Non-Clustered Index khác nhau như thế nào? Cho ví dụ về trường hợp nên dùng mỗi loại.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "Clustered Index sắp xếp và lưu trữ dữ liệu vật lý trên disk theo thứ tự của cột index; mỗi bảng chỉ có tối đa một. Leaf node của Clustered Index chính là dữ liệu hàng. Non-Clustered Index tạo cấu trúc riêng chứa key index và con trỏ (bookmark/RID) tới dữ liệu thực tế; có thể có nhiều (tối đa 999 trong SQL Server). **Ưu nhược điểm:** Clustered Index tối ưu cho range query và đọc toàn bộ cột hàng, nhưng chậm khi insert/update/delete do cần sắp xếp lại dữ liệu vật lý; Non-Clustered Index nhanh cho point lookup nhưng có bookmark lookup overhead khi cần cột không có trong index. **Ví dụ:** Dùng Clustered Index cho cột ID (PRIMARY KEY) vì thường dùng range query và tăng tự động; dùng Non-Clustered Index cho Email hay UserName vì cần tìm kiếm nhanh nhưng không ảnh hưởng thứ tự vật lý. Có thể tạo covering index (Non-Clustered chứa các cột cần đọc) để tránh bookmark lookup.",
+      "evaluation_points": [
+        "Phân biệt rõ sự khác nhau về lưu trữ vật lý: Clustered Index sắp xếp dữ liệu thực tế trên disk, Non-Clustered Index chỉ chứa key và con trỏ (hoặc RID/bookmark)",
+        "Giải thích được số lượng tối đa: một bảng chỉ có tối đa 1 Clustered Index nhưng có thể có nhiều Non-Clustered Index (tối đa 999 trong SQL Server)",
+        "Phân tích ưu nhược điểm cụ thể: Clustered Index nhanh cho range query và đọc toàn bộ hàng, nhưng chậm khi insert/update/delete; Non-Clustered Index nhanh cho lookup nhưng có thêm overhead lookup dữ liệu thực tế (bookmark lookup)",
+        "Đưa ví dụ phù hợp: Clustered Index cho PRIMARY KEY (thường ID), Non-Clustered Index cho cột search thường xuyên (Email, UserName, ngày); phân biệt covering index (Non-Clustered chứa đủ cột cần đọc)",
+        "Giải thích trường hợp tradeoff: khi Clustered Index trên cột thay đổi thường xuyên gây fragmentation, hoặc Non-Clustered Index nhiều quá làm chậm write operations"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_030",
+    "question_text": "Database scaling theo chiều dọc (Vertical Scaling) và chiều ngang (Horizontal Scaling) là gì? Khi nào nên chọn mỗi phương pháp?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "Vertical Scaling là nâng cấp phần cứng (CPU, RAM, ổ cứng) trên một máy chủ duy nhất. Horizontal Scaling là thêm nhiều máy chủ và phân tán dữ liệu/tải qua sharding, replication, hoặc partitioning.\n\n**Khi chọn Vertical Scaling:**\n- Ứng dụng nhỏ, lưu lượng truy cập vừa phải, MVP startup\n- Chi phí ban đầu thấp và độ phức tạp triển khai tối thiểu\n- Yêu cầu ACID mạnh, không cần phân tán transaction\n- **Hạn chế:** Giới hạn vật lý phần cứng, chi phí tăng exponential, single point of failure, downtime khi nâng cấp\n\n**Khi chọn Horizontal Scaling:**\n- Dữ liệu lớn, lưu lượng cao, cần high availability/disaster recovery\n- Ứng dụng được thiết kế microservices hoặc stateless\n- Chịu được eventual consistency\n- **Hạn chế:** Độ phức tạp cao (sharding strategy, replication lag, distributed transactions), khó debug, chi phí infra lớn\n\n**Thực tế:** Thường kết hợp cả hai (hybrid): bắt đầu Vertical, khi đạt giới hạn chuyển sang Horizontal.",
+      "evaluation_points": [
+        "Định nghĩa chính xác hai khái niệm và chỉ ra sự khác biệt cốt lõi (chi phí, độ phức tạp, hạn chế)",
+        "Nhận biết được hạn chế cụ thể: Vertical có giới hạn vật lý phần cứng và chi phí tăng theo cấp số nhân; Horizontal phức tạp về consistency, replication, sharding strategy",
+        "Đưa ra tình huống cụ thể minh họa: e.g., startup MVP (Vertical), social media cần khả năng chịu lỗi (Horizontal), hay hybrid approach",
+        "Hiểu được trade-offs: Vertical dễ triển khai nhưng single point of failure; Horizontal phải giải quyết data consistency, network latency, cross-node transactions",
+        "Nhận biết khi nào Vertical không khả thi (hạn chế vật lý đã đạt) hoặc Horizontal không phù hợp (ứng dụng monolithic, cần ACID mạnh)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_032",
+    "question_text": "Chỉ mục Composite Index (index trên nhiều cột) hoạt động như thế nào? Thứ tự cột trong index có quan trọng không?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "Composite Index lưu trữ giá trị của nhiều cột theo thứ tự xác định trong cấu trúc B-tree, với key là tuple (col1, col2, ...). Thứ tự cột rất quan trọng vì tuân theo leftmost prefix rule.\n\nVí dụ với Index (A, B, C):\n- ✓ WHERE A=1 → sử dụng index hiệu quả\n- ✓ WHERE A=1 AND B=2 → sử dụng index hiệu quả\n- ✓ WHERE A=1 AND B=2 AND C=3 → sử dụng index hiệu quả\n- ✗ WHERE B=2 → phải scan toàn bộ index (B không phải prefix)\n- ✗ WHERE B=2 AND C=3 → phải scan toàn bộ index\n- ✗ WHERE C=3 → phải scan toàn bộ index\n\nThứ tự cột nên dựa trên: (1) tần suất xuất hiện trong WHERE clause, (2) cardinality (cao hơn đứng trước), (3) yêu cầu ORDER BY hoặc JOIN. Lựa chọn sai thứ tự có thể dẫn đến index không được sử dụng hoặc query plan tối ưu kém.",
+      "evaluation_points": [
+        "Giải thích cấu trúc B-tree với tuple key và cách sắp xếp các hàng",
+        "Áp dụng leftmost prefix rule: index (A, B, C) có thể sử dụng cho WHERE A=1, WHERE A=1 AND B=2, WHERE A=1 AND B=2 AND C=3, nhưng KHÔNG dùng được cho WHERE B=2 hoặc WHERE C=3",
+        "So sánh hiệu suất: truy vấn B=2 AND C=3 phải scan toàn bộ index vì không có prefix A",
+        "Nhận biết hạn chế skip scanning: một số DB cho phép skip giữa các cột nhưng hiệu suất thấp hơn",
+        "Cân nhắc thứ tự cột dựa trên: tần suất truy vấn, cardinality, và WHERE/JOIN/ORDER BY clause"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_034",
+    "question_text": "Bạn đang thiết kế hệ thống cho một công ty thương mại điện tử có 10 triệu đơn hàng/tháng. Bảng orders có các cột: order_id, user_id, product_id, order_date, status, total_amount. Hiện tại, truy vấn báo cáo doanh thu theo tháng rất chậm. Hãy đề xuất ít nhất 2 chiến lược indexing hoặc partitioning để cải thiện hiệu năng, giải thích trade-off của mỗi phương án.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING",
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "Phương án 1: Composite Index trên (order_date, total_amount). Cơ chế: Cho phép index range scan trên order_date (high cardinality) và cover total_amount trong cùng một index, tránh table lookup. Trade-off: Tốc độ đọc +80-90% cho báo cáo theo tháng; tuy nhiên mỗi insert/update phải cập nhật index, làm chậm ghi ~10-15%, có thể ảnh hưởng ở 10M orders/tháng. Selectivity kém nếu total_amount có ít giá trị distinct.\n\nPhương án 2: Range Partition theo order_date (partition theo tháng). Cơ chế: Query báo cáo tháng X chỉ quét partition tương ứng thay vì toàn bộ bảng (partition pruning), giảm I/O đáng kể. Trade-off: Phức tạp quản lý (tạo/drop partition hàng tháng), làm chậm các truy vấn cross-partition (ví dụ so sánh 2 tháng), cần maintenance routine.\n\nPhương án 3 (recommended): Materialized View / Summary Table. Tạo bảng `daily_revenue_summary` (date, total_revenue) được refresh hàng ngày via trigger hoặc batch job. Báo cáo truy vấn trực tiếp từ bảng tóm tắt (chỉ 30 hàng/tháng thay vì triệu hàng). Trade-off: Thêm storage và complexity, risk dữ liệu stale nếu refresh không đúng lúc, nhưng tối ưu nhất cho reporting workload này.\n\nKhuyến nghị: Kết hợp Phương án 2 (partition) + Phương án 3 (summary table) để cân bằng OLTP writes và OLAP reads.",
+      "evaluation_points": [
+        "Proposes at least 2 viable solutions with correct mechanisms (composite index for covering scans, range partitioning for partition pruning)",
+        "Explains specific trade-offs: insert/update overhead for indexes, partition maintenance complexity, and impact on cross-partition queries",
+        "Analyzes query pattern context: monthly revenue reports benefit from order_date filtering and total_amount aggregation",
+        "Considers alternative strategies: materialized views/summary tables, time-series databases, or columnar storage for analytical workloads",
+        "Discusses implementation details: index selectivity (order_date high cardinality vs total_amount low selectivity), partition granularity trade-offs (monthly vs weekly), and whether solutions address both read and write patterns",
+        "Evaluates cost-benefit: for 10M orders/month, index maintenance cost vs query improvement, or partition overhead vs pruning gains",
+        "Recognizes that reporting queries may benefit more from OLAP patterns (denormalization, aggregation tables) than traditional indexing on OLTP schema"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_036",
+    "question_text": "So sánh Read Replica và Sharding trong việc scaling database. Khi nào nên dùng Read Replica thay vì Sharding, và ngược lại? Cho ví dụ thực tế.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "Read Replica là nhân bản dữ liệu từ master sang slave(s) để phân tán tải đọc, trong khi Sharding chia dữ liệu theo chiều ngang thành nhiều shard độc lập, mỗi shard chứa một phần dữ liệu.\n\n**Khi dùng Read Replica:**\n- Ứng dụng có tỷ lệ read/write cao (ví dụ: hệ thống blog, tin tức, social media feed). Master xử lý ghi, replicas xử lý đọc.\n- Tổng dữ liệu vẫn lớn nhưng chưa cần sharding (dưới giới hạn máy đơn).\n- Cần high availability và disaster recovery (replicas có thể promote thành master).\n- Trade-off: Dễ triển khai, không thay đổi schema, nhưng không giải quyết vấn đề ghi, phải chịu replication lag (eventual consistency), và chi phí lưu trữ tăng.\n\n**Khi dùng Sharding:**\n- Tổng dữ liệu quá lớn cho một máy, cần scale ghi hoặc write-heavy workload (ví dụ: hệ thống chat toàn cầu, user profiles ở triệu người). Mỗi shard theo region hoặc user_id range.\n- Cần giảm lại dữ liệu per shard để tối ưu performance (cache, query speed).\n- Trade-off: Phức tạp trong triển khai (shard key selection, distributed join, rebalancing), yêu cầu application logic thay đổi, dễ xảy ra hotspot nếu shard key xấu.\n\n**Kết hợp cả hai:** Mỗi shard có Read Replica riêng để tối ưu hoàn toàn (scale ghi via sharding + scale đọc via replication).\n\n**Ví dụ thực tế:** Facebook: Sharding theo user_id (millions of shards), mỗi shard có replicas. YouTube: Read Replica cho view counts, Sharding cho video metadata (by video_id). Netflix: Sharding theo tenant/region, Read Replica cho metadata reads.",
+      "evaluation_points": [
+        "Phân biệt rõ cơ chế và mục đích của Read Replica và Sharding, bao gồm tác động đến consistency (replication lag, eventual consistency vs. strong consistency)",
+        "Giải thích khi nào kết hợp cả hai phương pháp (Read Replica + Sharding) và các thách thức liên quan",
+        "Đưa ra ví dụ thực tế chi tiết: phân tích use case (tỷ lệ read/write, volume dữ liệu, latency requirements) và lý do chọn phương pháp",
+        "Phân tích trade-off chi tiết: độ phức tạp triển khai, consistency guarantees, replication lag, cross-shard query complexity, rebalancing overhead, cost",
+        "Thảo luận về các vấn đề thực tế: heartbeat monitoring, failover strategy cho Read Replica; hotspot handling, shard key selection cho Sharding"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_033",
+    "question_text": "So sánh B-tree index và Hash index trong việc hỗ trợ các loại truy vấn khác nhau. Khi nào bạn nên chọn Hash index thay vì B-tree? Đưa ra ví dụ thực tế.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "B-tree index hỗ trợ tốt cho các truy vấn phạm vi (range queries), sắp xếp (ORDER BY), và các phép so sánh >, <, BETWEEN. Hash index chỉ hỗ trợ truy vấn điểm (point queries) với phép so sánh bằng (=). \n\nKhi chọn Hash index:\n- Truy vấn chủ yếu là exact match (WHERE user_id = 123)\n- High cardinality columns (ít collision)\n- Yêu cầu hiệu suất tối đa cho lookup\n- Ví dụ: bảng mapping `user_id -> session_token`, cache lookup tables\n\nKhi chọn B-tree:\n- Cần range queries hoặc sorting (WHERE created_at BETWEEN...)\n- Columns dùng cho ORDER BY hoặc GROUP BY\n- Yêu cầu linh hoạt về query patterns\n- Ví dụ: `created_at`, `order_id`, `price` (queries like price > 100)\n\nTrade-off chi tiết:\n- Hash: O(1) lookup nhưng không hỗ trợ range, sorting; collision handling phức tạp\n- B-tree: O(log n) lookup nhưng đa năng, tự động sorted, support range queries\n- Memory: Hash thường tiết kiệm hơn; B-tree lưu thứ tự nên tiêu tốn thêm",
+      "evaluation_points": [
+        "Giải thích đúng đặc điểm của từng loại index (B-tree vs Hash)",
+        "Phân biệt rõ ràng: B-tree hỗ trợ range queries, Hash chỉ hỗ trợ exact match",
+        "Đưa ra ví dụ thực tế cụ thể với context (lookup tables, time-series data)",
+        "Phân tích trade-off: tốc độ truy vấn vs linh hoạt vs tính năng sắp xếp",
+        "Nêu các yếu tố quyết định chọn index: cardinality, query patterns, memory constraints",
+        "Đề cập đến collision handling trong Hash index và ảnh hưởng đến hiệu suất",
+        "Xem xét memory overhead và update cost (Hash index không lưu trữ thứ tự)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_035",
+    "question_text": "Bạn đang làm việc với một hệ thống PostgreSQL có bảng `transactions` với 100 triệu bản ghi. Bảng có các cột: `transaction_id` (PK), `user_id`, `amount`, `status`, `created_at`. Truy vấn thường xuyên: `SELECT * FROM transactions WHERE status = 'pending' AND created_at >= '2024-01-01' ORDER BY created_at DESC LIMIT 100`. Hiện tại chỉ có index trên `transaction_id`. Bạn sẽ thêm index gì để tối ưu? Giải thích chi tiết tại sao.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "Nên tạo composite index trên cột `(status, created_at DESC)`. Lý do: (1) **Thứ tự cột quan trọng**: cột equality filter (`status`) phải đứng trước range/sort filter (`created_at`) để PostgreSQL sử dụng index seek thay vì scan. (2) **DESC trên created_at**: vì query ORDER BY DESC, index DESC tránh reverse scan hoặc explicit sort, giảm I/O và CPU. (3) **Covering index**: nên xem xét thêm `INCLUDE (transaction_id, user_id)` để tạo covering index, giúp PostgreSQL không cần truy cập heap, chỉ đọc từ index. (4) **Trade-off**: composite index tăng chi phí write (INSERT/UPDATE/DELETE phải maintain index) và storage, nhưng đáng đổi cho workload read-heavy với 100M bản ghi. (5) **Lựa chọn khác**: nếu status='pending' chỉ ~1-5% bản ghi, xem xét partial index `(created_at DESC) WHERE status='pending'` để giảm kích thước index. (6) **Không đủ**: chỉ index riêng trên status sẽ scan toàn bộ 'pending' rows rồi sort, hoặc index chỉ trên created_at sẽ không filter status hiệu quả.",
+      "evaluation_points": [
+        "Correctly identifies composite index (status, created_at DESC) and explains column ordering (equality filter first, then range/sort)",
+        "Explains how index ordering eliminates explicit sort operation and reduces I/O",
+        "Discusses why single-column indexes on status alone would require full table scan or additional sort overhead",
+        "Recognizes that adding transaction_id or user_id as INCLUDE columns could create a covering index to eliminate heap lookups entirely",
+        "Considers selectivity: discusses whether status='pending' is selective enough, and if index might still need combined filtering statistics",
+        "Addresses trade-off: composite indexes increase write costs (INSERT/UPDATE/DELETE must maintain the index) and storage; justifies this for read-heavy workload",
+        "Could mention VACUUM and ANALYZE impact on index performance, or consideration of partial indexes if 'pending' status represents small percentage"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_037",
+    "question_text": "Công ty của bạn đang sử dụng MySQL với bảng `logs` có 500GB dữ liệu, chỉ có một index trên `id` (auto-increment). Truy vấn xóa dữ liệu cũ: `DELETE FROM logs WHERE created_at < '2023-01-01'` chạy rất chậm và gây lock bảng. Bạn sẽ giải quyết vấn đề này như thế nào? Đề xuất ít nhất 2 giải pháp khả thi.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "Giải pháp 1: Tạo index trên cột `created_at`. Vấn đề hiện tại là DELETE phải quét toàn bộ bảng, khóa hàng loạt và gây lock lâu. Index cho phép MySQL định vị dòng cần xóa nhanh hơn, nhưng vẫn phải khóa từng dòng, nên không hoàn toàn giải quyết vấn đề lock với 500GB dữ liệu. Giải pháp 2: Sử dụng partitioning theo năm hoặc tháng trên `created_at` (ví dụ: PARTITION BY RANGE (YEAR(created_at))). Khi đó, DROP PARTITION hoặc TRUNCATE PARTITION chỉ là thao tác metadata (được bảo vệ bằng WAL), không cần quét hoặc khóa dòng nào, rất nhanh và an toàn. Giải pháp 3: Batch delete với LIMIT để xóa từng lô (ví dụ: DELETE FROM logs WHERE created_at < '2023-01-01' LIMIT 10000 lặp lại). Giảm thời gian khóa bảng mỗi vòng lặp, giảm áp lực trên transaction log, nhưng tổng thời gian lâu hơn. Đánh đổi: Indexing (chi phí thấp, lợi ích hạn chế), Partitioning (chi phí thiết kế cao, giải quyết triệt để), Batch Delete (tổng thời gian lâu nhưng an toàn cho production). Nên kết hợp: tạo index + partitioning + batch delete cho bảng lớn.",
+      "evaluation_points": [
+        "Identifies root cause: full table scan + row-level locks on large dataset without index on filtered column",
+        "Proposes indexing on created_at with acknowledgment of its limitations (still locks many rows)",
+        "Explains partitioning strategy: how DROP/TRUNCATE PARTITION avoids scanning/locking rows and achieves atomic metadata-only operations via WAL",
+        "Describes batch delete technique: LIMIT-based iteration to minimize lock hold time and transaction log pressure",
+        "Discusses trade-offs: indexing (low overhead, partial benefit), partitioning (high upfront cost, eliminates lock issue), batch delete (slower overall but reduces peak lock contention)",
+        "Considers operational aspects: maintenance windows, replication lag impact, and monitoring query progress during execution",
+        "Optional advanced: mentions online DDL (ALGORITHM=INPLACE) for index creation to avoid table lock, or percona-toolkit pt-archiver for safe incremental deletion"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_039",
+    "question_text": "Bạn đang thiết kế một hệ thống cần truy vấn top 10 sản phẩm bán chạy nhất theo tháng từ bảng `orders` có 200 triệu dòng. Bảng có các cột: `product_id`, `sold_date`, `quantity`. Bạn sẽ sử dụng chiến lược indexing và scaling nào? Giải thích trade-off giữa việc dùng index thông thường và materialized view.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INTERNALS"
+    ],
+    "answers": {
+      "detailed": "Use a composite index on (sold_date, product_id, quantity) to enable efficient filtering and aggregation, but recognize this alone is insufficient for 200M rows. Materialized view is superior: CREATE MATERIALIZED VIEW monthly_sales AS SELECT DATE_TRUNC('month', sold_date) AS month, product_id, SUM(quantity) AS total_qty FROM orders GROUP BY month, product_id; then index (month, total_qty DESC) for top-N queries. Trade-offs: (1) Materialized view requires refresh—use incremental refresh (only aggregate new/modified rows since last refresh) rather than full refresh to reduce latency; (2) introduces eventual consistency, acceptable for most reporting use cases; (3) composite index keeps data real-time but GROUP BY/ORDER BY on 200M rows remains slow. Additional optimization: partition the base `orders` table by month (sold_date) to reduce scan scope and enable parallel aggregation. For fresh data requirements, consider a hybrid: index for recent data (e.g., current month) + materialized view for historical months.",
+      "evaluation_points": [
+        "Composite index design: explain why (sold_date, product_id, quantity) enables index-only scans vs. alternatives like (product_id, sold_date) and the trade-off in maintenance cost",
+        "Materialized view refresh strategy: distinguish between full refresh vs. incremental refresh (e.g., only processing new/updated rows since last refresh) and their impact on staleness and performance",
+        "Real-time consistency requirements: assess whether the use case can tolerate eventual consistency (delayed materialized view) or requires near-real-time top-N results, and how this drives the choice between indexing strategies",
+        "Partitioning consideration: for 200M rows, discuss table partitioning by month (sold_date) to reduce scan scope and enable parallel aggregation, which can complement both indexing and materialized view approaches",
+        "Query execution plan awareness: explain how to validate that queries use the index/view efficiently (e.g., EXPLAIN ANALYZE) and what signs indicate missing optimizations"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_041",
+    "question_text": "Khi thiết kế cơ sở dữ liệu cho một hệ thống có tần suất ghi cao (high write throughput), bạn nên chú ý đến vấn đề gì khi chọn index? Giải thích tác động của index đến hiệu năng ghi và cách giảm thiểu overhead.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "Index maintenance significantly slows write performance because each INSERT, UPDATE, or DELETE must update not only the main table but also all relevant index structures (typically B-trees). This creates write amplification—multiple disk I/O operations per logical write—and generates additional Write-Ahead Log entries for both table and index changes.\n\nTo minimize overhead in high-write-throughput systems:\n\n(1) **Selective indexing**: Create indexes only on columns that meaningfully improve critical query paths. Analyze query patterns vs. write frequency; if a column is written frequently but rarely queried, the index is pure overhead.\n\n(2) **Index type selection**: For extremely high write rates, consider LSM-tree based indexes (used in RocksDB, LevelDB) which batch writes and amortize index updates through periodic compaction, rather than traditional B-tree indexes that require immediate updates.\n\n(3) **Fill factor optimization**: Lower fill factor (e.g., 70%) on B-tree indexes reduces page splits during inserts. Page splits trigger expensive reallocation and generate more WAL entries. Monitor fragmentation and rebuild periodically when it exceeds 30%.\n\n(4) **Clustered index design**: Ensure the clustered index (typically primary key) matches the natural insert order (e.g., time-series data) to minimize page splits and sequential write patterns.\n\n(5) **Batch operations and asynchronous indexing**: Use batch inserts to amortize index update costs. Consider delayed/asynchronous index updates for non-critical indexes (accepting brief staleness) to decouple write latency from index maintenance.\n\n(6) **Workload partitioning**: For event/log data with extreme write volume, separate into write-optimized systems (NoSQL, time-series databases) or use sharding to distribute write load.",
+      "evaluation_points": [
+        "Explain the write amplification problem: when an index is updated, both the main table and index structures (typically B-trees) must be written to disk, and how Write-Ahead Logging (WAL) compounds this by logging both operations",
+        "Distinguish between different index types (B-tree vs hash vs LSM-tree) and their write performance characteristics—particularly how LSM-trees are optimized for high write throughput through batch writes and compaction",
+        "Understand fill factor's role in reducing page splits during inserts and how this directly impacts write latency and log volume in high-throughput scenarios",
+        "Demonstrate knowledge of index selectivity and cost-benefit analysis: when the overhead of maintaining an index exceeds query performance gains in write-heavy workloads",
+        "Discuss tradeoffs between synchronous index updates (slower but consistent) versus asynchronous/eventual consistency approaches (faster writes, stale index risk)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_038",
+    "question_text": "Hãy giải thích sự khác biệt giữa Clustered index và Non-clustered index trong cơ sở dữ liệu quan hệ.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "Clustered index sắp xếp và lưu trữ các hàng dữ liệu theo thứ tự của cột index - các leaf nodes của clustered index chính là data pages. Mỗi bảng chỉ có một clustered index (thường là primary key). Non-clustered index là một cấu trúc riêng biệt chứa giá trị của cột index được sắp xếp, và các leaf nodes chứa row locator (RID hoặc giá trị clustered key) trỏ đến hàng dữ liệu gốc. Truy vấn qua clustered index nhanh hơn vì không cần bước lookup bổ sung. Non-clustered index cần thêm bước tìm kiếm dữ liệu gốc (bookmark lookup/key lookup). Tuy nhiên, nếu non-clustered index chứa tất cả cột cần thiết (covering index), có thể tránh lookup này. Range scan thường hiệu quả hơn trên clustered index do dữ liệu được sắp xếp liên tục.",
+      "evaluation_points": [
+        "Định nghĩa rõ ràng hai loại index và phân biệt cấu trúc vật lý của chúng",
+        "Giải thích clustered index lưu trữ toàn bộ dữ liệu hàng theo thứ tự (leaf nodes = data pages), non-clustered index lưu trữ các cột được index + row locator (RID hoặc clustered key)",
+        "Nêu được mỗi bảng chỉ có một clustered index (thường là primary key)",
+        "Giải thích hiệu suất: clustered index tránh RID lookup, non-clustered index có thể cần bookmark lookup hoặc key lookup",
+        "Đề cập đến covering index concept - khi non-clustered index chứa tất cả cột cần truy vấn (tránh lookup bổ sung)",
+        "Liên hệ đến scan vs seek operations và việc clustered index thường cho phép range scan hiệu quả hơn"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_040",
+    "question_text": "Hãy giải thích khái niệm 'Database sharding' và kể tên một chiến lược sharding phổ biến.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "Database sharding là kỹ thuật phân chia một bảng dữ liệu lớn thành nhiều phần nhỏ hơn (shard) và lưu trữ chúng trên các máy chủ khác nhau để tăng khả năng mở rộng ngang. Một chiến lược phổ biến là sharding theo phạm vi (range-based sharding), nơi dữ liệu được chia dựa trên một khoảng giá trị (ví dụ: ID từ 1-1000 trên shard 1, 1001-2000 trên shard 2). Chiến lược khác bao gồm hash-based sharding (sử dụng hàm hash của shard key) và directory-based sharding (sử dụng bảng ánh xạ). Mặc dù sharding cải thiện khả năng mở rộng và hiệu suất, nó giới thiệu các thách thức như hot shard (một số shard nhận nhiều truy vấn hơn), khó khăn trong truy vấn cross-shard, và độ phức tạp trong việc duy trì tính nhất quán dữ liệu.",
+      "evaluation_points": [
+        "Định nghĩa đúng khái niệm sharding và mục đích mở rộng ngang (horizontal scaling)",
+        "Kể tên được ít nhất một chiến lược sharding cụ thể (range-based, hash-based, directory-based, geographic, v.v.)",
+        "Giải thích cách hoạt động của chiến lược được chọn và cách xác định shard key",
+        "Thảo luận về trade-offs: lợi ích (scalability, performance) vs. nhược điểm (complexity, distributed transactions, data redistribution)",
+        "Nhận diện các thách thức như hot shards, rebalancing dữ liệu, và khó khăn trong cross-shard queries",
+        "So sánh với các chiến lược mở rộng khác (vertical scaling, replication)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_042",
+    "question_text": "Bạn đang thiết kế một bảng ghi log sự kiện với cột `event_time` (timestamp) và `event_type` (varchar). Có hai loại truy vấn chính: (1) đếm số sự kiện theo loại trong một khoảng thời gian, và (2) lấy chi tiết sự kiện gần đây nhất của một loại. Hãy đề xuất chiến lược indexing tối ưu cho cả hai truy vấn.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "To optimize both queries, a composite index on (event_type, event_time) is a strong choice. For query (1), this index excels because it clusters all events of a given type together, allowing efficient range scans on event_time without touching the main table. For query (2), the index finds the event_type quickly, but retrieving the most recent event requires either a backward scan (if the database supports descending index traversal) or adding event_time DESC to the index definition if the DBMS supports it. However, note a key trade-off: if query (2) heavily scans DESC and query (1) scans ASC, index ordering matters—modern DBMSs may allow (event_type ASC, event_time DESC) to optimize both. If the event_time column must be fetched alongside event_type, use a covered index to avoid table lookups. Alternatively, if query (2) is much heavier, consider a secondary index on (event_type, event_time DESC) for the recent-event lookup, accepting the storage overhead. Always profile both query patterns to confirm the strategy aligns with real workload characteristics.",
+      "evaluation_points": [
+        "Proposes composite index with correct column order for query (1)",
+        "Explains how index benefits filtering and range scans on event_time",
+        "Identifies covered index optimization to avoid table lookups",
+        "Recognizes potential index ordering mismatch for query (2) - DESC sorting on event_time may not align with index leaf node order (typically ASC)",
+        "Discusses trade-off: index order optimized for (1) may require backward scan or separate index for (2)",
+        "Suggests alternative: two separate indexes or considers query frequency to prioritize one pattern"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_044",
+    "question_text": "Một cơ sở dữ liệu MySQL đang gặp tình trạng chậm khi thực hiện truy vấn JOIN giữa hai bảng lớn. Hãy kể tên ba kỹ thuật performance tuning cơ bản có thể áp dụng để cải thiện tốc độ.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INTERNALS"
+    ],
+    "answers": {
+      "detailed": "Ba kỹ thuật performance tuning cơ bản: (1) **Tạo index trên cột JOIN**: Index trên cột trong ON clause (ví dụ: `CREATE INDEX idx_fk ON table1(join_column)`) giảm số hàng cần quét từ O(n) xuống O(log n), tuy nhiên index phải ở bảng *phía phải* trong INNER JOIN hoặc cả hai bảng trong OUTER JOIN. (2) **Sử dụng EXPLAIN**: `EXPLAIN SELECT ...` hiển thị execution plan, cho biết join type (nested loop vs. hash join), số hàng ước tính, và key được dùng; từ đó xác định thiếu index hay truy vấn viết không tối ưu. (3) **Tăng InnoDB buffer pool size**: Buffer pool cache dữ liệu page từ đĩa; tăng kích thước (thường 50-80% RAM server) giảm I/O đĩa, tăng tốc độ truy cập. **Quy trình**: Chạy EXPLAIN trước để xác định병목, sau đó áp dụng tuning—ví dụ nếu `type=ALL` (full table scan) thì cần index, nếu buffer pool hit rate thấp thì cần tăng buffer pool.",
+      "evaluation_points": [
+        "Kể được ít nhất ba kỹ thuật khả thi (indexing, query analysis, buffer pool optimization)",
+        "Giải thích rõ *tại sao* mỗi kỹ thuật giúp: index giảm số hàng phải quét, EXPLAIN tiết lộ병목, buffer pool giảm I/O đĩa",
+        "Nhận biết rằng index phải được tạo trên các cột JOIN (ON clause) và các cột trong WHERE clause",
+        "Hiểu rằng EXPLAIN cho thấy execution plan, join type (nested loop, hash, merge), và rows estimate",
+        "Không chỉ liệt kê mà phải nêu bước thực hiện: (1) chạy EXPLAIN trước, (2) xác định병목, (3) áp dụng tuning phù hợp",
+        "Tránh đề xuất denormalization/partition mà không phân tích chi tiết—đây là giải pháp advanced, không phải tuning cơ bản"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_046",
+    "question_text": "Bạn đang vận hành một hệ thống cơ sở dữ liệu PostgreSQL với bảng `transactions` có 1 tỷ bản ghi, kích thước ~500GB. Bảng có cột `txn_date` (date), `user_id` (bigint), `amount` (decimal). Hiện tại, bảng được partition theo tháng trên `txn_date` và có index B-tree trên `user_id`. Công ty muốn chạy truy vấn: 'Tính tổng số tiền giao dịch theo từng user trong 6 tháng gần nhất'. Tuy nhiên, truy vấn chạy rất chậm kể cả khi chỉ chạy trên một partition. Hãy: (1) Chẩn đoán nguyên nhân chính gây chậm, (2) Đề xuất giải pháp indexing mới, (3) Thiết kế chiến lược scaling (sharding hoặc replication) để xử lý dữ liệu tăng trưởng 20% mỗi tháng mà không ảnh hưởng đến hiệu năng truy vấn.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING",
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "(1) **Root Cause Diagnosis:** The B-tree index on `user_id` alone cannot efficiently support multi-partition aggregation. When querying 6 months across partitions, the query engine must either (a) scan all qualifying partitions' indexes sequentially, or (b) perform full table scans if the optimizer deems index less selective than seq scan. Additionally, `amount` is not indexed, forcing disk I/O to read actual column values during aggregation. For 1B records with ~500GB size, even with partitioning, this causes high I/O and CPU cost.\n\n(2) **Indexing Solution:** Create a composite index: `CREATE INDEX idx_txn_user_amount ON transactions (user_id, txn_date) INCLUDE (amount);` This index allows efficient range scans on user_id and covers the amount column, eliminating heap lookups. Alternatively, use a partial index for recent months only: `CREATE INDEX idx_txn_recent ON transactions (user_id, txn_date) INCLUDE (amount) WHERE txn_date >= CURRENT_DATE - INTERVAL '6 months';` This reduces index size and improves cache hit rates.\n\n(3) **Scaling Strategy:** Combine time-based partitioning (retain monthly) with hash-based sharding on `user_id` across 4-8 nodes. **Critical for ACID compliance:** Ensure all transactions for a given user_id hash to the same shard, maintaining atomicity of multi-row aggregates and simplifying consistency checks. Deploy master-replica architecture: writes to master (shard leader), reads to read replicas (for reporting queries). **Consistency trade-off:** Replicas have replication lag (~100ms-1s); if 100% fresh aggregates are required, accept slightly stale reads or use synchronous replication (at write latency cost). Implement connection pooling (PgBouncer) on each shard node. For 20% monthly growth, auto-scale shards by resharding when individual shard size exceeds threshold (e.g., 150GB). Optimize autovacuum settings aggressively (higher workers, lower cost limits) to prevent MVCC bloat on high-transaction tables. Monitor with pg_stat_user_tables for seq_scan vs index_scan ratios.",
+      "evaluation_points": [
+        "Correctly diagnoses that the current B-tree index on user_id alone is insufficient for aggregate queries spanning multiple partitions (requires index scan + aggregation across many partitions)",
+        "Proposes composite index or partial index with sound reasoning—demonstrates understanding of index selectivity and covering indexes (INCLUDE clause for amount)",
+        "Explains scaling strategy combining time-based partitioning + hash-based sharding on user_id, showing awareness of distributed system design trade-offs",
+        "Addresses consistency implications: when sharding by user_id, verify that all user transactions land on same shard to maintain aggregate correctness and ACID properties (atomicity of multi-row aggregates)",
+        "Discusses read replica strategy for reporting queries, showing separation of read/write workloads—but should clarify replication lag implications for freshness of reports",
+        "Mentions vacuum/autovacuum bloat management—demonstrates awareness of MVCC overhead in PostgreSQL when handling 1B+ records with frequent updates",
+        "Should address: How distributed transactions across shards maintain atomicity if cross-shard aggregation is needed in future; whether eventual consistency is acceptable for reporting"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_043",
+    "question_text": "Chỉ mục (index) trong cơ sở dữ liệu là gì? Hãy kể tên hai loại chỉ mục phổ biến và mô tả ngắn gọn cấu trúc của chúng.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INTERNALS"
+    ],
+    "answers": {
+      "detailed": "Chỉ mục (index) là một cấu trúc dữ liệu phụ trợ giúp tăng tốc độ truy vấn dữ liệu trong bảng, bằng cách cho phép cơ sở dữ liệu tìm kiếm nhanh mà không cần quét toàn bộ bảng. Hai loại chỉ mục phổ biến:\n- B-Tree Index: Cấu trúc cây cân bằng, lưu trữ dữ liệu theo thứ tự, hỗ trợ tìm kiếm, chèn, xóa với độ phức tạp O(log n). Phù hợp cho truy vấn range (>, <, BETWEEN) và sắp xếp.\n- Hash Index: Cấu trúc bảng băm, ánh xạ giá trị khóa đến vị trí lưu trữ qua hàm băm, chỉ hỗ trợ tìm kiếm chính xác (phép so sánh bằng). Không hỗ trợ range query.",
+      "evaluation_points": [
+        "Định nghĩa đúng khái niệm chỉ mục và mục đích sử dụng (tăng tốc độ truy vấn, giảm thời gian tìm kiếm).",
+        "Kể tên ít nhất hai loại chỉ mục phổ biến với ví dụ cụ thể (B-Tree, Hash, Bitmap, v.v.).",
+        "Mô tả đúng cấu trúc cơ bản của từng loại (ví dụ: B-Tree là cây cân bằng với độ phức tạp O(log n), Hash là bảng băm với ánh xạ khóa).",
+        "Giải thích sự khác biệt về trường hợp sử dụng: B-Tree hỗ trợ range query và sắp xếp, Hash chỉ hỗ trợ tìm kiếm chính xác (equality).",
+        "Tùy chọn: Đề cập đến trade-off giữa tốc độ truy vấn và chi phí bộ nhớ/cập nhật."
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_045",
+    "question_text": "Bạn đang làm việc với một bảng chứa dữ liệu giao dịch (transactions) có 10 triệu bản ghi. Bảng có cột `transaction_date` (DATE) và `amount` (DECIMAL). Một truy vấn báo cáo thường xuyên chạy: `SELECT SUM(amount) FROM transactions WHERE transaction_date >= '2025-01-01' AND transaction_date < '2025-07-01';`. Hiện tại, truy vấn này mất 30 giây. Bạn nên tạo loại chỉ mục nào để tối ưu, và tại sao?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "Create a B-Tree index on `transaction_date` as the primary optimization. B-Tree efficiently supports range queries (>=, <) with O(log n) lookup complexity, allowing the database to quickly locate the date range without full table scans. Hash indexes are unsuitable because they cannot evaluate range predicates. For further optimization, create a composite index on (`transaction_date`, `amount`) to enable index-only scans, eliminating table lookups entirely. Consider also: (1) whether index selectivity is high enough to justify the optimization—if the date range covers most rows, index overhead may not be worthwhile; (2) write performance impact on INSERT/UPDATE operations due to index maintenance on a 10M-row table; (3) alternative approaches like table partitioning by date (if supported) or materialized views for periodic reporting queries. The optimal choice depends on query frequency, write patterns, and storage constraints.",
+      "evaluation_points": [
+        "Correctly identifies B-Tree as appropriate index type for range queries and explains O(log n) lookup efficiency",
+        "Correctly contrasts B-Tree with Hash index, explaining why Hash cannot support range predicates",
+        "Recognizes composite index optimization and index-only scan benefits to avoid table lookups",
+        "Strong answer: Explains cost trade-offs (composite index write overhead vs. read performance gain, storage cost)",
+        "Strong answer: Discusses query execution plan impact (index seek vs. full table scan, potential for covered query)",
+        "Strong answer: Considers partitioning or materialized views as alternative optimizations for large historical datasets",
+        "Weak answer: Fails to mention index selectivity estimation or filtering efficiency on date ranges",
+        "Weak answer: Does not discuss maintenance costs or write performance impact of additional indexes on 10M row table"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_047",
+    "question_text": "Sharding và Partitioning trong cơ sở dữ liệu quan hệ khác nhau như thế nào? Hãy giải thích trade-off giữa hai phương pháp này.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "Partitioning là chia bảng logic thành các phần nhỏ hơn (partition) trên cùng một máy chủ vật lý, dựa trên cột (ví dụ: range, list, hash). Dữ liệu vẫn nằm trong cùng một instance database, giúp quản lý dữ liệu lớn và tăng tốc query thông qua partition pruning (optimizer chỉ quét partition liên quan). Sharding là chia dữ liệu ngang (horizontal) thành các shard riêng biệt, mỗi shard nằm trên một máy chủ độc lập, được định tuyến bằng shard key. Trade-off: Partitioning đơn giản hơn, không cần thay đổi logic ứng dụng, nhưng vẫn bị giới hạn tài nguyên (CPU, RAM, I/O) của một server duy nhất. Sharding cho phép scale ngang thực sự, tăng khả năng chịu tải và throughput, nhưng phức tạp hơn (cần lựa chọn shard key phù hợp, quản lý distributed transactions, query routing) và có rủi ro hot shard (mất cân bằng dữ liệu nếu shard key không tốt). Nên chọn Partitioning khi dữ liệu lớn nhưng tài nguyên server vẫn đủ; chọn Sharding khi thực sự cần scale ngang và có khả năng xử lý độ phức tạp.",
+      "evaluation_points": [
+        "Phân biệt đúng Partitioning (cùng server, logical split) và Sharding (nhiều server, physical distribution).",
+        "Nêu được trade-off: Partitioning đơn giản, không cần thay đổi ứng dụng, nhưng không scale ngang tài nguyên; Sharding scale ngang nhưng tăng độ phức tạp (routing, distributed transactions, hot shard problem).",
+        "Đề cập đến ít nhất một kỹ thuật cụ thể như partition pruning, shard key selection, hoặc consistent hashing.",
+        "Giải thích được vấn đề phân phối dữ liệu không đều (data skew/hot shard) trong Sharding và cách mitigating.",
+        "Nhận biết được khi nào nên dùng Partitioning (đơn giản, quản lý dữ liệu lớn) vs Sharding (thực sự cần scale ngang và chịu được độ phức tạp)."
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_049",
+    "question_text": "Công ty bạn có một hệ thống MySQL với bảng `orders` (100 triệu bản ghi) và truy vấn: `SELECT * FROM orders WHERE customer_id = 12345 ORDER BY order_date DESC LIMIT 10;`. Hiện tại, có một index riêng trên `customer_id` và một index riêng trên `order_date`. Truy vấn chạy chậm (hơn 5 giây). Hãy giải thích nguyên nhân và đề xuất giải pháp tối ưu chỉ mục.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân: MySQL chỉ có thể sử dụng một index cho mỗi truy vấn trên một bảng trong hầu hết các trường hợp. Nếu dùng index trên `customer_id`, MySQL tìm nhanh các bản ghi của customer 12345, nhưng phải thực hiện filesort trên toàn bộ kết quả theo `order_date` (có thể hàng nghìn bản ghi) rồi lấy TOP 10. Nếu dùng index trên `order_date`, MySQL phải quét ngược từ ngày mới nhất và kiểm tra từng bản ghi xem có `customer_id = 12345` không, dẫn đến nhiều lần đọc ngẫu nhiên (random I/O), vốn chậm trên dataset lớn.\n\nGiải pháp chính: Tạo composite index trên (`customer_id`, `order_date DESC`). Index này sẽ lưu trữ dữ liệu theo thứ tự customer_id trước, sau đó theo order_date giảm dần. MySQL sẽ thực hiện range scan trên customer_id, sau đó đọc tuần tự 10 bản ghi đầu tiên theo thứ tự order_date, không cần filesort và chỉ đọc đúng 10 row.\n\nCác xem xét bổ sung:\n- Kiểm tra EXPLAIN PLAN để đảm bảo index được sử dụng (tránh \"Using filesort\")\n- Nếu SELECT chỉ cần (customer_id, order_date, order_id), hãy xem xét covering index để tránh quay lại bảng gốc\n- Cân nhắc chi phí: index composite sẽ làm chậm INSERT/UPDATE/DELETE vì phải duy trì thứ tự trên hai cột; với 100M bản ghi, kích thước index cũng tăng đáng kể\n- Nếu phần lớn queries truy vấn những đơn hàng gần đây, xem xét partial index hoặc partitioning theo thời gian",
+      "evaluation_points": [
+        "Correctly identifies that MySQL typically uses one index per table and explains the performance penalty of each single-index strategy (sort overhead vs. random I/O)",
+        "Proposes composite index with correct column order (customer_id first for equality filtering, then order_date DESC for range ordering) and explains why this enables efficient execution",
+        "Explains the mechanism: index range scan on customer_id followed by sequential reads in order_date order, eliminating filesort and reducing row access to exactly 10 rows",
+        "Strong candidates should discuss trade-offs: composite index write cost (INSERT/UPDATE/DELETE overhead), storage footprint increase with 100M records, and whether the index covers SELECT columns (covering index concept)",
+        "Strong candidates recognize query execution plan analysis: they would mention using EXPLAIN to verify the index is being used correctly and checking for 'Using filesort' or 'Using temporary' in the plan",
+        "Consideration of alternative approaches: partial indexes if most queries filter by recent dates, or query rewrite strategies (e.g., materialized views for top-N per customer)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_051",
+    "question_text": "Bạn đang thiết kế một hệ thống cơ sở dữ liệu PostgreSQL cho ứng dụng đặt vé xem phim. Bảng `bookings` có 200 triệu bản ghi, với cột `show_time` (timestamp) và `user_id` (bigint). Hệ thống ghi dữ liệu liên tục theo thời gian thực (show_time tăng dần) và có truy vấn: `SELECT COUNT(*) FROM bookings WHERE show_time >= '2025-06-01' AND show_time < '2025-06-02' AND user_id = 999;`. Hiện tại, có B-tree index trên (`show_time`). Truy vấn này chạy chậm và ghi dữ liệu mới bị chậm do contention trên index leaf page (hotspot). Hãy đề xuất chiến lược indexing và scaling để giải quyết cả hai vấn đề. Giải thích chi tiết cách thức hoạt động.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING",
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "**Root Cause Analysis:** The B-tree index on `show_time` suffers from a well-known write hotspot problem: since show_time increases monotonically (temporal data), all new inserts target the rightmost leaf page. This causes page splits, lock contention on that page, and slower write throughput. The query filters on both `user_id` and `show_time`, but the current index is optimized only for show_time, forcing a range scan followed by heap lookups to filter user_id.\n\n**Proposed Solutions:**\n\n**1. Composite Index Strategy (user_id, show_time):**\nRationale: Place user_id as the leading column because it distributes insert locations across the entire index tree—new inserts for different users target different leaf pages, eliminating the write hotspot. For the query `WHERE user_id = 999 AND show_time >= X AND show_time < Y`, PostgreSQL uses the index to find all entries matching user_id=999, then performs an efficient range scan on show_time within that subset.\n\nTrade-off: This works well when user_id=999 is selective (few matching entries). If the query must support many different user_ids equally, the benefit diminishes and alternative indexing (e.g., (show_time, user_id) with partitioning) may be preferable.\n\nIndex-only scan limitation: PostgreSQL's COUNT(*) requires access to the heap tuple to verify visibility under MVCC, so true index-only scans are limited. However, a bitmap index scan using this composite index still reduces I/O by narrowing the heap scan to relevant pages.\n\n**2. Partitioning by show_time (Range Partitioning, Monthly):**\nEach partition covers a month (e.g., 2025-06 contains 2025-06-01 to 2025-06-30). Benefits:\n- **Partition Pruning:** The query `WHERE show_time >= '2025-06-01' AND show_time < '2025-06-02'` eliminates all other partitions at plan time, scanning only the June partition.\n- **Hotspot Mitigation:** New inserts (always the latest date) target only the current partition's index, not the global index. Archive old partitions without blocking active writes.\n- **Index Size Reduction:** Each partition's index is smaller, improving cache hit rates and reducing page splits.\n\nWithin each partition, apply the composite index (user_id, show_time) strategy. This combination is powerful: partition pruning reduces initial candidate partitions, then the index efficiently filters user_id and show_time within the selected partition.\n\n**3. Alternative: BRIN Index on show_time:**\nBlock Range INdex trades B-tree's write efficiency for lower storage and simpler structure. Since show_time is monotonically increasing, BRIN can quickly identify blocks containing the target range with minimal overhead. Suitable if query selectivity on show_time is high and acceptable False Positive Rate (FPR) on heap lookups is tolerable. Less effective than partitioning if many old blocks exist.\n\n**4. Sharding by user_id (Horizontal Scaling, if needed):**\nHash user_id into N shards (e.g., N=8) and route each user's data to a separate PostgreSQL instance. Each shard applies the composite index and partitioning strategy, spreading write load. Drawback: cross-shard queries require aggregation logic and consistency management; justified only if single-node partitioning becomes a bottleneck.\n\n**Recommended Architecture:**\n1. Implement range partitioning on show_time (monthly partitions).\n2. Create composite index (user_id, show_time) on the parent table; PostgreSQL automatically applies it to each partition.\n3. Set `constraint_exclusion = partition` to enable partition pruning.\n4. Tune `fillfactor` to 80% on indexes to reduce page split frequency.\n5. Monitor index bloat with `pgstattuple` and rebuild partitions periodically as old data is archived.\n\nThis avoids sharding complexity while solving both the write contention and query latency issues.",
+      "evaluation_points": [
+        "Correctly identifies B-tree hotspot problem caused by monotonically increasing show_time and explains why user_id as leading column distributes writes across leaf pages",
+        "Proposes composite index (user_id, show_time) but must explicitly address: (1) why this works despite user_id having low cardinality for filtering, (2) the filtering efficiency trade-off when user_id=999 is selective vs. non-selective, and (3) whether index-only scan is feasible (COUNT(*) requires heap access in PostgreSQL unless using USING clause)",
+        "Evaluates partitioning by show_time (range/monthly) and its benefits (partition pruning, archive), but should quantify impact: partition elimination reduces scanned data volume, mitigates hotspot by distributing writes across partition indexes, and improves cache locality",
+        "Discusses sharding by user_id but must acknowledge operational complexity: distributed query execution, cross-shard aggregation, and consistency challenges; should compare against single-node partitioning cost-benefit",
+        "Addresses whether BRIN (Block Range INdex) on show_time could be an alternative for write-heavy workload and time-series data, or discusses fillfactor tuning on B-tree to reduce page splits",
+        "Explains PostgreSQL-specific behavior: REPEATABLE READ isolation level for concurrent writes, potential query plan changes with new index structure, and ANALYZE frequency on large tables"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_052",
+    "question_text": "Bạn đang thiết kế một hệ thống thương mại điện tử với bảng `orders` có 100 triệu dòng, thường xuyên truy vấn theo `customer_id`, `order_date`, và `status`. Bảng có tốc độ ghi cao (1000 đơn hàng/giây). Hãy giải thích lợi ích và hạn chế của việc sử dụng composite index trên (customer_id, order_date) so với hai index đơn trên từng cột. Khi nào bạn chọn composite index và tại sao?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INDEXING",
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INDEXING"
+    ],
+    "answers": {
+      "detailed": "Composite index trên (customer_id, order_date) tối ưu truy vấn kết hợp cả hai cột nhờ B-Tree leftmost prefix matching—chỉ cần một lần duyệt thay vì index merge. Index merge (với hai index đơn) đòi hỏi intersection/union của hai tập kết quả, tốn CPU và I/O. Tuy nhiên, composite index chỉ hiệu quả cho queries trên customer_id (prefixes), hoặc cả customer_id + order_date, nhưng KHÔNG tối ưu cho WHERE order_date alone. Chi phí ghi: composite index yêu cầu cập nhật một B-Tree (thay vì hai), nhưng mỗi insert vào một composite index còn lớn hơn, gây higher fragmentation. Với 1000 orders/sec, tác động là đáng kể. Quyết định: chọn composite nếu 70%+ queries yêu cầu cả (customer_id, order_date); nếu queries phân tán, dùng hai index đơn + index merge. Cân nhắc covering index (customer_id, order_date, status) để tránh table lookup, giảm read latency mà chi phí ghi lên một lần. Monitor write latency và slow queries để validate.",
+      "evaluation_points": [
+        "Giải thích được cơ chế B-Tree và leftmost prefix matching của composite index.",
+        "Phân tích cụ thể index merge cost (sorting, filtering, intersection) vs single index scan.",
+        "Đánh giá trade-off: read optimization vs write amplification (insert/update/delete overhead trên composite index).",
+        "Đưa ra tiêu chí quyết định dựa trên query selectivity, cardinality của từng cột, và write-to-read ratio.",
+        "Xem xét covering index strategy để tránh table lookups cho các truy vấn chỉ cần (customer_id, order_date, status).",
+        "Phân tích monitoring metrics: query execution time, index fragmentation, và write latency impact."
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_054",
+    "question_text": "Công ty của bạn có một cơ sở dữ liệu MySQL đơn node với bảng `user_activity` 500GB, ghi 5000 dòng/giây. Hiện tại, hiệu năng ghi và đọc đều xuống cấp. Hãy so sánh hai chiến lược scaling: vertical scaling (nâng cấp RAM/CPU/SSD) và horizontal scaling (sharding theo user_id). Trong tình huống nào bạn chọn giải pháp nào? Giải thích chi tiết các yếu tố ảnh hưởng.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DATABASE_SCALING"
+    ],
+    "skill_tags": [
+      "DATABASE_SCALING"
+    ],
+    "answers": {
+      "detailed": "Vertical scaling is simpler—no application code changes, suitable when bottleneck is CPU or I/O saturation—but hits hardware limits and becomes cost-prohibitive (e.g., $50k+ for 512GB RAM systems). At 5000 rows/sec, vertical may suffice if the bottleneck is disk I/O (add NVMe SSD) or cache misses (increase RAM). However, diagnose first: use slow query logs and iostat to identify the actual constraint.\n\nHorizontal scaling via user_id sharding distributes writes and reads, enabling linear throughput growth, but introduces complexity: distributed transactions (use application-level consistency or XA with caution), hot shard handling (if some users generate disproportionate load), and cross-shard query overhead. Rebalancing during growth is operationally expensive.\n\nDecision framework:\n1. If queries are mostly user_id-scoped (e.g., 'get user X's activities') and read-heavy: consider read replicas first—cheaper, simpler, 3-5x throughput gain.\n2. If write-bound and queries span users or require aggregation: vertical scaling + sharding is hybrid: scale vertically to maximize single-node capacity, then shard at 2-3TB per shard to manage growth.\n3. If uneven user activity distribution (80/20 rule): sharding introduces hot shard problems; use range-based sharding with micro-sharding or consistent hashing to mitigate.\n4. Growth trajectory matters: if 50% YoY, plan sharding architecture now (design for 3-5 shards initially). If stable, vertical suffices.\n\nFinal recommendation: Diagnose bottleneck first. For 500GB with 5000 rows/sec, likely I/O-bound; add high-performance SSD and read replicas (vertical + replication). Plan sharding architecture for 18-24 months ahead if growth is aggressive.",
+      "evaluation_points": [
+        "Diagnose the actual bottleneck (CPU, I/O, memory, or lock contention) before recommending scaling strategy; explain how to measure and profile (e.g., slow query logs, iostat, mutex contention).",
+        "For vertical scaling: assess hardware limits (single-node failure risk, maximum economical RAM/CPU tier), and discuss whether read replicas could be a cheaper intermediate step before horizontal scaling.",
+        "For horizontal scaling via sharding: evaluate the query workload—clarify whether queries are predominantly user_id-scoped (ideal for sharding) or involve complex cross-shard joins/aggregations (high operational cost); discuss hot shard problems if user activity distribution is skewed.",
+        "Address distributed transaction handling: explain XA protocol or application-level consistency patterns; discuss whether eventual consistency or strong consistency is acceptable.",
+        "Compare intermediate solutions: read replicas for read-heavy workload, write buffering/batching, or materialized views before committing to sharding complexity.",
+        "Quantify trade-offs: estimate rebalancing cost, latency overhead from cross-shard queries, and operational complexity (monitoring, failover, version upgrades) vs. infrastructure savings."
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_056",
+    "question_text": "Bạn đang tối ưu một bảng `transactions` có 200 triệu dòng với index trên `transaction_date` (datetime). Khi chạy truy vấn SELECT COUNT(*) FROM transactions WHERE transaction_date BETWEEN '2023-01-01' AND '2023-12-31', thời gian thực thi lên tới 30 giây dù index tồn tại. Hãy giải thích nguyên nhân và đề xuất ít nhất hai cách tối ưu, bao gồm phân tích execution plan và cách index hoạt động.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INTERNALS"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân chính: Dù index tồn tại, truy vấn COUNT(*) với range scan trên transaction_date phải thực hiện Index Scan thay vì Seek nếu selectivity cao (>5-10% dữ liệu). Điều này xảy ra vì: (1) Index không cover—sau khi tìm dòng trong index, database vẫn phải lookup bảng chính để lấy dữ liệu, tạo random I/O đắt đỏ; (2) Cardinality estimation sai hoặc statistics cũ khiến optimizer chọn Table Scan; (3) Clustered index trên transaction_date không được thiết lập, nên dữ liệu lưu rời rạc trên disk.\n\nExecution Plan Analysis: Execution plan sẽ hiển thị \"Index Scan\" với high estimated subtree cost và RID Lookup operations. Nếu selectivity thực tế cao, query engine có thể fallback to Table Scan, dẫn tới sequential full table scan của 200M rows.\n\nCách tối ưu:\n(1) **Covering Index**: Tạo index `CREATE INDEX idx_txn_date_cover ON transactions(transaction_date) INCLUDE (id)` hoặc tương đương. Điều này cho phép Index Seek + Stream Aggregate mà không cần Key Lookup. Index seek sẽ tìm các phần tử trong khoảng [2023-01-01, 2023-12-31], tránh full table scan, giảm I/O từ ~30s xuống ~2-5s.\n\n(2) **Filtered Index / Materialized View**: Nếu COUNT thường cho năm cụ thể, tạo filtered index `WHERE transaction_date >= '2023-01-01' AND transaction_date < '2024-01-01'` hoặc materialized view cập nhật batch hàng giờ/ngày. Điều này giảm kích thước index, tăng cache hit rate, và materialized view trả về kết quả ngay (O(1) nếu pre-computed).\n\n(3) **Table Partitioning**: Partition bảng theo `transaction_date` (tháng hoặc năm). Partition pruning tự động loại bỏ các partitions ngoài khoảng [2023-01-01, 2023-12-31], quét chỉ ~12 partitions thay vì toàn bộ 200M rows. Giảm logical I/O 90%+.\n\n(4) **Update Statistics & Maintenance**: Chạy `ANALYZE` / `UPDATE STATISTICS` để cardinality estimation chính xác, giúp optimizer chọn Index Seek thay vì Scan.\n\nLưu ý ACID: Nếu dùng materialized view, đảm bảo batch update là atomic transaction (all-or-nothing) để tránh partial counts. Isolation level (READ COMMITTED vs. SNAPSHOT) ảnh hưởng tới consistency của COUNT durante concurrent writes.",
+      "evaluation_points": [
+        "Explains why Index Seek vs. Index Scan occurs (selectivity, cardinality estimation, index statistics) and how query optimizer decides between them",
+        "Details covering index structure: includes transaction_date as leading column and NULL bitmap/row version info to avoid Key Lookup, comparing with non-covering index performance impact",
+        "Analyzes execution plan metrics: identifies RID/Key Lookup cost, I/O patterns (random vs. sequential), and how table scan fallback happens when selectivity is high (>5-10% of table)",
+        "Discusses partition pruning mechanism: how table partitioning by transaction_date eliminates scanning irrelevant partitions at execution time, reducing logical I/O",
+        "Compares trade-offs: materialized views (freshness vs. storage), covering indexes (write performance cost), and partitioning (maintenance complexity vs. query gains)",
+        "Connects to ACID atomicity/isolation: acknowledges that summary tables require atomic batch updates and how isolation levels affect counting accuracy during concurrent transactions"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_058",
+    "question_text": "Hệ thống của bạn sử dụng PostgreSQL với bảng `inventory` có 50 triệu dòng, thường xuyên cập nhật số lượng tồn kho theo product_id. Bạn nhận thấy hiệu năng giảm do index bị fragmentation và dead tuples. Hãy giải thích cơ chế MVCC trong PostgreSQL gây ra vấn đề này như thế nào? Đề xuất chiến lược bảo trì index và autovacuum để tối ưu performance, bao gồm cách xác định tham số phù hợp.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATABASE_INTERNALS",
+      "DB_ACID"
+    ],
+    "skill_tags": [
+      "DB_ACID"
+    ],
+    "answers": {
+      "detailed": "MVCC in PostgreSQL creates a new tuple version on each UPDATE rather than modifying in-place, leaving the old version as a dead tuple. When autovacuum cannot keep pace with update velocity (frequent inventory changes on 50M rows), dead tuples accumulate. Indexes retain pointers to all tuple versions, causing index bloat and fragmentation—the B-tree becomes inefficient due to wasted space and poor cache locality, increasing I/O cost per query.\n\nOptimization strategy:\n(1) **Autovacuum tuning:** Set autovacuum_vacuum_scale_factor = 0.05 (5% of table size) and autovacuum_vacuum_threshold = 50,000 for the inventory table to trigger vacuuming more frequently. Reduce autovacuum_naptime to 5-10 seconds if update rate is very high. Monitor pg_stat_user_tables (n_dead_tup column) to ensure dead tuple ratio stays <5-10%.\n(2) **Fillfactor optimization:** Use fillfactor = 80 for the inventory table to leave 20% free space per page. This enables HOT (Heap-Only Tuples) updates—updates that don't require index maintenance if the new version fits on the same page. This dramatically reduces index bloat.\n(3) **Index maintenance:** Use REINDEX CONCURRENTLY during off-peak hours rather than blocking REINDEX, or monitor idx_blks_read from pg_stat_user_indexes to detect when index bloat causes excessive disk reads. Consider partitioning by product_id if the table grows further to reduce vacuum scope.\n(4) **Transaction consideration:** Long-running transactions hold old snapshots, preventing MVCC cleanup. Ensure application transactions are short-lived, especially for inventory updates.\nMonitor and adjust parameters weekly based on workload patterns from pg_stat_user_tables and slow query logs.",
+      "evaluation_points": [
+        "Explains MVCC mechanism: how tuple versioning works and why UPDATE creates new versions rather than modifying in-place, leading to dead tuples accumulation",
+        "Describes the causal chain: dead tuples → index bloat → increased I/O and query latency → fragmentation impact on B-tree structure efficiency",
+        "Proposes tuning autovacuum parameters with rationale: autovacuum_vacuum_scale_factor (% of table), autovacuum_vacuum_threshold (absolute tuple count), and autovacuum_naptime based on workload intensity",
+        "Discusses fillfactor trade-off: lower values (e.g., 70-80%) reduce HOT (Heap-Only Tuples) updates, decreasing index bloat but using more storage; higher values maximize storage density but increase index maintenance",
+        "Demonstrates monitoring approach: queries pg_stat_user_tables (n_dead_tup, last_vacuum), pg_stat_user_indexes (idx_blks_read, idx_blks_hit) to identify when thresholds are exceeded",
+        "Distinguishes between REINDEX (full rebuild, locks table, expensive) vs. VACUUM FULL (slow), and online strategies like REINDEX CONCURRENTLY for large tables",
+        "Considers workload-specific optimization: high-frequency updates (50M rows with constant inventory changes) may warrant aggressive autovacuum or partial fillfactor reduction over blanket REINDEX",
+        "Strong answer recognizes the isolation level may exacerbate bloat (longer transactions holding snapshots prevent tuple cleanup); weak answer ignores transaction tuning"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATABASES_060",
+    "question_text": "Bạn đang tối ưu một hệ thống MySQL với bảng `logs` 300 triệu dòng, insert 10.000 dòng/giây. Hiện tại, bảng dùng InnoDB với clustered index trên id (auto-increment). Tuy nhiên, truy vấn theo timestamp bị chậm dù có non-clustered index. Hãy phân tích vấn đề \"page split\" và \"random I/O\" trong ngữ cảnh này. Đề xuất giải pháp tối ưu index và cấu hình InnoDB để cải thiện performance ghi và đọc.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATABASE_INTERNALS"
+    ],
+    "skill_tags": [
+      "DATABASE_INTERNALS"
+    ],
+    "answers": {
+      "detailed": "With clustered index on auto-increment id, inserts are sequential (always append to rightmost leaf), preventing page splits on the clustered index. However, the non-clustered index on timestamp suffers page splits because timestamp values arrive out-of-order due to concurrent insert timing variations—each insert may land in the middle of index leaf nodes, triggering costly splits and doubling random I/O. When querying by timestamp, InnoDB performs: (1) index range scan on timestamp non-clustered index, (2) for each matched row, random I/O to clustered index leaf to fetch remaining columns (bookmark lookup). At 10K inserts/sec, this compounds: frequent page splits fragment the timestamp index, and many concurrent bookmark lookups create I/O contention.\n\nSolutions with trade-offs:\n(1) **Covering index (timestamp, id)**: Eliminates bookmark lookup, but increases insert latency (maintain two index trees) and memory overhead. Measure impact on insert throughput.\n(2) **Table partitioning by timestamp range**: Prunes partitions in range queries, reduces index size per partition (fewer page splits), but adds query routing logic and administrative overhead. Effective only if queries cluster on timestamp ranges.\n(3) **Increase innodb_buffer_pool_size**: Caches timestamp index and clustered index pages, reducing I/O. But diminishing returns once working set exceeds available RAM; cost is memory provisioning.\n(4) **Tune innodb_log_file_size and innodb_flush_log_at_trx_commit**: Larger log file reduces checkpoint frequency, improving sustained insert rate. Trade-off: recovery time if crash occurs (must replay larger log).\n(5) **Archive old logs**: For a 300M-row append-only log table, periodically partition and archive historical data, keeping hot working set smaller and index pages more cache-resident.\n\nStrong approach: combine covering index (for read optimization) + partitioning (to constrain index growth) + larger buffer pool (to cache hot partitions), while benchmarking insert latency at each step to avoid shifting bottleneck from reads to writes.",
+      "evaluation_points": [
+        "Explain WHY non-clustered index on timestamp causes page splits (values inserted out-of-order due to time distribution across concurrent inserts) versus auto-increment clustered index (sequential inserts to leaf end).",
+        "Articulate the full bookmark lookup cost chain: index scan → random I/O to fetch from clustered index → multiple disk seeks, and quantify impact on 10K inserts/sec workload.",
+        "Evaluate trade-offs between covering index (memory overhead, slower inserts due to maintaining extra index) versus partitioning (query routing complexity, administrative overhead) versus increased buffer pool (diminishing returns after dataset exceeds memory).",
+        "Discuss practical constraints: covering index (timestamp, id) increases write latency for 10K inserts/sec; partition pruning only helps if query filters on partition key; fsync costs of larger innodb_log_file_size during recovery.",
+        "Strong candidate should acknowledge that 300M rows with 10K inserts/sec is a write-heavy workload—solution must not sacrifice insert performance; weak candidate may propose solutions that shift bottleneck to insert path."
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  }
+]

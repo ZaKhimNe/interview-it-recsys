@@ -1,0 +1,101 @@
+# ANALYTICS_BUSINESS — Reference Document (Source: Gemini 2.5 Flash)
+
+## ANALYTICS_BUSINESS Competency Reference (Role: Data Analyst)
+
+This document outlines key concepts and expected competencies for a Data Analyst (DA) in the domain of business analytics. A strong DA demonstrates not only technical understanding but also the ability to translate analytical insights into actionable business recommendations.
+
+## Cohort Analysis
+
+**Definition:** Cohort analysis is a subset of behavioral analytics that groups users based on a shared characteristic or experience (the "cohort definition event") within a specific timeframe, then tracks their behavior over subsequent periods. Common cohort definitions include signup date, first purchase date, or feature adoption date.
+
+**Key Distinction:** Unlike general customer segmentation, cohort analysis specifically focuses on how the behavior of these *fixed groups* evolves *over time*. It helps differentiate between changes due to new user acquisition (period effects) and changes in existing user behavior (cohort effects).
+
+**Practical Interview Detail:**
+*   **Retention Cohort:** Tracks the percentage of users from a specific acquisition cohort who remain active (or perform a specific action) in subsequent periods (e.g., D1, D7, M1 retention). This is crucial for understanding product stickiness and long-term value.
+*   **Behavior Cohort:** Groups users by when they first performed a specific action (e.g., used a new feature) to analyze its impact on their subsequent engagement or conversion.
+*   **Strong Candidate:** Discusses the importance of choosing the right cohort definition event and tracking metric based on the business question. Can interpret retention curves (e.g., "flattening" indicates long-term retention, sharp drops indicate onboarding issues) and propose hypotheses for observed trends. Understands how to segment cohorts further (e.g., by acquisition channel) to uncover deeper insights.
+*   **Weak Candidate:** Provides a basic definition without discussing practical application, interpretation of results, or the distinction from simple segmentation.
+*   **Pitfalls:** Misinterpreting period effects as cohort effects, or vice-versa. Not defining "active" consistently across periods.
+
+## Funnel Analysis
+
+**Definition:** Funnel analysis maps the user journey through a series of predefined, sequential steps towards a specific goal (e.g., purchase, signup, feature adoption). It quantifies user progression and identifies points of drop-off.
+
+**Key Distinction:** Focuses on the *sequential flow* and *conversion rates* between steps, rather than just overall usage. It's a diagnostic tool for identifying bottlenecks in a process.
+
+**Practical Interview Detail:**
+*   **Metrics:** Conversion rates (step-to-step, overall), drop-off rates, time spent per step.
+*   **Application:** Used to optimize user experience, identify friction points, and prioritize product improvements.
+*   **Strong Candidate:** Can articulate how to define relevant, mutually exclusive, and exhaustive steps for a given business process. Discusses how to identify critical drop-off points, formulate hypotheses for *why* users drop off, and suggest A/B tests or product changes to improve conversion. Understands the importance of segmenting funnels (e.g., by device, acquisition source) for deeper insights.
+*   **Weak Candidate:** Simply describes the concept without detailing how to construct a funnel, interpret its results, or derive actionable insights.
+*   **Pitfalls:** Defining too many or too few steps, not accounting for alternative paths users might take, or assuming a linear journey when it's not.
+
+## RFM Analysis (Recency, Frequency, Monetary)
+
+**Definition:** RFM analysis is a marketing technique used to quantitatively segment customers based on their past transactional behavior.
+*   **Recency (R):** How recently a customer made a purchase.
+*   **Frequency (F):** How often a customer makes purchases.
+*   **Monetary (M):** The total amount of money a customer has spent.
+Each customer is typically assigned a score (e.g., 1-5) for each dimension, which are then combined to create an RFM score.
+
+**Key Distinction:** It's a heuristic, data-driven segmentation method for customer value, not a predictive model. It provides a snapshot of current customer value based on historical transactions.
+
+**Practical Interview Detail:**
+*   **Scoring:** Candidates should understand how scores are assigned (e.g., quintiles, custom bins) and the implications of different scoring scales.
+*   **Application:** Used for targeted marketing campaigns (e.g., re-engagement for high R, low F; loyalty programs for high R, F, M; upsell for high F, M, low R), personalized communication, and identifying high-value customers.
+*   **Strong Candidate:** Explains how RFM scores translate into actionable strategies for different customer segments (e.g., "Champions," "At Risk," "New Customers"). Discusses the limitations (e.g., difficulty with new customers, non-transactional businesses, or subscription models where "monetary" might be less relevant) and potential adaptations (e.g., RFE for engagement).
+*   **Weak Candidate:** Provides only definitions without discussing the practical application, scoring methodology, or limitations.
+*   **Pitfalls:** Applying RFM blindly to businesses without clear transactional data, or not considering the time horizon for "recency" and "frequency."
+
+## Retention Metrics & Churn Prediction
+
+**Definition (Retention Metrics):** Quantifiable measures of how many users or customers continue to engage with a product or service over a specific period.
+*   **User Retention Rate:** Percentage of users from a cohort who return within a defined period (e.g., N-day retention, weekly retention).
+*   **Customer Retention Rate:** Percentage of customers retained over a longer period (e.g., annually).
+*   **Revenue Retention (Gross/Net):** Measures the percentage of revenue retained from existing customers, accounting for downgrades/upgrades.
+
+**Definition (Churn Prediction):** The process of identifying customers who are likely to discontinue using a service or product in the future, typically using machine learning models trained on historical user behavior and demographic data.
+
+**Key Distinction:** Retention metrics are *descriptive* (what happened); churn prediction is *prescriptive* (what is likely to happen) and aims to enable proactive intervention.
+
+**Practical Interview Detail:**
+*   **Defining Churn:** Critical to define "churn" precisely for the business context (e.g., non-renewal, inactivity for X days, cancellation).
+*   **Churn Prediction Models:** Logistic Regression (interpretability), Decision Trees/Random Forests (non-linearity, feature importance), Gradient Boosting (accuracy).
+*   **Strong Candidate:** Discusses the different types of churn (voluntary vs. involuntary, contractual vs. non-contractual) and their implications. Explains how to define "active" for retention metrics. For churn prediction, discusses feature engineering (e.g., usage patterns, support interactions, billing history), model selection criteria (e.g., interpretability vs. accuracy), and the business impact of false positives/negatives. Emphasizes the importance of acting on churn predictions.
+*   **Weak Candidate:** Lists metrics without understanding their calculation or business implications. For churn, might only mention "AI" without detailing the process or challenges.
+*   **Pitfalls:** Misdefining churn, using inappropriate time windows for retention, or deploying a churn model without a clear strategy for intervention.
+
+## Business KPIs (DAU/MAU/WAU, LTV, CAC, ARPU)
+
+**Definition:** Key Performance Indicators (KPIs) are measurable values that demonstrate how effectively a company is achieving key business objectives.
+*   **DAU/MAU/WAU (Daily/Monthly/Weekly Active Users):** Measures user engagement and product stickiness. "Active" must be clearly defined (e.g., login, specific action).
+*   **LTV (Lifetime Value):** The predicted total revenue a customer will generate over their entire relationship with a company.
+*   **CAC (Customer Acquisition Cost):** The total cost associated with acquiring a new customer (marketing, sales expenses) divided by the number of new customers acquired.
+*   **ARPU (Average Revenue Per User):** Total revenue divided by the number of users over a specific period.
+
+**Key Distinction:** These are foundational metrics for assessing business health, growth, and profitability. They are often analyzed in conjunction (e.g., LTV/CAC ratio for business viability).
+
+**Practical Interview Detail:**
+*   **LTV Calculation:** Discusses different methods (historical LTV, predictive LTV using cohort averages or more complex models) and their assumptions.
+*   **Relationship:** A strong candidate understands that LTV > CAC is essential for sustainable growth. ARPU helps understand monetization efficiency. DAU/MAU/WAU indicate product market fit and engagement.
+*   **Strong Candidate:** Explains the nuances of defining "active" users for different products/services. Can articulate how these KPIs are calculated, their interdependencies, and how they inform strategic decisions (e.g., marketing budget allocation, product development, pricing). Discusses the challenges in accurately calculating LTV and CAC.
+*   **Weak Candidate:** Provides only rote definitions without discussing calculation methods, interrelationships, or business implications.
+*   **Pitfalls:** Incorrectly calculating LTV (e.g., not accounting for churn, discounting future revenue), misinterpreting "active" users, or analyzing KPIs in isolation.
+
+## Attribution Modeling
+
+**Definition:** Attribution modeling is the process of assigning credit for a conversion to different touchpoints (e.g., ad clicks, organic search, social media) in a customer's journey. It helps marketers understand the impact of various channels and optimize spending.
+
+**Key Distinction:** Moves beyond simply tracking conversions to understanding the *contribution* of each marketing interaction, providing a more nuanced view than last-touch reporting.
+
+**Practical Interview Detail:**
+*   **Common Models:**
+    *   **First-Touch:** All credit to the first interaction. Good for brand awareness.
+    *   **Last-Touch:** All credit to the final interaction. Simple, common, but undervalues earlier touchpoints.
+    *   **Linear:** Equal credit to all touchpoints.
+    *   **Time Decay:** More credit to recent interactions.
+    *   **U-shaped/W-shaped:** More credit to first and last interactions, with some to mid-journey.
+    *   **Data-Driven/Algorithmic:** Uses statistical models (e.g., Markov chains, Shapley values) to assign credit based on actual conversion paths.
+*   **Strong Candidate:** Discusses the pros and cons of different models, *why* a particular model might be chosen based on business goals (e.g., last-touch for direct response, first-touch for brand building), and the implications for marketing budget allocation and channel optimization. Understands the data requirements for more advanced models.
+*   **Weak Candidate:** Lists models without explaining their application, trade-offs, or how they inform decision-making.
+*

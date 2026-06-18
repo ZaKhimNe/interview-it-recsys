@@ -1,0 +1,37 @@
+# DATA_ARCHITECTURE_MODELING — Reference Document (Source: Gemini 2.5 Flash)
+
+## DATA_ARCHITECTURE_MODELING
+
+This document outlines key competencies in data architecture and modeling critical for a senior Data Engineer. A strong candidate demonstrates not just definitional knowledge but also a deep understanding of trade-offs, practical implementation details, and the "why" behind architectural choices.
+
+## Data Warehouse vs. Data Lake vs. Lakehouse
+
+These paradigms represent different approaches to storing and managing data for analytical purposes, each with distinct characteristics and optimal use cases.
+
+*   **Data Warehouse (DW)**:
+    *   **Definition**: A centralized repository for structured, cleaned, and transformed data, optimized for analytical queries and reporting. It typically employs a "schema-on-write" approach, meaning data conforms to a predefined schema upon ingestion.
+    *   **Distinction**: Offers high performance for complex, structured queries, strong ACID compliance, and robust data governance. However, it's less flexible for raw, unstructured data, can be expensive at scale, and rigid schema changes can be cumbersome.
+    *   **Interview Detail**: Strong candidates discuss MPP architectures (e.g., Snowflake, Redshift, BigQuery), the importance of denormalization for query performance, and the role of ETL/ELT processes. They articulate scenarios where a DW is superior (e.g., traditional BI, regulatory reporting) and its limitations for raw data or machine learning.
+
+*   **Data Lake (DL)**:
+    *   **Definition**: A vast, centralized repository that stores raw data in its native format (structured, semi-structured, unstructured) at scale. It follows a "schema-on-read" approach, where schema is applied at query time.
+    *   **Distinction**: Offers extreme flexibility, low storage costs (often object storage like S3, ADLS), and the ability to store *all* data, making it suitable for diverse workloads including ML/AI. Its primary drawbacks are lack of inherent ACID properties, potential for "data swamps" without proper governance, and challenges with data quality and consistency.
+    *   **Interview Detail**: Strong candidates discuss the underlying storage technologies (HDFS, S3), metadata management (e.g., Hive Metastore), and the challenges of data discovery, quality, and governance in a raw data environment.
+
+*   **Lakehouse**:
+    *   **Definition**: A new architectural paradigm that combines the best features of data lakes and data warehouses. It's built on a data lake, using open table formats (e.g., Delta Lake, Apache Iceberg, Apache Hudi) to bring data warehouse features like ACID transactions, schema enforcement, and time travel directly to the lake.
+    *   **Distinction**: Provides the flexibility and cost-effectiveness of a data lake with the reliability, performance, and governance typically found in data warehouses. It unifies data types and workloads, eliminating data silos between operational and analytical systems.
+    *   **Interview Detail**: Strong candidates can explain *how* Delta Lake (or similar formats) achieves **ACID on the lake** (e.g., through transaction logs, optimistic concurrency control), enables schema evolution, and supports features like Z-ordering and data skipping for query optimization. They emphasize its role in simplifying data pipelines and enabling direct ML/AI on governed lake data. A common pitfall is not understanding the underlying mechanisms of these table formats.
+
+## Dimensional Modeling
+
+A core technique for designing data warehouses, optimizing for query performance and understandability.
+
+*   **Fact Tables**: Store quantitative measurements (measures) and foreign keys to dimension tables.
+    *   **Additive Measures**: Can be summed across all dimensions (e.g., `sales_amount`).
+    *   **Semi-Additive Measures**: Can be summed across some dimensions but not all (e.g., `account_balance` can be summed across accounts but not over time).
+    *   **Non-Additive Measures**: Cannot be summed (e.g., `unit_price`, `profit_margin`). Require specific aggregation functions like `AVG`, `MIN`, `MAX`, or `COUNT DISTINCT`.
+    *   **Interview Detail**: Strong candidates provide clear examples for each, explaining the practical implications for reporting and aggregation. Weak candidates often struggle with semi-additive and non-additive distinctions.
+*   **Dimension Tables**: Store descriptive attributes related to business entities (e.g., customer, product, time). They are typically denormalized for query performance.
+*   **Surrogate Keys**:
+    *   **Definition**: System-generated, non-natural, integer primary keys for dimension tables

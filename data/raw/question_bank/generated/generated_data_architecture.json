@@ -1,0 +1,1019 @@
+[
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_001",
+    "question_text": "Hãy so sánh kiến trúc Data Warehouse (Kimball) và Data Lakehouse. Trong tình huống nào bạn chọn Data Warehouse thay vì Data Lakehouse? Giải thích lý do trade-off giữa chi phí lưu trữ, hiệu năng truy vấn và độ tin cậy dữ liệu.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ARCH_DATA_ARCHITECTURE",
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "skill_tags": [
+      "ARCH_DATA_ARCHITECTURE"
+    ],
+    "answers": {
+      "detailed": "Data Warehouse (Kimball) employs star schema with denormalized dimension and fact tables, optimized for OLAP queries with sub-second latency and strong ACID guarantees via native warehouse engines (Snowflake, Redshift). Schema-on-write enforces data quality at ingestion. Data Lakehouse (e.g., Delta Lake on cloud object storage) combines cost-effective storage with query engines (Spark, Trino) and open table formats that add warehouse-like features—ACID transactions via transaction logs and optimistic concurrency control, schema enforcement, and Z-ordering—without the vendor lock-in. Schema-on-read provides flexibility for unstructured and evolving data.\n\nChoose Data Warehouse when:\n- **Regulatory/compliance requirements** demand immutable audit trails and strict ACID guarantees (financial transactions, healthcare)\n- **Query latency < 1 second** is critical for real-time BI dashboards (cost of optimization justified)\n- **Data is highly structured, stable schema** with predictable denormalization patterns\n- **Team expertise** is in dimensional modeling and SQL optimization\n\nChoose Data Lakehouse when:\n- **Schema evolution and unstructured data** (logs, images, JSON) dominate; cost of frequent DW schema migrations prohibitive\n- **ML/AI workloads** require direct access to raw data with governance (Delta Lake time travel enables reproducibility)\n- **Storage costs at scale** (petabytes) make object storage mandatory\n- **Data discovery and exploration** are priorities (schema-on-read enables rapid iteration)\n\nTrade-offs:\n- **Cost**: DW $10–50/TB/month (all-in); Lakehouse $0.02–0.10/TB/month storage + compute. DW cost amortized faster for high-query workloads.\n- **Performance**: DW achieves sub-second latency via columnar compression and MPP; Lakehouse requires thoughtful partitioning, Z-ordering, and materialized views to match (10–100ms typical).\n- **Reliability**: DW native ACID; Lakehouse ACID via external coordination layer (risk if misconfigured). Both achieve high availability; DW has longer track record.\n- **Agility**: Lakehouse wins; schema changes cost minutes vs. hours in DW.",
+      "evaluation_points": [
+        "Explain how Delta Lake (or similar open table formats) achieves ACID compliance on object storage (transaction logs, optimistic concurrency control) versus native warehouse ACID guarantees.",
+        "Discuss Kimball methodology specifics: star schema denormalization benefits for query performance, conformed dimensions, and why this rigid structure limits schema evolution compared to lakehouse schema-on-read flexibility.",
+        "Articulate concrete scenarios with measurable trade-offs: e.g., financial reporting (DW: sub-second response, high cost, immutable compliance schema) vs. ML feature engineering (Lakehouse: schema evolution, cheaper storage, acceptable latency with proper partitioning/indexing).",
+        "Analyze hidden costs and risks: DW cost per TB but faster amortization for high-query workloads; Lakehouse cheap storage but risk of query performance degradation and data quality issues if governance/indexing neglected.",
+        "Distinguish between schema-on-write enforcement mechanisms (DDL validation in DW) versus schema-on-read interpretation layers (metadata management in Lakehouse) and implications for data lineage and governance."
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_003",
+    "question_text": "Bạn đang thiết kế data pipeline cho một công ty thương mại điện tử với dữ liệu đơn hàng, sản phẩm và khách hàng. Hãy giải thích cách bạn áp dụng Slowly Changing Dimension (SCD) Type 2 cho trường địa chỉ khách hàng. Lợi ích và nhược điểm của SCD Type 2 so với Type 1 trong ngữ cảnh này là gì?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING",
+      "MODELING_SCD"
+    ],
+    "skill_tags": [
+      "MODELING_SCD"
+    ],
+    "answers": {
+      "detailed": "SCD Type 2 maintains complete history by creating new dimension records: when a customer's address changes, the previous record receives an end_date and current_flag=0, and a new record is inserted with start_date and current_flag=1. This preserves the historical mapping—critical for analyzing orders by the customer's address at transaction time (e.g., regional sales analysis). Benefits: (1) Enables temporal queries without data loss; (2) Supports compliance/audit requirements; (3) Allows accurate historical reporting. Drawbacks: (1) Table grows proportionally to change frequency, increasing storage and query scan costs; (2) Queries become complex, requiring explicit temporal joins and filters (e.g., 'WHERE current_flag=1' or 'WHERE order_date BETWEEN start_date AND end_date'); (3) Surrogate key management adds ETL complexity. In e-commerce: address changes are typically infrequent, but historical analysis is valuable (e.g., understanding regional trends over time). The decision hinges on: change frequency (low → favors Type 2), query patterns (historical analysis needed → Type 2), and cost tolerance. A hybrid approach—Type 2 for critical attributes (address, payment method) and Type 1 for others (phone)—often optimizes cost and complexity in practice.",
+      "evaluation_points": [
+        "Correctly describes SCD Type 2 mechanics (new records with start_date, end_date, current_flag) and contrasts with Type 1 (overwrite behavior)",
+        "Articulates the key benefit: historical audit trail enabling time-based analysis (e.g., attributing past orders to customer's address at transaction time)",
+        "Identifies performance trade-offs: increased table size, query complexity (joins/temporal filtering), and impact on storage/compute costs at scale",
+        "Demonstrates architectural thinking by discussing the decision criteria: change frequency (address changes are rare), reporting requirements (historical analysis needed), and cost-benefit analysis",
+        "Advanced expectation: discusses implementation considerations such as surrogate keys for dimension members, handling SCD Type 2 in ELT/ETL pipelines (merge logic), and when hybrid approaches (e.g., Type 2 for critical attributes only) might be preferred"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_005",
+    "question_text": "Trong kiến trúc Data Lake hiện đại (ví dụ: AWS Lake Formation, Delta Lake), hãy giải thích khái niệm 'schema evolution' và cách nó giải quyết vấn đề khi dữ liệu đầu vào thay đổi cấu trúc (thêm cột, thay đổi kiểu dữ liệu). Cho ví dụ cụ thể về edge case khi schema evolution không được xử lý đúng.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING",
+      "DATA_LAKE"
+    ],
+    "skill_tags": [
+      "DATA_LAKE"
+    ],
+    "answers": {
+      "detailed": "Schema evolution cho phép thay đổi schema của dữ liệu đã lưu mà không cần rewrite toàn bộ dataset. Delta Lake hỗ trợ điều này thông qua transaction log, ghi lại các thay đổi schema metadata mà vẫn giữ nguyên dữ liệu cũ. Ví dụ: khi thêm cột 'email' vào bảng customer, Delta Lake chỉ cập nhật schema mà không cần reprocess các file lưu trữ.\n\nEdge case khi schema evolution không được xử lý đúng:\n1. **Type mismatch breaking (INT → STRING)**: Nếu cột 'age' ban đầu là INT, nhưng dữ liệu mới gửi STRING mà không có validation, query sẽ thất bại hoặc cast âm thầm gây lỗi logic.\n2. **Nullable constraint violation**: Thay đổi cột 'user_id' từ nullable sang non-nullable sẽ khiến các record cũ có NULL values bị lỗi.\n3. **Silent data corruption**: Nếu 'mergeSchema=true' mà không có schema validation, cột cũ và cột mới trùng tên nhưng kiểu khác sẽ gây data loss.\n\nGiải pháp: (1) Cấu hình 'mergeSchema=true' chỉ cho additive changes, (2) sử dụng 'overwriteSchema' cẩn thận với validation, (3) áp dụng strict type checking và backward compatibility rules, (4) sử dụng schema registry (e.g., AWS Glue Schema Registry) để enforce versioning. Đây là lợi thế của Lakehouse so với pure Data Lake (tiếp cận schema trên read) và Data Warehouse (schema cứng nhắc).",
+      "evaluation_points": [
+        "Định nghĩa chính xác schema evolution và phân biệt giữa 'additive' (thêm cột) vs 'breaking' changes (thay đổi kiểu dữ liệu)",
+        "Giải thích cơ chế kỹ thuật: Delta Lake sử dụng transaction log để theo dõi schema metadata mà không cần rewrite file, hỗ trợ 'schema merging' thông qua optimistic concurrency control",
+        "Edge case cụ thể: INT → STRING không tương thích ngược; STRING → INT có thể parse nhưng rủi ro; nullable → non-nullable gây lỗi trên NULL values hiện tại",
+        "Đề xuất giải pháp: cấu hình 'mergeSchema=true' (cho phép thêm cột), 'overwriteSchema=true' (thay thế toàn bộ), hoặc validation strict; cần data quality checks và backward compatibility rules",
+        "Nhận xét: Schema evolution là lợi thế chính của Lakehouse (kết hợp tính linh hoạt của Data Lake + độ tin cậy của Data Warehouse) so với pure DW"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_007",
+    "question_text": "Bạn được giao thiết kế kiến trúc dữ liệu cho một hệ thống real-time recommendation engine với yêu cầu độ trễ dưới 10ms cho mỗi request và xử lý 1 triệu request/giây. Hãy đề xuất kiến trúc tổng thể (bao gồm các thành phần như message queue, stream processing, database, caching) và giải thích cách đảm bảo consistency khi dữ liệu feature thay đổi liên tục. Phân tích trade-off giữa CAP theorem trong thiết kế này.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ARCH_DATA_ARCHITECTURE",
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "skill_tags": [
+      "ARCH_DATA_ARCHITECTURE"
+    ],
+    "answers": {
+      "detailed": "**Proposed Architecture:** Kafka (partitioned by user_id/session for ordering) → Flink (stateful stream processing for real-time feature aggregation) → dual-write pattern: Redis Cluster (online feature cache, sub-millisecond reads) + Delta Lake on S3/ADLS (feature store with versioning, offline training source). Recommendation model served via inference microservice querying Redis with fallback to precomputed embeddings in Cassandra.\n\n**Consistency Strategy:** Implement a feature versioning system using Delta Lake (ACID transactions, schema enforcement, time travel) to version features and their schemas. Flink writes feature updates to a Delta table with transaction IDs; the serving layer reads the latest committed version from Redis (refreshed via Flink-to-Redis sink with version tagging). For concurrent requests during feature updates, use version vectors or logical timestamps to detect staleness; reject requests if feature version lag exceeds threshold (e.g., >2 seconds). Handle out-of-order events with Flink watermarks and allowed lateness windows; late events update the Delta table but do NOT invalidate in-flight predictions (acceptable under AP model).\n\n**CAP Trade-off Analysis:** Choose AP (Availability + Partition tolerance) over Consistency. Rationale: network partitions or cache misses must not block serving (single point of failure breaks 10ms SLA). Accept eventual consistency: features become stale for <5 seconds during updates. Cassandra (AP-leaning NoSQL) complements this; Redis replication ensures cache high-availability. If strict consistency required (e.g., fraud detection), use Consistency by adding Redis write-through with synchronous acknowledgment (trades latency and throughput).\n\n**Critical Edge Cases:** (1) Out-of-order events: Flink watermarks with 30-second allowed lateness; late updates go to Delta but excluded from immediate serving. (2) Feature schema changes: Delta Lake's schema enforcement prevents incompatible writes; serving layer validates schema version before reading. (3) Failover: Redis replication across 3 nodes, Kafka replication factor 3, Cassandra replication factor 3 ensure tolerance of 1-node failure. (4) Stale reads: Tag cached features with versioning; if Redis lag detected, fall back to lightweight Cassandra read or reject gracefully with default recommendation.",
+      "evaluation_points": [
+        "Proposes logical end-to-end architecture with appropriate technology choices (Kafka, Flink, Redis, Cassandra) for ultra-low latency at scale",
+        "Demonstrates understanding of consistency models: explains eventual consistency trade-off and uses concrete mechanisms (version vectors, timestamps, watermarks) to handle stale data and out-of-order events",
+        "Analyzes CAP theorem correctly: justifies AP choice (Availability + Partition tolerance over Consistency) and articulates acceptable staleness window (seconds) for recommendation context",
+        "Missing: Does not discuss feature store architecture (e.g., online/offline split, Delta Lake or Iceberg for feature versioning)—critical for real-time ML systems to decouple feature computation from serving",
+        "Missing: No mention of monitoring/observability for consistency violations (e.g., feature version mismatches between training and serving, data freshness SLAs)",
+        "Missing: Underspecifies schema evolution strategy when features are added/removed; should discuss how Cassandra/Redis schema changes propagate without breaking concurrent requests",
+        "Edge case coverage is adequate (watermarks for out-of-order), but could strengthen with failover/recovery strategy (e.g., Kafka replication factor, Redis replication) to maintain SLAs during partial failures"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_009",
+    "question_text": "Công ty bạn sử dụng kiến trúc Data Lake với HDFS và Spark, nhưng gặp vấn đề về performance khi chạy join giữa bảng fact lớn (100TB) và dimension nhỏ (1GB). Hãy debug và đề xuất tối ưu: phân tích nguyên nhân (skew join, partition không hiệu quả, broadcast join), đưa ra giải pháp cụ thể (ví dụ: salting, broadcast hint, dynamic partition pruning) và giải thích cách triển khai trong Spark.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING",
+      "DATA_LAKE"
+    ],
+    "skill_tags": [
+      "DATA_LAKE"
+    ],
+    "answers": {
+      "detailed": "Root causes: (1) **Data skew** in fact table where certain join keys dominate the data distribution, causing uneven task execution and stragglers. (2) **Default SortMergeJoin** requires large shuffle and sort operations on 100TB fact table. (3) **Broadcast join not applicable** because 1GB dimension exceeds typical autoBroadcastJoinThreshold (default 10MB in older Spark; check spark.sql.autoBroadcastJoinThreshold). Solutions: (1) **Broadcast join (if dimension truly < threshold)**: Use hint /*+ BROADCAST(dim_table) */ to force broadcast; dimension broadcasts to all executors, eliminating shuffle. (2) **Salting for skewed join**: Add salt column (random 0 to N-1, where N = 10-50 depending on skew severity) to fact table key. Replicate dimension table N times with salt values 0 to N-1. Join on (original_key, salt). Post-join, remove salt column. This distributes skewed key across multiple tasks. (3) **Dynamic partition pruning (Spark 3.0+)**: If query filters dimension first (e.g., WHERE region = 'US'), Spark can prune fact table partitions at runtime before join, reducing shuffle size. Implementation: Enable spark.sql.optimizer.dynamicPartitionPruning=true. Debugging: Use EXPLAIN EXTENDED to inspect physical plan—check for BroadcastHashJoin vs. SortMergeJoin; presence of Exchange (shuffle) stages indicates inefficiency. Check Spark UI: Stage duration, shuffle write/read bytes, task distribution histogram. High variance in task execution time signals skew. After optimization, re-run EXPLAIN and UI analysis to verify: expect reduced shuffle bytes, eliminated stragglers, lower stage duration. Verify no data loss post-salting by row count validation.",
+      "evaluation_points": [
+        "Correctly identifies root causes: data skew in fact table (uneven key distribution), inefficient shuffle in default SortMergeJoin, and broadcast join inapplicability due to dimension size relative to threshold.",
+        "Proposes appropriate solutions with correct technical details: (1) Broadcast join with /*+ BROADCAST(dim) */ hint when dimension < spark.sql.autoBroadcastJoinThreshold; (2) Salting technique with explanation of adding random prefix to keys to distribute skewed data; (3) Dynamic partition pruning for early filtering in Spark 3.0+.",
+        "Demonstrates debugging methodology: uses EXPLAIN EXTENDED to inspect execution plan (identify shuffle, sort stages), examines Spark UI for stage duration, data distribution, and memory/spill metrics to diagnose bottlenecks.",
+        "Discusses implementation trade-offs: acknowledges broadcast join memory overhead, salting complexity (need to salt both tables consistently), and DPP applicability only when filter predicates exist on dimension.",
+        "Explains how to verify solutions: compare execution plans before/after optimization, measure wall-clock time, monitor executor memory usage, and ensure no data skew remains post-salting (can shuffle with uneven partition sizes)."
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_006",
+    "question_text": "Hãy giải thích sự khác biệt giữa Data Warehouse và Data Lake. Khi nào bạn chọn Data Warehouse thay vì Data Lake?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING",
+      "DATA_LAKE",
+      "DATA_WAREHOUSE"
+    ],
+    "skill_tags": [
+      "DATA_WAREHOUSE",
+      "DATA_LAKE"
+    ],
+    "answers": {
+      "detailed": "Data Warehouse (DWH) là kho lưu trữ dữ liệu có cấu trúc, đã được xử lý (ETL), tối ưu cho truy vấn phân tích và báo cáo. Nó sử dụng schema-on-write (định nghĩa schema trước khi nạp dữ liệu) và đảm bảo ACID transactions. Data Lake là kho lưu trữ dữ liệu thô ở định dạng gốc, sử dụng schema-on-read (áp dụng schema khi truy vấn), linh hoạt cho nhiều mục đích như machine learning và data exploration.\n\nChọn DWH khi: (1) cần truy vấn nhanh trên dữ liệu có cấu trúc rõ ràng, (2) yêu cầu tính nhất quán cao (ACID compliance), (3) cần regulatory compliance/audit trail, (4) có mô hình dữ liệu ổn định và ít thay đổi schema.\n\nChọn Data Lake khi: (1) dữ liệu đa dạng (structured, semi-structured, unstructured), (2) cần khám phá dữ liệu và machine learning, (3) chi phí lưu trữ là quan trọng, (4) yêu cầu tính linh hoạt cao để thích ứng với yêu cầu thay đổi.\n\nTrade-off: DWH đắt hơn, ít linh hoạt nhưng hiệu suất cao và đáng tin cậy; Data Lake rẻ, linh hoạt nhưng khó quản lý chất lượng dữ liệu, governance, và data discovery.\n\nTrending: Lakehouse architecture (Delta Lake, Apache Iceberg) kết hợp ưu điểm của cả hai: schema enforcement + ACID trên lake storage, giải quyết nhiều hạn chế của Data Lake truyền thống.",
+      "evaluation_points": [
+        "Nêu rõ định nghĩa DWH và Data Lake, nhấn mạnh sự khác biệt về cấu trúc, mục đích, và cách tiếp cận schema (schema-on-write vs schema-on-read)",
+        "Giải thích các đặc tính kỹ thuật: ACID compliance trong DWH, governance challenges trong Data Lake, và làm thế nào để khắc phục",
+        "Đưa ra tiêu chí chọn DWH (truy vấn nhanh, dữ liệu có cấu trúc, ACID requirements, regulatory compliance) và Data Lake (dữ liệu đa dạng, ML/AI workloads, chi phí thấp, exploration)",
+        "Phân tích trade-off giữa chi phí, tính linh hoạt, hiệu suất, và khả năng quản lý",
+        "Nêu xu hướng hiện đại: Lakehouse architecture như Delta Lake/Iceberg kết hợp ưu điểm của cả hai, và khi nào nên xem xét"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_008",
+    "question_text": "Bạn đang thiết kế data warehouse cho một công ty thương mại điện tử. Họ muốn phân tích doanh số theo thời gian, sản phẩm và khu vực. Hãy đề xuất schema và giải thích lý do chọn mô hình đó.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING",
+      "MODELING_STAR_SCHEMA"
+    ],
+    "skill_tags": [
+      "MODELING_STAR_SCHEMA"
+    ],
+    "answers": {
+      "detailed": "Đề xuất mô hình Star Schema vì tối ưu cho truy vấn phân tích đa chiều. Cấu trúc cụ thể: Fact table Sales (order_id, date_id, product_id, region_id, sales_amount, quantity, discount) lưu trữ các measure và foreign keys. Dimension tables: Date (date_id, day, month, quarter, year, day_of_week) hỗ trợ phân tích theo thời gian; Product (product_id, name, category, subcategory, price) với hierarchy cho drill-down; Region (region_id, region_name, country, continent) cho phân tích địa lý. Lý do chọn: (1) Star Schema giảm số join cần thiết so với bảng chuẩn hóa, tăng tốc độ truy vấn OLAP; (2) dễ hiểu với business analyst, schema đơn giản; (3) hỗ trợ tốt các phép tổng hợp (sum, avg, count) theo các chiều khác nhau. So với Snowflake Schema (normalization sâu hơn): Snowflake tiết kiệm storage và dễ maintain khi metadata thay đổi, nhưng yêu cầu nhiều join hơn, phức tạp với analyst. Với yêu cầu phân tích cơ bản và truy vấn tần suất cao, Star Schema phù hợp hơn. Nên áp dụng Slowly Changing Dimension (SCD Type 2) cho Product và Region để track lịch sử thay đổi.",
+      "evaluation_points": [
+        "Propose Star Schema with clearly defined Fact table (Sales: order_id, date_id, product_id, region_id, sales_amount, quantity, etc.) and Dimension tables (Date, Product, Region) with appropriate keys and attributes",
+        "Explain Star Schema advantages: fewer joins reduce query latency, simplified for BI tools, supports efficient aggregations and dimensional analysis; acknowledge trade-off (denormalization increases storage vs. Snowflake Schema's normalization)",
+        "Discuss dimensional design specifics: Date dimension granularity (day-level for time-series analysis), Product dimension hierarchy (product → category → subcategory for drill-down), Region hierarchy (region → country for geographic analysis)",
+        "Compare with Snowflake Schema: when normalized structure is preferred (e.g., if product/region metadata changes frequently and storage is critical); justify Star Schema choice for e-commerce use case (frequent multi-dimensional queries, analyst-friendly)",
+        "Address data warehouse maturity: mention slowly changing dimensions (SCD Type 1/2) for Product and Region tables to handle category/region name changes; consider fact table grain (transaction-level vs. daily aggregate) based on analysis requirements",
+        "Optional advanced consideration: when lakehouse architecture (Delta Lake/Iceberg) might be preferred if company also needs ML/real-time analytics alongside traditional BI"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_010",
+    "question_text": "Khi thiết kế data pipeline cho dữ liệu thay đổi theo thời gian (ví dụ: thông tin khách hàng), bạn sẽ sử dụng SCD Type nào? Hãy giải thích trade-off giữa SCD Type 1 và Type 2.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING",
+      "MODELING_SCD"
+    ],
+    "skill_tags": [
+      "MODELING_SCD"
+    ],
+    "answers": {
+      "detailed": "SCD (Slowly Changing Dimension) quản lý cách xử lý thay đổi dữ liệu chiều theo thời gian.\n\n**SCD Type 1 (Overwrite)**:\n- Ghi đè dữ liệu cũ, không giữ lịch sử\n- Simple UPDATE operation\n- Tốc độ query cao, dung lượng lưu trữ tối thiểu\n\n**SCD Type 2 (Effective Dating)**:\n- Tạo bản ghi mới với hiệu lực thời gian (start_date, end_date, is_current)\n- Giữ toàn bộ lịch sử thay đổi\n- Yêu cầu surrogate key, SCD logic phức tạp\n\n**Trade-off chính**:\n- **Đơn giản vs. Phức tạp**: Type 1 dễ triển khai (UPDATE đơn giản); Type 2 cần ETL logic phức tạp để detect changes, generate surrogate keys, manage effective dates\n- **Dung lượng**: Type 1 tiết kiệm; Type 2 tốn 2-3x dung lượng\n- **Query Performance**: Type 1 query nhanh (tìm current state); Type 2 chậm hơn (cần JOIN với thời gian)\n- **Phân tích lịch sử**: Type 1 không hỗ trợ; Type 2 cho phép phân tích temporal (\"khách hàng di chuyển từ TP.HCM sang Hà Nội khi nào?\")\n\n**Lựa chọn**:\n- **Type 1**: Dữ liệu ít thay đổi (danh mục sản phẩm), chỉ cần state hiện tại, hoặc bandwidth/storage hạn chế\n- **Type 2**: Cần audit trail (khách hàng, nhân viên), phân tích temporal patterns, hoặc yêu cầu compliance\n\n**Cân nhắc thêm**: Type 3 (hybrid: lưu giá trị cũ/mới) cho trường hợp chỉ cần lịch sử gần đây; Type 6 (kết hợp Type 2+3) cho high-cardinality attributes.",
+      "evaluation_points": [
+        "Giải thích rõ SCD Type 1 (ghi đè, không lịch sử) và Type 2 (giữ lịch sử với effective dating)",
+        "Phân tích trade-off: Type 1 đơn giản, ít dung lượng, query nhanh; Type 2 phức tạp hơn, tốn dung lượng, query chậm hơn (JOIN với thời gian)",
+        "Đưa ra ví dụ cụ thể: Type 2 cần thiết cho phân tích hành vi theo thời gian (e.g., khách hàng thay đổi địa chỉ); Type 1 cho dữ liệu tham chiếu ít thay đổi",
+        "Thảo luận chi phí thực hiện: Type 2 yêu cầu surrogate keys, SCD logic phức tạp, ETL overhead lớn hơn",
+        "Nêu các SCD Type khác (Type 3: hybrid với columns cũ/mới; Type 6: kết hợp Type 2+3) và khi nào cân nhắc"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_012",
+    "question_text": "Một công ty có dữ liệu lớn từ nhiều nguồn (log server, API, database) cần được xử lý real-time và batch. Hãy thiết kế kiến trúc data lake kết hợp stream và batch processing. Giải thích cách xử lý dữ liệu trùng lặp (duplicate) và đảm bảo tính nhất quán.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ARCH_DATA_ARCHITECTURE",
+      "DATA_ARCHITECTURE_MODELING",
+      "DATA_LAKE"
+    ],
+    "skill_tags": [
+      "DATA_LAKE",
+      "ARCH_DATA_ARCHITECTURE"
+    ],
+    "answers": {
+      "detailed": "**Architecture Design:**\n\n**Lambda Architecture:**\n- **Speed Layer**: Apache Kafka → Spark Streaming/Flink for real-time ingestion (low-latency processing of logs/API data)\n- **Batch Layer**: Apache Spark batch jobs on historical database snapshots (scheduled hourly/daily)\n- **Serving Layer**: Merge speed and batch results using a lakehouse table format (Delta Lake/Iceberg) with ACID guarantees\n\n**Kappa Architecture (Recommended for this scenario):**\n- Single Kafka cluster as source-of-truth event log\n- Stream processing (Flink/Spark Streaming) handles both real-time and reprocessing\n- Eliminates batch layer complexity; enables perfect replays for historical corrections\n- Better suited when data correctness matters more than separate real-time/batch optimization\n\n**Duplicate Handling:**\n- **Idempotent Sinks**: Write to Delta Lake with unique composite keys (source_id + timestamp + event_hash). Delta's ACID properties prevent duplicate inserts on retries.\n- **Deduplication Logic**: Use Kafka watermarks + state stores to track processed message IDs within a time window (e.g., 1 hour). Drop duplicates before writing.\n- **Exactly-Once Semantics**: Enable Kafka exactly-once delivery + transactional writes to Delta Lake. Delta's transaction log ensures atomicity across retries.\n\n**Consistency Guarantees:**\n- **Delta Lake ACID**: All writes are atomic; schema enforcement prevents silent data corruption. Readers never see partial writes.\n- **Checkpointing**: Both Spark Streaming and Flink persist operator state to durable storage (HDFS/S3); on restart, resume from last checkpoint offset, replaying only unprocessed messages.\n- **Schema Evolution**: Define schema upfront in Delta Lake; use schema evolution rules to handle new fields from API sources without breaking pipelines.\n- **Data Lineage**: Track source → processing → sink lineage for audit trails and failure diagnostics.\n\n**Edge Case Handling:**\n- Stream failure: Replay from last committed Kafka offset using Delta Lake transaction history\n- Late-arriving data: Use event-time (not processing-time) watermarks; allow grace period for late events (e.g., 24-hour window)\n- Exactly-once replay detection: Store idempotent keys in Delta Lake; if a message replays, upsert (merge) instead of insert to maintain row uniqueness",
+      "evaluation_points": [
+        "Proposes Lambda or Kappa architecture with clear trade-offs (Lambda: operational complexity but independent scaling; Kappa: simpler but requires log-based durability)",
+        "Explains duplicate handling mechanisms (idempotent writes, unique keys, watermarks, deduplication windows) with specific tool examples",
+        "Demonstrates exactly-once semantics understanding (Kafka offsets + transactional sinks, checkpointing, state management)",
+        "Discusses modern lakehouse table formats (Delta Lake / Apache Iceberg) for ACID guarantees and schema enforcement on the data lake",
+        "Addresses eventual consistency vs. strong consistency trade-offs in stream/batch hybrid architectures",
+        "Covers failure recovery strategies (offset replay, checkpoint restoration, idempotent replay detection)",
+        "Explains metadata management (schema registry, table versioning) and how it enables data quality in multi-source ingestion"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_014",
+    "question_text": "Một hệ thống data warehouse hiện tại bị chậm khi truy vấn trên fact table lớn (hàng tỷ records). Hãy debug và đề xuất các giải pháp tối ưu hiệu suất (bao gồm partitioning, indexing, materialized views) mà không thay đổi schema.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "ARCH_DATA_ARCHITECTURE",
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "skill_tags": [
+      "ARCH_DATA_ARCHITECTURE"
+    ],
+    "answers": {
+      "detailed": "Nguyên nhân chậm: Full table scan trên miliards records, join không hiệu quả (large hash join hoặc nested loop), thiếu phân vùng, thiếu index trên filter columns. \n\nDebug: (1) Phân tích execution plan chi tiết - xác định phép toán tốn kém nhất (sequential scan, large hash join, high cardinality output); (2) Kiểm tra cardinality estimation - nếu optimizer ước lượng sai số lượng rows, query plan sẽ suboptimal; (3) Đo thời gian thực tế cho từng bước (I/O, CPU, network). \n\nGiải pháp tối ưu (không thay schema): \n(1) **Partitioning (Range)**: Chia fact table theo ngày/tháng dựa trên temporal access patterns - partition pruning sẽ loại bỏ 90%+ dữ liệu không liên quan trong WHERE clause. Chọn granularity cẩn thận (quá fine-grained → quá nhiều partitions; quá coarse → partition pruning kém). \n\n(2) **Indexing (Bitmap vs. B-tree)**: Tạo bitmap index trên low-cardinality columns (date, product category) vì chúng được filter thường xuyên. Bitmap hiệu quả hơn B-tree cho OLAP. Lưu ý: Index maintenance cost tăng khi data update/insert - evaluate trade-off. \n\n(3) **Materialized Views**: Pre-aggregate doanh số theo tháng/sản phẩm cho các truy vấn phổ biến, tránh full scan. Phải thiết kế refresh strategy: full refresh nightly (đơn giản) vs. incremental refresh (chi phí hơn nhưng fresher data). Đặc biệt với fact table cập nhật thường xuyên, phải monitor staleness tolerance. \n\nEdge cases: (1) Nếu data insert/update cao tần suất, materialized view có thể stale - cân nhắc eventual consistency; (2) Partition key chọn suboptimal có thể dẫn partition skew (một partition quá lớn); (3) Index bloat nếu không dọn dẹp regularly; (4) Query planner có thể không dùng index nếu cardinality filter quá cao - monitor execution plans định kỳ khi data distribution thay đổi.",
+      "evaluation_points": [
+        "Demonstrate understanding of execution plan analysis: identify specific bottlenecks (sequential scans vs. index scans, hash join vs. nested loop, cardinality estimation errors)",
+        "Explain partitioning strategy rationale: discuss partition pruning, partition key selection (date vs. product), impact on query optimizer, and handling of non-partitioned dimension joins",
+        "Compare indexing approaches: articulate when bitmap indexes outperform B-tree indexes (low cardinality), discuss index maintenance overhead and I/O costs vs. query benefits",
+        "Address materialized view trade-offs: explain refresh strategies (full vs. incremental), staleness tolerance, query rewrite mechanics, and storage cost implications",
+        "Propose monitoring strategy: suggest metrics (query execution time, scan volume, index hit ratio) and when to revisit optimization decisions based on data growth patterns",
+        "Discuss edge cases beyond stale data: handling concurrent updates during partition elimination, index bloat, and query plan regressions after data distribution shifts"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_011",
+    "question_text": "Bạn đang thiết kế data pipeline cho một công ty thương mại điện tử cần xử lý 50 triệu giao dịch mỗi ngày. Hãy so sánh ưu và nhược điểm của việc sử dụng Data Lake thuần túy so với Data Warehouse cho nguồn dữ liệu này, và đề xuất giải pháp hybrid phù hợp.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ARCH_DATA_ARCHITECTURE",
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "skill_tags": [
+      "DATA_LAKE",
+      "DATA_WAREHOUSE"
+    ],
+    "answers": {
+      "detailed": "Data Lake thuần túy (S3 + Spark) linh hoạt cho dữ liệu phi cấu trúc và chi phí lưu trữ thấp, nhưng thiếu ACID, tính nhất quán, và dễ rơi vào data swamp. Data Warehouse (Redshift, Snowflake) tối ưu cho query nhanh và ACID, nhưng chi phí cao và khó scale cho raw data. **Giải pháp Lakehouse hybrid**: Lưu raw events (50M giao dịch/ngày) trên S3 trong định dạng Delta Lake (hoặc Apache Iceberg), cung cấp ACID transactions, schema enforcement, và time travel capabilities. Dùng AWS Glue Catalog hoặc Unity Catalog để quản lý metadata và schema evolution, tránh data swamp. Với Delta Lake, có thể truy vấn trực tiếp từ data lake thông qua Spark SQL hoặc BI tools mà không cần ETL vào Data Warehouse. Đối với báo cáo BI phức tạp hoặc latency-sensitive workloads, có thể tạo aggregated tables/cubes trong Snowflake hoặc Redshift từ Delta Lake. Cách tiếp cận này cân bằng flexibility, cost, governance, và performance cho e-commerce scale.",
+      "evaluation_points": [
+        "Understand trade-offs (cost, performance, flexibility, governance) between Data Lake and Data Warehouse for large-scale transactional data",
+        "Propose a viable hybrid or Lakehouse architecture with specific technologies and justify the choice for 50M daily transactions",
+        "Explain data governance strategy to prevent data swamp, including schema management and data quality mechanisms",
+        "Articulate how ACID compliance, schema enforcement, and metadata management are achieved in the proposed solution",
+        "Distinguish between when to use ETL (Data Lake → Data Warehouse) versus when to use modern table formats (Delta Lake, Iceberg) for direct analytical queries on lake data"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_013",
+    "question_text": "Giải thích sự khác biệt giữa Star Schema và Snowflake Schema trong data modeling. Trong tình huống nào bạn chọn Star Schema thay vì Snowflake Schema? Cho ví dụ cụ thể từ lĩnh vực bán lẻ.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING",
+      "MODELING_STAR_SCHEMA"
+    ],
+    "skill_tags": [
+      "DATA_WAREHOUSE",
+      "MODELING_STAR_SCHEMA"
+    ],
+    "answers": {
+      "detailed": "Star Schema denormalizes dimension tables into a single flat structure alongside a fact table, enabling simple queries with minimal joins and fast aggregations—ideal for OLAP workloads. Snowflake Schema normalizes dimensions into hierarchical sub-tables, reducing storage redundancy but requiring more joins and query complexity. Choose Star Schema when query performance and ease of use are paramount—typical retail scenario: a fact_sales table with denormalized product, customer, and time dimensions for real-time sales dashboards and executive reports. Choose Snowflake Schema when storage efficiency is critical, dimensions have deep hierarchies (e.g., product→brand→category→supplier), or dimensions change frequently and you want to minimize update anomalies—example: a retail chain with thousands of SKUs organized across multiple normalized product dimension tables to avoid replicating brand or supplier info across every product record. Trade-offs include: Star Schema causes storage bloat and complicates slowly-changing-dimension handling; Snowflake Schema increases query latency and requires more sophisticated BI tool support. For most modern retail analytics, Star Schema remains dominant because cloud storage is cheap and query speed drives user adoption, but Snowflake Schema is justified when dimensional complexity or update frequency creates genuine maintenance burden in the denormalized approach.",
+      "evaluation_points": [
+        "Clearly distinguish denormalization (Star) vs. normalization (Snowflake) and their impacts on query complexity and storage",
+        "Articulate the fundamental trade-off: Star Schema prioritizes query performance and simplicity at the cost of storage redundancy and maintenance overhead; Snowflake Schema optimizes storage but increases join complexity",
+        "Provide concrete retail examples for both schemas (e.g., Star: fact_sales with denormalized product dimensions for real-time dashboards; Snowflake: when product hierarchy involves multiple normalized tables for brand→category→subcategory)",
+        "Discuss practical considerations: data freshness requirements, team expertise with complex joins, storage costs vs. query latency, and dimensional volatility (slowly changing dimensions)",
+        "Acknowledge that Snowflake Schema is NOT 'rarely used in OLAP'—it has valid use cases when dimensional hierarchies are deep, complex, and frequently updated, or when storage constraints are severe"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_015",
+    "question_text": "Bạn đang thiết kế một data warehouse cho công ty tài chính có yêu cầu thay đổi dữ liệu lịch sử (ví dụ: thông tin khách hàng thay đổi địa chỉ). Hãy so sánh các chiến lược SCD Type 1, Type 2 và Type 3, và đề xuất chiến lược nào cho trường hợp này, kèm lý do.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING",
+      "MODELING_SCD"
+    ],
+    "skill_tags": [
+      "DATA_WAREHOUSE",
+      "MODELING_SCD"
+    ],
+    "answers": {
+      "detailed": "SCD Type 1 overwrites old values entirely, losing history—unsuitable for financial audit trails. Type 2 maintains full history by adding surrogate keys and effective/expiration date columns (start_date, end_date), enabling point-in-time queries of any historical state. Type 3 adds limited previous-value columns (e.g., previous_address, current_address), preserving only two versions—useful for slowly changing, non-compliance-critical attributes.\n\nFor a financial company, **Type 2 is the primary recommendation** because regulatory compliance and audit requirements demand complete, immutable change history. This supports trace-ability and forensic analysis of when and how customer data changed.\n\n**Trade-offs to acknowledge:**\n- **Storage**: Dimension tables grow significantly as every change generates a new row; mitigation strategies include partitioning on effective dates or archiving old records.\n- **Query complexity**: Queries must filter by date ranges (WHERE effective_date <= query_date AND (expiration_date IS NULL OR expiration_date > query_date)) to retrieve the correct version, increasing logic and potential for errors.\n- **Maintenance overhead**: Pipeline must generate surrogate keys, manage concurrent updates, and handle SCD-specific logic.\n\n**Modern alternative consideration**: For truly critical audit requirements, consider a **lakehouse architecture** (e.g., Delta Lake on a data lake). Delta Lake provides ACID transactions, schema enforcement, and **time travel** natively via transaction logs, enabling full historical replay without manually managing surrogate keys and date columns. This simplifies pipelines while maintaining compliance and often provides better performance via data skipping and Z-ordering.\n\n**Hybrid approach**: Use Type 2 for highly sensitive audit-critical attributes (customer identity, regulatory-linked data) and Type 1 for non-sensitive, frequently updated attributes (stock prices, calculated metrics) to balance storage and query complexity.",
+      "evaluation_points": [
+        "Accurately describes SCD Type 1, 2, and 3 mechanisms with concrete examples (e.g., surrogate keys, effective date ranges, previous value columns)",
+        "Recognizes financial/regulatory compliance requirements (audit trail, immutability) as the primary driver for SCD strategy selection",
+        "Proposes Type 2 with clear justification but explicitly discusses trade-offs: increased storage footprint, query complexity (date-range filtering, slowly growing dimensions), and slow dimension table maintenance",
+        "Addresses implementation considerations: surrogate key generation, effective/expiration date handling, handling of concurrent updates, and SCD pipeline complexity",
+        "Considers when Type 2 *alone* is insufficient and when a hybrid approach (e.g., Type 2 for critical attributes + Type 1 for non-sensitive attributes) or lakehouse approaches (Delta Lake with time travel) might simplify compliance while reducing storage overhead",
+        "Recognizes that modern alternatives (e.g., Delta Lake, Iceberg with versioning/time travel) can achieve full history with better performance and lower operational complexity than traditional SCD Type 2"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_017",
+    "question_text": "Công ty của bạn đang xây dựng data lake trên AWS S3 với dữ liệu từ nhiều nguồn (log server, database, API). Hãy đề xuất kiến trúc tổ chức thư mục (partitioning) và định dạng file tối ưu cho việc query với Athena và Spark. Giải thích lý do.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING",
+      "DATA_LAKE"
+    ],
+    "skill_tags": [
+      "ARCH_DATA_ARCHITECTURE",
+      "DATA_LAKE"
+    ],
+    "answers": {
+      "detailed": "Kiến trúc thư mục: s3://bucket/zone=raw/source=db/date=2026-06-15/table.parquet; zone=processed/source=db/date=2026-06-15/table.parquet; zone=curated/... (medallion architecture). Partition theo date (thường query theo time window) và source (multitenancy, governance). Định dạng Parquet với compression snappy, schema tối ưu cho query. Lý do: (1) Parquet là columnar format - giảm I/O khi query subset cột, hỗ trợ predicate pushdown để Athena/Spark chỉ đọc thư mục/block cần thiết; (2) Partition pruning trên date/source giảm chi phí scan Athena (tính tiền theo GB scanned), tăng tốc query; (3) Raw zone lưu unprocessed data (schema-on-read flexibility), processed/curated zones áp dụng transformations, data quality rules. Quản lý schema và metadata bằng AWS Glue Catalog để hỗ trợ data discovery và tránh data swamp. Nếu cần ACID guarantees, consistency, hoặc schema evolution mạnh mẽ hơn, xem xét evolution sang lakehouse architecture (Delta Lake) với transaction logs để bảo vệ đồng thời writes.",
+      "evaluation_points": [
+        "Đề xuất cấu trúc thư mục rõ ràng với multiple zones (raw, processed, curated) theo medallion architecture pattern",
+        "Chọn Parquet với giải thích chi tiết về lợi ích columnar format: giảm I/O, tối ưu compression, hỗ trợ predicate pushdown cho Athena/Spark",
+        "Giải thích partition strategy: date và source giảm chi phí scan (partition pruning), nhưng cần cân nhắc cardinality để tránh over-partitioning",
+        "Đề cập đến data quality challenges trong raw zone và cách governance metadata (AWS Glue Catalog) giải quyết data discovery",
+        "Nên nhận xét về scalability: cấu trúc này có thể mở rộng sang lakehouse architecture (Delta Lake/Iceberg) để thêm ACID guarantees và schema evolution nếu cần độ tin cậy cao hơn"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_019",
+    "question_text": "Bạn đang đánh giá hai kiến trúc data pipeline: ETL (Extract-Transform-Load) và ELT (Extract-Load-Transform). Hãy so sánh ưu nhược điểm của từng kiến trúc trong bối cảnh dữ liệu streaming (Kafka) và batch (HDFS). Cho ví dụ cụ thể khi nào nên chọn ELT thay vì ETL.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "ARCH_DATA_ARCHITECTURE",
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "skill_tags": [
+      "DATA_WAREHOUSE",
+      "DATA_LAKE"
+    ],
+    "answers": {
+      "detailed": "ETL transforms data before loading into the target system, reducing storage footprint and enforcing data quality upstream. ELT loads raw data first, then transforms, leveraging the compute power of the target system (DW/DL).\n\n**Streaming (Kafka) Context:**\n- ETL: Requires middleware (e.g., Spark Streaming) to transform in-flight, then write clean data to DW. Higher operational complexity; idempotency and state management needed in transformation layer. Better for low-latency curated feeds.\n- ELT: Load raw Kafka streams to data lake (S3/ADLS) via connectors, transform asynchronously with dbt or Spark jobs. Decouples ingestion from transformation, simplifying stream processing logic and enabling late-arriving data handling.\n- **Choose ELT for streaming** when: schema evolution is frequent, exploratory analytics on raw events needed, or transformation latency is acceptable.\n\n**Batch (HDFS) Context:**\n- ETL: Transform during extraction, write clean data to warehouse schema. Predictable performance; governance enforced. High middleware compute costs; difficult to reprocess if transformation logic changes.\n- ELT: Land raw data in data lake, defer transformation. Reprocessing is trivial (replay raw data); schema changes cheap. Better aligns with HDFS-based data lakes (cost-effective storage) and modern cloud DW scaling.\n\n**Trade-offs:**\n- **Data Quality:** ETL gates quality early (prevents 'data swamps'); ELT risks raw data issues but enables discovery.\n- **Flexibility:** ELT's schema-on-read supports schema evolution and unstructured data; ETL's schema-on-write is rigid but enforces compliance.\n- **Compute Cost:** ETL centralizes compute in middleware; ELT leverages DW/DL's MPP engines (often more efficient at scale).\n\n**Failure Scenarios:** ELT fails with poor governance (uncontrolled raw data proliferation, unclear lineage); ETL fails when schema changes frequently or transformation logic must be iterated rapidly.",
+      "evaluation_points": [
+        "Articulate compute location trade-offs: ETL (transform in middleware before DW) vs ELT (offload transformation to DW/DL compute engine), and cost implications",
+        "Distinguish streaming vs batch contexts: ELT with streaming requires careful handling of late arrivals, idempotency, and state management (Kafka offset tracking); batch ELT simplifies reprocessing and replay logic",
+        "Connect to schema-on-read vs schema-on-write: explain how ELT's schema-on-read enables handling of schema evolution and unstructured data (critical for data lakes), while ETL's schema-on-write enforces governance early",
+        "Address data quality and governance trade-offs: ETL validates/cleanses upstream (quality gate), whereas ELT risks raw data quality issues but enables exploratory analytics and prevents premature transformations",
+        "Provide concrete failure scenario: when would ELT fail (e.g., uncontrolled raw data → 'data swamp'; high-volume transformation overloading warehouse compute) and when ETL fails (e.g., rigid schema blocking schema evolution; high middleware costs)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_016",
+    "question_text": "So sánh Data Warehouse và Data Lake về mục đích sử dụng, cấu trúc dữ liệu, và hiệu năng truy vấn. Khi nào nên chọn Data Warehouse thay vì Data Lake?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING",
+      "DATA_LAKE",
+      "DATA_WAREHOUSE"
+    ],
+    "skill_tags": [
+      "DATA_WAREHOUSE",
+      "DATA_LAKE"
+    ],
+    "answers": {
+      "detailed": "Data Warehouse được thiết kế cho dữ liệu cấu trúc, tối ưu cho truy vấn phân tích (OLAP) với ACID compliance mạnh mẽ. Nó sử dụng schema-on-write: dữ liệu phải tuân thủ schema khi nhập vào, đảm bảo tính nhất quán ngay từ đầu. Data Lake lưu dữ liệu thô (cấu trúc, bán cấu trúc, phi cấu trúc) với schema-on-read: schema được áp dụng khi truy vấn, mang lại linh hoạt cao nhưng chi phí query cao hơn và thách thức về governance.\n\nNên chọn Data Warehouse khi: cần báo cáo chính xác, hiệu suất truy vấn cao, dữ liệu đã được làm sạch/chuyển đổi (ETL), hoặc tuân thủ quy định (regulatory reporting). Chọn Data Lake khi: lưu trữ dữ liệu đa dạng, hỗ trợ ML/AI trực tiếp, hoặc phân tích khám phá (exploratory). Tuy nhiên, lakehouse (Delta Lake, Apache Iceberg) kết hợp lợi thế của cả hai: cung cấp ACID trên data lake, cho phép governance và hiệu suất tương tự DW nhưng với linh hoạt của DL—đây là hướng phát triển hiện đại cho kiến trúc dữ liệu.",
+      "evaluation_points": [
+        "Explain schema-on-write vs schema-on-read mechanisms and their performance/flexibility trade-offs",
+        "Discuss ACID compliance, data governance, and consistency guarantees in each architecture",
+        "Articulate specific use cases: traditional BI/regulatory reporting (DW) vs exploratory ML/raw data ingestion (DL)",
+        "Acknowledge modern alternatives: lakehouse architectures (Delta Lake, Iceberg) that blur DW/DL lines",
+        "Address 'data swamp' risk in data lakes and how proper metadata management mitigates it"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_018",
+    "question_text": "Bạn đang thiết kế một hệ thống data pipeline cho công ty thương mại điện tử. Dữ liệu đến từ nhiều nguồn: log web, cơ sở dữ liệu đơn hàng, và API bên thứ ba. Yêu cầu: báo cáo real-time về doanh thu theo ngày và phân tích lịch sử hành vi khách hàng. Bạn sẽ chọn kiến trúc Lambda hay Kappa? Giải thích lý do.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ARCH_DATA_ARCHITECTURE",
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "skill_tags": [
+      "ARCH_DATA_ARCHITECTURE"
+    ],
+    "answers": {
+      "detailed": "Lambda Architecture is appropriate here with its two-layer approach: a speed layer handles real-time revenue reporting (low latency requirement), while a batch layer processes historical customer behavior data (high accuracy requirement). However, a senior engineer should note that Lambda introduces operational complexity—maintaining two separate code paths and reconciling results between layers requires careful design. Kappa (stream-only) is simpler operationally but requires robust event log replay mechanisms to reprocess historical data; it's viable if you use a distributed log like Kafka and can afford to replay large datasets. For this e-commerce scenario, I would actually recommend evaluating a modern Lakehouse approach (e.g., Delta Lake on S3/ADLS): it unifies batch and streaming workloads on a single data foundation with ACID transactions, schema enforcement, and time-travel capabilities. This reduces pipeline complexity, ensures consistency between real-time and historical analyses, and supports both BI reporting and ML use cases. The trade-off decision ultimately depends on your team's operational maturity, existing infrastructure, and whether you prioritize simplicity (Lakehouse) or explicit separation of concerns (Lambda).",
+      "evaluation_points": [
+        "Correctly identifies Lambda's dual-layer approach (batch + speed) vs. Kappa's stream-only model and their fundamental trade-offs",
+        "Appropriately maps requirements to architecture choice (real-time revenue reports → speed layer; historical customer behavior analysis → batch layer)",
+        "Discusses complexity and scalability considerations, but should also address: operational overhead of maintaining two pipelines, data consistency challenges between layers, and latency in the batch layer",
+        "Missing: evaluation of modern alternatives (e.g., Lakehouse architecture with Delta Lake/Iceberg) that could unify both workloads with ACID guarantees and schema enforcement, reducing operational complexity while maintaining real-time and historical analysis capabilities",
+        "Missing: practical consideration of replay and recovery mechanisms in Kappa, which could actually support large historical data reprocessing with proper event log design",
+        "Missing: discussion of specific technology stack choices (e.g., Kafka for streaming, Spark for batch) and how they integrate with the chosen architecture"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_020",
+    "question_text": "Thiết kế một data warehouse cho công ty bán lẻ với yêu cầu: lưu trữ lịch sử thay đổi giá sản phẩm, hỗ trợ truy vấn giá tại bất kỳ thời điểm nào. Sử dụng SCD Type 2. Hãy mô tả schema bảng dimension product, chỉ rõ các cột và cách xử lý cập nhật. Nếu dữ liệu có 10 triệu sản phẩm và 100 triệu thay đổi giá mỗi ngày, bạn sẽ tối ưu partition và indexing như thế nào?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING",
+      "MODELING_SCD"
+    ],
+    "skill_tags": [
+      "MODELING_SCD"
+    ],
+    "answers": {
+      "detailed": "Schema SCD Type 2 for product_dim: product_key (surrogate PK), product_id (business key, indexed), product_name, price, effective_start_date (partition key), effective_end_date, is_current_flag (indexed for current lookups), load_date, source_system. Upsert logic: INSERT new record with effective_start_date = today; UPDATE prior record SET effective_end_date = yesterday, is_current_flag = false. Use MERGE statement in batch windows (e.g., nightly) to handle 100M changes atomically. Partitioning: monthly by effective_start_date to prune irrelevant historical partitions; consider sub-partitioning by product_category for very large product tables. Indexing: clustered index on (product_id, effective_start_date) for point-in-time lookups; non-clustered on (is_current_flag, product_id) for current price queries; consider columnstore compression for historical fact tables joining to this dimension. At this scale, evaluate Lakehouse architecture (Delta Lake on S3/ADLS): native ACID, schema evolution support, and time-travel eliminate custom SCD logic and provide superior query flexibility. Performance optimization: pre-aggregate fact_sales by date/product (materialized view or aggregate table) for common temporal price analysis; use columnar format (Parquet) for compression; implement Z-ordering (Delta) or similar clustering to co-locate frequently-filtered product/date ranges. Monitor partition pruning and cardinality; for extreme scale (100M changes/day), consider incremental merge with microbatches or streaming landing zones (ELT pattern) before final DW load.",
+      "evaluation_points": [
+        "Correctly designs SCD Type 2 with surrogate key, business key, effective dates, and current flag for tracking price history",
+        "Proposes appropriate partitioning strategy (by effective_start_date monthly) and composite/non-clustered indexing for query performance at scale",
+        "Demonstrates understanding of batch MERGE operations to handle 100M daily changes efficiently and minimize locking contention",
+        "Discusses trade-offs between DW vs Lakehouse approaches: when SCD Type 2 materialization in traditional DW is necessary vs. when a lakehouse (Delta Lake/Iceberg) with time-travel and schema enforcement provides superior flexibility for price history queries",
+        "Addresses data freshness and query latency: incremental loading strategies, materialized views or aggregate tables for common time-based price queries, and column-store compression for historical columns",
+        "Recognizes scalability limits: growth path from DW (e.g., Snowflake, Redshift) to lakehouse for cost-efficiency at 10M+ product scale, and considers fact table denormalization to reduce joins on large fact tables"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_022",
+    "question_text": "Bạn đang debug một pipeline ETL chạy chậm. Dữ liệu được load từ source (CSV 500GB) vào data warehouse (PostgreSQL) với star schema. Sau khi kiểm tra, bạn thấy rằng bảng fact (10 tỷ rows, 50 columns) mất 6 giờ để insert. Hãy phân tích nguyên nhân và đề xuất giải pháp tối ưu, bao gồm cách xử lý các cột có cardinality thấp và high cardinality.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING",
+      "MODELING_STAR_SCHEMA"
+    ],
+    "skill_tags": [
+      "MODELING_STAR_SCHEMA"
+    ],
+    "answers": {
+      "detailed": "Root causes: (1) Row-by-row INSERT instead of bulk loading; (2) lack of temporal partitioning on a 10B-row fact table; (3) missing or poorly designed indexes; (4) fact table width (50 columns) increases I/O per row.\n\nSolutions (prioritized):\n(1) **Bulk Loading**: Replace INSERT with COPY for 10-100x speedup. Disable constraints/triggers during load, re-enable after.\n(2) **Partitioning**: Partition fact table by date/month to enable parallel loads and future maintenance. Use constraint exclusion or native partitioning (PostgreSQL 10+).\n(3) **Index Management**: Drop non-PK indexes before load, rebuild after. Disable autovacuum during bulk load.\n(4) **Dimensional Normalization**: Extract low-cardinality columns (region, status, category) into dimension tables. This reduces fact table width, I/O, and storage. Store only surrogate keys (small integers) in fact table.\n(5) **High-Cardinality Handling**: For user_id, product_id (high cardinality), keep as foreign keys if frequent joins exist. Consider bitmap or bloom filter indexes if available. If not queried, consider hashing/encoding to reduce storage.\n(6) **Storage Optimization**: For PostgreSQL, add cstore_fdw extension for columnar storage (compress fact table 10x), or migrate to MPP warehouse (Snowflake, BigQuery, Redshift) for 10B rows—PostgreSQL row-store is suboptimal at scale.\n(7) **Alternative Architecture**: Evaluate lakehouse (Delta Lake on S3) for cost-effective scale, schema flexibility, and unified ML workloads, with native ACID transactions and schema enforcement.\n\nExpected impact: COPY + partitioning + denormalization can reduce load time from 6h to 30-60min on PostgreSQL; migration to columnar/MPP reduces to <15min.",
+      "evaluation_points": [
+        "Correctly identifies root causes: row-by-row INSERT, missing partitioning, inadequate indexing strategy, and fact table design issues",
+        "Proposes practical, immediately actionable solutions (COPY command, temporal partitioning, index management) with clear performance rationale",
+        "Demonstrates understanding of dimensional modeling: correctly normalizes low-cardinality columns into dimensions to reduce fact table width and I/O overhead",
+        "Addresses high-cardinality columns with nuanced trade-offs: explains when to retain as foreign keys vs. denormalize, and mentions bitmap/specialized indexes",
+        "CRITICAL: Recognizes PostgreSQL limitations for analytical workloads and suggests alternatives (cstore_fdw columnar storage), or discusses migration to MPP warehouses (Redshift, Snowflake, BigQuery) for 10B+ row fact tables",
+        "MISSING: Does not discuss whether a lakehouse architecture (Delta Lake on S3/cloud object storage) could be more cost-effective and flexible for this scale, or ELT-first approaches that defer transformation to analytical engines",
+        "MISSING: No mention of staging tables, batch size tuning, or WAL configuration trade-offs relevant to bulk loads in PostgreSQL",
+        "Evaluates performance/flexibility trade-offs explicitly (e.g., columnar compression reduces storage/I/O but may impact update performance)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_024",
+    "question_text": "Thiết kế kiến trúc data lake cho công ty fintech với yêu cầu: lưu trữ dữ liệu giao dịch real-time (kafka), dữ liệu lịch sử (S3), và hỗ trợ truy vấn ad-hoc cho data scientist. Bạn sẽ tổ chức các zone (bronze, silver, gold) như thế nào? Xử lý schema evolution và data quality ra sao? Đề xuất công cụ cụ thể (Spark, Delta Lake, v.v.) và giải thích lý do.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ARCH_DATA_ARCHITECTURE",
+      "DATA_ARCHITECTURE_MODELING",
+      "DATA_LAKE"
+    ],
+    "skill_tags": [
+      "DATA_LAKE",
+      "ARCH_DATA_ARCHITECTURE"
+    ],
+    "answers": {
+      "detailed": "**Medallion Architecture with Lakehouse Approach**\n\n**Bronze Zone**: Ingests raw data from Kafka (real-time transactions via Spark Structured Streaming) and S3 (historical data via Spark batch). Store in Parquet format with Delta Lake wrapper to enable versioning and rollback. Retain all fields and raw values; avoid schema enforcement here. Use auto-loader or Kafka listeners for incremental ingestion.\n\n**Silver Zone**: Apply schema validation, deduplication (using Delta Lake's MERGE for idempotent writes), null/type casting, and PII masking. Partition by `transaction_date` and optionally Z-order by `customer_id` and `transaction_type` to optimize ad-hoc queries. Delta Lake's schema evolution allows additive changes (new columns from upstream) without breaking pipelines—use `mergeSchema=true` with caution and explicit validation rules.\n\n**Gold Zone**: Pre-aggregated tables (e.g., daily transaction summaries, customer risk scores, fraud detection features) optimized for BI and ML. Maintain slowly-changing dimensions (SCD Type 2) for audit trails—critical in fintech for regulatory compliance.\n\n**Schema Evolution & Data Quality**:\n- Use a **schema registry** (e.g., Confluent Schema Registry for Kafka payloads) to enforce compatibility rules before data reaches Bronze.\n- In Silver, implement explicit schema validation via pydantic or custom Spark jobs; reject records violating expected types/ranges and log to a quarantine table.\n- Delta Lake's column mapping and schema evolution features handle additive changes, but implement explicit testing (e.g., dbt tests) for breaking changes.\n- Data quality checks: cardinality, referential integrity (e.g., customer_id exists in master table), timeliness SLAs, and range checks. Implement circuit breakers to halt pipelines on critical failures.\n\n**Tool Justification**:\n- **Apache Spark**: Handles hybrid real-time (Structured Streaming from Kafka) and batch (S3 historical) workloads; distributed processing for fintech-scale volumes.\n- **Delta Lake**: Provides ACID transactions, time travel (for audit/compliance), and schema evolution on object storage. Transaction log enables atomic writes and optimistic concurrency—essential for concurrent writes from real-time and batch pipelines without data loss.\n- **Kafka**: Reliable, ordered ingestion of real-time transactions with replay capability.\n- Alternative: Consider **Apache Iceberg** if hidden partitioning and partition evolution are priority; **Hudi** for incremental processing if COW (copy-on-write) or MOR (merge-on-read) semantics matter for your SLA.\n\n**Why Lakehouse vs. pure Data Lake**: A fintech company needs ACID guarantees (no partial writes during crashes), schema governance (regulatory compliance), and audit trails (time travel). A pure data lake introduces data quality and consistency risks. Delta Lake brings warehouse-grade reliability to the flexibility of a lake—eliminating the need for a separate EDW while supporting raw data exploration for data scientists.\n\n**Monitoring**: Implement lineage tracking (e.g., via Apache Atlas or custom metadata tables), schema drift detection (compare inferred vs. expected schema in Bronze), and data quality metrics dashboards to meet fintech audit and SLA requirements.",
+      "evaluation_points": [
+        "Clearly articulates the medallion architecture (bronze/silver/gold) with specific data flow from Kafka (real-time) and S3 (historical) sources",
+        "Explains *how* Delta Lake enables ACID and schema evolution (e.g., transaction logs, schema merging mechanisms) rather than just stating it; demonstrates understanding of optimistic concurrency control or explicit schema handling",
+        "Addresses schema evolution strategy: does the candidate understand auto-schema merge vs. explicit schema validation? How do they handle backward/forward compatibility?",
+        "Data quality framework: specifies *what* quality checks (null, range, uniqueness, timeliness), *where* they occur in the pipeline, and *how* failures are handled (quarantine zone, alerting, rollback)",
+        "Justifies Delta Lake vs. alternative table formats (Iceberg, Hudi) for fintech use case—consider ACID guarantees, schema evolution, time travel, and compliance/audit trail requirements",
+        "Discusses partition strategy beyond 'partition by date'—consider range partitioning for transaction IDs, Z-ordering for query optimization on fintech queries (e.g., customer ID, transaction type)",
+        "Addresses real-time vs. batch trade-offs: Kafka → Delta Lake ingestion pattern (micro-batching vs. true streaming) and latency implications for ad-hoc queries",
+        "Explains monitoring and observability: how to track data lineage, schema drift, quality metrics, and SLAs in a fintech context (critical for regulatory compliance)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_021",
+    "question_text": "Hãy giải thích sự khác biệt giữa Data Warehouse và Data Lake, và nêu một tình huống thực tế mà bạn sẽ chọn Data Lake thay vì Data Warehouse.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING",
+      "DATA_LAKE"
+    ],
+    "skill_tags": [
+      "DATA_LAKE"
+    ],
+    "answers": {
+      "detailed": "Data Warehouse (DW) là kho lưu trữ dữ liệu có cấu trúc, tối ưu cho truy vấn và báo cáo phức tạp, sử dụng schema-on-write với ACID compliance mạnh mẽ. Data Lake (DL) lưu trữ dữ liệu thô ở định dạng gốc (cấu trúc, bán cấu trúc, phi cấu trúc), áp dụng schema-on-read, cho phép linh hoạt và chi phí thấp.\n\nChọn DL khi: (1) dữ liệu chưa có định hình rõ ràng (IoT, log máy chủ, sensor), (2) định dạng thay đổi liên tục, (3) mục đích sử dụng chưa xác định trước. Ví dụ: công ty thu thập dữ liệu từ hàng nghìn cảm biến với format không thống nhất—DL cho phép lưu trữ nhanh mà không cần ETL phức tạp, tránh chi phí cao.\n\nTuy nhiên, DL có rủi ro 'data swamp' nếu không có governance. Với yêu cầu ACID, chất lượng dữ liệu cao hoặc báo cáo quy định, DW vẫn tốt hơn. Giải pháp hiện đại là Lakehouse (Delta Lake, Iceberg), kết hợp linh hoạt DL với ACID và governance của DW.",
+      "evaluation_points": [
+        "Hiểu rõ đặc điểm DW (cấu trúc, schema-on-write, ACID, hiệu suất cao) và DL (thô, schema-on-read, linh hoạt, chi phí thấp)",
+        "Nêu được tình huống thực tế phù hợp với DL và giải thích lý do: dữ liệu chưa định hình, định dạng thay đổi, hoặc khi mục đích sử dụng chưa rõ ràng (IoT, log, real-time streaming)",
+        "Nhận diện trade-off: DL linh hoạt nhưng thiếu ACID, governance, và dễ rơi vào 'data swamp'; DW đảm bảo chất lượng nhưng cứng nhắc về schema",
+        "Đề cập đến giải pháp hiện đại (Lakehouse) kết hợp ưu điểm của cả hai, hoặc khi nào nên sử dụng DW thay vì DL (BI truyền thống, báo cáo quy định, dữ liệu đã xử lý)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_023",
+    "question_text": "Bạn đang thiết kế một Data Warehouse cho một công ty bán lẻ. Hãy so sánh việc sử dụng Star Schema và Snowflake Schema trong trường hợp này, và chỉ ra trade-off về hiệu suất truy vấn và khả năng bảo trì.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING",
+      "MODELING_STAR_SCHEMA"
+    ],
+    "skill_tags": [
+      "MODELING_STAR_SCHEMA"
+    ],
+    "answers": {
+      "detailed": "Star Schema denormalizes dimensions into a single wide table per dimension, reducing joins and accelerating queries—ideal for retail BI reporting (e.g., revenue by product, region, time). Snowflake Schema normalizes dimensions into hierarchies (e.g., Product → Category → Subcategory), reducing redundancy but requiring more joins, which increases query latency.\n\n**Retail Context**: Star Schema is typically preferred because retail reporting is dimension-heavy (customer, product, location, time) and benefits from fast aggregations. However, this assumes:\n1. Dimensions are relatively stable; frequent updates to denormalized data risk inconsistency (e.g., product price changes affecting historical facts).\n2. Storage is not prohibitively expensive (though modern compression mitigates this).\n\n**Trade-offs**:\n- **Query Performance**: Star Schema wins with 1-2 joins vs Snowflake's 4-5 joins; columnar DWs (Snowflake, BigQuery) narrow this gap significantly.\n- **Maintainability**: Snowflake Schema is cleaner for complex hierarchies (e.g., product attributes), but Star Schema's simplicity aids adoption; use conformed dimensions to balance both.\n- **Storage**: Snowflake saves space; Star Schema trades disk for CPU, which is often favorable in modern MPP systems.\n- **Data Quality**: Star Schema risks anomalies (e.g., inconsistent product classifications); Snowflake's normalization enforces referential integrity.\n\n**Practical Recommendation**: Use Star Schema for core reporting layers; supplement with aggregate tables or materialized views for high-volume queries. Consider hybrid approaches or slowly changing dimension (SCD) patterns to handle both performance and maintainability.",
+      "evaluation_points": [
+        "Correctly distinguishes Star Schema (denormalized dimensions, fewer joins, faster queries) vs Snowflake Schema (normalized dimensions, more joins, reduced redundancy)",
+        "Accurately applies to retail use case with concrete examples (revenue by product/region) and identifies Star Schema as typical choice for BI workloads",
+        "Analyzes trade-offs: storage vs query speed, but should quantify or elaborate (e.g., how many joins impact query latency, when storage becomes prohibitive)",
+        "Discusses maintainability correctly but misses nuance: Snowflake Schema's advantage in dimension updates assumes infrequent fact table updates; should address when dimension hierarchies are complex (e.g., product categories → subcategories → SKUs) where normalization provides clearer semantics",
+        "Missing: practical considerations like star schema's vulnerability to dimensional inconsistencies (late-arriving facts), aggregate table strategies, and when hybrid approaches or conformed dimensions solve both problems",
+        "Missing: acknowledgment that modern DW platforms (Snowflake, BigQuery) with columnar storage and query optimization make this trade-off less stark than traditional row-based systems"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_025",
+    "question_text": "Hãy giải thích cách xử lý Slowly Changing Dimension (SCD) Type 2 trong Data Warehouse. Nêu một ví dụ cụ thể và chỉ ra lợi ích cũng như nhược điểm của phương pháp này.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING",
+      "MODELING_SCD"
+    ],
+    "skill_tags": [
+      "MODELING_SCD"
+    ],
+    "answers": {
+      "detailed": "SCD Type 2 giữ lịch sử thay đổi bằng cách tạo bản ghi mới mỗi khi dimension thay đổi, đánh dấu bản ghi cũ là hết hiệu lực (end_date hoặc is_current = false) và bản ghi mới là đang hoạt động. Ví dụ: nếu khách hàng A thay đổi địa chỉ từ Hà Nội sang TP.HCM, hệ thống sẽ giữ bản ghi cũ (start_date=2023-01-01, end_date=2024-01-15, is_current=false) và tạo bản ghi mới (start_date=2024-01-15, end_date=null, is_current=true). Lợi ích: (1) lưu giữ lịch sử đầy đủ cho báo cáo point-in-time (doanh thu theo địa chỉ tại từng thời điểm), (2) hỗ trợ audit trail và tuân thủ quy định, (3) cho phép phân tích xu hướng. Nhược điểm: (1) kích thước dimension tăng đáng kể (mỗi thay đổi tạo thêm hàng), (2) ETL phức tạp (cần detect thay đổi và merge logic), (3) truy vấn phải filter by date range, làm giảm performance khi kết nối với fact table lớn. Ứng dụng thực tế: Dùng Type 2 khi cần lịch sử (khách hàng, sản phẩm); dùng Type 1 khi chỉ cần trạng thái hiện tại. Công nghệ lakehouse (Delta Lake) có thể đơn giản hóa quá trình này thông qua ACID transactions tự động và schema evolution, giảm bớt logic ETL thủ công.",
+      "evaluation_points": [
+        "Giải thích đúng cơ chế SCD Type 2: thêm bản ghi mới thay vì cập nhật, sử dụng start_date/end_date hoặc is_current flag để theo dõi thời gian hiệu lực",
+        "Đưa ra ví dụ cụ thể rõ ràng (thay đổi địa chỉ khách hàng) và mô tả cơ chế: bản ghi cũ được đóng (end_date = ngày thay đổi), bản ghi mới được mở (is_current = true)",
+        "Phân tích lợi ích: lưu giữ toàn bộ lịch sử cho báo cáo dự định (point-in-time analysis), hỗ trợ audit trail, và truy vấn chính xác doanh thu theo từng thời kỳ/địa chỉ",
+        "Phân tích nhược điểm: tăng kích thước dimension (storage overhead), phức tạp hóa ETL logic (merge/update detection), và làm chậm truy vấn (cần JOIN với fact, filter by date range)",
+        "Nêu rõ khi nào dùng SCD Type 2 vs Type 1 hoặc hybrid: SCD Type 2 khi cần lịch sử, Type 1 khi chỉ cần state hiện tại, hybrid khi một số cột là SCD Type 1 (không cần lịch sử) và cột khác là Type 2",
+        "Tư duy mở rộng (Senior level): nhận xét về cách các công nghệ mới (Delta Lake, Iceberg) có thể đơn giản hóa SCD Type 2 thông qua ACID transactions và schema evolution thay vì phải tự code logic"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_027",
+    "question_text": "Công ty bạn có một Data Lake lưu trữ dữ liệu thô từ nhiều nguồn (log web, giao dịch, dữ liệu IoT) với khối lượng lên đến 10TB mỗi ngày. Bạn được yêu cầu thiết kế một kiến trúc Data Lakehouse để hỗ trợ cả phân tích batch và real-time, đồng thời đảm bảo tính ACID và khả năng truy vấn nhanh. Hãy trình bày kiến trúc chi tiết, bao gồm các tầng (bronze, silver, gold) và công nghệ bạn sẽ sử dụng (ví dụ: Delta Lake, Apache Iceberg).",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ARCH_DATA_ARCHITECTURE",
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "skill_tags": [
+      "ARCH_DATA_ARCHITECTURE"
+    ],
+    "answers": {
+      "detailed": "Kiến trúc Data Lakehouse với 3 tầng:\n\n**Bronze Layer**: Lưu dữ liệu thô gốc từ Kafka (IoT, logs) và batch sources trong định dạng Parquet trên Delta Lake. Delta Lake cung cấp ACID properties qua transaction log (append-only log lưu tất cả mutations), cho phép time travel và rollback. Partitioning theo `date` và `source_system` để tối ưu scan. Data validation minimal ở tầng này.\n\n**Silver Layer**: Dữ liệu đã làm sạch, chuẩn hóa, loại bỏ duplicate và PII masking. Sử dụng Delta Lake với schema enforced. Spark Structured Streaming xử lý real-time data từ Kafka, merge vào Silver tables mỗi micro-batch (ví dụ: 1-5 phút tuỳ latency requirement). Batch jobs (Spark jobs chạy hàng giờ) xử lý backlog từ Bronze. Schema evolution được quản lý qua Delta's `mergeSchema` option để handle thay đổi cấu trúc từ nguồn (ví dụ: thêm field mới trong log). Z-order indexing theo columns thường truy vấn (ví dụ: user_id, timestamp) để data skipping nhanh.\n\n**Gold Layer**: Aggregated, business-ready data với Star Schema (fact/dimension tables). Materialized views hoặc pre-computed aggregations cho dashboard (ví dụ: hourly user activity counts). Batch jobs hàng giờ build Gold từ Silver. Tối ưu cho BI tools và real-time analytics.\n\n**Công nghệ chọn: Delta Lake** (không Iceberg vì Delta's tight Spark integration, mature ecosystem, simpler operational complexity cho công ty quy mô này). Iceberg tốt hơn cho cross-engine queries và hidden partitioning complexity.\n\n**ACID mechanism**: Delta's transaction log (Parquet file ghi chi tiết mỗi operation—add, remove files, thay đổi schema). Optimistic concurrency: nếu 2 writers conflict, retry transaction với timestamp mới. Readers luôn thấy consistent snapshot.\n\n**Batch + Real-time design**: Kafka → Spark Structured Streaming (with checkpoints) → Silver (low-latency, ~2-5 min delay). Parallel batch jobs backfill từ Bronze nhưng ko conflict nhờ Delta's ACID. Late arrivals handled qua session windows trong Streaming hoặc upsert pattern trong batch.\n\n**Compaction strategy**: Auto-optimize/optimize qua Delta's VACUUM/OPTIMIZE command hàng đêm trên Silver/Gold (loại bỏ small files sau streaming writes). Bronze có thể giữ raw files lâu hơn (cost tradeoff).\n\n**Data Quality + Governance**: Bronze—basic schema validation. Silver—row-level checks (ví dụ: null checks, outlier detection). Gold—business logic validation. Monitor lineage via Delta's audit logs. Row-level access control nếu có PII (ví dụ: dùng Delta's dynamic masking hoặc thêm authorization layer). Cost optimization: lifecycle policy xoá Bronze sau 30 ngày (archive to cold storage nếu cần compliance).\n\n**SLA example**: Real-time IoT data: Silver updated mỗi 2 phút (P99 latency). Bronze logs: updated mỗi 15 phút. Gold dashboards: updated hàng giờ.",
+      "evaluation_points": [
+        "Thiết kế rõ ràng các tầng Bronze/Silver/Gold với chức năng cụ thể và giải thích logic phân vùng dữ liệu",
+        "So sánh chi tiết Delta Lake vs Apache Iceberg: ưu nhược điểm, lý do chọn công nghệ (ví dụ: Delta's popularity vs Iceberg's hidden partitioning), và khi nào cần Hudi",
+        "Giải thích cơ chế ACID trong Delta Lake (transaction log, optimistic concurrency control) và tại sao nó quan trọng cho 10TB/ngày",
+        "Thiết kế cụ thể cho batch vs real-time: latency requirements, state management trong Spark Structured Streaming, late-arrival handling",
+        "Đề xuất chiến lược compaction, partitioning scheme, Z-order indexing dựa trên query patterns cụ thể (ví dụ: truy vấn thường filter theo thời gian hay loại dữ liệu)",
+        "Xử lý schema evolution: cơ chế trong Delta Lake (e.g., mergeSchema flag), chiến lược versioning, backward/forward compatibility",
+        "Governance & monitoring: data quality checks ở mỗi tầng, lineage tracking, cost optimization (ví dụ: lifecycle policies cho Bronze), security (row-level access control nếu cần)",
+        "Addressing data freshness trade-offs: batch job frequency vs real-time cost, SLA definitions cho mỗi tầng"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_029",
+    "question_text": "Một hệ thống Data Warehouse của ngân hàng đang gặp vấn đề: truy vấn báo cáo cuối tháng chậm hơn 5 lần so với dự kiến, mặc dù đã tối ưu index. Bạn được giao debug. Hãy phân tích các nguyên nhân tiềm ẩn liên quan đến kiến trúc dữ liệu (ví dụ: skew dữ liệu, join không hiệu quả, partitioning sai) và đề xuất giải pháp cụ thể để khắc phục.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ARCH_DATA_ARCHITECTURE",
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "skill_tags": [
+      "ARCH_DATA_ARCHITECTURE"
+    ],
+    "answers": {
+      "detailed": "**Root Cause Analysis:**\n\n1. **Data Skew**: Month-end data concentrates into fewer partitions (e.g., payment processing surge), creating execution hotspots where some executors process 10x more data than others, idling the rest.\n\n2. **Suboptimal Partitioning**: Partitioning by day at month-end creates daily partitions with 5-10GB of data each, while typical days have 100MB. This triggers full table scans for month-end reports.\n\n3. **Inefficient Joins**: Fact table (transactions) joined with large dimension tables (customers, accounts) using broadcast join causes network shuffle; or conversely, sort-merge join without proper bucketing alignment forces repartitioning of billions of rows.\n\n4. **Schema Bloat**: Fact table includes unnecessary columns (e.g., description fields, legacy flags), increasing I/O even with columnar storage if not properly projected.\n\n5. **ETL Strategy**: Full table refresh on month-end refresh instead of incremental upserts, re-processing unchanged data.\n\n**Specific Solutions:**\n\n1. **Salting for Skew Mitigation**: Add a random salt column (1-100) to fact table join keys, then join with salted dimension tables. This distributes month-end hotspot across 100 executor tasks. Trade-off: Union post-join results; requires careful NULL handling.\n\n2. **Hybrid Partitioning**: Partition by (month, region) instead of day, keeping month-end logical partitions under 2GB each. Enables partition elimination for regional reports.\n\n3. **Bucketing + Sort-Merge Join**: Bucket both fact and dimension tables on join key (customer_id, account_id) with the same bucket count. Eliminates shuffle; sort-merge join becomes local to buckets. Requires ETL discipline but dramatically reduces network I/O.\n\n4. **Columnar Compression & Z-Ordering**: Enforce Parquet format with snappy compression; apply Z-order clustering on high-cardinality WHERE clause columns (transaction_date, customer_id) to enable data skipping and reduce I/O by 3-5x.\n\n5. **Incremental ETL**: Implement upsert-based ETL using Delta Lake or Iceberg MERGE operations (ACID-compliant). Load only changed/new transactions on month-end, avoiding re-processing. Reduces compute by 70-80% on incremental runs.\n\n6. **Query Optimization**: Materialize month-end aggregates as summary tables (pre-grouped by date, region, product), serving reports from summaries instead of scanning raw facts.\n\n**Validation & Monitoring**: Examine Spark query plans (DAG visualization) to confirm shuffle stage bottlenecks; check executor task duration histograms for skew signals. Measure bytes spilled to disk—a sign of memory pressure from imbalanced partitions.",
+      "evaluation_points": [
+        "Identifies root causes with specific context (month-end data spike, parallel processing imbalance)",
+        "Proposes concrete solutions with technical depth (salting mechanics, bucketing strategy, sort-merge vs broadcast join trade-offs)",
+        "Explains *why* solutions work, not just *what* they are (e.g., how salting distributes skewed keys, how Z-ordering enables data skipping)",
+        "Considers data warehouse fundamentals: schema design, denormalization impact, and compression formats (Parquet) for I/O reduction",
+        "Addresses ETL/ELT optimization (incremental vs full refresh) and its architectural implications for performance",
+        "Discusses trade-offs: complexity vs performance gain, consistency considerations when applying salting to join keys, cost of bucketing maintenance",
+        "Demonstrates understanding of MPP execution: shuffle overhead, predicate pushdown, and partition elimination strategies",
+        "Considers monitoring/validation: how to confirm skew is the bottleneck (query plans, executor logs) before investing in re-architecture"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_026",
+    "question_text": "Bạn đang thiết kế kiến trúc dữ liệu cho một công ty thương mại điện tử có khối lượng giao dịch lớn. Hãy so sánh ưu và nhược điểm của việc sử dụng Data Warehouse và Data Lake cho hệ thống báo cáo thời gian thực và phân tích lịch sử. Khi nào bạn chọn Data Warehouse thay vì Data Lake và ngược lại?",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "ARCH_DATA_ARCHITECTURE",
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "skill_tags": [
+      "ARCH_DATA_ARCHITECTURE"
+    ],
+    "answers": {
+      "detailed": "Data Warehouse tối ưu cho dữ liệu có cấu trúc, truy vấn nhanh và báo cáo thời gian thực nhờ schema-on-write (dữ liệu tuân thủ schema khi nhập vào), nhưng chi phí lưu trữ cao và khó mở rộng với dữ liệu phi cấu trúc. Data Lake phù hợp cho dữ liệu đa dạng, chi phí thấp, hỗ trợ phân tích lịch sử và machine learning với schema-on-read (schema được áp dụng khi truy vấn), nhưng độ trễ truy vấn cao, thiếu ACID properties, và khó quản lý chất lượng dữ liệu.\n\nTrong tình huống thương mại điện tử này, giải pháp tối ưu là **Lakehouse architecture** (ví dụ Delta Lake trên S3/ADLS): nó cung cấp ACID transactions và schema enforcement của data warehouse ngay trên nền data lake, cho phép báo cáo thời gian thực (ví dụ: doanh thu hàng giờ, trạng thái đơn hàng) với chi phí thấp và linh hoạt lưu trữ dữ liệu thô. Cụ thể:\n- Sử dụng **DW truyền thống** cho: BI/reporting có schema ổn định, yêu cầu latency < 1 phút, tuân thủ regulatory\n- Sử dụng **Lakehouse (Delta Lake)** cho: báo cáo thời gian thực + phân tích lịch sử, machine learning trực tiếp trên dữ liệu thô, hành vi khách hàng trong 5 năm (với time travel capability)\n- Sử dụng **Data Lake** cho: lưu trữ dữ liệu thô phi cấu trúc (logs, images), sandbox cho data scientists\n\nKiến trúc đề xuất: ELT pipeline đưa dữ liệu giao dịch → Lakehouse (Delta) → DW (denormalized tables cho BI tools) với data quality checks và governance framework.",
+      "evaluation_points": [
+        "Giải thích rõ sự khác biệt giữa schema-on-write và schema-on-read, và tác động của chúng đối với độ trễ và linh hoạt",
+        "Đưa ra trade-off cụ thể về chi phí, hiệu suất, ACID compliance và tính linh hoạt trong bối cảnh giao dịch thương mại điện tử",
+        "Nhận biết và thảo luận về Lakehouse (Delta Lake, Iceberg) như một giải pháp hiện đại kết hợp ưu điểm của cả hai, đặc biệt ACID trên data lake",
+        "Đề xuất giải pháp kết hợp hoặc ưu tiên dựa trên yêu cầu thực tế, với các ví dụ cụ thể (ví dụ: real-time order status, historical customer churn analysis)",
+        "Thảo luận về data governance, data quality, và cơ chế đồng bộ trong kiến trúc lai ghép"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_028",
+    "question_text": "Trong một hệ thống báo cáo bán hàng, bạn cần thiết kế mô hình Star Schema để hỗ trợ phân tích doanh thu theo thời gian, sản phẩm và khu vực. Hãy giải thích cách xác định các fact table và dimension table, đồng thời so sánh với Snowflake Schema về hiệu suất truy vấn và khả năng bảo trì.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "DATA_ARCHITECTURE_MODELING",
+      "MODELING_STAR_SCHEMA"
+    ],
+    "skill_tags": [
+      "MODELING_STAR_SCHEMA"
+    ],
+    "answers": {
+      "detailed": "Star Schema có một fact table trung tâm chứa các measures (doanh thu, số lượng) và foreign keys trỏ đến dimension table (Thời gian, Sản phẩm, Khu vực). Các dimension table được denormalized, chứa tất cả thuộc tính mô tả. Điều này giúp truy vấn nhanh (ít join), lý tưởng cho OLAP báo cáo.\n\nCác measures cần phân loại:\n- Additive: doanh thu (cộng gộp theo mọi chiều)\n- Semi-additive: số lượng tồn kho (không cộng gộp theo thời gian)\n- Non-additive: giá đơn vị, lợi nhuận % (dùng AVG, MIN, MAX)\n\nSnowflake Schema chuẩn hóa các dimension thành nhiều bảng phụ (ví dụ: Sản phẩm → Loại Sản phẩm + Nhà Cung Cấp), giảm dư thừa dữ liệu và dễ bảo trì, nhưng tăng số join → giảm hiệu suất.\n\nTrade-off:\n- Star Schema: truy vấn nhanh, triển khai đơn giản, nhưng dimension có thể lớn, dữ liệu dư thừa\n- Snowflake Schema: tiết kiệm storage, bảo trì dễ (thay đổi một lần), nhưng truy vấn chậm do nhiều join\n\nThực tế: Star Schema được ưu tiên cho báo cáo OLAP vì tốc độ. Snowflake Schema phù hợp khi storage tối ưu là ưu tiên hoặc dữ liệu dimension thay đổi thường xuyên. Việc sử dụng surrogate keys trong dimension hỗ trợ slowly changing dimensions và cải thiện hiệu suất join.",
+      "evaluation_points": [
+        "Xác định đúng fact table (chứa các số liệu/measures như doanh thu, số lượng) và dimension table (chứa thuộc tính mô tả như thời gian, sản phẩm, khu vực)",
+        "Phân loại các measures trong fact table: additive (doanh thu có thể cộng gộp theo mọi chiều), semi-additive (số lượng tồn kho không cộng gộp theo thời gian), non-additive (giá đơn vị, lợi nhuận %)",
+        "Giải thích denormalization trong Star Schema (dimension table chứa tất cả thuộc tính) vs normalization trong Snowflake Schema (tách dimension thành nhiều bảng phụ)",
+        "So sánh trade-off: Star Schema ít join → truy vấn nhanh nhưng dữ liệu dư thừa; Snowflake Schema chuẩn hóa → tiết kiệm storage, bảo trì dễ nhưng nhiều join → chậm",
+        "Đề cập surrogate keys trong dimension table để cải thiện hiệu suất join và hỗ trợ slowly changing dimensions (SCD)",
+        "Đưa ra khuyến nghị thực tế: OLAP báo cáo → Star Schema; dữ liệu thay đổi thường xuyên hoặc constraint storage → Snowflake Schema hoặc hybrid approach"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DE_DATA_ARCHITECTURE_030",
+    "question_text": "Bạn đang làm cho một công ty logistics với hệ thống dữ liệu lớn bao gồm dữ liệu GPS từ xe tải (dạng streaming), dữ liệu đơn hàng (CSV hàng ngày) và dữ liệu thời tiết (API bên ngoài). Hãy thiết kế một kiến trúc dữ liệu tổng thể để xử lý cả dữ liệu thời gian thực và batch, đảm bảo khả năng mở rộng và chi phí thấp. Trong đó, bạn phải giải thích cách xử lý dữ liệu streaming (ví dụ: cập nhật vị trí xe), tích hợp dữ liệu batch, và xây dựng data pipeline để hỗ trợ phân tích dự đoán thời gian giao hàng. Đề cập đến các công cụ cụ thể (ví dụ: Kafka, Spark, Airflow) và xử lý edge case như dữ liệu GPS bị trùng hoặc mất tín hiệu.",
+    "roles": {
+      "primary": "DE",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "ARCH_DATA_ARCHITECTURE",
+      "DATA_ARCHITECTURE_MODELING"
+    ],
+    "skill_tags": [
+      "ARCH_DATA_ARCHITECTURE"
+    ],
+    "answers": {
+      "detailed": "Kiến trúc đề xuất (cải tiến): Sử dụng Kafka (partition by vehicle_id) để thu thập GPS streaming với strict ordering, sau đó xử lý qua Spark Streaming với session window deduplication (không chỉ event time mà còn vehicle_id + location accuracy). Dữ liệu order (CSV batch) được load via Airflow vào S3 raw layer; thời tiết API được fetch định kỳ với retry logic và de-duplication trên date + location. Pipeline giai đoạn: (1) Kafka -> Spark Streaming -> Redis (real-time tracking, TTL theo expected delivery time); (2) Spark Streaming -> Parquet (S3 bronze/silver layers, partitioned by date + vehicle_id); (3) Airflow batch job join cleaned GPS + orders + weather trên S3 silver layer, produce enriched dataset (gold layer); (4) Optional: ingest gold layer vào Snowflake/BigQuery nếu cần sub-second analytical query performance, otherwise query Parquet directly via Presto/Athena. MLlib training chạy trên Spark batch job weekly. Edge cases: (a) GPS signal loss - use last_known_location với confidence score (based on accuracy metric), mark data quality flag, interpolate trajectory nếu gap < 5min; (b) Duplicate events - deduplicate on (vehicle_id, timestamp, location) với allowable_drift=10m, use watermark để reject late arrivals >1 hour; (c) Order-weather join misalignment - use temporal join with validity window ±12 hours. Scalability: Kafka auto-scales with partitions; Spark cluster auto-scales (YARN/K8s); S3 storage scales elastically. Cost optimization: use Spot instances for Spark, S3 intelligent tiering, Lambda cho lightweight API calls. Monitoring: schema registry cho Kafka, data quality checks (Great Expectations), SLA alerts on model prediction latency.",
+      "evaluation_points": [
+        "Clearly articulates the streaming vs batch trade-off: when to use Spark Streaming (real-time tracking via Redis) vs batch (historical analysis), and justifies tool selection with reasoning",
+        "Demonstrates understanding of data layering and schema design: distinguishes between raw data lake (S3), processing layer (Spark), serving layer (Redis for real-time, Parquet for analytics), and explains denormalization strategy for the predictive model",
+        "Addresses data quality and idempotency patterns: explains deduplication strategy (event time + watermark), handling late-arriving data (watermarks in Spark), and ensures exactly-once semantics in the pipeline",
+        "Discusses scalability architecture specifically: Kafka partitioning strategy (by vehicle ID or route?), Spark cluster sizing for joining multi-source data, and cost optimization trade-offs (serverless Lambda vs persistent Spark cluster)",
+        "Evaluates when a data warehouse (e.g., Snowflake, BigQuery) would be appropriate vs data lake: for example, structured analytical queries on joined GPS+order+weather data might benefit from a DW layer for performance, versus raw data lake for flexibility",
+        "Addresses failure handling and monitoring: what happens when Kafka broker fails, Spark job stalls, or API throttling occurs; how to ensure SLA for delivery time predictions"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  }
+]

@@ -1,0 +1,868 @@
+[
+  {
+    "question_id": "GEN_DA_STATISTICS_001",
+    "question_text": "Định nghĩa Confidence Interval là gì? Cho ví dụ đơn giản về cách diễn giải nó.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_CONFIDENCE_INTERVAL"
+    ],
+    "skill_tags": [
+      "STAT_CONFIDENCE_INTERVAL"
+    ],
+    "answers": {
+      "detailed": "Confidence Interval (CI) là một khoảng ước lượng, với một mức độ tin cậy nhất định (ví dụ 95%), được xây dựng từ dữ liệu mẫu để ước lượng giá trị thực của tham số tổng thể. Ví dụ: Khoảng tin cậy 95% cho chiều cao trung bình là [160cm, 170cm]. Diễn giải đúng: nếu lấy nhiều mẫu khác nhau và tính CI cho từng mẫu, 95% các khoảng này sẽ chứa chiều cao trung bình thực của tổng thể. Lưu ý: điều này KHÔNG có nghĩa là xác suất chiều cao trung bình nằm trong khoảng [160cm, 170cm] là 95% – với khoảng cụ thể này, tham số hoặc nằm trong hoặc không nằm trong.",
+      "evaluation_points": [
+        "Định nghĩa chính xác CI là khoảng ước lượng với mức tin cậy nhất định.",
+        "Giải thích đúng ý nghĩa mức tin cậy 95%: nếu lặp lại quá trình lấy mẫu nhiều lần, 95% các khoảng tin cậy sẽ chứa tham số tổng thể (NOT: xác suất tham số nằm trong khoảng này là 95%).",
+        "Phân biệt rõ: với một khoảng CI cụ thể đã tính, tham số hoặc nằm trong hoặc không nằm trong (không có xác suất 95% cho khoảng đó).",
+        "Đưa ra ví dụ cụ thể và diễn giải đúng mức tin cậy.",
+        "Hiểu CI bổ sung cho p-value bằng cách cung cấp cả ý nghĩa thống kê và độ lớn của hiệu ứng (ví dụ: nếu CI không chứa 0, chỉ ra sự khác biệt có ý nghĩa)."
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_003",
+    "question_text": "Bạn đang làm việc tại một công ty thương mại điện tử. Nhóm sản phẩm muốn thay đổi màu nút 'Mua ngay' từ xanh sang đỏ để tăng tỷ lệ chuyển đổi. Hãy thiết kế một A/B test cơ bản. Giải thích tại sao bạn chọn các tham số đó.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_AB_TESTING"
+    ],
+    "skill_tags": [
+      "STAT_AB_TESTING"
+    ],
+    "answers": {
+      "detailed": "I would design the A/B test as follows:\n\n**Randomization & Sample Design:**\nRandomly assign users to Control (green button) and Treatment (red button) groups using deterministic hashing on user ID to ensure independence and prevent selection bias. Target minimum 1,000 users per group, but validate sample size using power analysis.\n\n**Sample Size Justification:**\nAssuming a baseline conversion rate of ~2% and expecting a minimum detectable effect (MDE) of +2% relative lift (to ~2.04%), with α=0.05 (two-tailed) and power=0.8, power analysis yields approximately 15,000-20,000 users per group depending on the baseline. The 1,000 user estimate is a conservative minimum; actual sizing depends on traffic volume and baseline metrics.\n\n**Test Duration:**\nRun for 2 weeks to: (1) capture full weekly cycles (weekday/weekend behavior variation), (2) reduce temporal confounders, and (3) avoid peeking bias. Avoid stopping early even if statistical significance appears before 2 weeks.\n\n**Statistical Test & Significance:**\nUse a two-tailed two-proportion z-test (or chi-square test for independence) with α=0.05. Two-tailed is appropriate unless there's strong prior evidence that red *cannot* decrease conversion. If testing multiple metrics (conversion, AOV, time-on-page), apply Bonferroni correction (α/number of tests) or Benjamini-Hochberg FDR control to prevent inflated Type I error across multiple comparisons.\n\n**Primary & Secondary Metrics:**\nPrimary: conversion rate. Secondary: average order value, bounce rate, user experience proxies. Only primary metric should drive the decision; secondary metrics inform narrative.\n\n**Heterogeneous Effects:**\nAnalyze results separately for new vs. returning users; directional effects may differ by segment.",
+      "evaluation_points": [
+        "Explain the randomization mechanism (e.g., user ID hashing) to ensure independence and avoid selection bias",
+        "Justify sample size calculation using power analysis formula or online calculator (specify baseline conversion rate, minimum detectable effect, power, alpha)",
+        "Discuss multiple comparison problem: if testing multiple metrics (conversion, AOV, bounce rate), apply correction method (Bonferroni or FDR) to control Type I error inflation",
+        "Address time duration: explain why 2 weeks covers weekly seasonality patterns and avoids peeking bias; discuss implications of early stopping",
+        "Clarify one-tailed vs. two-tailed test choice: acknowledge that directional hypothesis (red increases conversion) could justify one-tailed, but justify the chosen approach",
+        "Mention success metrics definition (primary: conversion rate; secondary: AOV, user experience) and stopping rules upfront",
+        "Discuss practical considerations: minimum sample size per variant, segmentation analysis (new vs. returning users), and statistical vs. practical significance"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_005",
+    "question_text": "So sánh p-value và Confidence Interval trong hypothesis testing. Khi nào nên dùng cái nào? Cho ví dụ thực tế.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_CONFIDENCE_INTERVAL",
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "skill_tags": [
+      "STAT_HYPOTHESIS_TESTING",
+      "STAT_CONFIDENCE_INTERVAL"
+    ],
+    "answers": {
+      "detailed": "P-value cho biết xác suất quan sát dữ liệu cực đoan như vậy (hoặc hơn) *nếu giả thuyết không H0 đúng*. CI cung cấp khoảng ước lượng cho tham số thực (ví dụ: hiệu số trung bình) cùng độ tin cậy. P-value giải quyết câu hỏi 'Khác biệt này có ý nghĩa thống kê không?' (quyết định nhị phân), CI trả lời 'Effect size thực sự là bao nhiêu?' (định lượng magnitude và độ chính xác). Ưu điểm p-value: quyết định nhanh; nhược điểm: chỉ cho biết có/không khác, không nói magnitude. Ưu điểm CI: cung cấp range plausible và hình dung về độ chính xác; nhược điểm: cần giải thích cho non-technical stakeholders. Ví dụ thực tế: Kiểm định A/B test conversion rate. Kết quả: p=0.03 (có ý nghĩa thống kê), nhưng CI=[0.05%, 0.8%]. P-value nói 'khác biệt thực', nhưng CI tiết lộ effect rất nhỏ—có thể không đáng chi phí triển khai. Nên dùng cả hai: p-value để quyết định có khác biệt, CI để báo cáo độ lớn và độ tin cậy của effect cho lãnh đạo. Luôn nhớ: statistical significance ≠ practical significance.",
+      "evaluation_points": [
+        "Giải thích rõ định nghĩa: p-value là xác suất quan sát dữ liệu cực đoan (hoặc hơn) *giả sử H0 đúng*, không phải xác suất H0 đúng.",
+        "Phân biệt rõ ràng: p-value giải quyết câu hỏi 'Khác biệt này có ý nghĩa thống kê không?', CI giải quyết 'Effect size là bao nhiêu và độ tin cậy như thế nào?'",
+        "Nhấn mạnh sự phân biệt giữa *statistical significance* (p-value) và *practical significance* (CI/effect size): p=0.03 có thể không có ý nghĩa thực tế nếu effect nhỏ.",
+        "Ví dụ thực tế cần rõ ràng hơn: so sánh hai tình huống—một có p-value nhỏ nhưng CI rất rộng (không chính xác) vs. p-value lớn nhưng CI hẹp và khác 0 (effect có ý nghĩa thực tế).",
+        "Giải thích khi nào ưu tiên từng loại: p-value cho quyết định nhanh (bác bỏ/giữ H0), CI tốt hơn cho báo cáo lãnh đạo vì cung cấp phạm vi hợp lý của effect.",
+        "Tránh hiểu lầm: p-value không phải là xác suất sai lầm; CI không phải là xác suất tham số nằm trong khoảng (nó là khoảng tin cậy với mức độ tin cậy đã chọn)."
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_007",
+    "question_text": "Công ty có một A/B test kiểm tra tính năng mới với 3 biến thể (A, B, C). Kết quả cho thấy biến thể B có p-value 0.04 so với A, biến thể C có p-value 0.06 so với A. Hãy phân tích vấn đề multiple testing và đề xuất cách xử lý. Nếu bạn phải báo cáo kết quả, bạn sẽ làm gì?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_AB_TESTING",
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "skill_tags": [
+      "STAT_AB_TESTING",
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "answers": {
+      "detailed": "This is a textbook multiple testing problem. With 3 variants, we have multiple pairwise comparisons (A vs. B, A vs. C, potentially B vs. C), which inflates the family-wise error rate (FWER). The FWER ≈ 1 - (1 - 0.05)^k, where k is the number of independent tests. With 3 comparisons, FWER ≈ 14.3%, meaning we're much more likely to observe false positives.\n\n**Correction Methods:**\n1. **Bonferroni Correction:** Divide α by number of tests (e.g., 0.05/3 ≈ 0.0167). Under this threshold, B (p=0.04) fails to reject, and C (p=0.06) clearly fails. This is conservative but appropriate for confirmatory testing.\n2. **Benjamini-Hochberg (FDR):** Controls the proportion of false discoveries among rejected hypotheses, less stringent than Bonferroni. Rank p-values and compare to (i/m)×α. More appropriate for exploratory A/B testing.\n\n**My Reporting and Action Plan:**\n- **Do not claim B as a winner based on unadjusted p=0.04.** Report the multiple testing issue explicitly.\n- **If exploratory:** Report adjusted p-values and effect sizes for context, but frame results as preliminary findings requiring confirmation.\n- **If confirmatory:** Design a focused follow-up test comparing only B vs. A (the most promising variant) with larger sample size and pre-registered success criterion (α=0.05, powered at 80%).\n- **Verify assumptions:** Check that the underlying data (conversion, engagement, revenue, etc.) meets test assumptions (normality for t-test, sufficient expected cell counts for chi-square, independence of observations).\n- **Consider business context:** Statistical significance ≠ practical significance; discuss effect size and business impact alongside p-values.\n\nThis approach avoids false positives, respects statistical rigor, and enables evidence-based decision-making.",
+      "evaluation_points": [
+        "Correctly identifies the multiple testing problem and quantifies FWER inflation (1-(1-α)^k approach or explains pairwise comparisons: 3 comparisons with k(k-1)/2 = 3 tests)",
+        "Applies Bonferroni correction accurately (α/number_of_tests = 0.05/3 ≈ 0.0167 or 0.05/2 ≈ 0.025 depending on comparisons counted) and correctly concludes B does not meet threshold",
+        "Discusses trade-offs between methods: Bonferroni (conservative, increases Type II error) vs. Benjamini-Hochberg/FDR (controls false discovery rate, less conservative, better for exploratory settings)",
+        "Recognizes that p-value 0.06 for C is not significant even under Bonferroni, avoiding false negatives from over-correction",
+        "Proposes practical follow-up strategy: pre-register a focused confirmatory test (B vs. A) with adequate power rather than continuing post-hoc exploration",
+        "Demonstrates awareness of assumptions (normality, equal variance, independence of observations) that should be validated before selecting the statistical test",
+        "Distinguishes between exploratory vs. confirmatory testing: initial 3-way comparison may be exploratory; any claim of winner requires stricter standards or pre-registration"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_009",
+    "question_text": "Trong một A/B test, bạn nhận thấy dữ liệu có hiện tượng 'peeking' (nhìn kết quả liên tục và dừng test sớm khi p-value đạt 0.05). Hãy giải thích tại sao điều này làm tăng false positive rate, và thiết kế một giải pháp để kiểm soát lỗi này. Đề xuất cụ thể cách tính toán với alpha spending function.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_AB_TESTING"
+    ],
+    "skill_tags": [
+      "STAT_AB_TESTING"
+    ],
+    "answers": {
+      "detailed": "Peeking làm tăng false positive vì mỗi lần kiểm tra interim là một cơ hội độc lập để phát hiện significance do ngẫu nhiên. Nếu không hiệu chỉnh, với k lần peek và α nominal, FWER (Family-Wise Error Rate) = 1-(1-α)^k. Ví dụ: 10 lần peek với α=0.05 mỗi lần → FWER ≈ 40%, không phải 5%.\n\nGiải pháp: Sequential Testing với Alpha Spending Function.\nCơ chế: Phân bổ ngân sách alpha (total α=0.05) across all planned peeks sao cho tổng không vượt quá nominal α, kiểm soát FWER.\n\nVí dụ cụ thể với 3 lần phân tích (O'Brien-Fleming):\n1. Xác định trước: 3 interim analyses tại n=67%, 89%, 100% của sample size cuối cùng\n2. Phân bổ alpha:\n   - Peek 1: α₁ = 0.001 (z-critical ≈ 3.29)\n   - Peek 2: α₂ = 0.009 (z-critical ≈ 2.36)\n   - Peek 3: α₃ = 0.041 (z-critical ≈ 2.05)\n   - Tổng: 0.001 + 0.009 + 0.041 ≈ 0.05\n3. Quy tắc dừng: Nếu z-score tính toán > z-critical ở bất kỳ peek nào, dừng test sớm và reject H₀\n\nSo sánh phương pháp:\n- Pocock: Phân bổ alpha đều (mỗi peek ≈ 0.016) → dễ dừng sớm nhưng ít linh hoạt\n- O'Brien-Fleming: Alpha spending conservative ban đầu, liberal sau cùng → hạn chế false positive từ sớm\n\nYêu cầu quan trọng: Pre-specify số peek tối đa và spending function *trước* phân tích dữ liệu để tránh p-hacking và đảm bảo tính hợp lệ thống kê.",
+      "evaluation_points": [
+        "Explain the multiple comparisons problem: each peek is an independent hypothesis test, and the probability of at least one false positive across all peeks exceeds the nominal α (e.g., with 10 peeks and naive α=0.05 each, FWER ≈ 1-(0.95)^10 ≈ 40%)",
+        "Distinguish between FWER (Family-Wise Error Rate) and α spending: sequentially allocated alpha must sum to the original α level across all interim analyses to maintain overall Type I error control",
+        "Provide concrete computational example: For O'Brien-Fleming with 3 planned peeks and α=0.05, calculate cumulative alpha proportions and corresponding z-critical values (e.g., z₁ ≈ 2.963 for α₁ ≈ 0.001, z₂ ≈ 2.359 for α₂ ≈ 0.009, z₃ ≈ 1.960 for α₃ ≈ 0.025), then explain stopping rule logic",
+        "Compare sequential methods: discuss trade-offs between Pocock (uniform alpha spending: faster early stopping risk) and O'Brien-Fleming (conservative early, liberal late: protects against premature stopping) with practical guidance on selection",
+        "Address pre-specification requirement: emphasize that the maximum number of peeks and spending function must be determined *before* any data analysis to avoid p-hacking and maintain validity"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_006",
+    "question_text": "Hãy định nghĩa Confidence Interval (Khoảng tin cậy) là gì? Cho ví dụ đơn giản về cách giải thích một khoảng tin cậy 95%.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_CONFIDENCE_INTERVAL"
+    ],
+    "skill_tags": [
+      "STAT_CONFIDENCE_INTERVAL"
+    ],
+    "answers": {
+      "detailed": "Confidence Interval là một khoảng giá trị ước lượng cho một tham số tổng thể (ví dụ: trung bình), được tính từ dữ liệu mẫu. Khoảng tin cậy 95% có nghĩa là nếu ta lặp lại quá trình lấy mẫu nhiều lần, thì 95% số khoảng tin cậy tính được sẽ chứa giá trị thật của tham số tổng thể. \n\nVí dụ: Nếu khảo sát 100 khách hàng và tính được khoảng tin cậy 95% cho thời gian mua hàng trung bình là [5.2, 6.8] phút, ta nói rằng nếu lặp lại quá trình khảo sát này 100 lần, khoảng tin cậy tính từ mỗi mẫu sẽ chứa giá trị thực khoảng 95 lần. Lưu ý: Tham số tổng thể là cố định, không phải ngẫu nhiên. Khoảng [5.2, 6.8] cụ thể này HOẶC chứa tham số thực HOẶC không—không có xác suất 95% cho khoảng này cụ thể, mà 95% là tính chất của phương pháp ước lượng khi áp dụng lặp lại.",
+      "evaluation_points": [
+        "Hiểu đúng định nghĩa: khoảng ước lượng từ mẫu cho tham số tổng thể",
+        "Giải thích chính xác ý nghĩa 95%: liên quan đến tần suất bao phủ tham số khi lặp lại lấy mẫu (95% các khoảng tin cậy sẽ chứa tham số, không phải 95% khả năng tham số nằm trong khoảng cụ thể này)",
+        "Ví dụ cụ thể, dễ hiểu, minh họa đúng cách diễn giải mà không nhầm lẫn giữa xác suất sự kiện đã xảy ra và xác suất lặp lại",
+        "Nhận ra sự khác biệt giữa diễn giải tần suất (frequentist) và Bayesian của CI"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_008",
+    "question_text": "Hypothesis Testing là gì? Nêu sự khác biệt giữa Null Hypothesis (H0) và Alternative Hypothesis (H1) trong một bài kiểm định.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "skill_tags": [
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "answers": {
+      "detailed": "Hypothesis Testing là phương pháp thống kê dùng để đưa ra quyết định dựa trên dữ liệu mẫu, kiểm tra xem một giả định về tổng thể có đúng hay không. \n\nNull Hypothesis (H0) là giả định mặc định, thường thể hiện 'không có hiệu ứng' hoặc 'không có khác biệt'. Ví dụ: 'trung bình doanh thu không thay đổi sau khi triển khai tính năng mới' (H0: μ = μ0).\n\nAlternative Hypothesis (H1) là giả định ngược lại, thể hiện 'có hiệu ứng' hoặc 'có khác biệt'. Ví dụ: 'trung bình doanh thu tăng lên sau khi triển khai tính năng mới' (H1: μ > μ0).\n\nMục tiêu của kiểm định là xem có đủ bằng chứng thống kê để bác bỏ H0 hay không. Quyết định dựa trên p-value—xác suất quan sát được dữ liệu như hiện tại *hoặc cực hơn*, *giả sử H0 đúng*. Nếu p-value < mức ý nghĩa alpha (thường 0.05), ta bác bỏ H0 và kết luận có bằng chứng thống kê hỗ trợ H1. Tuy nhiên, điều quan trọng là phân biệt giữa 'có ý nghĩa thống kê' và 'có ý nghĩa thực tiễn'—một kết quả có p-value nhỏ nhưng hiệu ứng rất nhỏ có thể không đáng kể trong thực tế.",
+      "evaluation_points": [
+        "Định nghĩa đúng Hypothesis Testing là kiểm định giả thuyết dựa trên mẫu để đưa ra quyết định về tổng thể",
+        "Phân biệt rõ H0 (giả định mặc định, không hiệu ứng/không khác biệt) và H1 (giả định ngược lại, có hiệu ứng/có khác biệt)",
+        "Cung cấp ví dụ minh họa cụ thể cho cả H0 và H1",
+        "Giải thích p-value là xác suất quan sát được dữ liệu như hiện tại hoặc cực hơn *giả sử H0 đúng* (không phải xác suất H0 đúng)",
+        "Nêu tiêu chí quyết định: so sánh p-value với mức ý nghĩa alpha (thường 0.05) để bác bỏ hay không bác bỏ H0",
+        "Phân biệt Statistical Significance (p-value < alpha) và Practical Significance (độ lớn của hiệu ứng)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_010",
+    "question_text": "Bạn đang làm DA cho một công ty thương mại điện tử. Team sản phẩm muốn thay đổi màu nút 'Mua ngay' từ xanh sang đỏ để tăng tỷ lệ chuyển đổi. Bạn thiết kế A/B test với 2 nhóm: nhóm A (màu xanh - control) và nhóm B (màu đỏ - treatment). Sau khi chạy test, bạn thu được p-value = 0.03. Hãy giải thích ý nghĩa của p-value này và đưa ra kết luận ở mức ý nghĩa alpha = 0.05.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "skill_tags": [
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "answers": {
+      "detailed": "P-value = 0.03 có nghĩa là: nếu giả định Null Hypothesis đúng (màu nút không ảnh hưởng đến tỷ lệ chuyển đổi), thì xác suất quan sát được kết quả khác biệt lớn như vậy (hoặc lớn hơn) chỉ là 3%.\n\nVì p-value (0.03) < mức ý nghĩa alpha (0.05), ta bác bỏ Null Hypothesis. Kết luận: có bằng chứng thống kê cho thấy màu đỏ và màu xanh có tác động khác nhau đến tỷ lệ chuyển đổi.\n\nTuy nhiên, cần cân nhắc thêm:\n1. **Effect Size**: Mặc dù có ý nghĩa thống kê, cần kiểm tra độ lớn của hiệu ứng (tăng bao nhiêu %). Một sự tăng 0.1% có thể không đáng kể về mặt kinh doanh.\n2. **Cỡ mẫu & thời gian test**: Cỡ mẫu lớn có thể làm phát hiện sự khác biệt nhỏ. Cần đảm bảo test chạy đủ lâu để có kết quả ổn định.\n3. **Multiple Testing**: Nếu kiểm định nhiều metrics cùng lúc (conversion, AOV, retention, v.v.), cần áp dụng correction (Bonferroni hoặc FDR) để kiểm soát false positive rate.\n4. **Confidence Interval**: Báo cáo khoảng tin cậy 95% cho hiệu ứng để cung cấp phạm vi plausible values, không chỉ p-value.",
+      "evaluation_points": [
+        "Giải thích đúng p-value: xác suất quan sát dữ liệu (hoặc cực đoan hơn) dưới giả định H0 đúng, không phải xác suất H0 đúng",
+        "Kết luận thống kê chính xác: p-value < alpha (0.03 < 0.05) → bác bỏ H0, có khác biệt có ý nghĩa thống kê",
+        "Phân biệt significance thống kê vs. practical significance: cần kiểm tra effect size (Cohen's d, relative lift %) để đánh giá ý nghĩa thực tế cho kinh doanh",
+        "Xem xét cỡ mẫu và thời gian test: kích thước mẫu ảnh hưởng đến power, cần đủ lớn để phát hiện hiệu ứng có ý nghĩa",
+        "Nếu có nhiều metrics khác được kiểm định (conversion rate, AOV, bounce rate, v.v.), cần áp dụng multiple testing correction (Bonferroni, FDR) để kiểm soát family-wise error rate"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_012",
+    "question_text": "Công ty bạn muốn kiểm tra xem chiến dịch email marketing mới có làm tăng tỷ lệ nhấp chuột (CTR) hay không. Bạn tính khoảng tin cậy 95% cho chênh lệch CTR giữa nhóm nhận email và nhóm không nhận email là [0.2%, 1.5%]. Hãy giải thích ý nghĩa của khoảng tin cậy này và so sánh với việc chỉ dùng p-value. Nêu ưu điểm của Confidence Interval so với Hypothesis Testing trong bối cảnh này.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_CONFIDENCE_INTERVAL"
+    ],
+    "skill_tags": [
+      "STAT_CONFIDENCE_INTERVAL"
+    ],
+    "answers": {
+      "detailed": "Khoảng tin cậy 95% [0.2%, 1.5%] cho chênh lệch CTR có nghĩa là, nếu ta lặp lại thí nghiệm nhiều lần, khoảng tin cậy được tính từ mỗi mẫu sẽ chứa chênh lệch thực tế khoảng 95% lần. Vì khoảng không chứa 0, ta kết luận có khác biệt có ý nghĩa thống kê (tương đương p-value < 0.05).\n\nUưu điểm của CI so với p-value trong bối cảnh này:\n\n1. **Thông tin về độ lớn và độ chính xác của hiệu ứng**: P-value chỉ cho biết có hay không có khác biệt, còn CI cung cấp khoảng giá trị thực tế (0.2% đến 1.5%). Điều này rất quan trọng vì nó giúp phân biệt giữa ý nghĩa thống kê và ý nghĩa thực tiễn.\n\n2. **Đánh giá ý nghĩa thực tiễn**: Chênh lệch 0.2% có thể không đáng kể cho nhiều doanh nghiệp (chi phí chiến dịch có thể vượt ROI), trong khi 1.5% lại rất hấp dẫn. CI hiển thị cả hai khả năng này, giúp ra quyết định kinh doanh tốt hơn.\n\n3. **Đánh giá độ chắc chắn của ước lượng**: Khoảng rộng [0.2%, 1.5%] cho thấy ước lượng còn không chắc chắn, gợi ý nên thu thập thêm dữ liệu trước khi quyết định mở rộng chiến dịch.\n\n4. **Hỗ trợ quyết định công khai**: CI cho phép cộng sự kỹ thuật và kinh doanh thảo luận về việc liệu hiệu ứng thực tế có chấp nhận được hay không, chứ không chỉ dừa vào ngưỡng p-value tùy ý.",
+      "evaluation_points": [
+        "Correctly interprets CI: states the range [0.2%, 1.5%] likely contains the true population parameter, and since 0 is excluded, indicates statistical significance at α=0.05 level",
+        "Clearly distinguishes statistical significance (CI excludes 0) from practical significance: notes the wide range (0.2% to 1.5%) suggests uncertainty in effect magnitude and requires business judgment on whether even the lower bound (0.2%) is meaningful",
+        "Articulates key CI advantages over p-value: (1) provides point estimate and interval bounds for effect size, enabling assessment of practical impact; (2) communicates precision/uncertainty of the estimate; (3) p-value is binary (reject/fail to reject) while CI enables nuanced decision-making",
+        "Connects to business context: addresses that a 0.2% lift may be statistically significant but practically negligible for some business models, while 1.5% could justify significant investment; wide CI suggests collecting more data before major decisions",
+        "Avoids common pitfall: does not claim the CI means 'there is a 95% probability the true parameter is in this range' (Bayesian interpretation), but rather that the procedure used has 95% coverage frequency"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_014",
+    "question_text": "Bạn đang làm A/B test cho một tính năng mới trên website. Sau khi chạy test 1 tuần, bạn thấy p-value = 0.04 và effect size nhỏ (tăng 0.5% conversion rate). Tuy nhiên, team muốn dừng test sớm vì kết quả 'có ý nghĩa thống kê'. Hãy phân tích rủi ro của việc dừng test sớm (peeking), đề xuất cách khắc phục, và giải thích tại sao effect size nhỏ có thể dẫn đến quyết định sai lầm.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_AB_TESTING"
+    ],
+    "skill_tags": [
+      "STAT_AB_TESTING"
+    ],
+    "answers": {
+      "detailed": "Việc dừng test sớm (peeking) khi p-value = 0.04 tạo ra bài toán kiểm định đa lần (multiple comparisons). Mỗi lần bạn nhìn dữ liệu và so sánh với alpha = 0.05, tỷ lệ lỗi loại I (false positive) tăng theo số lần kiểm tra. Ví dụ: sau k lần peeking độc lập, tỷ lệ false positive thực tế ≈ 1 − (1 − 0.05)^k, nên sau 5 lần kiểm tra nó đã lên ~23% thay vì 5%. Rủi ro: bạn có thể triển khai một tính năng mà thực tế không có hiệu quả, lãng phí tài nguyên.\n\nCách khắc phục:\n1. Pre-register: xác định cỡ mẫu trước bằng power analysis (giả sử effect size mục tiêu là bao nhiêu, alpha = 0.05, beta = 0.2), rồi chạy đến đúng cỡ mẫu mà không nhìn kết quả trung gian.\n2. Sequential testing: nếu cần kiểm tra sớm, dùng alpha spending function (Pocock hay O'Brien-Fleming) để điều chỉnh ngưỡng p-value ở mỗi lần look, vẫn kiểm soát tỷ lệ lỗi loại I tổng thể.\n3. Nếu đã peeking: áp dụng Bonferroni correction hay tương tự để bảo vệ multiple comparisons.\n\nVề effect size nhỏ (0.5%): dù p = 0.04 (thống kê có ý nghĩa), nhưng ý nghĩa thực tiễn phụ thuộc vào mô hình kinh tế. Cần:\n- Tính khoảng tin cậy 95% quanh 0.5% để đánh giá phạm vi ước lượng (ví dụ: CI = [0.1%, 0.9%] rất rộng, không chắc chắn).\n- Phân tích ROI: nếu chi phí triển khai và bảo trì > lợi nhuận từ 0.5% tăng conversion, thì không nên deploy dù có ý nghĩa thống kê.\n- Xem xét power của test ở sample size hiện tại: liệu nó đủ để phát hiện 0.5% với độ tin cậy cao hay là may mắn?\n\nKết luận: đừng dừng test dựa trên p-value sớm. Hãy tiếp tục đến sample size được lên kế hoạch, kết hợp p-value + confidence interval + business impact (ROI, customer lifetime value) để đưa ra quyết định cuối cùng.",
+      "evaluation_points": [
+        "Identify multiple comparisons problem: explain how repeated peeking inflates Type I error rate and why naive alpha level (0.05) is violated; quantify the inflation (e.g., with Bonferroni or describe false positive rate after k looks)",
+        "Propose concrete solutions: (1) pre-register sample size via power analysis (specify effect size assumption, alpha, beta targets), (2) sequential testing with alpha spending (e.g., Pocock or O'Brien-Fleming boundaries), (3) if already peeked, apply multiple comparison correction",
+        "Distinguish statistical vs. practical significance rigorously: acknowledge that p=0.04 suggests evidence against H₀, but effect size of 0.5% requires ROI analysis—calculate break-even: what conversion lift justifies implementation cost? Use confidence interval (e.g., 95% CI around 0.5%) to assess precision and range of plausible effects",
+        "Address decision framework: recommend continuing test to planned sample size OR computing post-hoc power to assess if current sample can reliably detect the observed 0.5% effect; warn against retrofitting sample size after peeking",
+        "Risk quantification: explain concrete business harm—e.g., if 0.5% lift generates $X revenue but feature costs $Y to build/maintain, when is it not worth deploying?"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_011",
+    "question_text": "Hãy định nghĩa Confidence Interval (Khoảng tin cậy) là gì? Cho ví dụ minh họa.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_CONFIDENCE_INTERVAL"
+    ],
+    "skill_tags": [
+      "STAT_CONFIDENCE_INTERVAL"
+    ],
+    "answers": {
+      "detailed": "Khoảng tin cậy (Confidence Interval - CI) là một khoảng giá trị ước lượng cho một tham số tổng thể (ví dụ: trung bình, tỷ lệ), được tính từ dữ liệu mẫu, với một mức độ tin cậy nhất định (thường là 95% hoặc 99%).\n\nYÝ NGHĨA CHÍNH XÁC:\nNếu ta tính khoảng tin cậy 95% cho trung bình thời gian sử dụng app là [5.2, 6.8] phút, điều này có nghĩa là: nếu lặp lại quá trình lấy mẫu và tính toán khoảng tin cậy này nhiều lần, khoảng 95% các khoảng được tạo ra sẽ chứa giá trị trung bình thực sự của tổng thể. KHÔNG phải là 'có 95% xác suất trung bình thực sự nằm trong [5.2, 6.8]'.\n\nPHÂN BIỆT ĐIỂM VÀ KHOẢNG:\n- Ước lượng điểm: một giá trị duy nhất (ví dụ: trung bình mẫu = 6.0 phút)\n- Ước lượng khoảng: một khoảng giá trị (ví dụ: [5.2, 6.8] phút), cung cấp thông tin về độ chính xác của ước lượng\n\nLIÊN HỆ VỚI P-VALUE:\nNếu khoảng tin cậy 95% cho hiệu số giữa hai nhóm KHÔNG bao gồm 0, điều này tương ứng với p-value < 0.05, cho thấy sự khác biệt có ý nghĩa thống kê.\n\nỨNG DỤNG THỰC TẾ:\nCI không chỉ cho biết liệu có sự khác biệt hay không, mà còn ước lượng độ lớn của sự khác biệt đó, giúp quyết định kinh doanh (ví dụ: liệu 5.2-6.8 phút đạt được mục tiêu UX hay không?).",
+      "evaluation_points": [
+        "Định nghĩa chính xác khoảng tin cậy là khoảng giá trị ước lượng cho tham số tổng thể từ dữ liệu mẫu với mức độ tin cậy nhất định (thường 95%)",
+        "Giải thích đúng ý nghĩa của mức độ tin cậy: nếu lặp lại lấy mẫu nhiều lần, 95% các khoảng sẽ chứa tham số thực sự (NOT 95% xác suất tham số nằm trong khoảng này)",
+        "Phân biệt rõ giữa ước lượng điểm (point estimate, ví dụ: trung bình mẫu = 6.0) và ước lượng khoảng (interval estimate, ví dụ: [5.2, 6.8])",
+        "Hiểu được mối liên hệ giữa CI và p-value: nếu CI 95% không bao gồm 0 (hoặc giá trị null), điều này tương ứng với p-value < 0.05 (significance)",
+        "Giải thích ý nghĩa thực tế của ví dụ và khi nào sử dụng CI trong quyết định kinh doanh (ví dụ: khoảng này có bao gồm mục tiêu không?)",
+        "Tránh hiểu lầm phổ biến: CI KHÔNG phải là xác suất tham số nằm trong khoảng, vì tham số là giá trị cố định chứ không phải biến ngẫu nhiên"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_013",
+    "question_text": "Trong A/B Testing, p-value là gì? Giải thích ý nghĩa khi p-value < 0.05.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "EASY",
+    "difficulty_score": 2,
+    "question_type": "THEORY",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_AB_TESTING"
+    ],
+    "skill_tags": [
+      "STAT_AB_TESTING"
+    ],
+    "answers": {
+      "detailed": "P-value là xác suất quan sát được dữ liệu (hoặc cực đoan hơn) dưới giả thuyết không (H0 - không có khác biệt). Khi p-value < 0.05, ta bác bỏ H0 và kết luận có khác biệt có ý nghĩa thống kê với mức ý nghĩa 5%. Ví dụ: Trong test tính năng mới, p-value = 0.03 cho thấy chỉ có 3% khả năng sự khác biệt giữa nhóm A và B là do ngẫu nhiên, do đó kết quả là đáng tin cậy. Tuy nhiên, cần lưu ý rằng p-value nhỏ không có nghĩa là H0 chắc chắn sai hay ý nghĩa thực tế của hiệu ứng lớn—cần kết hợp với confidence interval để đánh giá độ lớn hiệu ứng (effect size).",
+      "evaluation_points": [
+        "Định nghĩa p-value chính xác: xác suất quan sát dữ liệu cực đoan dưới H0, không phải xác suất H0 đúng",
+        "Giải thích ngưỡng 0.05 và điều kiện bác bỏ H0 (p-value < α)",
+        "Tránh nhầm lẫn phổ biến: p-value KHÔNG phải xác suất H0 đúng, cũng không phải xác suất mắc lỗi",
+        "Liên hệ với thực tế A/B testing: p-value < 0.05 chỉ ra sự khác biệt không phải do ngẫu nhiên, nhưng không nói gì về độ lớn của hiệu ứng (effect size)",
+        "Nên bổ sung: confidence interval để đánh giá độ lớn hiệu ứng và tính thực tế của kết quả (ví dụ: click-through rate tăng 0.1% có ý nghĩa thống kê nhưng không có ý nghĩa kinh doanh)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_015",
+    "question_text": "Bạn đang làm DA cho một công ty thương mại điện tử. Công ty muốn thay đổi màu nút 'Mua ngay' từ xanh sang đỏ để tăng tỷ lệ chuyển đổi. Bạn thiết kế A/B Test với 2 nhóm: nhóm đối chứng (xanh) và nhóm thử nghiệm (đỏ). Sau 1 tuần, bạn thấy tỷ lệ chuyển đổi nhóm đỏ cao hơn 2% và p-value = 0.04. Hãy giải thích kết quả này và đề xuất bước tiếp theo, lưu ý đến các yếu tố như multiple testing, practical significance.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_AB_TESTING"
+    ],
+    "skill_tags": [
+      "STAT_AB_TESTING",
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "answers": {
+      "detailed": "Kết quả p-value = 0.04 < 0.05 cho thấy sự khác biệt có ý nghĩa thống kê ở mức α=0.05. Cụ thể, dưới giả định H0 (không có sự khác biệt), xác suất quan sát được dữ liệu cực đoan như vậy là 4%, nên chúng ta có bằng chứng chống lại H0.\n\nTuy nhiên, cần xem xét các yếu tố sau:\n\n(1) **Practical Significance:** Mức tăng 2% là có ý nghĩa thống kê nhưng có đủ lớn về mặt kinh tế không? Cần tính toán expected revenue lift và so sánh với chi phí triển khai (cập nhật UI, testing tools, etc.).\n\n(2) **Confidence Interval:** Ngoài p-value, cần báo cáo 95% CI cho mức tăng (ví dụ: [0.5%, 3.5%]). Nếu CI quá rộng, sample size có thể chưa đủ. CI cho phép lượng hóa không chắc chắn xung quanh hiệu ứng.\n\n(3) **Multiple Testing Problem:** Nếu kiểm tra nhiều metrics (conversion rate, AOV, bounce rate, time-on-page, etc.), xác suất sai lầm Type I (false positive) tăng lên. Cần áp dụng Bonferroni correction (α_corrected = 0.05/số tests) hoặc phương pháp FDR (Benjamini-Hochberg) nếu muốn bảo toàn power.\n\n(4) **Novelty Effect:** Trong tuần đầu, người dùng có thể phản ứng mạnh với sự thay đổi màu mới (curiosity/recency bias) mà không phản ánh hiệu ứng dài hạn. Cần chạy test thêm 1-2 tuần để kiểm tra xem lift có duy trì hay không.\n\n(5) **Randomization Quality:** Xác minh rằng A/B split được thực hiện ngẫu nhiên, không có selection bias, và mẫu đồng nhất theo device type, user segment, time-of-day.\n\n**Bước tiếp theo:**\n- Mở rộng test thêm 1-2 tuần nữa để loại bỏ novelty effect\n- Tính 95% CI cho conversion rate lift; nếu quá rộng, tăng sample size\n- Phân tích độc lập theo segments (mobile vs desktop, new vs returning users) để xác nhận hiệu ứng\n- Nếu đã test multiple metrics, áp dụng Bonferroni/FDR correction\n- Tham khảo product & finance team về ROI và chi phí triển khai\n- Cân nhắc test các màu khác (cam, vàng) để tối ưu hóa thêm",
+      "evaluation_points": [
+        "Correctly interprets p-value = 0.04 as evidence against H0 (not as probability that H0 is true) and acknowledges statistical significance at α=0.05",
+        "Distinguishes statistical significance from practical significance: recognizes that 2% lift is statistically significant but requires cost-benefit analysis",
+        "Identifies multiple testing problem: if testing multiple metrics (conversion, AOV, bounce rate, etc.), should apply Bonferroni or FDR correction to control family-wise Type I error",
+        "Proposes confidence interval calculation: should report 95% CI around the 2% lift to quantify uncertainty and effect magnitude (stronger than p-value alone)",
+        "Addresses novelty effect: recognizes that users may respond differently to new color initially; extended testing (1-2 weeks additional) helps validate sustained impact",
+        "Checks randomization quality: confirms equal sample sizes, traffic split consistency, and absence of confounding factors (device type, user segment, time-of-day effects)",
+        "Proposes concrete next steps: extended testing duration, segment analysis (does 2% lift hold across mobile/desktop, new/returning users?), and stakeholder consultation on ROI"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_017",
+    "question_text": "Công ty bạn đang triển khai A/B Test để so sánh 2 thuật toán gợi ý sản phẩm (A và B). Kết quả sau 2 tuần: nhóm A có tỷ lệ click (CTR) là 5.2%, nhóm B là 5.5%, với p-value = 0.06 và sample size mỗi nhóm là 10,000. Bạn kết luận gì? Tại sao? Hãy so sánh trade-off giữa việc tăng sample size và tăng thời gian test, và đề xuất cách cải thiện test này.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "skill_tags": [
+      "STAT_HYPOTHESIS_TESTING",
+      "STAT_AB_TESTING"
+    ],
+    "answers": {
+      "detailed": "With p-value = 0.06 > α = 0.05, we fail to reject H₀ and cannot conclude algorithm B is statistically significantly better than A. However, this conclusion requires three important caveats:\n\n**Statistical vs. Practical Significance:**\nThe 0.3 percentage point difference (5.2% → 5.5%, ~5.8% relative lift) may be practically significant depending on business context. For a platform with billions of clicks, even 0.3% improvement translates to substantial impact. Quantify effect size using Cohen's h ≈ 0.064 (small effect) or relative lift = 5.77% to assess real-world magnitude.\n\n**Power Analysis:**\nWith p-value close to α, the test is likely underpowered. Conduct post-hoc power analysis: at observed effect size (p₁=0.052, p₂=0.055) with n=10,000 per group, what was achieved power? If <80%, the test was inadequately sized to detect this effect.\n\n**Trade-off: Sample Size vs. Duration**\n- **Larger n:** Reduces standard error, increases power to detect true differences, but requires proportionally more traffic and calendar time. Doubling n requires ~2× duration or traffic split.\n- **Longer duration:** Accumulates more observations naturally, but risks confounds (seasonal patterns, algorithm changes, novelty effects diminishing), increased opportunity cost, and implementation delays.\n\n**Recommendations:**\n1. **Prospective power calculation:** Using observed effect size (p₁=0.052, p₂=0.055), compute required n for 80% power at α=0.05. If required n > 10,000/group, extend test by proportional time.\n2. **Sequential/adaptive testing:** Instead of fixed duration, implement stopping rules: pre-specify effect size threshold (e.g., relative lift >5%) and stop if crossed with sufficient power, avoiding unnecessary exposure.\n3. **Bayesian approach:** Replace p-value with posterior probability P(B > A | data). Example: if Bayesian posterior shows 92% probability B is better, actionable insight despite frequentist non-significance.\n4. **Cost-benefit analysis:** Compare cost of 1 additional week (traffic/time) vs. risk of false negative (missing true improvement) or false positive (deploying inferior algorithm).",
+      "evaluation_points": [
+        "Correctly interpret p-value = 0.06: probability of observing ≥0.3% CTR difference (or more extreme) assuming H0 is true, NOT probability that H0 is true",
+        "Distinguish between statistical significance (p > 0.05, fail to reject H0) and practical significance: is 0.3% relative lift (5.5% vs 5.2%) meaningful for business? Calculate effect size (Cohen's h or relative lift) to quantify magnitude",
+        "Explain Type II error risk: p-value close to α (0.06 vs 0.05) suggests test is underpowered; discuss what power level (typically 80%) was used in sample size planning and whether it was adequate",
+        "Articulate sample size vs. duration trade-off precisely: larger n reduces margin of error but requires proportionally more traffic/time; longer duration increases total exposure but risks temporal confounds (seasonality, platform changes, novelty effects)",
+        "Evaluate proposed solutions: (1) prospective power analysis to calculate required n for desired power at observed effect size, (2) sequential/adaptive testing to stop early if clear winner emerges, (3) Bayesian approach to quantify posterior probability that B > A given observed data, (4) cost-benefit analysis of running additional week"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-14"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_018",
+    "question_text": "Bạn đang làm việc tại một công ty thương mại điện tử. Nhóm sản phẩm muốn triển khai một thay đổi giao diện để tăng tỷ lệ chuyển đổi. Sau khi chạy A/B Test với mẫu 5000 người dùng mỗi nhóm, tỷ lệ chuyển đổi nhóm kiểm soát là 3.2%, nhóm thử nghiệm là 3.5%, p-value = 0.04. Bạn kết luận gì? Giải thích ý nghĩa của p-value trong tình huống này và so sánh trade-off giữa việc giảm ngưỡng alpha và tăng kích thước mẫu.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_AB_TESTING"
+    ],
+    "skill_tags": [
+      "STAT_AB_TESTING"
+    ],
+    "answers": {
+      "detailed": "With p-value = 0.04 < 0.05 (assuming α = 0.05), we reject H0 and conclude the UI change has a statistically significant effect on conversion. However, this conclusion requires careful context:\n\n**P-value Interpretation:** The p-value of 0.04 means there is a 4% probability of observing a difference of 0.3% or larger in conversion rates (or more extreme) if the null hypothesis—that both versions have identical conversion rates—were true. This low probability leads us to reject H0.\n\n**Critical Practical Consideration:** The absolute difference is only 0.3 percentage points (3.2% → 3.5%). While statistically significant, the practical significance depends on business context. For a massive e-commerce platform, a 0.3% lift across millions of users could translate to substantial revenue. For a smaller product, this may be negligible relative to implementation costs.\n\n**Recommendation: Compute and inspect the 95% confidence interval** for the difference. For example, if the 95% CI is [0.05%, 0.55%], this provides a range of plausible effect sizes and helps assess practical significance alongside the p-value.\n\n**Trade-off Analysis:**\n- **Lowering alpha (e.g., α = 0.01):** Reduces Type I error (false positives) but increases Type II error (false negatives, missing real effects). To maintain statistical power, a larger sample size would be required—often 1.5–2x larger. Use when costs of false positives are very high (e.g., patient safety).\n- **Increasing sample size:** Improves power to detect smaller true effects and provides tighter confidence intervals, but increases time, cost, and infrastructure burden. It does not change alpha; rather, it makes detection of true effects more reliable.\n\n**Final Recommendation:** Before rollout, (1) verify this result is not driven by multiple testing of many metrics without correction (e.g., apply Bonferroni if >5 metrics were tested); (2) assess whether 0.3% lift justifies implementation costs and risk; (3) consider a replication study or longer observation window to validate the finding; (4) conduct sensitivity analysis on assumptions (e.g., did the effect sustain over time, vary by user segment?).",
+      "evaluation_points": [
+        "Correctly interpret p-value as probability of observing data (or more extreme) given H0 is true, and properly reject H0 at α=0.05",
+        "Articulate the Type I/Type II error trade-off: lower alpha reduces false positives but increases false negatives; larger sample size improves power without changing alpha",
+        "Calculate and evaluate practical significance: 0.3% absolute lift (3.2% → 3.5%) is statistically significant but requires analysis of business impact (revenue, cost, feasibility)",
+        "Recommend computing confidence interval (e.g., 95% CI for the difference) to quantify effect magnitude and precision, complementing the p-value",
+        "Consider whether multiple metrics are being tested simultaneously; if yes, apply Bonferroni or FDR correction to control family-wise error rate",
+        "Provide business-driven recommendation: small effect size may warrant validation on larger sample, consideration of implementation costs, or alternative designs before full rollout"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_020",
+    "question_text": "Công ty bạn đang chạy A/B Test để so sánh hai phiên bản thuật toán gợi ý. Bạn nhận thấy sau 1 tuần, nhóm A có doanh thu trung bình 120$, nhóm B là 125$, nhưng p-value = 0.15. Hãy giải thích khoảng tin cậy (Confidence Interval) cho sự khác biệt trung bình giữa hai nhóm. Nếu khoảng tin cậy 95% là [-2, 12], bạn diễn giải thế nào? Tại sao kết quả này khác với kết luận từ p-value?",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_CONFIDENCE_INTERVAL"
+    ],
+    "skill_tags": [
+      "STAT_CONFIDENCE_INTERVAL"
+    ],
+    "answers": {
+      "detailed": "Khoảng tin cậy 95% cho sự khác biệt trung bình (B - A) là [-2, 12] có nghĩa: nếu lặp lại thí nghiệm nhiều lần với cách tính CI tương tự, 95% những khoảng như vậy sẽ chứa giá trị khác biệt thực sự trong quần thể. Vì khoảng chứa 0, không có bằng chứng đủ để bác bỏ H0, phù hợp với p-value (0.15) > 0.05.\n\nTuy nhiên, CI cung cấp thông tin bổ sung mà p-value không có:\n- **Effect Size & Precision**: Khác biệt quan sát được (5$) nhưng CI rất rộng [-2, 12], cho thấy độ chính xác thấp. Khác biệt thực có thể là hại (-2$), không có (-0$), hay lợi (12$).\n- **Underpowered Study**: Khoảng rộng cho thấy cỡ mẫu có thể chưa đủ để phát hiện effect size nhỏ.\n- **Khác biệt với p-value**: P-value chỉ nói \"không bác bỏ H0\" nhưng không cho biết effect size hay độ chính xác. CI cho cả hai.\n\n**Kết luận**: Không nên kết luận \"không có khác biệt\". Thay vào đó: cần tăng sample size để thu hẹp CI, hoặc chấp nhận độ không chắc chắn và quyết định dựa trên context kinh doanh (5$ liệu có đủ to để đổi thuật toán?).",
+      "evaluation_points": [
+        "Correctly interpret CI: 95% of similarly constructed intervals would contain the true population difference (not 'probability the true value is in this interval')",
+        "Explain why CI contains 0 aligns with p-value > 0.05: both indicate insufficient evidence to reject H0 at α=0.05 level",
+        "Identify the practical insight: CI [-2, 12] shows the observed difference (5$) is compatible with a range including harm (-2$), no effect (0$), and benefit (12$), indicating insufficient sample size or true effect may be small",
+        "Distinguish CI advantage over p-value: CI provides effect size magnitude and precision, revealing whether the study is underpowered rather than just 'no significant difference'",
+        "Suggest practical next steps: increase sample size to narrow the CI (improve precision) or accept the uncertainty and make decision based on business context (5$ difference may not justify algorithm change)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_022",
+    "question_text": "Bạn đang phân tích dữ liệu khảo sát về sự hài lòng của khách hàng sau một chiến dịch marketing. Bạn muốn kiểm tra xem điểm hài lòng trung bình có khác 4.0 (trên thang 5) hay không. Mẫu 100 khách hàng có trung bình 4.2, độ lệch chuẩn 0.8. Hãy thực hiện kiểm định giả thuyết (one-sample t-test) với alpha = 0.05. Trình bày các bước: xác định H0 và H1, tính thống kê kiểm định, kết luận. Giải thích giả định cần kiểm tra và cách xử lý nếu vi phạm.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "skill_tags": [
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "answers": {
+      "detailed": "H0: μ = 4.0; H1: μ ≠ 4.0 (two-tailed test, testing if satisfaction differs from 4.0). \n\nTest statistic: t = (4.2 - 4.0) / (0.8 / √100) = 0.2 / 0.08 = 2.5, with df = 99. \n\nCritical value (two-tailed, α = 0.05, df = 99) ≈ 1.984. Since |2.5| > 1.984, reject H0. The p-value ≈ 0.014, meaning if the true mean were 4.0, we'd observe a sample mean this extreme or more extreme only 1.4% of the time. This provides strong evidence that the population mean differs from 4.0.\n\n95% CI: 4.2 ± 1.984 × 0.08 = [4.036, 4.364]. The interval does not contain 4.0, confirming significance and showing the practical range for true mean satisfaction.\n\nKey Assumptions:\n1. **Normality:** With n=100, CLT justifies using t-test even if distribution is mildly non-normal. Check via Q-Q plot or Shapiro-Wilk test. Moderate skewness is acceptable.\n2. **Independence:** Assume each survey response is independent (random sampling without replacement from a large population).\n\nIf assumptions violated:\n- Minor non-normality: t-test remains robust due to large sample size.\n- Severe skewness/outliers: Use Wilcoxon signed-rank test (non-parametric alternative) or bootstrap confidence interval (resampling-based, no distributional assumptions).\n- Dependence: Reconsider sampling design; may need mixed models if data is clustered.\n\nPractical consideration: While statistically significant (p=0.014), is the 0.2-point difference practically important? The business context determines this.",
+      "evaluation_points": [
+        "Correctly formulate H0 and H1 for two-tailed test and compute t-statistic accurately (t = 2.5)",
+        "Correctly identify critical value (~1.984) and reject H0 with accurate p-value interpretation (p ≈ 0.014 means data is unlikely under H0, NOT that H0 has 1.4% chance of being true)",
+        "Identify normality and independence assumptions; explain why n=100 makes CLT applicable even if mild non-normality exists; distinguish between testing assumptions vs. robustness of t-test",
+        "Propose alternatives (Wilcoxon signed-rank test, bootstrap CI) only when assumptions are genuinely violated; specify how to check violations (Q-Q plot, Shapiro-Wilk test, outlier analysis)",
+        "Calculate and interpret 95% confidence interval: [4.036, 4.364] to show practical magnitude and complement p-value; discuss whether the difference from 4.0 is practically meaningful"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_024",
+    "question_text": "Bạn thiết kế A/B Test cho nền tảng video streaming để so sánh thời gian xem trung bình giữa giao diện cũ và mới. Dữ liệu thời gian xem có phân phối lệch phải và có nhiều outlier (người dùng xem rất lâu). Hãy đề xuất phương pháp kiểm định thống kê phù hợp (không dùng t-test thông thường). Giải thích tại sao t-test không phù hợp, cách bạn xử lý outlier và tính toán kích thước mẫu cần thiết để đạt power 80% với effect size nhỏ (Cohen's d = 0.2).",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_AB_TESTING",
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "skill_tags": [
+      "STAT_AB_TESTING",
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "answers": {
+      "detailed": "T-test assumes normality and is highly sensitive to outliers, both violated here. For right-skewed watch time data:\n\n**Statistical Test Choice:**\n- Mann-Whitney U (non-parametric): Tests if one group stochastically dominates (not mean, but median/distribution). Robust to outliers but sacrifices mean-based interpretation.\n- Bootstrap confidence intervals: Resamples data to build CI for true mean difference without normality assumption. Preserves original metric but computationally intensive.\n- Recommendation: Use bootstrap for mean watch time (most business-relevant) unless platform specifically cares about median.\n\n**Outlier Handling:**\n1. Diagnostic first: Plot distributions, segment by user tenure/viewing patterns to distinguish legitimate power-users from data errors.\n2. If legitimate (genuine viewing behavior): Keep data, use bootstrap or Mann-Whitney U; never artificially remove valid behavior.\n3. If errors detected: Winsorize at 95th-99th percentile based on domain knowledge, or cap at maximum plausible session (e.g., 24 hours).\n4. Sensitivity analysis: Report results with and without outlier treatment to demonstrate robustness.\n\n**Sample Size Calculation:**\nCohen's d=0.2 assumes normality. For non-parametric tests:\n- Mann-Whitney U: Power is generally 85-95% of t-test for normal data; estimate n ≈ 2 * (1.96 + 0.84)² / 0.04 ≈ 392/group, then inflate by 10-15% → ~450/group.\n- Bootstrap: Simulate data from expected distribution, resample, compute power empirically.\n- Use G*Power (set to non-parametric mode) or custom simulation.\n\n**Critical Experimental Considerations:**\n- Novelty effect: New UI may temporarily boost engagement; run ≥2 weeks to stabilize behavior.\n- Stratification: Analyze by user tenure (new vs. long-time users may respond differently).\n- Multiple testing correction: If testing secondary metrics (engagement, retention), apply Bonferroni or FDR correction.\n- Practical significance: A statistically significant 2% increase in watch time may not justify UI costs; establish threshold beforehand (e.g., ≥5% lift).",
+      "evaluation_points": [
+        "Correctly identifies that right-skewed distributions with outliers violate t-test normality assumptions and explains why t-test is sensitive to extreme values",
+        "Proposes appropriate alternatives (Mann-Whitney U, bootstrap) but must explain trade-offs: Mann-Whitney U tests median/stochastic ordering (not mean), while bootstrap preserves the original metric; justify choice based on whether platform cares about mean or median watch time",
+        "Outlier handling decision must be context-driven: distinguish between legitimate heavy viewers (business value) vs. technical errors; propose diagnostic steps (e.g., user segmentation, log inspection) before winsorizing; explain how outlier removal affects interpretation and generalizability",
+        "Sample size calculation must acknowledge that Cohen's d=0.2 is defined for normal distributions; when using Mann-Whitney U or bootstrap, effect size interpretation differs; recommend using simulation-based power analysis or consulting software (G*Power) with non-parametric assumptions, or inflate sample size conservatively (15-20% more for robustness)",
+        "Identifies broader experimental pitfalls: novelty effect (new UI initially appears better/worse), adequate runtime to stabilize behavior, segment analysis by user tenure, and correction for multiple testing if running secondary metrics",
+        "Discusses practical significance: clarifies that even statistically significant difference in mean watch time needs business justification (is 5 min/month increase valuable?) and cost-benefit of UI change"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_026",
+    "question_text": "Bạn đang chạy A/B Test với nhiều biến phụ thuộc (ví dụ: CTR, doanh thu, thời gian phiên) và muốn kiểm soát sai lầm loại I tổng thể. Hãy thiết kế một phương pháp hiệu chỉnh multiple testing phù hợp (Bonferroni, Holm-Bonferroni, FDR). Giải thích trade-off giữa các phương pháp và áp dụng vào tình huống: bạn có 5 metric, kết quả p-value lần lượt là 0.01, 0.03, 0.04, 0.06, 0.20. Với alpha tổng thể 0.05, hãy xác định metric nào có ý nghĩa thống kê sau hiệu chỉnh.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_AB_TESTING",
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "skill_tags": [
+      "STAT_AB_TESTING",
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "answers": {
+      "detailed": "**Bonferroni Correction:**\nAdjusted significance level: α = 0.05/5 = 0.01\nComparison: Only p-value 0.01 ≤ 0.01 is significant. Metrics with p-values 0.03, 0.04, 0.06, 0.20 are not significant.\n**Result: 1 metric (CTR) is significant.**\n\n**Holm-Bonferroni (Sequential Bonferroni):**\nSort p-values: 0.01, 0.03, 0.04, 0.06, 0.20\nSequential thresholds: 0.05/5, 0.05/4, 0.05/3, 0.05/2, 0.05/1 = 0.01, 0.0125, 0.0167, 0.025, 0.05\n- p₁ = 0.01 ≤ 0.01 ✓ (reject H₀)\n- p₂ = 0.03 > 0.0125 ✗ (fail to reject; stop here)\n**Result: 1 metric is significant.**\n\n**Benjamini-Hochberg FDR:**\nFor each rank i (1 to 5), check if p_i ≤ (i/5)·0.05:\n- i=1: 0.01 ≤ 0.01 ✓\n- i=2: 0.03 ≤ 0.02 ✗\n- i=3: 0.04 ≤ 0.03 ✗\n- i=4: 0.06 ≤ 0.04 ✗\n- i=5: 0.20 ≤ 0.05 ✗\nLargest i satisfying condition is i=1. Reject all H₀ for tests 1 to 1.\n**Result: 1 metric is significant.**\n\n**Trade-offs:**\n- **Bonferroni:** Most conservative; controls Family-Wise Error Rate (FWER) at α level. Highest Type II error risk (lowest power). Best when even one false positive is costly (clinical trials, regulatory decisions).\n- **Holm-Bonferroni:** Less conservative than Bonferroni while maintaining FWER control. Gains modest power by using sequential thresholds.\n- **Benjamini-Hochberg FDR:** Least conservative; controls the expected proportion of false discoveries among rejected hypotheses. Allows more detections. Best for exploratory/discovery-driven analyses (e.g., feature development, A/B test portfolios) where some false positives are acceptable.\n\n**Conclusion:** In this example, all three methods identify only the first metric (p=0.01, CTR) as statistically significant. However, the choice of method depends on business context: use Bonferroni for high-stakes decisions; use FDR when exploring multiple features and tolerating some false positives is acceptable.",
+      "evaluation_points": [
+        "Correctly explains Bonferroni mechanism (α/N) and identifies that only the first metric (0.01) is significant",
+        "Accurately applies Holm-Bonferroni method but must correctly compute: 0.01 < 0.05/5=0.01 ✓ (reject H₀); 0.03 < 0.05/4=0.0125 ✗ (fail to reject); stops here—only first metric significant",
+        "Properly applies Benjamini-Hochberg FDR with correct interpretation: find largest i where p_i ≤ (i/m)·α, then reject all H₀ for tests 1 to i; here i=1 is the largest satisfying the condition",
+        "Articulates trade-offs clearly: Bonferroni controls Family-Wise Error Rate (FWER) at cost of reduced statistical power; FDR controls expected proportion of false discoveries among rejected hypotheses, allowing more detections in exploratory contexts",
+        "Distinguishes appropriate use cases: FWER (e.g., regulatory/clinical) vs FDR (e.g., discovery-driven analyses like feature flagging)",
+        "Discusses practical implications: Which method to choose depends on whether false positives or false negatives are costlier in the business context"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_023",
+    "question_text": "Bạn đang thực hiện A/B test cho một feature mới trên app. Sau khi chạy test, bạn tính được confidence interval (CI) 95% cho sự khác biệt conversion rate giữa nhóm treatment và control là [-0.2%, 1.5%]. Hãy giải thích ý nghĩa thực tế của CI này, và tại sao bạn không thể kết luận rằng feature này không có tác dụng? Đề xuất cách diễn giải đúng cho stakeholder.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "MEDIUM",
+    "difficulty_score": 4,
+    "question_type": "SCENARIO",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_CONFIDENCE_INTERVAL"
+    ],
+    "skill_tags": [
+      "STAT_CONFIDENCE_INTERVAL"
+    ],
+    "answers": {
+      "detailed": "CI 95% [-0.2%, 1.5%] means: if we repeated this experiment many times under identical conditions, approximately 95% of the confidence intervals constructed would contain the true effect size. This does NOT mean there's a 95% probability the effect lies in this range.\n\nWhy we cannot conclude the feature has no effect:\n1. The CI contains zero, so we fail to reject the null hypothesis at α=5% significance level. However, this is absence of statistical evidence, not evidence of absence.\n2. The CI shows the true effect could be positive (up to +1.5%) or slightly negative (down to -0.2%)—substantial uncertainty remains.\n3. Statistical non-significance ≠ zero effect; it signals insufficient sample size to detect the effect reliably.\n\nCommunicating to stakeholders:\n- \"Our data does not provide strong enough evidence to definitively say this feature improves conversion. However, we cannot rule out meaningful improvements up to 1.5% or small declines of 0.2%.\"\n- Discuss practical significance: Does a 1.5% lift justify engineering effort? Is a 0.2% downside risk acceptable?\n- Present power analysis: \"To confidently detect a 1% effect, we would need approximately [X] more observations.\"\n\nRecommended actions:\n1. Increase sample size to narrow the CI and improve statistical power\n2. Evaluate the business threshold—only proceed if potential upside justifies the cost\n3. Set a decision rule before continuing: \"We'll stop when CI width < 0.5% or we reach [sample size]\"\n4. If multiple tests are running, apply multiple comparison correction to maintain family-wise error rate",
+      "evaluation_points": [
+        "Correctly interpret CI as a range that would contain the true effect in 95% of repeated experiments (frequentist definition), not as probability the effect lies in the interval",
+        "Recognize that CI containing zero means failure to reject the null hypothesis at α=5%, not proof of no effect (absence of evidence ≠ evidence of absence)",
+        "Distinguish between statistical significance and practical significance: a 1.5% lift might be negligible for business decisions, while -0.2% downside risk matters for certain stakeholders",
+        "Understand the relationship between sample size, CI width, and statistical power: explain why increasing n narrows the CI and improves ability to detect true effects",
+        "Propose concrete next steps for stakeholder: (1) communicate uncertainty explicitly, (2) evaluate if 1.5% upside or -0.2% downside aligns with business goals, (3) calculate required sample size for desired precision, (4) consider cost-benefit of continuing the test vs. rollout decision",
+        "Address the multiple comparison problem if this is part of a broader testing portfolio (not explicitly mentioned but relevant for A/B testing contexts)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_025",
+    "question_text": "Bạn đang thiết kế A/B test cho một campaign email marketing. Bạn có 2 biến: subject line (A vs B) và call-to-action button color (đỏ vs xanh). Bạn muốn test tất cả 4 kết hợp. Hãy giải thích vấn đề multiple comparison (so sánh bội) trong trường hợp này, và thiết kế một phương pháp điều chỉnh p-value để kiểm soát false discovery rate (FDR) với Benjamini-Hochberg procedure. Cho biết cụ thể các bước thực hiện.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "skill_tags": [
+      "STAT_HYPOTHESIS_TESTING"
+    ],
+    "answers": {
+      "detailed": "Với 4 kết hợp (2×2 factorial), ta thực hiện 4 hypothesis tests. Vấn đề multiple comparison: xác suất ít nhất một false positive tăng lên 1-(0.95)^4 ≈ 18.5% (thay vì mục tiêu 5%), làm mất kiểm soát trên Type I error rate.\n\n**Benjamini-Hochberg Procedure (5 bước):**\n1. Thực hiện 4 tests, lưu lại p-values: p_1, p_2, p_3, p_4\n2. Sắp xếp p-values tăng dần: p_(1) ≤ p_(2) ≤ p_(3) ≤ p_(4)\n3. Với FDR mong muốn q (e.g., q=0.1), tính threshold cho mỗi rank i: threshold_i = q × (i/m) với m=4\n4. Tìm largest i sao cho p_(i) ≤ q×(i/m)\n5. Reject tất cả H_0 cho j=1,...,i (nghĩa là reject các hypotheses với rank ≤ i)\n\n**Ví dụ cụ thể:** p-values = [0.01, 0.03, 0.05, 0.20], q=0.1\n- Thresholds: i=1→0.025, i=2→0.05, i=3→0.075, i=4→0.1\n- Kiểm tra từ cuối: p_(4)=0.20 > 0.1? YES; p_(3)=0.05 > 0.075? YES; p_(2)=0.03 ≤ 0.05? YES ✓\n- Largest i=2, nên reject H_0 cho tests 1 và 2\n\n**So sánh với Bonferroni:** \n- Bonferroni: điều chỉnh mỗi test thành α/4=0.0125 (rất strict, cao Type II error)\n- B-H: kiểm soát FDR thay vì FWER, cho phép một số false positives nhưng có tỷ lệ được kiểm soát (phù hợp cho exploratory testing)\n- Trong email campaign: B-H thích hợp hơn vì mục tiêu là khám phá combinations hiệu quả, có thể chấp nhận một số false signals để follow-up thử nghiệm sau.",
+      "evaluation_points": [
+        "Correctly identifies the multiple comparison problem: with 4 tests at α=0.05, family-wise Type I error ≈ 1-(0.95)^4 ≈ 18.5%",
+        "Accurately describes all steps of Benjamini-Hochberg: (1) sort p-values, (2) compute thresholds q*i/m, (3) find largest i where p_i ≤ q*i/m and reject all H_1,...,H_i",
+        "Correctly applies B-H to example with verification: p=[0.01, 0.03, 0.05, 0.20], q=0.1 → thresholds=[0.025, 0.05, 0.075, 0.1] → largest i where p_i ≤ threshold is i=2 (p_2=0.03≤0.05), so reject H_1 and H_2",
+        "Explains the key distinction: B-H controls False Discovery Rate (FDR = E[false positives/total positives]) while Bonferroni controls family-wise error rate (FWER), making B-H less conservative and more powerful for discovery",
+        "Discusses practical trade-offs: Bonferroni is stricter (higher Type II error risk), B-H is better for exploratory analysis where some false positives are acceptable, and acknowledges the business context of email campaigns"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_027",
+    "question_text": "Trong một A/B test về tính năng mới, bạn phát hiện dữ liệu có hiện tượng Simpson's paradox: tổng thể conversion rate tăng, nhưng khi phân tích theo từng nhóm người dùng (new vs returning), mỗi nhóm lại giảm. Hãy giải thích nguyên nhân, và thiết kế một phương pháp stratified analysis để điều chỉnh bias này. Đề xuất cách tính weighted average effect size.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_AB_TESTING"
+    ],
+    "skill_tags": [
+      "STAT_AB_TESTING"
+    ],
+    "answers": {
+      "detailed": "Simpson's paradox occurs when a confounding variable (user type: new vs. returning) has different distributions in treatment vs. control groups, and the outcome differs by stratum. For example, if treatment attracts proportionally more new users (who inherently convert at lower rates), the aggregate effect can reverse despite positive effects within each user segment.\n\n**Stratified Analysis Design:**\n1. Partition data into strata (new users, returning users)\n2. Compute stratum-specific metrics: effect_i = (conversion_treat_i - conversion_control_i), se_i for each stratum\n3. Aggregate via weighted average: effect = Σ(w_i × effect_i) where w_i = n_i / N (proportional) or w_i = 1/var_i (inverse variance for precision weighting)\n4. Calculate combined SE: se_combined = √(Σ(w_i² × se_i²))\n5. Test homogeneity using Cochran's Q: Q = Σ((effect_i - effect_pooled)² / var_i), df = k-1. If p < α, effects differ by stratum; report separately\n\n**Robust Approach for Binary Outcomes:**\nUse Mantel-Haenszel estimator: OR_MH = Σ(a_i × d_i / N_i) / Σ(b_i × c_i / N_i), which is more efficient in sparse strata than simple stratified averages and accounts for small cell counts.\n\n**Causal Interpretation:**\nAsk: Does treatment allocation mechanism mechanistically cause the stratum imbalance (suggesting design flaw) or is it natural (suggesting valid stratified reporting)? This determines whether to report aggregate or stratum-specific effects.",
+      "evaluation_points": [
+        "Correctly identifies Simpson's paradox root cause: confounding variable (user type distribution) differs between treatment and control groups, creating a lurking variable that reverses the aggregate trend",
+        "Proposes stratified analysis design with explicit steps: (1) partition by strata, (2) compute stratum-specific effect sizes and variances, (3) aggregate via weighted average, (4) test homogeneity",
+        "Justifies weighting scheme: explains when to use simple proportional weighting (n_i/N) vs. inverse variance weighting (based on precision) and discusses trade-offs",
+        "Applies appropriate statistical test for homogeneity (Cochran's Q or I² statistic) and correctly interprets result: if p < α, effects are heterogeneous and separate reporting is warranted",
+        "Recommends Mantel-Haenszel estimator for binary outcomes and can explain why it is more robust than simple stratified weighted average (accounts for sparse strata)",
+        "Discusses when Simpson's paradox indicates need for causal adjustment vs. when it reveals a legitimate data pattern (important for interpretation and business decision-making)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_029",
+    "question_text": "Bạn đang phân tích dữ liệu A/B test với metric là revenue per user (RPU). Dữ liệu có phân phối lệch phải (right-skewed) và có nhiều outlier (users không mua hàng). Bạn muốn tính confidence interval cho sự khác biệt RPU giữa treatment và control. Hãy so sánh 3 phương pháp: t-test (trên log-transformed data), bootstrap percentile CI, và Wilcoxon rank-sum test. Chọn phương pháp phù hợp nhất và giải thích tại sao. Đề cập đến assumption và hạn chế của từng phương pháp.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_CONFIDENCE_INTERVAL"
+    ],
+    "skill_tags": [
+      "STAT_CONFIDENCE_INTERVAL"
+    ],
+    "answers": {
+      "detailed": "Dữ liệu RPU thường có nhiều zero (non-buyers) và một vài giá trị lớn, tạo phân phối lệch phải mạnh. (1) **t-test trên log-transformed**: Cần xử lý zero (log(x+1)), nhưng log không khắc phục zero-inflation—dữ liệu log(RPU+1) vẫn vi phạm chuẩn tắc do khối lượng zero tập trung ở giá trị âm. Ngoài ra, CI trên log scale khó diễn giải cho business (cần back-transform và giải thích nhân tính). Assumption: normality trên log scale thường bị vi phạm. (2) **Bootstrap percentile CI**: Không cần giả định phân phối, trực tiếp ước lượng mean difference RPU qua 10,000 resamples có hoán vị, lấy percentile 2.5th–97.5th. Ưu điểm: xử lý tự nhiên với zero-inflation và lệch phải, dễ diễn giải (khoảng tin cậy của hiệu RPU trung bình). Hạn chế: cần sample size đủ lớn (n>30 per group), bootstrap percentile bị ảnh hưởng outlier; nên dùng BCa (bias-corrected accelerated) nếu dữ liệu có outlier cực đoan. Tính toán chậm với data lớn nhưng có thể subsample. (3) **Wilcoxon rank-sum test**: Non-parametric, so sánh median, không cần normality. Nhưng không trả về CI về mean difference—chỉ test significance. Với RPU, median thường=0 (>50% non-buyers), nên trung bình mới phản ánh impact thực tế cho business. Không phù hợp cho metric này. **Kết luận**: Bootstrap percentile CI (hoặc BCa nếu outlier mạnh) là phương pháp tối ưu vì (i) không cần assumption, (ii) trực tiếp ước lượng mean difference (metric quan trọng cho business), (iii) dễ diễn giải CI. Khuyến nghị: kiểm tra outlier cực đoan, xem xét stratified bootstrap (tách buyers/non-buyers) để cải thiện precision.",
+      "evaluation_points": [
+        "Explicitly address the zero-inflation problem in RPU data: discuss how it violates normality assumptions even after log-transformation, and why bootstrap handles this naturally without requiring distributional assumptions",
+        "Compare assumption violations quantitatively: explain that t-test on log-transformed data requires normality of log(RPU+1), which is still violated with many zeros; contrast with bootstrap's distribution-free nature",
+        "Discuss bias-variance tradeoff: bootstrap percentile CI vs. BCa (bias-corrected and accelerated) bootstrap—when many outliers exist, BCa is more robust; evaluate whether sample size permits this",
+        "Explain why Wilcoxon is suboptimal here: it tests median difference, not mean—for revenue metrics where total impact matters, median is misleading (e.g., median=0 if >50% non-buyers); clarify the business relevance of mean vs. median",
+        "Address practical implementation: bootstrap requires sufficient sample size (typically n>30 per group); discuss computational cost and when stratified bootstrap (by purchase status) could improve precision for zero-inflated data",
+        "Discuss sensitivity to outliers: bootstrap percentile CI inherits outlier sensitivity from the data; suggest robust alternatives like trimmed mean bootstrap or winsorization if extreme outliers are present"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  },
+  {
+    "question_id": "GEN_DA_STATISTICS_031",
+    "question_text": "Bạn đang thiết kế A/B test cho một recommendation system mới. KPI là click-through rate (CTR). Bạn lo ngại về network effect: users có thể ảnh hưởng lẫn nhau (ví dụ: bạn bè cùng xem một content). Hãy giải thích tại sao network effect vi phạm assumption của standard A/B test (SUTVA), và thiết kế một phương pháp để giảm thiểu bias này. Đề xuất cách sử dụng cluster randomization và tính toán sample size điều chỉnh.",
+    "roles": {
+      "primary": "DA",
+      "secondary": []
+    },
+    "difficulty_label": "HARD",
+    "difficulty_score": 7,
+    "question_type": "PRACTICAL",
+    "skill_groups": [
+      "STATISTICS_EXPERIMENTATION",
+      "STAT_AB_TESTING"
+    ],
+    "skill_tags": [
+      "STAT_AB_TESTING"
+    ],
+    "answers": {
+      "detailed": "Standard A/B test assumes SUTVA (Stable Unit Treatment Value Assumption): (1) Consistency—a unit's outcome depends only on its own treatment assignment, and (2) No Interference—one unit's outcome is unaffected by other units' treatments. Network effects violate No Interference: if a user's friends are in treatment, the control user's behavior may change (e.g., seeing more recommendations from friends), biasing the treatment effect estimate. This bias can be positive or negative depending on whether network spillover reinforces or dampens the treatment signal.\n\n**Cluster Randomization Design:**\n(1) Define clusters: Partition users into clusters based on social graph proximity (e.g., friend groups, geographic regions, explicit communities). Clusters should be chosen so interference occurs primarily within clusters, not between them. (2) Randomize clusters: Assign entire clusters to treatment or control, not individuals. This ensures users' friends experience the same treatment, making the cluster the unit of analysis. (3) Analyze at cluster level: Calculate mean CTR per cluster, then compare treatment vs. control cluster means. Standard t-tests apply at the cluster level. (4) Validate cluster boundaries: Check for cross-cluster spillover; if significant, redefine clusters.\n\n**Sample Size Adjustment (Design Effect):**\nCluster randomization reduces statistical power. The effective sample size is adjusted by the design effect:\n\nDesign Effect (DE) = 1 + (m - 1)ρ\n\nwhere:\n- m = average cluster size (number of users per cluster)\n- ρ = intra-cluster correlation (ICC): the correlation of outcomes between two randomly selected users within the same cluster (0 ≤ ρ ≤ 1)\n\nRequired sample size = (Standard sample size for individual randomization) × DE\n\nExample: If standard randomization requires 10,000 users, m = 50, and ρ = 0.05, then DE = 1 + (50-1)×0.05 = 3.45, requiring ~34,500 users across clusters.\n\n**Practical Considerations:**\n- Estimate ρ: Use historical data on user behavior similarity within friend groups or cohorts. Higher ρ (stronger within-cluster similarity) inflates DE and sample size needs.\n- Sensitivity analysis: Test designs under different ρ values (e.g., ρ ∈ [0.01, 0.10]) to understand robustness.\n- Timing: Allow sufficient time for network equilibrium (users adjust to friends' treatment) before measurement; too short risks confounding with novelty effects.\n- Heterogeneous effects: Analyze subgroups (e.g., highly connected users vs. isolated users) to understand whether network effects differ by user type.\n- Alternative: Difference-in-differences can reduce variance by controlling for pre-treatment cluster trends, partially offsetting DE inflation.",
+      "evaluation_points": [
+        "Clearly define SUTVA and articulate the specific violation: interference (treatment of one unit affects outcome of another) and explain why this biases treatment effect estimates (direction and magnitude of bias)",
+        "Design cluster randomization with explicit considerations: how to define clusters (trade-off between cluster homogeneity and natural graph structure), justify cluster boundaries, and address partial interference at cluster edges",
+        "Correctly compute design effect formula (1 + (m-1)ρ), explain components (m = cluster size, ρ = ICC), and calculate required sample size multiplier; demonstrate understanding that ICC depends on outcome similarity within clusters",
+        "Discuss ICC estimation in practice: how to estimate ρ from observational data, sensitivity analysis for different ρ values, and implications of ICC misspecification on power",
+        "Compare alternative approaches (e.g., ego-network randomization, matched pair designs, geographic clustering) and justify cluster randomization choice given trade-offs in cost, bias reduction, and statistical power",
+        "Address temporal dynamics: timing of exposure spillover, novelty effects in network context, and duration needed to stabilize network equilibrium before measurement",
+        "Explain how to validate that clustering successfully reduced network effect bias (e.g., heterogeneous treatment effect analysis by degree of connectivity, cross-cluster spillover checks)"
+      ]
+    },
+    "metadata": {
+      "language": "vi",
+      "source": "deepseek_generated",
+      "version": "v1.0",
+      "created_at": "2026-06-15"
+    },
+    "qc_reviewed": true
+  }
+]
