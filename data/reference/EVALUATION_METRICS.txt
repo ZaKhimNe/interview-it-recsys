@@ -1,47 +1,96 @@
-# EVALUATION_METRICS — Reference Document (Source: Gemini 2.5 Flash)
+# EVALUATION_METRICS — Reference Document (Source: GPT-4o)
 
-## EVALUATION_METRICS (Role: Data Scientist)
-
-This document outlines key competencies in evaluation metrics for Data Scientists, distinguishing between foundational understanding and advanced, context-aware application.
-
-## Classification Metrics
-
-### Confusion Matrix (TP/FP/TN/FN)
-**Definition:** A table summarizing the performance of a classification model, showing the counts of True Positives (TP), False Positives (FP), True Negatives (TN), and False Negatives (FN).
-**Distinction:** Not a metric itself, but the fundamental building block for all other classification metrics.
-**Practical Detail:** TP: correctly predicted positive. FP (Type I error): incorrectly predicted positive. TN: correctly predicted negative. FN (Type II error): incorrectly predicted negative.
-**Strong Candidate:** Can articulate the business implications of each error type, e.g., "A high FP rate in fraud detection means many legitimate transactions are flagged, increasing operational overhead, whereas a high FN rate means actual fraud goes undetected, leading to financial losses."
-**Weak Candidate:** Recites definitions without connecting them to real-world consequences or business objectives.
+## Classification Evaluation Metrics
 
 ### Accuracy Pitfall
-**Definition:** The proportion of total predictions that were correct: (TP + TN) / (TP + TN + FP + FN).
-**Distinction:** Simple and intuitive, but highly misleading for imbalanced datasets.
-**Practical Detail:** A model predicting the majority class can achieve very high accuracy on imbalanced data while being useless for identifying the minority class.
-**Strong Candidate:** Immediately identifies accuracy's limitation for imbalanced data and proactively suggests more robust alternatives like precision, recall, or F1-score.
-**Weak Candidate:** Proposes accuracy as the primary or sole metric for all classification problems, regardless of class distribution.
+- **Accuracy**: The ratio of correctly predicted instances to the total instances. Formula: \( \text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN} \).
+- **Pitfall**: Accuracy can be misleading, especially in **imbalanced datasets** where one class dominates. A model predicting the majority class can achieve high accuracy without being useful.
+- **Example**: In a dataset with 95% of class A and 5% of class B, a model predicting all instances as class A achieves 95% accuracy but fails to identify class B.
+- **Red Flag**: Candidates who rely solely on accuracy without considering class distribution.
 
 ### Precision vs Recall Tradeoff
-**Precision:** TP / (TP + FP). The proportion of positive predictions that were actually correct. Focuses on minimizing Type I errors.
-**Recall (Sensitivity):** TP / (TP + FN). The proportion of actual positives that were correctly identified. Focuses on minimizing Type II errors.
-**Distinction:** Precision measures the quality of positive predictions; Recall measures the completeness of positive predictions. They are often inversely related; improving one typically degrades the other.
-**Practical Detail:** The choice depends on the business context. High precision is critical when false positives are costly (e.g., spam filtering, medical diagnosis for a rare disease). High recall is critical when false negatives are costly (e.g., cancer detection, fraud detection).
-**Strong Candidate:** Explains the inverse relationship and provides concrete business examples where one is prioritized over the other, demonstrating an understanding of cost-sensitive learning.
-**Weak Candidate:** Treats precision and recall as interchangeable or fails to grasp the fundamental tradeoff.
+- **Precision**: The ratio of true positive predictions to the total predicted positives. Formula: \( \text{Precision} = \frac{TP}{TP + FP} \).
+- **Recall (Sensitivity)**: The ratio of true positive predictions to the actual positives. Formula: \( \text{Recall} = \frac{TP}{TP + FN} \).
+- **Tradeoff**: Increasing precision typically decreases recall and vice versa. This tradeoff is crucial in applications like medical diagnosis (favoring recall) vs. spam detection (favoring precision).
+- **Red Flag**: Confusing precision with recall; precision is about prediction correctness, recall is about coverage of actual positives.
 
-### F1-score
-**Definition:** The harmonic mean of Precision and Recall: 2 * (Precision * Recall) / (Precision + Recall).
-**Distinction:** Provides a single metric that balances precision and recall, useful when both are important and classes are somewhat imbalanced.
-**Practical Detail:** The harmonic mean penalizes extreme values more heavily than an arithmetic mean, ensuring a high F1-score requires both high precision and high recall.
-**Strong Candidate:** Explains *why* the harmonic mean is used (to penalize models with poor performance in either precision or recall) and when F1 is a suitable choice over individual P/R.
-**Weak Candidate:** Just states the formula without understanding its purpose or limitations.
-
-### F-beta Score
-**Definition:** A generalization of the F1-score that allows explicit weighting of precision versus recall: (1 + beta^2) * (Precision * Recall) / (beta^2 * Precision + Recall).
-**Distinction:** F1-score is F-beta with beta=1. Beta > 1 weights recall more heavily; Beta < 1 weights precision more heavily.
-**Practical Detail:** Used when the cost of false negatives is `beta^2` times the cost of false positives. For instance, beta=2 means recall is considered twice as important as precision.
-**Strong Candidate:** Can explain how to choose the `beta` value based on specific business cost functions or domain expertise, providing examples of scenarios where a non-1 beta is appropriate.
-**Weak Candidate:** Is unaware of F-beta or cannot articulate its utility beyond F1.
+### F1-score and F-beta
+- **F1-score**: Harmonic mean of precision and recall. Formula: \( F1 = 2 \times \frac{\text{Precision} \times \text{Recall}}{\text{Precision} + \text{Recall}} \).
+- **F-beta**: Generalized F1-score giving \(\beta\) times more weight to recall. Formula: \( F_{\beta} = (1 + \beta^2) \times \frac{\text{Precision} \times \text{Recall}}{(\beta^2 \times \text{Precision}) + \text{Recall}} \).
+- **Use Case**: F1 is used when precision and recall are equally important. F-beta is used when recall is more critical (\(\beta > 1\)) or precision is more critical (\(\beta < 1\)).
+- **Red Flag**: Misunderstanding that F1 is always the best metric; it depends on the problem context.
 
 ### ROC-AUC Interpretation
-**Definition:** The Receiver Operating Characteristic (ROC) curve plots the True Positive Rate (Recall) against the False Positive Rate (1 - Specificity) at various classification threshold settings. AUC (Area Under the Curve) is the aggregate measure of performance across all possible thresholds.
-**Distinction:** Threshold-independent. Measures how well a model distinguishes between classes, regardless of the chosen operating point.
+- **ROC Curve**: Plots true positive rate (TPR) against false positive rate (FPR) at various thresholds.
+- **AUC (Area Under Curve)**: Measures the entire two-dimensional area underneath the ROC curve. AUC = 0.5 indicates no discrimination, AUC = 1 indicates perfect discrimination.
+- **Importance**: AUC is threshold-independent and useful for comparing models.
+- **Red Flag**: Misinterpreting AUC as a measure of model accuracy; it's about ranking ability.
+
+### PR-AUC for Imbalanced Data
+- **Precision-Recall Curve**: Plots precision against recall for different thresholds.
+- **PR-AUC**: Area under the precision-recall curve, more informative than ROC-AUC for imbalanced datasets.
+- **Importance**: PR-AUC highlights performance on the minority class, crucial for imbalanced datasets.
+- **Red Flag**: Using ROC-AUC in isolation for imbalanced data without considering PR-AUC.
+
+### Confusion Matrix (TP/FP/TN/FN)
+- **Confusion Matrix**: A table used to describe the performance of a classification model. Components:
+  - **True Positives (TP)**: Correctly predicted positive instances.
+  - **False Positives (FP)**: Incorrectly predicted positive instances.
+  - **True Negatives (TN)**: Correctly predicted negative instances.
+  - **False Negatives (FN)**: Incorrectly predicted negative instances.
+- **Importance**: Provides a complete picture of model performance, essential for calculating other metrics.
+- **Red Flag**: Inability to derive precision, recall, or accuracy from a confusion matrix.
+
+## Regression Evaluation Metrics
+
+### MAE vs RMSE Sensitivity to Outliers
+- **Mean Absolute Error (MAE)**: Average of absolute errors. Formula: \( MAE = \frac{1}{n} \sum |y_i - \hat{y}_i| \).
+- **Root Mean Squared Error (RMSE)**: Square root of the average of squared errors. Formula: \( RMSE = \sqrt{\frac{1}{n} \sum (y_i - \hat{y}_i)^2} \).
+- **Sensitivity**: RMSE is more sensitive to outliers due to squaring errors, while MAE treats all errors equally.
+- **Use Case**: Use RMSE when large errors are particularly undesirable; MAE for a more robust measure.
+- **Red Flag**: Claiming MAE and RMSE are interchangeable without considering outlier impact.
+
+### R-squared vs Adjusted R-squared
+- **R-squared**: Proportion of variance explained by the model. Formula: \( R^2 = 1 - \frac{\sum (y_i - \hat{y}_i)^2}{\sum (y_i - \bar{y})^2} \).
+- **Adjusted R-squared**: Adjusts R-squared for the number of predictors. Formula: \( \text{Adjusted } R^2 = 1 - \left( \frac{(1-R^2)(n-1)}{n-p-1} \right) \).
+- **Importance**: Adjusted R-squared accounts for model complexity, preventing overfitting.
+- **Red Flag**: Using R-squared alone to compare models with different numbers of predictors.
+
+### MAPE
+- **Mean Absolute Percentage Error (MAPE)**: Average of absolute percentage errors. Formula: \( MAPE = \frac{100}{n} \sum \left| \frac{y_i - \hat{y}_i}{y_i} \right| \).
+- **Use Case**: Useful for interpretability in percentage terms, but problematic with zero values in the denominator.
+- **Red Flag**: Ignoring the impact of zero or near-zero actual values on MAPE.
+
+## Cross-validation Techniques
+
+### k-fold Cross-validation
+- **k-fold**: Splits data into k subsets, trains on k-1 and tests on the remaining. Repeats k times.
+- **Importance**: Provides a more reliable estimate of model performance by reducing variance.
+- **Red Flag**: Using a single train-test split without cross-validation for performance estimation.
+
+### Stratified k-fold
+- **Stratified k-fold**: Ensures each fold has the same class distribution as the entire dataset.
+- **Use Case**: Essential for classification tasks with imbalanced classes to maintain representative folds.
+- **Red Flag**: Ignoring class distribution in cross-validation for classification tasks.
+
+### Time-series Split
+- **Time-series Split**: Respects temporal order by using past data to predict future data.
+- **Use Case**: Critical for time-series data to prevent data leakage.
+- **Red Flag**: Randomly shuffling time-series data without considering temporal dependencies.
+
+### Leave-One-Out Cross-validation (LOOCV)
+- **LOOCV**: Uses one observation as the test set and the rest as the training set, repeated for each observation.
+- **Use Case**: Provides an almost unbiased estimate of model performance but is computationally expensive.
+- **Red Flag**: Using LOOCV for large datasets without considering computational cost.
+
+## Threshold Selection and Class Imbalance Impact
+
+### Threshold Selection
+- **Threshold**: The probability cutoff for classifying an instance as positive.
+- **Importance**: Affects precision, recall, and overall model performance. Must be chosen based on the specific application context.
+- **Red Flag**: Using default threshold (e.g., 0.5) without considering the problem-specific cost of false positives/negatives.
+
+### Class Imbalance Impact on Metrics
+- **Impact**: Imbalance skews metrics like accuracy, making them unreliable. Metrics like precision, recall, F1-score, and PR-AUC are more informative.
+- **Mitigation**: Techniques include resampling, using different evaluation metrics, and adjusting decision thresholds.
+- **Red Flag**: Ignoring class imbalance in model evaluation and relying solely on accuracy.

@@ -77,51 +77,9 @@ def _extract_qs_regex(raw: str) -> list:
 
 
 def load_question_bank():
-    """Đọc từng source file riêng, merge lại."""
-    SOURCES_JSON = [
-        os.path.join(ROOT_DIR, "data/raw/question_bank/question_bank.json"),
-        os.path.join(ROOT_DIR, "data/raw/question_bank/scraped/scraped_github.json"),
-        os.path.join(ROOT_DIR, "data/raw/question_bank/scraped/scraped_youssef.json"),
-        os.path.join(ROOT_DIR, "data/raw/question_bank/scraped/scraped_sql.json"),
-        os.path.join(ROOT_DIR, "data/raw/question_bank/scraped/converted_tf_fb.json"),
-    ]
-
-    # Tự động nạp tất cả file generated_*.json từ LLM
-    gen_dir = os.path.join(ROOT_DIR, "data/raw/question_bank/generated")
-    for fname in sorted(os.listdir(gen_dir)):
-        if fname.startswith("generated_") and fname.endswith(".json"):
-            SOURCES_JSON.append(os.path.join(gen_dir, fname))
-    all_qs = []
-    for path in SOURCES_JSON:
-        if not os.path.exists(path):
-            continue
-        qs = load_json_safe(path)
-        all_qs.extend(qs)
-
-    # scraped_de.json dùng regex vì bị truncate khi parse JSON
-    de_path = os.path.join(ROOT_DIR, "data/raw/question_bank/scraped/scraped_de.json")
-    if os.path.exists(de_path):
-        with open(de_path, 'rb') as f:
-            raw = f.read().decode('utf-8', errors='replace')
-        # Extract từng question bằng regex
-        ids     = re.findall(r'"question_id":\s*"([^"]+)"', raw)
-        texts   = re.findall(r'"question_text":\s*"([^"]*)"', raw)
-        roles   = re.findall(r'"primary":\s*"(\w+)"', raw)
-        diffs   = re.findall(r'"difficulty_label":\s*"(\w+)"', raw)
-        qtypes  = re.findall(r'"question_type":\s*"(\w+)"', raw)
-        groups  = re.findall(r'"skill_groups":\s*\[\s*"(\w+)"', raw)
-        n = min(len(ids), len(roles), len(diffs), len(qtypes), len(groups))
-        for i in range(n):
-            diff = diffs[i] if diffs[i] != "EXPERT" else "HARD"
-            all_qs.append({
-                "question_id":    ids[i] if i < len(ids) else f"DE_R{i}",
-                "question_text":  texts[i] if i < len(texts) else "",
-                "roles":          {"primary": roles[i], "secondary": []},
-                "difficulty_label": diff,
-                "question_type":  qtypes[i],
-                "skill_groups":   [groups[i]],
-                "answers":        {"detailed": "..."},
-            })
+    """Đọc từ question_bank.json (đã merge + QC đầy đủ)."""
+    bank_path = os.path.join(ROOT_DIR, "data/raw/question_bank/question_bank.json")
+    all_qs = load_json_safe(bank_path)
 
     # Normalize + dedup
     seen, unique = set(), []
@@ -353,13 +311,6 @@ if __name__ == "__main__":
     qc = _Counter(r["quality_score"] for r in all_rows)
     total = len(all_rows)
     print(f"Quality: 0={qc[0]} ({qc[0]/total*100:.1f}%)  1={qc[1]} ({qc[1]/total*100:.1f}%)  2={qc[2]} ({qc[2]/total*100:.1f}%)")
-
-    import numpy as _np
-    first10 = [r for r in all_rows if int(r["session_order"]) <= 10]
-    last10  = [r for r in all_rows if int(r["session_order"]) >= 31]
-    a1 = _np.mean([r["quality_score"] for r in first10])
-    a2 = _np.mean([r["quality_score"] for r in last10])
-    print(f"Learning curve: {a1:.3f} -> {a2:.3f}  delta={a2-a1:+.3f}")
 
     da_rows = [r for r in all_rows if r["role"]=="DA"]
     da_comps = _Counter(r["competency"] for r in da_rows)

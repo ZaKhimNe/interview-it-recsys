@@ -1,116 +1,129 @@
-# TIME_SERIES — Reference Document (Source: Gemini 2.5 Flash)
+# TIME_SERIES — Reference Document (Source: GPT-4o)
 
-## TIME_SERIES Competency: Data Scientist
+## Components of Time Series
 
-This document outlines the core competencies and expected knowledge for a Data Scientist in the domain of Time Series analysis and forecasting. A strong candidate demonstrates not only theoretical understanding but also practical application, critical thinking, and an awareness of model limitations and business context.
+- **Trend**: A long-term increase or decrease in the data. It does not repeat and is not necessarily linear. Trends are important for understanding the overall direction of the data over time.
+  - **Mechanism**: Identified using methods like moving averages or polynomial fitting.
+  - **Practical Importance**: Helps in making long-term predictions and understanding the underlying growth or decline in the data.
+  - **Common Confusion**: Trend vs. Seasonality. Trend is a long-term movement, while seasonality is a short-term repetitive pattern.
 
-## Components of a Time Series
+- **Seasonality**: Repeating patterns or cycles of behavior over a specific period, such as daily, monthly, or yearly.
+  - **Mechanism**: Detected using Fourier transforms or seasonal decomposition.
+  - **Practical Importance**: Critical for models that need to account for periodic fluctuations, such as retail sales.
+  - **Common Confusion**: Seasonality vs. Cyclic. Seasonality is strictly periodic, while cyclic patterns are not.
 
-A time series can typically be decomposed into several underlying components:
+- **Cyclic**: Fluctuations that are not of a fixed period, often influenced by economic or business cycles.
+  - **Mechanism**: Identified through spectral analysis or business cycle indicators.
+  - **Practical Importance**: Important for understanding economic indicators and business cycles.
+  - **Common Confusion**: Cyclic vs. Seasonality. Cyclic patterns are irregular and not tied to a calendar.
 
-*   **Trend**: The long-term increase or decrease in the data. It represents the underlying direction of the series over time, independent of short-term fluctuations.
-    *   *Distinction*: Differs from seasonality in its longer-term, non-periodic nature. A trend might be linear, exponential, or follow another functional form.
-    *   *Interview Detail*: Strong candidates discuss how to model trends (e.g., linear regression, moving averages, splines) and the implications of additive vs. multiplicative trends (e.g., constant vs. increasing magnitude of change). Weak candidates might confuse trend with cyclic patterns or struggle to articulate its impact on forecasting.
-*   **Seasonality**: A predictable, repeating pattern or cycle within a fixed period (e.g., daily, weekly, monthly, yearly). The length of the cycle is known and constant.
-    *   *Distinction*: Differs from cyclic patterns, which are non-fixed in length and often irregular.
-    *   *Interview Detail*: Strong candidates can identify seasonality from plots, discuss its period, and explain how it's handled in models (e.g., seasonal differencing, seasonal components in Holt-Winters, Fourier terms). They understand the difference between additive (constant seasonal amplitude) and multiplicative (seasonal amplitude proportional to level) seasonality.
-*   **Cyclic**: Fluctuations that are not of fixed period, often longer than a year, and usually associated with economic or business cycles. They are less predictable in their timing and amplitude than seasonal patterns.
-    *   *Distinction*: Key distinction from seasonality is the *non-fixed* period.
-    *   *Interview Detail*: Strong candidates recognize that cyclic components are harder to model directly due to their irregular nature and are often absorbed into the trend or residual component in simpler models.
-*   **Noise (Residuals)**: The irregular, random component of the time series that remains after accounting for trend, seasonality, and cyclic patterns. It represents unpredictable fluctuations.
-    *   *Distinction*: It's what's left over; ideally, it should be white noise (zero mean, constant variance, no autocorrelation).
-    *   *Interview Detail*: Strong candidates understand that residuals are crucial for model diagnostics. If residuals show patterns (e.g., autocorrelation), it indicates the model has not fully captured the underlying structure.
+- **Noise**: Random variation in the data that cannot be attributed to trend, seasonality, or cyclic patterns.
+  - **Mechanism**: Often modeled as a white noise process.
+  - **Practical Importance**: Noise reduction is crucial for improving model accuracy.
+  - **Common Confusion**: Noise vs. Signal. Noise is the random error, while the signal is the meaningful information.
 
 ## Stationarity
 
-A time series is **stationary** if its statistical properties (mean, variance, autocorrelation) do not change over time. This is a fundamental assumption for many traditional time series models like ARIMA.
+- **Definition**: A time series is stationary if its statistical properties like mean, variance, and autocorrelation are constant over time.
+  - **Mechanism**: Stationarity is tested using statistical tests like the Augmented Dickey-Fuller (ADF) test and the Kwiatkowski-Phillips-Schmidt-Shin (KPSS) test.
+  - **Practical Importance**: Many time series models assume stationarity, making it a prerequisite for model fitting.
 
-*   **Importance**: Non-stationary series can lead to spurious regressions and unreliable forecasts.
-*   **ADF (Augmented Dickey-Fuller) Test**:
-    *   *Definition*: A statistical hypothesis test to determine if a unit root is present in a time series.
-    *   *Null Hypothesis (H0)*: The time series has a unit root (is non-stationary).
-    *   *Interpretation*: A low p-value (typically < 0.05) leads to rejection of H0, suggesting the series is stationary.
-*   **KPSS Test**:
-    *   *Definition*: A statistical hypothesis test for trend stationarity.
-    *   *Null Hypothesis (H0)*: The time series is trend-stationary.
-    *   *Interpretation*: A low p-value leads to rejection of H0, suggesting the series is non-stationary.
-    *   *Distinction from ADF*: ADF tests for a unit root (difference stationarity), while KPSS tests for trend stationarity. They have opposite null hypotheses. A strong candidate knows to use both tests to confirm stationarity.
-*   **Differencing to Achieve Stationarity**:
-    *   *Definition*: Subtracting the previous observation from the current observation. First-order differencing removes a linear trend. Seasonal differencing (subtracting an observation from a previous season) removes seasonal patterns.
-    *   *Interview Detail*: Strong candidates explain *why* differencing works (stabilizes the mean, removes trend/seasonality) and how to determine the appropriate order of differencing (e.g., by examining ACF/PACF plots or running stationarity tests on differenced data). Pitfall: Confusing the null hypotheses of ADF and KPSS, or applying differencing without justification.
+- **ADF Test**: Tests the null hypothesis that a unit root is present in a time series sample.
+  - **Threshold**: p-value < 0.05 typically indicates stationarity.
+  - **Common Confusion**: ADF vs. KPSS. ADF tests for a unit root (non-stationarity), while KPSS tests for stationarity.
+
+- **KPSS Test**: Tests the null hypothesis that a time series is stationary around a deterministic trend.
+  - **Threshold**: p-value < 0.05 typically indicates non-stationarity.
+  - **Common Confusion**: KPSS vs. ADF. KPSS is often used to confirm ADF results.
+
+- **Differencing**: A technique to achieve stationarity by subtracting the previous observation from the current observation.
+  - **Mechanism**: First-order differencing is often sufficient, but higher orders may be necessary.
+  - **Practical Importance**: Essential for transforming non-stationary data into a stationary form for modeling.
 
 ## ARIMA Models
 
-**ARIMA (AutoRegressive Integrated Moving Average)** models are a class of statistical models for analyzing and forecasting time series data.
+- **Definition**: Autoregressive Integrated Moving Average (ARIMA) models are used for forecasting stationary time series data.
+  - **Parameters**: 
+    - **p**: Autoregressive order.
+    - **d**: Degree of differencing.
+    - **q**: Moving average order.
+  - **Mechanism**: Combines autoregressive and moving average components with differencing to model time series data.
+  - **Practical Importance**: Widely used for its flexibility in modeling various types of time series data.
 
-*   **Parameters (p, d, q)**:
-    *   **p (AR order)**: The number of lag observations included in the model (autoregressive part).
-        *   *Determination*: Often identified by the lag where the **PACF (Partial Autocorrelation Function)** plot cuts off or drops significantly.
-    *   **d (Integrated order)**: The number of times the raw observations are differenced to make the time series stationary.
-        *   *Determination*: Determined by the minimum differencing required for stationarity (e.g., from ADF/KPSS tests).
-    *   **q (MA order)**: The number of lag forecast errors included in the model (moving average part).
-        *   *Determination*: Often identified by the lag where the **ACF (Autocorrelation Function)** plot cuts off or drops significantly.
-*   **ACF (Autocorrelation Function)**: Measures the correlation between a time series and its lagged values.
-    *   *Interpretation*: Significant spikes at certain lags indicate correlation with past values. For MA models, ACF typically shows a sharp drop after lag q.
-*   **PACF (Partial Autocorrelation Function)**: Measures the correlation between a time series and its lagged values, *after removing the effects of intermediate lags*.
-    *   *Interpretation*: Significant spikes at certain lags indicate direct correlation. For AR models, PACF typically shows a sharp drop after lag p.
-*   *Interview Detail*: Strong candidates can interpret ACF/PACF plots to suggest initial p and q values, understand the role of 'd' in achieving stationarity, and discuss the iterative process of model selection (e.g., using AIC/BIC). Pitfall: Misinterpreting ACF for AR order and PACF for MA order, or failing to explain the "partial" aspect of PACF.
+- **ACF/PACF Interpretation**:
+  - **ACF (Autocorrelation Function)**: Measures the correlation between observations at different lags.
+  - **PACF (Partial Autocorrelation Function)**: Measures the correlation between observations at different lags after removing the effects of shorter lags.
+  - **Practical Importance**: Used to identify the order of AR and MA components in ARIMA models.
 
-## SARIMA Seasonal Parameters
+## SARIMA Models
 
-**SARIMA (Seasonal AutoRegressive Integrated Moving Average)** extends ARIMA to handle time series with seasonal components. It uses an additional set of seasonal parameters.
+- **Definition**: Seasonal ARIMA models extend ARIMA by including seasonal components.
+  - **Seasonal Parameters**:
+    - **P**: Seasonal autoregressive order.
+    - **D**: Seasonal differencing order.
+    - **Q**: Seasonal moving average order.
+    - **s**: Length of the seasonal cycle.
+  - **Practical Importance**: Essential for modeling time series data with seasonal patterns.
 
-*   **Parameters (P, D, Q, m)**:
-    *   **(P, D, Q)**: The seasonal equivalent of (p, d, q) for the seasonal part of the model.
-        *   **P (Seasonal AR order)**: Number of seasonal lag observations.
-        *   **D (Seasonal Integrated order)**: Number of seasonal differences.
-        *   **Q (Seasonal MA order)**: Number of seasonal lag forecast errors.
-    *   **m**: The number of observations per seasonal cycle (e.g., 12 for monthly data with yearly seasonality, 24 for hourly data with daily seasonality).
-*   *Interview Detail*: Strong candidates explain how seasonal ACF/PACF plots (spikes at multiples of 'm') help determine P and Q, and how seasonal differencing (D) removes seasonal non-stationarity. They understand when SARIMA is appropriate and how it captures both short-term and long-term dependencies.
+## Exponential Smoothing
 
-## Exponential Smoothing Models
+- **Simple Exponential Smoothing**: Suitable for data without trend or seasonality.
+  - **Mechanism**: Weighted average of past observations with exponentially decreasing weights.
+  - **Practical Importance**: Useful for short-term forecasting.
 
-Exponential smoothing models assign exponentially decreasing weights to past observations, giving more importance to recent data.
+- **Holt’s Linear Trend Model**: Extends simple exponential smoothing to capture linear trends.
+  - **Mechanism**: Adds a trend component to the smoothing equation.
+  - **Practical Importance**: Suitable for data with a trend but no seasonality.
 
-*   **Simple Exponential Smoothing (SES)**:
-    *   *Definition*: Suitable for time series with no trend and no seasonality. It models only the level component.
-    *   *Interview Detail*: Strong candidates understand its simplicity and use as a baseline for stable series.
-*   **Holt's Linear Trend (Double Exponential Smoothing)**:
-    *   *Definition*: Suitable for time series with a trend but no seasonality. It models both the level and trend components.
-    *   *Interview Detail*: Strong candidates discuss the two smoothing parameters (for level and trend) and how they capture the evolving trend.
-*   **Holt-Winters (Triple Exponential Smoothing)**:
-    *   *Definition*: Suitable for time series with both trend and seasonality. It models level, trend, and seasonal components.
-    *   *Types*: Can be additive (constant seasonal amplitude) or multiplicative (seasonal amplitude scales with level).
-    *   *Interview Detail*: Strong candidates can explain the three smoothing parameters (level, trend, seasonality) and the choice between additive/multiplicative seasonality based on data characteristics. They recognize its robustness for many real-world series. Pitfall: Applying SES or Holt's to data with clear seasonality.
+- **Holt-Winters Seasonal Model**: Extends Holt’s model to capture seasonality.
+  - **Mechanism**: Adds seasonal components to the trend and level equations.
+  - **Practical Importance**: Suitable for data with both trend and seasonality.
 
 ## Feature Engineering for Time Series
 
-Creating relevant features from time series data is crucial for machine learning models.
+- **Lag Features**: Use past observations as features for forecasting.
+  - **Practical Importance**: Captures temporal dependencies in the data.
 
-*   **Lag Features**:
-    *   *Definition*: Values of the series at previous time steps (e.g., `value_t-1`, `value_t-7`).
-    *   *Purpose*: Capture autoregressive dependencies and provide the model with historical context.
-    *   *Interview Detail*: Strong candidates discuss selecting relevant lags (e.g., based on ACF, domain knowledge) and the challenge of "cold start" for new series.
-*   **Rolling Mean/Standard Deviation**:
-    *   *Definition*: Statistical aggregates (mean, median, std dev, min, max) calculated over a moving window of past observations.
-    *   *Purpose*: Smooth out noise, capture local trends, and measure volatility.
-    *   *Interview Detail*: Strong candidates discuss the impact of window size on feature characteristics and how these features can capture short-term dynamics.
-*   **Expanding Window Statistics**:
-    *   *Definition*: Similar to rolling statistics, but the window expands to include all data from the start of the series up to the current point.
-    *   *Purpose*: Capture cumulative trends or overall statistics.
-    *   *Interview Detail*: Useful for capturing long-term growth or cumulative effects.
-*   **Time-based Features**:
-    *   *Definition*: Extracting components from the timestamp (e.g., day of week, month, quarter, year, hour, minute, holiday flags, business day indicator).
-    *   *Purpose*: Capture cyclical patterns, seasonality, and known external events.
-    *   *Interview Detail*: Strong candidates emphasize the importance of domain knowledge in selecting and creating these features (e.g., specific holidays, marketing events).
+- **Rolling Mean/Std**: Calculate moving averages or standard deviations over a window.
+  - **Practical Importance**: Smooths out short-term fluctuations and highlights longer-term trends.
 
-## Train/Test Split without Leakage & Cross-Validation for TS
+- **Expanding Window**: Uses all available data up to the current point for calculations.
+  - **Practical Importance**: Captures cumulative effects over time.
 
-Proper data splitting is paramount to avoid **data leakage** and obtain reliable model evaluation.
+## Train/Test Split Without Leakage
 
-*   **Train/Test Split without Leakage**:
-    *   *Definition*: The training set must always precede the test set chronologically. Future data must *never* be used to train or validate a model that predicts the future.
-    *   *Importance*: Preserves the temporal order, simulating real-world forecasting.
-    *   *Interview Detail*: Strong candidates explicitly state that random splitting is a critical pitfall for time series. They understand that any feature engineering (e.g., rolling means) must also respect this temporal order, computing features only from *past* data.
-*   **Cross-Validation for TS (Time-Series Split / Rolling Origin)**:
-    *   *Definition*: Standard k-fold cross-validation is inappropriate for time series due to temporal dependencies
+- **Definition**: Splitting data into training and testing sets while preserving the temporal order.
+  - **Mechanism**: Ensures that future data is not used in training, preventing data leakage.
+  - **Practical Importance**: Critical for maintaining the integrity of model evaluation.
+
+## Cross-Validation for Time Series
+
+- **Time-Series Split**: A method of cross-validation that respects the temporal order of data.
+  - **Mechanism**: Splits data into training and testing sets in a rolling or expanding window fashion.
+  - **Practical Importance**: Provides a more reliable estimate of model performance on unseen data.
+
+## Forecasting Evaluation
+
+- **MAPE (Mean Absolute Percentage Error)**: Measures the accuracy of a forecast as a percentage.
+  - **Formula**: \( \text{MAPE} = \frac{1}{n} \sum \left| \frac{A_t - F_t}{A_t} \right| \times 100 \)
+  - **Practical Importance**: Easy to interpret and widely used.
+
+- **SMAPE (Symmetric Mean Absolute Percentage Error)**: A variation of MAPE that is symmetric.
+  - **Formula**: \( \text{SMAPE} = \frac{100\%}{n} \sum \frac{|F_t - A_t|}{(|A_t| + |F_t|)/2} \)
+  - **Practical Importance**: Addresses the asymmetry issue in MAPE.
+
+- **MAE (Mean Absolute Error)**: Measures the average magnitude of errors in a set of forecasts.
+  - **Formula**: \( \text{MAE} = \frac{1}{n} \sum |A_t - F_t| \)
+  - **Practical Importance**: Provides a straightforward measure of forecast accuracy.
+
+- **RMSE (Root Mean Square Error)**: Measures the square root of the average squared differences between forecasted and observed values.
+  - **Formula**: \( \text{RMSE} = \sqrt{\frac{1}{n} \sum (A_t - F_t)^2} \)
+  - **Practical Importance**: Penalizes larger errors more than MAE, making it sensitive to outliers.
+
+## Interviewer Red Flags
+
+- Confusing trend with seasonality or cyclic patterns.
+- Misinterpreting ADF and KPSS test results.
+- Incorrectly setting ARIMA parameters without justifying the choice based on ACF/PACF analysis.
+- Ignoring the importance of train/test split without leakage in time series data.
+- Failing to use appropriate cross-validation techniques for time series.

@@ -1,51 +1,131 @@
-# NLP — Reference Document (Source: Gemini 2.5 Flash)
+# NLP — Reference Document (Source: GPT-4o)
 
 ## Text Preprocessing
 
-**Tokenization:** The process of splitting raw text into smaller units called tokens. These tokens can be words, subwords, or characters.
-*   **Strong Candidate:** Discusses various tokenization strategies (whitespace, punctuation-based, regex), handling of contractions, specific tokenizers like WordPiece, BPE (Byte-Pair Encoding), or SentencePiece for subword tokenization, and their importance for handling out-of-vocabulary (OOV) words or morphologically rich languages. Mentions the impact of tokenization choices on vocabulary size and model performance.
-*   **Weak Candidate:** Simply states "splitting text into words."
-*   **Pitfall:** Overlooking the nuances of language-specific tokenization or the benefits of subword tokenization in modern NLP.
+- **Tokenization**
+  - **Definition**: The process of converting a text into individual units called tokens, which can be words, phrases, or symbols.
+  - **Mechanism**: Involves splitting text based on spaces, punctuation, or custom rules. Tokenizers can be rule-based or use machine learning models.
+  - **Importance**: Essential for converting raw text into a format suitable for analysis. Incorrect tokenization can lead to loss of meaning or context.
+  - **Common Confusion**: Tokenization vs. segmentation — segmentation often refers to dividing text into larger units like sentences.
 
-**Stemming vs. Lemmatization:** Both aim to reduce words to a base or root form.
-*   **Stemming:** A heuristic process that chops off suffixes from words, often resulting in non-dictionary words. Examples: Porter, Snowball stemmers.
-    *   **Strong Candidate:** Explains it's rule-based, faster, and useful when speed is critical, but acknowledges its lower accuracy and potential to produce non-words (e.g., "automat" from "automatic").
-*   **Lemmatization:** A more sophisticated process that uses vocabulary and morphological analysis to return the canonical base form (lemma) of a word, which is always a dictionary word. Examples: WordNet Lemmatizer.
-    *   **Strong Candidate:** Highlights its reliance on part-of-speech (POS) tagging for context-aware reduction, leading to higher accuracy but slower processing.
-*   **Distinction:** Stemming is faster, less accurate, and produces non-words; Lemmatization is slower, more accurate, and produces valid words, requiring linguistic knowledge.
-*   **Pitfall:** Confusing the two or not understanding their trade-offs in terms of speed, accuracy, and output quality.
+- **Stemming vs Lemmatization**
+  - **Stemming**: Reduces words to their base or root form, often by removing suffixes (e.g., "running" to "run").
+    - **Mechanism**: Uses heuristic rules; can be aggressive and result in non-words.
+    - **Importance**: Useful for reducing dimensionality but may lose meaning.
+  - **Lemmatization**: Converts words to their base form using vocabulary and morphological analysis (e.g., "better" to "good").
+    - **Mechanism**: Considers the context and part of speech.
+    - **Importance**: Preserves meaning better than stemming.
+  - **Common Confusion**: Many candidates think stemming and lemmatization are interchangeable; lemmatization is context-aware, stemming is not.
 
-**Stop Words:** Common words (e.g., "the," "a," "is") that carry little semantic meaning and are often removed to reduce noise and dimensionality in text data.
-*   **Strong Candidate:** Discusses the context-dependency of stop words (e.g., "apple" might be a stop word in a fruit dataset but critical in tech news), the need for domain-specific stop word lists, and their impact on sparse representations like BoW/TF-IDF.
-*   **Weak Candidate:** Lists a few common examples without discussing context.
+- **Stop Words**
+  - **Definition**: Commonly used words (e.g., "and", "the") that are often removed from text data.
+  - **Mechanism**: Identified and filtered out based on predefined lists.
+  - **Importance**: Reduces noise and dimensionality but may remove context if not handled carefully.
+  - **Red Flag**: Assuming stop words are universally applicable without considering context or domain.
 
-**Normalization:** The process of converting text into a standard, canonical form. This includes lowercasing, removing punctuation, handling numbers, and standardizing spellings.
-*   **Strong Candidate:** Explains the importance of Unicode normalization, regex-based cleaning for specific patterns, and how it reduces feature space and improves consistency for downstream tasks.
-*   **Pitfall:** Not considering the impact of over-normalization (e.g., removing numbers crucial for a financial analysis task).
+- **Normalization**
+  - **Definition**: The process of standardizing text data, including case normalization, accent removal, and expanding contractions.
+  - **Mechanism**: Involves converting text to lowercase, removing diacritics, etc.
+  - **Importance**: Ensures consistency in text data, crucial for accurate analysis.
 
-## Bag of Words (BoW)
+## Bag of Words
 
-**Definition:** A simple, sparse representation of text that describes the occurrence of words within a document. It involves creating a vocabulary of all unique words in the corpus and then representing each document as a vector where each dimension corresponds to a word in the vocabulary, and the value is the frequency of that word in the document. The order of words is disregarded.
-*   **Strong Candidate:** Discusses the creation of n-grams (e.g., bigrams, trigrams) to capture some local context, the issues of high dimensionality and sparsity, the "curse of dimensionality," and methods to manage vocabulary size (e.g., `min_df`, `max_df`, `max_features`). Acknowledges its fundamental limitation: loss of word order and semantic context.
-*   **Weak Candidate:** "It's just counting words."
-*   **Pitfall:** Not understanding that BoW inherently loses word order information, which is crucial for many NLP tasks.
+- **Definition**: A representation of text data where each document is described by the frequency of words, disregarding grammar and order.
+- **Mechanism**: Constructs a vocabulary from the corpus and represents each document as a vector of word counts.
+- **Importance**: Simple and effective for text classification but ignores context and semantics.
+- **Red Flag**: Misunderstanding that Bag of Words captures word order or semantics.
 
-## TF-IDF
+## TF-IDF Formula and Weighting
 
-**Definition:** Term Frequency-Inverse Document Frequency is a numerical statistic that reflects how important a word is to a document in a corpus. It's a product of two terms:
-*   **Term Frequency (TF):** Measures how frequently a term appears in a document. Higher TF indicates higher importance within that specific document.
-*   **Inverse Document Frequency (IDF):** Measures how rare or common a term is across the entire corpus. It's the logarithmically scaled inverse fraction of the documents that contain the term. Rare terms have a high IDF, common terms have a low IDF.
-*   **Formula & Weighting:** TF-IDF = TF * IDF. The weighting scheme effectively down-weights very common words (e.g., stop words) that appear in many documents and up-weights words that are unique or specific to a particular document.
-*   **Strong Candidate:** Explains the rationale behind IDF (to penalize ubiquitous terms and highlight discriminative ones), discusses different variants of TF (e.g., raw count, binary, log-normalized) and IDF (e.g., smooth IDF, probabilistic IDF), and its applications in information retrieval, document similarity, and text classification.
-*   **Weak Candidate:** Can state the formula but struggles to explain *why* IDF is used.
-*   **Pitfall:** Not understanding that TF-IDF, while powerful for weighting, still operates on the BoW principle and doesn't capture semantic relationships or word order.
+- **Definition**: Term Frequency-Inverse Document Frequency, a statistical measure used to evaluate the importance of a word in a document relative to a corpus.
+- **Formula**: 
+  - TF: \( \text{TF}(t, d) = \frac{\text{Number of times term } t \text{ appears in document } d}{\text{Total number of terms in document } d} \)
+  - IDF: \( \text{IDF}(t, D) = \log\left(\frac{\text{Total number of documents } |D|}{\text{Number of documents containing } t}\right) \)
+  - TF-IDF: \( \text{TF-IDF}(t, d, D) = \text{TF}(t, d) \times \text{IDF}(t, D) \)
+- **Importance**: Highlights words that are important to a document but not common across the corpus.
+- **Common Confusion**: Misinterpreting IDF as a measure of word frequency rather than rarity.
 
 ## Word Embeddings
 
-**Definition:** Dense, low-dimensional vector representations of words that capture semantic and syntactic relationships. Words with similar meanings or contexts are mapped to nearby points in the vector space.
+- **Word2Vec (CBOW vs Skip-gram)**
+  - **CBOW**: Predicts the target word from surrounding context words.
+    - **Mechanism**: Uses context to predict a word, efficient for large datasets.
+  - **Skip-gram**: Predicts surrounding context words from a target word.
+    - **Mechanism**: Captures more semantic relationships, better for smaller datasets.
+  - **Importance**: Captures semantic meanings and relationships between words.
+  - **Red Flag**: Confusing CBOW and Skip-gram as identical in performance and application.
 
-**Word2Vec (CBOW vs. Skip-gram):** Neural network-based models for learning word embeddings.
-*   **CBOW (Continuous Bag of Words):** Predicts the current word based on its surrounding context words.
-    *   **Strong Candidate:** Explains it's efficient for large datasets and generally performs well for frequent words.
-*   **Skip-gram:** Predicts the surrounding context words given the current word.
-    *   **Strong Candidate:** Highlights its effectiveness for smaller datasets and ability to capture better representations for rare words and more nuanced semantic relationships.
+- **GloVe**
+  - **Definition**: Global Vectors for Word Representation, an unsupervised learning algorithm for obtaining vector representations for words.
+  - **Mechanism**: Constructs a co-occurrence matrix and factorizes it to obtain word vectors.
+  - **Importance**: Captures global statistical information and semantic relationships.
+
+- **FastText**
+  - **Definition**: An extension of Word2Vec that considers subword information.
+  - **Mechanism**: Represents words as n-grams of characters, allowing for better handling of rare words and misspellings.
+  - **Importance**: Improves representation of morphologically rich languages and rare words.
+
+## Transformer Architecture
+
+- **Self-Attention**
+  - **Definition**: Mechanism that relates different positions of a single sequence to compute a representation of the sequence.
+  - **Mechanism**: Computes attention scores to weigh the importance of different words in a sequence.
+  - **Importance**: Captures long-range dependencies and context effectively.
+
+- **Multi-Head Attention**
+  - **Definition**: Extends self-attention by using multiple attention mechanisms in parallel.
+  - **Mechanism**: Allows the model to focus on different parts of the sequence simultaneously.
+  - **Importance**: Enhances the model's ability to capture diverse patterns and relationships.
+
+- **Positional Encoding**
+  - **Definition**: Adds information about the position of words in a sequence to the input embeddings.
+  - **Mechanism**: Uses sine and cosine functions to encode positions.
+  - **Importance**: Provides the model with sequence order information, crucial for tasks like translation.
+
+## BERT
+
+- **Bidirectional**
+  - **Definition**: Considers context from both directions (left and right) in a sequence.
+  - **Mechanism**: Uses transformers to process text bidirectionally.
+  - **Importance**: Captures more context than unidirectional models.
+
+- **Masked Language Model**
+  - **Definition**: Pre-training task where some words in a sentence are masked and the model learns to predict them.
+  - **Mechanism**: Improves understanding of word context and relationships.
+  - **Importance**: Enhances the model's ability to understand context and semantics.
+
+- **Fine-Tuning**
+  - **Definition**: Adapting a pre-trained BERT model to a specific task with additional training.
+  - **Mechanism**: Involves training on task-specific data with task-specific layers.
+  - **Importance**: Allows BERT to be applied to a wide range of NLP tasks with high performance.
+
+## Text Classification
+
+- **Definition**: The process of assigning categories or labels to text data based on its content.
+- **Mechanism**: Uses algorithms like Naive Bayes, SVM, or neural networks to classify text.
+- **Importance**: Essential for organizing and analyzing large volumes of text data.
+
+## Named Entity Recognition (NER)
+
+- **Definition**: Identifies and classifies named entities in text into predefined categories like names, dates, and locations.
+- **Mechanism**: Uses rule-based, statistical, or neural network models to detect entities.
+- **Importance**: Critical for information extraction and understanding text context.
+
+## Evaluation
+
+- **BLEU (Bilingual Evaluation Understudy)**
+  - **Definition**: A metric for evaluating the quality of machine-translated text against reference translations.
+  - **Mechanism**: Compares n-grams of the candidate translation to reference translations.
+  - **Importance**: Widely used for evaluating translation quality.
+
+- **ROUGE-N/L**
+  - **Definition**: Recall-Oriented Understudy for Gisting Evaluation, measures overlap between candidate and reference summaries.
+  - **Mechanism**: ROUGE-N measures n-gram overlap, ROUGE-L measures longest common subsequence.
+  - **Importance**: Commonly used for evaluating summarization tasks.
+
+- **Perplexity**
+  - **Definition**: A measure of how well a probability model predicts a sample.
+  - **Mechanism**: Lower perplexity indicates better predictive performance.
+  - **Importance**: Used to evaluate language models, with lower values indicating better performance.
+
+- **Red Flag**: Misinterpreting evaluation metrics as interchangeable without understanding their specific applications and limitations.

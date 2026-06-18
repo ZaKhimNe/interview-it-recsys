@@ -1,64 +1,147 @@
-# SYSTEM_ARCHITECTURE — Reference Document (Source: Gemini 2.5 Flash)
+# SYSTEM_ARCHITECTURE — Reference Document (Source: GPT-4o)
 
-## SYSTEM_ARCHITECTURE (Role: Data Engineer)
+## Microservices vs Monolithic
 
-This competency assesses a Data Engineer's ability to design, evaluate, and implement robust, scalable, and maintainable system architectures, particularly for data-intensive applications. It requires understanding fundamental architectural patterns, communication protocols, data flow management, and resilience strategies.
+- **Microservices Architecture**
+  - **Definition**: An architectural style that structures an application as a collection of loosely coupled services, each implementing a specific business capability.
+  - **Underlying Mechanism**: Each service can be developed, deployed, and scaled independently, often using different programming languages and databases.
+  - **When/Why It Matters**: Ideal for large, complex applications requiring frequent updates and scalability. Allows teams to work on different services simultaneously without affecting others.
+  - **Trade-offs**: 
+    - **Deployment Independence**: Facilitates continuous deployment and integration. Services can be updated without redeploying the entire application.
+    - **Network Overhead**: Increased inter-service communication can lead to latency and complexity in managing network calls.
+  - **Common Confusions**: Many candidates confuse microservices with SOA (Service-Oriented Architecture). The key difference is that microservices are more granular and independently deployable.
 
-## Microservices vs. Monolithic Architectures
+- **Monolithic Architecture**
+  - **Definition**: A traditional unified model for designing software where all components are interconnected and interdependent.
+  - **Underlying Mechanism**: The application is a single unit, often leading to a single codebase and deployment.
+  - **When/Why It Matters**: Suitable for small to medium-sized applications with less complexity and fewer scalability requirements.
+  - **Trade-offs**:
+    - **Simplicity**: Easier to develop and deploy initially, with a single codebase.
+    - **Scalability Limitations**: Scaling requires deploying the entire application, which can be inefficient.
 
-**Definition:** A **monolithic architecture** is a single, tightly coupled application where all components are part of a single codebase and deployed as one unit. A **microservices architecture** is a collection of small, independent, loosely coupled services, each running in its own process and communicating via lightweight mechanisms, often APIs.
+## REST API Design
 
-**Distinction & Practical Detail:** Monoliths are simpler to develop and deploy initially, suitable for smaller teams or rapid prototyping. However, they become challenging to scale, maintain, and update as complexity grows. Microservices offer independent deployment, technology diversity, enhanced scalability (individual services can scale independently), and improved fault isolation. The trade-off is increased operational complexity: distributed transactions, network latency, data consistency across services, distributed tracing, and service discovery become significant challenges.
+- **Statelessness**
+  - **Definition**: Each HTTP request from a client to server must contain all the information the server needs to fulfill that request.
+  - **Underlying Mechanism**: No client context is stored on the server between requests.
+  - **When/Why It Matters**: Enhances scalability and reliability. Each request is independent, simplifying server design.
 
-**Strong vs. Weak Answers:** A strong candidate articulates specific trade-offs beyond generic pros/cons, discussing scenarios where each is appropriate. They might highlight the operational overhead of microservices (e.g., managing container orchestration, distributed logging/monitoring) or the "monolith first" approach. A weak answer merely lists features without contextualizing their implications.
+- **Idempotency**
+  - **Definition**: An operation that can be applied multiple times without changing the result beyond the initial application.
+  - **Underlying Mechanism**: Ensures that repeated requests have the same effect as a single request.
+  - **When/Why It Matters**: Critical for safe retries in network communication. PUT and DELETE methods should be idempotent.
 
-**Pitfalls:** Believing microservices are a universal solution; underestimating the operational complexity and development overhead they introduce.
+- **HTTP Methods**
+  - **GET**: Retrieve data. Safe and idempotent.
+  - **POST**: Create new resources. Not idempotent.
+  - **PUT**: Update resources. Idempotent.
+  - **DELETE**: Remove resources. Idempotent.
+  - **Common Confusions**: Confusing POST with PUT. POST creates new resources, while PUT updates existing ones.
 
-## REST API Design Principles
+- **Status Codes**
+  - **2xx**: Success (e.g., 200 OK, 201 Created)
+  - **4xx**: Client errors (e.g., 400 Bad Request, 404 Not Found)
+  - **5xx**: Server errors (e.g., 500 Internal Server Error)
 
-**Definition:** REST (Representational State Transfer) is an architectural style for designing networked applications. REST APIs adhere to principles like statelessness, client-server separation, cacheability, and a uniform interface.
-
-**Concepts & Practical Detail:**
-*   **Statelessness:** Each request from client to server must contain all information needed to understand the request. The server holds no client context between requests. This enables scalability and simplifies server design.
-*   **Idempotency:** An operation is idempotent if multiple identical requests have the same effect as a single request. GET, PUT, and DELETE methods should be idempotent. POST is generally not. This is crucial for fault tolerance and retry mechanisms.
-*   **HTTP Methods:** GET (retrieve data), POST (create new resource), PUT (replace/update resource), PATCH (partially update resource), DELETE (remove resource). Misusing these (e.g., using GET for state changes) is a common anti-pattern.
-*   **Status Codes:** Standardized codes indicating the outcome of a request (e.g., 200 OK, 201 Created, 204 No Content, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 500 Internal Server Error). Proper use aids debugging and client-side logic.
-*   **Versioning:** Essential for evolving APIs without breaking existing clients. Common strategies include URI versioning (`/v1/users`), custom headers (`Accept: application/vnd.example.v1+json`), or query parameters (`/users?version=1`). Each has trade-offs in terms of discoverability and client complexity.
-
-**Strong vs. Weak Answers:** Strong candidates explain *why* these principles are important (e.g., statelessness for horizontal scalability, idempotency for reliable retries) and discuss the implications of different versioning strategies. Weak answers provide only definitions without practical context or rationale.
-
-**Pitfalls:** Misusing HTTP methods; returning generic 500 errors instead of specific 4xx codes for client issues; not considering API evolution through versioning.
+- **Versioning**
+  - **Definition**: Managing changes to an API without disrupting existing clients.
+  - **Mechanism**: Use URI versioning (e.g., /v1/resource) or header versioning.
+  - **When/Why It Matters**: Ensures backward compatibility and smooth transition between API versions.
 
 ## Message Queues
 
-**Definition:** Message queues provide an asynchronous communication mechanism, decoupling producers (senders) from consumers (receivers) by temporarily storing messages.
+- **Kafka vs RabbitMQ**
+  - **Kafka**
+    - **Use Cases**: High-throughput, real-time data streaming, and log aggregation.
+    - **Mechanism**: Distributed commit log, partitioned for scalability.
+    - **Common Confusions**: Kafka is often mistaken for a traditional message queue. It is more of a distributed streaming platform.
+  - **RabbitMQ**
+    - **Use Cases**: Complex routing, message delivery guarantees, and lower latency.
+    - **Mechanism**: Broker-based, supports multiple messaging protocols.
+    - **Common Confusions**: RabbitMQ is sometimes confused with Kafka for high-throughput scenarios, but it excels in message delivery guarantees.
 
-**Kafka vs. RabbitMQ & Messaging Patterns:**
-*   **Kafka:** A distributed streaming platform designed for high-throughput, fault-tolerant, durable message storage. Ideal for log aggregation, real-time analytics, event sourcing, and stream processing. It excels at sequential reads and high volumes, offering strong ordering guarantees within a partition.
-*   **RabbitMQ:** A general-purpose message broker supporting various messaging protocols (AMQP, STOMP, MQTT). It's well-suited for complex routing, task queues, and traditional RPC patterns. It offers more fine-grained control over message delivery and acknowledgments.
-*   **Pub/Sub (Publish/Subscribe):** A pattern where a message published to a topic or exchange is delivered to multiple subscribers. Kafka topics and RabbitMQ exchanges with fanout bindings exemplify this.
-*   **Point-to-Point (Queue):** A pattern where a message sent to a queue is consumed by exactly one consumer. RabbitMQ queues and Kafka consumer groups (where each message in a partition is processed by only one consumer in the group) illustrate this.
-
-**Strong vs. Weak Answers:** Strong candidates articulate specific use cases for Kafka vs. RabbitMQ, discussing their architectural differences (e.g., Kafka's log-based storage vs. RabbitMQ's traditional queue model) and trade-offs regarding message ordering, durability, and scalability. They can differentiate between pub/sub and point-to-point and explain when to use each. Weak answers provide generic definitions without practical application or comparative analysis.
-
-**Pitfalls:** Confusing Kafka's partition-based ordering with global ordering; not understanding the durability and retention policies of each system.
+- **Pub/Sub vs Point-to-Point**
+  - **Pub/Sub**: Messages are broadcast to all subscribers. Suitable for event-driven architectures.
+  - **Point-to-Point**: Messages are sent to a single consumer. Suitable for task distribution.
 
 ## Caching Strategies
 
-**Definition:** Caching involves storing frequently accessed data in a faster, temporary storage layer to reduce latency and load on primary data sources.
+- **Cache-aside**
+  - **Definition**: The application code is responsible for loading data into the cache.
+  - **Mechanism**: If data is not in the cache, the application fetches it from the database and stores it in the cache.
+  - **When/Why It Matters**: Provides flexibility but requires more application logic.
 
-**Strategies & Concepts:**
-*   **Cache-Aside (Lazy Loading):** The application checks the cache first. If a miss occurs, it fetches data from the database, stores it in the cache, then returns it. Simple to implement, but initial requests are slow, and stale data can occur.
-*   **Write-Through:** Data is written simultaneously to both the cache and the database. Ensures data consistency but makes write operations slower as they must wait for both writes to complete.
-*   **Write-Behind (Write-Back):** Data is written to the cache, and the write to the database occurs asynchronously. Offers fast write performance but carries a risk of data loss if the cache fails before synchronization.
-*   **TTL (Time-To-Live):** A mechanism to automatically expire cached items after a specified duration, helping manage stale data and cache size.
-*   **Redis Data Structures:** Redis, a popular in-memory data store, supports various structures:
-    *   **Strings:** Simple key-value pairs.
-    *   **Hashes:** Ideal for storing objects (e.g., user profiles).
-    *   **Lists:** Ordered collections (e.g., recent activity feeds).
-    *   **Sets:** Unordered collections of unique strings (e.g., unique visitors).
-    *   **Sorted Sets:** Sets where each member has a score, allowing for ordered retrieval (e.g., leaderboards, time-series data).
+- **Write-through**
+  - **Definition**: Data is written to the cache and the database simultaneously.
+  - **Mechanism**: Ensures cache consistency with the database.
+  - **When/Why It Matters**: Simplifies read operations but can introduce write latency.
 
-**Strong vs. Weak Answers:** Strong candidates discuss cache invalidation strategies (e.g., explicit invalidation, TTL, LRU), consistency models (e.g., eventual consistency with cache-aside), and how specific Redis data structures optimize different access patterns. They consider the trade-offs between consistency, performance, and complexity. Weak answers merely list strategies without depth or practical application.
+- **Write-behind**
+  - **Definition**: Data is written to the cache and asynchronously to the database.
+  - **Mechanism**: Reduces write latency but risks data loss on failure.
+  - **When/Why It Matters**: Suitable for high-write throughput scenarios.
 
-**Pitfalls:** Cache stampede (multiple clients trying to fetch and cache the same missing item simultaneously
+- **TTL (Time-to-Live)**
+  - **Definition**: Expiration time for cached data.
+  - **Mechanism**: Automatically invalidates cache entries after a specified period.
+  - **When/Why It Matters**: Prevents stale data but requires careful tuning.
+
+- **Redis Data Structures**
+  - **Strings, Lists, Sets, Hashes, Sorted Sets**: Each has specific use cases and performance characteristics.
+  - **Common Confusions**: Misusing data structures can lead to inefficient memory usage and performance issues.
+
+## Load Balancing
+
+- **Round-robin**
+  - **Definition**: Distributes requests evenly across servers.
+  - **Mechanism**: Cycles through a list of servers.
+  - **When/Why It Matters**: Simple and effective for evenly distributed workloads.
+
+- **Least-connections**
+  - **Definition**: Directs traffic to the server with the fewest active connections.
+  - **Mechanism**: Balances load based on current server utilization.
+  - **When/Why It Matters**: Useful for uneven request loads.
+
+- **Consistent Hashing**
+  - **Definition**: Distributes requests based on a hash of the request data.
+  - **Mechanism**: Minimizes re-distribution of requests when servers are added or removed.
+  - **When/Why It Matters**: Critical for distributed caching systems.
+
+## High Availability Patterns
+
+- **Failover**
+  - **Definition**: Automatic switching to a standby system upon failure.
+  - **Mechanism**: Uses redundant systems to ensure continuity.
+  - **When/Why It Matters**: Essential for mission-critical applications.
+
+- **Circuit Breaker**
+  - **Definition**: Prevents repeated requests to a failing service.
+  - **Mechanism**: Opens a circuit after failures, allowing recovery time.
+  - **When/Why It Matters**: Protects systems from cascading failures.
+
+- **Bulkhead**
+  - **Definition**: Isolates components to prevent failure propagation.
+  - **Mechanism**: Limits resource usage per component.
+  - **When/Why It Matters**: Enhances system resilience by containing failures.
+
+## System Design for Data-Intensive Applications
+
+- **Scalability**
+  - **Definition**: Ability to handle increased load by adding resources.
+  - **Mechanism**: Horizontal scaling (adding more nodes) vs. vertical scaling (adding more power to existing nodes).
+  - **When/Why It Matters**: Critical for applications with growing data and user demands.
+
+- **Data Partitioning**
+  - **Definition**: Dividing data across multiple databases or tables.
+  - **Mechanism**: Sharding based on keys or ranges.
+  - **When/Why It Matters**: Improves performance and manageability of large datasets.
+
+- **Data Consistency**
+  - **Definition**: Ensuring data accuracy and uniformity across systems.
+  - **Mechanism**: Strong vs. eventual consistency models.
+  - **When/Why It Matters**: Balancing consistency with availability and partition tolerance (CAP theorem).
+
+- **Interviewer Red Flags**
+  - Confusing microservices with monolithic architecture.
+  - Misunderstanding REST API idempotency.
+  - Incorrectly applying caching strategies, such as using write-behind without understanding data loss risks.
