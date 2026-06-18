@@ -1,8 +1,8 @@
 """
-build_reference.py — Dùng Gemini sinh reference docs cho 17 competency.
+build_reference.py — Dùng GPT-4o sinh reference docs cho 17 competency.
 
-Dùng Gemini (khác với DeepSeek dùng để sinh câu hỏi) để tránh source bias.
-Cross-model: DeepSeek sinh câu hỏi → Gemini sinh reference + review câu hỏi.
+Cross-model: Gemini sinh câu hỏi → GPT-4o sinh reference → Claude Haiku review.
+GPT-4o làm reference độc lập, tránh bias vòng kín.
 
 Chạy: python utils/data/generation/build_reference.py
        python utils/data/generation/build_reference.py --force   # tạo lại hết
@@ -18,19 +18,16 @@ ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.a
 
 
 def get_client() -> OpenAI:
-    key = os.environ.get("ANTHROPIC_API_KEY", "")
+    key = os.environ.get("OPENAI_API_KEY", "")
     if not key:
         env_path = os.path.join(ROOT, ".env")
         if os.path.exists(env_path):
             for line in open(env_path, encoding="utf-8"):
-                if "ANTHROPIC_API_KEY" in line and "=" in line:
+                if "OPENAI_API_KEY" in line and "=" in line:
                     key = line.strip().split("=", 1)[1].strip().strip('"')
     if not key:
-        raise ValueError("Chua set ANTHROPIC_API_KEY trong .env")
-    return OpenAI(
-        api_key=key,
-        base_url="https://api.anthropic.com/v1/"
-    )
+        raise ValueError("Chua set OPENAI_API_KEY trong .env")
+    return OpenAI(api_key=key)
 
 
 COMPETENCIES = [
@@ -122,25 +119,38 @@ COMPETENCIES = [
 ]
 
 
-PROMPT_TEMPLATE = """You are a senior technical interviewer with expertise in Data Analytics, Data Science, and Data Engineering.
+PROMPT_TEMPLATE = """You are a principal engineer and technical interviewer with 10+ years of experience hiring for Data Analytics, Data Science, and Data Engineering roles at top-tier tech companies.
 
-Write a technical reference document for competency: {key} (role: {role}).
+Your task: Write a **technical reference document** for competency **{key}** (role: {role}).
 
-Topics to cover: {topics}
+This document will serve as the **ground truth** used by an AI reviewer to evaluate interview questions. It must be precise, deep, and unambiguous — a weak or vague reference will cause the reviewer to accept bad questions or reject good ones.
 
-Requirements:
-- Write in English (technical terminology)
-- Length: 700-900 words
-- Format: clear sections with ## headings
-- For each concept: precise technical definition + key distinction from similar concepts + practical interview-level detail
-- Focus on what distinguishes a strong candidate answer from a weak one
-- Include common interview pitfalls and misconceptions where relevant
-- This document will be used as ground truth to review interview questions — must be technically accurate at senior level
+## Topics to cover (all required):
+{topics}
 
-Output ONLY the document content, no intro or outro."""
+## Document requirements:
+
+**Depth:**
+- For each concept: precise technical definition → underlying mechanism → when/why it matters in practice
+- Explicitly state common confusions (e.g. "Many candidates confuse X with Y — the key difference is...")
+- Include quantitative thresholds, complexity bounds, or formula references where applicable (e.g. "O(log n) for B-tree lookup", "p-value < 0.05 threshold", "L1 produces sparse weights because...")
+- Flag interview-critical distinctions: things that separate a strong answer from a mediocre one
+
+**Format:**
+- Use ## headings for each major topic
+- Use bullet points for sub-concepts and comparisons
+- Use **bold** for key terms on first use
+- Length: 1100-1400 words (thorough coverage, no padding)
+
+**Quality bar:**
+- Technically accurate at senior/staff engineer level
+- No hand-waving — every claim must be precise enough to evaluate a candidate answer against
+- Include at least 2-3 "interviewer red flags" — wrong answers or misconceptions that should cause a question to FAIL QC
+
+Output ONLY the document. No intro sentence, no outro, no meta-commentary."""
 
 
-def build_one(client: OpenAI, comp: dict, min_words: int = 550, max_retries: int = 3) -> str:
+def build_one(client: OpenAI, comp: dict, min_words: int = 750, max_retries: int = 3) -> str:
     prompt = PROMPT_TEMPLATE.format(
         key=comp["key"],
         role=comp["role"],
@@ -150,10 +160,10 @@ def build_one(client: OpenAI, comp: dict, min_words: int = 550, max_retries: int
     for attempt in range(max_retries):
         try:
             resp = client.chat.completions.create(
-                model="claude-haiku-4-5-20251001",
+                model="gpt-4o",
                 messages=[{"role": "user", "content": prompt}],
-                max_tokens=4000,
-                temperature=0.3,
+                max_tokens=6000,
+                temperature=0.2,
                 timeout=60,
             )
             content = resp.choices[0].message.content.strip()
@@ -195,7 +205,7 @@ def main():
     elif not args.force:
         todo = [c for c in COMPETENCIES if c["key"] not in existing]
 
-    print(f"Model: claude-haiku-4-5 (cross-model vs DeepSeek-generated questions)")
+    print(f"Model: gpt-4o (cross-model vs Gemini-generated questions)")
     print(f"Total competencies: {len(COMPETENCIES)}")
     print(f"Already built: {len(existing)}")
     print(f"To build: {len(todo)}\n")
@@ -209,9 +219,9 @@ def main():
             word_count = len(content.split())
             out_path = os.path.join(out_dir, f"{key}.txt")
             with open(out_path, "w", encoding="utf-8") as f:
-                f.write(f"# {key} — Reference Document (Source: Gemini 2.5 Flash)\n\n")
+                f.write(f"# {key} — Reference Document (Source: GPT-4o)\n\n")
                 f.write(content)
-            status = "OK" if word_count >= 550 else "SHORT"
+            status = "OK" if word_count >= 750 else "SHORT"
             print(f"{status} ({word_count} words)")
             if status == "SHORT":
                 failed.append(f"{key} ({word_count} words)")

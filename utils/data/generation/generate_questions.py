@@ -1,5 +1,5 @@
 """
-generate_questions.py — Sinh câu hỏi tự động bằng DeepSeek API.
+generate_questions.py — Sinh câu hỏi tự động bằng Gemini 2.5 Flash.
 
 Cách dùng:
   python utils/data/generation/generate_questions.py --comp cloud_storage --role DE
@@ -8,35 +8,38 @@ Cách dùng:
 
 Output: data/raw/question_bank/generated_<comp>.json
 
+Cross-model setup:
+  Generate: Gemini 2.5 Flash  (file này)
+  Review:   Claude Sonnet     (qc_rag.py)
+
 Yêu cầu:
-  pip install openai
-  Set DEEPSEEK_API_KEY trong environment hoặc file .env
+  pip install google-genai
+  Set GEMINI_API_KEY trong environment hoặc file .env
 """
 
 import json, os, re, sys, argparse, time, random
 from datetime import date
-from openai import OpenAI
+import google.genai as genai
 
 ROOT = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 sys.stdout.reconfigure(encoding="utf-8")
 
 # ── API client ────────────────────────────────────────────────────────────────
-def get_client() -> OpenAI:
-    key = os.environ.get("DEEPSEEK_API_KEY", "")
+def get_gemini_key() -> str:
+    key = os.environ.get("GEMINI_API_KEY", "")
     if not key:
-        # fallback: doc tu .env
         env_path = os.path.join(ROOT, ".env")
         if os.path.exists(env_path):
-            for line in open(env_path):
-                if "DEEPSEEK_API_KEY" in line and "=" in line:
+            for line in open(env_path, encoding="utf-8"):
+                if "GEMINI_API_KEY" in line and "=" in line:
                     key = line.strip().split("=", 1)[1].strip().strip('"')
     if not key:
-        raise ValueError("Chua set DEEPSEEK_API_KEY. Them vao .env hoac bien moi truong.")
-    return OpenAI(api_key=key, base_url="https://api.deepseek.com")
+        raise ValueError("Chua set GEMINI_API_KEY trong .env")
+    return key
 
 
 # ── Thresholds ────────────────────────────────────────────────────────────────
-DIFFICULTY_TARGET = {"EASY": 15, "MEDIUM": 25, "HARD": 10}
+DIFFICULTY_TARGET = {"EASY": 30, "MEDIUM": 40, "HARD": 20}
 
 # ── Competency config (cố định) ───────────────────────────────────────────────
 # (role, comp_name, taxonomy_key, skill_groups)
@@ -61,14 +64,26 @@ COMP_CONFIG = [
 
 def compute_generation_plan(all_questions: list) -> list:
     """
-    Tự động tính số câu còn thiếu dựa trên data hiện có.
+    Tính số câu còn thiếu theo cách đếm nhất quán với distribution table:
+    mỗi câu chỉ được đếm 1 lần, dưới primary skill group (skill_group đầu tiên khớp role).
     Returns: [(role, comp_name, skill_groups, need_easy, need_med, need_hard)]
     """
-    from collections import Counter
+    from collections import Counter, defaultdict
+    # taxonomy_key → role lookup (built from COMP_CONFIG)
+    COMP_CONFIG_ROLE = {taxonomy_key: role for role, _, taxonomy_key, _ in COMP_CONFIG}
+
+    # Build primary-skill-group counts (same method as distribution_type.html)
+    psg_diff: dict = defaultdict(lambda: Counter())
+    for q in all_questions:
+        role = (q.get("roles") or {}).get("primary", "")
+        sgs  = q.get("skill_groups") or []
+        psg  = next((sg for sg in sgs if sg in COMP_CONFIG_ROLE and COMP_CONFIG_ROLE[sg] == role), None)
+        if psg:
+            psg_diff[psg][q.get("difficulty_label", "")] += 1
+
     plan = []
     for role, comp, taxonomy_key, skill_groups in COMP_CONFIG:
-        matched = [q for q in all_questions if taxonomy_key in q.get("skill_groups", [])]
-        diff = Counter(q.get("difficulty_label") for q in matched)
+        diff = psg_diff[taxonomy_key]
         ne = max(0, DIFFICULTY_TARGET["EASY"]   - diff.get("EASY", 0))
         nm = max(0, DIFFICULTY_TARGET["MEDIUM"] - diff.get("MEDIUM", 0))
         nh = max(0, DIFFICULTY_TARGET["HARD"]   - diff.get("HARD", 0))
@@ -78,20 +93,12 @@ def compute_generation_plan(all_questions: list) -> list:
 
 
 def load_all_questions() -> list:
-    """Load toàn bộ câu hỏi từ generated + scraped để tính gap."""
-    gen_dir     = os.path.join(ROOT, "data/raw/question_bank/generated")
-    scraped_dir = os.path.join(ROOT, "data/raw/question_bank/scraped")
-    all_qs = []
-    for fname in os.listdir(gen_dir):
-        if fname.endswith(".json"):
-            qs = json.load(open(os.path.join(gen_dir, fname), encoding="utf-8"))
-            all_qs.extend(qs if isinstance(qs, list) else [])
-    for fname in ["scraped_sql.json", "scraped_github.json", "scraped_youssef.json", "converted_tf_fb.json"]:
-        p = os.path.join(scraped_dir, fname)
-        if os.path.exists(p):
-            data = json.load(open(p, encoding="utf-8"))
-            all_qs.extend(data if isinstance(data, list) else data.get("questions", []))
-    return all_qs
+    """Load toàn bộ câu hỏi từ question_bank.json (single source of truth)."""
+    bank_path = os.path.join(ROOT, "data/raw/question_bank/question_bank.json")
+    if os.path.exists(bank_path):
+        with open(bank_path, encoding="utf-8") as f:
+            return json.load(f)
+    return []
 
 
 # GENERATION_PLAN được tính động khi chạy — không hardcode số câu
@@ -184,27 +191,24 @@ Output: JSON array hợp lệ, KHÔNG có text thừa ngoài JSON. Format mỗi 
   }},
   "metadata": {{
     "language": "vi",
-    "source": "deepseek_generated",
+    "source": "gemini_generated",
     "version": "v1.0",
     "created_at": "{today}"
   }}
 }}"""
 
 
-def call_deepseek(client: OpenAI, prompt: str, max_retries: int = 3) -> list:
-    """Gọi API và parse JSON. Retry nếu lỗi."""
+def call_gemini(gemini_key: str, prompt: str, max_retries: int = 3) -> list:
+    """Gọi Gemini API và parse JSON. Retry nếu lỗi."""
+    client = genai.Client(api_key=gemini_key)
+    full_prompt = "Bạn là chuyên gia tạo câu hỏi phỏng vấn kỹ thuật. Chỉ trả về JSON array hợp lệ, không có text thừa.\n\n" + prompt
     for attempt in range(max_retries):
         try:
-            resp = client.chat.completions.create(
-                model="deepseek-chat",
-                messages=[
-                    {"role": "system", "content": "Bạn là chuyên gia tạo câu hỏi phỏng vấn kỹ thuật. Chỉ trả về JSON array hợp lệ, không có text thừa."},
-                    {"role": "user", "content": prompt},
-                ],
-                temperature=0.8,
-                max_tokens=8000,
+            resp = client.models.generate_content(
+                model="gemini-3.5-flash",
+                contents=full_prompt,
             )
-            content = resp.choices[0].message.content.strip()
+            content = resp.text.strip()
             # Strip markdown code blocks nếu có
             content = re.sub(r'^```(?:json)?\s*', '', content)
             content = re.sub(r'\s*```$', '', content)
@@ -216,7 +220,7 @@ def call_deepseek(client: OpenAI, prompt: str, max_retries: int = 3) -> list:
         except Exception as e:
             print(f"  [attempt {attempt+1}] API error: {e}")
             if attempt < max_retries - 1:
-                time.sleep(5)
+                time.sleep(15)
     return []
 
 
@@ -325,7 +329,7 @@ def load_existing_for_comp(comp: str) -> list:
     return existing
 
 
-def generate_comp(client: OpenAI, role: str, comp: str, skill_groups: list,
+def generate_comp(gemini_key: str, role: str, comp: str, skill_groups: list,
                   n_easy: int, n_medium: int, n_hard: int) -> list:
     """Sinh câu hỏi cho 1 competency, chia batch 10 câu."""
     print(f"\n{'='*60}")
@@ -375,7 +379,7 @@ def generate_comp(client: OpenAI, role: str, comp: str, skill_groups: list,
     for batch_idx, (be, bm, bh) in enumerate(batches):
         print(f"\n  Batch {batch_idx+1}/{len(batches)}: EASY={be} MED={bm} HARD={bh}")
         prompt = build_prompt(role, comp, skill_groups, be, bm, bh, existing)
-        raw_qs = call_deepseek(client, prompt)
+        raw_qs = call_gemini(gemini_key, prompt)
 
         if not raw_qs:
             print("  [WARN] Batch returned empty, skipping")
@@ -395,7 +399,7 @@ def generate_comp(client: OpenAI, role: str, comp: str, skill_groups: list,
                 failed += 1
 
         print(f"  Batch result: {passed} passed, {failed} failed")
-        time.sleep(1)  # rate limit
+        time.sleep(6)  # rate limit: 10 RPM = 1 req/6s
 
     print(f"\n  Total generated for {comp}: {len(all_generated)} questions")
     return all_generated
@@ -445,7 +449,7 @@ def main():
     all_questions = load_all_questions()
     dynamic_plan  = compute_generation_plan(all_questions)
 
-    client = get_client()
+    gemini_key = get_gemini_key()
 
     if args.all:
         plan = dynamic_plan
@@ -462,7 +466,7 @@ def main():
     for role, comp, skill_groups, ne, nm, nh in plan:
         if ne + nm + nh == 0:
             continue
-        questions = generate_comp(client, role, comp, skill_groups, ne, nm, nh)
+        questions = generate_comp(gemini_key, role, comp, skill_groups, ne, nm, nh)
         if questions:
             path = save_generated(questions, comp)
             summary.append((role, comp, len(questions), path))

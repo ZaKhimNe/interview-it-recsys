@@ -1,106 +1,94 @@
-# STATISTICS_EXPERIMENTATION — Reference Document (Source: Gemini 2.5 Flash)
-
-## Competency: STATISTICS_EXPERIMENTATION (Role: Data Analyst)
-
-This document outlines key statistical and experimental design competencies expected of a Data Analyst. A strong candidate demonstrates not just definitional knowledge but also a deep understanding of practical application, assumptions, limitations, and the ability to interpret results in a business context.
+# STATISTICS_EXPERIMENTATION — Reference Document (Source: GPT-4o)
 
 ## Descriptive Statistics
 
-**Definition:** Methods used to summarize and describe the main features of a dataset.
+- **Mean**: The arithmetic average of a set of numbers, calculated as the sum of all values divided by the count of values. It is sensitive to outliers, which can skew the mean significantly.
+  - **Mechanism**: \(\text{Mean} = \frac{\sum_{i=1}^{n} x_i}{n}\)
+  - **Practical Importance**: Useful for understanding the central tendency of a dataset. However, in skewed distributions, the mean may not accurately represent the data's center.
 
-*   **Mean:** The arithmetic average of a dataset.
-    *   *Distinction:* Sensitive to outliers.
-    *   *Practical Detail:* Best for symmetrically distributed data. A strong candidate understands its limitations and when to use alternatives.
-*   **Median:** The middle value in an ordered dataset.
-    *   *Distinction:* Robust to outliers.
-    *   *Practical Detail:* Preferred for skewed distributions (e.g., income, house prices) where the mean would be misleading.
-*   **Mode:** The most frequently occurring value in a dataset.
-    *   *Distinction:* Applicable to all data types (nominal, ordinal, interval, ratio).
-    *   *Practical Detail:* Useful for categorical data or identifying peaks in multimodal distributions.
-*   **Standard Deviation (SD):** A measure of the average amount of variability or dispersion around the mean.
-    *   *Distinction:* Expressed in the same units as the data, making it directly interpretable.
-    *   *Practical Detail:* A smaller SD indicates data points are closer to the mean.
-*   **Variance:** The average of the squared differences from the mean.
-    *   *Distinction:* SD is the square root of variance. Variance is in squared units, making it less intuitive for direct interpretation but mathematically convenient.
-    *   *Practical Detail:* Used in many statistical tests (e.g., ANOVA).
-*   **Skewness:** A measure of the asymmetry of the probability distribution of a real-valued random variable about its mean.
-    *   *Distinction:* Positive skew (right-skewed) means the tail is longer on the right; negative skew (left-skewed) means the tail is longer on the left.
-    *   *Practical Detail:* Indicates if the mean is being pulled by extreme values. A strong candidate can explain how skewness impacts the relationship between mean, median, and mode.
-    *   *Pitfall:* Weak candidates may only define it without explaining its implications for central tendency measures.
+- **Median**: The middle value of a dataset when ordered from least to greatest. If the dataset has an even number of observations, the median is the average of the two middle numbers.
+  - **Mechanism**: Sort the data and find the middle value.
+  - **Practical Importance**: Provides a better measure of central tendency than the mean in skewed distributions or when outliers are present.
+
+- **Mode**: The most frequently occurring value(s) in a dataset. A dataset may be unimodal, bimodal, or multimodal.
+  - **Mechanism**: Count the frequency of each value and identify the highest.
+  - **Practical Importance**: Useful for categorical data to identify the most common category.
+
+- **Standard Deviation (std)**: A measure of the amount of variation or dispersion in a set of values. A low std indicates that the values tend to be close to the mean.
+  - **Mechanism**: \(\text{std} = \sqrt{\frac{\sum_{i=1}^{n} (x_i - \text{mean})^2}{n}}\)
+  - **Practical Importance**: Helps in understanding the spread of data points around the mean.
+
+- **Variance**: The square of the standard deviation, representing the average of the squared differences from the mean.
+  - **Mechanism**: \(\text{Variance} = \frac{\sum_{i=1}^{n} (x_i - \text{mean})^2}{n}\)
+  - **Practical Importance**: Used in statistical tests and models to assess variability.
+
+- **Skewness**: A measure of the asymmetry of the probability distribution of a real-valued random variable.
+  - **Mechanism**: Positive skew indicates a longer or fatter tail on the right side, while negative skew indicates a longer or fatter tail on the left.
+  - **Practical Importance**: Indicates potential outliers and the direction of skew, affecting mean and median.
 
 ## Probability Distributions
 
-**Definition:** A mathematical function that describes the likelihood of different possible outcomes in an experiment.
+- **Normal Distribution**: A continuous probability distribution characterized by a symmetric, bell-shaped curve. Defined by its mean (\(\mu\)) and standard deviation (\(\sigma\)).
+  - **Mechanism**: \(\text{PDF}(x) = \frac{1}{\sigma \sqrt{2\pi}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}\)
+  - **Practical Importance**: Many statistical tests assume normality due to the Central Limit Theorem.
 
-*   **Normal Distribution (Gaussian):** A symmetric, bell-shaped distribution where the mean, median, and mode are equal.
-    *   *Distinction:* Characterized by its mean ($\mu$) and standard deviation ($\sigma$). Many natural phenomena approximate this distribution.
-    *   *Practical Detail:* Crucial for inferential statistics due to the Central Limit Theorem. A strong candidate understands its assumptions and the role of the CLT in justifying its use for sample means.
-*   **Binomial Distribution:** Describes the number of successes in a fixed number of independent Bernoulli trials.
-    *   *Distinction:* Discrete distribution for binary outcomes (success/failure) over a fixed number of trials (n), with a constant probability of success (p).
-    *   *Practical Detail:* Ideal for modeling conversion rates, A/B test outcomes (e.g., clicks, purchases).
-*   **Poisson Distribution:** Describes the number of events occurring in a fixed interval of time or space, given a constant average rate ($\lambda$) and independent occurrences.
-    *   *Distinction:* Discrete distribution for rare events.
-    *   *Practical Detail:* Useful for modeling website visits per minute, customer service calls per hour, or defects per product. A strong candidate can differentiate it from Binomial by the nature of the "trials" (fixed interval vs. fixed count).
+- **Binomial Distribution**: A discrete distribution representing the number of successes in a fixed number of independent Bernoulli trials.
+  - **Mechanism**: \(\text{P}(X = k) = \binom{n}{k} p^k (1-p)^{n-k}\)
+  - **Practical Importance**: Models binary outcomes, such as pass/fail or yes/no.
 
-## Hypothesis Testing Fundamentals
+- **Poisson Distribution**: A discrete distribution expressing the probability of a given number of events occurring in a fixed interval of time or space.
+  - **Mechanism**: \(\text{P}(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}\)
+  - **Practical Importance**: Useful for modeling rare events.
 
-**Definition:** A statistical method used to make inferences about a population parameter based on sample data.
+## Hypothesis Testing
 
-*   **Null Hypothesis ($H_0$):** A statement of no effect or no difference. The hypothesis to be tested.
-*   **Alternative Hypothesis ($H_1$ or $H_A$):** A statement that contradicts the null hypothesis, suggesting an effect or difference.
-*   **P-value Interpretation:** The probability of observing data as extreme as, or more extreme than, the sample data, *assuming the null hypothesis is true*.
-    *   *Strong Candidate:* Correctly states that a low p-value (typically < $\alpha$) leads to rejecting $H_0$, indicating the observed data is unlikely under $H_0$.
-    *   *Weak Candidate/Pitfall:* Misinterprets p-value as the probability that the null hypothesis is true, or the probability of making a mistake. It is *not* a measure of effect size.
-*   **Confidence Intervals (CI):** A range of values, derived from sample statistics, that is likely to contain the true population parameter with a certain level of confidence (e.g., 95%).
-    *   *Practical Detail:* Provides a range of plausible values for the parameter. If a 95% CI for a difference in means does not include zero, it suggests a statistically significant difference at the 0.05 level. A strong candidate uses CIs to complement p-values, providing both significance and an estimate of the effect's magnitude.
+- **T-test**: Used to determine if there is a significant difference between the means of two groups.
+  - **Mechanism**: Compares the t-statistic to a critical value from the t-distribution.
+  - **Practical Importance**: Commonly used in A/B testing to compare group means.
 
-## Specific Hypothesis Tests
+- **Chi-square Test**: Tests the association between categorical variables.
+  - **Mechanism**: Compares observed frequencies to expected frequencies under the null hypothesis.
+  - **Practical Importance**: Useful for independence tests in contingency tables.
 
-**Definition:** Statistical procedures chosen based on data type, number of groups, and research question.
+- **ANOVA (Analysis of Variance)**: Tests for significant differences among group means in a sample.
+  - **Mechanism**: Compares the variance between groups to the variance within groups.
+  - **Practical Importance**: Extends t-test to more than two groups.
 
-*   **T-test:** Used to compare the means of two groups.
-    *   *Types:* Independent samples t-test (unrelated groups), Paired samples t-test (related groups).
-    *   *Assumptions:* Data is continuous, approximately normally distributed, and (for independent samples) equal variances (though Welch's t-test can relax this).
-    *   *Practical Detail:* A strong candidate knows when to use each type and can discuss the impact of violating assumptions.
-*   **Chi-square Test ($\chi^2$):** Used for categorical data.
-    *   *Types:* Goodness-of-fit (compares observed frequencies to expected frequencies in a single categorical variable), Test of Independence (examines the relationship between two categorical variables).
-    *   *Assumptions:* Expected cell counts are sufficiently large (typically > 5).
-    *   *Practical Detail:* Common for analyzing survey responses or A/B test results where the outcome is categorical (e.g., click/no-click).
-*   **ANOVA (Analysis of Variance):** Used to compare the means of three or more groups.
-    *   *Distinction:* Extends the t-test to multiple groups, controlling the Type I error rate.
-    *   *Practical Detail:* If ANOVA indicates a significant difference, post-hoc tests (e.g., Tukey HSD) are needed to determine *which* specific group pairs differ. A strong candidate understands that ANOVA itself doesn't identify specific differences.
+## P-value Interpretation
+
+- **P-value**: The probability of observing data as extreme as the observed data, assuming the null hypothesis is true.
+  - **Mechanism**: Calculated using the test statistic and the relevant distribution.
+  - **Practical Importance**: A p-value < 0.05 is commonly used as a threshold for statistical significance.
+  - **Common Confusion**: Many candidates confuse p-value with the probability that the null hypothesis is true. The p-value does not measure this probability.
+
+## Confidence Intervals
+
+- **Confidence Interval (CI)**: A range of values derived from sample data that is likely to contain the true population parameter.
+  - **Mechanism**: Calculated as \(\text{CI} = \text{mean} \pm \text{margin of error}\)
+  - **Practical Importance**: Provides a range of plausible values for the parameter, reflecting the uncertainty of the estimate.
 
 ## A/B Testing Design and Pitfalls
 
-**Definition:** A randomized controlled experiment comparing two versions (A and B) of a product, feature, or marketing campaign to determine which performs better.
+- **Design**: Randomly assign participants to control and treatment groups to test the effect of a variable.
+  - **Mechanism**: Use statistical tests to compare outcomes between groups.
+  - **Practical Importance**: Helps in making data-driven decisions.
+  - **Pitfalls**: Common issues include not accounting for multiple testing, insufficient sample size, and not randomizing properly.
 
-*   **Design Principles:**
-    *   **Randomization:** Ensures groups are comparable and minimizes bias.
-    *   **Sample Size Calculation (Power Analysis):** Determines the minimum sample size needed to detect a statistically significant effect of a given magnitude with a specified power. A strong candidate can explain the components (alpha, beta/power, effect size) and why it's critical *before* starting an experiment.
-    *   **Defining Metrics:** Clearly identifying the primary (Overall Evaluation Criterion - OEC) and secondary metrics.
-*   **Pitfalls:**
-    *   **Novelty Effect/Change Aversion:** Initial user behavior might be atypical due to the newness of the feature.
-    *   **Selection Bias:** Non-random assignment of users to groups.
-    *   **Simpson's Paradox:** Trends appearing in subgroups reverse when groups are combined, due to a lurking confounding variable.
-    *   **Insufficient Sample Size:** Leads to underpowered tests, missing real effects (Type II error).
-    *   **Running Tests for Too Short/Long:** Too short risks novelty effects; too long risks external factors influencing results.
-    *   **Ignoring Multiple Testing:** Running many tests without correction inflates Type I error.
-    *   *Strong Candidate:* Can identify these pitfalls in hypothetical scenarios and propose mitigation strategies.
+## Statistical Significance vs Practical Significance
 
-## Statistical Significance vs. Practical Significance
+- **Statistical Significance**: Indicates that an observed effect is unlikely to have occurred by chance.
+  - **Practical Significance**: Considers whether the effect size is large enough to be meaningful in a real-world context.
+  - **Common Confusion**: Candidates often equate statistical significance with practical importance. A statistically significant result may not be practically significant.
 
-**Definition:** Two distinct but equally important aspects of interpreting experimental results.
+## Multiple Testing Correction (Bonferroni)
 
-*   **Statistical Significance:** Indicates that an observed effect is unlikely to have occurred by random chance, given the null hypothesis. Determined by p-value and alpha level.
-*   **Practical Significance (Effect Size):** Refers to the magnitude and real-world importance of an observed effect.
-    *   *Distinction:* A statistically significant result might have a very small effect size, making it practically insignificant for the business. Conversely, a practically significant effect might not be statistically significant if the sample size is too small.
-    *   *Practical Detail:* A strong candidate always considers both. They can articulate that a 0.1% increase in conversion might be statistically significant but practically irrelevant for a small product, while a 0.1% increase for a massive platform could be hugely impactful. They might use metrics like Cohen's d or relative lift to quantify practical significance.
+- **Bonferroni Correction**: A method to address the problem of multiple comparisons by adjusting the significance threshold.
+  - **Mechanism**: Divide the desired alpha level by the number of tests.
+  - **Practical Importance**: Reduces the likelihood of Type I errors when conducting multiple hypothesis tests.
+  - **Common Confusion**: Misunderstanding the need for correction when multiple tests increase the chance of false positives.
 
-## Multiple Testing Correction
+## Interviewer Red Flags
 
-**Definition:** Methods used to adjust the significance level ($\alpha$) when performing multiple hypothesis tests simultaneously, to control the family-wise error rate (FWER).
-
-*   **Bonferroni Correction:** A conservative method that divides the desired family-wise alpha level by the number of tests performed.
-    *   *Mechanism:* If you perform 'N' tests, the new significance level for each individual test becomes $\alpha / N$.
-    *   *Practical Detail:* While simple, it can be overly conservative, increasing the chance of Type II errors (failing to detect a real effect).
-    *   *Strong Candidate:* Recognizes the problem of inflated Type I error rate when running multiple tests (e.g., A/B testing multiple metrics or segments) and can explain *why* correction is needed. They can apply Bonferroni and discuss its trade-offs, potentially mentioning other methods like Benjamini-Hochberg for controlling the False Discovery Rate (FDR).
+- Confusing **mean** with **median**: Candidates should understand that the mean is sensitive to outliers, while the median is not.
+- Misinterpreting **p-value**: A candidate claiming that a p-value indicates the probability of the null hypothesis being true should be corrected.
+- Ignoring **practical significance**: Candidates should not only focus on statistical significance but also consider the real-world impact of their findings.

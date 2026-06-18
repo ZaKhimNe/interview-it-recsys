@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QC Pipeline Validation Planner</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:          #0f1117;
+      --bg-card:     #1a1d27;
+      --bg-input:    #22263a;
+      --border:      #2e3248;
+      --text:        #e8eaf0;
+      --text-sec:    #8b90a8;
+      --text-tert:   #5a5f78;
+      --blue:        #5b9cf6;
+      --green:       #4ade80;
+      --yellow:      #facc15;
+      --red:         #f87171;
+      --radius-sm:   6px;
+      --radius-md:   10px;
+      --radius-lg:   14px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+    }
+
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      font-size: 13px;
+      color: var(--text-sec);
+      margin-bottom: 1.5rem;
+    }
+
+    /* ── Stats row ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 12px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-sec);
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 600;
+      line-height: 1;
+    }
+
+    .stat-value.blue  { color: var(--blue); }
+    .stat-value.green { color: var(--green); }
+
+    /* ── Two-column layout ── */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .panel {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem;
+    }
+
+    .panel-title {
+      font-size: 12px;
+      color: var(--text-sec);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 1rem;
+      font-weight: 500;
+    }
+
+    /* ── Sliders ── */
+    .slider-row {
+      margin-bottom: 14px;
+    }
+
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
+    .slider-label { font-size: 13px; color: var(--text-sec); }
+    .slider-value { font-size: 13px; font-weight: 600; }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 4px;
+      background: var(--bg-input);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      background: var(--blue);
+      border-radius: 50%;
+      box-shadow: 0 0 0 3px rgba(91,156,246,0.2);
+      transition: box-shadow 0.15s;
+    }
+
+    input[type=range]::-webkit-slider-thumb:hover {
+      box-shadow: 0 0 0 5px rgba(91,156,246,0.3);
+    }
+
+    /* ── Divider ── */
+    .divider {
+      border: none;
+      border-top: 0.5px solid var(--border);
+      margin: 12px 0;
+    }
+
+    .meta-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      padding: 3px 0;
+    }
+
+    .meta-row .label { color: var(--text-sec); }
+    .meta-row .val   { font-weight: 500; }
+
+    /* ── Kappa verdict box ── */
+    .kappa-box {
+      background: var(--bg-input);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin: 10px 0;
+      transition: background 0.2s;
+    }
+
+    .kappa-box-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+
+    .kappa-box-sub {
+      font-size: 12px;
+      color: var(--text-sec);
+    }
+
+    /* ── Kappa scale ── */
+    .kappa-scale { margin-top: 10px; }
+
+    .scale-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      padding: 4px 0;
+      border-bottom: 0.5px solid var(--border);
+      color: var(--text-tert);
+    }
+
+    .scale-row:last-child { border-bottom: none; }
+    .scale-row.active-substantial { color: var(--blue); font-weight: 600; }
+    .scale-row.active-perfect     { color: var(--green); font-weight: 600; }
+
+    /* ── Metrics footer ── */
+    .metrics-panel {
+      background: var(--bg-card);
+      border: 0.5px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 1.1rem;
+    }
+
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .metric-chip {
+      background: var(--bg-input);
+      border-radius: var(--radius-sm);
+      padding: 9px 10px;
+      font-size: 12px;
+    }
+
+    .metric-chip .name { font-weight: 600; margin-bottom: 2px; }
+    .metric-chip .desc { color: var(--text-sec); font-size: 11px; }
+
+    /* ── Progress bar for CI ── */
+    .ci-bar-wrap {
+      height: 4px;
+      background: var(--bg-input);
+      border-radius: 2px;
+      margin-top: 8px;
+      overflow: hidden;
+    }
+
+    .ci-bar {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.3s, background 0.3s;
+    }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .two-col    { grid-template-columns: 1fr; }
+      .stats-row  { grid-template-columns: repeat(2, 1fr); }
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <h1>QC Pipeline Validation Planner</h1>
+  <p class="subtitle">Stratified sample size calculator · Cohen's Kappa interpreter · Metrics checklist</p>
+
+  <!-- Stats row -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-label">Tổng câu hỏi</div>
+      <div class="stat-value" id="total-q">1,619</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Cells (KC × diff)</div>
+      <div class="stat-value" id="total-cells">45</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Sample đã review</div>
+      <div class="stat-value blue" id="sample-size">89</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">% corpus</div>
+      <div class="stat-value" id="pct-corpus">5.5%</div>
+    </div>
+  </div>
+
+  <!-- Two-column -->
+  <div class="two-col">
+
+    <!-- Left: Sample config -->
+    <div class="panel">
+      <div class="panel-title">Cấu hình stratified sample</div>
+
+      <div class="slider-row">
+        <div class="slider-header">
+          <span class="slider-label">Số KC</span>
+          <span class="slider-value" id="n-kc-out">15</span>
+        </div>
+        <input type="range" min="1" max="17" value="15" id="n-kc">
+      </div>
+
+      <div class="slider-row">
+        <div class="slider-header">
+          <span class="slider-label">Mức difficulty</span>
+          <span class="slider-value" id="n-diff-out">3</span>
+        </div>
+        <input type="range" min="1" max="3" value="3" id="n-diff">
+      </div>
+
+      <div class="slider-row">
+        <div class="slider-header">
+          <span class="slider-label">Câu / cell</span>
+          <span class="slider-value" id="per-cell-out">2</span>
+        </div>
+        <input type="range" min="1" max="10" value="2" id="per-cell">
+      </div>
+
+      <hr class="divider">
+
+      <div class="meta-row">
+        <span class="label">CI độ rộng kappa (±)</span>
+        <span class="val" id="ci-out">±0.08</span>
+      </div>
+      <div class="ci-bar-wrap">
+        <div class="ci-bar" id="ci-bar" style="width:40%; background: var(--green);"></div>
+      </div>
+
+      <div class="meta-row" style="margin-top: 8px;">
+        <span class="label">Đủ tin cậy?</span>
+        <span class="val" id="reliable-out">✓ Có</span>
+      </div>
+    </div>
+
+    <!-- Right: Kappa -->
+    <div class="panel">
+      <div class="panel-title">Cohen's Kappa — Haiku vs Human</div>
+
+      <div class="slider-row">
+        <div class="slider-header">
+          <span class="slider-label">Kappa đo được</span>
+          <span class="slider-value" id="kappa-val-out">0.70</span>
+        </div>
+        <input type="range" min="0" max="100" value="70" id="kappa-slider">
+      </div>
+
+      <div class="kappa-box" id="kappa-box">
+        <div class="kappa-box-title" id="kappa-label">Substantial agreement</div>
+        <div class="kappa-box-sub" id="kappa-verdict">✓ Haiku reviewer đủ tin cậy để dùng làm proxy</div>
+      </div>
+
+      <div class="kappa-scale">
+        <div class="scale-row" id="row-poor">
+          <span>κ &lt; 0.20</span><span>Poor</span>
+        </div>
+        <div class="scale-row" id="row-fair">
+          <span>0.20 – 0.39</span><span>Fair</span>
+        </div>
+        <div class="scale-row" id="row-moderate">
+          <span>0.40 – 0.59</span><span>Moderate</span>
+        </div>
+        <div class="scale-row" id="row-substantial">
+          <span>0.60 – 0.79</span><span>Substantial ✓</span>
+        </div>
+        <div class="scale-row" id="row-perfect">
+          <span>≥ 0.80</span><span>Almost perfect ✓✓</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Metrics footer -->
+  <div class="metrics-panel">
+    <div class="panel-title">Kết quả thực tế — QC Pipeline</div>
+    <div class="metrics-grid">
+      <div class="metric-chip">
+        <div class="name" style="color:var(--green)">F1 = 0.994</div>
+        <div class="desc">Haiku vs Human (89 câu)</div>
+      </div>
+      <div class="metric-chip">
+        <div class="name" style="color:var(--green)">Precision = 1.000</div>
+        <div class="desc">Không false reject</div>
+      </div>
+      <div class="metric-chip">
+        <div class="name" style="color:var(--green)">Coverage 100%</div>
+        <div class="desc">45/45 cells ≥ 5 câu</div>
+      </div>
+      <div class="metric-chip">
+        <div class="name" style="color:var(--green)">BLEU = 0.032</div>
+        <div class="desc">Đa dạng, không trùng lặp</div>
+      </div>
+    </div>
+    <div style="margin-top:12px; font-size:12px; color:var(--text-sec);">
+      κ = N/A (kappa paradox — base rate FAIL = 0%) · Recall = 0.989 · PASS=1005 · ENHANCE=51 · FAIL=28
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const TOTAL_Q = 1619;
+
+  const scaleRows = {
+    poor:        { el: document.getElementById('row-poor'),        cls: '' },
+    fair:        { el: document.getElementById('row-fair'),        cls: '' },
+    moderate:    { el: document.getElementById('row-moderate'),    cls: '' },
+    substantial: { el: document.getElementById('row-substantial'), cls: 'active-substantial' },
+    perfect:     { el: document.getElementById('row-perfect'),     cls: 'active-perfect' },
+  };
+
+  function getKappaInfo(k) {
+    if (k >= 0.80) return { band: 'perfect',     label: 'Almost perfect',        sub: '✓✓ Rất tốt — justify toàn corpus', color: 'var(--green)' };
+    if (k >= 0.60) return { band: 'substantial', label: 'Substantial agreement', sub: '✓ Haiku reviewer đủ tin cậy để dùng làm proxy', color: 'var(--blue)' };
+    if (k >= 0.40) return { band: 'moderate',    label: 'Moderate agreement',    sub: '~ Chấp nhận được nhưng giới hạn', color: 'var(--yellow)' };
+    if (k >= 0.20) return { band: 'fair',        label: 'Fair agreement',        sub: '✗ Cần cải thiện pipeline', color: 'var(--yellow)' };
+    return              { band: 'poor',         label: 'Poor agreement',         sub: '✗ Không đủ tin cậy', color: 'var(--red)' };
+  }
+
+  function update() {
+    const nKC    = +document.getElementById('n-kc').value;
+    const nDiff  = +document.getElementById('n-diff').value;
+    const perCell = +document.getElementById('per-cell').value;
+    const kappa  = +document.getElementById('kappa-slider').value / 100;
+
+    // Stats
+    const cells  = nKC * nDiff;
+    const sample = cells * perCell;
+    const pct    = (sample / TOTAL_Q * 100).toFixed(1);
+
+    document.getElementById('n-kc-out').textContent    = nKC;
+    document.getElementById('n-diff-out').textContent  = nDiff;
+    document.getElementById('per-cell-out').textContent= perCell;
+    document.getElementById('total-cells').textContent = cells;
+    document.getElementById('sample-size').textContent = sample;
+    document.getElementById('pct-corpus').textContent  = pct + '%';
+
+    // CI
+    const ci      = (1.96 * Math.sqrt(0.25 / Math.max(sample, 1))).toFixed(2);
+    const ciOk    = parseFloat(ci) <= 0.10;
+    const ciPct   = Math.min(parseFloat(ci) / 0.20 * 100, 100);
+    document.getElementById('ci-out').textContent      = '±' + ci;
+    document.getElementById('reliable-out').textContent= ciOk ? '✓ Có' : '✗ Cần tăng sample';
+    document.getElementById('reliable-out').style.color= ciOk ? 'var(--green)' : 'var(--red)';
+
+    const ciBar = document.getElementById('ci-bar');
+    ciBar.style.width      = ciPct + '%';
+    ciBar.style.background = ciOk ? 'var(--green)' : 'var(--red)';
+
+    // Kappa
+    const info = getKappaInfo(kappa);
+    document.getElementById('kappa-val-out').textContent = kappa.toFixed(2);
+    document.getElementById('kappa-label').textContent   = info.label;
+    document.getElementById('kappa-verdict').textContent = info.sub;
+    document.getElementById('kappa-box').style.borderLeft= `3px solid ${info.color}`;
+    document.getElementById('kappa-box').style.paddingLeft= '12px';
+
+    // Highlight active scale row
+    Object.entries(scaleRows).forEach(([key, obj]) => {
+      obj.el.className = 'scale-row' + (key === info.band && obj.cls ? ' ' + obj.cls : '');
+    });
+  }
+
+  ['n-kc','n-diff','per-cell','kappa-slider'].forEach(id => {
+    document.getElementById(id).addEventListener('input', update);
+  });
+
+  update();
+</script>
+</body>
+</html>

@@ -10,7 +10,7 @@ from pathlib import Path
 
 import streamlit as st
 
-from src.data.data_loader import load_question_bank, get_radar_profile_data
+from src.data_loader import load_question_bank, get_radar_profile_data
 
 ROOT_DIR     = Path(__file__).parent
 FRONTEND_DIR = ROOT_DIR / "app" / "frontend"

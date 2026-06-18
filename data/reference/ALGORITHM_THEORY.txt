@@ -1,151 +1,121 @@
-# ALGORITHM_THEORY — Reference Document (Source: Gemini 2.5 Flash)
+# ALGORITHM_THEORY — Reference Document (Source: GPT-4o)
 
-# ALGORITHM_THEORY Technical Reference Document
-## Data Science Role Competency Assessment
+## Supervised Learning
 
----
+- **Linear Regression Assumptions**
+  - **Linearity**: The relationship between independent and dependent variables is linear.
+  - **Independence**: Observations are independent of each other.
+  - **Homoscedasticity**: Constant variance of errors.
+  - **Normality**: Errors are normally distributed.
+  - **Multicollinearity**: Independent variables are not highly correlated.
+  - **Why it matters**: Violations can lead to biased or inefficient estimates.
+  - **Common confusion**: Many candidates confuse multicollinearity with correlation among dependent and independent variables. The key difference is multicollinearity refers to correlation among independent variables.
 
-## Supervised Learning Fundamentals
+- **Logistic Regression**
+  - **Purpose**: Used for binary classification problems.
+  - **Mechanism**: Uses the logistic function to model the probability of a binary outcome.
+  - **Splitting Criteria**: Maximizes the likelihood function.
+  - **Why it matters**: Provides probabilities and classifies observations.
+  - **Red flag**: Confusing logistic regression with linear regression due to the use of a linear model in logistic regression.
 
-### Linear Regression Assumptions
-Linear regression requires five critical assumptions: linearity (relationship between predictors and target is linear), independence (observations are independent), homoscedasticity (constant error variance), normality (errors are normally distributed), and no multicollinearity (predictors are not highly correlated).
+- **Decision Tree Splitting Criteria**
+  - **Gini Impurity**: Measures the impurity of a node.
+  - **Entropy**: Measures the disorder or impurity.
+  - **Information Gain**: Reduction in entropy after a split.
+  - **Why it matters**: Determines the quality of the split and impacts the tree's performance.
+  - **Red flag**: Misunderstanding that Gini and Entropy are interchangeable; they have different mathematical formulations.
 
-**Strong candidate distinction:** Senior candidates recognize that violations have specific consequences—heteroscedasticity affects confidence intervals but not coefficient estimates; multicollinearity inflates standard errors and destabilizes coefficients. Weak candidates treat all violations equally or confuse assumptions with model requirements.
+- **Random Forest Bagging + Feature Subsampling**
+  - **Bagging**: Bootstrap aggregating to reduce variance.
+  - **Feature Subsampling**: Randomly selecting a subset of features for each split.
+  - **Why it matters**: Increases model robustness and reduces overfitting.
+  - **Complexity**: O(m log n) for training, where m is the number of trees and n is the number of samples.
 
-**Interview pitfall:** Candidates often claim linear regression "assumes normally distributed features"—this is false. Normality applies to residuals, not predictors. Additionally, linear regression works without normality for large samples (Central Limit Theorem), but inference becomes unreliable.
+- **Gradient Boosting Weak Learners**
+  - **Weak Learner**: Typically a shallow decision tree.
+  - **Mechanism**: Sequentially adds models to correct errors of prior models.
+  - **Why it matters**: Improves model accuracy by focusing on difficult-to-predict samples.
+  - **Red flag**: Confusing boosting with bagging; boosting is sequential, bagging is parallel.
 
-### Logistic Regression
-Logistic regression models the probability of binary outcomes using the sigmoid function: P(y=1|x) = 1/(1+e^(-z)). The decision boundary is linear in feature space, making it fundamentally different from non-linear classifiers.
+- **XGBoost**
+  - **Mechanism**: An optimized gradient boosting framework.
+  - **Features**: Regularization, parallel processing, and tree pruning.
+  - **Why it matters**: Offers high performance and efficiency.
+  - **Complexity**: O(K * log n) for training, where K is the number of trees.
 
-**Key distinction:** Unlike linear regression predicting continuous values, logistic regression outputs probabilities through a non-linear transformation. The coefficients represent log-odds changes, not probability changes—a common misconception. A coefficient of 0.5 means a one-unit increase in that feature multiplies the odds by e^0.5 ≈ 1.65.
+- **SVM Kernels**
+  - **Linear Kernel**: Best for linearly separable data.
+  - **Polynomial Kernel**: Captures polynomial relationships.
+  - **RBF Kernel**: Captures non-linear relationships.
+  - **Why it matters**: Choice of kernel affects the decision boundary and model performance.
+  - **Red flag**: Misunderstanding that SVMs always require non-linear kernels.
 
-**Interview depth:** Strong candidates explain that logistic regression is interpretable, computationally efficient, and provides calibrated probability estimates. They understand it cannot capture non-linear decision boundaries and discuss when kernel methods or tree-based approaches become necessary.
-
-### Decision Tree Splitting Criteria
-Decision trees recursively partition data using splitting criteria: Gini impurity (1 - Σp_i²) for classification and variance reduction for regression. Information gain (entropy reduction) is an alternative classification criterion.
-
-**Critical distinction:** Gini impurity and entropy produce similar trees in practice but have different computational properties. Gini is computationally cheaper; entropy is more theoretically grounded in information theory. Neither is inherently superior—the choice rarely impacts performance significantly.
-
-**Strong candidate knowledge:** Senior candidates explain that greedy splitting is locally optimal but not globally optimal, leading to suboptimal trees. They discuss why trees are prone to overfitting and how pruning addresses this. Weak candidates cannot articulate why trees split the way they do beyond "minimizing impurity."
-
-### Random Forest: Bagging + Feature Subsampling
-Random forests combine bootstrap aggregating (bagging) with feature subsampling. Each tree trains on a bootstrap sample (sampling with replacement), and at each split, only a random subset of features is considered (typically √p for classification, p/3 for regression).
-
-**Key distinction from bagging:** Bagging alone reduces variance through averaging independent models. Random forests add feature subsampling to decorrelate trees further—if one strong feature dominates, bagging trees remain correlated. Feature subsampling forces trees to use different features, reducing correlation and improving ensemble performance.
-
-**Interview pitfall:** Candidates often claim random forests prevent overfitting—this is imprecise. Random forests reduce variance through ensemble averaging, but individual trees can still overfit. The ensemble effect is what matters. Out-of-bag (OOB) error provides unbiased performance estimates without separate validation sets.
-
-### Gradient Boosting and Weak Learners
-Gradient boosting sequentially trains weak learners (typically shallow trees with depth 3-5) to fit residuals from previous iterations. Each new model reduces the loss function gradient, hence "gradient" boosting.
-
-**Critical distinction from bagging:** Bagging trains independent models in parallel; boosting trains sequential models where each corrects previous errors. Boosting reduces bias primarily; bagging reduces variance. Boosting is more prone to overfitting if iterations continue too long.
-
-**Strong candidate depth:** Senior candidates explain the learning rate (shrinkage) parameter—smaller rates require more iterations but often generalize better. They understand early stopping prevents overfitting by monitoring validation loss. Weak candidates cannot explain why boosting works or confuse it with bagging.
-
-### XGBoost Specifics
-XGBoost (Extreme Gradient Boosting) extends gradient boosting with regularization (L1/L2 on leaf weights), second-order Taylor approximation of loss, and efficient sparse data handling.
-
-**Key advantages:** XGBoost's regularization term directly penalizes tree complexity, preventing overfitting more effectively than standard gradient boosting. The second-order approximation provides better optimization than first-order methods. Computational efficiency through column block structure enables handling large datasets.
-
-**Interview distinction:** Strong candidates discuss hyperparameter tuning priorities: max_depth controls tree complexity, learning_rate affects convergence speed, subsample and colsample_bytree control variance. They understand that XGBoost often outperforms gradient boosting due to regularization, not fundamentally different algorithms.
-
-### Support Vector Machines and Kernels
-SVMs find the maximum-margin hyperplane separating classes. Kernels enable non-linear decision boundaries by implicitly mapping data to higher dimensions without explicit computation.
-
-**Kernel types and use cases:** Linear kernels for linearly separable data; RBF (Radial Basis Function) for non-linear boundaries; polynomial kernels for moderate non-linearity. RBF is most commonly used but requires careful hyperparameter tuning (gamma controls decision boundary smoothness).
-
-**Strong candidate knowledge:** SVMs maximize margin (geometric distance to decision boundary), which theoretically improves generalization. The kernel trick avoids explicit high-dimensional computation. Weak candidates confuse SVMs with logistic regression or cannot explain why kernels matter.
-
-### K-Nearest Neighbors Distance Metrics
-KNN classifies points based on k nearest neighbors' labels. Distance metrics (Euclidean, Manhattan, Minkowski) determine "nearest."
-
-**Critical consideration:** KNN is sensitive to feature scaling—Euclidean distance is dominated by large-scale features. Strong candidates normalize features and discuss metric selection based on data characteristics. They understand KNN's computational cost (O(n) at prediction time) and curse of dimensionality in high dimensions.
-
----
+- **KNN Distance Metrics**
+  - **Euclidean Distance**: Straight-line distance.
+  - **Manhattan Distance**: Sum of absolute differences.
+  - **Minkowski Distance**: Generalization of Euclidean and Manhattan.
+  - **Why it matters**: Distance metric affects neighbor selection and classification accuracy.
+  - **Complexity**: O(n) for prediction, where n is the number of samples.
 
 ## Unsupervised Learning
 
-### K-Means and the Elbow Method
-K-means partitions data into k clusters by minimizing within-cluster sum of squares (WCSS). The elbow method plots WCSS against k values, identifying the "elbow" where WCSS reduction diminishes.
+- **K-means Elbow Method**
+  - **Purpose**: Determine the optimal number of clusters.
+  - **Mechanism**: Plot the explained variance as a function of the number of clusters and look for an "elbow."
+  - **Why it matters**: Helps avoid overfitting or underfitting.
+  - **Red flag**: Misinterpreting the elbow point; it is not always clear-cut.
 
-**Practical limitation:** The elbow is often ambiguous. Strong candidates discuss alternative methods: silhouette score (measures cluster cohesion and separation), gap statistic (compares WCSS to random data), or domain knowledge. They recognize K-means assumes spherical clusters of similar sizes—violations lead to poor clustering.
+- **DBSCAN eps/min_samples**
+  - **eps**: Maximum distance between two samples for them to be considered as in the same neighborhood.
+  - **min_samples**: Minimum number of samples in a neighborhood for a point to be considered a core point.
+  - **Why it matters**: Determines the density threshold for forming clusters.
+  - **Complexity**: O(n log n) for spatial indexing, where n is the number of samples.
 
-**Interview pitfall:** Candidates often claim the elbow method is objective—it is subjective. Different analysts may identify different elbows. Senior candidates acknowledge this limitation and discuss when domain knowledge should override statistical metrics.
+- **PCA Variance Explained**
+  - **Purpose**: Reduce dimensionality while retaining variance.
+  - **Mechanism**: Projects data onto principal components.
+  - **Variance Explained**: Proportion of total variance captured by each component.
+  - **Why it matters**: Helps in selecting the number of components to retain.
+  - **Red flag**: Confusing PCA with feature selection; PCA is a feature transformation technique.
 
-### DBSCAN Parameters
-DBSCAN (Density-Based Spatial Clustering) groups points with density ≥ min_samples within eps radius. Points not meeting criteria are noise.
+## Regularization
 
-**Key distinction from K-means:** DBSCAN discovers arbitrary-shaped clusters and identifies outliers; K-means forces all points into clusters. DBSCAN requires no k specification but is sensitive to eps and min_samples.
+- **L1 Sparsity**
+  - **Mechanism**: Adds absolute value of coefficients as penalty.
+  - **Why it matters**: Produces sparse models with feature selection.
+  - **Red flag**: Misunderstanding that L1 regularization always improves model performance; it depends on the context.
 
-**Strong candidate knowledge:** eps selection is critical—too small creates excessive noise clusters; too large merges distinct clusters. The k-distance graph (distance to k-th nearest neighbor) helps select eps. min_samples typically equals dimensionality or 2*dimensionality. Weak candidates cannot explain parameter selection or confuse DBSCAN with K-means.
+- **L2 Weight Decay**
+  - **Mechanism**: Adds squared value of coefficients as penalty.
+  - **Why it matters**: Reduces model complexity and prevents overfitting.
+  - **Red flag**: Confusing L2 regularization with L1; L2 does not produce sparse models.
 
-### Principal Component Analysis (PCA)
-PCA transforms data into orthogonal components maximizing variance. The first component captures maximum variance, the second captures maximum remaining variance orthogonal to the first.
-
-**Variance explained interpretation:** If the first two components explain 85% of variance, 85% of data variability is captured; 15% is lost. Strong candidates discuss the scree plot (variance explained by each component) and cumulative variance to select component count.
-
-**Critical distinction:** PCA is unsupervised—it ignores labels. For supervised dimensionality reduction, Linear Discriminant Analysis (LDA) is superior. PCA assumes linear relationships; non-linear methods (t-SNE, UMAP) capture non-linear structure better for visualization.
-
----
-
-## Regularization Techniques
-
-### L1 Regularization (Lasso)
-L1 adds penalty Σ|w_i| to the loss function, encouraging sparse solutions where many coefficients become exactly zero.
-
-**Sparsity mechanism:** L1's absolute value penalty creates a diamond-shaped constraint region. At the optimum, the constraint boundary often touches axes (zero coefficients), unlike L2's circular region. This geometric property drives sparsity.
-
-**Use case:** L1 performs feature selection automatically—useful when interpretability or computational efficiency requires few features. Strong candidates explain that L1 is unstable with correlated features (arbitrarily selects one from a correlated group).
-
-### L2 Regularization (Ridge)
-L2 adds penalty Σw_i² to the loss function, shrinking coefficients toward zero without eliminating them.
-
-**Key distinction from L1:** L2 shrinks all coefficients proportionally; L1 zeros some coefficients. L2 handles correlated features better by distributing weight among them. L2 is more stable numerically.
-
-**Interview depth:** Strong candidates explain that L2 is equivalent to adding Gaussian priors on weights in Bayesian interpretation. The regularization parameter λ controls shrinkage strength—larger λ increases shrinkage.
-
-### ElasticNet
-ElasticNet combines L1 and L2: penalty = α·Σ|w_i| + (1-α)·Σw_i². The mixing parameter α ∈ [0,1] balances sparsity and stability.
-
-**Practical advantage:** ElasticNet achieves L1's feature selection with L2's stability on correlated features. Strong candidates discuss when ElasticNet outperforms pure L1 or L2, particularly with high-dimensional correlated data.
-
----
+- **ElasticNet**
+  - **Mechanism**: Combines L1 and L2 penalties.
+  - **Why it matters**: Balances between sparsity and regularization.
+  - **Red flag**: Misunderstanding the balance parameter; it controls the trade-off between L1 and L2.
 
 ## Bias-Variance Tradeoff
 
-The bias-variance decomposition states: Expected Error = Bias² + Variance + Irreducible Error.
-
-**Bias** measures systematic error from model assumptions; **variance** measures sensitivity to training data fluctuations. Simple models (linear regression) have high bias, low variance. Complex models (deep trees) have low bias, high variance.
-
-**Strong candidate understanding:** The tradeoff is fundamental—reducing bias typically increases variance and vice versa. Regularization shifts the tradeoff toward higher bias, lower variance. Cross-validation estimates the optimal tradeoff point.
-
-**Interview pitfall:** Candidates often claim "more data always reduces variance"—this is true but incomplete. More data also enables learning more complex models, potentially increasing bias. The relationship is nuanced.
-
----
+- **Bias**: Error due to overly simplistic model assumptions.
+- **Variance**: Error due to model sensitivity to small fluctuations in the training set.
+- **Tradeoff**: Balancing bias and variance to minimize total error.
+- **Why it matters**: Determines the model's ability to generalize.
+- **Red flag**: Misunderstanding that reducing bias always improves model performance; it can increase variance.
 
 ## Ensemble Methods
 
-### Bagging vs. Boosting vs. Stacking
+- **Bagging**
+  - **Mechanism**: Trains multiple models in parallel on bootstrapped datasets.
+  - **Why it matters**: Reduces variance and improves stability.
+  - **Red flag**: Confusing bagging with boosting; bagging is parallel, boosting is sequential.
 
-**Bagging (Bootstrap Aggregating):** Trains independent models on bootstrap samples, averages predictions. Reduces variance through averaging uncorrelated models. Examples: random forests, bagged decision trees.
+- **Boosting**
+  - **Mechanism**: Trains models sequentially, each correcting errors of the previous.
+  - **Why it matters**: Reduces bias and improves accuracy.
+  - **Red flag**: Misunderstanding that boosting always leads to overfitting; it depends on the model complexity.
 
-**Boosting:** Trains sequential models, each correcting previous errors. Reduces bias primarily. Examples: gradient boosting, AdaBoost, XGBoost. More prone to overfitting than bagging.
-
-**Stacking:** Trains multiple diverse base models, then trains a meta-learner on their predictions. Combines strengths of different algorithms. More computationally expensive; requires careful cross-validation to avoid data leakage.
-
-**Key distinction:** Bagging parallelizes; boosting serializes. Bagging reduces variance; boosting reduces bias. Stacking is most flexible but requires careful implementation.
-
-**Strong candidate knowledge:** Candidates explain when each is appropriate—bagging for high-variance models (deep trees), boosting for high-bias models (weak learners), stacking for combining diverse algorithms. They understand computational tradeoffs and when complexity is justified.
-
----
-
-## Common Interview Pitfalls Summary
-
-1. Confusing assumptions with requirements
-2. Treating all regularization equally
-3. Misunderstanding ensemble mechanisms
-4. Claiming methods are "objective" when subjective choices exist
-5. Oversimplifying bias-variance relationships
-6. Confusing correlation with causation in feature importance
-
-Senior candidates demonstrate nuanced understanding of tradeoffs, acknowledge limitations, and connect theory to practical implications.
+- **Stacking**
+  - **Mechanism**: Combines predictions from multiple models using a meta-learner.
+  - **Why it matters**: Leverages strengths of different models.
+  - **Red flag**: Confusing stacking with bagging or boosting; stacking involves a meta-learner.

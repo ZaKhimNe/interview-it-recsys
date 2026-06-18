@@ -6,7 +6,7 @@ from typing import Any, Dict, List, Optional
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 
-QUESTION_DATA_PATH = BASE_DIR / "data" / "mock" / "mock_question_data.json"
+QUESTION_DATA_PATH = BASE_DIR / "data" / "raw" / "question_bank" / "question_bank.json"
 USER_DATA_PATH = BASE_DIR / "data" / "mock" / "mock_user_data.json"
 USER_INFO_PATH = BASE_DIR / "data" / "mock" / "mock_user_info.json"
 ANSWER_LOGS_PATH = BASE_DIR / "data" / "mock" / "mock_answer_logs.json"
