@@ -111,6 +111,10 @@ notebooks/04_evaluation.ipynb
 results/__results___files/
 results/results/models/
 
+# Local-only docs / report sources (not pushed)
+CLAUDE.md
+thesis_latex/
+
 # ========================
 # 📄 LaTeX build artifacts
 # ========================
