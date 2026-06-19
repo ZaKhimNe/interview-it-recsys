@@ -114,6 +114,8 @@ results/results/models/
 # Local-only docs / report sources (not pushed)
 CLAUDE.md
 thesis_latex/
+*.pptx
+*.pdf
 
 # ========================
 # 📄 LaTeX build artifacts
