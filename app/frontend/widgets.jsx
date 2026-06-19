@@ -246,7 +246,18 @@ function StatusBadge({ tone = 'cyan', children }) {
   );
 }
 
+// ---------------- MARKDOWN RENDERER ----------------
+function Md({ children, style }) {
+  if (!children) return null;
+  const html = React.useMemo(() => {
+    if (typeof window.marked === 'undefined') return null;
+    return window.marked.parse(String(children), { breaks: true, gfm: true });
+  }, [children]);
+  if (!html) return <div style={style}>{children}</div>;
+  return <div className="md-body" style={style} dangerouslySetInnerHTML={{ __html: html }} />;
+}
+
 Object.assign(window, {
-  RadarChart, GapList, RoadmapList, RolePickerMini, StreamingText, HistoryOverlay, StatusBadge,
+  RadarChart, GapList, RoadmapList, RolePickerMini, StreamingText, HistoryOverlay, StatusBadge, Md,
   ROADMAP_STEPS,
 });

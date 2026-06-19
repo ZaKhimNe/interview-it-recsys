@@ -16,6 +16,7 @@ jsonschema==4.24.0
 pydantic==2.11.3
 
 # --- 🤖 AI Lead: LLM & AI Engine ---
+google-genai>=1.0.0
 google-generativeai==0.8.5
 langchain==0.3.25
 chromadb==1.0.7

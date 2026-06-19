@@ -132,9 +132,8 @@ function Sidebar({ route, onNav }) {
       { id:'history',   idx:'06', label: t('nav_items.history') },
     ]},
     { label: t('nav.system'), items: [
-      { id:'notes',     idx:'07', label: t('nav_items.notes') },
-      { id:'settings',  idx:'08', label: t('nav_items.settings') },
-      { id:'profile',   idx:'09', label: t('nav_items.profile') },
+      { id:'settings',  idx:'07', label: t('nav_items.settings') },
+      { id:'profile',   idx:'08', label: t('nav_items.profile') },
     ]},
   ];
   return (

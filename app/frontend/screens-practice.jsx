@@ -185,6 +185,8 @@ function InterviewScreen({ onNav, opts }) {
   const [boolAnswer, setBoolAnswer] = React.useState(null);
   // FILL_BLANK: array of strings, one per blank
   const [blankAnswers, setBlankAnswers] = React.useState([]);
+  const [grading, setGrading] = React.useState(false);   // true while API call in flight
+  const [gradeResult, setGradeResult] = React.useState(null); // {score,feedback,strengths,...}
 
   const mode = (opts && opts.mode) || 'focused';
   const isAssessment = mode === 'assessment';
@@ -252,37 +254,76 @@ function InterviewScreen({ onNav, opts }) {
     return answer.trim().length > 0;
   })();
 
-  const submit = () => {
-    // Stub: tính toán vector cải thiện nhỏ (chờ Model Lead thay bằng AI thật)
-    const axes = SKILL_AXES[role] || [];
-    const rawVec = currentVector(state) || [];
-    const curVec = axes.map((_, i) => rawVec[i] ?? 0);
-    const tgtVec = ROLE_TARGETS[role] || [];
+  const submit = async () => {
+    const objectiveTypes = ['MC_SINGLE', 'TRUE_FALSE', 'FILL_BLANK'];
+    const isObjective = objectiveTypes.includes(qtype);
 
-    // Cải thiện ~0.15 điểm trên mỗi trục, không vượt target
-    const newVector = curVec.map((v, i) => {
-      const target = tgtVec[i] ?? 10;
-      const gain = answer.trim().length > 30 || selectedOption || boolAnswer !== null ? 0.15 : 0.05;
-      return Math.min(target, parseFloat((v + gain).toFixed(2)));
-    });
+    // ── Objective types: score deterministically client-side ────────────────
+    if (isObjective) {
+      const { score, isCorrect } = scoreAnswer(question, { answer, selectedOption, boolAnswer, blankAnswers, code });
+      const newCompleted = state.completedQs.includes(question.id)
+        ? state.completedQs : [...state.completedQs, question.id];
+      set({ completedQs: newCompleted });
+      setGradeResult({ score: score * 10, isCorrect, method: 'deterministic' });
+      setSubmitted(true);
+      setStreamed(false);
+      return;
+    }
 
-    const newAttempt = {
-      id: `session-${Date.now()}`,
-      date: new Date().toISOString().slice(0, 10),
-      role,
-      vector: newVector,
-    };
-    const newCompleted = state.completedQs.includes(question.id)
-      ? state.completedQs
-      : [...state.completedQs, question.id];
-
-    set({ attempts: [...state.attempts, newAttempt], completedQs: newCompleted });
-    setSubmitted(true);
+    // ── Open-ended types: call /api/grade ───────────────────────────────────
+    setGrading(true);
+    setSubmitted(true);   // show loading state in UI immediately
     setStreamed(false);
-    // MC/TF/FILL_BLANK: kết quả đã hiện inline trong tab Answer → giữ nguyên
-    // THEORY/CODING/PRACTICE/CODING_EXERCISE: switch sang Expert tab
-    const showResultInline = ['MC_SINGLE', 'TRUE_FALSE', 'FILL_BLANK'].includes(qtype);
-    if (!showResultInline) setTab('expert');
+    setTab('expert');
+
+    const candidateResponse = { answer, code: code || '' };
+    try {
+      const result = await callAPI('/grade', {
+        question,
+        candidate_response: candidateResponse,
+        user_id: state.userId || null,
+      });
+      setGradeResult(result);
+
+      // Update skill vector from API response (vector comes back in updated profile)
+      // If userId present, user_manager already persisted; update local attempt too.
+      const axes = SKILL_AXES[role] || [];
+      const rawVec = currentVector(state) || [];
+      const score01 = (result.score ?? 5) / 10;  // API returns 0-10
+      const newVector = axes.map((_, i) => {
+        const cur = rawVec[i] ?? 0;
+        const tgt = (ROLE_TARGETS[role] || [])[i] ?? 10;
+        const delta = score01 >= 0.5 ? 0.2 * score01 : -0.1 * (1 - score01);
+        return Math.max(0, Math.min(tgt, parseFloat((cur + delta).toFixed(2))));
+      });
+      const newAttempt = {
+        id: `session-${Date.now()}`,
+        date: new Date().toISOString().slice(0, 10),
+        role,
+        vector: newVector,
+        questionId: question.id,
+        score: result.score,
+        method: result.method,
+      };
+      const newCompleted = state.completedQs.includes(question.id)
+        ? state.completedQs : [...state.completedQs, question.id];
+      set({ attempts: [...state.attempts, newAttempt], completedQs: newCompleted });
+    } catch (err) {
+      // API unavailable — fall back to local heuristic so UX doesn't break
+      const fallbackScore = answer.trim().length > 80 ? 6 : 4;
+      setGradeResult({
+        score: fallbackScore,
+        feedback: lang === 'vi'
+          ? 'Không thể kết nối tới server. Câu trả lời đã được ghi nhận, điểm ước tính.'
+          : 'Could not reach grading server. Answer recorded with estimated score.',
+        method: 'fallback',
+      });
+      const newCompleted = state.completedQs.includes(question.id)
+        ? state.completedQs : [...state.completedQs, question.id];
+      set({ completedQs: newCompleted });
+    } finally {
+      setGrading(false);
+    }
   };
 
   return (
@@ -498,10 +539,10 @@ function InterviewScreen({ onNav, opts }) {
             </div>
             {!submitted ? (
               <button className="btn primary"
-                      disabled={!canSubmit}
-                      style={{ opacity: canSubmit ? 1 : 0.4 }}
+                      disabled={!canSubmit || grading}
+                      style={{ opacity: (canSubmit && !grading) ? 1 : 0.4 }}
                       onClick={submit}>
-                {t('interview.submit')}
+                {grading ? (lang === 'vi' ? 'Đang chấm…' : 'Grading…') : t('interview.submit')}
               </button>
             ) : (
               <div className="row" style={{ gap: 10 }}>
@@ -538,9 +579,43 @@ function InterviewScreen({ onNav, opts }) {
             <div className="card hot-top">
               <h3 style={{ color:'var(--accent-cyan)' }}>{t('interview.streaming').toUpperCase()}</h3>
               <div className="iv-stream">
-                <StreamingText speed={28} text={lang === 'vi'
-                  ? 'Câu trả lời tốt — bạn nhận diện được window function là đúng hướng. Một số điểm cần làm rõ:\n\n• DENSE_RANK chuẩn hơn ROW_NUMBER khi có lương trùng — bạn đã nhắc đến.\n• Edge case NULL: nên thêm WHERE salary IS NOT NULL hoặc dùng IGNORE NULLS.\n• Performance: nếu bảng lớn, cân nhắc index trên salary cột.\n\nTổng điểm: 7.5/10. SQL_FUNDAMENTALS +0.6.'
-                  : 'Solid answer — you correctly identified the window function approach. A few points to clarify:\n\n• DENSE_RANK is more robust than ROW_NUMBER when salaries tie — you mentioned this.\n• Edge case for NULL: filter with WHERE salary IS NOT NULL or use IGNORE NULLS.\n• Performance: for large tables, consider an index on salary.\n\nOverall score: 7.5/10. SQL_FUNDAMENTALS +0.6.'} />
+                {grading ? (
+                  <div className="mono muted" style={{ fontSize: 12, letterSpacing: '.1em', animation: 'pulse 1.2s infinite' }}>
+                    {lang === 'vi' ? '⟳ AI đang chấm điểm…' : '⟳ AI grading…'}
+                  </div>
+                ) : gradeResult && gradeResult.feedback ? (
+                  <div>
+                    <div className="mono" style={{ fontSize: 11, color: 'var(--accent-cyan)', marginBottom: 8 }}>
+                      {lang === 'vi' ? 'ĐIỂM:' : 'SCORE:'} {gradeResult.score != null ? `${gradeResult.score.toFixed(1)}/10` : '—'}
+                      {gradeResult.method && <span className="muted" style={{ marginLeft: 8, fontSize: 10 }}>({gradeResult.method})</span>}
+                    </div>
+                    <StreamingText speed={22} text={gradeResult.feedback} />
+                    {gradeResult.strengths && gradeResult.strengths.length > 0 && (
+                      <div style={{ marginTop: 10 }}>
+                        <div className="mono" style={{ fontSize: 10, color: 'var(--success)', letterSpacing: '.15em', marginBottom: 4 }}>
+                          {lang === 'vi' ? 'ĐIỂM MẠNH' : 'STRENGTHS'}
+                        </div>
+                        {gradeResult.strengths.map((s, i) => (
+                          <div key={i} className="muted" style={{ fontSize: 12, lineHeight: 1.5 }}>✓ {s}</div>
+                        ))}
+                      </div>
+                    )}
+                    {gradeResult.improvements && gradeResult.improvements.length > 0 && (
+                      <div style={{ marginTop: 10 }}>
+                        <div className="mono" style={{ fontSize: 10, color: 'var(--accent-warn)', letterSpacing: '.15em', marginBottom: 4 }}>
+                          {lang === 'vi' ? 'CẦN CẢI THIỆN' : 'TO IMPROVE'}
+                        </div>
+                        {gradeResult.improvements.map((s, i) => (
+                          <div key={i} className="muted" style={{ fontSize: 12, lineHeight: 1.5 }}>→ {s}</div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="mono muted" style={{ fontSize: 12 }}>
+                    {lang === 'vi' ? '— không có phản hồi —' : '— no feedback —'}
+                  </div>
+                )}
               </div>
             </div>
           ) : (

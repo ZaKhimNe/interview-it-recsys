@@ -28,8 +28,10 @@ import numpy as np
 from datetime import datetime, timedelta
 from collections import defaultdict
 from simulation_config import (
-    QUESTIONS_PER_USER, NOISE, LEARNING_RATE, FORGETTING_RATE,
-    DIFFICULTY_MAP, SKILL_GROUP_TO_COMPETENCY, ROLE_DEFAULT_COMPETENCY, SEED
+    QUESTIONS_PER_USER_MIN, QUESTIONS_PER_USER_MAX,
+    NOISE, LEARNING_RATE, FORGETTING_RATE,
+    DIFFICULTY_MAP, SKILL_GROUP_TO_COMPETENCY, ROLE_DEFAULT_COMPETENCY,
+    normalize_competency, SEED
 )
 
 random.seed(SEED)
@@ -100,7 +102,8 @@ def get_competency(q: dict, role: str) -> str:
     grp = q.get("skill_groups", ["?"])[0]
     if grp == "?":
         grp = q.get("skill_tags", ["?"])[0]
-    return SKILL_GROUP_TO_COMPETENCY.get(grp, ROLE_DEFAULT_COMPETENCY.get(role, "general"))
+    raw = SKILL_GROUP_TO_COMPETENCY.get(grp, ROLE_DEFAULT_COMPETENCY.get(role, "general"))
+    return normalize_competency(raw)  # luôn trả về lowercase canonical
 
 
 def sigmoid(x: float) -> float:
@@ -116,7 +119,7 @@ def sample_quality(p_correct: float, noise: float = NOISE) -> int:
 
     alpha=1.35 → Q1 đạt ~20-22% ở mức skill trung bình
     """
-    alpha = 1.5
+    alpha = 2.0   # alpha cao → bucket quality=1 rộng hơn ở vùng p_correct trung bình
     p_q2 = p_correct ** alpha
     p_q0 = (1 - p_correct) ** alpha
     p_q1 = max(0.0, 1.0 - p_q2 - p_q0)
@@ -206,14 +209,8 @@ def stratified_sample_questions(pool: list, n: int, role: str) -> list:
                                       replace=False))
         selected.extend(extra)
 
-    # Sort theo difficulty: EASY trước, HARD sau → learning curve tự nhiên
-    diff_order = {"EASY": 0, "MEDIUM": 1, "HARD": 2}
-    selected.sort(key=lambda q: diff_order.get(q.get("difficulty_label", "MEDIUM"), 1))
-    # Thêm noise nhỏ để không hoàn toàn deterministic
-    n_sel = len(selected)
-    for i in range(n_sel):
-        j = min(n_sel - 1, max(0, i + random.randint(-2, 2)))
-        selected[i], selected[j] = selected[j], selected[i]
+    # Shuffle ngẫu nhiên — không sort cứng EASY→HARD để tránh skill regression
+    random.shuffle(selected)
     return selected[:n]
 
 
@@ -226,8 +223,10 @@ def simulate_user_session(user: dict, questions_by_role: dict) -> list:
     if len(pool) < 5:
         return []  # không đủ câu
 
-    # Stratified sample theo competency (tránh sql chiếm 78% với DA)
-    selected = stratified_sample_questions(pool, QUESTIONS_PER_USER, role)
+    # Randomize số câu hỏi per user (tránh uniform 40)
+    n_questions = random.randint(QUESTIONS_PER_USER_MIN, QUESTIONS_PER_USER_MAX)
+    # Stratified sample theo competency
+    selected = stratified_sample_questions(pool, n_questions, role)
 
     # Random start time: trong khoảng 2024-01-01 → 2025-12-31
     start_dt = datetime(2024, 1, 1) + timedelta(

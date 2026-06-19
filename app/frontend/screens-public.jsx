@@ -286,12 +286,17 @@ function OnboardingScreen({ onNav }) {
   const [name, setName] = React.useState(state.user.name === 'You' ? '' : state.user.name);
   const vi = state.lang === 'vi';
 
-  const finish = () => {
+  const finish = async () => {
     const displayName = name.trim() || 'User';
+    // Stable userId: name_slug + base36 timestamp (no auth required)
+    const userId = `${displayName.toLowerCase().replace(/\s+/g, '_')}_${Date.now().toString(36)}`;
     set({
       role: picked,
+      userId,
       user: { ...state.user, name: displayName, avatar: displayName.slice(0,2).toUpperCase() },
     });
+    // Create user profile in Python backend (fire-and-forget, non-blocking)
+    try { await callAPI('/user/create', { user_id: userId, role: picked }); } catch (_) {}
     onNav('diagnostic');
   };
 

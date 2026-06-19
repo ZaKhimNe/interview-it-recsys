@@ -8,12 +8,13 @@ QUAN TRỌNG: Competency keys PHẢI khớp với skill_taxonomy.schema.json
 """
 
 # ── Simulation parameters ────────────────────────────────────────────────────
-N_USERS            = 500
-QUESTIONS_PER_USER = 40
-NOISE              = 0.30   # Quality 1 dat ~14%; tang len de gan target 20-25%
-LEARNING_RATE      = 0.08   # skill tang sau cau dung (tang de learning curve ro rang)
-FORGETTING_RATE    = 0.002  # skill giam sau cau sai (giam de curve duong)
-SEED               = 42
+N_USERS                = 1000
+QUESTIONS_PER_USER_MIN = 20   # randomize sequence length per user
+QUESTIONS_PER_USER_MAX = 60
+NOISE                  = 0.30
+LEARNING_RATE          = 0.08   # skill tang sau cau dung
+FORGETTING_RATE        = 0.002  # skill giam sau cau sai
+SEED                   = 42
 
 # ── Difficulty → numeric (0–1) ───────────────────────────────────────────────
 DIFFICULTY_MAP = {
@@ -24,9 +25,9 @@ DIFFICULTY_MAP = {
 
 # ── Phân bổ users theo role ──────────────────────────────────────────────────
 ROLE_DIST = {
-    "DA": 167,
-    "DS": 166,
-    "DE": 167,
+    "DA": 334,
+    "DS": 333,
+    "DE": 333,
 }
 
 # ── Mapping skill_tag → competency key (khớp skill_taxonomy.schema.json) ─────
@@ -189,3 +190,12 @@ ROLE_DEFAULT_COMPETENCY = {
     "DS": "ALGORITHM_THEORY",
     "DE": "BIG_DATA_CLOUD_TOOLS",
 }
+
+
+# ── Normalize competency string về lowercase canonical ─────────────────────
+# Cho phép nhập UPPERCASE / lowercase / mixed đều ra cùng 1 dạng.
+def normalize_competency(raw: str) -> str:
+    """Convert bất kỳ competency string nào về lowercase canonical."""
+    if not raw:
+        return "unknown"
+    return raw.strip().lower()

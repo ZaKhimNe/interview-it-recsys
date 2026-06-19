@@ -8,6 +8,7 @@ const STORAGE_KEY = 'internhub.v1';
 const DEFAULTS = {
   lang: 'en',                      // 'en' | 'vi'
   role: null,                      // 'DA' | 'DE' | 'DS' | null
+  userId: null,                    // set after create_user_profile API call
   user: { name: 'You', avatar: 'YO', streak: 7 },
   // attempts: list of { date, role, vector } — populated after onboarding
   attempts: [],
@@ -41,7 +42,7 @@ const I18N = {
     appName: 'INTERNHUB',
     appTag: 'CAREER CONSOLE',
     nav: { practice:'PRACTICE', progress:'PROGRESS', community:'COMMUNITY', system:'SYSTEM' },
-    nav_items: { home:'Today', interview:'Interview', questions:'Library', dashboard:'Dashboard', roadmap:'Roadmap', history:'History', leaderboard:'Leaderboard', pair:'Pair Practice', notes:'Notes', settings:'Settings', profile:'Profile' },
+    nav_items: { home:'Today', interview:'Interview', questions:'Library', dashboard:'Dashboard', roadmap:'KT Model', history:'History', settings:'Settings', profile:'Profile' },
     common: { start:'Start', submit:'Submit', cancel:'Cancel', save:'Save', skip:'Skip', back:'Back', next:'Next', viewAll:'View all', signIn:'Sign in', getStarted:'Get started', tryNow:'Try now', continue:'Continue', upload:'Upload', run:'Run', reset:'Reset', share:'Share', download:'Download', export:'Export', loading:'Loading', empty:'Nothing here yet', copyLink:'Copy link' },
     lang: { en:'EN', vi:'VI' },
     landing: {
@@ -69,7 +70,7 @@ const I18N = {
       quickDrill: 'Quick drill', focused: 'Focused practice', mock: 'Mock interview', custom: 'Custom session',
       qdDesc: '5 min · 1 question. Daily warmup.',
       fpDesc: '15 min · 3 questions on one skill.',
-      mkDesc: '45 min · 4 questions, timed, no skipping.',
+      mkDesc: '20 min · 10 questions (7 placement + 3 adaptive), covers all skill areas.',
       ctDesc: 'You set the parameters.',
       next: 'Recommended next',
     },
@@ -113,12 +114,6 @@ const I18N = {
       sub: 'Each dot is an assessment. Overlay shows how your radar has shifted week-over-week.',
       delta: 'Δ',
     },
-    leaderboard: {
-      kicker: 'COMMUNITY · LEADERBOARD',
-      title: 'Top of the week',
-      filterPeriod: 'Period', filterRole: 'Role',
-      week: '7 days', month: '30 days', allTime: 'All time',
-    },
     pair: {
       kicker: 'PAIR PRACTICE',
       title: 'Mock with a friend',
@@ -148,7 +143,7 @@ const I18N = {
     appName: 'INTERNHUB',
     appTag: 'CAREER CONSOLE',
     nav: { practice:'LUYỆN TẬP', progress:'TIẾN ĐỘ', community:'CỘNG ĐỒNG', system:'HỆ THỐNG' },
-    nav_items: { home:'Hôm nay', interview:'Phỏng vấn', questions:'Thư viện', dashboard:'Dashboard', roadmap:'Lộ trình', history:'Lịch sử', leaderboard:'Bảng xếp hạng', pair:'Luyện cặp', notes:'Ghi chú', settings:'Cài đặt', profile:'Hồ sơ' },
+    nav_items: { home:'Hôm nay', interview:'Phỏng vấn', questions:'Thư viện', dashboard:'Dashboard', roadmap:'KT Model', history:'Lịch sử', settings:'Cài đặt', profile:'Hồ sơ' },
     common: { start:'Bắt đầu', submit:'Gửi', cancel:'Hủy', save:'Lưu', skip:'Bỏ qua', back:'Quay lại', next:'Tiếp', viewAll:'Xem tất cả', signIn:'Đăng nhập', getStarted:'Bắt đầu', tryNow:'Thử ngay', continue:'Tiếp tục', upload:'Tải lên', run:'Chạy', reset:'Đặt lại', share:'Chia sẻ', download:'Tải về', export:'Xuất', loading:'Đang tải', empty:'Chưa có gì ở đây', copyLink:'Copy link' },
     lang: { en:'EN', vi:'VI' },
     landing: {
@@ -206,7 +201,6 @@ const I18N = {
     },
     roadmap: { kicker:'LỘ TRÌNH HỌC', title:'Kế hoạch khôi phục kỹ năng', pin:'Gắn vào lịch', nextMs:'Mốc tiếp theo' },
     history: { kicker:'LỊCH SỬ · ĐỘ THAY ĐỔI', title:'Quỹ đạo của bạn', sub:'Mỗi chấm là một lần đánh giá. Overlay cho thấy radar dịch chuyển theo tuần.', delta:'Δ' },
-    leaderboard: { kicker:'CỘNG ĐỒNG · BẢNG XẾP HẠNG', title:'Top tuần này', filterPeriod:'Khoảng', filterRole:'Vai trò', week:'7 ngày', month:'30 ngày', allTime:'Toàn thời gian' },
     pair: { kicker:'LUYỆN CẶP', title:'Phỏng vấn với bạn bè', invite:'Mời partner', copyLink:'Copy link mời', activeRoom:'PHÒNG ĐANG ACTIVE', asker:'Người hỏi', answerer:'Người trả lời' },
     notes: { kicker:'GHI CHÚ · LIÊN KẾT CÂU HỎI', title:'Sổ tay của bạn' },
     settings: {
@@ -252,6 +246,11 @@ const SKILL_AXES = {
   DE: ['PIPELINE','ARCH','BIG DATA','DB INT.','SYS DESIGN','OPS'],
   DS: ['ALGORITHM','METRICS','PREPROC.','DEEP LEARN','NLP','MLOPS'],
 };
+const SKILL_KEYS = {
+  DA: ['SQL_DATABASE','BI_VISUALIZATION','STATISTICS_EXPERIMENTATION','ANALYTICS_BUSINESS','PYTHON_ANALYTICS'],
+  DE: ['DATA_PIPELINE','DATA_ARCHITECTURE_MODELING','BIG_DATA_CLOUD_TOOLS','DATABASE_INTERNALS','SYSTEM_ARCHITECTURE'],
+  DS: ['ALGORITHM_THEORY','EVALUATION_METRICS','DATA_PREPROCESSING','DEEP_LEARNING','NLP','TIME_SERIES','MLOPS'],
+};
 const ROLE_TARGETS = {
   DA: [9, 8, 7, 7, 6, 7],
   DE: [9, 8, 8, 7, 7, 7],
@@ -276,34 +275,44 @@ const ROLE_TARGETS = {
     Object.assign(SKILL_AXES, d.skillAxes);
   }
 
+  // Skill keys (machine-readable) từ roleRadars
+  if (d.roleRadars) {
+    Object.keys(d.roleRadars).forEach(role => {
+      const keys = d.roleRadars[role] && d.roleRadars[role].skill_keys;
+      if (keys && keys.length) SKILL_KEYS[role] = keys;
+    });
+  }
+
   // Target vectors thật (từ JD requirements, scale 0-10)
   if (d.roleTargets) {
     Object.assign(ROLE_TARGETS, d.roleTargets);
   }
 })();
 
-const LEADERBOARD = [
-  { rank: 1, name:'KIRA_07', role:'DS', score: 9.4, streak: 47, av: 'K' },
-  { rank: 2, name:'NYX_DELTA', role:'DE', score: 9.2, streak: 31, av: 'N' },
-  { rank: 3, name:'PIXEL_BURN', role:'DA', score: 9.0, streak: 28, av: 'P' },
-  { rank: 4, name:'OBSIDIAN', role:'DS', score: 8.8, streak: 22, av: 'O' },
-  { rank: 5, name:'MAI_DANG', role:'DS', score: 8.6, streak: 15, av: 'M', me: true },
-  { rank: 6, name:'GLITCHCORE', role:'DA', score: 8.5, streak: 19, av: 'G' },
-  { rank: 7, name:'STREAMLINE', role:'DE', score: 8.4, streak: 12, av: 'S' },
-  { rank: 8, name:'ZAP_404', role:'DS', score: 8.2, streak: 9, av: 'Z' },
-  { rank: 9, name:'VECTOR_X', role:'DA', score: 8.1, streak: 14, av: 'V' },
-  { rank: 10, name:'TERMINAL_T', role:'DE', score: 8.0, streak: 7, av: 'T' },
-];
-
 const AVATAR_COLORS = ['#00e5ff','#ff7a1a','#a3ff12','#ff3366','#fde047','#67e8f9','#f9a8d4','#a78bfa'];
 
 // --------------- CONTEXT --------------------------------------
 const StoreContext = React.createContext(null);
 
+const MST_KEY = 'internhub.mst.v1';
+
+function saveMst(mst) {
+  try { localStorage.setItem(MST_KEY, JSON.stringify(mst)); } catch(e) {}
+}
+function loadMst() {
+  try { const r = localStorage.getItem(MST_KEY); return r ? JSON.parse(r) : null; } catch(e) { return null; }
+}
+
 function loadInitial() {
   try {
     const raw = sessionStorage.getItem(STORAGE_KEY);
-    if (raw) return { ...DEFAULTS, ...JSON.parse(raw) };
+    const base = raw ? { ...DEFAULTS, ...JSON.parse(raw) } : { ...DEFAULTS };
+    // Restore mst from localStorage if session lost it
+    if (!base.mst?.done) {
+      const savedMst = loadMst();
+      if (savedMst?.done) base.mst = savedMst;
+    }
+    return base;
   } catch (e) {}
   return DEFAULTS;
 }
@@ -314,6 +323,7 @@ function StoreProvider({ children }) {
 
   React.useEffect(() => {
     try { sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+    if (state.mst?.done) saveMst(state.mst);
   }, [state]);
 
   const set = React.useCallback((patch) => {
@@ -334,6 +344,28 @@ function useStore() { return React.useContext(StoreContext); }
 // helpers
 function roleColor(r) { return { DA:'#00e5ff', DE:'#ff7a1a', DS:'#a3ff12' }[r] || '#00e5ff'; }
 function avatarColor(name) { const h = [...(name||'')].reduce((a,c) => a + c.charCodeAt(0), 0); return AVATAR_COLORS[h % AVATAR_COLORS.length]; }
+
+// ── API bridge ─────────────────────────────────────────────────
+const API_BASE = 'http://localhost:8000/api';
+
+async function callAPI(endpoint, payload = null, method = null) {
+  try {
+    const opts = {
+      method: method || (payload ? 'POST' : 'GET'),
+      headers: { 'Content-Type': 'application/json' },
+    };
+    if (payload) opts.body = JSON.stringify(payload);
+    const res = await fetch(`${API_BASE}${endpoint}`, opts);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({ detail: res.statusText }));
+      throw new Error(err.detail || res.statusText);
+    }
+    return await res.json();
+  } catch (e) {
+    console.warn('[callAPI] error:', endpoint, e.message);
+    throw e;
+  }
+}
 
 function currentVector(state) {
   if (!state.role) return null;
@@ -374,7 +406,8 @@ function scoreAnswer(question, { answer, selectedOption, boolAnswer, blankAnswer
     const score = matched / acc.length;
     return { score, isCorrect: score >= 0.6 };
   }
-  // THEORY / CODING / PRACTICE / CODING_EXERCISE: stub (SLM will replace)
+  // THEORY / CODING / PRACTICE / CODING_EXERCISE:
+  // screens-practice.jsx calls /api/grade async; screens-diagnostic uses this sync fallback.
   return { score: 0.5, isCorrect: null };
 }
 
@@ -390,57 +423,151 @@ function mstRouting(avgScore) {
 }
 
 function pickStage1(role) {
-  const objectiveTypes = ['MC_SINGLE', 'TRUE_FALSE', 'FILL_BLANK'];
-  const pool = QUESTIONS.filter(q => q.role === role && q.difficulty === 'INTERMEDIATE');
-  const objective  = pool.filter(q =>  objectiveTypes.includes(q.questionType)).sort(() => Math.random() - 0.5);
-  const subjective = pool.filter(q => !objectiveTypes.includes(q.questionType)).sort(() => Math.random() - 0.5);
-  const picked = [...objective.slice(0, 4)];
-  if (picked.length < 4) picked.push(...subjective.slice(0, 4 - picked.length));
-  // fallback: any difficulty
-  if (picked.length < 4) {
-    const ids = new Set(picked.map(q => q.id));
-    const fallback = QUESTIONS.filter(q => q.role === role && !ids.has(q.id)).sort(() => Math.random() - 0.5);
-    picked.push(...fallback.slice(0, 4 - picked.length));
+  // Phase 1: 7 câu, phủ đều KC theo role
+  // DA/DE: 5 KC → 5 câu vòng 1 + 2 câu lặp từ top-2 KC (câu khác)
+  // DS:    7 KC → đúng 1 câu per KC
+  // Strict type slots: ít nhất 1 OBJECTIVE + 1 THEORY + 1 PRACTICE + 1 CODING trong 7 câu
+  const S1 = 7;
+  const kcs = (SKILL_KEYS[role] || []);
+  const usedIds = new Set();
+  const picked = [];
+
+  const OBJECTIVE = ['MC_SINGLE', 'TRUE_FALSE', 'FILL_BLANK'];
+  const strictFilled = { OBJECTIVE: false, THEORY: false, PRACTICE: false, CODING: false };
+  const needStrict = (q) => {
+    if (OBJECTIVE.includes(q.questionType) && !strictFilled.OBJECTIVE) return 10;
+    if (q.questionType === 'THEORY'   && !strictFilled.THEORY)   return 10;
+    if (q.questionType === 'PRACTICE' && !strictFilled.PRACTICE) return 10;
+    if ((q.questionType === 'CODING' || q.questionType === 'CODING_EXERCISE') && !strictFilled.CODING) return 10;
+    return 0;
+  };
+  const markStrict = (q) => {
+    if (OBJECTIVE.includes(q.questionType)) strictFilled.OBJECTIVE = true;
+    if (q.questionType === 'THEORY')   strictFilled.THEORY   = true;
+    if (q.questionType === 'PRACTICE') strictFilled.PRACTICE = true;
+    if (q.questionType === 'CODING' || q.questionType === 'CODING_EXERCISE') strictFilled.CODING = true;
+  };
+
+  const pickFromKC = (kc) => {
+    const pool = QUESTIONS
+      .filter(q => q.role === role && q.skillGroups && q.skillGroups.includes(kc) && !usedIds.has(q.id))
+      .sort(() => Math.random() - 0.5);
+    if (!pool.length) return null;
+    const scored = pool.map(q => ({ q, s: needStrict(q) })).sort((a, b) => b.s - a.s);
+    return scored[0].q;
+  };
+
+  // Vòng 1: 1 câu per KC
+  for (const kc of kcs) {
+    if (picked.length >= S1) break;
+    const q = pickFromKC(kc);
+    if (q) { picked.push(q); usedIds.add(q.id); markStrict(q); }
   }
-  return picked.slice(0, 4);
+
+  // Vòng 2: DA/DE cần thêm 2 câu → lặp top-2 KC (câu khác)
+  if (picked.length < S1) {
+    const extraKCs = kcs.slice(0, 2);
+    for (const kc of extraKCs) {
+      if (picked.length >= S1) break;
+      const q = pickFromKC(kc);
+      if (q) { picked.push(q); usedIds.add(q.id); markStrict(q); }
+    }
+  }
+
+  // Fallback cuoi
+  if (picked.length < S1) {
+    const rest = QUESTIONS
+      .filter(q => q.role === role && !usedIds.has(q.id))
+      .sort(() => Math.random() - 0.5);
+    for (const q of rest) {
+      if (picked.length >= S1) break;
+      picked.push(q); usedIds.add(q.id);
+    }
+  }
+
+  return picked.slice(0, S1).sort(() => Math.random() - 0.5);
 }
 
 function pickStage2(role, routing, excludeIds, weakGroups) {
+  // Phase 2: 3 cau chuyen sau dua tren ket qua Phase 1
+  const S2 = 3;
   weakGroups = weakGroups || [];
-  const prioritize = (pool) => {
-    if (!weakGroups.length) return pool;
-    const prio = pool.filter(q => q.skillGroups && q.skillGroups.some(g => weakGroups.includes(g)));
-    const rest = pool.filter(q => !prio.some(p => p.id === q.id));
-    return [...prio, ...rest];
-  };
-  const pick = (diff, n) => {
-    const pool = QUESTIONS.filter(q => q.role === role && q.difficulty === diff && !excludeIds.includes(q.id));
-    return prioritize(pool.sort(() => Math.random() - 0.5)).slice(0, n);
-  };
+  const kcs = (SKILL_KEYS[role] || []);
+  const usedIds = new Set(excludeIds);
+  const picked = [];
 
-  let result = [];
-  if      (routing === 'WEAK')   result = [...pick('BEGINNER', 4), ...pick('INTERMEDIATE', 2)];
-  else if (routing === 'MID')    result = [...pick('BEGINNER', 2), ...pick('INTERMEDIATE', 2), ...pick('ADVANCED', 2)];
-  else if (routing === 'STRONG') result = [...pick('INTERMEDIATE', 2), ...pick('ADVANCED', 4)];
-  else                           result = pick('INTERMEDIATE', 6);
+  const weakCount = {};
+  for (const kc of weakGroups) weakCount[kc] = (weakCount[kc] || 0) + 1;
 
-  // deduplicate
-  const seen = new Set(excludeIds);
-  result = result.filter(q => { if (seen.has(q.id)) return false; seen.add(q.id); return true; });
+  const priorityKCs = [...kcs].sort((a, b) => (weakCount[b] || 0) - (weakCount[a] || 0));
 
-  // fill if short
-  if (result.length < 6) {
-    const allExclude = [...excludeIds, ...result.map(q => q.id)];
-    const fallback = QUESTIONS.filter(q => q.role === role && !allExclude.includes(q.id)).sort(() => Math.random() - 0.5);
-    result.push(...fallback.slice(0, 6 - result.length));
+  const diffOrder = routing === 'STRONG' ? ['ADVANCED', 'INTERMEDIATE', 'BEGINNER']
+                  : routing === 'WEAK'   ? ['INTERMEDIATE', 'BEGINNER', 'ADVANCED']
+                  :                        ['INTERMEDIATE', 'ADVANCED', 'BEGINNER'];
+
+  for (const kc of priorityKCs) {
+    if (picked.length >= S2) break;
+    const pool = QUESTIONS
+      .filter(q => q.role === role && !usedIds.has(q.id) && q.skillGroups && q.skillGroups.includes(kc))
+      .sort(() => Math.random() - 0.5);
+    if (!pool.length) continue;
+    let chosen = null;
+    for (const d of diffOrder) {
+      chosen = pool.find(q => q.difficulty === d);
+      if (chosen) break;
+    }
+    chosen = chosen || pool[0];
+    picked.push(chosen); usedIds.add(chosen.id);
   }
 
-  return result.slice(0, 6).sort(() => Math.random() - 0.5);
+  // Fallback: bat ky cau nao cua role chua dung
+  if (picked.length < S2) {
+    const rest = QUESTIONS
+      .filter(q => q.role === role && !usedIds.has(q.id))
+      .sort(() => Math.random() - 0.5);
+    for (const q of rest) {
+      if (picked.length >= S2) break;
+      picked.push(q); usedIds.add(q.id);
+    }
+  }
+
+  return picked.slice(0, S2).sort(() => Math.random() - 0.5);
+}
+
+// ── Shared KT pipeline (EMA -> DKT -> Blend 70/30) ──────────────
+// Dung CHUNG cho finalize (screens-diagnostic) va KT MODEL (RoadmapScreen)
+// de con so dong bo nhau tuyet doi.
+function _ema(cur, score){ const a=0.35; return Math.round((a*score+(1-a)*cur)*100)/100; }
+function _dkt(prior, score, hist){
+  const lr=Math.min(0.4, 0.15+hist*0.02);
+  const target=score>0.6?Math.min(prior+lr*(1-prior),0.98):Math.max(prior-lr*prior,0.02);
+  const obs=score>0.5?0.9:0.1;
+  return Math.round((obs*target)/(obs*target+(1-obs)*(1-target))*100)/100;
+}
+function _blend(kt, ema){ return Math.round((0.7*kt+0.3*ema)*100)/100; }
+
+// events: [{kc, score}] theo thu tu; prevVec: {kc: 0..1} hoac null
+// tra ve {ema, kt, blend} moi cai la {kc: 0..1}
+function mstSkillVector(role, events, prevVec){
+  const kcs = SKILL_KEYS[role] || [];
+  const ema={}, kt={}, blend={};
+  kcs.forEach(k => { const v = (prevVec && prevVec[k]!=null) ? prevVec[k] : 0.3; ema[k]=kt[k]=blend[k]=v; });
+  let hist=0;
+  for(const ev of (events||[])){
+    const kc=ev.kc;
+    if(ema[kc]==null){ ema[kc]=kt[kc]=blend[kc]=0.3; }
+    hist++;
+    ema[kc]=_ema(ema[kc], ev.score);
+    kt[kc] = hist>=3 ? _dkt(kt[kc], ev.score, hist) : ema[kc];
+    blend[kc]=_blend(kt[kc], ema[kc]);
+  }
+  return { ema, kt, blend, kcs };
 }
 
 Object.assign(window, {
   StoreContext, StoreProvider, useStore,
-  I18N, QUESTIONS, SKILL_AXES, ROLE_TARGETS, LEADERBOARD, DEFAULTS,
-  roleColor, avatarColor, currentVector,
+  I18N, QUESTIONS, SKILL_AXES, SKILL_KEYS, ROLE_TARGETS, DEFAULTS,
+  roleColor, avatarColor, currentVector, callAPI,
   calcDelta, scoreAnswer, mstAvgScore, mstRouting, pickStage1, pickStage2,
+  mstSkillVector,
 });

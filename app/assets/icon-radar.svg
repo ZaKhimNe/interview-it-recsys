@@ -1,0 +1,28 @@
+<svg id="icon3" width="256" height="256" viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="i3F" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.22"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0.22"/>
+    </linearGradient>
+    <linearGradient id="i3S" x1="128" y1="52" x2="128" y2="182" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#3b82f6"/>
+      <stop offset="100%" stop-color="#10b981"/>
+    </linearGradient>
+  </defs>
+  <polygon points="128,32 211,80 211,176 128,224 45,176 45,80" stroke="#e2e8f0" stroke-width="2" fill="none"/>
+  <polygon points="128,76 174,102 174,154 128,180 82,154 82,102" stroke="#e2e8f0" stroke-width="1.5" fill="none"/>
+  <polygon points="128,100 152,114 152,142 128,156 104,142 104,114" stroke="#e2e8f0" stroke-width="1" fill="none"/>
+  <line x1="128" y1="128" x2="128" y2="32" stroke="#e2e8f0" stroke-width="1.5"/>
+  <line x1="128" y1="128" x2="211" y2="80" stroke="#e2e8f0" stroke-width="1.5"/>
+  <line x1="128" y1="128" x2="211" y2="176" stroke="#e2e8f0" stroke-width="1.5"/>
+  <line x1="128" y1="128" x2="128" y2="224" stroke="#e2e8f0" stroke-width="1.5"/>
+  <line x1="128" y1="128" x2="45" y2="176" stroke="#e2e8f0" stroke-width="1.5"/>
+  <line x1="128" y1="128" x2="45" y2="80" stroke="#e2e8f0" stroke-width="1.5"/>
+  <polygon points="128,52 180,98 202,170 128,182 67,164 56,87" fill="url(#i3F)" stroke="url(#i3S)" stroke-width="2.5" stroke-linejoin="round"/>
+  <circle cx="128" cy="52" r="5.5" fill="#3b82f6"/>
+  <circle cx="180" cy="98" r="5.5" fill="#4f8fe8"/>
+  <circle cx="202" cy="170" r="5.5" fill="#5ec1b0"/>
+  <circle cx="128" cy="182" r="5.5" fill="#10b981"/>
+  <circle cx="67" cy="164" r="5.5" fill="#10b981"/>
+  <circle cx="56" cy="87" r="5.5" fill="#3b82f6"/>
+</svg>

@@ -1,0 +1,14 @@
+{
+  "best_model": "dkt_quality",
+  "available_models": [
+    "bkt",
+    "dkt_binary",
+    "dkt_quality",
+    "dkt_deep",
+    "sakt_binary",
+    "sakt_quality",
+    "sakt_deep"
+  ],
+  "metadata_file": "metadata.json",
+  "configs_file": "model_configs.json"
+}

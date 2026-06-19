@@ -17,6 +17,8 @@ function DiagnosticScreen({ onNav }) {
   const [answer, setAnswer] = React.useState('');
   const [code, setCode] = React.useState('');
   const [showGate, setShowGate] = React.useState(false);
+  const [grading, setGrading] = React.useState(false);
+  const [gradeResult, setGradeResult] = React.useState(null);
 
   // Init MST on mount if not active
   React.useEffect(() => {
@@ -48,7 +50,7 @@ function DiagnosticScreen({ onNav }) {
 
   React.useEffect(() => {
     if (!question) return;
-    setTab('answer'); setSubmitted(false);
+    setTab('answer'); setSubmitted(false); setGrading(false); setGradeResult(null);
     setSelectedOption(''); setBoolAnswer(null); setAnswer('');
     setCode(question.starterCode || '');
     const blanks = (question.template || '').split('[___]').length - 1;
@@ -66,15 +68,17 @@ function DiagnosticScreen({ onNav }) {
     return answer.trim().length > 0;
   })();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!question) return;
+    const isObjective = ['MC_SINGLE','TRUE_FALSE','FILL_BLANK'].includes(qtype);
     const result = scoreAnswer(question, { answer, selectedOption, boolAnswer, blankAnswers, code });
     const newResult = {
       qId: question.id, score: result.score, isCorrect: result.isCorrect,
       groups: question.skillGroups || [], diffScore: question.difficultyScore || 5,
     };
     setSubmitted(true);
-    if (!['MC_SINGLE','TRUE_FALSE','FILL_BLANK'].includes(qtype)) setTab('expert');
+    setGradeResult(null);
+    if (!isObjective) { setTab('expert'); setGrading(true); }
 
     if (stage === 1) {
       const newS1 = [...s1Results, newResult];
@@ -90,20 +94,37 @@ function DiagnosticScreen({ onNav }) {
     } else {
       const newS2 = [...s2Results, newResult];
       if (newS2.length >= s2Ids.length && s2Ids.length > 0) {
-        const allR     = [...s1Results, ...newS2];
-        const avgScore = mstAvgScore(allR);
-        const avgDiff  = Math.round(allR.reduce((s, r) => s + r.diffScore, 0) / allR.length);
-        const delta    = calcDelta(avgScore, avgDiff);
-        const axes     = SKILL_AXES[role] || [];
-        const rawVec   = currentVector(state) || [];
-        const curVec   = axes.map((_, i) => rawVec[i] ?? 0);
-        const newVector = curVec.map((v, i) => {
-          const tgt = (ROLE_TARGETS[role] || [])[i] ?? 10;
-          return parseFloat(Math.max(0, Math.min(tgt, v + delta)).toFixed(2));
+        const allR      = [...s1Results, ...newS2];
+        const skillKeys = SKILL_KEYS[role] || [];
+
+        // Baseline = vector cua attempt truoc (0-10 -> 0-1), null neu lan dau
+        const prevRaw = currentVector(state);
+        const prevVec = prevRaw
+          ? Object.fromEntries(skillKeys.map((k, i) => [k, Math.min(1, (prevRaw[i] ?? 3) / 10)]))
+          : null;
+
+        // Moi cau -> KC (uu tien KC nam trong SKILL_KEYS)
+        const evList = allR.map(r => {
+          const q = QUESTIONS.find(x => x.id === r.qId) || {};
+          const groups = r.groups || q.skill_groups || q.skillGroups || [];
+          const kc = groups.find(g => skillKeys.includes(g)) || groups[0] || skillKeys[0];
+          return { kc, score: r.score };
+        });
+
+        // KT pipeline (EMA->DKT->Blend) dung CHUNG voi KT MODEL -> con so dong bo
+        const { blend } = mstSkillVector(role, evList, prevVec);
+        const newVector = skillKeys.map((k) => {
+          const v = blend[k] != null ? blend[k] * 10 : (prevVec?.[k] ?? 0.3) * 10;
+          return parseFloat(Math.max(0, Math.min(10, v)).toFixed(2));
         });
         const newAttempt = {
           id: `mst-${Date.now()}`, date: new Date().toISOString().slice(0, 10),
           role, vector: newVector, source: 'MST',
+          s1Len: s1Results.length,
+          results: allR.map(r => ({
+            qId: r.qId, score: r.score, isCorrect: r.isCorrect ?? null,
+            groups: r.groups || [], diffScore: r.diffScore ?? 5,
+          })),
         };
         const newCompleted = [...new Set([...state.completedQs, ...s1Ids, ...s2Ids])];
         set(s => ({ ...s,
@@ -111,8 +132,48 @@ function DiagnosticScreen({ onNav }) {
           attempts: [...s.attempts, newAttempt],
           completedQs: newCompleted,
         }));
+
+        // ── Gửi kết quả về backend để KT pipeline cập nhật skill vector ──
+        if (state.userId) {
+          const buildResultPayload = (results, ids) =>
+            results.map(r => {
+              const q = QUESTIONS.find(q => q.id === r.qId) || {};
+              return { question: q, score: r.score, is_correct: r.isCorrect };
+            });
+          callAPI('/assessment/finalize', {
+            user_id: state.userId,
+            role,
+            stage1_results: buildResultPayload(s1Results),
+            stage2_results: buildResultPayload(newS2),
+            stage2_is_hard: routing === 'STRONG',
+          }).catch(() => {});
+        }
       } else {
         set(s => ({ ...s, mst: { ...s.mst, s2Results: newS2 } }));
+      }
+    }
+
+    // Async grading for open-ended questions
+    if (!isObjective) {
+      try {
+        const res = await callAPI('/grade', {
+          question,
+          candidate_response: { answer, code },
+          user_id: state.userId || null,
+        });
+        const finalScore = res.score != null ? res.score / 10 : 0.5;
+        setGradeResult(res);
+        // Update the result in MST state
+        set(s => {
+          const upd = (arr) => arr.map(r =>
+            r.qId === question.id ? { ...r, score: finalScore } : r
+          );
+          return { ...s, mst: { ...s.mst, s1Results: upd(s.mst.s1Results||[]), s2Results: upd(s.mst.s2Results||[]) } };
+        });
+      } catch (_) {
+        setGradeResult({ score: 5, feedback: 'Không thể chấm điểm tự động. Xem đáp án mẫu để tự đánh giá.', method: 'fallback' });
+      } finally {
+        setGrading(false);
       }
     }
   };
@@ -200,7 +261,9 @@ function DiagnosticScreen({ onNav }) {
   const totalStage = stage === 1 ? s1Ids.length : s2Ids.length;
   const displayNum = curIdx + 1;
   const title = vi && question.title_vi ? question.title_vi : question.title_en;
-  const body  = vi && question.body_vi  ? question.body_vi  : question.body_en;
+  const _rawBody = vi && question.body_vi  ? question.body_vi  : question.body_en;
+  // Bo body neu trung voi title (data map ca 2 tu question_text) -> tranh hien 2 lan
+  const body  = (_rawBody && _rawBody.trim() && _rawBody.trim() !== (title || '').trim()) ? _rawBody : '';
 
   const barColor = (res) => res
     ? (res.isCorrect === true ? 'var(--success)' : res.isCorrect === false ? 'var(--danger)' : 'var(--accent-warn)')
@@ -248,8 +311,9 @@ function DiagnosticScreen({ onNav }) {
             {(question.tags||[]).map(t2 => <span key={t2} className="chip role" style={{ '--role-color':color,borderColor:color,color }}>#{t2}</span>)}
             <span className="chip" style={{ marginLeft:'auto' }}>{question.difficulty}</span>
           </div>
-          <div style={{ fontFamily:'var(--font-sans)',fontSize:22,fontWeight:800,color:'var(--fg-0)',letterSpacing:'-.01em',lineHeight:1.25,marginBottom:10 }}>{title}</div>
-          <div className="muted" style={{ fontSize:14,lineHeight:1.6,marginBottom:16 }}>{body}</div>
+          <div className="mono" style={{ fontSize:10,color:'var(--accent-cyan)',letterSpacing:'.2em',textTransform:'uppercase',marginBottom:8 }}>{question.questionType || 'THEORY'}</div>
+          <Md style={{ fontSize:18,fontWeight:700,color:'var(--fg-0)',lineHeight:1.4,marginBottom:body?8:16 }}>{title}</Md>
+          {body && <Md style={{ fontSize:16,color:'var(--fg-1)',lineHeight:1.75,marginBottom:16 }}>{body}</Md>}
 
           <div className="iv-tabs">
             <button className={`iv-tab ${tab==='answer'?'active':''}`} style={{ '--role-color':color }} onClick={() => setTab('answer')}>
@@ -355,15 +419,50 @@ function DiagnosticScreen({ onNav }) {
 
             return (
               <textarea className="textarea" style={{ '--role-color':color,minHeight:200 }}
-                placeholder={vi ? '// go cau tra loi o day...' : '// type your answer here...'}
+                placeholder={vi ? 'Nhập câu trả lời của bạn...' : 'Type your answer here...'}
                 value={answer} onChange={e => setAnswer(e.target.value)} readOnly={submitted} />
             );
           })()}
 
           {tab === 'expert' && (
-            <div className="card" style={{ background:'rgba(0,0,0,.34)',padding:16,borderLeft:`3px solid ${color}` }}>
-              <h3 style={{ color }}>EXPERT REFERENCE</h3>
-              <div style={{ fontSize:14,color:'var(--fg-2)',lineHeight:1.7 }}>{question.expert_en}</div>
+            <div style={{ display:'flex',flexDirection:'column',gap:12 }}>
+              {/* LLM grading result */}
+              {grading && (
+                <div className="card" style={{ background:'rgba(255,122,26,.08)',padding:16,borderLeft:'3px solid var(--accent-orange)' }}>
+                  <span style={{ color:'var(--accent-orange)',fontSize:13 }}>⏳ {vi ? 'Đang chấm điểm bằng AI...' : 'AI grading in progress...'}</span>
+                </div>
+              )}
+              {gradeResult && !grading && (
+                <div className="card" style={{ background:'rgba(0,229,255,.06)',padding:16,borderLeft:'3px solid var(--accent-cyan)' }}>
+                  <div style={{ display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:10 }}>
+                    <h3 style={{ color:'var(--accent-cyan)',margin:0 }}>AI FEEDBACK</h3>
+                    <span style={{ fontFamily:'var(--font-mono)',fontSize:20,fontWeight:700,color: gradeResult.score>=6?'var(--success)':'var(--danger)' }}>
+                      {gradeResult.score ?? 5}/10
+                    </span>
+                  </div>
+                  {gradeResult.feedback && (
+                    <div style={{ fontSize:14,color:'var(--fg-1)',lineHeight:1.7,marginBottom:8 }}>{gradeResult.feedback}</div>
+                  )}
+                  {gradeResult.strengths && gradeResult.strengths.length>0 && (
+                    <div style={{ marginTop:8 }}>
+                      <div style={{ fontSize:11,color:'var(--success)',fontWeight:600,marginBottom:4 }}>✓ {vi?'Điểm mạnh':'Strengths'}</div>
+                      {gradeResult.strengths.map((s,i) => <div key={i} style={{ fontSize:13,color:'var(--fg-2)',paddingLeft:10 }}>• {s}</div>)}
+                    </div>
+                  )}
+                  {gradeResult.improvements && gradeResult.improvements.length>0 && (
+                    <div style={{ marginTop:8 }}>
+                      <div style={{ fontSize:11,color:'var(--accent-warn)',fontWeight:600,marginBottom:4 }}>↑ {vi?'Cần cải thiện':'Improvements'}</div>
+                      {gradeResult.improvements.map((s,i) => <div key={i} style={{ fontSize:13,color:'var(--fg-2)',paddingLeft:10 }}>• {s}</div>)}
+                    </div>
+                  )}
+                  <div style={{ fontSize:10,color:'var(--fg-5)',marginTop:8 }}>method: {gradeResult.method}</div>
+                </div>
+              )}
+              {/* Expert model answer */}
+              <div className="card" style={{ background:'rgba(0,0,0,.34)',padding:16,borderLeft:`3px solid ${color}` }}>
+                <h3 style={{ color }}>EXPERT REFERENCE</h3>
+                <Md style={{ fontSize:14,color:'var(--fg-2)' }}>{question.expert_en}</Md>
+              </div>
             </div>
           )}
 
@@ -372,6 +471,10 @@ function DiagnosticScreen({ onNav }) {
             {!submitted ? (
               <button className="btn primary" disabled={!canSubmit} style={{ opacity:canSubmit?1:0.4 }} onClick={handleSubmit}>
                 {vi ? 'Gui →' : 'Submit →'}
+              </button>
+            ) : grading ? (
+              <button className="btn role" disabled style={{ '--role-color':color,borderColor:color,color,opacity:0.6 }}>
+                {vi ? 'Dang cham...' : 'Grading...'}
               </button>
             ) : (
               <button className="btn role" style={{ '--role-color':color,borderColor:color,color }} onClick={handleNext}>
@@ -408,10 +511,12 @@ function DiagnosticScreen({ onNav }) {
               </div>
               <div className="row between" style={{ fontSize:11 }}>
                 <span className="mono muted">SCORE</span>
-                <span className="mono" style={{ color:['MC_SINGLE','TRUE_FALSE','FILL_BLANK'].includes(qtype)?'var(--success)':'var(--accent-warn)' }}>
+                <span className="mono" style={{ color:['MC_SINGLE','TRUE_FALSE','FILL_BLANK'].includes(qtype)?'var(--success)':grading?'var(--accent-warn)':gradeResult?'var(--success)':'var(--accent-warn)' }}>
                   {['MC_SINGLE','TRUE_FALSE','FILL_BLANK'].includes(qtype)
                     ? (vi ? 'TU DONG' : 'AUTO')
-                    : 'SLM (0.5)'}
+                    : grading ? '...'
+                    : gradeResult ? `${gradeResult.score ?? 5}/10`
+                    : 'LLM'}
                 </span>
               </div>
             </div>
@@ -422,8 +527,8 @@ function DiagnosticScreen({ onNav }) {
               <h3 style={{ color:'var(--accent-warn)' }}>{vi ? 'GIAI DOAN 1 · DINH VI' : 'STAGE 1 · PLACEMENT'}</h3>
               <div className="muted" style={{ fontSize:12,lineHeight:1.6 }}>
                 {vi
-                  ? '4 cau INTERMEDIATE de dinh vi nang luc. Sau do he thong chon bai phu hop voi trinh do cua ban.'
-                  : '4 INTERMEDIATE questions to calibrate your level. Stage 2 will be tailored to your performance.'}
+                  ? `${s1Ids.length} cau de dinh vi nang luc toan dien. Sau do he thong chon bai phu hop voi trinh do cua ban.`
+                  : `${s1Ids.length} questions covering all skill areas. Stage 2 will be adaptive to your performance.`}
               </div>
             </div>
           ) : (
@@ -471,8 +576,8 @@ function MSTResult({ mst, role, color, vi, state, onNav, set }) {
         kicker={vi ? 'KET QUA DANH GIA NANG LUC' : 'DIAGNOSTIC COMPLETE'}
         title={vi ? 'Ket qua' : 'Your Results'}
       />
-      <div className="split-2" style={{ alignItems:'start',gap:24 }}>
-        <div className="stack" style={{ gap:16 }}>
+      <div style={{ display:'grid',gridTemplateColumns:'1fr 300px',gap:24,alignItems:'start' }}>
+        <div className="stack" style={{ gap:16,minWidth:0 }}>
 
           {/* Routing result */}
           <div className="card" style={{ borderTop:`4px solid ${info.col}`,padding:24 }}>
@@ -507,7 +612,9 @@ function MSTResult({ mst, role, color, vi, state, onNav, set }) {
                       {ttl}
                     </div>
                     <div className="mono" style={{ fontSize:11,color:sc,fontWeight:700,minWidth:36,textAlign:'right' }}>
-                      {r.isCorrect===null?'~SLM':`${(r.score*100).toFixed(0)}%`}
+                      {r.isCorrect===null
+  ? (r.score && Math.abs(r.score - 0.5) > 0.01 ? `${(r.score*100).toFixed(0)}%` : '~LLM')
+  : `${(r.score*100).toFixed(0)}%`}
                     </div>
                   </div>
                 );
@@ -516,7 +623,7 @@ function MSTResult({ mst, role, color, vi, state, onNav, set }) {
           </div>
         </div>
 
-        <div className="stack" style={{ gap:16 }}>
+        <div className="stack" style={{ gap:16,position:'sticky',top:16 }}>
           {/* Vector update */}
           <div className="card" style={{ padding:24 }}>
             <h3 style={{ color }}>{vi ? 'CAP NHAT VECTOR' : 'VECTOR UPDATE'}</h3>
@@ -553,6 +660,9 @@ function MSTResult({ mst, role, color, vi, state, onNav, set }) {
 
           <button className="btn primary full" style={{ fontSize:14 }} onClick={() => { resetMST(); onNav('dashboard'); }}>
             {vi ? 'Xem Dashboard →' : 'View Dashboard →'}
+          </button>
+          <button className="btn role full" style={{ '--role-color':'var(--accent-cyan)', borderColor:'var(--accent-cyan)', color:'var(--accent-cyan)' }} onClick={() => { resetMST(); onNav('roadmap'); }}>
+            {vi ? '🧠 Xem KT Model →' : '🧠 View KT Model →'}
           </button>
           <button className="btn ghost compact full" onClick={() => { resetMST(); onNav('diagnostic'); }}>
             {vi ? '↻ Lam lai' : '↻ Retake'}

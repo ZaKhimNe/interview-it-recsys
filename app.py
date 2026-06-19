@@ -10,11 +10,49 @@ from pathlib import Path
 
 import streamlit as st
 
-from src.data_loader import load_question_bank, get_radar_profile_data
+from src.data.data_loader import load_question_bank, get_radar_profile_data
+from src.api.serving import start_server, API_PORT
+
+
+def _make_favicon():
+    """Tạo PIL Image favicon từ SVG radar icon."""
+    try:
+        from PIL import Image, ImageDraw
+        import math
+        SIZE = 64
+        img = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(img)
+        cx, cy = SIZE // 2, SIZE // 2
+
+        def hex_pts(r, cx=cx, cy=cy):
+            return [(cx + r * math.cos(math.radians(a - 90)),
+                     cy + r * math.sin(math.radians(a - 90)))
+                    for a in range(0, 360, 60)]
+
+        # Hexagon rings
+        for r in (30, 20, 12):
+            draw.polygon(hex_pts(r), outline=(226, 232, 240, 100), fill=None)
+        # Axes
+        for pt in hex_pts(30):
+            draw.line([(cx, cy), pt], fill=(226, 232, 240, 80), width=1)
+        # Radar fill polygon
+        data_pts = [(cx, cy-28), (cx+20, cy-10), (cx+23, cy+18),
+                    (cx, cy+24), (cx-18, cy+10), (cx-18, cy-22)]
+        draw.polygon(data_pts, fill=(59, 130, 246, 55), outline=(16, 185, 129, 220), width=2)
+        # Dots
+        dots = [(cx, cy-28, "#3b82f6"), (cx+20, cy-10, "#4f8fe8"),
+                (cx+23, cy+18, "#5ec1b0"), (cx, cy+24, "#10b981"),
+                (cx-18, cy+10, "#10b981"), (cx-18, cy-22, "#3b82f6")]
+        for x, y, col in dots:
+            r2 = 4
+            draw.ellipse([x-r2, y-r2, x+r2, y+r2], fill=col)
+        return img
+    except Exception:
+        return "🎯"
 
 ROOT_DIR     = Path(__file__).parent
 FRONTEND_DIR = ROOT_DIR / "app" / "frontend"
-STATIC_DIR   = ROOT_DIR / "app" / "static"
+STATIC_DIR   = ROOT_DIR / "static"
 
 JSX_ORDER = [
     "state.jsx",
@@ -49,6 +87,25 @@ _DIFFICULTY_MAP = {"EASY": "BEGINNER", "MEDIUM": "INTERMEDIATE", "HARD": "ADVANC
 _EST_MIN_MAP    = {"EASY": 5, "MEDIUM": 8, "HARD": 15}
 _SCALE          = 2.0  # Python 0-5, React 0-10
 
+import re as _re
+def _infer_correct_answer(detailed: str):
+    """Parse correct_answer from detailed text like '✓ True.' or '✗ False.'"""
+    if not detailed:
+        return None
+    m = _re.search(r'[✓☑]\s*(True)', detailed, _re.IGNORECASE)
+    if m:
+        return True
+    m = _re.search(r'[✗☒]\s*(False)', detailed, _re.IGNORECASE)
+    if m:
+        return False
+    m = _re.match(r'\s*True[\.\s]', detailed, _re.IGNORECASE)
+    if m:
+        return True
+    m = _re.match(r'\s*False[\.\s]', detailed, _re.IGNORECASE)
+    if m:
+        return False
+    return None
+
 
 def _map_question(q: dict) -> dict:
     """Map one question from Python -> React format."""
@@ -65,6 +122,14 @@ def _map_question(q: dict) -> dict:
     if not expert_full.strip():
         expert_full = answers.get("explanation", "")
 
+    # Tach question_text -> title (dong dau ngan) + body (de bai). Neu khong co
+    # title ngan thi de title rong, chi render body markdown.
+    title_text, body_text = "", text
+    if "\n\n" in text:
+        head, rest = text.split("\n\n", 1)
+        if "\n" not in head and len(head) <= 80:
+            title_text, body_text = head.strip(), rest.strip()
+
     mapped: dict = {
         "id":            q.get("question_id", ""),
         "role":          role,
@@ -74,10 +139,10 @@ def _map_question(q: dict) -> dict:
         "difficultyScore": q.get("difficulty_score", 5),
         "estMin":        _EST_MIN_MAP.get(diff, 8),
         "questionType":  q.get("question_type", "THEORY"),
-        "title_vi":      text,
-        "title_en":      text,
-        "body_vi":       text,
-        "body_en":       text,
+        "title_vi":      title_text,
+        "title_en":      title_text,
+        "body_vi":       body_text,
+        "body_en":       body_text,
         "expert_vi":     expert_full,
         "expert_en":     expert_full,
     }
@@ -92,8 +157,11 @@ def _map_question(q: dict) -> dict:
 
     # TRUE_FALSE
     if qtype == "TRUE_FALSE":
-        mapped["correctAnswer"] = answers.get("correct_answer")
-        mapped["explanation"] = answers.get("explanation", "")
+        ca = answers.get("correct_answer")
+        if ca is None:
+            ca = _infer_correct_answer(answers.get("detailed", "") or "")
+        mapped["correctAnswer"] = ca
+        mapped["explanation"] = answers.get("explanation", "") or answers.get("detailed", "")
 
     # FILL_BLANK
     if q.get("template") is not None:
@@ -165,7 +233,7 @@ def prepare_static(project_data: dict):
     src_assets = ROOT_DIR / "app" / "assets"
     dst_assets = STATIC_DIR / "assets"
     dst_assets.mkdir(exist_ok=True)
-    for img in src_assets.glob("*.png"):
+    for img in list(src_assets.glob("*.png")) + list(src_assets.glob("*.svg")):
         dst = dst_assets / img.name
         if not dst.exists() or img.stat().st_mtime > dst.stat().st_mtime:
             shutil.copy2(img, dst)
@@ -200,12 +268,14 @@ def prepare_static(project_data: dict):
         '  <meta charset="utf-8" />',
         '  <meta name="viewport" content="width=1280" />',
         '  <title>InternHub</title>',
+        '  <link rel="icon" type="image/svg+xml" href="assets/icon-radar.svg" />',
         '  <link rel="preconnect" href="https://fonts.googleapis.com" />',
         '  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;700&display=swap" />',
         f'  <style>{CSS_VARS}{css_clean}</style>',
         '  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>',
         '  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>',
         '  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>',
+        '  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js" crossorigin="anonymous"></script>',
         '</head>',
         '<body>',
         '  <div id="root"></div>',
@@ -228,25 +298,35 @@ def prepare_static(project_data: dict):
 def main():
     st.set_page_config(
         page_title="InternHub",
-        page_icon="🎯",
+        page_icon=_make_favicon(),
         layout="wide",
         initial_sidebar_state="collapsed",
     )
 
-    st.markdown("""
+    st.markdown(f"""
         <style>
-        #MainMenu, header, footer { display: none !important; }
-        .block-container { padding: 0 !important; max-width: 100% !important; }
-        [data-testid="stAppViewContainer"] { padding: 0 !important; }
-        [data-testid="stVerticalBlock"] { gap: 0 !important; }
+        #MainMenu, header, footer {{ display: none !important; }}
+        .block-container {{ padding: 0 !important; max-width: 100% !important; }}
+        [data-testid="stAppViewContainer"] {{ padding: 0 !important; }}
+        [data-testid="stVerticalBlock"] {{ gap: 0 !important; }}
         </style>
+        <script>
+        (function() {{
+            document.querySelectorAll("link[rel*='icon']").forEach(e => e.remove());
+            var lnk = document.createElement('link');
+            lnk.rel = 'icon'; lnk.type = 'image/svg+xml';
+            lnk.href = 'http://localhost:{API_PORT}/ui/assets/icon-radar.svg';
+            document.head.appendChild(lnk);
+        }})();
+        </script>
     """, unsafe_allow_html=True)
+
+    start_server()   # FastAPI on :8000 in background thread (no-op if already running)
 
     project_data = get_project_data()
     build_ver = prepare_static(project_data)
 
-    port = os.environ.get("STREAMLIT_SERVER_PORT", "8501")
-    app_url = f"http://localhost:{port}/app/static/index.html?v={build_ver}"
+    app_url = f"http://localhost:{API_PORT}/ui/index.html?v={build_ver}"
 
     st.markdown(
         f'<iframe src="{app_url}" style="width:100%;height:100vh;border:none;display:block;" '

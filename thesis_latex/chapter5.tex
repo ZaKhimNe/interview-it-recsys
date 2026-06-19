@@ -1,0 +1,144 @@
+\chapter{Kết Luận và Hướng Phát Triển}
+\label{chap:conclusion}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Tóm Tắt Những Gì Đã Thực Hiện}
+\label{sec:summary_done}
+
+Luận văn đã xây dựng và triển khai thành công hệ thống \system{} -- một nền tảng luyện phỏng vấn IT cá nhân hóa tích hợp Knowledge Tracing, với các công việc cụ thể như sau:
+
+\subsection{Xây dựng bộ dữ liệu}
+
+\begin{itemize}
+  \item Thiết kế và triển khai pipeline sinh câu hỏi tự động bằng LLM (Gemini Flash sinh câu hỏi, GPT-4o làm reference answer, Claude Haiku judge chất lượng), tạo ra question bank gồm 1{,}578 câu hỏi cho ba vai trò DA/DS/DE, phân loại theo 17 KC và 3 mức độ khó (EASY/MEDIUM/HARD).
+  \item Xây dựng pipeline mô phỏng tổng hợp: sinh 1{,}000 người dùng ảo với skill vector theo phân phối Gaussian có tương quan, mô phỏng $\sim$40{,}000 tương tác dựa trên IRT 1PL và power-based graded response với hai loại nhãn (binary và quality score liên tục).
+  \item Phân tích EDA toàn diện xác nhận dữ liệu có learning dynamics hợp lý (skill tăng đơn điệu), tương quan skill--self-rating ở mức $r \approx 0.72$, và pass rate $\approx 82\%$ nhất quán với thiết kế IRT.
+\end{itemize}
+
+\subsection{Huấn luyện và đánh giá mô hình KT}
+
+\begin{itemize}
+  \item Triển khai và so sánh 7 biến thể KT: BKT (EM), DKT-Binary, DKT-Quality$\star$, DKT-Deep, SAKT-Binary, SAKT-Quality, SAKT-Deep, trên cùng một bộ dữ liệu với split 70/15/15.
+  \item \textbf{DKT-Quality$\star$} đạt kết quả tốt nhất trong nhóm neural models: ROC-AUC = 0.672, PR-AUC = 0.907, RMSE = 0.355, với thời gian training $\approx$21 giây trên GPU T4.
+  \item Phân tích chuyên sâu theo KC, sequence position, và user type xác nhận mô hình học được dynamics theo thời gian và phân biệt tốt giữa các nhóm người dùng.
+  \item Ablation study chứng minh quality label mang lại cải thiện nhất quán so với binary label ($\Delta$RMSE $\approx -0.02$, $\Delta$PR-AUC $\approx +0.003$).
+  \item Lý do chọn DKT thay vì SAKT: output tensor shape $(B, T, N_{KC})$ của DKT cho phép dự đoán tất cả 17 KC trong một forward pass duy nhất, trong khi SAKT cần $N_{KC}$ lần forward pass riêng biệt -- quan trọng khi cần real-time recommendation.
+\end{itemize}
+
+\subsection{Hệ thống gợi ý và ứng dụng}
+
+\begin{itemize}
+  \item Thiết kế cơ chế cập nhật skill vector: EMA làm baseline, KT blend sau khi đủ 3 tương tác, theo công thức $\hat{\theta} = 0.7 \cdot \theta_{KT} + 0.3 \cdot \theta_{EMA}$, giải quyết bài toán cold-start.
+  \item Triển khai 2-Stage Branching CAT: Stage 1 (MEDIUM, 5 câu) $\to$ routing theo pass ratio $\to$ Stage 2A (EASY, weak KC) hoặc Stage 2B (HARD), kết hợp với $\texttt{finalize\_assessment()}$ để phân loại trình độ.
+  \item Xây dựng \texttt{recommendation\_engine.py}: gợi ý câu hỏi dựa trên zone of proximal development, ưu tiên 65\% KC yếu, 30\% độ khó phù hợp, 5\% độ phủ KC.
+  \item Phát triển ứng dụng web hoàn chỉnh: React SPA (9 file JSX) phục vụ qua Streamlit, FastAPI backend (\texttt{serving.py}) với 8 endpoints, chấm điểm tự động bằng Gemini 3.5 Flash với fallback local rubric 4 layer (eval\_points 50\% + keyword Jaccard 25\% + rubric Jaccard 15\% + length 10\%).
+\end{itemize}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Những Vấn Đề Đã Phát Hiện và Sửa Chữa}
+\label{sec:fixes}
+
+Trong quá trình phát triển, một số vấn đề kỹ thuật đáng chú ý đã được phát hiện và xử lý:
+
+\subsection{Simulation pipeline}
+\begin{itemize}
+  \item \textbf{Sequence length hằng định}: Hàm \texttt{stratified\_sample\_questions()} trả về toàn bộ pool khi \texttt{len(pool) $\leq$ n}, dẫn đến tất cả 1{,}000 người dùng đều có đúng 40 tương tác. Đã ghi nhận là limitation; giải pháp dài hạn là mở rộng question bank.
+  \item \textbf{Phân phối advanced thấp}: Base skill tier advanced (0.72) cộng noise $\mathcal{N}(0, 0.15)$ thường cho mean nằm trong khoảng intermediate, dẫn đến chỉ 5.9\% advanced thực tế. Đã điều chỉnh tham số noise và ghi nhận là known limitation.
+  \item \textbf{Kaggle path}: \texttt{KG\_DATASET} trỏ sai thư mục; đã sửa bằng cách duyệt \texttt{os.walk()} để tìm đúng đường dẫn \texttt{/kaggle/input/datasets/zakhim/rcmsys/rcmsys\_dataset}.
+\end{itemize}
+
+\subsection{Knowledge Tracing integration}
+\begin{itemize}
+  \item \textbf{kc2idx uppercase mismatch}: Metadata lưu KC ở lowercase, code dùng UPPERCASE. Đã sửa bằng ánh xạ \texttt{.upper()} trong \texttt{kt\_predictor.py}.
+  \item \textbf{Model file path}: Sau khi export từ Kaggle, file được giải nén sai thư mục (\texttt{models/results/models/} thay vì \texttt{results/models/}). Đã di chuyển về đúng vị trí.
+  \item \textbf{Graceful fallback}: Nếu PyTorch không có sẵn (môi trường không có GPU), \texttt{kt\_predictor.predict\_skill()} trả về \texttt{\{\}} và hệ thống tự động dùng EMA thuần túy.
+\end{itemize}
+
+\subsection{API và Frontend integration}
+\begin{itemize}
+  \item \textbf{Key mismatch camelCase/snake\_case}: React gửi \texttt{questionType}, \texttt{skillGroups}, \texttt{id}; Python đọc \texttt{question\_type}, \texttt{skill\_groups}, \texttt{question\_id}. Đã thêm \texttt{\_normalize\_question()} trong \texttt{serving.py} để chuyển đổi tự động tại boundary.
+  \item \textbf{candidate\_response key}: Grader đọc \texttt{free\_text}, React gửi \texttt{answer}. Đã sửa bằng \texttt{\_normalize\_candidate\_response()} trong \texttt{serving.py}.
+  \item \textbf{update\_from\_assessment signature}: \texttt{serving.py} gọi sai số arguments. Đã thêm \texttt{\_build\_skill\_vector\_from\_results()} để build skill vector từ kết quả assessment trước khi gọi đúng 6 args.
+  \item \textbf{userId không được set}: \texttt{OnboardingScreen.finish()} không tạo user. Đã thêm \texttt{callAPI('/user/create', ...)} và lưu \texttt{userId} vào state.
+  \item \textbf{scoreAnswer pending state}: Thay đổi open-ended fallback thành \texttt{\{score: null, pending: true\}} phá vỡ \texttt{screens-diagnostic.jsx}. Đã revert về \texttt{\{score: 0.5\}}.
+\end{itemize}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Hạn Chế Tổng Hợp}
+\label{sec:limitations_summary}
+
+\subsection{Hạn chế về dữ liệu}
+
+\textbf{Simulation bias (nghiêm trọng nhất).} Toàn bộ dữ liệu training KT được sinh bởi mô hình IRT, tạo ra lợi thế không công bằng cho BKT vì hai mô hình có cùng inductive bias. Kết quả trên dữ liệu người dùng thực có thể khác biệt đáng kể. Đây là hạn chế căn bản nhất cần giải quyết để đưa hệ thống vào production.
+
+\textbf{Sequence length hằng định.} Tất cả 1{,}000 người dùng đều có đúng 40 tương tác do question bank bị cap ở mức $\approx$40 câu unique/role sau bộ lọc competency. Mô hình KT không được huấn luyện trên sequence dài ngắn khác nhau, làm giảm khả năng tổng quát hóa.
+
+\textbf{Class imbalance.} Pass rate $\approx 82\%$ khiến PR-AUC bị inflate. PR-AUC Gain ($\approx 0.085$) là chỉ số đáng tin cậy hơn cho so sánh mô hình.
+
+\textbf{Phân phối advanced thấp (5.9\%).} Mô hình ít được expose với người dùng skill cao, có thể ảnh hưởng đến độ chính xác dự đoán cho nhóm này trong thực tế.
+
+\subsection{Hạn chế về mô hình}
+
+\textbf{Deep models chưa hiệu quả.} DKT-Deep (2 LSTM layers) và SAKT-Deep không vượt trội so với phiên bản shallow do bottleneck là data size, không phải model capacity. Cần ít nhất 100K tương tác để thấy lợi ích của kiến trúc sâu hơn.
+
+\textbf{KC frequency imbalance.} Hai trong số 17 KC có drift $> 3\%$ giữa train/test split, có thể ảnh hưởng đến tính tổng quát. Stratified split theo KC sẽ giải quyết vấn đề này.
+
+\subsection{Hạn chế về hệ thống}
+
+\textbf{Chấm điểm câu mở phụ thuộc LLM.} Khi Gemini API không khả dụng (rate limit, network), hệ thống fallback về local rubric cho điểm kém chính xác hơn. Không có cơ chế cache hay queue để retry.
+
+\textbf{Không có dữ liệu thực.} \system{} chưa được thử nghiệm với người dùng thực, do đó hiệu quả của cơ chế gợi ý KT trong thực tế chưa được xác nhận bằng A/B testing.
+
+\textbf{Scalability hạn chế.} FastAPI chạy trong background thread của Streamlit là giải pháp tạm thời cho local demo. Không phù hợp cho production deployment với nhiều người dùng đồng thời.
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Hướng Phát Triển Tương Lai}
+\label{sec:future_work}
+
+\subsection{Dữ liệu thực và thực nghiệm người dùng}
+
+Hướng ưu tiên cao nhất là thu thập dữ liệu tương tác thực từ người dùng InternHub để kiểm chứng và fine-tune lại mô hình KT. Ngay cả 500--1{,}000 người dùng thực với 20+ tương tác mỗi người cũng sẽ cho phép đánh giá realworld performance của mô hình. Song song đó, thiết kế A/B test so sánh gợi ý dựa trên KT với gợi ý ngẫu nhiên về các chỉ số: tỷ lệ hoàn thành phiên, điểm cải thiện, và mức độ hài lòng.
+
+\subsection{Cải tiến mô hình KT}
+
+\begin{itemize}
+  \item \textbf{Forgetting curve}: Tích hợp tham số thời gian (time since last attempt) vào DKT để mô hình hóa hiện tượng quên kiến thức theo thời gian \cite{ebbinghaus1885memory}.
+  \item \textbf{AKT/SAINT}: Thử nghiệm các mô hình Transformer đầy đủ như AKT \cite{ghosh2020context} và SAINT \cite{choi2020towards} khi có đủ dữ liệu ($\geq$ 100K tương tác).
+  \item \textbf{Contrastive learning}: Áp dụng contrastive objectives để học biểu diễn KC tốt hơn, cải thiện độ chính xác trên KC có ít dữ liệu.
+\end{itemize}
+
+\subsection{Cải tiến hệ thống gợi ý}
+
+\begin{itemize}
+  \item \textbf{Mở rộng question bank}: Tăng lên $\geq$ 200 câu/role để giải quyết sequence length cap và cải thiện diversity gợi ý.
+  \item \textbf{Spaced Repetition}: Tích hợp thuật toán SM-2 \cite{wozniak1990optimization} để lên lịch ôn tập câu hỏi đã làm dựa trên forgetting curve.
+  \item \textbf{Multi-objective recommendation}: Kết hợp KT skill gap với content-based filtering (độ đa dạng KC, loại câu hỏi) và collaborative filtering (ứng viên tương tự đã đỗ phỏng vấn).
+\end{itemize}
+
+\subsection{Cải tiến hệ thống chấm điểm}
+
+\begin{itemize}
+  \item \textbf{Fine-tuned grader}: Fine-tune mô hình ngôn ngữ nhỏ (Llama-3 8B, Mistral 7B) trên cặp (câu hỏi, câu trả lời, điểm) để giảm phụ thuộc vào Gemini API, tăng tốc độ và kiểm soát chi phí.
+  \item \textbf{Calibration}: Hiệu chỉnh điểm Gemini với human annotation trên tập 200 câu để giảm bias.
+  \item \textbf{Streaming feedback}: Thay thế full-response generation bằng streaming API để cải thiện UX.
+\end{itemize}
+
+\subsection{Production deployment}
+
+\begin{itemize}
+  \item Tách FastAPI thành microservice độc lập, deploy trên Cloud Run hoặc Railway với autoscaling.
+  \item Thêm authentication (JWT), rate limiting, và persistent storage (PostgreSQL) thay cho JSON files.
+  \item Thiết kế data flywheel: mỗi tương tác người dùng thực được ghi lại và dùng để liên tục cải thiện mô hình KT qua incremental fine-tuning.
+\end{itemize}
+
+% ─────────────────────────────────────────────────────────────────────────────
+\section{Kết Luận}
+\label{sec:final_conclusion}
+
+Luận văn đã trình bày quá trình nghiên cứu, thiết kế và triển khai \system{} -- hệ thống luyện phỏng vấn IT cá nhân hóa dựa trên Knowledge Tracing, phục vụ ba vai trò nghề nghiệp DA, DS, DE. Từ việc xây dựng bộ dữ liệu tổng hợp qua pipeline LLM và IRT simulation, huấn luyện và so sánh 7 biến thể mô hình KT, đến tích hợp end-to-end vào ứng dụng web với chấm điểm tự động bằng LLM -- mỗi bước đều đặt ra những thách thức kỹ thuật cụ thể và đòi hỏi giải pháp sáng tạo.
+
+Kết quả thực nghiệm xác nhận rằng KT mang lại giá trị thực trong bài toán này: tất cả mô hình KT vượt baseline ngẫu nhiên đáng kể (ROC-AUC $\approx$ 0.68 so với 0.50), và DKT-Quality$\star$ với quality label liên tục cho kết quả tốt nhất trong nhóm neural models. Đồng thời, cơ chế blend KT-EMA giải quyết được bài toán cold-start mà các hệ thống KT truyền thống thường bỏ qua.
+
+Hạn chế lớn nhất là thiếu dữ liệu thực từ người dùng -- đây vừa là giới hạn của nghiên cứu hiện tại, vừa là động lực cho hướng phát triển tiếp theo. Khi \system{} được triển khai và có người dùng thực tương tác, data flywheel sẽ tạo ra vòng phản hồi tích cực: nhiều dữ liệu hơn $\to$ mô hình KT tốt hơn $\to$ gợi ý chính xác hơn $\to$ trải nghiệm người dùng tốt hơn $\to$ nhiều người dùng hơn.
+
+\system{} là một bước đầu trong hướng cá nhân hóa quá trình chuẩn bị phỏng vấn IT, mở ra khả năng ứng dụng rộng hơn của Knowledge Tracing trong lĩnh vực phát triển nghề nghiệp kỹ thuật.

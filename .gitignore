@@ -69,8 +69,15 @@ data/raw/*.csv
 data/raw/*.json
 !data/raw/.gitkeep
 data/exports/
+data/processed/
 *.sqlite
 *.db
+*.pkl
+
+# ========================
+# 📦 Archives
+# ========================
+*.zip
 
 # ========================
 # 📝 Logs
@@ -88,3 +95,29 @@ static/
 # ========================
 *.tar.gz
 *.whl
+
+# ========================
+# 🗑️ Scratch / junk
+# ========================
+trash/
+~$*
+*.backup.json
+/icon-radar.svg
+/icon-radar-512.png
+data/users/
+notebooks/04_evaluation.ipynb
+
+# Duplicate / scratch model artifacts
+results/__results___files/
+results/results/models/
+
+# ========================
+# 📄 LaTeX build artifacts
+# ========================
+*.aux
+*.out
+*.toc
+*.fls
+*.fdb_latexmk
+*.synctex.gz
+thesis_latex/_test_build.*

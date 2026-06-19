@@ -22,16 +22,43 @@ APP_ENV = os.getenv("APP_ENV", "development")
 APP_DEBUG = os.getenv("APP_DEBUG", "true").lower() == "true"
 
 # --- AI Settings ---
-LLM_MODEL_NAME = "gemini-2.0-flash"
+LLM_MODEL_NAME = "gemini-3.5-flash"
 LLM_TEMPERATURE = 0.3
 MAX_TOKENS = 2048
 
-# --- Competency Domains ---
-COMPETENCY_DOMAINS = [
-    "Data Structures & Algorithms",
-    "System Design",
-    "Database & SQL",
-    "OOP & Design Patterns",
-    "Networking & Security",
-    "DevOps & Cloud",
-]
+# --- API Server ---
+API_PORT = int(os.getenv("API_PORT", "8000"))
+
+# --- Knowledge Component Taxonomy ---
+# 17 KCs shared across all roles; maps role -> KC list (uppercase, matches metadata.json)
+KC_BY_ROLE = {
+    "DA": [
+        "SQL_DATABASE",
+        "BI_VISUALIZATION",
+        "STATISTICS_EXPERIMENTATION",
+        "ANALYTICS_BUSINESS",
+        "PYTHON_ANALYTICS",
+    ],
+    "DS": [
+        "ALGORITHM_THEORY",
+        "EVALUATION_METRICS",
+        "DATA_PREPROCESSING",
+        "DEEP_LEARNING",
+        "NLP",
+        "TIME_SERIES",
+        "MLOPS",
+    ],
+    "DE": [
+        "DATA_PIPELINE",
+        "DATA_ARCHITECTURE_MODELING",
+        "BIG_DATA_CLOUD_TOOLS",
+        "DATABASE_INTERNALS",
+        "SYSTEM_ARCHITECTURE",
+    ],
+}
+
+# Flat list of all 17 KCs (used by KT models)
+ALL_KCS = [kc for kcs in KC_BY_ROLE.values() for kc in kcs]
+
+# Legacy alias — kept for backward-compat
+COMPETENCY_DOMAINS = ALL_KCS
